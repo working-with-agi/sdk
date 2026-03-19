@@ -128,7 +128,13 @@ export class AgiRenderedTerminal {
 
   /** Update theme at runtime */
   setTheme(theme: "dark" | "light" | Record<string, string>): void {
-    this.xterm.options.theme = resolveTheme(theme);
+    const resolved = resolveTheme(theme);
+    this.xterm.options.theme = resolved;
+    // Force full redraw so the WebGL renderer picks up the new palette
+    this.xterm.refresh(0, this.xterm.rows - 1);
+    // Update the container background to match (xterm only paints inside the
+    // viewport element; the outer container keeps its old colour otherwise)
+    this.container.style.backgroundColor = resolved.background ?? "";
   }
 
   write(data: string | Uint8Array): void {

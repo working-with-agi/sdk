@@ -1,3 +1,23 @@
+// --- Auth Types (Logto Organization-based) ---
+
+export interface Organization {
+  id: string;
+  name: string;
+  description?: string;
+}
+
+
+export interface AuthState {
+  isAuthenticated: boolean;
+  user?: {
+    id: string;
+    name?: string;
+    email?: string;
+  };
+  organization?: Organization;
+  accessToken?: string;
+}
+
 // --- Theme Types ---
 
 export interface TerminalTheme {

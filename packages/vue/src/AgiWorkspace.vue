@@ -285,6 +285,21 @@ function handleControlMessage(raw: string) {
       activePaneId.value = (msg.pane_id as string) ?? null;
       break;
 
+    case "pane_output": {
+      const paneId = msg.pane_id as string;
+      const handle = paneTerminals.get(paneId);
+      if (handle && typeof msg.data === "string") {
+        const binary = Uint8Array.from(atob(msg.data), (c) => c.charCodeAt(0));
+        handle.terminal.write(binary);
+      }
+      break;
+    }
+
+    case "pane_status":
+    case "pane_exited":
+      // Informational — no action needed yet
+      break;
+
     case "pong":
       // Keepalive response — no action needed
       break;
@@ -326,25 +341,18 @@ function countLeaves(node: PaneNode): number {
 
 function sendInput(paneId: string, data: string) {
   if (ws?.readyState !== WebSocket.OPEN) return;
-
-  const encoder = new TextEncoder();
-  const paneIdBytes = encoder.encode(paneId);
-  const dataBytes = encoder.encode(data);
-
-  const frame = new Uint8Array(2 + paneIdBytes.length + dataBytes.length);
-  const view = new DataView(frame.buffer);
-  view.setUint16(0, paneIdBytes.length, false);
-  frame.set(paneIdBytes, 2);
-  frame.set(dataBytes, 2 + paneIdBytes.length);
-
-  ws.send(frame);
+  ws.send(JSON.stringify({
+    type: "pane_input",
+    pane_id: paneId,
+    data: btoa(data),
+  }));
 }
 
 function sendResize(paneId: string, cols: number, rows: number) {
   if (ws?.readyState !== WebSocket.OPEN) return;
   ws.send(
     JSON.stringify({
-      type: "resize",
+      type: "pane_resize",
       pane_id: paneId,
       cols,
       rows,
@@ -388,7 +396,7 @@ function onPaneClick(paneId: string) {
   activePaneId.value = paneId;
   // Notify server of focus change
   if (ws?.readyState === WebSocket.OPEN) {
-    ws.send(JSON.stringify({ type: "focus", pane_id: paneId }));
+    ws.send(JSON.stringify({ type: "pane_focus", pane_id: paneId }));
   }
 }
 
