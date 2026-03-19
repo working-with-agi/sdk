@@ -140,3 +140,39 @@ export interface KnowledgeContextResponse {
   query: string;
   context: string;
 }
+
+// --- Sync Connector Types ---
+
+export type SyncProvider =
+  | "google-drive"
+  | "dropbox"
+  | "notion"
+  | "confluence"
+  | "sharepoint"
+  | "github"
+  | "s3";
+
+export interface SyncConnection {
+  id: string;
+  provider: SyncProvider;
+  name: string;
+  status: "active" | "paused" | "error";
+  last_sync?: string;
+  doc_count: number;
+}
+
+export interface CreateSyncParams {
+  provider: SyncProvider;
+  name: string;
+  /** Provider-specific config (folder ID, repo URL, bucket, site URL, etc.) */
+  config: Record<string, string>;
+  /** Cron expression for auto-sync, e.g. every 6 hours */
+  schedule?: string;
+}
+
+export interface SyncResult {
+  connection_id: string;
+  added: number;
+  updated: number;
+  removed: number;
+}

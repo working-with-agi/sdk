@@ -20,4 +20,8 @@ export type {
   KnowledgeSearchResult,
   KnowledgeSearchResponse,
   KnowledgeContextResponse,
+  SyncProvider,
+  SyncConnection,
+  CreateSyncParams,
+  SyncResult,
 } from "./types.js";

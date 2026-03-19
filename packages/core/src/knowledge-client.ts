@@ -3,64 +3,95 @@ import type {
   IngestResult,
   KnowledgeSearchResponse,
   KnowledgeContextResponse,
+  SyncConnection,
+  CreateSyncParams,
+  SyncResult,
 } from "./types.js";
 
 /**
- * REST API client for KnowledgeHub (document RAG service).
+ * Knowledge base client — upload docs, search, sync external sources.
  *
- * KnowledgeHub runs as a separate service (default port 8610)
- * from the agiterm terminal server.
+ *   const kb = new KnowledgeClient("https://hub:8610", "key");
+ *
+ *   // Manual upload
+ *   await kb.upload(pdfFile);
+ *
+ *   // Search & context
+ *   const hits = await kb.search("how does auth work?");
+ *   const ctx = await kb.context("deploy steps");
+ *
+ *   // Sync from external service
+ *   await kb.connect({ provider: "sharepoint", name: "Team Docs", config: { site_url: "..." } });
+ *   await kb.sync("conn-id");
  */
 export class KnowledgeClient extends HttpClient {
-  /**
-   * Upload and ingest a document for RAG.
-   * Supports PDF, DOCX, PPTX, Markdown, and plain text.
-   */
-  async ingest(file: File | Blob, documentId?: string): Promise<IngestResult> {
+  // --- Document management ---
+
+  /** Upload a file (PDF, DOCX, PPTX, Markdown, text). */
+  async upload(file: File | Blob, id?: string): Promise<IngestResult> {
     const form = new FormData();
     form.append("file", file);
-    if (documentId) {
-      form.append("document_id", documentId);
-    }
-
+    if (id) form.append("document_id", id);
     return this.fetch("/api/v1/knowledge/ingest", {
       method: "POST",
       body: form,
-      // Don't set Content-Type — browser will set multipart boundary
       headers: {},
     });
   }
 
-  /** Semantic search across the tenant's knowledge base. */
-  async search(
-    query: string,
-    options: { limit?: number; documentId?: string } = {},
-  ): Promise<KnowledgeSearchResponse> {
+  /** Search the knowledge base. */
+  async search(query: string, limit = 10, documentId?: string): Promise<KnowledgeSearchResponse> {
     return this.fetch("/api/v1/knowledge/search", {
       method: "POST",
-      body: JSON.stringify({
-        query,
-        limit: options.limit ?? 10,
-        document_id: options.documentId ?? "",
-      }),
+      body: JSON.stringify({ query, limit, document_id: documentId ?? "" }),
     });
   }
 
-  /** Build RAG context string from knowledge base. */
-  async buildContext(
-    query: string,
-    limit: number = 5,
-  ): Promise<KnowledgeContextResponse> {
+  /** Get RAG context for a query. */
+  async context(query: string, limit = 5): Promise<KnowledgeContextResponse> {
     return this.fetch("/api/v1/knowledge/context", {
       method: "POST",
       body: JSON.stringify({ query, limit }),
     });
   }
 
-  /** Delete a document from the knowledge base. */
-  async deleteDocument(documentId: string): Promise<void> {
-    await this.fetch(`/api/v1/knowledge/${documentId}`, {
-      method: "DELETE",
+  /** Remove a document. */
+  async remove(documentId: string): Promise<void> {
+    await this.fetch(`/api/v1/knowledge/${documentId}`, { method: "DELETE" });
+  }
+
+  // --- External sync ---
+
+  /** List sync connections. */
+  async connections(): Promise<SyncConnection[]> {
+    return this.fetch("/api/v1/sync");
+  }
+
+  /** Create a new sync connection (Google Drive, SharePoint, Notion, etc.). */
+  async connect(params: CreateSyncParams): Promise<SyncConnection> {
+    return this.fetch("/api/v1/sync", {
+      method: "POST",
+      body: JSON.stringify(params),
     });
+  }
+
+  /** Trigger sync for a connection. */
+  async sync(connectionId: string): Promise<SyncResult> {
+    return this.fetch(`/api/v1/sync/${connectionId}/run`, { method: "POST" });
+  }
+
+  /** Pause a sync connection. */
+  async pause(connectionId: string): Promise<void> {
+    await this.fetch(`/api/v1/sync/${connectionId}/pause`, { method: "POST" });
+  }
+
+  /** Resume a paused sync connection. */
+  async resume(connectionId: string): Promise<void> {
+    await this.fetch(`/api/v1/sync/${connectionId}/resume`, { method: "POST" });
+  }
+
+  /** Delete a sync connection and its synced documents. */
+  async disconnect(connectionId: string): Promise<void> {
+    await this.fetch(`/api/v1/sync/${connectionId}`, { method: "DELETE" });
   }
 }
