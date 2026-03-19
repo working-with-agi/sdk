@@ -1,3 +1,5 @@
 packages:
   - "packages/*"
   - "e2e/app"
+  - "e2e/react-app"
+  - "e2e/angular-app"

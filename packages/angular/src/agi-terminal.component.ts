@@ -6,7 +6,9 @@ import {
   EventEmitter,
   ViewChild,
   AfterViewInit,
+  OnChanges,
   OnDestroy,
+  SimpleChanges,
 } from "@angular/core";
 import { AgiRenderedTerminal } from "@working-with-agi/sdk";
 
@@ -15,7 +17,9 @@ import { AgiRenderedTerminal } from "@working-with-agi/sdk";
   standalone: true,
   template: `<div #terminalContainer style="width:100%;height:100%"></div>`,
 })
-export class AgiTerminalComponent implements AfterViewInit, OnDestroy {
+export class AgiTerminalComponent
+  implements AfterViewInit, OnChanges, OnDestroy
+{
   @ViewChild("terminalContainer") containerRef!: ElementRef<HTMLDivElement>;
 
   @Input({ required: true }) endpoint!: string;
@@ -50,6 +54,21 @@ export class AgiTerminalComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.terminal) return;
+
+    if (changes["theme"] && !changes["theme"].firstChange) {
+      this.terminal.setTheme(this.theme);
+    }
+
+    if (changes["fontSize"] && !changes["fontSize"].firstChange) {
+      if (this.fontSize) {
+        this.terminal.terminal.options.fontSize = this.fontSize;
+        this.terminal.fit();
+      }
+    }
+  }
+
   ngOnDestroy(): void {
     this.terminal?.dispose();
     this.terminal = null;
@@ -61,5 +80,9 @@ export class AgiTerminalComponent implements AfterViewInit, OnDestroy {
 
   fit(): void {
     this.terminal?.fit();
+  }
+
+  write(data: string | Uint8Array): void {
+    this.terminal?.write(data);
   }
 }

@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
 import { AgiRenderedTerminal } from "@working-with-agi/sdk";
 
 export interface AgiTerminalProps {
@@ -30,53 +30,87 @@ export interface AgiTerminalProps {
   onDisconnect?: () => void;
 }
 
-export function AgiTerminal({
-  endpoint,
-  apiKey,
-  sessionId,
-  theme = "dark",
-  fontSize,
-  fontFamily,
-  cursorStyle,
-  webgl,
-  className,
-  style,
-  onOutput,
-  onConnect,
-  onDisconnect,
-}: AgiTerminalProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const terminalRef = useRef<AgiRenderedTerminal | null>(null);
+export interface AgiTerminalHandle {
+  focus: () => void;
+  fit: () => void;
+  write: (data: string | Uint8Array) => void;
+}
 
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    terminalRef.current = new AgiRenderedTerminal({
-      container: containerRef.current,
+export const AgiTerminal = forwardRef<AgiTerminalHandle, AgiTerminalProps>(
+  function AgiTerminal(
+    {
       endpoint,
       apiKey,
       sessionId,
-      theme,
+      theme = "dark",
       fontSize,
       fontFamily,
       cursorStyle,
       webgl,
+      className,
+      style,
       onOutput,
       onConnect,
       onDisconnect,
-    });
+    },
+    ref,
+  ) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const terminalRef = useRef<AgiRenderedTerminal | null>(null);
 
-    return () => {
-      terminalRef.current?.dispose();
-      terminalRef.current = null;
-    };
-  }, [endpoint, apiKey, sessionId]);
+    // Create / recreate terminal on connection-level prop changes
+    useEffect(() => {
+      if (!containerRef.current) return;
 
-  return (
-    <div
-      ref={containerRef}
-      className={className}
-      style={{ width: "100%", height: "100%", ...style }}
-    />
-  );
-}
+      terminalRef.current = new AgiRenderedTerminal({
+        container: containerRef.current,
+        endpoint,
+        apiKey,
+        sessionId,
+        theme,
+        fontSize,
+        fontFamily,
+        cursorStyle,
+        webgl,
+        onOutput,
+        onConnect,
+        onDisconnect,
+      });
+
+      return () => {
+        terminalRef.current?.dispose();
+        terminalRef.current = null;
+      };
+    }, [endpoint, apiKey, sessionId]);
+
+    // Watch theme changes
+    useEffect(() => {
+      if (terminalRef.current && theme) {
+        terminalRef.current.setTheme(theme);
+      }
+    }, [theme]);
+
+    // Watch fontSize changes
+    useEffect(() => {
+      if (terminalRef.current && fontSize) {
+        terminalRef.current.terminal.options.fontSize = fontSize;
+        terminalRef.current.fit();
+      }
+    }, [fontSize]);
+
+    // Expose imperative API via ref
+    useImperativeHandle(ref, () => ({
+      focus: () => terminalRef.current?.focus(),
+      fit: () => terminalRef.current?.fit(),
+      write: (data: string | Uint8Array) => terminalRef.current?.write(data),
+    }));
+
+    return (
+      <div
+        ref={containerRef}
+        className={className}
+        style={{ width: "100%", height: "100%", ...style }}
+      />
+    );
+  },
+);
