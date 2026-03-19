@@ -1,0 +1,51 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { useTranslations, getLocalePath } from '@/i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<footer class="border-t border-border-soft bg-paper-alt/50">
+  <div class="max-w-[1140px] mx-auto px-6 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-10">
+      <div class="col-span-2 md:col-span-1">
+        <a href={getLocalePath(lang, '/')} class="flex items-center gap-2.5 no-underline text-text-primary mb-3">
+          <span class="flex items-center justify-center w-8 h-8 bg-accent text-white font-display font-bold text-base rounded-lg">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="w-4 h-4">
+              <path d="M8 2v4M8 10v4M2 8h4M10 8h4M4 4l2.5 2.5M9.5 9.5L12 12M12 4l-2.5 2.5M6.5 9.5L4 12" />
+            </svg>
+          </span>
+          <span class="font-display font-semibold text-[17px] tracking-tight">Work with AI</span>
+        </a>
+        <p class="text-sm text-text-muted leading-relaxed">{t('footer.tagline')}</p>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h4 class="font-display font-semibold text-sm text-text-primary mb-1">{t('footer.product')}</h4>
+        <a href="#features" class="text-sm text-text-muted hover:text-accent transition-colors">{t('footer.features')}</a>
+        <a href="#integration" class="text-sm text-text-muted hover:text-accent transition-colors">{t('footer.integration')}</a>
+        <a href="#demo" class="text-sm text-text-muted hover:text-accent transition-colors">Demo</a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h4 class="font-display font-semibold text-sm text-text-primary mb-1">{t('footer.company')}</h4>
+        <a href="https://re-x.co.jp" target="_blank" rel="noopener" class="text-sm text-text-muted hover:text-accent transition-colors">{t('footer.about')}</a>
+        <a href="https://secretary.io/ja/privacy" class="text-sm text-text-muted hover:text-accent transition-colors">{t('footer.privacy')}</a>
+        <a href="https://secretary.io/ja/terms" class="text-sm text-text-muted hover:text-accent transition-colors">{t('footer.terms')}</a>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <h4 class="font-display font-semibold text-sm text-text-primary mb-1">{t('footer.support')}</h4>
+        <a href="https://app.secretary.io/contact" class="text-sm text-text-muted hover:text-accent transition-colors">{t('footer.contact')}</a>
+        <a href="https://secretary.io" class="text-sm text-text-muted hover:text-accent transition-colors">Secretary.io</a>
+      </div>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-border-soft flex flex-col sm:flex-row justify-between items-center gap-2">
+      <p class="text-[13px] text-text-muted">{t('footer.copyright')}</p>
+      <p class="text-[13px] text-text-dim">{t('footer.powered')} <strong class="font-semibold text-text-muted">{t('footer.secretary')}</strong></p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,194 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { content } from '@/i18n/content';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = content[lang].integration;
+
+const vueCode = `<template>
+  <WorkWithAI
+    api-key="your-api-key"
+    project-id="proj_abc123"
+    theme="light"
+    :skills="['risk_analysis', 'progress_summary']"
+    locale="${lang}"
+    @message="onMessage"
+  />
+</template>
+
+<script setup>
+import { WorkWithAI } from '@work-with-ai/vue'
+
+function onMessage(msg) {
+  console.log('AI response:', msg)
+}
+</script>`;
+
+const reactCode = `import { WorkWithAI } from '@work-with-ai/react'
+
+export default function Dashboard() {
+  return (
+    <WorkWithAI
+      apiKey="your-api-key"
+      projectId="proj_abc123"
+      theme="light"
+      skills={['risk_analysis', 'progress_summary']}
+      locale="${lang}"
+      onMessage={(msg) => console.log('AI response:', msg)}
+    />
+  )
+}`;
+
+const angularCode = `// app.module.ts
+import { WorkWithAIModule } from '@work-with-ai/angular'
+
+@NgModule({
+  imports: [WorkWithAIModule]
+})
+export class AppModule {}
+
+// dashboard.component.html
+<secretary-work-with-ai
+  apiKey="your-api-key"
+  projectId="proj_abc123"
+  theme="light"
+  [skills]="['risk_analysis', 'progress_summary']"
+  locale="${lang}"
+  (onMessage)="onMessage($event)"
+></secretary-work-with-ai>`;
+
+const installCommands: Record<string, string> = {
+  vue: 'npm install @work-with-ai/vue',
+  react: 'npm install @work-with-ai/react',
+  angular: 'npm install @work-with-ai/angular',
+};
+
+const tabs = [
+  { id: 'vue', label: 'Vue', code: vueCode, install: installCommands.vue },
+  { id: 'react', label: 'React', code: reactCode, install: installCommands.react },
+  { id: 'angular', label: 'Angular', code: angularCode, install: installCommands.angular },
+];
+---
+
+<section id="integration" class="py-[clamp(80px,12vw,140px)]">
+  <div class="max-w-[1140px] mx-auto px-6">
+    <div class="text-center max-w-2xl mx-auto mb-16">
+      <p class="reveal inline-block text-xs font-semibold tracking-wider uppercase text-accent mb-4">{c.eyebrow}</p>
+      <h2 class="reveal font-display text-[clamp(24px,3.5vw,40px)] font-bold tracking-tight leading-snug mb-4">
+        {c.title}
+      </h2>
+      <p class="reveal text-text-secondary">{c.subtitle}</p>
+    </div>
+
+    <!-- Steps -->
+    <div class="reveal grid md:grid-cols-3 gap-6 mb-16">
+      {c.steps.map((s) => (
+        <div class="flex gap-4">
+          <span class="shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-accent text-white font-display font-bold text-sm">{s.step}</span>
+          <div>
+            <h3 class="font-display font-semibold text-text-primary mb-1">{s.title}</h3>
+            <p class="text-sm text-text-secondary">{s.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Code tabs -->
+    <div class="reveal max-w-3xl mx-auto">
+      <div class="rounded-2xl border border-border-soft bg-[#1e1e2e] overflow-hidden shadow-[0_8px_40px_rgba(0,0,0,0.15)]">
+        <!-- Tab bar -->
+        <div class="flex items-center border-b border-white/10">
+          {tabs.map((tab, i) => (
+            <button
+              class={`code-tab px-5 py-3 text-sm font-medium transition-colors ${i === 0 ? 'text-white bg-white/5 border-b-2 border-accent' : 'text-white/50 hover:text-white/80'}`}
+              data-tab={tab.id}
+            >
+              {tab.label}
+            </button>
+          ))}
+          <div class="ml-auto flex items-center gap-1.5 px-4">
+            <div class="w-2.5 h-2.5 rounded-full bg-red-400/60"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400/60"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-green-400/60"></div>
+          </div>
+        </div>
+
+        {tabs.map((tab, i) => (
+          <div class={`tab-content ${i === 0 ? 'active' : ''}`} data-content={tab.id}>
+            <!-- Install command -->
+            <div class="flex items-center gap-3 px-5 py-3 bg-white/[0.03] border-b border-white/5">
+              <span class="text-xs text-emerald-400 font-mono">$</span>
+              <code class="text-xs text-white/70 font-mono">{tab.install}</code>
+              <button class="copy-btn ml-auto text-white/30 hover:text-white/70 transition-colors" data-copy={tab.install}>
+                <svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                  <path d="M7 3.5A1.5 1.5 0 0 1 8.5 2h3.879a1.5 1.5 0 0 1 1.06.44l3.122 3.12A1.5 1.5 0 0 1 17 6.622V12.5a1.5 1.5 0 0 1-1.5 1.5h-1v-3.379a3 3 0 0 0-.879-2.121L10.5 5.379A3 3 0 0 0 8.379 4.5H7v-1Z" />
+                  <path d="M4.5 6A1.5 1.5 0 0 0 3 7.5v9A1.5 1.5 0 0 0 4.5 18h7a1.5 1.5 0 0 0 1.5-1.5v-5.879a1.5 1.5 0 0 0-.44-1.06L9.44 6.439A1.5 1.5 0 0 0 8.378 6H4.5Z" />
+                </svg>
+              </button>
+            </div>
+            <!-- Code -->
+            <div class="px-5 py-4 overflow-x-auto">
+              <pre class="text-[13px] leading-[1.7] font-mono"><code class="text-white/85">{tab.code}</code></pre>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Props reference -->
+    <div class="reveal mt-12 max-w-3xl mx-auto">
+      <h3 class="font-display font-semibold text-text-primary text-center mb-6">
+        {lang === 'ja' ? 'Props リファレンス' : 'Props Reference'}
+      </h3>
+      <div class="rounded-xl border border-border-soft overflow-hidden">
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="bg-paper-alt">
+              <th class="text-left px-4 py-3 font-semibold text-text-primary">Prop</th>
+              <th class="text-left px-4 py-3 font-semibold text-text-primary">{lang === 'ja' ? '型' : 'Type'}</th>
+              <th class="text-left px-4 py-3 font-semibold text-text-primary">{lang === 'ja' ? '説明' : 'Description'}</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border-soft">
+            <tr class="bg-white"><td class="px-4 py-2.5 font-mono text-xs text-accent">apiKey</td><td class="px-4 py-2.5 text-text-muted font-mono text-xs">string</td><td class="px-4 py-2.5 text-text-secondary">{lang === 'ja' ? 'Secretary.io APIキー（必須）' : 'Secretary.io API key (required)'}</td></tr>
+            <tr class="bg-paper-alt/30"><td class="px-4 py-2.5 font-mono text-xs text-accent">projectId</td><td class="px-4 py-2.5 text-text-muted font-mono text-xs">string</td><td class="px-4 py-2.5 text-text-secondary">{lang === 'ja' ? '対象プロジェクトID（必須）' : 'Target project ID (required)'}</td></tr>
+            <tr class="bg-white"><td class="px-4 py-2.5 font-mono text-xs text-accent">theme</td><td class="px-4 py-2.5 text-text-muted font-mono text-xs">"light" | "dark"</td><td class="px-4 py-2.5 text-text-secondary">{lang === 'ja' ? 'テーマ（デフォルト: light）' : 'Theme (default: light)'}</td></tr>
+            <tr class="bg-paper-alt/30"><td class="px-4 py-2.5 font-mono text-xs text-accent">skills</td><td class="px-4 py-2.5 text-text-muted font-mono text-xs">string[]</td><td class="px-4 py-2.5 text-text-secondary">{lang === 'ja' ? '有効にするAIスキル' : 'AI skills to enable'}</td></tr>
+            <tr class="bg-white"><td class="px-4 py-2.5 font-mono text-xs text-accent">locale</td><td class="px-4 py-2.5 text-text-muted font-mono text-xs">"ja" | "en"</td><td class="px-4 py-2.5 text-text-secondary">{lang === 'ja' ? '表示言語' : 'Display language'}</td></tr>
+            <tr class="bg-paper-alt/30"><td class="px-4 py-2.5 font-mono text-xs text-accent">scale</td><td class="px-4 py-2.5 text-text-muted font-mono text-xs">"le" | "org"</td><td class="px-4 py-2.5 text-text-secondary">{lang === 'ja' ? '分析スコープ（デフォルト: le）' : 'Analysis scope (default: le)'}</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Tab switching
+  document.querySelectorAll('.code-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const id = (tab as HTMLElement).dataset.tab;
+      document.querySelectorAll('.code-tab').forEach(t => {
+        t.classList.remove('text-white', 'bg-white/5', 'border-b-2', 'border-accent');
+        t.classList.add('text-white/50');
+      });
+      tab.classList.add('text-white', 'bg-white/5', 'border-b-2', 'border-accent');
+      tab.classList.remove('text-white/50');
+
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelector(`.tab-content[data-content="${id}"]`)?.classList.add('active');
+    });
+  });
+
+  // Copy button
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const text = (btn as HTMLElement).dataset.copy || '';
+      await navigator.clipboard.writeText(text);
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<svg viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4 text-green"><path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.05-.143Z" clip-rule="evenodd" /></svg>';
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  });
+</script>

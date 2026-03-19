@@ -1,0 +1,35 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { content } from '@/i18n/content';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const f = content[lang].faq;
+---
+
+<section id="faq" class="py-[clamp(80px,12vw,140px)]">
+  <div class="max-w-[720px] mx-auto px-6">
+    <div class="text-center mb-12">
+      <p class="reveal inline-block text-xs font-semibold tracking-wider uppercase text-accent mb-4">{f.eyebrow}</p>
+      <h2 class="reveal font-display text-[clamp(24px,3.5vw,40px)] font-bold tracking-tight leading-snug">
+        {f.title}
+      </h2>
+    </div>
+
+    <div class="space-y-3">
+      {f.items.map((item) => (
+        <details class="reveal group rounded-xl border border-border-soft bg-white">
+          <summary class="flex items-center justify-between cursor-pointer px-6 py-4 text-sm font-medium text-text-primary hover:text-accent transition-colors">
+            {item.question}
+            <svg viewBox="0 0 20 20" fill="currentColor" class="faq-chevron w-5 h-5 text-text-muted shrink-0 ml-4">
+              <path fill-rule="evenodd" d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </summary>
+          <div class="px-6 pb-4 text-sm text-text-secondary leading-relaxed">
+            {item.answer}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

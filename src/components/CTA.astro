@@ -1,0 +1,35 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { content } from '@/i18n/content';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const c = content[lang].cta;
+---
+
+<section id="cta-section" class="py-[clamp(80px,12vw,140px)]">
+  <div class="max-w-[1140px] mx-auto px-6">
+    <div class="reveal bg-gradient-to-br from-accent/5 via-paper to-teal/5 rounded-3xl border border-border-soft p-10 md:p-16 text-center shadow-[0_4px_20px_rgba(28,25,23,0.08)]">
+      <div class="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent text-white">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="h-7 w-7">
+          <path d="M8 2v4M8 10v4M2 8h4M10 8h4M4 4l2.5 2.5M9.5 9.5L12 12M12 4l-2.5 2.5M6.5 9.5L4 12" />
+        </svg>
+      </div>
+      <h2 class="font-display text-[clamp(24px,3.5vw,40px)] font-bold tracking-tight leading-snug mb-4">
+        {c.title}
+      </h2>
+      <p class="text-text-secondary max-w-lg mx-auto mb-8">
+        {c.desc}
+      </p>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="https://app.secretary.io/contact" class="inline-flex items-center justify-center px-6 py-3 bg-accent hover:bg-accent-hover text-white font-medium rounded-xl transition-colors text-sm">
+          {c.primaryBtn}
+        </a>
+        <a href="#integration" class="inline-flex items-center justify-center px-6 py-3 border border-border-soft hover:border-border-hover text-text-primary font-medium rounded-xl transition-colors text-sm">
+          {c.secondaryBtn}
+        </a>
+      </div>
+      <p class="text-xs text-text-muted mt-4">{c.note}</p>
+    </div>
+  </div>
+</section>

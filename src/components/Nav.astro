@@ -1,0 +1,62 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { useTranslations, getLocalePath, getAlternateLang } from '@/i18n/ui';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const altLang = getAlternateLang(lang);
+---
+
+<nav data-nav class="sticky top-0 z-50 bg-paper/92 backdrop-blur-xl border-b border-border-soft transition-shadow duration-200">
+  <div class="max-w-[1140px] mx-auto px-6 h-[60px] flex items-center justify-between">
+    <a href={getLocalePath(lang, '/')} class="flex items-center gap-2.5 no-underline text-text-primary">
+      <span class="flex items-center justify-center w-8 h-8 bg-accent text-white font-display font-bold text-base rounded-lg">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="w-4 h-4">
+          <path d="M8 2v4M8 10v4M2 8h4M10 8h4M4 4l2.5 2.5M9.5 9.5L12 12M12 4l-2.5 2.5M6.5 9.5L4 12" />
+        </svg>
+      </span>
+      <span class="font-display font-semibold text-[17px] tracking-tight">Work with AI</span>
+    </a>
+
+    <div
+      id="nav-links"
+      class="flex items-center gap-6
+             max-md:fixed max-md:inset-y-0 max-md:right-0 max-md:w-[280px] max-md:flex-col max-md:items-start
+             max-md:bg-paper max-md:pt-20 max-md:px-8 max-md:gap-4 max-md:shadow-xl max-md:z-40
+             max-md:translate-x-full max-md:opacity-0 max-md:transition-all max-md:duration-300"
+    >
+      <a href="#features" class="text-sm text-text-secondary hover:text-accent transition-colors">{t('nav.features')}</a>
+      <a href="#demo" class="text-sm text-text-secondary hover:text-accent transition-colors">{t('nav.demo')}</a>
+      <a href="#integration" class="text-sm text-text-secondary hover:text-accent transition-colors">{t('nav.integration')}</a>
+
+      <span class="flex items-center gap-1 text-sm text-text-muted">
+        {lang === 'en' ? (
+          <span class="font-semibold text-text-primary">EN</span>
+        ) : (
+          <a href={getLocalePath('en', '/')} class="hover:text-accent transition-colors">EN</a>
+        )}
+        <span>|</span>
+        {lang === 'ja' ? (
+          <span class="font-semibold text-text-primary">JA</span>
+        ) : (
+          <a href={getLocalePath('ja', '/')} class="hover:text-accent transition-colors">JA</a>
+        )}
+      </span>
+
+      <a href="#cta-section" class="text-sm font-medium text-white bg-accent hover:bg-accent-hover px-4 py-2 rounded-lg transition-colors">
+        {t('nav.cta')}
+      </a>
+    </div>
+
+    <button
+      id="nav-toggle"
+      class="md:hidden relative w-6 h-5 flex flex-col justify-between"
+      aria-label={t('nav.menu')}
+    >
+      <span class="block w-full h-0.5 bg-text-primary rounded transition-all origin-center [.is-active_&]:translate-y-[9px] [.is-active_&]:rotate-45"></span>
+      <span class="block w-full h-0.5 bg-text-primary rounded transition-all [.is-active_&]:opacity-0"></span>
+      <span class="block w-full h-0.5 bg-text-primary rounded transition-all origin-center [.is-active_&]:-translate-y-[9px] [.is-active_&]:-rotate-45"></span>
+    </button>
+  </div>
+</nav>

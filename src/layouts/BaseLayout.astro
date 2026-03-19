@@ -1,0 +1,106 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { useTranslations, getLocalePath, getAlternateLang } from '@/i18n/ui';
+import '@/styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title?: string;
+  description?: string;
+}
+
+const { lang, title, description } = Astro.props;
+const t = useTranslations(lang);
+const altLang = getAlternateLang(lang);
+const pageTitle = title || t('meta.title');
+const pageDesc = description || t('meta.description');
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
+const pathWithoutLang = Astro.url.pathname.replace(new RegExp(`^/${lang}`), '') || '/';
+const altUrl = new URL(getLocalePath(altLang, pathWithoutLang), Astro.site);
+const jaUrl = new URL(getLocalePath('ja', pathWithoutLang), Astro.site);
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDesc} />
+
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={t('meta.og.description')} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={canonicalUrl.href} />
+  <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'en_US'} />
+  <meta property="og:site_name" content="Secretary.io — Work with AI" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={t('meta.og.description')} />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="canonical" href={canonicalUrl.href} />
+  <link rel="alternate" hreflang={altLang} href={altUrl.href} />
+  <link rel="alternate" hreflang={lang} href={canonicalUrl.href} />
+  <link rel="alternate" hreflang="x-default" href={jaUrl.href} />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="leading-relaxed text-[15px]">
+  <div class="grain"></div>
+  <slot />
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Nav background on scroll
+    const nav = document.querySelector('[data-nav]');
+    if (nav) {
+      window.addEventListener('scroll', () => {
+        nav.classList.toggle('shadow-sm', window.scrollY > 40);
+      }, { passive: true });
+    }
+
+    // Mobile nav toggle
+    const toggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => {
+        navLinks.classList.toggle('max-md:translate-x-0');
+        navLinks.classList.toggle('max-md:opacity-100');
+        toggle.classList.toggle('is-active');
+      });
+    }
+
+    // Smooth scroll for hash links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = (a as HTMLAnchorElement).getAttribute('href');
+        if (!href) return;
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          if (navLinks) {
+            navLinks.classList.remove('max-md:translate-x-0');
+            navLinks.classList.remove('max-md:opacity-100');
+          }
+          if (toggle) toggle.classList.remove('is-active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

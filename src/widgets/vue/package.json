@@ -1,0 +1,28 @@
+{
+  "name": "@work-with-ai/vue",
+  "version": "0.2.0",
+  "type": "module",
+  "description": "Work with AI — Vue 3 xterm.js widget connecting to AgentServer (AetherTerm)",
+  "main": "./WorkWithAI.vue",
+  "module": "./index.ts",
+  "exports": {
+    ".": {
+      "import": "./index.ts"
+    }
+  },
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "reconnecting-websocket": "^4.4.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0"
+  },
+  "keywords": ["secretary-io", "ai", "widget", "vue", "vue3", "xterm", "terminal", "agentserver"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/re-x-inc/secretary-io"
+  }
+}

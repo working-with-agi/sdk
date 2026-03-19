@@ -1,0 +1,28 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Nav from '@/components/Nav.astro';
+import Hero from '@/components/Hero.astro';
+import Features from '@/components/Features.astro';
+import LiveDemo from '@/components/LiveDemo.astro';
+import Integration from '@/components/Integration.astro';
+import UseCases from '@/components/UseCases.astro';
+import Pricing from '@/components/Pricing.astro';
+import FAQ from '@/components/FAQ.astro';
+import CTA from '@/components/CTA.astro';
+import Footer from '@/components/Footer.astro';
+
+const lang = 'en' as const;
+---
+
+<BaseLayout lang={lang}>
+  <Nav lang={lang} />
+  <Hero lang={lang} />
+  <Features lang={lang} />
+  <LiveDemo lang={lang} />
+  <Integration lang={lang} />
+  <UseCases lang={lang} />
+  <Pricing lang={lang} />
+  <FAQ lang={lang} />
+  <CTA lang={lang} />
+  <Footer lang={lang} />
+</BaseLayout>

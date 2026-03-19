@@ -1,0 +1,110 @@
+---
+import type { Lang } from '@/i18n/ui';
+import { content } from '@/i18n/content';
+
+interface Props { lang: Lang; }
+const { lang } = Astro.props;
+const h = content[lang].hero;
+---
+
+<section class="relative overflow-hidden pt-24 pb-12 md:pt-32 md:pb-20">
+  <!-- Background -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-accent/5 blur-[100px]"></div>
+    <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-teal/5 blur-[80px]"></div>
+  </div>
+
+  <div class="max-w-[1140px] mx-auto px-6">
+    <div class="text-center max-w-3xl mx-auto">
+      <p class="reveal inline-block text-xs font-semibold tracking-wider uppercase text-accent bg-accent-light border border-accent/15 rounded-full px-3.5 py-1.5 mb-6">
+        {h.badge}
+      </p>
+      <h1 class="reveal font-display text-[clamp(32px,5vw,56px)] font-bold tracking-tight leading-[1.1] mb-6">
+        {h.title}<br />
+        <span class="bg-gradient-to-r from-accent to-purple-400 bg-clip-text text-transparent">
+          {h.titleAccent}
+        </span>
+      </h1>
+      <p class="reveal text-lg text-text-secondary leading-relaxed mb-8 max-w-2xl mx-auto">
+        {h.subtitle}
+      </p>
+      <div class="reveal flex flex-wrap justify-center gap-3">
+        <a href="#demo" class="inline-flex items-center justify-center px-6 py-3 bg-accent hover:bg-accent-hover text-white font-medium rounded-xl transition-colors text-sm">
+          {h.ctaPrimary}
+        </a>
+        <a href="#integration" class="inline-flex items-center justify-center px-6 py-3 border border-border-soft hover:border-border-hover text-text-primary font-medium rounded-xl transition-colors text-sm">
+          {h.ctaSecondary}
+        </a>
+      </div>
+    </div>
+
+    <!-- Widget preview mockup -->
+    <div class="reveal mt-16 max-w-lg mx-auto">
+      <div class="rounded-2xl border border-border-soft bg-white shadow-[0_8px_40px_rgba(124,58,237,0.08)] overflow-hidden">
+        <!-- Header -->
+        <div class="flex items-center gap-3 px-5 py-3.5 border-b border-border-soft bg-gradient-to-r from-accent-light to-white">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="w-4 h-4">
+              <path d="M8 2v4M8 10v4M2 8h4M10 8h4M4 4l2.5 2.5M9.5 9.5L12 12M12 4l-2.5 2.5M6.5 9.5L4 12" />
+            </svg>
+          </div>
+          <div>
+            <div class="text-sm font-semibold text-text-primary">Work with AI</div>
+            <div class="text-[11px] text-text-muted">{lang === 'ja' ? 'オンライン' : 'Online'}</div>
+          </div>
+          <div class="ml-auto flex h-2 w-2 rounded-full bg-green pulse-glow"></div>
+        </div>
+        <!-- Messages preview -->
+        <div class="px-5 py-4 space-y-3 min-h-[160px]">
+          <div class="flex justify-end">
+            <div class="max-w-[75%] rounded-2xl rounded-br-md bg-accent px-4 py-2.5 text-sm text-white">
+              {lang === 'ja' ? 'プロジェクトのリスクを教えて' : 'Tell me about project risks'}
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5">
+            <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-accent-light text-[10px] font-semibold text-accent">AI</div>
+            <div class="rounded-2xl rounded-bl-md border border-border-soft bg-paper-alt px-4 py-2.5 text-sm text-text-secondary max-w-[80%]">
+              <div class="font-medium text-text-primary text-xs mb-1.5">
+                {lang === 'ja' ? '🔍 リスク分析' : '🔍 Risk Analysis'}
+              </div>
+              <div class="space-y-1 text-xs">
+                <div class="flex items-start gap-1.5"><span class="text-red-500">●</span><span>{lang === 'ja' ? '外部API連携テスト未着手' : 'External API test not started'}</span></div>
+                <div class="flex items-start gap-1.5"><span class="text-yellow-500">●</span><span>{lang === 'ja' ? 'リソース競合検出' : 'Resource conflict detected'}</span></div>
+                <div class="flex items-start gap-1.5"><span class="text-green-500">●</span><span>{lang === 'ja' ? 'インフラ構築は順調' : 'Infrastructure on track'}</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Input mock -->
+        <div class="px-5 py-3 border-t border-border-soft bg-white">
+          <div class="flex gap-2 items-center">
+            <div class="flex-1 h-9 rounded-lg bg-paper-alt border border-border-soft"></div>
+            <div class="w-9 h-9 rounded-lg bg-accent flex items-center justify-center">
+              <svg viewBox="0 0 16 16" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" class="w-3.5 h-3.5">
+                <path d="M2 8h12M10 4l4 4-4 4" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="reveal mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-0">
+      <div class="text-center">
+        <span class="block font-display text-3xl md:text-4xl font-bold tracking-tight text-text-primary">{h.stat1Value}</span>
+        <span class="block text-sm text-text-muted mt-1">{h.stat1Label}</span>
+      </div>
+      <div class="hidden sm:block w-px h-12 bg-border-soft mx-10"></div>
+      <div class="text-center">
+        <span class="block font-display text-3xl md:text-4xl font-bold tracking-tight text-text-primary">{h.stat2Value}</span>
+        <span class="block text-sm text-text-muted mt-1">{h.stat2Label}</span>
+      </div>
+      <div class="hidden sm:block w-px h-12 bg-border-soft mx-10"></div>
+      <div class="text-center">
+        <span class="block font-display text-3xl md:text-4xl font-bold tracking-tight text-text-primary">{h.stat3Value}</span>
+        <span class="block text-sm text-text-muted mt-1">{h.stat3Label}</span>
+      </div>
+    </div>
+  </div>
+</section>
