@@ -98,9 +98,18 @@ export interface CTAContent {
   note: string;
 }
 
+export interface ArchitectureContent {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  layers: { label: string; desc: string; color: string }[];
+  adoptions: { name: string; desc: string; url: string }[];
+}
+
 export interface PageContent {
   hero: HeroContent;
   features: FeaturesContent;
+  architecture: ArchitectureContent;
   demo: DemoContent;
   integration: IntegrationContent;
   useCases: UseCasesContent;
@@ -152,6 +161,20 @@ export const content: Record<Lang, PageContent> = {
         { icon: 'action', title: 'アクション提案と実行', desc: 'ナレッジの文脈から次にやるべきアクションを提案。承認フロー付きで、AIが実際のタスク実行まで支援します。' },
         { icon: 'timeline', title: 'エージェント自律実行', desc: '「これをやって」と指示するだけ。AIが Knowledge Hub からデータを収集し、スキルを使って分析・レポート作成まで一貫して遂行します。' },
         { icon: 'chat', title: 'MCP連携', desc: 'Model Context Protocol対応。外部ツールやAPIに直接アクセスし、Knowledge Hub とスキルの能力を拡張。エコシステム全体と統合できます。' },
+      ],
+    },
+    architecture: {
+      eyebrow: 'Architecture',
+      title: 'Aether Platform 上に構築',
+      subtitle: 'Kubernetes 上で動作する AGI Terminal が、様々なサービスからの AI ワークロードをスケーラブルに処理します。複数のエージェントが協調して作業を遂行する MAGI アーキテクチャの基盤です。',
+      layers: [
+        { label: 'Frontend Layer', desc: '@work-with-ai/vue 等のコンポーネントから AGI Terminal に接続。まるでソフトウェアのような対話画面を提供します。', color: 'accent' },
+        { label: 'AGI Terminal', desc: 'Aether Platform 上の AI エージェント実行環境。セッションごとにサンドボックスが起動し、Knowledge Hub と Skill Registry を活用して自律的にタスクを遂行します。', color: 'teal' },
+        { label: 'MAGI Engine', desc: 'AGI Terminal 内で複数のエージェントが異なる視点から協調。NATS メッセージングによるリアルタイム通信と合議を実現します。', color: 'purple' },
+        { label: 'Kubernetes Infrastructure', desc: '需要に応じて AGI Terminal をスケールアウト。マルチテナント分離とリソース管理により、様々なサービスから安全に利用可能です。', color: 'blue' },
+      ],
+      adoptions: [
+        { name: 'Secretary.IO', desc: '会議インテリジェンス — 議事録分析・Action Items 抽出・プロジェクト管理を AI が支援', url: 'https://secretary.io' },
       ],
     },
     demo: {
@@ -308,6 +331,20 @@ export const content: Record<Lang, PageContent> = {
         { icon: 'action', title: 'Action Proposals & Execution', desc: 'Propose next actions from knowledge context. With approval workflows, AI supports actual task execution.' },
         { icon: 'timeline', title: 'Autonomous Agent Execution', desc: 'Just say "do this". AI collects data from Knowledge Hub, uses skills to analyze, and produces reports end-to-end.' },
         { icon: 'chat', title: 'MCP Integration', desc: 'Model Context Protocol support. Access external tools and APIs directly, extending the capabilities of Knowledge Hub and skills across your ecosystem.' },
+      ],
+    },
+    architecture: {
+      eyebrow: 'Architecture',
+      title: 'Built on Aether Platform',
+      subtitle: 'AGI Terminal runs on Kubernetes, scalably processing AI workloads from any service. The foundation for MAGI architecture where multiple agents collaborate to get work done.',
+      layers: [
+        { label: 'Frontend Layer', desc: 'Connect to AGI Terminal via @work-with-ai/vue and other framework components. Provides a software-like interactive interface.', color: 'accent' },
+        { label: 'AGI Terminal', desc: 'AI agent execution environment on Aether Platform. Each session spawns a sandboxed container, leveraging Knowledge Hub and Skill Registry for autonomous task execution.', color: 'teal' },
+        { label: 'MAGI Engine', desc: 'Multiple agents collaborate from different perspectives within AGI Terminal. Real-time inter-agent communication and deliberation via NATS messaging.', color: 'purple' },
+        { label: 'Kubernetes Infrastructure', desc: 'Scale AGI Terminal on demand. Multi-tenant isolation and resource management enable safe access from any service.', color: 'blue' },
+      ],
+      adoptions: [
+        { name: 'Secretary.IO', desc: 'Meeting intelligence — AI-powered meeting analysis, action item extraction, and project management', url: 'https://secretary.io' },
       ],
     },
     demo: {
