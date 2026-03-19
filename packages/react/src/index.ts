@@ -1,0 +1,9 @@
+export { AgiTerminal } from "./AgiTerminal.js";
+export type { AgiTerminalProps } from "./AgiTerminal.js";
+export type {
+  TerminalOptions,
+  RenderedTerminalOptions,
+  TerminalInstance,
+  CreateSessionParams,
+  SessionInfo,
+} from "@working-with-agi/sdk";

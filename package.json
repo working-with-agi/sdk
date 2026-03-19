@@ -1,20 +1,22 @@
 {
-  "name": "secretary-io-workwithai",
-  "type": "module",
-  "version": "1.0.0",
+  "name": "working-with-agi-sdk",
   "private": true,
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
-  },
-  "dependencies": {
-    "astro": "^6.0.4"
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "clean": "turbo clean",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "pnpm build && changeset publish"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.2.1",
-    "tailwindcss": "^4.2.1",
-    "typescript": "^5.8.3"
-  }
+    "@changesets/changelog-github": "^0.6.0",
+    "@changesets/cli": "^2.30.0",
+    "@playwright/test": "^1.58.2",
+    "playwright": "^1.58.2",
+    "turbo": "^2.5.0"
+  },
+  "packageManager": "pnpm@9.15.0"
 }
