@@ -1,10 +1,14 @@
 import type { Lang } from './ui';
 
-export interface HeroContent {
+export interface HeroSlide {
   badge: string;
   title: string;
   titleAccent: string;
   subtitle: string;
+}
+
+export interface HeroContent {
+  slides: HeroSlide[];
   ctaPrimary: string;
   ctaSecondary: string;
   stat1Value: string;
@@ -108,10 +112,26 @@ export interface PageContent {
 export const content: Record<Lang, PageContent> = {
   ja: {
     hero: {
-      badge: 'Work with AI',
-      title: 'プロジェクトの知識と対話する',
-      titleAccent: 'AIウィジェット',
-      subtitle: 'あなたのサービスにAI対話機能を組み込むことで、ユーザーがAIと対話しながら作業を進められるようになります。Vue / React / Angular 対応の埋め込みウィジェットとして簡単に統合可能。「これをやって」と指示するだけで、AIがデータの分析からタスク実行まで自律的にこなします。',
+      slides: [
+        {
+          badge: 'Work with AI',
+          title: 'あなたのサービスに',
+          titleAccent: 'AIワークスペースを組み込む',
+          subtitle: 'まるでソフトウェアのような対話画面で、ユーザーがAIと一緒に作業を進められるウィジェット。Vue / React / Angular 対応で簡単に統合可能。',
+        },
+        {
+          badge: 'Concept — MAGI',
+          title: '3人の賢者が合議する',
+          titleAccent: 'AI エージェント',
+          subtitle: 'MAGI（Multi Agent General Instrument）— 複数のAIエージェントが異なる視点から議論し、多角的に検証された結論を導きます。賛成・反対・中立の立場から分析を繰り返し、偏りのない判断を支援します。',
+        },
+        {
+          badge: 'Skill Registry',
+          title: '組み込まれたシステムの操作を',
+          titleAccent: 'AIから実現',
+          subtitle: 'あなたのサービスに特化したスキルを登録し、AIがデータ分析からタスク実行まで自律的にこなします。「これをやって」と指示するだけ。',
+        },
+      ],
       ctaPrimary: 'デモを試す',
       ctaSecondary: '導入ガイドを見る',
       stat1Value: '5分',
@@ -274,16 +294,32 @@ export const content: Record<Lang, PageContent> = {
   },
   en: {
     hero: {
-      badge: 'Work with AI',
-      title: 'Add AI to your service,',
-      titleAccent: 'let users work with it',
-      subtitle: 'Embed AI conversation into your service so users can work alongside AI to get things done. An embeddable widget for Vue / React / Angular. Just say "do this" and the AI agent handles data analysis, report generation, and task execution autonomously.',
+      slides: [
+        {
+          badge: 'Work with AI',
+          title: 'Embed an AI workspace',
+          titleAccent: 'into your service',
+          subtitle: 'A software-like interface where users work alongside AI. Supports Vue / React / Angular. Just say "do this" and AI handles the rest.',
+        },
+        {
+          badge: 'Concept — MAGI',
+          title: 'Three wise agents',
+          titleAccent: 'deliberate together',
+          subtitle: 'MAGI (Multi Agent General Instrument) — Multiple AI agents discuss from different perspectives, delivering conclusions verified from multiple angles. Pros, cons, and neutral viewpoints eliminate blind spots.',
+        },
+        {
+          badge: 'Skill Registry',
+          title: 'Let AI operate',
+          titleAccent: 'your integrated systems',
+          subtitle: 'Register skills tailored to your service. AI autonomously handles data analysis, report generation, and task execution. Just say "do this".',
+        },
+      ],
       ctaPrimary: 'Try the Demo',
       ctaSecondary: 'Integration Guide',
       stat1Value: '5 min',
       stat1Label: 'Setup time',
-      stat2Value: 'AI Agent',
-      stat2Label: 'Agent platform',
+      stat2Value: '3+',
+      stat2Label: 'Frameworks',
       stat3Value: 'Autonomous',
       stat3Label: 'Not just chat',
     },

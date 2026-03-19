@@ -5,6 +5,7 @@ import { content } from '@/i18n/content';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const h = content[lang].hero;
+const slides = h.slides;
 ---
 
 <section class="relative overflow-hidden pt-24 pb-12 md:pt-32 md:pb-20">
@@ -15,19 +16,38 @@ const h = content[lang].hero;
   </div>
 
   <div class="max-w-[1140px] mx-auto px-6">
-    <div class="text-center max-w-3xl mx-auto">
-      <p class="reveal inline-block text-xs font-semibold tracking-wider uppercase text-accent bg-accent-light border border-accent/15 rounded-full px-3.5 py-1.5 mb-6">
-        {h.badge}
-      </p>
-      <h1 class="reveal font-display text-[clamp(32px,5vw,56px)] font-bold tracking-tight leading-[1.1] mb-6">
-        {h.title}<br />
-        <span class="bg-gradient-to-r from-accent to-purple-400 bg-clip-text text-transparent">
-          {h.titleAccent}
-        </span>
-      </h1>
-      <p class="reveal text-lg text-text-secondary leading-relaxed mb-8 max-w-2xl mx-auto">
-        {h.subtitle}
-      </p>
+    <!-- Carousel -->
+    <div class="text-center max-w-3xl mx-auto" id="hero-carousel">
+      {slides.map((slide, i) => (
+        <div class:list={["hero-slide", i === 0 ? "" : "hidden"]} data-slide={i}>
+          <p class="reveal inline-block text-xs font-semibold tracking-wider uppercase text-accent bg-accent-light border border-accent/15 rounded-full px-3.5 py-1.5 mb-6">
+            {slide.badge}
+          </p>
+          <h1 class="reveal font-display text-[clamp(32px,5vw,56px)] font-bold tracking-tight leading-[1.1] mb-6">
+            {slide.title}<br />
+            <span class="bg-gradient-to-r from-accent to-purple-400 bg-clip-text text-transparent">
+              {slide.titleAccent}
+            </span>
+          </h1>
+          <p class="reveal text-lg text-text-secondary leading-relaxed mb-8 max-w-2xl mx-auto">
+            {slide.subtitle}
+          </p>
+        </div>
+      ))}
+
+      <!-- Carousel dots -->
+      {slides.length > 1 && (
+        <div class="flex justify-center gap-2 mb-8" id="hero-dots">
+          {slides.map((_, i) => (
+            <button
+              class:list={["w-2 h-2 rounded-full transition-all duration-300", i === 0 ? "bg-accent w-6" : "bg-border-soft"]}
+              data-dot={i}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
+
       <div class="reveal flex flex-wrap justify-center gap-3">
         <a href="#demo" class="inline-flex items-center justify-center px-6 py-3 bg-accent hover:bg-accent-hover text-white font-medium rounded-xl transition-colors text-sm">
           {h.ctaPrimary}
@@ -108,3 +128,44 @@ const h = content[lang].hero;
     </div>
   </div>
 </section>
+
+<script>
+  const INTERVAL = 5000;
+  const carousel = document.getElementById('hero-carousel');
+  if (carousel) {
+    const slides = carousel.querySelectorAll<HTMLElement>('.hero-slide');
+    const dots = carousel.querySelectorAll<HTMLElement>('[data-dot]');
+    let current = 0;
+    let timer: ReturnType<typeof setInterval>;
+
+    function showSlide(index: number) {
+      slides.forEach((s, i) => {
+        s.classList.toggle('hidden', i !== index);
+      });
+      dots.forEach((d, i) => {
+        d.classList.toggle('bg-accent', i === index);
+        d.classList.toggle('w-6', i === index);
+        d.classList.toggle('bg-border-soft', i !== index);
+        d.classList.toggle('w-2', i !== index);
+      });
+      current = index;
+    }
+
+    function next() {
+      showSlide((current + 1) % slides.length);
+    }
+
+    // Auto-advance
+    timer = setInterval(next, INTERVAL);
+
+    // Click dots
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = Number(dot.dataset.dot);
+        showSlide(idx);
+        clearInterval(timer);
+        timer = setInterval(next, INTERVAL);
+      });
+    });
+  }
+</script>

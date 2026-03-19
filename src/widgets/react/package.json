@@ -1,8 +1,8 @@
 {
   "name": "@work-with-ai/react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
-  "description": "Work with AI — React widget for Secretary.io AI assistant",
+  "description": "Work with AI — React xterm.js widget connecting to AgentServer (AetherTerm)",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -13,14 +13,20 @@
     }
   },
   "files": ["dist"],
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0",
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "reconnecting-websocket": "^4.4.0"
+  },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
   },
-  "keywords": ["secretary-io", "ai", "widget", "react", "chat"],
+  "keywords": ["work-with-ai", "ai", "widget", "react", "xterm", "terminal", "agentserver"],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/re-x-inc/secretary-io"
+    "url": "https://github.com/working-with-agi/sdk"
   }
 }
