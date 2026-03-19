@@ -114,3 +114,29 @@ export interface LayoutTree {
   session_id: string;
   layout: Record<string, unknown>;
 }
+
+// --- Knowledge (RAG) Types ---
+
+export interface IngestResult {
+  document_id: string;
+  filename: string;
+  chunk_count: number;
+}
+
+export interface KnowledgeSearchResult {
+  score: number;
+  chunk: string;
+  document_id: string;
+  filename: string;
+  chunk_index: number;
+}
+
+export interface KnowledgeSearchResponse {
+  query: string;
+  results: KnowledgeSearchResult[];
+}
+
+export interface KnowledgeContextResponse {
+  query: string;
+  context: string;
+}

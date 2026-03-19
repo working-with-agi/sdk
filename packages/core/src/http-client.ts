@@ -11,8 +11,9 @@ export class HttpClient {
   }
 
   async fetch<T>(path: string, options: RequestInit = {}): Promise<T> {
+    const isFormData = options.body instanceof FormData;
     const headers: Record<string, string> = {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...((options.headers as Record<string, string>) ?? {}),
     };
 
