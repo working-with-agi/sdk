@@ -17,78 +17,49 @@ const d = content[lang].demo;
       <p class="reveal text-text-secondary">{d.subtitle}</p>
     </div>
 
-    <!-- Interactive demo widget -->
-    <div class="reveal max-w-2xl mx-auto">
+    <!-- Live terminal demo -->
+    <div class="reveal max-w-3xl mx-auto">
       <div
         id="demo-widget"
-        class="rounded-2xl border border-border-soft bg-white shadow-[0_8px_40px_rgba(124,58,237,0.1)] overflow-hidden"
+        class="rounded-2xl border border-border-soft bg-[#1e1e1e] shadow-[0_8px_40px_rgba(124,58,237,0.1)] overflow-hidden"
         data-lang={lang}
-        data-responses={JSON.stringify(d.demoResponses)}
+        data-agent-url={import.meta.env.PUBLIC_AGENT_SERVER_URL || 'wss://agent.workwithagi.dev'}
       >
         <!-- Widget header -->
-        <div class="flex items-center gap-3 px-5 py-3.5 border-b border-border-soft bg-gradient-to-r from-accent-light to-white">
-          <div class="flex h-9 w-9 items-center justify-center rounded-xl bg-accent text-white">
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="w-4.5 h-4.5">
+        <div class="flex items-center gap-3 px-4 py-3 border-b border-white/10 bg-[#2a2a3e]">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-accent text-white">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="w-4 h-4">
               <path d="M8 2v4M8 10v4M2 8h4M10 8h4M4 4l2.5 2.5M9.5 9.5L12 12M12 4l-2.5 2.5M6.5 9.5L4 12" />
             </svg>
           </div>
           <div>
-            <div class="text-sm font-semibold text-text-primary">Work with AI</div>
-            <div class="text-[11px] text-green font-medium flex items-center gap-1">
-              <span class="w-1.5 h-1.5 rounded-full bg-green"></span>
-              {lang === 'ja' ? 'デモモード' : 'Demo Mode'}
+            <div class="text-sm font-semibold text-white/90">Work with AI</div>
+            <div id="demo-status" class="text-[11px] text-white/40 flex items-center gap-1">
+              <span id="demo-dot" class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+              {lang === 'ja' ? '接続中...' : 'Connecting...'}
             </div>
           </div>
-          <button id="demo-reset" class="ml-auto text-xs text-text-muted hover:text-accent transition-colors px-2 py-1 rounded-md hover:bg-accent-light">
-            {lang === 'ja' ? 'リセット' : 'Reset'}
-          </button>
-        </div>
-
-        <!-- Chat area -->
-        <div id="demo-messages" class="h-[400px] overflow-y-auto px-5 py-4 space-y-4">
-          <!-- Empty state with suggestions -->
-          <div id="demo-empty" class="flex h-full items-center justify-center">
-            <div class="text-center">
-              <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-accent-light">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" class="h-7 w-7 text-accent">
-                  <path d="M8 2v4M8 10v4M2 8h4M10 8h4M4 4l2.5 2.5M9.5 9.5L12 12M12 4l-2.5 2.5M6.5 9.5L4 12" />
-                </svg>
-              </div>
-              <h3 class="text-sm font-semibold text-text-primary mb-1">Work with AI</h3>
-              <p class="text-xs text-text-muted mb-5">
-                {lang === 'ja' ? 'サンプルプロジェクトについて質問してみましょう' : 'Ask questions about the sample project'}
-              </p>
-              <div class="flex flex-wrap justify-center gap-2">
-                {d.suggestions.map((s) => (
-                  <button
-                    class="demo-suggestion rounded-full border border-border-soft bg-paper px-3.5 py-2 text-xs text-text-secondary transition-all hover:border-accent/30 hover:text-accent hover:bg-accent-light"
-                    data-text={s}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div class="ml-auto flex items-center gap-1.5">
+            <div class="w-2.5 h-2.5 rounded-full bg-red-400/60"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-yellow-400/60"></div>
+            <div class="w-2.5 h-2.5 rounded-full bg-green-400/60"></div>
           </div>
         </div>
 
-        <!-- Input bar -->
-        <div class="border-t border-border-soft bg-white px-5 py-3">
-          <div class="flex gap-2.5">
-            <input
-              id="demo-input"
-              type="text"
-              placeholder={d.placeholder}
-              class="flex-1 rounded-xl border border-border-soft bg-paper-alt px-4 py-2.5 text-sm text-text-primary placeholder-text-dim focus:border-accent focus:bg-white focus:outline-none transition-colors"
-            />
-            <button
-              id="demo-send"
-              class="shrink-0 rounded-xl bg-accent px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-accent-hover disabled:opacity-50"
-            >
-              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="w-4 h-4">
-                <path d="M2 8h12M10 4l4 4-4 4" />
-              </svg>
-            </button>
+        <!-- Terminal container -->
+        <div id="demo-terminal" class="h-[420px]"></div>
+
+        <!-- Suggestion bar -->
+        <div class="border-t border-white/10 bg-[#2a2a3e] px-4 py-2.5">
+          <div class="flex flex-wrap gap-2">
+            {d.suggestions.map((s) => (
+              <button
+                class="demo-suggestion rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[11px] text-white/60 transition-all hover:border-accent/50 hover:text-accent hover:bg-accent/10"
+                data-text={s}
+              >
+                {s}
+              </button>
+            ))}
           </div>
         </div>
       </div>
@@ -97,175 +68,159 @@ const d = content[lang].demo;
 </section>
 
 <script>
-  const widget = document.getElementById('demo-widget');
-  if (widget) {
+  async function initDemo() {
+    const widget = document.getElementById('demo-widget');
+    if (!widget) return;
+
+    const agentUrl = widget.dataset.agentUrl || 'wss://agent.workwithagi.dev';
     const lang = widget.dataset.lang || 'ja';
-    const responses = JSON.parse(widget.dataset.responses || '{}');
-    const messagesEl = document.getElementById('demo-messages')!;
-    const emptyEl = document.getElementById('demo-empty')!;
-    const inputEl = document.getElementById('demo-input') as HTMLInputElement;
-    const sendBtn = document.getElementById('demo-send') as HTMLButtonElement;
-    const resetBtn = document.getElementById('demo-reset')!;
+    const terminalEl = document.getElementById('demo-terminal')!;
+    const statusEl = document.getElementById('demo-status')!;
+    const dotEl = document.getElementById('demo-dot')!;
 
-    let messageCount = 0;
+    // Dynamic import xterm.js
+    const [{ Terminal }, { FitAddon }, { WebLinksAddon }] = await Promise.all([
+      import('https://esm.sh/@xterm/xterm@5.5.0'),
+      import('https://esm.sh/@xterm/addon-fit@0.10.0'),
+      import('https://esm.sh/@xterm/addon-web-links@0.11.0'),
+    ]);
 
-    function scrollToBottom() {
-      messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
-    }
+    // Load xterm CSS
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://esm.sh/@xterm/xterm@5.5.0/css/xterm.css';
+    document.head.appendChild(link);
 
-    function addUserMessage(text: string) {
-      emptyEl.style.display = 'none';
-      const time = new Date().toLocaleTimeString(lang === 'ja' ? 'ja-JP' : 'en-US', { hour: '2-digit', minute: '2-digit' });
-      const div = document.createElement('div');
-      div.className = 'flex justify-end animate-fade-in-up';
-      div.innerHTML = `
-        <div class="max-w-[80%] rounded-2xl rounded-br-md bg-accent px-4 py-3 text-sm text-white">
-          ${text}
-          <div class="mt-1 text-right text-[10px] text-purple-200">${time}</div>
-        </div>
-      `;
-      messagesEl.appendChild(div);
-      scrollToBottom();
-    }
-
-    function addTypingIndicator(): HTMLElement {
-      const div = document.createElement('div');
-      div.className = 'flex items-start gap-2.5 animate-fade-in-up';
-      div.id = 'typing-indicator';
-      div.innerHTML = `
-        <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-accent-light text-[10px] font-semibold text-accent">AI</div>
-        <div class="flex items-center gap-2 rounded-2xl rounded-bl-md border border-border-soft bg-paper-alt px-4 py-3">
-          <div class="flex gap-1">
-            <div class="h-1.5 w-1.5 rounded-full bg-text-muted bounce-dot"></div>
-            <div class="h-1.5 w-1.5 rounded-full bg-text-muted bounce-dot"></div>
-            <div class="h-1.5 w-1.5 rounded-full bg-text-muted bounce-dot"></div>
-          </div>
-          <span class="text-xs text-text-muted">${lang === 'ja' ? '分析中...' : 'Analyzing...'}</span>
-        </div>
-      `;
-      messagesEl.appendChild(div);
-      scrollToBottom();
-      return div;
-    }
-
-    function addAgentMessage(text: string, widgets?: any[]) {
-      const typing = document.getElementById('typing-indicator');
-      if (typing) typing.remove();
-
-      const time = new Date().toLocaleTimeString(lang === 'ja' ? 'ja-JP' : 'en-US', { hour: '2-digit', minute: '2-digit' });
-      const div = document.createElement('div');
-      div.className = 'space-y-3 animate-fade-in-up';
-
-      let widgetHtml = '';
-      if (widgets && widgets.length > 0) {
-        widgets.forEach(w => {
-          const typeColors: Record<string, { border: string; bg: string; badge: string }> = {
-            risk_analysis: { border: 'border-red-200', bg: 'bg-red-50', badge: 'bg-red-100 text-red-700' },
-            progress_summary: { border: 'border-blue-200', bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-700' },
-            action_items: { border: 'border-amber-200', bg: 'bg-amber-50', badge: 'bg-amber-100 text-amber-700' },
-            comparative_analysis: { border: 'border-teal-200', bg: 'bg-teal-50', badge: 'bg-teal-100 text-teal-700' },
-          };
-          const c = typeColors[w.type] || typeColors.progress_summary;
-          widgetHtml += `
-            <div class="rounded-xl border ${c.border} ${c.bg} p-4 mt-2">
-              <div class="flex items-center gap-2 mb-3">
-                <span class="text-xs font-semibold px-2 py-0.5 rounded-full ${c.badge}">${w.title}</span>
-              </div>
-              <ul class="space-y-2">
-                ${w.items.map((item: string) => `<li class="text-xs text-text-secondary leading-relaxed flex items-start gap-2"><span class="mt-1 w-1 h-1 rounded-full bg-text-muted shrink-0"></span>${item}</li>`).join('')}
-              </ul>
-            </div>
-          `;
-        });
-      }
-
-      div.innerHTML = `
-        <div class="flex items-start gap-2.5">
-          <div class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-accent-light text-[10px] font-semibold text-accent">AI</div>
-          <div class="min-w-0 flex-1">
-            <div class="rounded-2xl rounded-bl-md border border-border-soft bg-white px-4 py-3">
-              <p class="text-sm text-text-secondary leading-relaxed">${text}</p>
-              <div class="mt-1 text-[10px] text-text-dim">${time}</div>
-            </div>
-            ${widgetHtml}
-          </div>
-        </div>
-      `;
-      messagesEl.appendChild(div);
-      scrollToBottom();
-    }
-
-    function findBestResponse(input: string): { text: string; widgets?: any[] } | null {
-      // Exact match
-      if (responses[input]) return responses[input];
-
-      // Keyword match
-      const keywords: Record<string, string[]> = lang === 'ja' ? {
-        'プロジェクト全体の進捗をまとめて': ['進捗', 'サマリー', 'まとめ', '状況'],
-        'リスクを洗い出して': ['リスク', '課題', '問題', '懸念'],
-        '次にやるべきことを整理して': ['アクション', 'やるべき', '次', 'TODO', 'タスク'],
-        'プロジェクト間の共通課題は？': ['横断', '共通', '比較', 'プロジェクト間'],
-      } : {
-        'Summarize overall project progress': ['progress', 'summary', 'status', 'overview'],
-        'Identify project risks': ['risk', 'issue', 'problem', 'concern'],
-        'What should we do next?': ['action', 'next', 'todo', 'task'],
-        'Common issues across projects?': ['cross', 'common', 'compare', 'across'],
-      };
-
-      const lower = input.toLowerCase();
-      for (const [key, words] of Object.entries(keywords)) {
-        if (words.some(w => lower.includes(w.toLowerCase()))) {
-          return responses[key] || null;
-        }
-      }
-      return null;
-    }
-
-    async function handleSend(text?: string) {
-      const msg = (text || inputEl.value).trim();
-      if (!msg) return;
-      inputEl.value = '';
-      sendBtn.disabled = true;
-      inputEl.disabled = true;
-
-      addUserMessage(msg);
-
-      // Simulate AI thinking
-      await new Promise(r => setTimeout(r, 600));
-      addTypingIndicator();
-      await new Promise(r => setTimeout(r, 1200 + Math.random() * 800));
-
-      const response = findBestResponse(msg);
-      if (response) {
-        addAgentMessage(response.text, response.widgets);
-      } else {
-        const fallback = lang === 'ja'
-          ? 'ご質問を承りました。このデモでは、上のサジェストボタンに対応した回答をご覧いただけます。実際の環境では、プロジェクトデータに基づいてあらゆる質問にお答えします。'
-          : 'I received your question. In this demo, you can see responses for the suggested prompts above. In a real environment, I can answer any question based on your project data.';
-        addAgentMessage(fallback);
-      }
-
-      sendBtn.disabled = false;
-      inputEl.disabled = false;
-      inputEl.focus();
-    }
-
-    // Event listeners
-    sendBtn.addEventListener('click', () => handleSend());
-    inputEl.addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') handleSend();
+    const terminal = new Terminal({
+      convertEol: true,
+      cursorBlink: true,
+      disableStdin: false,
+      scrollback: 5000,
+      theme: {
+        background: '#1e1e1e',
+        foreground: '#ffffff',
+        cursor: '#ffffff',
+        cursorAccent: '#000000',
+        selectionBackground: 'rgba(255, 255, 255, 0.3)',
+      },
+      allowProposedApi: true,
+      fontSize: 13,
+      fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
     });
 
+    const fitAddon = new FitAddon();
+    terminal.loadAddon(fitAddon);
+    terminal.loadAddon(new WebLinksAddon());
+    terminal.open(terminalEl);
+    fitAddon.fit();
+
+    const resizeObserver = new ResizeObserver(() => fitAddon.fit());
+    resizeObserver.observe(terminalEl);
+
+    // Status helpers
+    function setStatus(text: string, active: boolean) {
+      statusEl.innerHTML = '';
+      dotEl.className = `w-1.5 h-1.5 rounded-full ${active ? 'bg-green-400' : 'bg-white/40'}`;
+      statusEl.appendChild(dotEl);
+      statusEl.appendChild(document.createTextNode(' ' + text));
+    }
+
+    // WebSocket connection
+    let paneId = '';
+    let ws: WebSocket | null = null;
+    let reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
+    function connect() {
+      const url = `${agentUrl}/ws/tmux/work-with-ai`;
+      ws = new WebSocket(url);
+      ws.binaryType = 'arraybuffer';
+
+      ws.onopen = () => {
+        setStatus(lang === 'ja' ? '接続済み' : 'Connected', true);
+        // Request session
+        ws?.send(JSON.stringify({
+          type: 'create_session',
+          payload: {
+            api_key: 'demo',
+            skills: [],
+            context: { demo: true },
+            locale: lang,
+          },
+        }));
+      };
+
+      ws.onmessage = (event: MessageEvent) => {
+        if (typeof event.data === 'string') {
+          try {
+            const msg = JSON.parse(event.data);
+            if (msg.type === 'state_sync' || msg.type === 'session_created') {
+              const session = msg.session || msg;
+              if (session.panes && session.panes.length > 0) {
+                paneId = session.panes[0].pane_id || '';
+              }
+              setStatus(lang === 'ja' ? 'セッション中' : 'Session active', true);
+            }
+            if (msg.type === 'pane_exited') {
+              setStatus(lang === 'ja' ? '接続済み' : 'Connected', true);
+            }
+          } catch { /* ignore */ }
+        } else {
+          // Binary frame: [1 byte pane_id_len][pane_id][pty data]
+          const view = new Uint8Array(event.data as ArrayBuffer);
+          if (view.length < 2) return;
+          const paneIdLen = view[0];
+          if (view.length < 1 + paneIdLen) return;
+          terminal.write(view.slice(1 + paneIdLen));
+        }
+      };
+
+      ws.onclose = () => {
+        setStatus(lang === 'ja' ? '再接続中...' : 'Reconnecting...', false);
+        reconnectTimer = setTimeout(connect, 3000);
+      };
+
+      ws.onerror = () => {
+        setStatus(lang === 'ja' ? '接続エラー' : 'Connection error', false);
+      };
+    }
+
+    // Send input to PTY
+    function sendInput(data: string) {
+      if (!ws || ws.readyState !== WebSocket.OPEN || !paneId) return;
+      const paneBytes = new TextEncoder().encode(paneId);
+      const dataBytes = new TextEncoder().encode(data);
+      const frame = new Uint8Array(1 + paneBytes.length + dataBytes.length);
+      frame[0] = paneBytes.length;
+      frame.set(paneBytes, 1);
+      frame.set(dataBytes, 1 + paneBytes.length);
+      ws.send(frame.buffer);
+    }
+
+    function sendResize(cols: number, rows: number) {
+      if (!ws || ws.readyState !== WebSocket.OPEN || !paneId) return;
+      ws.send(JSON.stringify({ type: 'pane_resize', pane_id: paneId, cols, rows }));
+    }
+
+    terminal.onData((data: string) => sendInput(data));
+    terminal.onResize(({ cols, rows }) => sendResize(cols, rows));
+
+    // Suggestion buttons: type text into terminal
     document.querySelectorAll('.demo-suggestion').forEach(btn => {
       btn.addEventListener('click', () => {
-        handleSend((btn as HTMLElement).dataset.text || '');
+        const text = (btn as HTMLElement).dataset.text || '';
+        sendInput(text + '\r');
+        terminal.focus();
       });
     });
 
-    resetBtn.addEventListener('click', () => {
-      messagesEl.innerHTML = '';
-      messagesEl.appendChild(emptyEl);
-      emptyEl.style.display = 'flex';
-    });
+    // Connect
+    connect();
+  }
+
+  // Init when DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initDemo);
+  } else {
+    initDemo();
   }
 </script>

@@ -5,54 +5,23 @@ import { content } from '@/i18n/content';
 interface Props { lang: Lang; }
 const { lang } = Astro.props;
 const p = content[lang].pricing;
+const isJa = lang === 'ja';
 ---
 
 <section id="pricing" class="py-[clamp(80px,12vw,140px)]">
   <div class="max-w-[1140px] mx-auto px-6">
-    <div class="text-center max-w-2xl mx-auto mb-16">
+    <div class="text-center max-w-2xl mx-auto">
       <p class="reveal inline-block text-xs font-semibold tracking-wider uppercase text-accent mb-4">{p.eyebrow}</p>
       <h2 class="reveal font-display text-[clamp(24px,3.5vw,40px)] font-bold tracking-tight leading-snug mb-4">
         {p.title}
       </h2>
-      <p class="reveal text-text-secondary">{p.subtitle}</p>
-    </div>
-
-    <div class="reveal grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-      {p.tiers.map((tier) => (
-        <div class={`relative rounded-2xl border p-6 transition-all ${tier.featured ? 'border-accent bg-accent-light shadow-[0_4px_20px_rgba(124,58,237,0.12)]' : 'border-border-soft bg-white hover:border-border-hover'}`}>
-          {tier.badge && (
-            <span class="absolute -top-2.5 right-4 rounded-full bg-accent px-2.5 py-0.5 text-[10px] font-semibold text-white">
-              {tier.badge}
-            </span>
-          )}
-          <div class="mb-4">
-            <h3 class="font-display font-semibold text-text-primary text-lg">{tier.name}</h3>
-            <div class="mt-2 flex items-baseline gap-0.5">
-              <span class="text-3xl font-bold font-display text-text-primary">{tier.price}</span>
-              {tier.period && <span class="text-sm text-text-muted">{tier.period}</span>}
-            </div>
-            <p class="mt-1 text-sm text-text-secondary">{tier.desc}</p>
-          </div>
-
-          <ul class="space-y-2 mb-6">
-            {tier.features.map((feat) => (
-              <li class="flex items-start gap-2 text-sm text-text-secondary">
-                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent">
-                  <path d="M3.5 8.5l3 3 6-7" />
-                </svg>
-                {feat}
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href={tier.name === 'Enterprise' ? 'https://app.secretary.io/contact' : '#cta-section'}
-            class={`block w-full text-center rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${tier.featured ? 'bg-accent text-white hover:bg-accent-hover' : 'border border-border-soft text-text-primary hover:border-accent hover:text-accent'}`}
-          >
-            {tier.cta}
-          </a>
-        </div>
-      ))}
+      <p class="reveal text-text-secondary mb-8">{p.subtitle}</p>
+      <a
+        href="#cta-section"
+        class="reveal inline-flex items-center justify-center px-6 py-3 bg-accent hover:bg-accent-hover text-white font-medium rounded-xl transition-colors text-sm"
+      >
+        {isJa ? 'お問い合わせ' : 'Contact us'}
+      </a>
     </div>
   </div>
 </section>
