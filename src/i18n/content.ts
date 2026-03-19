@@ -108,7 +108,7 @@ export interface PageContent {
 export const content: Record<Lang, PageContent> = {
   ja: {
     hero: {
-      badge: 'MAGI — Multi Agent General Instrument',
+      badge: 'Work with AI',
       title: 'プロジェクトの知識と対話する',
       titleAccent: 'AIウィジェット',
       subtitle: 'あなたのサービスにAI対話機能を組み込むことで、ユーザーがAIと対話しながら作業を進められるようになります。Vue / React / Angular 対応の埋め込みウィジェットとして簡単に統合可能。「これをやって」と指示するだけで、AIがデータの分析からタスク実行まで自律的にこなします。',
@@ -124,13 +124,13 @@ export const content: Record<Lang, PageContent> = {
     features: {
       eyebrow: 'Features',
       title: 'プロジェクトデータを活用するAIスキル',
-      subtitle: 'Work with AI は単なるチャットボットではありません。あなたのサービスのデータを文脈として理解し、専門的な分析やタスク実行を行うAIスキルを搭載。MAGI基盤により、エージェントがタスクを自律的に計画・実行することも可能です。',
+      subtitle: 'Work with AI は単なるチャットボットではありません。あなたのサービスのデータを文脈として理解し、まるでソフトウェアのような対話画面で専門的な分析やタスク実行を行います。Skill Registry（開発中）により、組み込まれたシステムの操作を AI から実現できます。',
       cards: [
         { icon: 'risk', title: 'データに基づく分析', desc: 'あなたのサービスに蓄積されたデータを文脈として、AIが専門的な分析を実行。ユーザーは自然言語で問いかけるだけで洞察を得られます。' },
         { icon: 'progress', title: 'レポート自動生成', desc: '散在するデータを統合的にまとめ、レポートやサマリーを自動生成。ユーザーの定型作業を大幅に削減します。' },
-        { icon: 'compare', title: 'カスタムAIスキル', desc: 'あなたのサービスに特化したAIスキルを定義可能。ドメイン知識を活かした専門的な分析や提案をユーザーに提供できます。' },
+        { icon: 'compare', title: 'Skill Registry', desc: 'あなたのサービスに特化したAIスキルを登録可能。ドメイン知識を活かした専門的な分析や提案、システム操作をAIから実現できます。' },
         { icon: 'action', title: 'アクション提案と実行', desc: 'データの文脈から次にやるべきアクションを提案。承認フロー付きで、AIが実際のタスク実行まで支援します。' },
-        { icon: 'timeline', title: 'エージェント自律実行', desc: 'MAGI基盤によるエージェントモード。ユーザーが「これをやって」と指示するだけで、AIがデータの収集・分析・レポート作成まで一貫して自律的に遂行します。' },
+        { icon: 'timeline', title: 'エージェント自律実行', desc: 'ユーザーが「これをやって」と指示するだけで、AIがデータの収集・分析・レポート作成まで一貫して自律的に遂行します。' },
         { icon: 'chat', title: 'MCP連携', desc: 'Model Context Protocol対応。外部ツールやAPIに直接アクセスし、エージェントの能力を拡張。あなたのサービスのエコシステムと統合できます。' },
       ],
     },
@@ -203,11 +203,11 @@ export const content: Record<Lang, PageContent> = {
     integration: {
       eyebrow: 'Integration',
       title: 'あなたのプロダクトにAIエージェントを組み込む',
-      subtitle: 'Vue / React / Angular 対応。数行のコードでプロダクトにAIエージェントターミナルを埋め込めます。AgentServer（AetherTerm）がバックエンドのセッション管理を担当します。',
+      subtitle: 'Vue / React / Angular 対応。数行のコードでプロダクトにAI対話画面を埋め込めます。',
       steps: [
-        { step: '01', title: 'パッケージをインストール', desc: 'npm でウィジェットパッケージをインストール。xterm.js ベースのターミナルUIが含まれます。' },
+        { step: '01', title: 'パッケージをインストール', desc: 'npm でウィジェットパッケージをインストール。AI対話UIが含まれます。' },
         { step: '02', title: 'AgentServerに接続', desc: 'AgentServer（AetherTerm）のURLを指定。APIキーとスキル・コンテキストを設定します。' },
-        { step: '03', title: 'ターミナルを配置', desc: 'コンポーネントを配置するだけ。ユーザーはターミナル上でAIエージェントと対話できます。' },
+        { step: '03', title: 'コンポーネントを配置', desc: 'コンポーネントを配置するだけ。ユーザーはソフトウェアのような対話画面でAIと作業を進められます。' },
       ],
     },
     useCases: {
@@ -224,10 +224,10 @@ export const content: Record<Lang, PageContent> = {
       eyebrow: 'FAQ',
       title: 'よくある質問',
       items: [
-        { question: 'チャットボットとどう違うのですか？', answer: 'チャットボットは質問に答えるだけですが、Work with AI のAIエージェントは自律的にタスクを計画・実行します。「レポートを作って」と指示すれば、データ収集から構成・生成まで一貫して遂行。作業過程が見え、途中で方向修正もできます。AIに仕事を「やってもらう」体験がMAGI（Multi Agent General Instrument）のコンセプトです。' },
+        { question: 'チャットボットとどう違うのですか？', answer: 'チャットボットは質問に答えるだけですが、Work with AI のAIエージェントは自律的にタスクを計画・実行します。「レポートを作って」と指示すれば、データ収集から構成・生成まで一貫して遂行。作業過程が見え、途中で方向修正もできます。まるでソフトウェアのような対話画面で、AIに仕事を「やってもらう」体験を提供します。' },
         { question: 'どのようなデータにアクセスしますか？', answer: 'Secretary.io に蓄積された会議議事録、タスク、プロジェクト構造にアクセスします。MCP（Model Context Protocol）経由でLinear、Jira、Google Calendarなどの外部ツールにも接続可能です。テナントごとにデータは完全に分離されています。' },
         { question: 'エージェントは勝手に操作を実行しますか？', answer: 'いいえ。破壊的な操作（チケット作成、データ更新など）は承認フローを経由します。分析やレポート生成は自律的に実行しますが、外部への書き込みはユーザーの確認を待ちます。' },
-        { question: '導入は簡単ですか？', answer: 'はい。npm パッケージをインストールし、AgentServerのURLとAPIキーを設定するだけです。UIはxterm.jsベースのターミナルとして提供され、最短5分で動作します。' },
+        { question: '導入は簡単ですか？', answer: 'はい。npm パッケージをインストールし、接続先のURLとAPIキーを設定するだけです。最短5分で動作します。' },
         { question: 'オンプレミス環境でも利用できますか？', answer: 'Enterpriseプランでは、AgentServerとAIバックエンドのセルフホスト版を提供しています。お客様のインフラ内で完結する構成が可能です。' },
       ],
     },
@@ -274,7 +274,7 @@ export const content: Record<Lang, PageContent> = {
   },
   en: {
     hero: {
-      badge: 'MAGI — Multi Agent General Instrument',
+      badge: 'Work with AI',
       title: 'Add AI to your service,',
       titleAccent: 'let users work with it',
       subtitle: 'Embed AI conversation into your service so users can work alongside AI to get things done. An embeddable widget for Vue / React / Angular. Just say "do this" and the AI agent handles data analysis, report generation, and task execution autonomously.',
@@ -282,28 +282,28 @@ export const content: Record<Lang, PageContent> = {
       ctaSecondary: 'Integration Guide',
       stat1Value: '5 min',
       stat1Label: 'Setup time',
-      stat2Value: 'MAGI',
+      stat2Value: 'AI Agent',
       stat2Label: 'Agent platform',
       stat3Value: 'Autonomous',
       stat3Label: 'Not just chat',
     },
     features: {
       eyebrow: 'Capabilities',
-      title: 'Not a chatbot. An AI agent.',
-      subtitle: 'Work with AI is not a chatbot that answers questions. It is an AI agent that understands project context and autonomously plans and executes tasks.',
+      title: 'Not a chatbot. An AI workspace.',
+      subtitle: 'Work with AI is not a chatbot that answers questions. It provides a software-like interactive interface where AI understands your data context and autonomously plans and executes tasks. With Skill Registry (coming soon), AI can operate your integrated systems directly.',
       cards: [
         { icon: 'risk', title: 'Autonomous Risk Detection', desc: 'Without being asked, the agent proactively detects risks from meeting data and task delays, presenting severity levels and mitigation plans.' },
         { icon: 'progress', title: 'Auto-Generated Reports', desc: 'The agent cross-analyzes project data and autonomously composes and generates stakeholder progress reports.' },
         { icon: 'action', title: 'Task Planning & Execution', desc: 'Understands incomplete tasks and discussion context, plans next actions, and upon approval, creates tickets and updates documents.' },
-        { icon: 'compare', title: 'Cross-Project Analysis', desc: 'Integrates data across multiple projects, autonomously identifying common issues and propagating best practices.' },
-        { icon: 'timeline', title: 'Interactive Dialogue', desc: 'Converse with the agent in natural language on the terminal. Even vague instructions are interpreted from context, with work progressing step by step.' },
+        { icon: 'compare', title: 'Skill Registry', desc: 'Register AI skills tailored to your service. Enable domain-specific analysis, recommendations, and system operations from AI.' },
+        { icon: 'timeline', title: 'Interactive Dialogue', desc: 'Converse with the agent in natural language through a software-like interface. Even vague instructions are interpreted from context, with work progressing step by step.' },
         { icon: 'chat', title: 'MCP Integration', desc: 'Access project management tools, calendars, and ticket systems directly via Model Context Protocol. Extend the tools available to the agent.' },
       ],
     },
     demo: {
       eyebrow: 'Live Demo',
       title: 'Experience the AI agent in action',
-      subtitle: 'See how the AI agent accesses project data on a terminal and autonomously executes tasks.',
+      subtitle: 'See how the AI agent accesses project data and autonomously executes tasks through a software-like interface.',
       placeholder: 'Enter instructions...',
       sendBtn: 'Run',
       suggestions: [
@@ -369,11 +369,11 @@ export const content: Record<Lang, PageContent> = {
     integration: {
       eyebrow: 'Integration',
       title: 'Embed an AI agent in your product',
-      subtitle: 'Supports Vue / React / Angular. Embed an AI agent terminal in your product with a few lines of code. AgentServer (AetherTerm) handles backend session management.',
+      subtitle: 'Supports Vue / React / Angular. Embed a software-like AI workspace in your product with a few lines of code.',
       steps: [
-        { step: '01', title: 'Install the package', desc: 'Install via npm. Includes an xterm.js-based terminal UI.' },
+        { step: '01', title: 'Install the package', desc: 'Install via npm. Includes the AI workspace UI component.' },
         { step: '02', title: 'Connect to AgentServer', desc: 'Point to your AgentServer (AetherTerm) URL. Configure API key, skills, and context.' },
-        { step: '03', title: 'Place the terminal', desc: 'Drop in the component. Users interact with the AI agent directly on the terminal.' },
+        { step: '03', title: 'Place the component', desc: 'Drop in the component. Users interact with the AI agent through a software-like interface.' },
       ],
     },
     useCases: {
@@ -390,10 +390,10 @@ export const content: Record<Lang, PageContent> = {
       eyebrow: 'FAQ',
       title: 'Frequently Asked Questions',
       items: [
-        { question: 'How is this different from a chatbot?', answer: 'Chatbots only answer questions. Work with AI agents autonomously plan and execute tasks. Say "create a report" and the agent collects data, structures it, and generates the output. You can see the work process and redirect at any point. MAGI (Multi Agent General Instrument) is the concept of letting AI do the work for you.' },
+        { question: 'How is this different from a chatbot?', answer: 'Chatbots only answer questions. Work with AI agents autonomously plan and execute tasks. Say "create a report" and the agent collects data, structures it, and generates the output. You can see the work process and redirect at any point — a software-like experience of letting AI do the work for you.' },
         { question: 'What data does it access?', answer: 'Meeting minutes, tasks, and project structure stored in Secretary.io. Via MCP (Model Context Protocol), it can also connect to Linear, Jira, Google Calendar, and other tools. Data is completely isolated per tenant.' },
         { question: 'Does the agent execute actions without permission?', answer: 'No. Destructive operations (ticket creation, data updates) go through an approval flow. Analysis and report generation run autonomously, but writes to external systems wait for user confirmation.' },
-        { question: 'Is it easy to integrate?', answer: 'Yes. Install the npm package, set the AgentServer URL and API key. The UI is an xterm.js terminal — up and running in 5 minutes.' },
+        { question: 'Is it easy to integrate?', answer: 'Yes. Install the npm package, set the connection URL and API key. Up and running in 5 minutes.' },
         { question: 'Can it run on-premise?', answer: 'Enterprise plans include self-hosted AgentServer and AI backend, enabling a fully on-premise deployment.' },
       ],
     },
