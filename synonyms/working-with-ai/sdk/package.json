@@ -1,0 +1,25 @@
+{
+  "name": "@working-with-ai/sdk",
+  "version": "0.3.0",
+  "type": "module",
+  "description": "Synonym for @working-with-agi/sdk",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    }
+  },
+  "files": ["index.js", "index.d.ts"],
+  "dependencies": {
+    "@working-with-agi/sdk": "workspace:*"
+  },
+  "keywords": ["ai", "terminal", "workwithagi", "synonym"],
+  "author": "WorkWithAGI <dev@workwithagi.dev>",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
