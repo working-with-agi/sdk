@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { AgiApiClient } from "@working-with-agi/sdk";
+import { ref, computed, onMounted, watch } from "vue";
+import { AgiApiClient, THEME_PRESETS } from "@working-with-agi/sdk";
 import type { TerminalTheme, ToolInfo } from "@working-with-agi/sdk";
-import { AgiPilot } from "@working-with-agi/vue";
+import { AgiTerminal } from "@working-with-agi/vue";
 
 const endpoint = window.location.origin;
 const apiKey = "test-key-123";
@@ -10,46 +10,62 @@ const api = new AgiApiClient(endpoint, apiKey);
 
 const tools = ref<Record<string, ToolInfo>>({});
 const error = ref("");
-const theme = ref<"dark" | "light" | TerminalTheme>("dark");
+const themeName = ref("light");
+const theme = computed<TerminalTheme>(() => {
+  const entry = THEME_PRESETS.find((t) => t.name === themeName.value);
+  return entry?.theme ?? THEME_PRESETS[0].theme;
+});
 const sessionId = ref("");
 const selectedTool = ref("");
+const prompt = ref("");
 const launching = ref(false);
+const connected = ref(false);
+
+// Agents that render their own dark UI (ANSI bg colors)
+const DARK_UI_AGENTS = new Set(["claude", "codex", "gemini", "opencode"]);
 
 onMounted(async () => {
   try {
     tools.value = await api.listTools();
+    const first = Object.entries(tools.value).find(([name, info]) => info.available && name !== "bash");
+    if (first) selectedTool.value = first[0];
   } catch (err: any) {
     error.value = err.message;
   }
 });
 
-async function launchSession(tool: string) {
-  if (launching.value) return;
+// Auto-switch terminal theme when agent changes
+watch(selectedTool, (tool) => {
+  if (DARK_UI_AGENTS.has(tool)) {
+    themeName.value = "dark";
+  } else if (themeName.value === "dark") {
+    themeName.value = "light";
+  }
+});
+
+const availableTools = computed(() =>
+  Object.entries(tools.value)
+    .filter(([name, info]) => info.available && name !== "bash")
+    .map(([name, info]) => ({ name, label: info.label })),
+);
+
+async function submit() {
+  if (launching.value || !selectedTool.value) return;
   launching.value = true;
   error.value = "";
-  selectedTool.value = tool;
   try {
     const session = await api.createSession({
       user_id: "demo-user",
-      tool,
+      tool: selectedTool.value,
       sandbox: true,
-      label: tools.value[tool]?.label ?? tool,
+      label: tools.value[selectedTool.value]?.label ?? selectedTool.value,
+      prompt: prompt.value || undefined,
     });
     sessionId.value = session.session_id;
   } catch (err: any) {
     error.value = err.message;
-    selectedTool.value = "";
   } finally {
     launching.value = false;
-  }
-}
-
-async function addAgent(role: string) {
-  if (!sessionId.value) return;
-  try {
-    await api.addPane(sessionId.value, { tool: "bash", role });
-  } catch (err: any) {
-    error.value = err.message;
   }
 }
 
@@ -58,67 +74,89 @@ async function endSession() {
     try { await api.destroySession(sessionId.value); } catch { /* ignore */ }
   }
   sessionId.value = "";
-  selectedTool.value = "";
+  connected.value = false;
 }
 
-function toggleTheme() {
-  theme.value = theme.value === "dark" ? "light" : "dark";
-}
-
-const availableTools = Object.entries;
+const darkThemes = THEME_PRESETS.filter((t) => t.dark);
+const lightThemes = THEME_PRESETS.filter((t) => !t.dark);
 </script>
 
 <template>
-  <div class="app">
-    <!-- Pilot mode (with session) -->
-    <template v-if="sessionId">
-      <!-- Toolbar overlaid at top -->
-      <div class="toolbar">
-        <span class="toolbar-brand">WorkWithAGI</span>
-        <span class="toolbar-sep" />
-        <button class="tb" @click="addAgent('developer')">+ Developer</button>
-        <button class="tb" @click="addAgent('reviewer')">+ Reviewer</button>
-        <button class="tb" @click="addAgent('tester')">+ Tester</button>
-        <span class="toolbar-sep" />
-        <button class="tb" @click="toggleTheme">{{ theme === "dark" ? "\u263E" : "\u2600" }}</button>
-        <button class="tb end" @click="endSession">End</button>
+  <div class="shell">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <span class="logo">Work With AI</span>
+        <span class="badge">Vue</span>
       </div>
+      <div class="header-right">
+        <select v-if="availableTools.length > 0" v-model="selectedTool" class="agent-select">
+          <option v-for="t in availableTools" :key="t.name" :value="t.name">{{ t.label }}</option>
+        </select>
+        <select v-model="themeName" class="theme-select">
+          <optgroup label="Dark">
+            <option v-for="t in darkThemes" :key="t.name" :value="t.name">{{ t.label }}</option>
+          </optgroup>
+          <optgroup label="Light">
+            <option v-for="t in lightThemes" :key="t.name" :value="t.name">{{ t.label }}</option>
+          </optgroup>
+        </select>
+        <button v-if="sessionId" class="btn-end" @click="endSession">End Session</button>
+      </div>
+    </header>
 
-      <div class="pilot-area">
-        <AgiPilot
-          :endpoint="endpoint"
-          :api-key="apiKey"
-          :session-id="sessionId"
-          :theme="theme"
-          :font-size="14"
-          :float-x="120"
-          :float-y="60"
-          :float-width="780"
-          :float-height="460"
-        />
-      </div>
-    </template>
+    <!-- Content -->
+    <main class="content">
+      <!-- Welcome + input -->
+      <template v-if="!sessionId">
+        <div class="welcome">
+          <h1>AI Terminal</h1>
+          <p>What would you like to work on?</p>
 
-    <!-- Launcher (no session) -->
-    <template v-else>
-      <div class="launcher">
-        <div class="hero">
-          <h1>WorkWithAGI</h1>
-          <p>Pilot Mode — main terminal floats over background agent panes</p>
+          <!-- Chat-style input bar -->
+          <div class="input-bar">
+            <input
+              v-model="prompt"
+              class="chat-input"
+              placeholder="Describe your task..."
+              :disabled="launching || availableTools.length === 0"
+              @keydown.enter="submit"
+            />
+            <button
+              class="send-btn"
+              :disabled="launching || availableTools.length === 0"
+              @click="submit"
+            >
+              {{ launching ? '...' : 'Start' }}
+            </button>
+          </div>
+          <p v-if="error" class="error-text">{{ error }}</p>
+          <p v-if="availableTools.length === 0 && !error" class="hint">Connecting to server...</p>
         </div>
-        <div class="tool-grid">
-          <button
-            v-for="(info, name) in tools" :key="name"
-            :disabled="!info.available || launching"
-            @click="launchSession(name as string)"
-            :class="['tool-btn', { available: info.available }]"
-          >
-            {{ info.label }}
-          </button>
+      </template>
+
+      <!-- Terminal session -->
+      <template v-else>
+        <div class="terminal-wrap">
+          <div class="terminal-bar">
+            <span class="dot" :class="connected ? 'green' : 'yellow'" />
+            <span class="bar-label">{{ tools[selectedTool]?.label ?? selectedTool }}</span>
+            <span class="bar-session">{{ sessionId.slice(0, 12) }}</span>
+          </div>
+          <div class="terminal-body">
+            <AgiTerminal
+              :endpoint="endpoint"
+              :api-key="apiKey"
+              :session-id="sessionId"
+              :theme="theme"
+              :font-size="14"
+              @connect="connected = true"
+              @disconnect="connected = false"
+            />
+          </div>
         </div>
-        <p v-if="error" class="error-text">{{ error }}</p>
-      </div>
-    </template>
+      </template>
+    </main>
   </div>
 </template>
 
@@ -126,55 +164,118 @@ const availableTools = Object.entries;
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #1a1b26; --bg-surface: #16161e; --bg-elevated: #24283b;
-  --border: #414868; --text: #c0caf5; --text-muted: #565f89;
-  --accent: #7aa2f7; --success: #9ece6a; --warn: #e0af68; --error: #f7768e;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", Menlo, monospace;
 }
 
-body { background: var(--bg); color: var(--text); font-family: var(--font-sans); }
+body { background: #f8f9fa; }
 
-.app { width: 100vw; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
-
-/* Toolbar */
-.toolbar {
-  display: flex; align-items: center; gap: 6px;
-  padding: 0 12px; height: 36px;
-  background: rgba(22, 22, 30, 0.85); backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
-  z-index: 200; flex-shrink: 0; user-select: none;
+.shell {
+  width: 100vw; height: 100vh;
+  display: flex; flex-direction: column;
+  font-family: var(--font-sans);
+  color: #24292e;
+  background: #f8f9fa;
 }
-.toolbar-brand { font-size: 13px; font-weight: 700; color: var(--accent); }
-.toolbar-sep { width: 1px; height: 18px; background: var(--border); }
-.tb {
-  padding: 3px 10px; border-radius: 4px; border: 1px solid var(--border);
-  background: transparent; color: var(--text-muted); font-size: 11px;
+
+/* Header */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px; height: 48px;
+  background: #ffffff;
+  border-bottom: 1px solid #e1e4e8;
+  flex-shrink: 0;
+}
+.header-left { display: flex; align-items: center; gap: 10px; }
+.header-right { display: flex; align-items: center; gap: 10px; }
+.logo { font-size: 16px; font-weight: 700; letter-spacing: -0.02em; color: #24292e; }
+.badge {
+  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 4px;
+  background: #eef2ff; color: #4f46e5;
+}
+
+/* Selects */
+.theme-select, .agent-select {
+  padding: 5px 10px; border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background: #ffffff; color: #374151;
+  font-size: 12px; font-family: var(--font-sans);
+  cursor: pointer; outline: none;
+}
+.theme-select:focus, .agent-select:focus { border-color: #4f46e5; }
+
+.btn-end {
+  padding: 5px 12px; border-radius: 6px;
+  border: 1px solid #fecaca;
+  background: transparent; color: #dc2626;
+  font-size: 12px; cursor: pointer; transition: all 0.15s;
+}
+.btn-end:hover { background: #dc2626; color: #ffffff; }
+
+/* Content */
+.content { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+
+/* Welcome */
+.welcome {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 20px; gap: 16px;
+}
+.welcome h1 { font-size: 32px; font-weight: 700; color: #111827; }
+.welcome p { font-size: 14px; color: #6b7280; }
+
+/* Chat-style input bar */
+.input-bar {
+  display: flex; align-items: center; gap: 0;
+  width: 100%; max-width: 640px;
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid #d1d5db;
+  background: #ffffff;
+  transition: border-color 0.15s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.input-bar:focus-within { border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,0.1); }
+
+.chat-input {
+  flex: 1; padding: 12px 16px; border: none;
+  background: transparent; color: #24292e;
+  font-size: 14px; font-family: var(--font-sans);
+  outline: none;
+}
+.chat-input::placeholder { color: #9ca3af; }
+.chat-input:disabled { opacity: 0.5; }
+
+.send-btn {
+  padding: 12px 20px; border: none;
+  background: #4f46e5; color: #ffffff;
+  font-weight: 600; font-size: 13px;
   cursor: pointer; transition: all 0.15s;
 }
-.tb:hover { color: var(--text); border-color: var(--text-muted); }
-.tb.end { margin-left: auto; }
-.tb.end:hover { background: var(--error); color: var(--bg); border-color: var(--error); }
+.send-btn:hover { background: #4338ca; }
+.send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-.pilot-area { flex: 1; min-height: 0; position: relative; }
+.error-text { color: #dc2626; font-size: 13px; }
+.hint { color: #9ca3af; font-size: 14px; }
 
-/* Launcher */
-.launcher {
-  display: flex; flex-direction: column; align-items: center;
-  justify-content: center; gap: 24px; height: 100%; padding: 32px;
+/* Terminal */
+.terminal-wrap {
+  flex: 1; min-height: 0; display: flex; flex-direction: column;
+  margin: 8px; border-radius: 10px; overflow: hidden;
+  border: 1px solid #e1e4e8;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
-.hero { text-align: center; }
-.hero h1 { font-size: 28px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-.hero p { font-size: 14px; color: var(--text-muted); }
-.tool-grid { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-.tool-btn {
-  padding: 10px 20px; border-radius: 8px; border: 1px solid var(--border);
-  background: var(--bg-elevated); color: var(--text-muted); font-weight: 600;
-  font-size: 14px; cursor: not-allowed; transition: all 0.15s;
+.terminal-bar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 14px; height: 32px;
+  background: #f6f8fa;
+  border-bottom: 1px solid #e1e4e8;
+  font-size: 12px; color: #57606a;
 }
-.tool-btn.available {
-  background: var(--accent); color: var(--bg); border-color: var(--accent); cursor: pointer;
-}
-.tool-btn.available:hover { filter: brightness(1.1); transform: translateY(-1px); }
-.error-text { color: var(--error); font-size: 13px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot.green { background: #2da44e; }
+.dot.yellow { background: #d4a72c; }
+.bar-label { font-weight: 600; color: #24292e; }
+.bar-session { opacity: 0.5; font-family: var(--font-mono); font-size: 11px; }
+.terminal-body { flex: 1; min-height: 0; }
 </style>

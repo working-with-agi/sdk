@@ -90,13 +90,14 @@ export interface RenderedTerminalOptions extends TerminalOptions {
 export interface CreateSessionParams {
   user_id: string;
   tool?: string;
-  sandbox?: boolean;
   shell?: string;
   cols?: number;
   rows?: number;
   label?: string;
   /** Initial prompt/command to send after connection */
   prompt?: string;
+  /** CRI runtime handler (e.g. "kata", "kata-fc"). Only used when sandbox=true and CRI is available. */
+  runtime_handler?: string;
 }
 
 export interface SessionInfo {
@@ -106,6 +107,8 @@ export interface SessionInfo {
   tool: string;
   label: string;
   ws_url: string;
+  /** Sandbox backend used: "direct" | "cri" */
+  backend_type?: string;
 }
 
 export interface ToolInfo {
