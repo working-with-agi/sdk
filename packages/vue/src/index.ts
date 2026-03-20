@@ -9,7 +9,7 @@ export type {
   TerminalInstance,
   CreateSessionParams,
   SessionInfo,
-} from "@working-with-agi/sdk";
+} from "@work-with-ai/sdk";
 
 // Tmux components, stores, services, and types
 export * from "./components/index.js";

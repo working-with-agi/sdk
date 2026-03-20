@@ -14,7 +14,7 @@ export default defineConfig({
       external: [
         "vue",
         "pinia",
-        "@working-with-agi/sdk",
+        "@work-with-ai/sdk",
         "@xterm/xterm",
         "@xterm/addon-fit",
         "@xterm/addon-web-links",

@@ -10,7 +10,7 @@ import {
 import { Terminal } from "@xterm/xterm";
 import { FitAddon } from "@xterm/addon-fit";
 import { WebglAddon } from "@xterm/addon-webgl";
-import type { TerminalTheme } from "@working-with-agi/sdk";
+import type { TerminalTheme } from "@work-with-ai/sdk";
 
 // ---------------------------------------------------------------------------
 // Types

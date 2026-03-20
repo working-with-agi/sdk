@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone, inject } from "@angular/core";
 import { NgIf, NgFor } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { AgiTerminalComponent } from "@working-with-agi/angular";
-import { AgiApiClient, THEME_PRESETS } from "@working-with-agi/sdk";
-import type { ToolInfo, TerminalTheme } from "@working-with-agi/sdk";
+import { AgiTerminalComponent } from "@work-with-ai/angular";
+import { AgiApiClient, THEME_PRESETS } from "@work-with-ai/sdk";
+import type { ToolInfo, TerminalTheme } from "@work-with-ai/sdk";
 
 @Component({
   selector: "app-root",

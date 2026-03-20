@@ -1,5 +1,5 @@
 import { defineComponent, ref, onMounted, onUnmounted, watch, h } from "vue";
-import { AgiRenderedTerminal } from "@working-with-agi/sdk";
+import { AgiRenderedTerminal } from "@work-with-ai/sdk";
 
 export const AgiTerminal = defineComponent({
   name: "AgiTerminal",

@@ -280,6 +280,78 @@ importers:
         specifier: ^3.2.6
         version: 3.2.6(typescript@5.9.3)
 
+  synonyms/work-with-agi/angular:
+    dependencies:
+      '@working-with-agi/angular':
+        specifier: workspace:*
+        version: link:../../../packages/angular
+
+  synonyms/work-with-agi/react:
+    dependencies:
+      '@working-with-agi/react':
+        specifier: workspace:*
+        version: link:../../../packages/react
+
+  synonyms/work-with-agi/sdk:
+    dependencies:
+      '@working-with-agi/sdk':
+        specifier: workspace:*
+        version: link:../../../packages/core
+
+  synonyms/work-with-agi/vue:
+    dependencies:
+      '@working-with-agi/vue':
+        specifier: workspace:*
+        version: link:../../../packages/vue
+
+  synonyms/work-with-ai/angular:
+    dependencies:
+      '@working-with-agi/angular':
+        specifier: workspace:*
+        version: link:../../../packages/angular
+
+  synonyms/work-with-ai/react:
+    dependencies:
+      '@working-with-agi/react':
+        specifier: workspace:*
+        version: link:../../../packages/react
+
+  synonyms/work-with-ai/sdk:
+    dependencies:
+      '@working-with-agi/sdk':
+        specifier: workspace:*
+        version: link:../../../packages/core
+
+  synonyms/work-with-ai/vue:
+    dependencies:
+      '@working-with-agi/vue':
+        specifier: workspace:*
+        version: link:../../../packages/vue
+
+  synonyms/working-with-ai/angular:
+    dependencies:
+      '@working-with-agi/angular':
+        specifier: workspace:*
+        version: link:../../../packages/angular
+
+  synonyms/working-with-ai/react:
+    dependencies:
+      '@working-with-agi/react':
+        specifier: workspace:*
+        version: link:../../../packages/react
+
+  synonyms/working-with-ai/sdk:
+    dependencies:
+      '@working-with-agi/sdk':
+        specifier: workspace:*
+        version: link:../../../packages/core
+
+  synonyms/working-with-ai/vue:
+    dependencies:
+      '@working-with-agi/vue':
+        specifier: workspace:*
+        version: link:../../../packages/vue
+
 packages:
 
   '@ampproject/remapping@2.3.0':
