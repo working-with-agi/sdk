@@ -46,7 +46,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish to npm (Trusted Publishing)
+      - name: Publish canonical packages to npm
         if: steps.check.outputs.has_changesets == 'false'
         run: |
           for pkg in packages/core packages/react packages/vue packages/angular; do
@@ -65,10 +65,31 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Publish synonym packages to npm
+        if: steps.check.outputs.has_changesets == 'false'
+        run: |
+          for pkg in synonyms/*/*; do
+            if [ -f "$pkg/package.json" ]; then
+              local_ver=$(node -p "require('./$pkg/package.json').version")
+              pkg_name=$(node -p "require('./$pkg/package.json').name")
+              remote_ver=$(npm view "$pkg_name" version 2>/dev/null || echo "0.0.0")
+              if [ "$local_ver" != "$remote_ver" ]; then
+                echo "Publishing $pkg_name@$local_ver (remote: $remote_ver)"
+                cd "$pkg"
+                npm publish --access public --provenance
+                cd -
+              else
+                echo "Skipping $pkg_name@$local_ver (already published)"
+              fi
+            fi
+          done
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
       - name: Publish to GitHub Packages
         if: steps.check.outputs.has_changesets == 'false'
         run: |
-          for pkg in packages/*/; do
+          for pkg in packages/*/ synonyms/*/*/; do
             if [ -f "$pkg/package.json" ]; then
               local_ver=$(node -p "require('./$pkg/package.json').version")
               pkg_name=$(node -p "require('./$pkg/package.json').name")
