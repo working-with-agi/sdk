@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { AgiApiClient, THEME_PRESETS } from "@working-with-agi/sdk";
-import type { TerminalTheme, ToolInfo } from "@working-with-agi/sdk";
-import { AgiTerminal } from "@working-with-agi/react";
-import type { AgiTerminalHandle } from "@working-with-agi/react";
+import { AgiApiClient, THEME_PRESETS } from "@work-with-ai/sdk";
+import type { TerminalTheme, ToolInfo } from "@work-with-ai/sdk";
+import { AgiTerminal } from "@work-with-ai/react";
+import type { AgiTerminalHandle } from "@work-with-ai/react";
 
 const endpoint = window.location.origin;
 const apiKey = "test-key-123";

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
-import { AgiApiClient, THEME_PRESETS } from "@working-with-agi/sdk";
-import type { TerminalTheme, ToolInfo } from "@working-with-agi/sdk";
-import { AgiTerminal } from "@working-with-agi/vue";
+import { AgiApiClient, THEME_PRESETS } from "@work-with-ai/sdk";
+import type { TerminalTheme, ToolInfo } from "@work-with-ai/sdk";
+import { AgiTerminal } from "@work-with-ai/vue";
 
 const endpoint = window.location.origin;
 const apiKey = "test-key-123";

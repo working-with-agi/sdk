@@ -6,8 +6,8 @@
     "dev": "vite --port 5202"
   },
   "dependencies": {
-    "@working-with-agi/sdk": "workspace:*",
-    "@working-with-agi/angular": "workspace:*",
+    "@work-with-ai/sdk": "workspace:*",
+    "@work-with-ai/angular": "workspace:*",
     "@angular/core": "^19.0.0",
     "@angular/common": "^19.0.0",
     "@angular/compiler": "^19.0.0",

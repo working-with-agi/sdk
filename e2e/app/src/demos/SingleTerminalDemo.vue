@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { AgiTerminal } from "@working-with-agi/vue";
-import type { AgiApiClient, TerminalTheme, ToolInfo } from "@working-with-agi/sdk";
+import { AgiTerminal } from "@work-with-ai/vue";
+import type { AgiApiClient, TerminalTheme, ToolInfo } from "@work-with-ai/sdk";
 
 const props = defineProps<{
   api: AgiApiClient;
