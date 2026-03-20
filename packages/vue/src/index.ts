@@ -1,7 +1,5 @@
 export { AgiTerminal } from "./AgiTerminal.js";
-export { default as AgiWorkspace } from "./AgiWorkspace.vue";
-// Work with AI — alias for external consumers (@work-with-ai/vue)
-export { default as WorkWithAI } from "./AgiWorkspace.vue";
+export { default as WorkWithAI } from "./WorkWithAI.vue";
 export { default as AgiPilot } from "./AgiPilot.vue";
 export { default as PaneLayout } from "./PaneLayout.vue";
 export type { PaneNode, PaneTerminalHandle } from "./PaneLayout.vue";

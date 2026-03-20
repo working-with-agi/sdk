@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /**
- * AgiWorkspace — Passive display container for multi-pane AI agent terminals.
+ * WorkWithAI — Passive display container for multi-pane AI agent terminals.
  *
  * Connects to an agiterm-server via WebSocket and renders whatever pane layout
  * the server dictates. The embedding application controls which agents run via
@@ -305,7 +305,7 @@ function handleControlMessage(raw: string) {
       break;
 
     case "error":
-      console.warn("[AgiWorkspace] Server error:", msg.message);
+      console.warn("[WorkWithAI] Server error:", msg.message);
       break;
   }
 }
