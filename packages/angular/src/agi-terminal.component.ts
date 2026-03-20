@@ -10,7 +10,7 @@ import {
   OnDestroy,
   SimpleChanges,
 } from "@angular/core";
-import { AgiRenderedTerminal } from "@working-with-agi/sdk";
+import { AgiRenderedTerminal } from "@work-with-ai/sdk";
 
 @Component({
   selector: "agi-terminal",

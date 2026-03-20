@@ -1,5 +1,5 @@
 import { useRef, useEffect, useImperativeHandle, forwardRef } from "react";
-import { AgiRenderedTerminal } from "@working-with-agi/sdk";
+import { AgiRenderedTerminal } from "@work-with-ai/sdk";
 
 export interface AgiTerminalProps {
   /** agisdk-server base URL */

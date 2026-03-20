@@ -1,1 +1,1 @@
-export * from "@working-with-agi/react";
+export * from "@work-with-ai/react";

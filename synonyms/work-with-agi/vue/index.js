@@ -1,1 +1,1 @@
-export * from "@working-with-agi/vue";
+export * from "@work-with-ai/vue";

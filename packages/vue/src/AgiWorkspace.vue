@@ -18,8 +18,8 @@ import {
   onBeforeUnmount,
   type PropType,
 } from "vue";
-import { resolveTheme } from "@working-with-agi/sdk";
-import type { TerminalTheme } from "@working-with-agi/sdk";
+import { resolveTheme } from "@work-with-ai/sdk";
+import type { TerminalTheme } from "@work-with-ai/sdk";
 import PaneLayout from "./PaneLayout.vue";
 import type { PaneNode, PaneTerminalHandle } from "./PaneLayout.vue";
 

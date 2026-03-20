@@ -1,1 +1,1 @@
-export * from "@working-with-agi/sdk";
+export * from "@work-with-ai/sdk";

@@ -1,1 +1,1 @@
-export * from "@working-with-agi/angular";
+export * from "@work-with-ai/angular";
