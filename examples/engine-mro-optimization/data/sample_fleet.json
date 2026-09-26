@@ -1,0 +1,238 @@
+{
+  "meta": {
+    "description": "Synthetic narrow-body fleet: 5 aircraft x 2 engines, 2 owned spares, 48-month plan. Values are illustrative, not OEM data.",
+    "units": {
+      "money": "k$",
+      "time": "month",
+      "llp": "cycles",
+      "egt": "degC"
+    }
+  },
+  "horizon_months": 48,
+  "installed_positions": 10,
+  "cycles_per_month": 130,
+  "egt_margin_max": 70,
+  "egt_loss_per_1000_cycles": 4.0,
+  "fuel_penalty_per_degC_month": 1.3,
+  "engine_change_cost": 60,
+  "shop_slots": 2,
+  "lease_cost_per_month": 150,
+  "max_lease_engines": 2,
+  "aog_cost_per_month": 1500,
+  "discount_rate_annual": 0.06,
+  "terminal_egt_value_per_degC": 40,
+  "terminal_value_factor": 0.8,
+  "modules": [
+    {
+      "name": "FAN_LPC",
+      "llp_life": 30000,
+      "llp_value_per_cycle": 0.06
+    },
+    {
+      "name": "HPC",
+      "llp_life": 20000,
+      "llp_value_per_cycle": 0.08
+    },
+    {
+      "name": "HPT",
+      "llp_life": 20000,
+      "llp_value_per_cycle": 0.11
+    },
+    {
+      "name": "LPT",
+      "llp_life": 25000,
+      "llp_value_per_cycle": 0.06
+    }
+  ],
+  "workscopes": [
+    {
+      "code": "PR",
+      "name": "Performance restoration (core refurbish, no LLP)",
+      "cost": 2800,
+      "tat": 2,
+      "egt_restore_to": 55,
+      "llp_replace": []
+    },
+    {
+      "code": "CORE",
+      "name": "Performance restoration + HPC/HPT LLP replacement",
+      "cost": 6500,
+      "tat": 3,
+      "egt_restore_to": 58,
+      "llp_replace": [
+        "HPC",
+        "HPT"
+      ]
+    },
+    {
+      "code": "LP",
+      "name": "LP module LLP replacement (Fan/LPC + LPT), no performance restoration",
+      "cost": 3500,
+      "tat": 2,
+      "egt_restore_to": null,
+      "llp_replace": [
+        "FAN_LPC",
+        "LPT"
+      ]
+    },
+    {
+      "code": "FULL",
+      "name": "Full overhaul: performance restoration + all LLPs",
+      "cost": 10800,
+      "tat": 4,
+      "egt_restore_to": 62,
+      "llp_replace": [
+        "FAN_LPC",
+        "HPC",
+        "HPT",
+        "LPT"
+      ]
+    }
+  ],
+  "engines": [
+    {
+      "esn": "E-801",
+      "egt_margin": 6,
+      "llp_remaining": {
+        "FAN_LPC": 21000,
+        "HPC": 9000,
+        "HPT": 8500,
+        "LPT": 17000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-802",
+      "egt_margin": 11,
+      "llp_remaining": {
+        "FAN_LPC": 14000,
+        "HPC": 4200,
+        "HPT": 4100,
+        "LPT": 12000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-803",
+      "egt_margin": 17,
+      "llp_remaining": {
+        "FAN_LPC": 26000,
+        "HPC": 15500,
+        "HPT": 15200,
+        "LPT": 22000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-804",
+      "egt_margin": 22,
+      "llp_remaining": {
+        "FAN_LPC": 5200,
+        "HPC": 11000,
+        "HPT": 10800,
+        "LPT": 3900
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-805",
+      "egt_margin": 27,
+      "llp_remaining": {
+        "FAN_LPC": 18000,
+        "HPC": 6800,
+        "HPT": 6500,
+        "LPT": 15000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-806",
+      "egt_margin": 33,
+      "llp_remaining": {
+        "FAN_LPC": 28000,
+        "HPC": 17500,
+        "HPT": 17200,
+        "LPT": 24000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-807",
+      "egt_margin": 9,
+      "llp_remaining": {
+        "FAN_LPC": 12000,
+        "HPC": 13000,
+        "HPT": 2600,
+        "LPT": 20000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-808",
+      "egt_margin": 40,
+      "llp_remaining": {
+        "FAN_LPC": 29500,
+        "HPC": 19000,
+        "HPT": 18800,
+        "LPT": 24500
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-809",
+      "egt_margin": 14,
+      "llp_remaining": {
+        "FAN_LPC": 9000,
+        "HPC": 7600,
+        "HPT": 7400,
+        "LPT": 6000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-810",
+      "egt_margin": 25,
+      "llp_remaining": {
+        "FAN_LPC": 16000,
+        "HPC": 3100,
+        "HPT": 12000,
+        "LPT": 14000
+      },
+      "installed": true,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-811",
+      "egt_margin": 45,
+      "llp_remaining": {
+        "FAN_LPC": 24000,
+        "HPC": 12000,
+        "HPT": 11800,
+        "LPT": 21000
+      },
+      "installed": false,
+      "in_shop_until": 0
+    },
+    {
+      "esn": "E-812",
+      "egt_margin": 60,
+      "llp_remaining": {
+        "FAN_LPC": 30000,
+        "HPC": 20000,
+        "HPT": 20000,
+        "LPT": 25000
+      },
+      "installed": false,
+      "in_shop_until": 2
+    }
+  ]
+}
