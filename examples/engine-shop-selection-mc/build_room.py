@@ -102,12 +102,20 @@ def main(argv=None) -> int:
     ap.add_argument("--report", type=Path, default=Path("report.json"))
     ap.add_argument("--actions", type=Path, default=Path("actions.json"))
     ap.add_argument("--explore", type=Path, default=Path("explore.json"))
+    ap.add_argument("--deltas", type=Path, default=Path("deltas.json"), help="output of baseline.py compare (optional)")
     ap.add_argument("--html-out", type=Path, default=Path("room.html"))
     args = ap.parse_args(argv)
     report = json.loads(args.report.read_text(encoding="utf-8"))
     actions = json.loads(args.actions.read_text(encoding="utf-8")) if args.actions.exists() else None
     explore = json.loads(args.explore.read_text(encoding="utf-8")) if args.explore.exists() else None
     data = {"decisions": decisions(report, actions), "analysis": compact(report, actions, explore)}
+    if args.deltas.exists():
+        d = json.loads(args.deltas.read_text(encoding="utf-8"))
+        data["analysis"]["baseline"] = d["baseline"]
+        data["analysis"]["deltas"] = [
+            {"use_case": a["use_case"], "question": a["question"], "feasible": a["feasible"], "delta": a["delta"]}
+            for a in d["answers"]
+        ]
     html = (HERE / "room_template.html").read_text(encoding="utf-8").replace(
         "/*__DATA__*/null", json.dumps(data, ensure_ascii=False))
     args.html_out.write_text(html, encoding="utf-8")

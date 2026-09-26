@@ -123,6 +123,11 @@ tr.rec td { background: var(--accent-soft); }
     </aside>
   </div>
 
+  <section class="panel group" aria-label="基準からの増減" id="delta-panel" hidden>
+    <div class="group-head"><h2>ユースケース別：基準（年間の合意値）からの増減</h2><span class="hint" id="delta-base"></span></div>
+    <div class="scroll"><table id="deltas"></table></div>
+  </section>
+
   <section class="panel group" aria-label="代替案">
     <div class="group-head"><h2>代替案（4 つの前提ケースでの期待総コスト k$ ／ 欠航確率）</h2><span class="hint" id="rec-note"></span></div>
     <div class="scroll"><table id="alts"></table></div>
@@ -159,6 +164,17 @@ const DATA = /*__DATA__*/null;
     $("alts").innerHTML = `<thead><tr><th>案</th>${cs.map((c) => `<th class="n">${A.cases[c].label}</th>`).join("")}<th class="n">加重平均</th></tr></thead><tbody>` +
       A.alternatives.filter((a) => a.feasible).map((a) => `<tr class="${a.key === A.recommended ? "rec" : ""}"><td>案${a.key} ${esc(a.label)}</td>${cs.map((c) => `<td class="n num">${fmt(a.cases[c].mean)} ／ ${pct(a.cases[c].aog)}</td>`).join("")}<td class="n num">${fmt(a.weighted_mean)}</td></tr>`).join("") + "</tbody>";
   })();
+
+  /* ---------- deltas vs baseline ---------- */
+  if (A.deltas && A.baseline) {
+    const ref = A.baseline.plan_of_record, fys = Object.keys(ref.by_fiscal_year);
+    const sg = (v) => (Math.abs(v) < 1e-9 ? "±0" : (v > 0 ? "+" : "−") + fmt(Math.abs(v)));
+    $("delta-base").textContent = `基準 ${A.baseline.version} 版：${fmt(ref.total_cost)} k$・入場 ${ref.shop_visits} 件・欠航確率 ${pct(ref.aog_prob)}`;
+    $("deltas").innerHTML = `<thead><tr><th>ユースケース</th><th>問い</th><th class="n">総コスト</th><th class="n">欠航確率</th><th class="n">入場件数</th>${fys.map((f) => `<th class="n">${f} 支出</th>`).join("")}<th class="n">部品取り</th><th class="n">中寿命</th></tr></thead><tbody>` +
+      A.deltas.map((a) => !a.feasible ? `<tr><td>${esc(a.use_case)}</td><td>${esc(a.question)}</td><td colspan="${5 + fys.length}">実行可能な計画なし</td></tr>` :
+        `<tr><td>${esc(a.use_case)}</td><td>${esc(a.question)}</td><td class="n num">${sg(a.delta.total_cost)}</td><td class="n num">${(a.delta.aog_prob * 100).toFixed(1)}pt</td><td class="n num">${sg(a.delta.shop_visits)}</td>${fys.map((f) => `<td class="n num">${sg((a.delta.by_fiscal_year[f] || {}).spend || 0)}</td>`).join("")}<td class="n num">${sg(a.delta.partouts)}</td><td class="n num">${sg(a.delta.midlife_swaps)}</td></tr>`).join("") + "</tbody>";
+    $("delta-panel").hidden = false;
+  }
 
   function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
 
@@ -268,6 +284,7 @@ const DATA = /*__DATA__*/null;
     "中寿命エンジンが 5,500 k$ で買えたら何が変わる？",
     "部品取りで打ち切る案のリスクは？",
     "外部工場の TAT がさらに 2 か月延びたら？",
+    "基準から一番大きく動くのはどの打ち手？",
   ];
   SUGGEST.forEach((q) => { const b = document.createElement("button"); b.type = "button"; b.textContent = q; b.onclick = () => { $("q").value = q; send(); }; $("suggest").append(b); });
 
@@ -281,6 +298,7 @@ const DATA = /*__DATA__*/null;
     "- 数値を挙げるときは出典（どの案・ケース・打ち手・条件か）を添える。単位は k$（千ドル相当）。",
     "- データにない前提（新しい価格、別の遅延幅など）を問われたら、条件別の結果（lookup_condition）で最も近い組み合わせを示し、それ以上は再計算が必要だと伝える。推測で数字を作らない。",
     "- 要望の優先順位（上ほど優先）に沿って判断理由を説明する。",
+    "- 「どれだけ変わるか」は、基準（年間の合意値）からの増減（get_deltas）で答えるのを優先する。",
     "- 最後に、この部屋で決めるべきことがあれば 1 行で示す。",
     "",
     "分析データ（要約）:",
@@ -304,6 +322,8 @@ const DATA = /*__DATA__*/null;
         A.explore.runs.forEach((r) => { const d = Object.keys(F).reduce((a, k) => a + Math.abs(r.f[k] - want[k]) / span(k), 0); if (d < bd) { bd = d; best = r; } });
         return { asked: want, nearest: best, exact: bd < 1e-9, rules: A.explore.rules.map((r) => ({ if: r.if, then: r.then })) };
       } },
+    { name: "get_deltas", description: "ユースケース別の問い（工場・契約、資産戦略、リスク対応など）ごとに、基準（年間の合意値）からの増減（総コスト、欠航確率、入場件数、年度別支出、部品取り、中寿命エンジン入替、前倒し月数）を返す。基準の値も含む。",
+      execute: () => ({ baseline: A.baseline || null, deltas: A.deltas || [] }) },
     { name: "get_room_status", description: "この判断ルームの各判断事項の現在の状態（承認・保留・差し戻し・未判断）とメモを返す。",
       execute: () => ITEMS.map((it) => ({ id: it.id, title: it.title, status: state[it.id]?.status || "未判断", note: state[it.id]?.note || "" })) },
   ];
