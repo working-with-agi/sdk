@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>エンジン入場計画 — 月次見直し</title>
+  <link rel="stylesheet" href="./node_modules/@xterm/xterm/css/xterm.css" />
+  <style>
+    :root { color-scheme: light dark; --bg: #f7f7f5; --fg: #1d1d1b; --muted: #6b6b66; --line: #d9d9d4; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #161615; --fg: #ececea; --muted: #9a9a94; --line: #2e2e2c; } }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 system-ui, sans-serif; display: flex; flex-direction: column; height: 100vh; }
+    header { padding: 10px 16px; border-bottom: 1px solid var(--line); }
+    h1 { font-size: 15px; margin: 0 0 6px; }
+    form { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    input { font: inherit; padding: 4px 8px; min-width: 0; flex: 1 1 180px; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: inherit; }
+    button { font: inherit; padding: 4px 12px; }
+    #status { color: var(--muted); font-size: 13px; }
+    #terminal { flex: 1; min-height: 0; background: #000; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>エンジン入場計画 — 月次見直し（planner / reviewer）</h1>
+    <form id="connect" autocomplete="off">
+      <input id="endpoint" placeholder="https://agi.example.com:8600" aria-label="endpoint" />
+      <input id="session" placeholder="session_id（run-monthly の出力）" aria-label="session id" />
+      <input id="apikey" type="password" placeholder="API key / access token" aria-label="API key" />
+      <button type="submit">接続</button>
+      <span id="status"></span>
+    </form>
+  </header>
+  <div id="terminal"></div>
+  <script type="module" src="./dist/ui.js"></script>
+</body>
+</html>

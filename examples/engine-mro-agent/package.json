@@ -1,0 +1,23 @@
+{
+  "name": "engine-mro-agent-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "WorkWithAI SDK example: engine shop-visit planning (engine-shop-selection-mc) run as an AI-agent workflow",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "ingest": "tsx src/ingest.ts",
+    "run-monthly": "tsx src/run-monthly.ts",
+    "build:ui": "esbuild src/ui.ts --bundle --format=esm --target=es2022 --outfile=dist/ui.js",
+    "serve": "python3 -m http.server 5173"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-webgl": "^0.19.0",
+    "@xterm/xterm": "^6.0.0",
+    "esbuild": "^0.25.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3"
+  }
+}
