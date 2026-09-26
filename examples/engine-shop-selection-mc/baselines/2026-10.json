@@ -1,0 +1,404 @@
+{
+ "version": "2026-09-26",
+ "created": "2026-09-26T23:03:15+00:00",
+ "inputs": {
+  "fleet_visits_lifecycle.json": "7b9f82abdf67a8e2",
+  "shop_quotes.json": "4c56fc86c389b48e"
+ },
+ "settings": {
+  "scenarios": 60,
+  "eval_scenarios": 2000,
+  "seed": 42,
+  "requirements": {
+   "budget": true,
+   "buffer": true,
+   "volume": true,
+   "kits_on_hand_only": false,
+   "no_new_spares": false,
+   "service": false
+  },
+  "solver": "HiGHS via PuLP 3.3.2"
+ },
+ "norms": {
+  "visits_per_year": 28.666666666666664,
+  "visits_per_year_by_workscope": {
+   "PR": 9.933333333333334,
+   "CORE": 6.266666666666667,
+   "FULL": 12.466666666666667
+  },
+  "visits_per_year_min_max": [
+   19,
+   40
+  ],
+  "unscheduled_share": 0.25116279069767444,
+  "spend_per_year_k": 185226.66666666666,
+  "usd_per_efh": 429.2954264524104,
+  "mean_run_months": 69.48837209302326,
+  "shelf_mean": 23.905555555555555,
+  "shelf_p5": 9.950000000000001,
+  "short_month_share": 0.0
+ },
+ "plan_of_record": {
+  "total_cost": 157909.6683918606,
+  "p90": 197698.40034361364,
+  "aog_prob": 0.0005,
+  "by_fiscal_year": {
+   "FY2026": {
+    "visits": 12,
+    "spend": 79668.69023959099,
+    "PR": 4,
+    "CORE": 3,
+    "FULL": 5,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2027": {
+    "visits": 25,
+    "spend": 171480.12389114365,
+    "PR": 7,
+    "CORE": 7,
+    "FULL": 11,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2028": {
+    "visits": 8,
+    "spend": 52649.19926112603,
+    "PR": 1,
+    "CORE": 5,
+    "FULL": 2,
+    "GT": 0,
+    "PO": 0
+   }
+  },
+  "shop_visits": 45,
+  "midlife_swaps": 0,
+  "partouts": 0,
+  "long_spares": 0,
+  "emergency_kits": 0,
+  "early_months": 38,
+  "rush": 0,
+  "shops": {
+   "IND-ASIA": 15,
+   "IND-NA": 16,
+   "OEM-ASIA": 14
+  }
+ },
+ "plan": [
+  {
+   "esn": "896-106",
+   "shop": "IND-NA",
+   "workscope": "FULL",
+   "month": "2026-10",
+   "rush": false
+  },
+  {
+   "esn": "896-107",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2026-10",
+   "rush": false
+  },
+  {
+   "esn": "896-180",
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "month": "2026-10",
+   "rush": false
+  },
+  {
+   "esn": "896-263",
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "month": "2026-10",
+   "rush": false
+  },
+  {
+   "esn": "896-239",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2026-11",
+   "rush": false
+  },
+  {
+   "esn": "896-173",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2026-12",
+   "rush": false
+  },
+  {
+   "esn": "896-125",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2027-01",
+   "rush": false
+  },
+  {
+   "esn": "896-255",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2027-01",
+   "rush": false
+  },
+  {
+   "esn": "896-154",
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "month": "2027-02",
+   "rush": false
+  },
+  {
+   "esn": "896-161",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2027-03",
+   "rush": false
+  },
+  {
+   "esn": "896-224",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2027-03",
+   "rush": false
+  },
+  {
+   "esn": "896-232",
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "month": "2027-03",
+   "rush": false
+  },
+  {
+   "esn": "896-158",
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "month": "2027-04",
+   "rush": false
+  },
+  {
+   "esn": "896-259",
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "month": "2027-04",
+   "rush": false
+  },
+  {
+   "esn": "896-104",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2027-06",
+   "rush": false
+  },
+  {
+   "esn": "896-126",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2027-06",
+   "rush": false
+  },
+  {
+   "esn": "896-171",
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "month": "2027-06",
+   "rush": false
+  },
+  {
+   "esn": "896-253",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2027-06",
+   "rush": false
+  },
+  {
+   "esn": "896-108",
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "month": "2027-07",
+   "rush": false
+  },
+  {
+   "esn": "896-143",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2027-07",
+   "rush": false
+  },
+  {
+   "esn": "896-246",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2027-07",
+   "rush": false
+  },
+  {
+   "esn": "896-197",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2027-08",
+   "rush": false
+  },
+  {
+   "esn": "896-138",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2027-09",
+   "rush": false
+  },
+  {
+   "esn": "896-241",
+   "shop": "IND-NA",
+   "workscope": "FULL",
+   "month": "2027-09",
+   "rush": false
+  },
+  {
+   "esn": "896-190",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2027-10",
+   "rush": false
+  },
+  {
+   "esn": "896-114",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2027-11",
+   "rush": false
+  },
+  {
+   "esn": "896-113",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2027-12",
+   "rush": false
+  },
+  {
+   "esn": "896-168",
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "month": "2027-12",
+   "rush": false
+  },
+  {
+   "esn": "896-103",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2028-01",
+   "rush": false
+  },
+  {
+   "esn": "896-183",
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "month": "2028-01",
+   "rush": false
+  },
+  {
+   "esn": "896-243",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2028-01",
+   "rush": false
+  },
+  {
+   "esn": "896-139",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2028-02",
+   "rush": false
+  },
+  {
+   "esn": "896-142",
+   "shop": "IND-NA",
+   "workscope": "FULL",
+   "month": "2028-02",
+   "rush": false
+  },
+  {
+   "esn": "896-234",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2028-02",
+   "rush": false
+  },
+  {
+   "esn": "896-141",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2028-03",
+   "rush": false
+  },
+  {
+   "esn": "896-170",
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "month": "2028-03",
+   "rush": false
+  },
+  {
+   "esn": "896-220",
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "month": "2028-03",
+   "rush": false
+  },
+  {
+   "esn": "896-207",
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "month": "2028-04",
+   "rush": false
+  },
+  {
+   "esn": "896-222",
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "month": "2028-04",
+   "rush": false
+  },
+  {
+   "esn": "896-262",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2028-04",
+   "rush": false
+  },
+  {
+   "esn": "896-157",
+   "shop": "OEM-ASIA",
+   "workscope": "CORE",
+   "month": "2028-05",
+   "rush": false
+  },
+  {
+   "esn": "896-195",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2028-06",
+   "rush": false
+  },
+  {
+   "esn": "896-111",
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "month": "2028-07",
+   "rush": false
+  },
+  {
+   "esn": "896-136",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2028-07",
+   "rush": false
+  },
+  {
+   "esn": "896-205",
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "month": "2028-07",
+   "rush": false
+  }
+ ]
+}
