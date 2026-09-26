@@ -78,6 +78,10 @@ const session = await api.createSession({
 WorkAGI.terminal({ container: "#terminal", endpoint, apiKey, sessionId: session.session_id });
 ```
 
+## 関連サンプル
+
+- [`engine-shop-selection-mc`](../engine-shop-selection-mc/)（第2弾）: 複数工場の見積もり比較と、費用超過・TAT 遅延・非計画取卸しの不確実性を SAA ＋ モンテカルロで扱う
+
 ## 拡張の方向性
 
 - 非計画取卸し（バードストライク・FOD 等）を考慮した確率計画／ロバスト最適化

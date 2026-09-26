@@ -1,0 +1,151 @@
+{
+  "meta": {
+    "description": "Synthetic 10-aircraft narrow-body fleet (20 installed positions, 21 owned engines). 10 planned shop visits over 24 months. Illustrative values, not OEM or shop data.",
+    "units": {
+      "money": "k$",
+      "time": "month"
+    }
+  },
+  "horizon_months": 24,
+  "installed_positions": 20,
+  "owned_engines": 21,
+  "short_term_lease": {
+    "cost_per_month": 220,
+    "max_engines": 2
+  },
+  "long_term_spare": {
+    "cost_per_month": 120,
+    "max_engines": 3
+  },
+  "aog_cost_per_month": 1500,
+  "unscheduled_removals": {
+    "rate_per_engine_month": 0.006,
+    "tat_months": [
+      2,
+      3,
+      4
+    ],
+    "tat_probs": [
+      0.3,
+      0.5,
+      0.2
+    ]
+  },
+  "workscope_build_value": {
+    "PR": 0,
+    "CORE": 2400,
+    "FULL": 6200
+  },
+  "engines": [
+    {
+      "esn": "E-901",
+      "window": [
+        0,
+        3
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "E-902",
+      "window": [
+        0,
+        4
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-903",
+      "window": [
+        2,
+        6
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-904",
+      "window": [
+        3,
+        7
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-905",
+      "window": [
+        6,
+        10
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "E-906",
+      "window": [
+        8,
+        12
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-907",
+      "window": [
+        10,
+        14
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-908",
+      "window": [
+        13,
+        17
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-909",
+      "window": [
+        15,
+        19
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ]
+    },
+    {
+      "esn": "E-910",
+      "window": [
+        17,
+        21
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    }
+  ]
+}
