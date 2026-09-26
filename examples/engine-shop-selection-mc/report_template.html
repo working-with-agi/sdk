@@ -1,0 +1,329 @@
+<title>エンジン入場計画レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --peak: rgba(168, 103, 26, .10);
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --peak: rgba(224, 162, 87, .10); --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --peak: rgba(224, 162, 87, .10); --shadow: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.7 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; padding-block: 32px 64px; display: grid; gap: 22px; }
+.num, .mono, td.n { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 28px; line-height: 1.35; margin: 0; font-weight: 700; text-wrap: balance; }
+h2 { font-size: 18px; margin: 0; font-weight: 700; text-wrap: balance; }
+h3 { font-size: 14px; margin: 0; font-weight: 600; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.sub { color: var(--muted); max-width: 74ch; }
+.meta { display: flex; flex-wrap: wrap; gap: 4px 16px; color: var(--muted); font-size: 12px; }
+header { display: grid; gap: 8px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 20px; box-shadow: var(--shadow); display: grid; gap: 14px; min-width: 0; }
+.section-label { display: flex; align-items: baseline; gap: 10px; margin-top: 10px; }
+.section-label .step { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--accent); }
+.hint { color: var(--muted); font-size: 12px; }
+
+.verdict { border-left: 4px solid var(--accent); padding-left: 16px; display: grid; gap: 10px; }
+.verdict .headline { font-size: 20px; font-weight: 700; line-height: 1.5; text-wrap: balance; }
+.cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; }
+ul.clean { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.owner { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-right: 6px; }
+.chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.chip.ok { background: var(--good-soft); color: var(--good); }
+.chip.ng { background: var(--crit-soft); color: var(--crit); }
+.chip.mid { background: var(--warn-soft); color: var(--warn); }
+.chip.now { background: var(--crit-soft); color: var(--crit); }
+.chip.soon { background: var(--warn-soft); color: var(--warn); }
+.chip.can_wait { background: var(--good-soft); color: var(--good); }
+
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.fact { display: grid; gap: 2px; }
+.fact .label { font-size: 11px; color: var(--muted); }
+.fact .value { font-size: 20px; font-weight: 500; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .req { fill: var(--accent-soft); }
+svg .buf { fill: var(--warn-soft); }
+svg .have { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .have-dot { fill: var(--accent); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); letter-spacing: .04em; padding: 6px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th.n, td.n { text-align: right; }
+tr.rec td { background: var(--accent-soft); }
+tr.rec td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+.t-req { min-width: 720px; } .t-alt { min-width: 860px; } .t-exc { min-width: 760px; } .t-urg { min-width: 620px; }
+.cell-sub { display: block; font-size: 11px; color: var(--muted); }
+
+.alts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.alt { border: 1px solid var(--rule); border-radius: 8px; padding: 14px; display: grid; gap: 8px; align-content: start; }
+.alt.rec { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.alt .key { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--accent); }
+.alt .name { font-weight: 700; font-size: 15px; line-height: 1.4; }
+.alt .big { font-size: 18px; font-weight: 500; }
+.chips { display: flex; gap: 4px; flex-wrap: wrap; }
+
+.bars { display: grid; gap: 8px; }
+.bar-row { display: grid; grid-template-columns: 170px 1fr 72px; gap: 10px; align-items: center; font-size: 12px; }
+.meter { height: 10px; border-radius: 5px; background: var(--accent-soft); overflow: hidden; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); }
+.meter > span.over { background: var(--crit); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+.note { color: var(--muted); font-size: 12px; max-width: 90ch; }
+a { color: var(--accent); }
+
+@media (max-width: 900px) {
+  .cols, .grid2 { grid-template-columns: 1fr; }
+  .alts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .alts { grid-template-columns: 1fr; }
+  h1 { font-size: 22px; }
+  .bar-row { grid-template-columns: 110px 1fr 60px; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Engine shop visit plan · decision report</div>
+    <h1 id="title"></h1>
+    <p class="sub">便の計画から逆算した「あるべき姿」（毎月の必要装着数と予備バッファ）を守りつつ、会社の要望をどこまで満たせるかを、4 つの前提ケースと 4 つの代替案で検証し、結論をまとめました。</p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <section class="panel" aria-label="結論">
+    <div class="verdict">
+      <div class="eyebrow">結論</div>
+      <p class="headline" id="headline"></p>
+      <ul class="clean" id="points"></ul>
+    </div>
+    <div class="cols">
+      <div><h3>今決めること</h3><ul class="clean" id="decisions" style="margin-top:8px"></ul></div>
+      <div><h3>承認が必要なこと</h3><ul class="clean" id="approvals" style="margin-top:8px"></ul></div>
+    </div>
+  </section>
+
+  <div class="section-label"><span class="step">1</span><h2>前提と「あるべき姿」</h2></div>
+  <section class="panel" aria-label="前提">
+    <div class="facts" id="facts"></div>
+    <div>
+      <h3>毎月満たすべき値と、推奨案で使えるエンジン数</h3>
+      <p class="hint" style="margin-top:4px">必要装着数 = 2 ×（便を飛ばすのに要る機数）。便数の季節指数と、閑散期に寄せる機体重整備から算出。予備バッファ = 非計画取卸しで同時に抜ける基数の 95% 点。線が帯の上にある月は「あるべき姿」を満たしています。</p>
+    </div>
+    <svg id="need" viewBox="0 0 900 260" role="img" aria-label="月別の必要装着数、予備バッファ、使用可能エンジン数"></svg>
+    <div class="legend">
+      <span><span class="sw" style="background:var(--accent-soft)"></span>必要装着数（飛ばし続ける基数）</span>
+      <span><span class="sw" style="background:var(--warn-soft)"></span>＋予備バッファ</span>
+      <span><span class="sw" style="background:var(--accent)"></span>推奨案で使えるエンジン（計画上）</span>
+      <span><span class="sw" style="background:var(--peak)"></span>繁忙期</span>
+    </div>
+  </section>
+
+  <div class="section-label"><span class="step">2</span><h2>要望は同時に満たせるか</h2></div>
+  <section class="panel" aria-label="要望の衝突">
+    <p class="sub">前提ケースごとに、全要望を課した計画が存在するかと、要望を 1 つだけ緩めたときに期待総コストがどれだけ下がるか（その要望の「値段」）を示します。</p>
+    <div class="scroll"><table class="t-req" id="req"></table></div>
+    <div id="cases" class="note"></div>
+  </section>
+
+  <div class="section-label"><span class="step">3</span><h2>代替案</h2></div>
+  <section class="panel" aria-label="代替案">
+    <div class="alts" id="alts"></div>
+    <div class="scroll"><table class="t-alt" id="altx"></table></div>
+    <p class="note">各案の計画を固定し、4 つの前提ケースそれぞれで独立なモンテカルロ・シナリオにより評価しました。加重平均の重みは基準 50%・MRO 混雑 25%・LLP 逼迫 15%・複合ストレス 10%。</p>
+  </section>
+
+  <div class="section-label"><span class="step">4</span><h2>推奨案の中身</h2></div>
+  <div class="grid2">
+    <section class="panel" aria-label="予算の消化">
+      <h3>年度予算の消化（基準ケース）</h3>
+      <div class="bars" id="budget"></div>
+      <h3>工場の割り振り</h3>
+      <div class="bars" id="mix"></div>
+    </section>
+    <section class="panel" aria-label="判断期限">
+      <h3>判断期限が近いエンジン</h3>
+      <div class="scroll"><table class="t-urg" id="urg"></table></div>
+    </section>
+  </div>
+
+  <div class="section-label"><span class="step">5</span><h2>期限前に下ろすエンジン（例外）</h2></div>
+  <section class="panel" aria-label="例外">
+    <p class="sub" id="exc-lead"></p>
+    <div class="scroll"><table class="t-exc" id="exc"></table></div>
+  </section>
+
+  <div class="section-label"><span class="step">6</span><h2>計画を見直す条件</h2></div>
+  <section class="panel" aria-label="再検討のトリガー"><ul class="clean" id="triggers"></ul></section>
+
+  <section class="panel" aria-label="方法と注意">
+    <h3>方法と注意</h3>
+    <ul class="clean note">
+      <li>二段階確率計画（SAA）。1 段目で工場・ワークスコープ・入場月・特急・長期予備を決め、2 段目で短期リースと欠航（利益率の低い便から段階的に）を決めます。</li>
+      <li>不確実性：見積もり超過（工場ごとの契約で自社負担割合が異なる）、TAT 遅延、為替、在翼中の故障（要監視エンジンは故障率が高い）、非計画取卸し。</li>
+      <li>規模と前提は公開情報からの推定で、実在企業の実データではありません（737-800 在籍数：Wikipedia "Japan Airlines fleet" 2026 年 3 月、"Japan Transocean Air" 2025 年 11 月。CFM56-7B の整備間隔と費用：Aircraft Commerce、公開ベンチマーク）。結果は予備比率・季節指数・予算水準などの較正に強く依存します。</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const R = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const pct = (v) => (v * 100).toFixed(1) + "%";
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const M = R.meta, C = R.conclusion, CASES = Object.keys(R.cases), REQ = R.requirements;
+  const rec = R.alternatives.find((a) => a.key === R.recommended);
+  const labels = M.month_labels, peak = new Set(M.peak_months);
+
+  $("title").textContent = `737-800 エンジン入場計画（${labels[0]}〜${labels[labels.length - 1]}）：推奨は案${rec.key}「${rec.label}」`;
+  $("meta").innerHTML = [
+    `対象 ${esc(M.fleet)}`, `保有エンジン <span class="num">${M.owned_engines}</span> 基`,
+    `入場予定 <span class="num">${M.visits}</span> 件`, `求解 <span class="num">${M.solves}</span> 本を <span class="num">${M.workers}</span> 並列で <span class="num">${M.wall_seconds}</span> 秒`,
+    `評価シナリオ <span class="num">${M.eval_scenarios.toLocaleString()}</span> ／ケース`,
+  ].map((s) => `<span>${s}</span>`).join("");
+
+  $("headline").textContent = C.headline;
+  $("points").innerHTML = C.points.map((p) => `<li>${esc(p)}</li>`).join("") + `<li>${esc(C.exceptions)}</li>`;
+  $("decisions").innerHTML = C.decisions.map((d) => `<li>${esc(d)}</li>`).join("");
+  $("approvals").innerHTML = C.approvals.length
+    ? C.approvals.map((a) => `<li><span class="owner">${esc(a.owner)}</span>${esc(a.what)}</li>`).join("")
+    : `<li>追加の承認は不要です（全要望の範囲内）。</li>`;
+
+  /* 1. facts + need chart */
+  const rb = rec.cases.base;
+  $("facts").innerHTML = [
+    ["必要装着数（月）", `${Math.min(...M.required_positions)}〜${Math.max(...M.required_positions)}`, "閑散期〜繁忙期"],
+    ["予備バッファ", `${M.buffer[0]} 基`, "非計画取卸しの 95% 点"],
+    ["要監視エンジン", `${M.watch} 基`, "故障率が高く、期限を待たない候補"],
+    ["欠航確率の目標", `${(M.service_target * 100).toFixed(0)}%`, `推奨案（基準）は ${pct(rb.aog_prob)}`],
+  ].map(([l, v, s]) => `<div class="fact"><span class="label">${l}</span><span class="value num">${v}</span><span class="hint">${s}</span></div>`).join("");
+  (function () {
+    const W = 900, H = 260, L = 44, Rr = 12, T = 12, B = 34, n = labels.length;
+    const have = rb.serviceable, req = M.required_positions, buf = M.buffer;
+    const lo = Math.min(...req) - 8, hi = Math.max(...have, ...req.map((r, i) => r + buf[i])) + 4;
+    const bw = (W - L - Rr) / n, x = (i) => L + i * bw, y = (v) => H - B - (v - lo) / (hi - lo) * (H - T - B);
+    let s = "";
+    for (let i = 0; i < n; i++) if (peak.has(i)) s += `<rect class="peak" x="${x(i)}" y="${T}" width="${bw}" height="${H - T - B}"/>`;
+    for (let v = Math.ceil(lo / 10) * 10; v <= hi; v += 10) s += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    for (let i = 0; i < n; i++) {
+      s += `<rect class="req" x="${x(i) + 2}" y="${y(req[i])}" width="${bw - 4}" height="${H - B - y(req[i])}"><title>${labels[i]} 必要装着 ${req[i]}</title></rect>`;
+      s += `<rect class="buf" x="${x(i) + 2}" y="${y(req[i] + buf[i])}" width="${bw - 4}" height="${y(req[i]) - y(req[i] + buf[i])}"><title>${labels[i]} ＋バッファ ${buf[i]}</title></rect>`;
+      if (i % 3 === 0) s += `<text x="${x(i) + bw / 2}" y="${H - B + 16}" text-anchor="middle">${labels[i].slice(2)}</text>`;
+    }
+    s += `<polyline class="have" points="${have.map((v, i) => `${x(i) + bw / 2},${y(v)}`).join(" ")}"/>`;
+    have.forEach((v, i) => { s += `<circle class="have-dot" cx="${x(i) + bw / 2}" cy="${y(v)}" r="2.5"><title>${labels[i]} 使えるエンジン ${v}</title></circle>`; });
+    s += `<line class="axis" x1="${L}" x2="${W - Rr}" y1="${H - B}" y2="${H - B}"/>`;
+    $("need").innerHTML = s;
+  })();
+
+  /* 2. requirement prices */
+  (function () {
+    const rows = R.requirement_prices, byCase = {}; rows.forEach((r) => { byCase[r.case] = r; });
+    let h = `<thead><tr><th>要望</th><th>担当</th>${CASES.map((c) => `<th class="n">${esc(R.cases[c].label)}</th>`).join("")}</tr></thead><tbody>`;
+    h += `<tr><td><strong>全要望を同時に満たす計画</strong></td><td></td>${CASES.map((c) => `<td class="n">${byCase[c].all_feasible ? '<span class="chip ok">あり</span><span class="cell-sub">' + fmt(byCase[c].all_mean) + ' k$</span>' : '<span class="chip ng">なし</span>'}</td>`).join("")}</tr>`;
+    ["budget", "buffer", "volume", "kits_on_hand_only", "no_new_spares"].forEach((r) => {
+      h += `<tr><td>${esc(REQ[r].label)}</td><td><span class="owner">${esc(REQ[r].owner)}</span></td>`;
+      CASES.forEach((c) => {
+        const v = byCase[c].relax[r];
+        let cell;
+        if (!v.feasible) cell = `<span class="chip ng">緩めても不可</span>`;
+        else if (v.saving == null) cell = `<span class="chip mid">緩めると可能</span><span class="cell-sub">${fmt(v.mean)} k$</span>`;
+        else if (v.saving > 1) cell = `<span class="num">−${fmt(v.saving)}</span><span class="cell-sub">緩めた場合の節約 k$</span>`;
+        else cell = `<span class="hint">拘束なし</span>`;
+        h += `<td class="n">${cell}</td>`;
+      });
+      h += "</tr>";
+    });
+    $("req").innerHTML = h + "</tbody>";
+    $("cases").innerHTML = CASES.map((c) => `<strong>${esc(R.cases[c].label)}</strong>（重み ${(R.cases[c].weight * 100).toFixed(0)}%）：${esc(R.cases[c].what)}`).join("<br>");
+  })();
+
+  /* 3. alternatives */
+  (function () {
+    $("alts").innerHTML = R.alternatives.map((a) => {
+      if (!a.feasible) return `<div class="alt"><span class="key">案${a.key}</span><span class="name">${esc(a.label)}</span><span class="chip ng">実行可能な計画なし</span></div>`;
+      const relaxed = a.relaxed.length ? a.relaxed.map((r) => `<span class="chip mid">${esc(REQ[r].label)} を緩和</span>`).join("") : `<span class="chip ok">要望の緩和なし</span>`;
+      return `<div class="alt${a.key === R.recommended ? " rec" : ""}">
+        <span class="key">案${a.key}${a.key === R.recommended ? " · 推奨" : ""}</span>
+        <span class="name">${esc(a.label)}</span>
+        <span class="hint">${esc(R.cases[a.solved_in].label)}ケースで最適化${a.enforced_service ? "・欠航目標を制約化" : ""}</span>
+        <span class="big num">${fmt(a.weighted_mean)} k$</span><span class="hint">4 ケース加重平均の期待総コスト</span>
+        <div class="chips">${relaxed}</div></div>`;
+    }).join("");
+    const reqKeys = ["budget", "buffer", "volume", "kits_on_hand_only", "no_new_spares", "service"];
+    let h = `<thead><tr><th>案</th>${CASES.map((c) => `<th class="n">${esc(R.cases[c].label)}<span class="cell-sub">平均 k$ ／ 欠航確率</span></th>`).join("")}<th>基準ケースで守れない要望</th></tr></thead><tbody>`;
+    R.alternatives.filter((a) => a.feasible).forEach((a) => {
+      const broken = reqKeys.filter((r) => !a.cases.base.met[r]).map((r) => `<span class="chip ng">${esc(REQ[r].label)}</span>`).join(" ") || '<span class="chip ok">なし</span>';
+      h += `<tr class="${a.key === R.recommended ? "rec" : ""}"><td><strong>案${a.key}</strong> ${esc(a.label)}</td>` +
+        CASES.map((c) => { const v = a.cases[c]; return `<td class="n"><span class="num">${fmt(v.mean)}</span><span class="cell-sub">${pct(v.aog_prob)}${v.aog_prob > M.service_target ? " ⚠" : ""}</span></td>`; }).join("") +
+        `<td><div class="chips">${broken}</div></td></tr>`;
+    });
+    $("altx").innerHTML = h + "</tbody>";
+  })();
+
+  /* 4. budget, mix, urgency */
+  (function () {
+    const exp = {}; Object.entries(M.budgets).forEach(([fy, b]) => { exp[fy] = b + rb.budget_over[fy]; });
+    $("budget").innerHTML = Object.entries(M.budgets).map(([fy, b]) => {
+      const r = exp[fy] / b, cls = r > 1.01 ? "over" : r > 0.95 ? "hot" : "";
+      return `<div class="bar-row"><span class="mono">${fy}（予算 ${fmt(b)}）</span><div class="meter"><span class="${cls}" style="width:${Math.min(100, r * 100)}%"></span></div><span class="mono">${(r * 100).toFixed(1)}%</span></div>`;
+    }).join("");
+    const total = Object.values(R.shop_mix).reduce((a, b) => a + b, 0), names = {};
+    M.shops.forEach((s) => { names[s.id] = s.name; });
+    $("mix").innerHTML = M.shops.map((s) => {
+      const n = R.shop_mix[s.id] || 0;
+      return `<div class="bar-row"><span>${esc(s.name)}</span><div class="meter"><span style="width:${n / total * 100}%"></span></div><span class="mono">${n} 件</span></div>`;
+    }).join("");
+    const eng = R.urgency.engines.filter((e) => e.status !== "can_wait").sort((a, b) => a.deadline - b.deadline);
+    const ST = { now: "今決める", soon: "3か月以内", can_wait: "待てる" };
+    $("urg").innerHTML = `<thead><tr><th>状態</th><th>ESN</th><th>判断期限</th><th>決め手</th><th>計画</th></tr></thead><tbody>` +
+      (eng.length ? eng.map((e) => `<tr><td><span class="chip ${e.status}">${ST[e.status]}</span></td><td class="mono">${e.esn}</td><td class="mono">${e.deadline_label}</td><td>${esc(e.binding_lead.reason)} ${e.binding_lead.months}か月</td><td><span class="mono">${e.planned_label}</span> ${esc(e.planned_choice)}</td></tr>`).join("")
+        : `<tr><td colspan="5" class="hint">3 か月以内に判断が必要なエンジンはありません。</td></tr>`) + "</tbody>";
+  })();
+
+  /* 5. exceptions */
+  (function () {
+    const ex = R.exceptions;
+    const sum = ex.reduce((a, e) => a + e.green_time_value, 0);
+    $("exc-lead").textContent = `原則は「期限まで使う（早めに出さない）」。推奨案で期限前に下ろすのは ${ex.length} 基、捨てる寿命は合計 ${fmt(sum)} k$ 相当です。各エンジンについて、期限側に動かすと何に当たるかを示します。`;
+    $("exc").innerHTML = `<thead><tr><th>ESN</th><th>計画</th><th>期限</th><th class="n">前倒し</th><th>理由</th><th>後ろに動かすと</th></tr></thead><tbody>` +
+      ex.map((e) => {
+        const why = [...e.tags.map((t) => `<span class="chip mid">${esc(t)}</span>`)];
+        const blocked = e.blocked_later.slice(0, 3).map((b) => esc(b)).join("<br>");
+        const later = e.cost_if_later ? `${e.cost_if_later.month} なら +${fmt(e.cost_if_later.delta)} k$` : "";
+        return `<tr><td class="mono">${e.esn}</td><td class="mono">${e.planned}</td><td class="mono">${e.limit}</td><td class="n">${e.months_early} か月</td><td><div class="chips">${why.join("") || '<span class="hint">費用最小</span>'}</div></td><td class="hint">${blocked}${blocked && later ? "<br>" : ""}${later}</td></tr>`;
+      }).join("") + "</tbody>";
+  })();
+
+  $("triggers").innerHTML = C.triggers.map((t) => `<li>${esc(t)}</li>`).join("");
+})();
+</script>

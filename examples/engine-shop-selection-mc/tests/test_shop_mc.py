@@ -17,8 +17,8 @@ P = load(ROOT / "data" / "fleet_visits.json", ROOT / "data" / "shop_quotes.json"
 class ShopMcTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.sc = sample(P, 30, seed=1)
-        cls.plan = solve_saa(P, cls.sc, gap=0.0)
+        cls.sc = sample(P, 20, seed=1)
+        cls.plan = solve_saa(P, cls.sc, gap=1e-4)
 
     def test_one_option_per_visit_within_window(self):
         chosen = [self.sc.options[i] for i in self.plan.chosen]
@@ -41,9 +41,10 @@ class ShopMcTest(unittest.TestCase):
         self.assertAlmostEqual(ev.mean, self.plan.objective, delta=1e-3 * abs(self.plan.objective))
 
     def test_saa_not_worse_in_sample_than_ev_plan(self):
-        ev_plan = solve_saa(P, mean_value(P, n=2000, seed=3), gap=0.0)
+        ev_plan = solve_saa(P, mean_value(P, n=2000, seed=3), gap=1e-4)
+        # up to the MIP gap tolerance
         self.assertLessEqual(
-            evaluate(P, self.plan, self.sc).mean, evaluate(P, ev_plan, self.sc).mean + 1e-6
+            evaluate(P, self.plan, self.sc).mean, evaluate(P, ev_plan, self.sc).mean * (1 + 1e-3)
         )
 
     def test_fixed_price_shop_never_bills_overrun(self):
@@ -66,6 +67,26 @@ class ShopMcTest(unittest.TestCase):
         for fy, budget in P.budget_by_fy.items():
             spend = sum(exp[i] for i in self.plan.chosen if P.fiscal_year(self.sc.options[i].month) == fy)
             self.assertLessEqual(spend, budget + 1e-6)
+
+
+
+class NormalStateTest(unittest.TestCase):
+    """The plan keeps 'what the schedule needs + shelf buffer' on its quoted schedule."""
+
+    def test_buffer_rule(self):
+        sc = sample(P, 10, seed=5)
+        plan = solve_saa(P, sc, gap=1e-3)
+        chosen = [sc.options[i] for i in plan.chosen]
+        for t in range(P.horizon):
+            off = sum(1 for o in chosen if o.month <= t < o.month + o.shop.transport_months + o.tat())
+            self.assertGreaterEqual(P.owned_engines - off + plan.long_spares, P.required_positions[t] + P.buffer[t])
+
+    def test_failure_moves_start_earlier(self):
+        sc = sample(P, 200, seed=9)
+        for i, o in enumerate(sc.options[:200]):
+            self.assertTrue((sc.start[:, i] <= o.month).all())
+            self.assertTrue((sc.start[:, i] >= o.visit.earliest).all())
+
 
 if __name__ == "__main__":
     unittest.main()

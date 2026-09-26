@@ -49,6 +49,7 @@ METHODS = [
 def quoted(p, seed):
     """Quotes at face value: no findings overrun, no delay, no FX move, no unscheduled removals."""
     sc = sample(p, 1, seed)
+    sc.start[:] = [o.month for o in sc.options]
     for i, o in enumerate(sc.options):
         k = o.shop
         sc.cost[0, i] = k.quotes[o.workscope].price + (k.rush_fee if o.rush else 0.0) + k.transport_cost
@@ -62,6 +63,7 @@ def pessimistic(p, seed, n=20000, q=90):
     return ScenarioSet(
         cost=np.percentile(big.cost, q, axis=0, keepdims=True),
         down=np.ceil(np.percentile(big.down, q, axis=0, keepdims=True)).astype(int),
+        start=np.array([[o.month for o in big.options]]),
         unsched=np.percentile(big.unsched, q, axis=0, keepdims=True),
         options=big.options,
     )

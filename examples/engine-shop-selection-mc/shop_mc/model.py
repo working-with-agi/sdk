@@ -19,9 +19,14 @@ Second stage (per scenario s and month t, after costs / delays / removals are kn
        sum_{i needing an LLP kit, month < kit lead time} x[i] <= kits on hand (+ emergency kits)
        sum_{i inducted in fiscal year y} E[cost_i] x[i] <= budget_y
        q[k] >= min_visits_k - sum_{i at shop k} x[i]                  (take-or-pay)
-       owned - sum_i A[s,i,t] x[i] - U[s,t] + S + l[s,t] + a[s,t] >= D  (coverage)
+       owned - sum_i Q[i,t] x[i] + S >= D_t + B_t                      (planned shelf buffer)
+       owned - sum_i A[s,i,t] x[i] - U[s,t] + S + l[s,t] + sum_j a[s,t,j] >= D_t  (coverage)
 
-A[s,i,t] = 1 if option i keeps its engine off-wing at month t in scenario s.
+D_t = engines the flight schedule needs on wing in month t, B_t = shelf buffer.
+Q[i,t] = 1 if option i is off-wing at t on the quoted schedule; A[s,i,t] = 1 if it is
+off-wing in scenario s (starting at the planned month, or earlier after a failure).
+AOG is tiered: a[s,t,j] <= tier size, cost c_j rising (lowest-margin flights go first),
+times the seasonal multiplier.
 """
 
 from __future__ import annotations
@@ -49,6 +54,8 @@ class Requirements:
     """Company requirements. Each one can be enforced (hard) or relaxed.
 
     budget             keep every fiscal-year budget (relaxed: overspend allowed)
+    buffer             keep the planned shelf buffer of serviceable spares every month
+                       (relaxed: the plan may eat into the buffer)
     service            P(any AOG month) <= Problem.max_aog_prob, as a chance
                        constraint over the SAA scenarios (relaxed: AOG only costs money)
     volume             meet contracted minimum volumes (relaxed: pay the shortfall penalty)
@@ -57,6 +64,7 @@ class Requirements:
     """
 
     budget: bool = True
+    buffer: bool = True
     service: bool = False
     volume: bool = False
     kits_on_hand_only: bool = True
@@ -99,7 +107,12 @@ def solve_saa(
     S = pulp.LpVariable("long_spares", 0, 0 if req.no_new_spares else p.long_spare_max, cat="Integer")
     K = pulp.LpVariable("emergency_kits", 0, 0 if req.kits_on_hand_only else None, cat="Integer")
     l = {(s, t): pulp.LpVariable(f"l_{s}_{t}", 0, p.lease_cap_at(t)) for s in range(N) for t in range(T)}
-    a = {(s, t): pulp.LpVariable(f"a_{s}_{t}", 0) for s in range(N) for t in range(T)}
+    tiers = p.aog_tiers
+    a = {
+        (s, t, j): pulp.LpVariable(f"a_{s}_{t}_{j}", 0, None if cap == float("inf") else cap)
+        for s in range(N) for t in range(T) for j, (cap, _c) in enumerate(tiers)
+    }
+    a_tot = {(s, t): pulp.lpSum(a[s, t, j] for j in range(len(tiers))) for s in range(N) for t in range(T)}
     q = {k.id: pulp.LpVariable(f"shortfall_{k.id}", 0) for k in p.shops if k.min_visits}
 
     # each planned visit happens exactly once
@@ -135,15 +148,26 @@ def solve_saa(
             if req.volume:
                 prob += q[k.id] == 0, f"volume_hard_{k.id}"
 
-    # coverage per scenario and month
-    start = np.array([o.month for o in opts])
+    # planning rule: keep the shelf buffer on the *planned* schedule (quoted times)
+    if req.buffer:
+        for t in range(T):
+            planned_off = [
+                x[i] for i, o in enumerate(opts)
+                if o.month <= t < o.month + o.shop.transport_months + o.tat()
+            ]
+            prob += (
+                p.owned_engines - pulp.lpSum(planned_off) + S >= p.required_positions[t] + p.buffer[t]
+            ), f"buffer_{t}"
+
+    # coverage per scenario and month (actual start: planned month or earlier failure)
     for s in range(N):
+        start = sc.start[s]
         end = start + sc.down[s]
         for t in range(T):
             off = np.nonzero((start <= t) & (t < end))[0]
             prob += (
                 p.owned_engines - pulp.lpSum(x[i] for i in off) - sc.unsched[s, t]
-                + S + l[s, t] + a[s, t] >= p.installed_positions
+                + S + l[s, t] + a_tot[s, t] >= p.required_positions[t]
             ), f"cover_{s}_{t}"
 
     first_stage = (
@@ -152,10 +176,13 @@ def solve_saa(
         + pulp.lpSum(k.shortfall_penalty * q[k.id] for k in p.shops if k.min_visits)
         + p.emergency_kit_premium * K
     )
-    aog = [p.aog_cost_at(t) for t in range(T)]
     scen_cost = [
         pulp.lpSum(sc.cost[s, i] * x[i] for i in range(len(opts)))
-        + pulp.lpSum(p.short_lease_cost * l[s, t] + aog[t] * a[s, t] for t in range(T))
+        + pulp.lpSum(
+            p.short_lease_cost * l[s, t]
+            + p.season(t) * pulp.lpSum(c * a[s, t, j] for j, (_cap, c) in enumerate(tiers))
+            for t in range(T)
+        )
         for s in range(N)
     ]
     objective = first_stage + pulp.lpSum(scen_cost) / N
@@ -165,7 +192,7 @@ def solve_saa(
         zs = [pulp.LpVariable(f"aog_any_{s}", cat="Binary") for s in range(N)]
         for s in range(N):
             for t in range(T):
-                prob += a[s, t] <= p.installed_positions * zs[s], f"aog_flag_{s}_{t}"
+                prob += a_tot[s, t] <= p.installed_positions * zs[s], f"aog_flag_{s}_{t}"
         # SAA chance constraints are optimistic out of sample, so the in-sample level is
         # tightened (service_margin < 1) and the result is always re-checked by Monte Carlo
         prob += pulp.lpSum(zs) <= int(p.max_aog_prob * service_margin * N), "service_target"

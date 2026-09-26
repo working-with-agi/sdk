@@ -30,6 +30,11 @@ def _blocker(p: Problem, sc: ScenarioSet, idx: list[int], exp_cost: np.ndarray) 
         for t in range(p.horizon):
             if sum(1 for o in chosen if o.shop is k and o.month <= t < o.month + o.tat()) > k.slots:
                 return "工場枠"
+    S = getattr(_blocker, "long_spares", 0)
+    for t in range(p.horizon):
+        planned_off = sum(1 for o in chosen if o.month <= t < o.month + o.shop.transport_months + o.tat())
+        if p.owned_engines - planned_off + S < p.required_positions[t] + p.buffer[t]:
+            return "予備バッファ"
     early = sum(1 for o in chosen if o.workscope in p.llp_workscopes and o.month < p.llp_kit_lead_months)
     if early > p.llp_kits_on_hand:
         return "LLP キット"
@@ -116,3 +121,59 @@ def analyse(p: Problem, plan: Plan, sc: ScenarioSet) -> dict:
         "now_count": sum(1 for e in engines if e["status"] == "now"),
         "engines": engines,
     }
+
+
+def exceptions(p: Problem, plan: Plan, sc: ScenarioSet) -> list[dict]:
+    """Why is an engine removed before its hard limit? ("don't go early" is the rule)
+
+    For every engine planned before ``latest``, try the same shop and workscope in each
+    later month up to ``latest`` and record what stops it or what it would cost.
+    """
+    exp_cost = sc.cost.mean(axis=0)
+    base = evaluate(p, plan, sc)
+    _blocker.long_spares = plan.long_spares
+    out = []
+    for i_star in sorted(plan.chosen, key=lambda i: sc.options[i].month):
+        o = sc.options[i_star]
+        v = o.visit
+        if o.month >= v.latest:
+            continue
+        others = [i for i in plan.chosen if i != i_star]
+        reasons, best_delta = [], None
+        for t in range(o.month + 1, v.latest + 1):
+            later = next(
+                (i for i, x in enumerate(sc.options)
+                 if x.visit is v and x.shop is o.shop and x.workscope == o.workscope and x.month == t and x.rush == o.rush),
+                None,
+            )
+            if later is None:
+                continue
+            why = _blocker(p, sc, others + [later], exp_cost)
+            if why:
+                reasons.append(f"{p.month_label(t)}: {why}")
+                continue
+            ev = evaluate(p, replace(plan, chosen=others + [later]), sc)
+            d = ev.mean - base.mean
+            if best_delta is None or d < best_delta[0]:
+                best_delta = (d, p.month_label(t), ev.aog_prob - base.aog_prob)
+        tags = []
+        if v.watch:
+            tags.append("要監視エンジン（故障リスク高）")
+        busy = range(o.month, v.latest + o.shop.transport_months + o.tat())
+        if any(p.is_peak(t) for t in range(v.latest, v.latest + o.shop.transport_months + o.tat())) and not any(
+            p.is_peak(t) for t in range(o.month, o.month + o.shop.transport_months + o.tat())
+        ):
+            tags.append("期限まで待つと繁忙期に不在")
+        del busy
+        out.append({
+            "esn": v.esn,
+            "planned": p.month_label(o.month),
+            "limit": p.month_label(v.latest),
+            "months_early": v.latest - o.month,
+            "green_time_value": v.green_time_value * (v.latest - o.month),
+            "tags": tags,
+            "blocked_later": reasons,
+            "cost_if_later": None if best_delta is None else {"delta": best_delta[0], "month": best_delta[1], "aog_delta": best_delta[2]},
+        })
+    _blocker.long_spares = 0
+    return out

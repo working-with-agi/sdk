@@ -1,6 +1,8 @@
 """Monte Carlo scenario generation.
 
 A scenario fixes, for every first-stage option i (visit, shop, workscope, month, rush):
+  start[s, i] month the engine actually leaves the wing: the planned month, or earlier
+              if it fails in service first (then the visit is forced)
   cost[s, i]  realised shop-visit cost borne by the operator [k$]
   down[s, i]  realised off-wing months (shipping + TAT + delays)
 and for every month t:
@@ -10,7 +12,9 @@ Sources of uncertainty:
   findings   teardown findings push cost above the quote (engine property)
   delay      shop-wide congestion + engine-specific delay
   fx         home/foreign exchange rate for quotes in foreign currency
-  unsched    unscheduled removals (Poisson arrivals, random shop time)
+  failure    in-service failure of a planned engine while it waits for its visit
+             (monthly hazard from ``earliest``; watch-list engines have a high hazard)
+  unsched    unscheduled removals of the rest of the fleet (Poisson, random shop time)
 
 Common random numbers: findings are a property of the *engine*, so the same draw
 is used for every shop / workscope of an engine; shops then differ in how likely
@@ -32,6 +36,7 @@ from .data import Option, Problem
 class ScenarioSet:
     cost: np.ndarray  # (S, I)
     down: np.ndarray  # (S, I) int
+    start: np.ndarray  # (S, I) int
     unsched: np.ndarray  # (S, T) float
     options: list[Option]
 
@@ -49,6 +54,7 @@ class Draws:
     shop_delay: np.ndarray  # (S, shops)
     eng_delay: np.ndarray  # (S, visits, shops)
     fx: np.ndarray  # (S,)  foreign-currency cost multiplier
+    fail: np.ndarray  # (S, visits) month of in-service failure (large = none)
     unsched: np.ndarray  # (S, T)
 
 
@@ -80,7 +86,17 @@ def draw(p: Problem, n: int, seed: int) -> Draws:
         ).reshape(n, nv, ns),
         fx=_lognormal(1.0, np.sqrt(np.expm1(p.fx_vol**2)), rng.standard_normal(n)) if p.fx_vol else np.ones(n),
         unsched=_unscheduled(p, n, rng),
+        fail=_failures(p, n, rng),
     )
+
+
+def _failures(p: Problem, n: int, rng: np.random.Generator) -> np.ndarray:
+    never = 10**6
+    out = np.full((n, len(p.visits)), never, dtype=int)
+    for j, v in enumerate(p.visits):
+        if v.hazard > 0:
+            out[:, j] = v.earliest + rng.geometric(v.hazard, size=n) - 1
+    return out
 
 
 def sample(p: Problem, n: int, seed: int) -> ScenarioSet:
@@ -91,23 +107,29 @@ def sample(p: Problem, n: int, seed: int) -> ScenarioSet:
 
     cost = np.empty((n, len(options)))
     down = np.empty((n, len(options)), dtype=int)
+    start = np.empty((n, len(options)), dtype=int)
     for i, o in enumerate(options):
         e, s, k = esn_idx[o.visit.esn], shop_idx[o.shop.id], o.shop
         q = k.quotes[o.workscope]
         overrun = overrun_fraction(k, d.find_u[:, e], d.find_z[:, e])
         billed = q.price * (1 + k.overrun_share * overrun) + (k.rush_fee if o.rush else 0.0)
         fx = d.fx if k.currency != "HOME" else 1.0
-        cost[:, i] = billed * fx + k.transport_cost
-        down[:, i] = k.transport_months + o.tat() + d.shop_delay[:, s] + d.eng_delay[:, e, s]
+        failed = d.fail[:, e] < o.month
+        start[:, i] = np.where(failed, d.fail[:, e], o.month)
+        cost[:, i] = (billed * fx + k.transport_cost) * np.where(failed, p.failure_cost_factor, 1.0)
+        down[:, i] = (
+            k.transport_months + o.tat() + d.shop_delay[:, s] + d.eng_delay[:, e, s]
+            + np.where(failed, p.failure_extra_months, 0)
+        )
 
-    return ScenarioSet(cost, down, d.unsched, options)
+    return ScenarioSet(cost, down, start, d.unsched, options)
 
 
 def _unscheduled(p: Problem, n: int, rng: np.random.Generator) -> np.ndarray:
     """Engines off-wing per month from unscheduled removals (Poisson arrivals)."""
     T = p.horizon
     out = np.zeros((n, T))
-    arrivals = rng.poisson(p.unsched_rate * p.owned_engines, size=(n, T))
+    arrivals = rng.poisson(p.unsched_rate * p.background_engines, size=(n, T))
     for s, t in zip(*np.nonzero(arrivals)):
         for _ in range(arrivals[s, t]):
             dur = rng.choice(p.unsched_tat, p=p.unsched_tat_probs)
@@ -126,6 +148,7 @@ def mean_value(p: Problem, n: int = 20000, seed: int = 0) -> ScenarioSet:
     return ScenarioSet(
         cost=big.cost.mean(axis=0, keepdims=True),
         down=np.rint(big.down.mean(axis=0, keepdims=True)).astype(int),
+        start=np.array([[o.month for o in big.options]]),
         unsched=big.unsched.mean(axis=0, keepdims=True),
         options=big.options,
     )
@@ -153,7 +176,7 @@ def input_distributions(p: Problem, n: int = 20000, seed: int = 0) -> dict:
             "delay_probs": (counts / counts.sum()).tolist(),
         })
     rng = np.random.default_rng(seed + 1)
-    total_unsched = rng.poisson(p.unsched_rate * p.owned_engines * p.horizon, size=n)
+    total_unsched = rng.poisson(p.unsched_rate * p.background_engines * p.horizon, size=n)
     uv, uc = np.unique(total_unsched, return_counts=True)
     fx_edges = np.linspace(0.7, 1.3, 25)
     return {
@@ -165,6 +188,10 @@ def input_distributions(p: Problem, n: int = 20000, seed: int = 0) -> dict:
         "unsched_counts": uv.tolist(),
         "unsched_probs": (uc / n).tolist(),
         "aog_cost_by_month": [p.aog_cost_at(t) for t in range(p.horizon)],
+        "aog_tiers": [[None if e == float("inf") else e, c] for e, c in p.aog_tiers],
+        "required_positions": p.required_positions,
+        "buffer": p.buffer,
+        "hazards": [{"esn": v.esn, "hazard": v.hazard, "watch": v.watch, "operator": v.operator} for v in p.visits],
         "lease_cap_by_month": [p.lease_cap_at(t) for t in range(p.horizon)],
         "month_labels": [p.month_label(t) for t in range(p.horizon)],
     }

@@ -72,6 +72,12 @@ class Visit:
     green_time_value: float
     """Value of one month of remaining on-wing life [k$/month]: inducting before
     ``latest`` throws this away for every month of margin left."""
+    hazard: float = 0.0
+    """Monthly probability of an unscheduled removal (failure) while the engine stays
+    on wing from ``earliest`` until its planned induction."""
+    watch: bool = False
+    """On the watch list (fast EGT deterioration, borescope findings, ...)."""
+    operator: str = ""
 
 
 class Option(NamedTuple):
@@ -90,7 +96,10 @@ class Option(NamedTuple):
 class Problem:
     start: str
     horizon: int
-    installed_positions: int
+    required_positions: list[int]
+    """Engines that must be on wing each month = 2 x aircraft the schedule needs."""
+    buffer: list[int]
+    """Serviceable spare engines to keep on the shelf each month (planning rule)."""
     owned_engines: int
     short_lease_cost: float
     short_lease_max: int
@@ -98,11 +107,19 @@ class Problem:
     """Lease engines available in peak months (the market is tight then)."""
     long_spare_cost: float
     long_spare_max: int
-    aog_cost: float
+    aog_tiers: list[tuple[float, float]]
+    """[(engines, cost per engine-month)]: uncovered positions cancel the lowest-margin
+    flying first, so each extra missing engine costs more (last tier: engines=inf)."""
     aog_peak_multiplier: dict[int, float]
     """Calendar month (1-12) -> multiplier on AOG cost (holiday / summer peaks)."""
     unsched_rate: float
-    """Unscheduled removals per engine-month (1 / MTBUR)."""
+    """Unscheduled removals per engine-month (1 / MTBUR) for engines not in the plan."""
+    background_engines: int
+    """Engines whose unscheduled removals are modelled as a fleet-level Poisson process."""
+    failure_cost_factor: float
+    """Cost multiplier for a visit forced by an in-service failure (secondary damage)."""
+    failure_extra_months: int
+    """Extra off-wing months for a forced visit (no slot booked, parts not ready)."""
     unsched_tat: tuple[int, ...]
     unsched_tat_probs: tuple[float, ...]
     build_value: dict[str, float]
@@ -138,8 +155,16 @@ class Problem:
         y, m = self.calendar(t)
         return f"FY{y if m >= self.fiscal_year_start_month else y - 1}"
 
+    @property
+    def installed_positions(self) -> int:
+        return max(self.required_positions)
+
+    def season(self, t: int) -> float:
+        return self.aog_peak_multiplier.get(self.calendar(t)[1], 1.0)
+
     def aog_cost_at(self, t: int) -> float:
-        return self.aog_cost * self.aog_peak_multiplier.get(self.calendar(t)[1], 1.0)
+        """Cost of the first missing engine in month t (lowest tier)."""
+        return self.aog_tiers[0][1] * self.season(t)
 
     def is_peak(self, t: int) -> bool:
         return self.aog_peak_multiplier.get(self.calendar(t)[1], 1.0) > 1.0
@@ -197,16 +222,23 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
     p = Problem(
         start=f.get("start", "2026-01"),
         horizon=f["horizon_months"],
-        installed_positions=f["installed_positions"],
+        required_positions=_monthly(f, "required_positions", f.get("installed_positions")),
+        buffer=_monthly(f, "buffer_spares", 0),
         owned_engines=f["owned_engines"],
         short_lease_cost=lease["cost_per_month"],
         short_lease_max=lease["max_engines"],
         short_lease_max_peak=lease.get("max_engines_peak", lease["max_engines"]),
         long_spare_cost=f["long_term_spare"]["cost_per_month"],
         long_spare_max=f["long_term_spare"]["max_engines"],
-        aog_cost=f["aog_cost_per_month"],
+        aog_tiers=[
+            (float("inf") if t.get("engines") is None else t["engines"], t["cost_per_month"])
+            for t in f.get("aog_tiers", [{"engines": None, "cost_per_month": f.get("aog_cost_per_month", 0)}])
+        ],
         aog_peak_multiplier={int(m): x for m, x in f.get("aog_peak_multiplier", {}).items()},
         unsched_rate=f["unscheduled_removals"]["rate_per_engine_month"],
+        background_engines=f["unscheduled_removals"].get("background_engines", f["owned_engines"]),
+        failure_cost_factor=f["unscheduled_removals"].get("failure_cost_factor", 1.0),
+        failure_extra_months=f["unscheduled_removals"].get("failure_extra_months", 0),
         unsched_tat=tuple(f["unscheduled_removals"]["tat_months"]),
         unsched_tat_probs=tuple(f["unscheduled_removals"]["tat_probs"]),
         build_value=f["workscope_build_value"],
@@ -222,6 +254,9 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
             Visit(
                 e["esn"], e["window"][0], e["window"][1], tuple(e["allowed_workscopes"]),
                 e.get("green_time_value_per_month", f.get("green_time_value_per_month", 0.0)),
+                e.get("hazard", f.get("default_hazard", 0.0)),
+                e.get("watch", False),
+                e.get("operator", ""),
             )
             for e in f["engines"]
         ],
@@ -231,7 +266,14 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
     return p
 
 
+def _monthly(f: dict, key: str, default) -> list[int]:
+    v = f.get(key, default)
+    return list(v) if isinstance(v, list) else [v] * f["horizon_months"]
+
+
 def _validate(p: Problem) -> None:
+    if len(p.required_positions) != p.horizon or len(p.buffer) != p.horizon:
+        raise ValueError("required_positions / buffer_spares must have one value per month")
     for k in p.shops:
         for probs in (k.shop_delay_probs, k.engine_delay_probs):
             if abs(sum(probs) - 1) > 1e-9:

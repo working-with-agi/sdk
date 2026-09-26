@@ -38,17 +38,24 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
     T = p.horizon
     idx = np.array(plan.chosen)
     chosen = [sc.options[i] for i in idx]
-    start = np.array([o.month for o in chosen])
     months = np.arange(T)
+    start = sc.start[:, idx]  # (S, visits)
 
     visit_cost = sc.cost[:, idx].sum(axis=1)
-    end = start[None, :] + sc.down[:, idx]  # (S, visits)
-    off = ((start[None, :, None] <= months) & (months < end[:, :, None])).sum(axis=1)  # (S, T)
+    end = start + sc.down[:, idx]
+    off = ((start[:, :, None] <= months) & (months < end[:, :, None])).sum(axis=1)  # (S, T)
     available = p.owned_engines - off - sc.unsched + plan.long_spares
-    short = np.maximum(0.0, p.installed_positions - available)
+    short = np.maximum(0.0, np.array(p.required_positions) - available)
     lease = np.minimum(short, np.array([p.lease_cap_at(t) for t in range(T)]))
     aog = short - lease
-    aog_cost = np.array([p.aog_cost_at(t) for t in range(T)])
+    # tiered AOG cost: the lowest-margin flying is cancelled first
+    season = np.array([p.season(t) for t in range(T)])
+    aog_money = np.zeros_like(aog)
+    left = aog.copy()
+    for cap, c in p.aog_tiers:
+        take = np.minimum(left, cap)
+        aog_money += take * c
+        left -= take
 
     shortfall = sum(
         k.shortfall_penalty * max(0, k.min_visits - sum(1 for o in chosen if o.shop is k)) for k in p.shops
@@ -57,7 +64,7 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
         p.long_spare_cost * T * plan.long_spares + sum(fixed_cost(p, o) for o in chosen) + shortfall
         + p.emergency_kit_premium * plan.emergency_kits
     )
-    total = first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + (aog * aog_cost).sum(1)
+    total = first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + (aog_money * season).sum(1)
     q = np.sort(total)
     return Evaluation(
         n=len(total),
