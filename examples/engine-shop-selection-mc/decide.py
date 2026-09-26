@@ -173,6 +173,7 @@ def main(argv=None) -> int:
     ap.add_argument("--fragment", action="store_true")
     ap.add_argument("--levers", type=Path, default=Path("levers.json"), help="output of levers.py (optional)")
     ap.add_argument("--explore", type=Path, default=Path("explore.json"), help="output of explore.py (optional)")
+    ap.add_argument("--actions", type=Path, default=Path("actions.json"), help="output of actions.py (optional)")
     ap.add_argument("--sensitivity", type=Path, default=Path("sensitivity.json"), help="output of sensitivity.py (optional)")
     args = ap.parse_args(argv)
 
@@ -360,6 +361,8 @@ def load_analysis(args) -> dict:
         e = json.loads(args.explore.read_text(encoding="utf-8"))
         out["explore"] = {k: e[k] for k in ("factors", "labels", "patterns", "rules", "rule_fit", "effects", "wall_seconds")}
         out["explore"]["n"] = len(e["runs"])
+    if args.actions.exists():
+        out["actions"] = json.loads(args.actions.read_text(encoding="utf-8"))
     if args.sensitivity.exists():
         runs = json.loads(args.sensitivity.read_text(encoding="utf-8"))["runs"]
         be = sorted((r for r in runs if r["kind"] == "breakeven" and r["feasible"]), key=lambda r: r["f"]["midlife"])
@@ -412,6 +415,17 @@ def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals, ana
             f"{'・'.join(broken[:2])}（優先順位が上）を基準・MRO 混雑の両方では守れないため、"
             f"{d:,.0f} k$ の上乗せで案{rec['key']}を選ぶ。"
         )
+    act = analysis.get("actions")
+    if act and len(act["bundle"]) > 1:
+        first, last = act["bundle"][0], act["bundle"][-1]
+        names = [act["catalogue"][a]["label"] for a in last["actions"]]
+        w = act["weights"]
+        wm = lambda step: sum(w[c] * step[c]["mean"] for c in w if step.get(c))  # noqa: E731
+        points.insert(0,
+            f"取れる手を効果の大きい順に重ねると「{'」→「'.join(names)}」。加重期待総コストは "
+            f"{wm(first):,.0f} → {wm(last):,.0f} k$（{wm(last) - wm(first):+,.0f}）、MRO 混雑時の欠航確率は "
+            f"{first['backlog']['aog_prob']:.1%} → {last['backlog']['aog_prob']:.1%}。"
+        )
     be = analysis.get("breakeven")
     if be:
         many = [r["price"] for r in be if r["swaps"] >= len(p.visits) // 3]
@@ -439,6 +453,8 @@ def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals, ana
     if soon:
         decisions.append(f"3 か月以内に確定: {'、'.join(soon)}")
     kits = rec["cases"]["base"]["emergency_kits"]
+    if act and len(act["bundle"]) > 1:
+        decisions.append("打ち手の実行を決める: " + "、".join(act["catalogue"][a]["label"] for a in act["bundle"][-1]["actions"]))
     if be:
         decisions.append("中寿命エンジン（CFM56-7B）の市場見積もりを取得：正味価格が判断の分岐点")
     decisions.append(f"LLP キットの発注計画（手持ち {p.llp_kits_on_hand} セット、調達 {p.llp_kit_lead_months} か月）" + (f"、緊急調達 {kits} セット" if kits else ""))

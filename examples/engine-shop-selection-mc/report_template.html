@@ -130,6 +130,16 @@ a { color: var(--accent); }
     </div>
   </section>
 
+  <div class="section-label" id="ac-label"><span class="step"></span><h2>取れる手と、それで何が変わるか</h2></div>
+  <section class="panel" id="ac-panel" aria-label="取れる手と効果">
+    <p class="sub">打ち手を 1 つずつ入れて計画を解き直し、同じ乱数のシナリオで評価した変化です。数値は打ち手なしとの差（期待総コスト k$）と欠航確率。3 つの前提ケースそれぞれで最適化しています。</p>
+    <div class="scroll"><table class="t-alt" id="acts"></table></div>
+    <div class="grid2">
+      <div><h3>効果の大きい順に重ねると</h3><svg id="bundle" viewBox="0 0 440 240" role="img" aria-label="打ち手を重ねたときの期待総コストと欠航確率"></svg><ol class="clean note" id="bundle-list"></ol></div>
+      <div><h3>組み合わせの相性</h3><p class="hint">2 つ同時に入れたときの効果 − それぞれ単独の効果の和。マイナスは足し算以上に効く（補完）、プラスは効果が重なって打ち消し合う（代替）。</p><ul class="clean" id="inter" style="margin-top:8px"></ul></div>
+    </div>
+  </section>
+
   <div class="section-label"><span class="step">1</span><h2>前提と「あるべき姿」</h2></div>
   <section class="panel" aria-label="前提">
     <div class="facts" id="facts"></div>
@@ -389,6 +399,47 @@ const R = /*__DATA__*/null;
         owned.map((o) => `<tr><td class="mono">${o} 基</td>${[0, 1].map((s) => { const v = cell(o, s); return `<td class="n"><span class="chip ${v == null ? "" : v > 0.1 ? "ng" : v > 0.05 ? "mid" : "ok"}">${v == null ? "—" : pct(v)}</span></td>`; }).join("")}</tr>`).join("") + "</tbody>";
     }
   } else { $("ex-label").hidden = true; $("ex-panel").hidden = true; }
+
+  /* actions */
+  if (A.actions) {
+    const X = A.actions, cs = Object.keys(X.cases);
+    const cat = {};
+    X.singles.forEach((r) => { (cat[r.category] = cat[r.category] || []).push(r); });
+    let h = `<thead><tr><th>分類</th><th>打ち手</th>${cs.map((c) => `<th class="n">${esc(X.cases[c])}<span class="cell-sub">差 k$ ／ 欠航確率</span></th>`).join("")}</tr></thead><tbody>`;
+    h += `<tr><td></td><td class="hint">打ち手なし</td>${cs.map((c) => `<td class="n"><span class="num">${fmt(X.reference[c].mean)}</span><span class="cell-sub">${pct(X.reference[c].aog_prob)}</span></td>`).join("")}</tr>`;
+    Object.entries(cat).forEach(([k, rows]) => rows.forEach((r, i) => {
+      h += `<tr><td>${i === 0 ? `<span class="owner">${esc(k)}</span>` : ""}</td><td>${esc(r.label)}</td>` + cs.map((c) => {
+        const v = r.cases[c];
+        if (!v) return `<td class="n"><span class="chip ng">成立せず</span></td>`;
+        const cls = v.delta < -500 ? "ok" : v.delta > 500 ? "ng" : "";
+        return `<td class="n"><span class="chip ${cls}">${v.delta > 0 ? "+" : "−"}${fmt(Math.abs(v.delta))}</span><span class="cell-sub">${pct(v.aog_prob)}${v.partouts ? `・部品取り ${v.partouts}` : ""}${v.swaps ? `・入替 ${v.swaps}` : ""}</span></td>`;
+      }).join("") + "</tr>";
+    }));
+    $("acts").innerHTML = h + "</tbody>";
+    const B = X.bundle, wsum = (st) => Object.entries(X.weights).reduce((a, [c, w]) => a + w * st[c].mean, 0);
+    const W = 440, H = 240, L = 58, Rr = 44, T = 14, Bm = 30, n = B.length;
+    const vals = B.map(wsum), lo = Math.min(...vals), hi = Math.max(...vals), ao = B.map((st) => st.backlog.aog_prob), amax = Math.max(0.01, ...ao);
+    const x = (i) => L + (n === 1 ? 0 : i / (n - 1) * (W - L - Rr)), y = (v) => H - Bm - (hi - lo < 1 ? 0.5 : (v - lo) / (hi - lo)) * (H - T - Bm), ya = (v) => H - Bm - v / amax * (H - T - Bm);
+    let g = "";
+    [lo, (lo + hi) / 2, hi].forEach((v) => { g += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${fmt(v)}</text>`; });
+    [0, amax].forEach((v) => { g += `<text x="${W - Rr + 6}" y="${ya(v) + 3}">${pct(v)}</text>`; });
+    B.forEach((st, i) => { g += `<text x="${x(i)}" y="${H - Bm + 16}" text-anchor="middle">${i}</text>`; });
+    g += `<polyline class="have" points="${vals.map((v, i) => `${x(i)},${y(v)}`).join(" ")}"/>`;
+    g += `<polyline fill="none" stroke="var(--warn)" stroke-width="1.5" stroke-dasharray="4 3" points="${ao.map((v, i) => `${x(i)},${ya(v)}`).join(" ")}"/>`;
+    vals.forEach((v, i) => { g += `<circle class="have-dot" cx="${x(i)}" cy="${y(v)}" r="3"><title>${i} 手: ${fmt(v)} k$</title></circle>`; });
+    g += `<line class="axis" x1="${L}" x2="${W - Rr}" y1="${H - Bm}" y2="${H - Bm}"/>`;
+    $("bundle").innerHTML = g;
+    $("bundle-list").innerHTML = B.slice(1).map((st, i) => `<li>${esc(X.catalogue[st.actions[i]].label)}：加重期待総コスト ${fmt(wsum(st))} k$、混雑時の欠航確率 ${pct(st.backlog.aog_prob)}</li>`).join("") +
+      `<li class="hint" style="list-style:none">実線 = 加重期待総コスト（左軸）、破線 = MRO 混雑時の欠航確率（右軸）</li>`;
+    const I = X.interactions.filter((z) => Math.abs(z.interaction) > 300);
+    const show = [...I.slice(0, 3), ...I.slice(-3).reverse()].filter((v, i, arr) => arr.indexOf(v) === i);
+    $("inter").innerHTML = show.length ? show.map((z) => `<li><span class="chip ${z.interaction < 0 ? "ok" : "mid"}">${z.interaction < 0 ? "補完" : "代替"}</span> ${esc(X.catalogue[z.a].label)} ＋ ${esc(X.catalogue[z.b].label)}（${esc(X.cases[z.case])}）<span class="cell-sub">${z.interaction > 0 ? "+" : "−"}${fmt(Math.abs(z.interaction))} k$</span></li>`).join("")
+      : `<li class="hint">目立った相互作用はありません（打ち手の効果はほぼ足し算）。</li>`;
+  } else { $("ac-label").hidden = true; $("ac-panel").hidden = true; }
+
+  /* number the visible sections in order */
+  let k = 0;
+  document.querySelectorAll(".section-label").forEach((el) => { if (!el.hidden) el.querySelector(".step").textContent = ++k; });
 
   $("triggers").innerHTML = C.triggers.map((t) => `<li>${esc(t)}</li>`).join("");
 })();
