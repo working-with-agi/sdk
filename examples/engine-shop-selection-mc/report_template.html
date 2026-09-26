@@ -44,7 +44,7 @@ header { display: grid; gap: 8px; }
 .verdict { border-left: 4px solid var(--accent); padding-left: 16px; display: grid; gap: 10px; }
 .verdict .headline { font-size: 20px; font-weight: 700; line-height: 1.5; text-wrap: balance; }
 .cols { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; }
-ul.clean { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+ul.clean, ol.clean { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
 .owner { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); margin-right: 6px; }
 .chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
 .chip.ok { background: var(--good-soft); color: var(--good); }
@@ -148,7 +148,12 @@ a { color: var(--accent); }
 
   <div class="section-label"><span class="step">2</span><h2>要望は同時に満たせるか</h2></div>
   <section class="panel" aria-label="要望の衝突">
-    <p class="sub">前提ケースごとに、全要望を課した計画が存在するかと、要望を 1 つだけ緩めたときに期待総コストがどれだけ下がるか（その要望の「値段」）を示します。</p>
+    <div class="cols">
+      <div><h3>要望の優先順位</h3><ol class="clean" id="priority" style="margin-top:8px"></ol>
+        <p class="hint" style="margin-top:6px">耐空性（期限・要監視エンジン）は全要望の上位で、緩めません。順位は会社が決めるもので、ここでは一般的な航空会社の例を置いています（<code>requirement_priority</code> で変更可）。</p></div>
+      <div><h3>優先順位どおりに諦めると</h3><ul class="clean" id="ladder" style="margin-top:8px"></ul></div>
+    </div>
+    <p class="sub">下表は、前提ケースごとに全要望を課した計画が存在するかと、要望を 1 つだけ緩めたときに期待総コストがどれだけ下がるか（その要望の「値段」）です。</p>
     <div class="scroll"><table class="t-req" id="req"></table></div>
     <div id="cases" class="note"></div>
   </section>
@@ -180,7 +185,24 @@ a { color: var(--accent); }
     <div class="scroll"><table class="t-exc" id="exc"></table></div>
   </section>
 
-  <div class="section-label"><span class="step">6</span><h2>計画を見直す条件</h2></div>
+  <div class="section-label" id="lv-label"><span class="step">6</span><h2>よく取られる打ち手の効果</h2></div>
+  <section class="panel" id="lv-panel" aria-label="打ち手の効果">
+    <p class="sub">案A の条件に打ち手を 1 つずつ加えて解き直し、同じシナリオで評価した差です（価格は公開市況からの概算）。</p>
+    <div class="scroll"><table class="t-alt" id="levers"></table></div>
+  </section>
+
+  <div class="section-label" id="ex-label"><span class="step">7</span><h2>条件によって答えはどう変わるか</h2></div>
+  <section class="panel" id="ex-panel" aria-label="条件別の答え">
+    <p class="sub" id="ex-lead"></p>
+    <ul class="clean" id="rules"></ul>
+    <div class="grid2">
+      <div><h3>中寿命エンジンの価格と入れ替え数</h3><svg id="be" viewBox="0 0 440 220" role="img" aria-label="中寿命エンジン価格と入れ替え数"></svg></div>
+      <div><h3>機材割当との接点：予備の厚さ × 他機種の肩代わり</h3><div class="scroll"><table id="coup"></table></div>
+        <p class="hint">欠航確率（1機の価値 0.5〜2 倍の範囲の最大値）。機材割当は別の最適化問題で、そこから受け取るべきは「他機種が月に何機肩代わりできるか」。</p></div>
+    </div>
+  </section>
+
+  <div class="section-label"><span class="step">8</span><h2>計画を見直す条件</h2></div>
   <section class="panel" aria-label="再検討のトリガー"><ul class="clean" id="triggers"></ul></section>
 
   <section class="panel" aria-label="方法と注意">
@@ -280,9 +302,9 @@ const R = /*__DATA__*/null;
         <div class="chips">${relaxed}</div></div>`;
     }).join("");
     const reqKeys = ["budget", "buffer", "volume", "kits_on_hand_only", "no_new_spares", "service"];
-    let h = `<thead><tr><th>案</th>${CASES.map((c) => `<th class="n">${esc(R.cases[c].label)}<span class="cell-sub">平均 k$ ／ 欠航確率</span></th>`).join("")}<th>基準ケースで守れない要望</th></tr></thead><tbody>`;
+    let h = `<thead><tr><th>案</th>${CASES.map((c) => `<th class="n">${esc(R.cases[c].label)}<span class="cell-sub">平均 k$ ／ 欠航確率</span></th>`).join("")}<th>要望（優先順・基準と混雑の両方で）</th></tr></thead><tbody>`;
     R.alternatives.filter((a) => a.feasible).forEach((a) => {
-      const broken = reqKeys.filter((r) => !a.cases.base.met[r]).map((r) => `<span class="chip ng">${esc(REQ[r].label)}</span>`).join(" ") || '<span class="chip ok">なし</span>';
+      const broken = (a.met_in_priority || []).map((m, i) => `<span class="chip ${m.met ? "ok" : "ng"}">${i + 1}. ${esc(REQ[m.req].label)}</span>`).join(" ");
       h += `<tr class="${a.key === R.recommended ? "rec" : ""}"><td><strong>案${a.key}</strong> ${esc(a.label)}</td>` +
         CASES.map((c) => { const v = a.cases[c]; return `<td class="n"><span class="num">${fmt(v.mean)}</span><span class="cell-sub">${pct(v.aog_prob)}${v.aog_prob > M.service_target ? " ⚠" : ""}</span></td>`; }).join("") +
         `<td><div class="chips">${broken}</div></td></tr>`;
@@ -323,6 +345,50 @@ const R = /*__DATA__*/null;
         return `<tr><td class="mono">${e.esn}</td><td class="mono">${e.planned}</td><td class="mono">${e.limit}</td><td class="n">${e.months_early} か月</td><td><div class="chips">${why.join("") || '<span class="hint">費用最小</span>'}</div></td><td class="hint">${blocked}${blocked && later ? "<br>" : ""}${later}</td></tr>`;
       }).join("") + "</tbody>";
   })();
+
+  /* priority + ladder */
+  $("priority").innerHTML = R.priority.map((r) => `<li>${esc(REQ[r].label)} <span class="owner">${esc(REQ[r].owner)}</span></li>`).join("");
+  $("ladder").innerHTML = CASES.map((c) => {
+    const L = R.ladders[c], dropped = L.steps.filter((s) => s.relaxed).map((s) => REQ[s.relaxed].label);
+    const ok = L.steps[L.steps.length - 1].feasible;
+    return `<li><strong>${esc(R.cases[c].label)}</strong>：` + (!dropped.length ? "全要望を守れる" : ok ? `「${dropped.map(esc).join("」→「")}」の順に諦めて成立` : "すべて諦めても成立しない") +
+      (L.mean != null ? `<span class="cell-sub">期待総コスト ${fmt(L.mean)} k$・欠航確率 ${pct(L.aog)}</span>` : "") + "</li>";
+  }).join("");
+
+  /* levers */
+  const A = R.analysis || {};
+  if (A.levers) {
+    $("levers").innerHTML = `<thead><tr><th>打ち手</th><th class="n">基準：期待総コスト差</th><th class="n">基準：欠航確率</th><th class="n">MRO 混雑：差</th><th class="n">MRO 混雑：欠航確率</th><th class="n">期限前取卸し</th></tr></thead><tbody>` +
+      A.levers.filter((l) => l.feasible).map((l) => `<tr><td>${esc(l.label)}</td><td class="n">${l.key === "none" ? "基準" : (l.delta_base > 0 ? "+" : "−") + fmt(Math.abs(l.delta_base))}</td><td class="n">${pct(l.base.aog_prob)}</td><td class="n">${l.key === "none" ? "基準" : (l.delta_backlog > 0 ? "+" : "−") + fmt(Math.abs(l.delta_backlog))}</td><td class="n">${pct(l.backlog.aog_prob)}</td><td class="n">${l.green_time_lost_months} か月</td></tr>`).join("") + "</tbody>";
+  } else { $("lv-label").hidden = true; $("lv-panel").hidden = true; }
+
+  /* explore */
+  if (A.explore || A.breakeven) {
+    const E = A.explore;
+    if (E) {
+      $("ex-lead").textContent = `確定できない ${Object.keys(E.factors).length} つのパラメーターを振った ${E.n} 通りで、打ち手を最適化に選ばせ、選ばれた打ち手の組み合わせで分類しました（決定木の一致率 ${(E.rule_fit * 100).toFixed(0)}%）。`;
+      $("rules").innerHTML = E.rules.map((r) => `<li>もし ${r.if.map(([k, op, v]) => `${esc(E.labels[k])} ${op === "<=" ? "≤" : ">"} ${v}`).join(" かつ ") || "（常に）"} → <strong>${esc(r.then)}</strong><span class="cell-sub">${r.n} 通り・一致 ${(r.purity * 100).toFixed(0)}%</span></li>`).join("");
+    }
+    if (A.breakeven) {
+      const B = A.breakeven, W = 440, H = 220, L = 40, Rr = 10, T = 12, Bm = 36;
+      const xs = B.map((b) => b.price), maxS = Math.max(...B.map((b) => b.swaps), 1);
+      const x = (v) => L + (v - xs[0]) / (xs[xs.length - 1] - xs[0]) * (W - L - Rr), y = (v) => H - Bm - v / maxS * (H - T - Bm);
+      let g = "";
+      [0, Math.round(maxS / 2), maxS].forEach((v) => { g += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`; });
+      B.forEach((b) => { g += `<text x="${x(b.price)}" y="${H - Bm + 14}" text-anchor="middle">${(b.price / 1000).toFixed(1)}</text>`; });
+      g += `<text x="${(L + W) / 2}" y="${H - 6}" text-anchor="middle">正味価格 [百万ドル相当 = 千 k$] →</text>`;
+      g += `<polyline class="have" points="${B.map((b) => `${x(b.price)},${y(b.swaps)}`).join(" ")}"/>`;
+      B.forEach((b) => { g += `<circle class="have-dot" cx="${x(b.price)}" cy="${y(b.swaps)}" r="3"><title>${fmt(b.price)} k$: ${b.swaps} 基入れ替え、期待総コスト ${fmt(b.mean)} k$</title></circle>`; });
+      g += `<line class="axis" x1="${L}" x2="${W - Rr}" y1="${H - Bm}" y2="${H - Bm}"/>`;
+      $("be").innerHTML = g;
+    }
+    if (A.coupling) {
+      const owned = [...new Set(A.coupling.map((c) => c.owned))].sort((a, b) => a - b);
+      const cell = (o, s) => { const v = A.coupling.filter((c) => c.owned === o && c.substitute === s && c.aog != null).map((c) => c.aog); return v.length ? Math.max(...v) : null; };
+      $("coup").innerHTML = `<thead><tr><th>保有エンジン</th><th class="n">代替なし</th><th class="n">代替あり</th></tr></thead><tbody>` +
+        owned.map((o) => `<tr><td class="mono">${o} 基</td>${[0, 1].map((s) => { const v = cell(o, s); return `<td class="n"><span class="chip ${v == null ? "" : v > 0.1 ? "ng" : v > 0.05 ? "mid" : "ok"}">${v == null ? "—" : pct(v)}</span></td>`; }).join("")}</tr>`).join("") + "</tbody>";
+    }
+  } else { $("ex-label").hidden = true; $("ex-panel").hidden = true; }
 
   $("triggers").innerHTML = C.triggers.map((t) => `<li>${esc(t)}</li>`).join("");
 })();

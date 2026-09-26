@@ -49,6 +49,11 @@ REQS = {
     "no_new_spares": ("予備エンジンを増やさない", "経営企画"),
     "service": ("欠航確率 5% 以下", "運航"),
 }
+# Default priority when requirements conflict (highest first). Airworthiness (hard limits,
+# watch-list engines) is above all of these and is never relaxed. Override with
+# "requirement_priority" in the fleet file -- the order is the company's call.
+DEFAULT_PRIORITY = ["service", "buffer", "volume", "budget", "kits_on_hand_only", "no_new_spares"]
+
 ALL_HARD = dict(budget=True, buffer=True, volume=True, kits_on_hand_only=True, no_new_spares=True, service=False)
 
 ALTERNATIVES = {
@@ -78,6 +83,31 @@ def case_problem(p, case: str):
             visits=[dataclasses.replace(v, hazard=min(0.5, v.hazard * 1.5)) for v in p.visits],
         )
     return p
+
+
+def priority_of(fleet_path) -> list[str]:
+    raw = json.loads(Path(fleet_path).read_text(encoding="utf-8"))
+    return raw.get("requirement_priority", DEFAULT_PRIORITY)
+
+
+def ladder_job(args):
+    """Worker: enforce every requirement, then relax the lowest-priority one at a time
+    until a plan exists. Returns the steps taken."""
+    case, priority, fleet, shops, n, seed, time_limit = args
+    p = case_problem(load(fleet, shops), case)
+    sc = sample(p, n, seed)
+    req = {k: True for k in priority}
+    steps = []
+    for drop in [None] + priority[::-1]:
+        if drop:
+            req[drop] = False
+        try:
+            plan = solve_saa(p, sc, req=Requirements(**req), time_limit=time_limit, threads=1)
+            steps.append({"relaxed": drop, "feasible": True})
+            return case, steps, plan
+        except InfeasibleError:
+            steps.append({"relaxed": drop, "feasible": False})
+    return case, steps, None
 
 
 def solve_job(args):
@@ -141,6 +171,9 @@ def main(argv=None) -> int:
     ap.add_argument("--json-out", type=Path, default=Path("report.json"))
     ap.add_argument("--html-out", type=Path, default=Path("report.html"))
     ap.add_argument("--fragment", action="store_true")
+    ap.add_argument("--levers", type=Path, default=Path("levers.json"), help="output of levers.py (optional)")
+    ap.add_argument("--explore", type=Path, default=Path("explore.json"), help="output of explore.py (optional)")
+    ap.add_argument("--sensitivity", type=Path, default=Path("sensitivity.json"), help="output of sensitivity.py (optional)")
     args = ap.parse_args(argv)
 
     base = load(args.fleet, args.shops)
@@ -155,9 +188,12 @@ def main(argv=None) -> int:
     for key, (_label, case, req) in ALTERNATIVES.items():
         jobs.append((f"alt:{key}", case, req, *common))
 
+    priority = priority_of(args.fleet)
     t0 = time.perf_counter()
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
+        ladders_f = pool.map(ladder_job, [(c, priority, *common) for c in CASES])
         solved = {tag: (plan, secs) for tag, plan, secs in pool.map(solve_job, jobs)}
+        ladders = {c: (steps, plan) for c, steps, plan in ladders_f}
     wall = time.perf_counter() - t0
 
     probs = {c: case_problem(base, c) for c in CASES}
@@ -204,10 +240,18 @@ def main(argv=None) -> int:
 
     # --- recommendation ---------------------------------------------------------------
     feas = [a for a in alts if a["feasible"]]
-    target = base.max_aog_prob or 1.0
-    ok = [a for a in feas if a["cases"]["base"]["aog_prob"] <= target and a["cases"]["backlog"]["aog_prob"] <= target]
-    pool_ = ok or feas
-    rec = min(pool_, key=lambda a: a["weighted_mean"])
+
+    def lexi(a):
+        # requirements in priority order, each counted as met only if it holds in the
+        # base case and under MRO backlog; then cost
+        met = tuple(0 if (a["cases"]["base"]["met"][r] and a["cases"]["backlog"]["met"][r]) else 1 for r in priority)
+        return met + (a["weighted_mean"],)
+
+    for a in feas:
+        a["met_in_priority"] = [
+            {"req": r, "met": bool(a["cases"]["base"]["met"][r] and a["cases"]["backlog"]["met"][r])} for r in priority
+        ]
+    rec = min(feas, key=lexi)
     cheapest = min(feas, key=lambda a: a["weighted_mean"])
     plan = rec["_plan"]
     sc_base = evals["base"]
@@ -241,7 +285,9 @@ def main(argv=None) -> int:
     for r in rows:
         shop_mix[r["shop"]] = shop_mix.get(r["shop"], 0) + 1
 
-    conclusion = build_conclusion(base, rec, cheapest, alts, req_table, urg, exc, approvals)
+    analysis = load_analysis(args)
+    conclusion = build_conclusion(base, rec, cheapest, alts, req_table, urg, exc, approvals, analysis,
+                                  priority=priority, ladders=ladders)
 
     for a in alts:
         a.pop("_plan", None)
@@ -261,11 +307,18 @@ def main(argv=None) -> int:
         "cases": {c: {"label": v[0], "weight": v[1], "what": v[2]} for c, v in CASES.items()},
         "requirements": {r: {"label": v[0], "owner": v[1]} for r, v in REQS.items()},
         "requirement_prices": req_table,
+        "priority": priority,
+        "ladders": {
+            c: {"steps": steps, "mean": (evaluate(probs[c], plan, evals[c]).mean if plan else None),
+                "aog": (evaluate(probs[c], plan, evals[c]).aog_prob if plan else None)}
+            for c, (steps, plan) in ladders.items()
+        },
         "alternatives": alts,
         "recommended": rec["key"],
         "plan": rows, "shop_mix": shop_mix,
         "urgency": urg, "exceptions": exc, "approvals": approvals,
         "conclusion": conclusion,
+        "analysis": analysis,
     }
     args.json_out.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
     html = (HERE / "report_template.html").read_text(encoding="utf-8").replace(
@@ -299,7 +352,30 @@ def main(argv=None) -> int:
     return 0
 
 
-def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals):
+def load_analysis(args) -> dict:
+    out = {}
+    if args.levers.exists():
+        out["levers"] = json.loads(args.levers.read_text(encoding="utf-8"))["levers"]
+    if args.explore.exists():
+        e = json.loads(args.explore.read_text(encoding="utf-8"))
+        out["explore"] = {k: e[k] for k in ("factors", "labels", "patterns", "rules", "rule_fit", "effects", "wall_seconds")}
+        out["explore"]["n"] = len(e["runs"])
+    if args.sensitivity.exists():
+        runs = json.loads(args.sensitivity.read_text(encoding="utf-8"))["runs"]
+        be = sorted((r for r in runs if r["kind"] == "breakeven" and r["feasible"]), key=lambda r: r["f"]["midlife"])
+        out["breakeven"] = [{"price": r["f"]["midlife"], "swaps": r["swaps"], "mean": r["mean"], "aog": r["aog_prob"]} for r in be]
+        out["coupling"] = [
+            {"owned": r["owned"], "value": r["f"]["value"], "substitute": r["f"]["substitute"],
+             "mean": r.get("mean"), "aog": r.get("aog_prob"), "early": r.get("early_months")}
+            for r in runs if r["kind"] == "coupling"
+        ]
+    return out
+
+
+def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals, analysis=None,
+                     priority=None, ladders=None):
+    analysis = analysis or {}
+    priority = priority or DEFAULT_PRIORITY
     base_row = next(r for r in req_table if r["case"] == "base")
     conflicts = [CASES[r["case"]][0] for r in req_table if not r["all_feasible"]]
     now = [e["esn"] for e in urg["engines"] if e["status"] == "now"]
@@ -311,7 +387,15 @@ def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals):
     )
     points = []
     if conflicts:
-        points.append(f"全要望を同時に満たせないケース: {'、'.join(conflicts)}。どの要望を緩めるかの判断が必要です。")
+        given = []
+        for c, (steps, _plan) in (ladders or {}).items():
+            dropped = [REQS[s["relaxed"]][0] for s in steps if s["relaxed"]]
+            if dropped:
+                given.append(f"{CASES[c][0]}では「{'」「'.join(dropped)}」")
+        points.append(
+            f"全要望を同時に満たせないケース: {'、'.join(conflicts)}。優先順位の低い要望から諦めると、"
+            + "、".join(given) + " を緩めれば残りは守れる。"
+        )
     else:
         points.append("どのケースでも全要望を同時に満たす計画は存在します。差は費用とリスクの配分です。")
     prices = [
@@ -322,17 +406,41 @@ def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals):
         points.append("基準ケースで要望を1つ緩めた場合の節約: " + "、".join(f"{n} {s:,.0f} k$" for n, s in prices[:3]) + "。")
     if rec is not cheapest:
         d = rec["weighted_mean"] - cheapest["weighted_mean"]
+        broken = [REQS[m["req"]][0] for m in cheapest["met_in_priority"] if not m["met"]]
         points.append(
             f"最安は案{cheapest['key']}（加重平均 {cheapest['weighted_mean']:,.0f} k$）だが、"
-            f"MRO 混雑時の欠航確率 {cheapest['cases']['backlog']['aog_prob']:.1%} が目標 {p.max_aog_prob:.0%} を超えるため、"
+            f"{'・'.join(broken[:2])}（優先順位が上）を基準・MRO 混雑の両方では守れないため、"
             f"{d:,.0f} k$ の上乗せで案{rec['key']}を選ぶ。"
         )
+    be = analysis.get("breakeven")
+    if be:
+        many = [r["price"] for r in be if r["swaps"] >= len(p.visits) // 3]
+        none = [r["price"] for r in be if r["swaps"] == 0]
+        if many and none:
+            points.append(
+                f"判断を最も大きく分けるのは中寿命エンジンの正味価格。{max(many):,} k$ 以下なら入場の 3 分の 1 以上を"
+                f"中古エンジンとの入れ替えに置き換えるのが得、{min(none):,} k$ 以上なら工場整備のみ。"
+            )
+    cp = analysis.get("coupling")
+    if cp:
+        def aog(owned, sub):
+            xs = [c["aog"] for c in cp if c["owned"] == owned and c["substitute"] == sub and c["aog"] is not None]
+            return max(xs) if xs else None
+        lo = min(c["owned"] for c in cp)
+        a0, a1 = aog(lo, 0), aog(lo, 1)
+        if a0 is not None and a1 is not None:
+            points.append(
+                f"機材割当（別の最適化問題）との接点で効くのは「他機種が月に何機肩代わりできるか」。予備が薄い場合（{lo} 基）、"
+                f"代替なしの欠航確率 最大 {a0:.0%} が代替ありで {a1:.0%} に下がる。1機の価値の設定はほぼ計画を変えない。"
+            )
     decisions = []
     if now:
         decisions.append(f"今月中に入場先・ワークスコープを確定: {'、'.join(now)}")
     if soon:
         decisions.append(f"3 か月以内に確定: {'、'.join(soon)}")
     kits = rec["cases"]["base"]["emergency_kits"]
+    if be:
+        decisions.append("中寿命エンジン（CFM56-7B）の市場見積もりを取得：正味価格が判断の分岐点")
     decisions.append(f"LLP キットの発注計画（手持ち {p.llp_kits_on_hand} セット、調達 {p.llp_kit_lead_months} か月）" + (f"、緊急調達 {kits} セット" if kits else ""))
     early = [e for e in exc if e["months_early"] > 0]
     exc_line = f"期限前の取卸しは {len(early)} 基。理由は要監視（故障リスク）、工場枠、予算年度、繁忙期回避のいずれかで、エンジンごとに付録に記載。"

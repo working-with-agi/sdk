@@ -2,3 +2,8 @@ __pycache__/
 *.pyc
 compare.json
 compare.html
+report.json
+report.html
+levers.json
+explore.json
+sensitivity.json
