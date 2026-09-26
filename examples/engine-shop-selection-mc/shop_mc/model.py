@@ -10,7 +10,7 @@ Second stage (per scenario s and month t, after costs / delays / removals are kn
 
   min  c_S*S*T - sum_i V_w(i) x[i]
        + 1/N sum_s ( sum_i cost[s,i] x[i] + sum_t (c_l l[s,t] + c_aog a[s,t]) )
-       [+ lambda * CVaR_alpha(scenario cost)]
+       [+ lambda * CVaR_alpha(total cost)]
   s.t. sum_{i of engine e} x[i] = 1                                   (each visit planned once)
        sum_{i at shop k, in shop at t (quoted TAT)} x[i] <= slots_k   (planned capacity)
        owned - sum_i A[s,i,t] x[i] - U[s,t] + S + l[s,t] + a[s,t] >= D  (coverage)
@@ -99,7 +99,8 @@ def solve_saa(
         eta = pulp.LpVariable("var_eta")
         z = [pulp.LpVariable(f"cvar_z_{s}", 0) for s in range(N)]
         for s in range(N):
-            prob += z[s] >= scen_cost[s] - eta, f"cvar_{s}"
+            # CVaR of the *total* cost: the first-stage part is the same in every scenario
+            prob += z[s] >= first_stage + scen_cost[s] - eta, f"cvar_{s}"
         objective += cvar_weight * (eta + pulp.lpSum(z) / ((1 - cvar_alpha) * N))
 
     prob += objective
