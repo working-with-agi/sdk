@@ -143,6 +143,14 @@ def solve_saa(
         if spend:
             prob += pulp.lpSum(spend) <= budget, f"budget_{fy}"
 
+    # end-of-window condition: engines leaving the fleet for good (part-out, whose
+    # off-wing time runs past the window) may not take the fleet below what it needs next
+    if p.terminal_engines is not None:
+        gone = [x[i] for i, o in enumerate(opts) if o.month + o.shop.transport_months + o.tat() > 2 * T]
+        if gone:
+            # owned engines only: a leased spare goes back (and keeps costing) after the window
+            prob += p.owned_engines - pulp.lpSum(gone) >= p.terminal_engines, "terminal_engines"
+
     # supply limits (e.g. mid-life engines on the market)
     for k in p.shops:
         if k.max_visits is not None:

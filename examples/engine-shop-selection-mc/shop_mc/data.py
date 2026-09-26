@@ -145,6 +145,10 @@ class Problem:
     """Service target: maximum probability of any AOG month over the horizon."""
     extra_fixed_cost: float
     """Scenario-independent cost of a lever such as a pool fee or extra leased spares [k$]."""
+    terminal_engines: int | None
+    """End-of-window condition: engines the fleet must still own after the window
+    (what the schedule needs afterwards + buffer). Stops the plan from selling off
+    engines just because the window ends."""
     fx_vol: float
     """Volatility of the home/foreign FX rate over the horizon (lognormal sigma)."""
     visits: list[Visit]
@@ -262,6 +266,7 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
         emergency_kit_premium=llp.get("emergency_premium", 0.0),
         max_aog_prob=f.get("service_target", {}).get("max_aog_prob"),
         extra_fixed_cost=f.get("extra_fixed_cost", 0.0),
+        terminal_engines=f.get("terminal_engines"),
         fx_vol=f.get("fx", {}).get("volatility", 0.0),
         visits=[
             Visit(

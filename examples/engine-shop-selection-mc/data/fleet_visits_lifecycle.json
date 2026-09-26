@@ -1,0 +1,822 @@
+{
+  "meta": {
+    "description": "Current fleet state from a 20-year life-cycle simulation (first 5 years discarded, stationary); 45 engines due in the next 24 months.",
+    "units": {
+      "money": "k$ (home-currency equivalent at today's FX rate)",
+      "time": "month"
+    },
+    "generator": "lifecycle.py",
+    "derivation": {
+      "aircraft": {
+        "mainline": 62,
+        "regional": 14
+      },
+      "flight_index": {
+        "1": 0.9,
+        "2": 0.88,
+        "3": 1.06,
+        "4": 0.97,
+        "5": 1.02,
+        "6": 0.9,
+        "7": 1.02,
+        "8": 1.12,
+        "9": 0.98,
+        "10": 1.0,
+        "11": 0.96,
+        "12": 1.03
+      },
+      "airframe_checks": {
+        "1": 6,
+        "2": 6,
+        "3": 2,
+        "4": 4,
+        "5": 2,
+        "6": 6,
+        "7": 3,
+        "8": 2,
+        "9": 4,
+        "10": 4,
+        "11": 6,
+        "12": 2
+      },
+      "base_aircraft_needed": 68,
+      "aircraft_needed_by_month": [
+        68,
+        66,
+        71,
+        62,
+        60,
+        73,
+        66,
+        70,
+        62,
+        70,
+        74,
+        67,
+        68,
+        66,
+        71,
+        62,
+        60,
+        73,
+        66,
+        70,
+        62,
+        70,
+        74,
+        67
+      ],
+      "unscheduled_mean_engines_out": 1.93,
+      "buffer_quantile": 0.95
+    }
+  },
+  "start": "2026-10",
+  "horizon_months": 24,
+  "required_positions": [
+    136,
+    132,
+    142,
+    124,
+    120,
+    146,
+    132,
+    140,
+    124,
+    140,
+    148,
+    134,
+    136,
+    132,
+    142,
+    124,
+    120,
+    146,
+    132,
+    140,
+    124,
+    140,
+    148,
+    134
+  ],
+  "buffer_spares": [
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4,
+    4
+  ],
+  "owned_engines": 166,
+  "short_term_lease": {
+    "cost_per_month": 190,
+    "max_engines": 4,
+    "max_engines_peak": 2
+  },
+  "long_term_spare": {
+    "cost_per_month": 120,
+    "max_engines": 6
+  },
+  "aog_tiers": [
+    {
+      "engines": 2,
+      "cost_per_month": 700,
+      "what": "extra sections / low-margin off-peak flights"
+    },
+    {
+      "engines": 4,
+      "cost_per_month": 1400,
+      "what": "regional and leisure routes"
+    },
+    {
+      "engines": null,
+      "cost_per_month": 2600,
+      "what": "trunk routes"
+    }
+  ],
+  "aog_peak_multiplier": {
+    "12": 1.4,
+    "1": 1.4,
+    "3": 1.2,
+    "5": 1.3,
+    "7": 1.6,
+    "8": 1.8
+  },
+  "unscheduled_removals": {
+    "rate_per_engine_month": 0.004,
+    "background_engines": 121,
+    "tat_months": [
+      2,
+      3,
+      4
+    ],
+    "tat_probs": [
+      0.3,
+      0.5,
+      0.2
+    ],
+    "failure_cost_factor": 1.3,
+    "failure_extra_months": 1
+  },
+  "workscope_build_value": {
+    "PR": 0,
+    "CORE": 2400,
+    "FULL": 6200
+  },
+  "green_time_value_per_month": 45,
+  "llp_kits": {
+    "workscopes": [
+      "CORE",
+      "FULL"
+    ],
+    "lead_time_months": 8,
+    "on_hand": 8,
+    "emergency_premium": 900
+  },
+  "service_target": {
+    "max_aog_prob": 0.05
+  },
+  "budget": {
+    "fiscal_year_start_month": 4,
+    "by_fiscal_year": {
+      "FY2026": 91900.0,
+      "FY2027": 183900.0,
+      "FY2028": 91900.0
+    }
+  },
+  "fx": {
+    "volatility": 0.1
+  },
+  "engines": [
+    {
+      "esn": "896-103",
+      "operator": "mainline",
+      "window": [
+        10,
+        15
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-104",
+      "operator": "mainline",
+      "window": [
+        3,
+        8
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-106",
+      "operator": "mainline",
+      "window": [
+        0,
+        2
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-107",
+      "operator": "mainline",
+      "window": [
+        0,
+        2
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-108",
+      "operator": "mainline",
+      "window": [
+        4,
+        9
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-111",
+      "operator": "mainline",
+      "window": [
+        16,
+        21
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-113",
+      "operator": "mainline",
+      "window": [
+        9,
+        14
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-114",
+      "operator": "mainline",
+      "window": [
+        8,
+        13
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-125",
+      "operator": "mainline",
+      "window": [
+        0,
+        3
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-126",
+      "operator": "mainline",
+      "window": [
+        3,
+        8
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-136",
+      "operator": "mainline",
+      "window": [
+        16,
+        21
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-138",
+      "operator": "mainline",
+      "window": [
+        11,
+        16
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-139",
+      "operator": "mainline",
+      "window": [
+        13,
+        18
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-141",
+      "operator": "mainline",
+      "window": [
+        13,
+        18
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-142",
+      "operator": "mainline",
+      "window": [
+        12,
+        17
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-143",
+      "operator": "mainline",
+      "window": [
+        4,
+        9
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-154",
+      "operator": "mainline",
+      "window": [
+        0,
+        4
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-157",
+      "operator": "mainline",
+      "window": [
+        16,
+        21
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-158",
+      "operator": "mainline",
+      "window": [
+        1,
+        6
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-161",
+      "operator": "mainline",
+      "window": [
+        0,
+        5
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-168",
+      "operator": "mainline",
+      "window": [
+        9,
+        14
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-170",
+      "operator": "mainline",
+      "window": [
+        17,
+        22
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-171",
+      "operator": "mainline",
+      "window": [
+        3,
+        8
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-173",
+      "operator": "mainline",
+      "window": [
+        0,
+        3
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-180",
+      "operator": "mainline",
+      "window": [
+        0,
+        0
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-183",
+      "operator": "mainline",
+      "window": [
+        10,
+        15
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-190",
+      "operator": "mainline",
+      "window": [
+        7,
+        12
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-195",
+      "operator": "mainline",
+      "window": [
+        15,
+        20
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-197",
+      "operator": "mainline",
+      "window": [
+        5,
+        10
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-205",
+      "operator": "mainline",
+      "window": [
+        17,
+        22
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-207",
+      "operator": "mainline",
+      "window": [
+        13,
+        18
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-220",
+      "operator": "mainline",
+      "window": [
+        12,
+        17
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-222",
+      "operator": "mainline",
+      "window": [
+        13,
+        18
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-224",
+      "operator": "mainline",
+      "window": [
+        0,
+        5
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-232",
+      "operator": "mainline",
+      "window": [
+        0,
+        5
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-234",
+      "operator": "mainline",
+      "window": [
+        11,
+        16
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-239",
+      "operator": "mainline",
+      "window": [
+        0,
+        1
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-241",
+      "operator": "mainline",
+      "window": [
+        11,
+        16
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-243",
+      "operator": "mainline",
+      "window": [
+        15,
+        20
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-246",
+      "operator": "mainline",
+      "window": [
+        4,
+        9
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-253",
+      "operator": "mainline",
+      "window": [
+        3,
+        8
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-255",
+      "operator": "mainline",
+      "window": [
+        0,
+        3
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-259",
+      "operator": "mainline",
+      "window": [
+        6,
+        11
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    },
+    {
+      "esn": "896-262",
+      "operator": "mainline",
+      "window": [
+        13,
+        18
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ],
+      "watch": false,
+      "hazard": 0.01
+    },
+    {
+      "esn": "896-263",
+      "operator": "mainline",
+      "window": [
+        0,
+        1
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ],
+      "watch": true,
+      "hazard": 0.06
+    }
+  ],
+  "terminal_engines": 152
+}

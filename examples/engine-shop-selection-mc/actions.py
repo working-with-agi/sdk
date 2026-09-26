@@ -75,7 +75,9 @@ def with_case(p, case):
             y, m = p.calendar(t)
             delivered = max(0, (y - 2027) * 12 + m + 1) // 2  # one every two months from 2027-01
             req.append(max(0, p.required_positions[t] - 2 * delivered))
-        return dataclasses.replace(p, required_positions=req)
+        # the fleet keeps shrinking after the window: the end condition follows the last month
+        term = None if p.terminal_engines is None else max(0, p.terminal_engines - (max(p.required_positions) - max(req)) - 2 * 3)
+        return dataclasses.replace(p, required_positions=req, terminal_engines=term)
     return case_problem(p, case)
 
 

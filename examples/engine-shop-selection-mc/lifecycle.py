@@ -214,6 +214,19 @@ def main(argv=None) -> int:
         base = json.loads((HERE / "data" / "fleet_visits.json").read_text(encoding="utf-8"))
         base["engines"] = [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard")} for r in rows]
         base["unscheduled_removals"]["background_engines"] = ENGINES - len(rows)
+        # after the window the schedule still needs its peak positions plus the shelf
+        # buffer: the fleet may not shrink below that (end-of-window condition)
+        base["terminal_engines"] = max(base["required_positions"]) + max(base["buffer_spares"])
+        # budgets = the normal-state annual spend (the implicit annual agreement), pro rata
+        # for the months of each fiscal year inside the window
+        months = {}
+        y0, m0 = map(int, base["start"].split("-"))
+        fy_start = base["budget"]["fiscal_year_start_month"]
+        for t in range(base["horizon_months"]):
+            y, m = y0 + (m0 - 1 + t) // 12, (m0 - 1 + t) % 12 + 1
+            fy = f"FY{y if m >= fy_start else y - 1}"
+            months[fy] = months.get(fy, 0) + 1
+        base["budget"]["by_fiscal_year"] = {fy: round(n["spend_per_year_k"] * k / 12, -2) for fy, k in months.items()}
         base["meta"]["description"] = (
             f"Current fleet state from a {YEARS}-year life-cycle simulation (first {WARMUP} years discarded, "
             f"{'stationary' if out['assumptions']['stationary'] else 'with trends'}); {len(rows)} engines due in the next 24 months."
