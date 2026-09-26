@@ -23,7 +23,7 @@ class ShopMcTest(unittest.TestCase):
     def test_one_option_per_visit_within_window(self):
         chosen = [self.sc.options[i] for i in self.plan.chosen]
         self.assertEqual(sorted(v.esn for v, *_ in chosen), sorted(v.esn for v in P.visits))
-        for v, k, w, t in chosen:
+        for v, k, w, t, _rush in chosen:
             self.assertTrue(v.earliest <= t <= v.latest)
             self.assertIn(w, v.allowed_workscopes)
             self.assertIn(w, k.quotes)
@@ -32,7 +32,7 @@ class ShopMcTest(unittest.TestCase):
         chosen = [self.sc.options[i] for i in self.plan.chosen]
         for k in P.shops:
             for t in range(P.horizon):
-                busy = sum(1 for _, kk, w, t0 in chosen if kk is k and t0 <= t < t0 + k.quotes[w].tat)
+                busy = sum(1 for o in chosen if o.shop is k and o.month <= t < o.month + o.tat())
                 self.assertLessEqual(busy, k.slots)
 
     def test_closed_form_recourse_matches_saa_objective(self):
@@ -46,16 +46,25 @@ class ShopMcTest(unittest.TestCase):
             evaluate(P, self.plan, self.sc).mean, evaluate(P, ev_plan, self.sc).mean + 1e-6
         )
 
-    def test_common_random_numbers_for_findings(self):
-        # the same engine gets the same findings draw at every shop: a fixed-price shop
-        # (share 0) never bills an overrun, a T&M shop bills it in the same scenarios
+    def test_fixed_price_shop_never_bills_overrun(self):
+        # OEM-NET is fixed price in USD: its cost varies only with FX, which is common to
+        # all its quotes in a scenario, so the price ratio is identical across engines
         sc = self.sc
-        inhouse = [i for i, (v, k, w, t) in enumerate(sc.options) if k.id == "IN-HOUSE" and v.esn == "E-903" and w == "PR" and t == 2]
-        oem = [i for i, (v, k, w, t) in enumerate(sc.options) if k.id == "OEM-NET" and v.esn == "E-903" and w == "PR" and t == 2]
-        k_oem = next(k for k in P.shops if k.id == "OEM-NET")
-        self.assertTrue(np.allclose(sc.cost[:, oem[0]], k_oem.quotes["PR"].price + k_oem.transport_cost))
-        self.assertTrue((sc.cost[:, inhouse[0]] >= 2500).all())
+        def ratio(esn):
+            i = next(i for i, o in enumerate(sc.options)
+                     if o.shop.id == "OEM-NET" and o.visit.esn == esn and o.workscope == "PR" and not o.rush)
+            k = sc.options[i].shop
+            return (sc.cost[:, i] - k.transport_cost) / k.quotes["PR"].price
+        self.assertTrue(np.allclose(ratio("E-903"), ratio("E-905")))
 
+    def test_llp_kits_and_budget(self):
+        chosen = [self.sc.options[i] for i in self.plan.chosen]
+        early_kits = sum(1 for o in chosen if o.workscope in P.llp_workscopes and o.month < P.llp_kit_lead_months)
+        self.assertLessEqual(early_kits, P.llp_kits_on_hand)
+        exp = self.sc.cost.mean(axis=0)
+        for fy, budget in P.budget_by_fy.items():
+            spend = sum(exp[i] for i in self.plan.chosen if P.fiscal_year(self.sc.options[i].month) == fy)
+            self.assertLessEqual(spend, budget + 1e-6)
 
 if __name__ == "__main__":
     unittest.main()

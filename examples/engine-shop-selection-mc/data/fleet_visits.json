@@ -1,23 +1,33 @@
 {
   "meta": {
-    "description": "Synthetic 10-aircraft narrow-body fleet (20 installed positions, 21 owned engines). 10 planned shop visits over 24 months. Illustrative values, not OEM or shop data.",
+    "description": "Synthetic 10-aircraft narrow-body fleet (20 installed positions, 22 owned engines, i.e. ~10% spares), 10 planned shop visits over 24 months starting 2026-10. Illustrative values, not OEM or shop data.",
     "units": {
-      "money": "k$",
+      "money": "k$ (home-currency equivalent at today's FX rate)",
       "time": "month"
     }
   },
+  "start": "2026-10",
   "horizon_months": 24,
   "installed_positions": 20,
-  "owned_engines": 21,
+  "owned_engines": 22,
   "short_term_lease": {
     "cost_per_month": 220,
-    "max_engines": 2
+    "max_engines": 2,
+    "max_engines_peak": 2
   },
   "long_term_spare": {
     "cost_per_month": 120,
     "max_engines": 3
   },
   "aog_cost_per_month": 1500,
+  "aog_peak_multiplier": {
+    "12": 1.4,
+    "1": 1.4,
+    "3": 1.2,
+    "5": 1.3,
+    "7": 1.6,
+    "8": 1.8
+  },
   "unscheduled_removals": {
     "rate_per_engine_month": 0.006,
     "tat_months": [
@@ -35,6 +45,26 @@
     "PR": 0,
     "CORE": 2400,
     "FULL": 6200
+  },
+  "green_time_value_per_month": 45,
+  "llp_kits": {
+    "workscopes": [
+      "CORE",
+      "FULL"
+    ],
+    "lead_time_months": 8,
+    "on_hand": 2
+  },
+  "budget": {
+    "fiscal_year_start_month": 4,
+    "by_fiscal_year": {
+      "FY2026": 18000,
+      "FY2027": 30000,
+      "FY2028": 15000
+    }
+  },
+  "fx": {
+    "volatility": 0.1
   },
   "engines": [
     {

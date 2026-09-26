@@ -27,11 +27,12 @@ HERE = Path(__file__).resolve().parent
 
 def describe(p, sc, plan):
     rows = []
-    for i in sorted(plan.chosen, key=lambda i: sc.options[i][3]):
-        v, k, w, t = sc.options[i]
+    for i in sorted(plan.chosen, key=lambda i: sc.options[i].month):
+        o = sc.options[i]
+        v, k, w, t = o.visit, o.shop, o.workscope, o.month
         rows.append(
-            f"  {v.esn:<6} month {t:>2}  {w:<4} @ {k.id:<8} "
-            f"quote {k.quotes[w].price:>6,.0f} k$ / {k.quotes[w].tat} mo"
+            f"  {v.esn:<6} {p.month_label(t)}  {w:<4} @ {k.id:<8}{' RUSH' if o.rush else '     '} "
+            f"quote {k.quotes[w].price:>6,.0f} k$ / {o.tat()} mo"
             f"  E[cost] {sc.cost[:, i].mean():>6,.0f}  E[off-wing] {sc.down[:, i].mean():.1f} mo"
         )
     rows.append(f"  long-term spares leased: {plan.long_spares}")
@@ -94,8 +95,8 @@ def main(argv=None) -> int:
             out["gap"] = {"lower": g.lower, "upper": g.upper, "gap": g.gap, "replicate_bounds": lows}
     if args.json_out:
         out["saa_plan"] = [
-            {"esn": v.esn, "shop": k.id, "workscope": w, "month": t}
-            for v, k, w, t in (sc_out.options[i] for i in saa.chosen)
+            {"esn": o.visit.esn, "shop": o.shop.id, "workscope": o.workscope, "month": o.month, "rush": o.rush}
+            for o in (sc_out.options[i] for i in saa.chosen)
         ]
         out["saa_long_spares"] = saa.long_spares
         args.json_out.write_text(json.dumps(out, indent=2), encoding="utf-8")

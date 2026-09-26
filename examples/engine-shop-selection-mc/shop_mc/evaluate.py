@@ -7,7 +7,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from .data import Problem
-from .model import Plan, solve_saa
+from .model import Plan, fixed_cost, solve_saa
 from .scenarios import ScenarioSet, sample
 
 
@@ -37,7 +37,8 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
     shortfall is covered by short-term leases up to the cap, the rest is AOG."""
     T = p.horizon
     idx = np.array(plan.chosen)
-    start = np.array([sc.options[i][3] for i in idx])
+    chosen = [sc.options[i] for i in idx]
+    start = np.array([o.month for o in chosen])
     months = np.arange(T)
 
     visit_cost = sc.cost[:, idx].sum(axis=1)
@@ -45,13 +46,17 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
     off = ((start[None, :, None] <= months) & (months < end[:, :, None])).sum(axis=1)  # (S, T)
     available = p.owned_engines - off - sc.unsched + plan.long_spares
     short = np.maximum(0.0, p.installed_positions - available)
-    lease = np.minimum(short, p.short_lease_max)
+    lease = np.minimum(short, np.array([p.lease_cap_at(t) for t in range(T)]))
     aog = short - lease
+    aog_cost = np.array([p.aog_cost_at(t) for t in range(T)])
 
-    first_stage = p.long_spare_cost * T * plan.long_spares - sum(
-        p.build_value.get(sc.options[i][2], 0.0) for i in idx
+    shortfall = sum(
+        k.shortfall_penalty * max(0, k.min_visits - sum(1 for o in chosen if o.shop is k)) for k in p.shops
     )
-    total = first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + p.aog_cost * aog.sum(1)
+    first_stage = (
+        p.long_spare_cost * T * plan.long_spares + sum(fixed_cost(p, o) for o in chosen) + shortfall
+    )
+    total = first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + (aog * aog_cost).sum(1)
     q = np.sort(total)
     return Evaluation(
         n=len(total),
