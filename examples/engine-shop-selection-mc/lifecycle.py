@@ -160,7 +160,39 @@ def norms(visits, shelf, short, T):
         "shelf_mean": float(shelf[t0:].mean()),
         "shelf_p5": float(np.percentile(shelf[t0:], 5)),
         "short_month_share": float((short[t0:] > 0).mean()),
+        "seasonal": seasonal(visits, shelf, short, T),
     }
+
+
+def seasonal(visits, shelf, short, T):
+    """Month-of-year norms. The expected figures follow the flight index: wear and
+    unscheduled removals scale with cycles flown, so a busy month removes more engines.
+    The simulated monthly average and its 10-90 % range are kept alongside as a check
+    (15 years give only 15 samples per calendar month, too noisy to be the norm itself)."""
+    t0 = WARMUP * 12
+    v = [x for x in visits if x["t"] >= t0]
+    yrs = (T - t0) / 12
+    per_year = len(v) / yrs
+    spend = sum(COST[x["ws"]] for x in v) / yrs
+    fi_sum = sum(FLIGHT_INDEX.values())
+    out = {}
+    for m in range(1, 13):
+        ts = [t for t in range(t0, T) if month_of(t) == m]
+        counts = np.array([sum(1 for x in v if x["t"] == t) for t in ts])
+        w = FLIGHT_INDEX[m] / fi_sum
+        out[m] = {
+            "flight_index": FLIGHT_INDEX[m],
+            "airframe_checks": AIRFRAME_CHECKS[m],
+            "positions": needed_positions((m - START_MONTH) % 12),
+            "visits": per_year * w,
+            "spend_k": spend * w,
+            "sim_visits": float(counts.mean()),
+            "sim_visits_p10_p90": [float(np.percentile(counts, 10)), float(np.percentile(counts, 90))],
+            "sim_unscheduled": sum(1 for x in v if x["unscheduled"] and month_of(x["t"]) == m) / len(ts),
+            "shelf_mean": float(shelf[ts].mean()),
+            "shelf_p5": float(np.percentile(shelf[ts], 5)),
+        }
+    return out
 
 
 def window(state, t_now: int, horizon: int = 24, width: int = 5):
@@ -217,16 +249,16 @@ def main(argv=None) -> int:
         # after the window the schedule still needs its peak positions plus the shelf
         # buffer: the fleet may not shrink below that (end-of-window condition)
         base["terminal_engines"] = max(base["required_positions"]) + max(base["buffer_spares"])
-        # budgets = the normal-state annual spend (the implicit annual agreement), pro rata
-        # for the months of each fiscal year inside the window
+        # budgets = the normal-state annual spend (the implicit annual agreement), spread
+        # over the months of each fiscal year inside the window by the seasonal norm
         months = {}
         y0, m0 = map(int, base["start"].split("-"))
         fy_start = base["budget"]["fiscal_year_start_month"]
         for t in range(base["horizon_months"]):
             y, m = y0 + (m0 - 1 + t) // 12, (m0 - 1 + t) % 12 + 1
             fy = f"FY{y if m >= fy_start else y - 1}"
-            months[fy] = months.get(fy, 0) + 1
-        base["budget"]["by_fiscal_year"] = {fy: round(n["spend_per_year_k"] * k / 12, -2) for fy, k in months.items()}
+            months[fy] = months.get(fy, 0) + n["seasonal"][m]["spend_k"]
+        base["budget"]["by_fiscal_year"] = {fy: round(k, -2) for fy, k in months.items()}
         base["meta"]["description"] = (
             f"Current fleet state from a {YEARS}-year life-cycle simulation (first {WARMUP} years discarded, "
             f"{'stationary' if out['assumptions']['stationary'] else 'with trends'}); {len(rows)} engines due in the next 24 months."

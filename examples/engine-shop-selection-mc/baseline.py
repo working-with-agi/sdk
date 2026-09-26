@@ -104,6 +104,18 @@ def freeze(args) -> int:
         "serviceable": [p.owned_engines - sum(1 for r in rows if r["t"] <= t < r["t"] + r["quoted_off_wing"])
                         for t in range(p.horizon)],
     }
+    # the seasonal norm for each window month: what a normal year does in that calendar
+    # month (removals and spend follow the flight index), next to what the plan does
+    sea = lifecycle.norms(visits, shelf, short, T)["seasonal"]
+    cal = [p.calendar(t)[1] for t in range(p.horizon)]
+    monthly["flight_index"] = [sea[m]["flight_index"] for m in cal]
+    monthly["aog_multiplier"] = [p.season(t) for t in range(p.horizon)]
+    monthly["lease_cap"] = [p.lease_cap_at(t) for t in range(p.horizon)]
+    monthly["norm_visits"] = [round(sea[m]["visits"], 2) for m in cal]
+    monthly["norm_visits_range"] = [sea[m]["sim_visits_p10_p90"] for m in cal]
+    monthly["norm_spend"] = [round(sea[m]["spend_k"]) for m in cal]
+    monthly["plan_visits"] = [sum(1 for r in rows if r["t"] == t) for t in range(p.horizon)]
+    monthly["plan_spend"] = [sum(r["exp_cost"] for r in rows if r["t"] == t) for t in range(p.horizon)]
     outlook = {}
     for name, aging in (("stationary", 0.0), ("aging_2pct", 0.02)):
         # same seed: the first YEARS reproduce the history that led to today; the 10 years
