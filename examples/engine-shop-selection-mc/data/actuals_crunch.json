@@ -1,0 +1,430 @@
+{
+ "as_of": "2027-09",
+ "months": 12,
+ "inductions": [
+  {
+   "esn": "896-106",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "IND-NA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-107",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-180",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-263",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-239",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-154",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "reason": "failure"
+  },
+  {
+   "esn": "896-158",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "reason": "failure"
+  },
+  {
+   "esn": "896-173",
+   "month": "2026-12",
+   "t": 2,
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-125",
+   "month": "2027-01",
+   "t": 3,
+   "shop": "OEM-ASIA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-255",
+   "month": "2027-01",
+   "t": 3,
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-161",
+   "month": "2027-03",
+   "t": 5,
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-224",
+   "month": "2027-03",
+   "t": 5,
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-232",
+   "month": "2027-03",
+   "t": 5,
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-259",
+   "month": "2027-04",
+   "t": 6,
+   "shop": "OEM-ASIA",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-143",
+   "month": "2027-04",
+   "t": 6,
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "reason": "failure"
+  },
+  {
+   "esn": "896-104",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-126",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-171",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-253",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-108",
+   "month": "2027-07",
+   "t": 9,
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-246",
+   "month": "2027-07",
+   "t": 9,
+   "shop": "IND-NA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-197",
+   "month": "2027-08",
+   "t": 10,
+   "shop": "IND-ASIA",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-138",
+   "month": "2027-09",
+   "t": 11,
+   "shop": "IND-ASIA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-241",
+   "month": "2027-09",
+   "t": 11,
+   "shop": "IND-NA",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "896-168",
+   "month": "2027-09",
+   "t": 11,
+   "shop": "IND-NA",
+   "workscope": "PR",
+   "reason": "failure"
+  }
+ ],
+ "returns": [
+  {
+   "esn": "896-107",
+   "month": "2027-02",
+   "t": 4,
+   "cost_k": 9310
+  },
+  {
+   "esn": "896-263",
+   "month": "2027-02",
+   "t": 4,
+   "cost_k": 2593
+  },
+  {
+   "esn": "896-154",
+   "month": "2027-03",
+   "t": 5,
+   "cost_k": 3371
+  },
+  {
+   "esn": "896-180",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 2085
+  },
+  {
+   "esn": "896-173",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 9310
+  },
+  {
+   "esn": "896-125",
+   "month": "2027-05",
+   "t": 7,
+   "cost_k": 9310
+  },
+  {
+   "esn": "896-232",
+   "month": "2027-06",
+   "t": 8,
+   "cost_k": 2593
+  },
+  {
+   "esn": "896-158",
+   "month": "2027-06",
+   "t": 8,
+   "cost_k": 2710
+  },
+  {
+   "esn": "896-106",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 8254
+  },
+  {
+   "esn": "896-239",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 5615
+  },
+  {
+   "esn": "896-259",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 2593
+  },
+  {
+   "esn": "896-255",
+   "month": "2027-08",
+   "t": 10,
+   "cost_k": 4872
+  }
+ ],
+ "unscheduled_in_shop": [
+  1,
+  2,
+  2,
+  1,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  2,
+  3
+ ],
+ "kit_quotes": [
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "896-104",
+   "lead_months": 10
+  },
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "896-126",
+   "lead_months": 13
+  },
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "896-253",
+   "lead_months": 13
+  },
+  {
+   "month": "2026-11",
+   "t": 1,
+   "esn": "896-143",
+   "lead_months": 12
+  },
+  {
+   "month": "2026-11",
+   "t": 1,
+   "esn": "896-246",
+   "lead_months": 12
+  },
+  {
+   "month": "2026-12",
+   "t": 2,
+   "esn": "896-197",
+   "lead_months": 14
+  },
+  {
+   "month": "2027-01",
+   "t": 3,
+   "esn": "896-138",
+   "lead_months": 10
+  },
+  {
+   "month": "2027-01",
+   "t": 3,
+   "esn": "896-241",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-02",
+   "t": 4,
+   "esn": "896-190",
+   "lead_months": 11
+  },
+  {
+   "month": "2027-03",
+   "t": 5,
+   "esn": "896-114",
+   "lead_months": 10
+  },
+  {
+   "month": "2027-04",
+   "t": 6,
+   "esn": "896-113",
+   "lead_months": 12
+  },
+  {
+   "month": "2027-05",
+   "t": 7,
+   "esn": "896-103",
+   "lead_months": 14
+  },
+  {
+   "month": "2027-05",
+   "t": 7,
+   "esn": "896-243",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-06",
+   "t": 8,
+   "esn": "896-139",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-06",
+   "t": 8,
+   "esn": "896-142",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-06",
+   "t": 8,
+   "esn": "896-234",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-07",
+   "t": 9,
+   "esn": "896-141",
+   "lead_months": 12
+  },
+  {
+   "month": "2027-07",
+   "t": 9,
+   "esn": "896-170",
+   "lead_months": 10
+  },
+  {
+   "month": "2027-08",
+   "t": 10,
+   "esn": "896-222",
+   "lead_months": 14
+  },
+  {
+   "month": "2027-08",
+   "t": 10,
+   "esn": "896-262",
+   "lead_months": 12
+  },
+  {
+   "month": "2027-09",
+   "t": 11,
+   "esn": "896-157",
+   "lead_months": 12
+  }
+ ],
+ "meta": {
+  "synthetic": true,
+  "truth_world": "crunch",
+  "scenario": 0,
+  "seed": 42,
+  "executed_plan": "base",
+  "note": "合成データ。正解の世界は検証用にここだけに書き、追跡には使わない。"
+ }
+}

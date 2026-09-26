@@ -3,6 +3,7 @@
 other use cases answered as deltas against it.
 
   freeze   solve the plan of record for the 2-year window with every company requirement,
+           and one candidate plan per assumed world (congestion, LLP crunch, stress),
            add the normal-state norms from the 20-year life-cycle simulation, and save it
            as a versioned baseline (inputs are fingerprinted so a later run can tell
            whether it still compares like with like)
@@ -39,6 +40,16 @@ import lifecycle
 HERE = Path(__file__).resolve().parent
 DEFAULT_FLEET = HERE / "data" / "fleet_visits_lifecycle.json"
 DEFAULT_SHOPS = HERE / "data" / "shop_quotes.json"
+
+# Candidate plans frozen with the baseline: the best plan for each assumed world. As the
+# months pass, track.py reads the actuals and tells which world we seem to be in, which
+# plan we are actually following, and whether switching now would pay.
+CANDIDATES = {
+    "base": ("基準計画", "入力どおりの前提で立てた計画（これが基準）"),
+    "backlog": ("混雑対応計画", "外部工場の TAT が 1 か月延びる前提で立てた計画"),
+    "crunch": ("逼迫対応計画", "LLP キットの納期 12 か月・手持ち半減の前提で立てた計画"),
+    "stress": ("複合ストレス対応計画", "混雑＋逼迫＋故障率 1.5 倍の前提で立てた計画"),
+}
 
 # The questions each use case asks, as (use case, question, actions applied, case).
 QUESTIONS = [
@@ -88,8 +99,11 @@ def solve_summary(args):
 
 def freeze(args) -> int:
     t0 = time.perf_counter()
-    _acts, _case, summ, rows = solve_summary(((), "base", str(args.fleet), str(args.shops), args.scenarios, args.seed,
-                                              args.eval_scenarios, args.time_limit))
+    jobs = [((), c, str(args.fleet), str(args.shops), args.scenarios, args.seed, args.eval_scenarios, args.time_limit)
+            for c in CANDIDATES]
+    with ProcessPoolExecutor(max_workers=min(len(jobs), os.cpu_count() or 1)) as pool:
+        solved = {c: (summ, rows) for (_a, c, summ, rows) in pool.map(solve_summary, jobs)}
+    summ, rows = solved["base"]
     if summ is None:
         print("no plan meets every requirement in the base case; relax one before freezing")
         return 1
@@ -140,6 +154,9 @@ def freeze(args) -> int:
         "monthly": monthly,
         "budgets": p.budget_by_fy,
         "outlook": outlook,
+        "candidates": {c: {"label": CANDIDATES[c][0], "world": c, "what": CANDIDATES[c][1],
+                           "feasible": solved[c][0] is not None, "summary": solved[c][0], "rows": solved[c][1]}
+                       for c in CANDIDATES},
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(base, ensure_ascii=False, indent=1), encoding="utf-8")
