@@ -10,7 +10,7 @@
  *   npm run ingest -- --force                      # re-upload even if unchanged
  *
  * Idempotency
- *   - every file gets a stable document id derived from its path (engine-mro--data--fleet_visits-json),
+ *   - every file gets a stable document id derived from its path (engine-mro--data-fleet-visits-json),
  *     so re-running replaces the same document instead of adding a copy;
  *   - a local manifest (.ingest-manifest.json, git-ignored) stores each file's SHA-256; unchanged
  *     files are skipped, changed files are removed and uploaded again under the same id;
@@ -19,16 +19,14 @@
 import { createHash } from "node:crypto";
 import { readFile, readdir, writeFile } from "node:fs/promises";
 import { basename, extname, join, relative, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
 import { KnowledgeClient } from "@work-with-ai/sdk";
 import type { CreateSyncParams, SyncConnection } from "@work-with-ai/sdk";
 
-import { loadConfig, redact } from "./config.js";
+import { exampleRoot, loadConfig, redact } from "./config.js";
 
-const HERE = fileURLToPath(new URL(".", import.meta.url));
-const EXAMPLE_ROOT = resolve(HERE, "..");
+const EXAMPLE_ROOT = exampleRoot(import.meta.url);
 const ANALYSIS_DIR = resolve(EXAMPLE_ROOT, "../engine-shop-selection-mc");
 const MANIFEST = join(EXAMPLE_ROOT, ".ingest-manifest.json");
 

@@ -1,0 +1,283 @@
+<title>エンジン計画のもしも分析</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --shadow: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); gap: 18px; align-items: start; }
+.controls { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); }
+.ctl { display: grid; gap: 6px; }
+.ctl-label { font-size: 12px; font-weight: 600; }
+.seg { display: flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+.seg button { flex: 1; font: inherit; font-size: 12px; padding: 6px 4px; border: 0; border-right: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--surface); font-weight: 600; }
+.seg button:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.reset { font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; justify-self: start; }
+.result { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); }
+.kpi .value { font-size: 22px; font-weight: 500; }
+.kpi .sub { font-size: 11px; }
+.pos { color: var(--good); } .neg { color: var(--crit); }
+.pattern { font-size: 18px; font-weight: 700; }
+.chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+.levers { display: flex; gap: 8px; flex-wrap: wrap; }
+.levers span { font-size: 12px; border: 1px solid var(--rule); border-radius: 6px; padding: 2px 8px; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .lbl { fill: var(--ink); font-family: "IBM Plex Sans JP", sans-serif; font-size: 11px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .up { fill: var(--crit); opacity: .8; }
+svg .down { fill: var(--good); opacity: .85; }
+svg .line { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .dot { fill: var(--accent); }
+svg .cur { fill: var(--warn); }
+ul.rules { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: 13px; }
+ul.rules li.hit { font-weight: 600; color: var(--accent); }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+td.cur { background: var(--accent-soft); font-weight: 600; }
+.ai-out { white-space: pre-wrap; font-size: 13px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-height: 48px; }
+.btn { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+@media (max-width: 900px) {
+  .layout, .grid2 { grid-template-columns: 1fr; }
+  .controls { position: static; }
+  .result { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <div class="eyebrow">737-800 engine shop visits · what-if</div>
+    <h1>もし条件が変わったら、打ち手はどう変わるか</h1>
+    <p class="hint">確定できない条件を左で切り替えると、その条件で最適化した結果（事前に計算済みの <span id="nruns"></span> 通り）が即座に表示されます。合成データ。</p>
+  </header>
+
+  <div class="layout">
+    <aside class="panel controls" aria-label="条件">
+      <div id="ctls" style="display:grid;gap:14px"></div>
+      <button type="button" class="reset" id="reset">基準条件に戻す</button>
+      <p class="hint" id="ref-note"></p>
+    </aside>
+
+    <main style="display:grid;gap:18px;min-width:0">
+      <section class="panel" aria-label="結果" aria-live="polite">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline">
+          <div><span class="hint">最適化が選んだ打ち手</span><div class="pattern" id="pattern"></div></div>
+          <span class="chip" id="rule-chip"></span>
+        </div>
+        <div class="result" id="kpis"></div>
+        <div class="levers" id="levers"></div>
+      </section>
+
+      <section class="panel" aria-label="どの条件が効くか">
+        <h2>いまの条件から 1 つだけ動かすと</h2>
+        <p class="hint">棒はいまの条件に対する期待総コストの差（k$）。赤は増える、緑は減る。</p>
+        <svg id="tornado" viewBox="0 0 760 300" role="img" aria-label="条件ごとの感度"></svg>
+      </section>
+
+      <div class="grid2">
+        <section class="panel" aria-label="中寿命エンジン価格の損益分岐">
+          <h2>中寿命エンジンの価格と入れ替え数</h2>
+          <p class="hint">他の条件は基準のまま、入れ替え数の上限なしで解いた結果。</p>
+          <svg id="breakeven" viewBox="0 0 440 220" role="img" aria-label="価格ごとの入れ替え数"></svg>
+        </section>
+        <section class="panel" aria-label="予備の厚さと代替運航">
+          <h2>予備の厚さ × 別機種の代替</h2>
+          <p class="hint">欠航確率（1 機の価値 0.5〜2 倍での最大、TAT +1 か月）。いまの代替の設定を強調。</p>
+          <table id="coup"></table>
+        </section>
+      </div>
+
+      <section class="panel" aria-label="判断の規則">
+        <h2>判断の規則（決定木による分類）</h2>
+        <ul class="rules" id="rules"></ul>
+      </section>
+
+      <section class="panel" aria-label="AI の解説" id="ai-panel" hidden>
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+          <h2>AI の解説</h2>
+          <span style="display:flex;gap:6px"><button type="button" class="btn ghost" id="ai-stop" hidden>止める</button><button type="button" class="btn" id="ai-go">この条件を解説する</button></span>
+        </div>
+        <div class="ai-out" id="ai-out">条件を選んで「この条件を解説する」を押すと、結果の意味と、経営として気をつける点を説明します。</div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const pct = (v) => (v * 100).toFixed(1) + "%";
+  const signed = (v) => (Math.abs(v) < 0.5 ? "±0" : (v > 0 ? "+" : "−") + fmt(Math.abs(v)));
+  const F = D.factors, keys = Object.keys(F);
+  const LEVEL = {
+    value: (v) => `${v} 倍`, substitute: (v) => (v ? "あり" : "なし"), backlog: (v) => (v ? `+${v} か月` : "なし"),
+    llp: (v) => (v ? "逼迫" : "通常"), midlife: (v) => `${(v / 1000).toFixed(1)}M`,
+  };
+  const REF = { value: 1.0, substitute: 0, backlog: 0, llp: 0, midlife: 7500 };
+  const cur = { ...REF };
+  const find = (f) => D.runs.find((r) => keys.every((k) => r.f[k] === f[k]));
+  $("nruns").textContent = D.runs.length;
+  $("ref-note").textContent = "基準条件：1 機の価値 1 倍・代替なし・TAT 延びなし・LLP 通常・中寿命エンジン 7.5M（事実上使わない）";
+
+  keys.forEach((k) => {
+    const box = document.createElement("div"); box.className = "ctl";
+    const l = document.createElement("div"); l.className = "ctl-label"; l.textContent = D.labels[k];
+    const seg = document.createElement("div"); seg.className = "seg"; seg.setAttribute("role", "group"); seg.setAttribute("aria-label", D.labels[k]);
+    F[k].forEach((v) => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = LEVEL[k](v); b.dataset.k = k; b.dataset.v = v;
+      b.onclick = () => { cur[k] = v; render(); };
+      seg.append(b);
+    });
+    box.append(l, seg); $("ctls").append(box);
+  });
+  $("reset").onclick = () => { Object.assign(cur, REF); render(); };
+
+  function ruleFor(f) {
+    return D.rules.findIndex((r) => r.if.every(([k, op, v]) => (op === "<=" ? f[k] <= v : f[k] > v)));
+  }
+
+  function render() {
+    document.querySelectorAll(".seg button").forEach((b) => b.setAttribute("aria-pressed", String(cur[b.dataset.k] === Number(b.dataset.v))));
+    const r = find(cur), ref = find(REF);
+    if (!r || !r.ok) { $("pattern").textContent = "この条件では実行可能な計画がありません"; $("kpis").textContent = ""; $("levers").textContent = ""; return; }
+    $("pattern").textContent = r.pattern;
+    const ri = ruleFor(cur);
+    $("rule-chip").textContent = ri >= 0 ? `規則 ${ri + 1} に該当` : "";
+    const base = D.baseline;
+    const kpi = (label, value, sub) => `<div class="kpi"><span class="label">${label}</span><span class="value num">${value}</span><span class="sub">${sub}</span></div>`;
+    const d = r.mean - ref.mean;
+    $("kpis").innerHTML =
+      kpi("期待総コスト（k$）", fmt(r.mean), `<span class="${d < 0 ? "pos" : d > 0 ? "neg" : ""}">基準条件比 ${signed(d)}</span>`) +
+      kpi("P90（k$）", fmt(r.p90), `基準条件 ${fmt(ref.p90)}`) +
+      kpi("欠航確率", pct(r.aog), `基準条件 ${pct(ref.aog)}`) +
+      kpi("年間基準との差", base ? signed(r.mean - base.cost) : "—", base ? `基準 ${base.version} 版 ${fmt(base.cost)} k$` : "");
+    $("levers").innerHTML = [
+      `中寿命エンジン入替 ${r.swaps} 基`, `LLP キット緊急調達 ${r.kits} セット`, `予備追加 ${r.spares} 基`,
+      `期限前取卸し 計 ${r.early} か月`, `外部工場への発注 ${Math.round(r.external * 100)}%`,
+    ].map((t) => `<span>${t}</span>`).join("");
+    tornado(r);
+    breakeven();
+    coupling();
+    $("rules").innerHTML = D.rules.map((x, i) => `<li class="${i === ri ? "hit" : ""}">もし ${x.if.map(([k, op, v]) => `${D.labels[k]} ${op === "<=" ? "≤" : ">"} ${v}`).join(" かつ ") || "（常に）"} → ${x.then}</li>`).join("");
+  }
+
+  function tornado(r) {
+    const rows = [];
+    keys.forEach((k) => F[k].forEach((v) => {
+      if (v === cur[k]) return;
+      const x = find({ ...cur, [k]: v });
+      if (x && x.ok) rows.push({ label: `${D.labels[k]}：${LEVEL[k](cur[k])} → ${LEVEL[k](v)}`, d: x.mean - r.mean, aog: x.aog - r.aog });
+    }));
+    rows.sort((a, b) => Math.abs(b.d) - Math.abs(a.d));
+    const W = 760, rowH = 24, L = 300, R = 80, T = 10, H = T + rows.length * rowH + 20;
+    const m = Math.max(1, ...rows.map((x) => Math.abs(x.d)));
+    const x0 = L + (W - L - R) / 2, sc = (W - L - R) / 2 / m;
+    let s = `<line class="axis" x1="${x0}" x2="${x0}" y1="${T}" y2="${H - 16}"/>`;
+    rows.forEach((x, i) => {
+      const y = T + i * rowH;
+      const w = Math.abs(x.d) * sc, xb = x.d >= 0 ? x0 : x0 - w;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 15}" text-anchor="end">${x.label}</text>`;
+      s += `<rect class="${x.d >= 0 ? "up" : "down"}" x="${xb}" y="${y + 4}" width="${Math.max(1, w)}" height="${rowH - 8}"><title>${x.label}: ${signed(x.d)} k$、欠航確率 ${(x.aog * 100).toFixed(1)}pt</title></rect>`;
+      s += `<text x="${W - 6}" y="${y + 15}" text-anchor="end">${signed(x.d)}</text>`;
+    });
+    const svg = $("tornado"); svg.setAttribute("viewBox", `0 0 ${W} ${H}`); svg.innerHTML = s;
+  }
+
+  function breakeven() {
+    const B = D.breakeven; if (!B) return;
+    const W = 440, H = 220, L = 40, R = 12, T = 12, Bm = 36;
+    const xs = B.map((b) => b.price), ms = Math.max(1, ...B.map((b) => b.swaps));
+    const x = (v) => L + (v - xs[0]) / (xs[xs.length - 1] - xs[0]) * (W - L - R), y = (v) => H - Bm - v / ms * (H - T - Bm);
+    let s = "";
+    [0, Math.round(ms / 2), ms].forEach((v) => { s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`; });
+    B.forEach((b) => { s += `<text x="${x(b.price)}" y="${H - Bm + 14}" text-anchor="middle">${(b.price / 1000).toFixed(1)}</text>`; });
+    s += `<text x="${(L + W) / 2}" y="${H - 6}" text-anchor="middle">正味価格（百万ドル相当）→ 縦軸：入れ替え基数</text>`;
+    s += `<polyline class="line" points="${B.map((b) => `${x(b.price)},${y(b.swaps)}`).join(" ")}"/>`;
+    B.forEach((b) => { s += `<circle class="dot" cx="${x(b.price)}" cy="${y(b.swaps)}" r="3"><title>${fmt(b.price)} k$: ${b.swaps} 基、期待総コスト ${fmt(b.mean)} k$</title></circle>`; });
+    const c = Math.min(Math.max(cur.midlife, xs[0]), xs[xs.length - 1]);
+    s += `<line x1="${x(c)}" x2="${x(c)}" y1="${T}" y2="${H - Bm}" stroke="var(--warn)" stroke-dasharray="3 3"/><text x="${x(c) + 4}" y="${T + 10}" style="fill:var(--warn)">いまの設定</text>`;
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - Bm}" y2="${H - Bm}"/>`;
+    $("breakeven").innerHTML = s;
+  }
+
+  function coupling() {
+    const C = D.coupling; if (!C) return;
+    const owned = [...new Set(C.map((c) => c.owned))].sort((a, b) => a - b);
+    const cell = (o, s) => { const v = C.filter((c) => c.owned === o && c.sub === s).map((c) => c.aog); return v.length ? Math.max(...v) : null; };
+    $("coup").innerHTML = `<thead><tr><th>保有エンジン</th><th class="n">代替なし</th><th class="n">代替あり</th></tr></thead><tbody>` +
+      owned.map((o) => `<tr><td class="mono">${o} 基</td>${[0, 1].map((s) => `<td class="n num${cur.substitute === s ? " cur" : ""}">${cell(o, s) == null ? "—" : pct(cell(o, s))}</td>`).join("")}</tr>`).join("") + "</tbody>";
+  }
+
+  render();
+
+  /* ---------- AI explanation ---------- */
+  let sample = null, ctl = null;
+  (async () => {
+    sample = await claude.use("sample");
+    if (sample) $("ai-panel").hidden = false;
+  })();
+  $("ai-go").onclick = async () => {
+    if (!sample || ctl) return;
+    const r = find(cur), ref = find(REF);
+    const sens = [];
+    keys.forEach((k) => F[k].forEach((v) => { if (v !== cur[k]) { const x = find({ ...cur, [k]: v }); if (x && x.ok) sens.push({ change: `${D.labels[k]} ${LEVEL[k](cur[k])}→${LEVEL[k](v)}`, cost_delta: Math.round(x.mean - r.mean), aog_delta: +(x.aog - r.aog).toFixed(4), pattern: x.pattern }); } }));
+    const prompt = [
+      "航空会社の経営層向けに、エンジン整備計画の「もしも分析」の結果を日本語で解説してください。数値は下のデータだけを使い、推測で数字を作らないこと。",
+      "構成：1) この条件で最適な打ち手とその理由（2〜3 文） 2) 基準条件との違い 3) 最も効く条件の変化トップ 3 と、経営として監視すべき指標 4) 注意点（合成データであること、事前計算の範囲外は再計算が必要なこと）。全体で 300 字程度。",
+      "",
+      "データ(JSON)：",
+      JSON.stringify({ labels: D.labels, current: cur, result: r, reference_condition: REF, reference_result: ref, sensitivities: sens.sort((a, b) => Math.abs(b.cost_delta) - Math.abs(a.cost_delta)).slice(0, 8), rules: D.rules, baseline: D.baseline }),
+    ].join("\n");
+    ctl = new AbortController();
+    $("ai-go").disabled = true; $("ai-stop").hidden = false; $("ai-out").textContent = "考えています…";
+    try {
+      await sample(prompt, { signal: ctl.signal, onText: ({ text }) => { $("ai-out").textContent = text; } });
+    } catch (e) {
+      const msg = { cancelled: "", not_granted: "AI の利用が許可されていません。", sampling_disabled: "このアカウントでは AI を使えません。", rate_limited: "混み合っています。少し待ってからもう一度押してください。" }[e && e.code] ?? "解説を受け取れませんでした。もう一度押してください。";
+      $("ai-out").textContent = ((e && e.text) || "") + (msg ? (e && e.text ? "\n\n" : "") + msg : "");
+      if (e && (e.code === "not_granted" || e.code === "sampling_disabled")) $("ai-panel").hidden = true;
+    } finally { ctl = null; $("ai-go").disabled = false; $("ai-stop").hidden = true; }
+  };
+  $("ai-stop").onclick = () => ctl && ctl.abort();
+})();
+</script>

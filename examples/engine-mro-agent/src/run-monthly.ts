@@ -20,18 +20,17 @@
  *      optionally polls health() and getLayout().
  */
 import { writeFile } from "node:fs/promises";
-import { join, resolve } from "node:path";
+import { join } from "node:path";
 import { setTimeout as sleep } from "node:timers/promises";
-import { fileURLToPath } from "node:url";
 import { parseArgs } from "node:util";
 
 import { KnowledgeClient, WorkAGI } from "@work-with-ai/sdk";
 import type { AgiApiClient, KnowledgeContextResponse, PaneInfo, SessionInfo } from "@work-with-ai/sdk";
 
-import { loadConfig, redact } from "./config.js";
+import { exampleRoot, loadConfig, redact } from "./config.js";
 
 const LABEL_PREFIX = "engine-mro-monthly";
-const EXAMPLE_ROOT = resolve(fileURLToPath(new URL(".", import.meta.url)), "..");
+const EXAMPLE_ROOT = exampleRoot(import.meta.url);
 
 /** Knowledge-base questions whose answers move the plan from one month to the next. */
 const CONTEXT_QUERIES = [
@@ -72,19 +71,25 @@ export function plannerPrompt(opts: { month: string; workdir: string; baseline: 
 ## 0. 今月の前提の変化（ナレッジベースからの抜粋）
 ${opts.context}
 
-上の抜粋に工場 TAT の遅延、LLP キットのリードタイム、見積もり改定があれば、data/shop_quotes.json と
-data/fleet_visits.json のどの値（delay.shop_*, quotes.*.tat, llp_kits.lead_months など）に効くかを整理し、
-値を変える場合は ${run}/shop_quotes.json と ${run}/overrides.md にコピーして根拠とともに記録すること（data/ の原本は変更しない）。
+上の抜粋に工場 TAT の遅延、LLP キットのリードタイム、見積もり改定があれば、どの入力値に効くかを整理すること：
+- data/shop_quotes.json の shops[].delay.shop_months / shop_probs（工場混雑）、shops[].quotes.{PR,CORE,FULL}.price / tat、shops[].expedite
+- data/fleet_visits.json の llp_kits.lead_time_months / on_hand
+data/ の原本は変更しない。変更は下の 1b で ${run}/ 配下のコピーにだけ入れ、根拠（抜粋の文書名）を ${run}/overrides.md に記録する。
 
 ## 1. 分析パイプラインを実行する（順番どおり、各ステップの終了コードを確認）
 \`\`\`bash
 cd ${opts.workdir}
 mkdir -p ${run}
-SHOPS=${run}/shop_quotes.json; [ -f "$SHOPS" ] || SHOPS=data/shop_quotes.json
+# 1a. 20 年ライフサイクルの定常値（年間の暗黙の合意）と、今月時点の 2 年窓の入力
 python lifecycle.py --json-out ${run}/lifecycle.json --fleet-out ${fleet}
-python explore.py  --fleet ${fleet} --shops "$SHOPS" --json-out ${run}/explore.json
-python actions.py  --fleet ${fleet} --shops "$SHOPS" --json-out ${run}/actions.json
-python decide.py   --fleet ${fleet} --shops "$SHOPS" --explore ${run}/explore.json --actions ${run}/actions.json \\
+cp data/shop_quotes.json ${run}/shop_quotes.json
+\`\`\`
+1b. 0. で整理した変更を ${fleet}（llp_kits など）と ${run}/shop_quotes.json に反映する（無ければそのまま）。
+\`\`\`bash
+# 1c. 確定できないパラメーターの分類 → 打ち手の効果 → 報告書 → 判断ルーム
+python explore.py  --fleet ${fleet} --shops ${run}/shop_quotes.json --json-out ${run}/explore.json
+python actions.py  --fleet ${fleet} --shops ${run}/shop_quotes.json --json-out ${run}/actions.json
+python decide.py   --fleet ${fleet} --shops ${run}/shop_quotes.json --explore ${run}/explore.json --actions ${run}/actions.json \\
                    --levers ${run}/levers.json --sensitivity ${run}/sensitivity.json \\
                    --json-out ${run}/report.json --html-out ${run}/report.html
 python build_room.py --report ${run}/report.json --actions ${run}/actions.json --explore ${run}/explore.json \\

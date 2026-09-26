@@ -1,3 +1,7 @@
+import { existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
 /**
  * Connection settings for the Node scripts (ingest.ts / run-monthly.ts).
  *
@@ -43,4 +47,15 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ExampleConfig 
 export function redact(secret: string): string {
   if (!secret) return "(none)";
   return secret.length <= 8 ? "****" : `${secret.slice(0, 4)}…${secret.slice(-2)}`;
+}
+
+/** This example's folder, whether running from src/ (tsc) or dist/node/ (bundled). */
+export function exampleRoot(moduleUrl: string): string {
+  let dir = dirname(fileURLToPath(moduleUrl));
+  while (!existsSync(join(dir, "package.json"))) {
+    const up = dirname(dir);
+    if (up === dir) throw new Error("package.json not found above " + moduleUrl);
+    dir = up;
+  }
+  return dir;
 }
