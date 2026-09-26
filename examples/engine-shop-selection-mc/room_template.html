@@ -1,0 +1,362 @@
+<title>エンジン入場の判断ルーム</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --shadow: none;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; font-weight: 700; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+header { display: grid; gap: 6px; }
+.headline { color: var(--ink); max-width: 80ch; }
+.progress { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); align-items: center; }
+.bar { width: 180px; height: 8px; background: var(--accent-soft); border-radius: 4px; overflow: hidden; }
+.bar > span { display: block; height: 100%; background: var(--good); }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 400px; gap: 18px; align-items: start; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); min-width: 0; }
+.group { display: grid; gap: 10px; padding: 16px; }
+.group + .group { border-top: 1px solid var(--rule); }
+.group-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.item { border: 1px solid var(--rule); border-radius: 8px; padding: 12px; display: grid; gap: 8px; }
+.item.approved { border-color: var(--good); }
+.item.returned { border-color: var(--crit); }
+.item.hold { border-color: var(--warn); }
+.item-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+.item-title { font-weight: 600; }
+.chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+.chip.now { background: var(--crit-soft); color: var(--crit); }
+.chip.soon { background: var(--warn-soft); color: var(--warn); }
+.chip.approved { background: var(--good-soft); color: var(--good); }
+.chip.hold { background: var(--warn-soft); color: var(--warn); }
+.chip.returned { background: var(--crit-soft); color: var(--crit); }
+.chip.none { background: var(--accent-soft); color: var(--accent); }
+.actions { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+button { font: inherit; font-size: 12px; padding: 4px 12px; border-radius: 6px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--accent); }
+button:focus-visible, textarea:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+button:disabled { opacity: .5; cursor: default; }
+button.on-approved { background: var(--good-soft); border-color: var(--good); color: var(--good); }
+button.on-hold { background: var(--warn-soft); border-color: var(--warn); color: var(--warn); }
+button.on-returned { background: var(--crit-soft); border-color: var(--crit); color: var(--crit); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.note { width: 100%; font: inherit; font-size: 12px; padding: 6px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--ground); color: var(--ink); resize: vertical; min-height: 34px; }
+.who { font-size: 12px; color: var(--muted); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.who img { width: 18px; height: 18px; border-radius: 50%; }
+.ask-this { font-size: 11px; padding: 2px 8px; }
+
+.ai { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 12px); display: grid; grid-template-rows: auto 1fr auto; max-height: calc(100vh - 40px); }
+.ai-head { padding: 14px 16px; border-bottom: 1px solid var(--rule); display: grid; gap: 6px; }
+.chat { overflow-y: auto; padding: 14px 16px; display: grid; gap: 10px; align-content: start; min-height: 220px; }
+.msg { padding: 10px 12px; border-radius: 8px; white-space: pre-wrap; word-break: break-word; font-size: 13px; }
+.msg.user { background: var(--accent-soft); justify-self: end; max-width: 90%; }
+.msg.ai { background: var(--ground); border: 1px solid var(--rule); }
+.msg.sys { color: var(--muted); font-size: 12px; }
+.suggest { display: flex; gap: 6px; flex-wrap: wrap; }
+.suggest button { font-size: 11px; border-radius: 999px; }
+.composer { border-top: 1px solid var(--rule); padding: 12px 16px; display: grid; gap: 8px; }
+.composer textarea { width: 100%; font: inherit; font-size: 13px; padding: 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--ground); color: var(--ink); resize: vertical; min-height: 60px; }
+.composer .row { display: flex; gap: 8px; justify-content: space-between; align-items: center; }
+
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+tr.rec td { background: var(--accent-soft); }
+
+@media (max-width: 960px) {
+  .layout { grid-template-columns: 1fr; }
+  .ai { position: static; max-height: none; }
+  .chat { max-height: 60vh; }
+}
+@media (max-width: 480px) { h1 { font-size: 20px; } .bar { width: 120px; } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">737-800 engine shop visits · decision room</div>
+    <h1>エンジン入場の判断ルーム</h1>
+    <p class="headline" id="headline"></p>
+    <div class="progress"><span id="progress-text"></span><span class="bar"><span id="progress-bar" style="width:0%"></span></span><span id="mode"></span></div>
+  </header>
+
+  <div class="layout">
+    <main class="panel" id="groups" aria-label="判断事項"></main>
+
+    <aside class="panel ai" aria-label="AI に相談">
+      <div class="ai-head">
+        <h2>AI に相談</h2>
+        <p class="hint">分析結果（計画、判断期限、代替案、打ち手の効果、条件別の結果）と、この部屋の承認状況をもとに答えます。前提を変えた再計算が必要な質問には、その旨を答えます。</p>
+        <div class="suggest" id="suggest"></div>
+      </div>
+      <div class="chat" id="chat" aria-live="polite"></div>
+      <div class="composer">
+        <textarea id="q" placeholder="例：TAT がさらに 1 か月延びたら、今月の判断は変わる？" aria-label="質問"></textarea>
+        <div class="row"><span class="hint" id="ai-status"></span><span class="actions"><button type="button" id="stop" hidden>止める</button><button type="button" class="primary" id="send">送る</button></span></div>
+      </div>
+    </aside>
+  </div>
+
+  <section class="panel group" aria-label="代替案">
+    <div class="group-head"><h2>代替案（4 つの前提ケースでの期待総コスト k$ ／ 欠航確率）</h2><span class="hint" id="rec-note"></span></div>
+    <div class="scroll"><table id="alts"></table></div>
+  </section>
+  <p class="hint">データは公開情報からの推定による合成値です。承認・メモはこのページを開ける人の間で共有されます。</p>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const A = DATA.analysis, ITEMS = DATA.decisions;
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const pct = (v) => (v * 100).toFixed(1) + "%";
+  const STATUS = { approved: "承認", hold: "保留", returned: "差し戻し" };
+  const HINT = { now: "今月中", soon: "3か月以内" };
+  const GROUPS = [
+    ["engine-now", "今月中に決めるエンジン", (it) => it.kind === "engine" && it.status_hint === "now"],
+    ["engine-soon", "3 か月以内に決めるエンジン", (it) => it.kind === "engine" && it.status_hint === "soon"],
+    ["action", "打ち手の実行", (it) => it.kind === "action"],
+    ["info", "情報の取得", (it) => it.kind === "info"],
+  ];
+
+  let db = null, user = null, uid = null, canWrite = null;
+  const state = {};          // id -> {status, note, by, at, history}
+  const drafts = {};         // id -> unsaved note text
+
+  $("headline").textContent = A.conclusion.headline;
+  $("rec-note").textContent = `推奨：案${A.recommended}`;
+
+  /* ---------- alternatives table ---------- */
+  (function () {
+    const cs = Object.keys(A.cases);
+    $("alts").innerHTML = `<thead><tr><th>案</th>${cs.map((c) => `<th class="n">${A.cases[c].label}</th>`).join("")}<th class="n">加重平均</th></tr></thead><tbody>` +
+      A.alternatives.filter((a) => a.feasible).map((a) => `<tr class="${a.key === A.recommended ? "rec" : ""}"><td>案${a.key} ${esc(a.label)}</td>${cs.map((c) => `<td class="n num">${fmt(a.cases[c].mean)} ／ ${pct(a.cases[c].aog)}</td>`).join("")}<td class="n num">${fmt(a.weighted_mean)}</td></tr>`).join("") + "</tbody>";
+  })();
+
+  function esc(s) { return String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  /* ---------- decisions ---------- */
+  async function render() {
+    const ids = [...new Set(Object.values(state).flatMap((s) => [s.by, ...(s.history || []).map((h) => h.by)]).filter(Boolean))];
+    const ps = user && ids.length ? await user.profiles(ids) : {};
+    const root = $("groups");
+    root.textContent = "";
+    GROUPS.forEach(([key, label, pred]) => {
+      const list = ITEMS.filter(pred);
+      if (!list.length) return;
+      const g = document.createElement("section");
+      g.className = "group";
+      const head = document.createElement("div");
+      head.className = "group-head";
+      const h = document.createElement("h2"); h.textContent = label;
+      const c = document.createElement("span"); c.className = "hint";
+      c.textContent = `${list.filter((it) => state[it.id]?.status === "approved").length} / ${list.length} 承認`;
+      head.append(h, c); g.append(head);
+      list.forEach((it) => g.append(card(it, ps)));
+      root.append(g);
+    });
+    const done = ITEMS.filter((it) => state[it.id]?.status === "approved").length;
+    $("progress-text").textContent = `承認済み ${done} / ${ITEMS.length}`;
+    $("progress-bar").style.width = `${(done / ITEMS.length) * 100}%`;
+  }
+
+  function card(it, ps) {
+    const s = state[it.id] || {};
+    const el = document.createElement("article");
+    el.className = "item" + (s.status ? " " + s.status : "");
+    const top = document.createElement("div"); top.className = "item-top";
+    const t = document.createElement("span"); t.className = "item-title"; t.textContent = it.title;
+    const chips = document.createElement("span"); chips.className = "actions";
+    if (it.deadline) { const d = document.createElement("span"); d.className = "chip " + it.status_hint; d.textContent = `期限 ${it.deadline}`; chips.append(d); }
+    const st = document.createElement("span"); st.className = "chip " + (s.status || "none"); st.textContent = STATUS[s.status] || "未判断"; chips.append(st);
+    top.append(t, chips);
+    const why = document.createElement("p"); why.className = "hint"; why.textContent = it.why;
+    const act = document.createElement("div"); act.className = "actions";
+    ["approved", "hold", "returned"].forEach((k) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.textContent = STATUS[k];
+      if (s.status === k) b.className = "on-" + k;
+      b.disabled = !db || canWrite === false;
+      b.onclick = () => decide(it.id, k);
+      act.append(b);
+    });
+    const ask = document.createElement("button");
+    ask.type = "button"; ask.className = "ask-this"; ask.textContent = "AI に聞く";
+    ask.onclick = () => { $("q").value = `「${it.title}」について、判断の根拠と、待った場合・急いだ場合の影響を教えて。`; $("q").focus(); };
+    act.append(ask);
+    const note = document.createElement("textarea");
+    note.className = "note"; note.id = "note-" + it.id; note.placeholder = "メモ（判断の理由、条件など）";
+    note.value = drafts[it.id] ?? s.note ?? "";
+    note.disabled = !db || canWrite === false;
+    note.oninput = () => { drafts[it.id] = note.value; };
+    note.onblur = () => { if (drafts[it.id] !== undefined && drafts[it.id] !== (s.note || "")) saveNote(it.id, drafts[it.id]); };
+    el.append(top, why, act, note);
+    if (s.status && s.by) {
+      const who = document.createElement("div"); who.className = "who";
+      const p = ps[s.by];
+      if (p) { const img = document.createElement("img"); img.src = p.avatarUrl; img.alt = ""; who.append(img); }
+      const txt = document.createElement("span");
+      txt.textContent = `${(p && p.name) || "メンバー"} が${STATUS[s.status]}（${new Date(s.at).toLocaleString("ja-JP")}）` +
+        ((s.history || []).length > 1 ? `・履歴 ${(s.history || []).length} 件` : "");
+      who.append(txt); el.append(who);
+    }
+    return el;
+  }
+
+  async function decide(id, status) {
+    if (!db) return;
+    const prev = state[id] || {};
+    const at = new Date().toISOString();
+    const body = {
+      status, note: drafts[id] ?? prev.note ?? "", by: uid, at,
+      history: [...(prev.history || []), { status, by: uid, at }].slice(-10),
+    };
+    try { await db.doc("decisions/" + id).set(body); delete drafts[id]; }
+    catch (e) { if (e && e.code === "invalid_argument") { canWrite = false; $("mode").textContent = "閲覧のみ（書き込み権限がありません）"; render(); } }
+  }
+  async function saveNote(id, note) {
+    const prev = state[id] || {};
+    try { await db.doc("decisions/" + id).set({ ...prev, note }); delete drafts[id]; } catch (e) { /* keep the draft on screen */ }
+  }
+
+  render();
+  (async () => {
+    db = await claude.use("db");
+    user = await claude.use("user");
+    if (!db) { $("mode").textContent = "共有保存が使えない表示です（閲覧のみ）"; render(); return; }
+    uid = user ? await user.id() : null;
+    canWrite = user ? await user.can("data.write") : null;
+    if (canWrite === false) $("mode").textContent = "閲覧のみ";
+    db.collection("decisions").onSnapshot((snap) => {
+      snap.docs.forEach((d) => { state[d.id] = d.data(); });
+      snap.docChanges().forEach((c) => { if (c.type === "removed") delete state[c.doc.id]; });
+      render();
+    }, () => { $("mode").textContent = "共有保存に接続できません"; });
+  })();
+
+  /* ---------- AI panel ---------- */
+  const SUGGEST = [
+    "今月決めるべきものを、優先順に 5 つ要約して",
+    "案A と案D は何が違う？どちらを選ぶべき？",
+    "中寿命エンジンが 5,500 k$ で買えたら何が変わる？",
+    "部品取りで打ち切る案のリスクは？",
+    "外部工場の TAT がさらに 2 か月延びたら？",
+  ];
+  SUGGEST.forEach((q) => { const b = document.createElement("button"); b.type = "button"; b.textContent = q; b.onclick = () => { $("q").value = q; send(); }; $("suggest").append(b); });
+
+  const summary = {
+    conclusion: A.conclusion, priority: A.priority, cases: A.cases, recommended: A.recommended,
+    alternatives: A.alternatives, meta: A.meta,
+    decisions: ITEMS.map((it) => ({ id: it.id, title: it.title, deadline: it.deadline, why: it.why })),
+  };
+  const RULES = [
+    "あなたは航空会社のエンジン整備計画チームの分析アシスタントです。以下の分析データと、ページの関数（ツール）で取得できる情報だけを根拠に、日本語で簡潔に答えてください。",
+    "- 数値を挙げるときは出典（どの案・ケース・打ち手・条件か）を添える。単位は k$（千ドル相当）。",
+    "- データにない前提（新しい価格、別の遅延幅など）を問われたら、条件別の結果（lookup_condition）で最も近い組み合わせを示し、それ以上は再計算が必要だと伝える。推測で数字を作らない。",
+    "- 要望の優先順位（上ほど優先）に沿って判断理由を説明する。",
+    "- 最後に、この部屋で決めるべきことがあれば 1 行で示す。",
+    "",
+    "分析データ（要約）:",
+    JSON.stringify(summary),
+  ].join("\n");
+
+  const TOOLS = [
+    { name: "get_engine", description: "ESN（例 896-106）の計画、判断期限、取卸し可能期間、急いだ／待った場合のコスト差、入場月ごとのコスト曲線、前倒しの理由を返す。",
+      inputSchema: { type: "object", properties: { esn: { type: "string" } }, required: ["esn"] },
+      execute: ({ esn }) => { const e = A.engines[String(esn)]; if (!e) throw new Error("その ESN は今回の入場予定にありません"); return e; } },
+    { name: "list_actions", description: "打ち手ごとの効果（基準・MRO 混雑・機材更新ケースでの期待総コスト差 k$ と欠航確率、部品取り数、中寿命エンジン入替数）の一覧を返す。",
+      execute: () => A.actions || [] },
+    { name: "lookup_condition", description: "不確実な条件の組み合わせで最適化した結果（選ばれた打ち手のパターン、期待総コスト、欠航確率）を返す。value=1機1か月の価値の倍率(0.5/1/2)、substitute=別機種代替(0/1)、backlog=外部工場TAT延び月(0/1/2)、llp=LLP逼迫(0/1)、midlife=中寿命エンジン正味価格k$(2600/5000/7500)。範囲外の値は最も近い組み合わせを返す。",
+      inputSchema: { type: "object", properties: { value: { type: "number" }, substitute: { type: "number" }, backlog: { type: "number" }, llp: { type: "number" }, midlife: { type: "number" } } },
+      execute: (inp) => {
+        if (!A.explore) throw new Error("条件別の分析結果がありません");
+        const F = A.explore.factors, want = {};
+        Object.keys(F).forEach((k) => { const v = Number(inp[k]); want[k] = Number.isFinite(v) ? v : F[k][Math.floor(F[k].length / 2)]; });
+        const span = (k) => Math.max(1e-9, Math.max(...F[k]) - Math.min(...F[k]));
+        let best = null, bd = Infinity;
+        A.explore.runs.forEach((r) => { const d = Object.keys(F).reduce((a, k) => a + Math.abs(r.f[k] - want[k]) / span(k), 0); if (d < bd) { bd = d; best = r; } });
+        return { asked: want, nearest: best, exact: bd < 1e-9, rules: A.explore.rules.map((r) => ({ if: r.if, then: r.then })) };
+      } },
+    { name: "get_room_status", description: "この判断ルームの各判断事項の現在の状態（承認・保留・差し戻し・未判断）とメモを返す。",
+      execute: () => ITEMS.map((it) => ({ id: it.id, title: it.title, status: state[it.id]?.status || "未判断", note: state[it.id]?.note || "" })) },
+  ];
+
+  let sample = null, toolsOK = false, ctl = null;
+  const turns = [];
+  (async () => {
+    sample = await claude.use("sample");
+    if (!sample) { $("ai-status").textContent = "この表示では AI を使えません"; $("send").disabled = true; return; }
+    const lim = await sample.limits().catch(() => null);
+    toolsOK = !!(lim && lim.tools);
+    $("ai-status").textContent = toolsOK ? "" : "（簡易モード：詳細データの参照なし）";
+  })();
+
+  function bubble(role, text) {
+    const m = document.createElement("div"); m.className = "msg " + role; m.textContent = text;
+    $("chat").append(m); $("chat").scrollTop = $("chat").scrollHeight; return m;
+  }
+
+  async function send() {
+    const q = $("q").value.trim();
+    if (!q || !sample || ctl) return;
+    $("q").value = "";
+    bubble("user", q);
+    const out = bubble("ai", "考えています…");
+    turns.push({ role: "user", content: q });
+    const recent = turns.slice(-8);
+    ctl = new AbortController();
+    $("send").disabled = true; $("stop").hidden = false;
+    try {
+      const res = await sample([{ role: "user", content: RULES }, ...(recent[0].role === "assistant" ? recent.slice(1) : recent)], {
+        signal: ctl.signal, cache: toolsOK ? undefined : false, tools: toolsOK ? TOOLS : undefined,
+        onText: ({ text }) => { out.textContent = text; $("chat").scrollTop = $("chat").scrollHeight; },
+      });
+      turns.push({ role: "assistant", content: res.text });
+      if (res.truncated) bubble("sys", "回答が長すぎて途中で切れました。質問を分けてください。");
+    } catch (e) {
+      out.textContent = (e && e.text) || "";
+      turns.pop();
+      const msg = {
+        cancelled: "", not_granted: "AI の利用が許可されていません。", sampling_disabled: "このアカウントでは AI を使えません。",
+        rate_limited: "混み合っています。少し待ってからもう一度送ってください。", refused: "この質問には答えられませんでした。聞き方を変えてください。",
+        prompt_too_large: "会話が長くなりました。新しい質問から始めてください。",
+      }[e && e.code] ?? "応答を受け取れませんでした。もう一度送ってください。";
+      if (!out.textContent) out.remove();
+      if (msg) bubble("sys", msg);
+      if (e && (e.code === "not_granted" || e.code === "sampling_disabled")) $("send").disabled = true;
+    } finally {
+      ctl = null; $("stop").hidden = true; if ($("send").disabled && sample) $("send").disabled = false;
+    }
+  }
+  $("send").onclick = send;
+  $("stop").onclick = () => ctl && ctl.abort();
+  $("q").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); send(); } });
+})();
+</script>
