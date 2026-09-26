@@ -55,7 +55,7 @@ ALTERNATIVES = {
     "A": ("全要望遵守", "base", dict(ALL_HARD)),
     "B": ("予算を年度間で融通", "base", {**ALL_HARD, "budget": False}),
     "C": ("逼迫に備える", "stress", {**ALL_HARD, "kits_on_hand_only": False, "no_new_spares": False}),
-    "D": ("欠航目標を制約に", "base", {**ALL_HARD, "service": True, "no_new_spares": False}),
+    "D": ("混雑時も欠航目標を守る", "backlog", {**ALL_HARD, "service": True, "no_new_spares": False}),
 }
 
 
@@ -96,7 +96,8 @@ def assess(p, plan, sc, budget_check=True):
     """Evaluate a fixed plan in one case: money, service, and every requirement."""
     chosen = [sc.options[i] for i in plan.chosen]
     early_llp = sum(1 for o in chosen if o.workscope in p.llp_workscopes and o.month < p.llp_kit_lead_months)
-    kits = max(plan.emergency_kits, early_llp - p.llp_kits_on_hand)
+    # kits are re-planned per case: only what this case's stock and lead time cannot cover
+    kits = max(0, early_llp - p.llp_kits_on_hand)
     plan = dataclasses.replace(plan, emergency_kits=kits)
     ev = evaluate(p, plan, sc)
     exp = sc.cost.mean(axis=0)
@@ -166,15 +167,22 @@ def main(argv=None) -> int:
     req_table = []
     for case in CASES:
         allp = solved[f"req:{case}:all"][0]
-        all_mean = evaluate(probs[case], allp, evals[case]).mean if allp else None
-        row = {"case": case, "all_feasible": allp is not None, "all_mean": all_mean, "relax": {}}
+        ev_all = evaluate(probs[case], allp, evals[case]) if allp else None
+        all_mean = ev_all.mean if ev_all else None
+        # differences smaller than two standard errors are Monte Carlo noise
+        noise = 2 * ev_all.stderr if ev_all else None
+        row = {"case": case, "all_feasible": allp is not None, "all_mean": all_mean, "noise": noise, "relax": {}}
         for r in ("budget", "buffer", "volume", "kits_on_hand_only", "no_new_spares"):
             pl = solved[f"req:{case}:-{r}"][0]
             if pl is None:
                 row["relax"][r] = {"feasible": False}
                 continue
             m = evaluate(probs[case], pl, evals[case]).mean
-            row["relax"][r] = {"feasible": True, "mean": m, "saving": None if all_mean is None else all_mean - m}
+            saving = None if all_mean is None else all_mean - m
+            row["relax"][r] = {
+                "feasible": True, "mean": m, "saving": saving,
+                "binding": saving is not None and saving > noise,
+            }
         req_table.append(row)
 
     # --- alternatives x cases ----------------------------------------------------------
@@ -309,7 +317,7 @@ def build_conclusion(p, rec, cheapest, alts, req_table, urg, exc, approvals):
     prices = [
         (REQS[r][0], v["saving"]) for r, v in base_row["relax"].items() if v.get("feasible") and v.get("saving") is not None
     ]
-    prices = sorted([x for x in prices if x[1] > 1], key=lambda x: -x[1])
+    prices = sorted([x for x in prices if x[1] > (base_row["noise"] or 0)], key=lambda x: -x[1])
     if prices:
         points.append("基準ケースで要望を1つ緩めた場合の節約: " + "、".join(f"{n} {s:,.0f} k$" for n, s in prices[:3]) + "。")
     if rec is not cheapest:
