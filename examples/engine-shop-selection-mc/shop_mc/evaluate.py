@@ -46,8 +46,10 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
     off = ((start[:, :, None] <= months) & (months < end[:, :, None])).sum(axis=1)  # (S, T)
     available = p.owned_engines - off - sc.unsched + plan.long_spares
     short = np.maximum(0.0, np.array(p.required_positions) - available)
+    # cover the shortfall cheapest first: engine lease, aircraft substitution, then cancel
     lease = np.minimum(short, np.array([p.lease_cap_at(t) for t in range(T)]))
-    aog = short - lease
+    subst = np.minimum(short - lease, np.array(p.sub_cap))
+    aog = short - lease - subst
     # tiered AOG cost: the lowest-margin flying is cancelled first
     season = np.array([p.season(t) for t in range(T)])
     aog_money = np.zeros_like(aog)
@@ -65,7 +67,10 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
         + p.emergency_kit_premium * plan.emergency_kits
         + p.extra_fixed_cost
     )
-    total = first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + (aog_money * season).sum(1)
+    total = (
+        first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + p.sub_cost * subst.sum(1)
+        + (aog_money * season).sum(1)
+    )
     q = np.sort(total)
     return Evaluation(
         n=len(total),

@@ -14,6 +14,9 @@ Levers (prices are rough public-market estimates, not quotes):
                350 k$/year fee
   fixed        the Asian independent shop moves to fixed price: no overrun for the
                operator, +8 % on its quotes
+  substitute   fly the missing 737-800 capacity with another type (737-8 / A321neo / 767):
+               450 k$ per engine-month; other fleets can spare 2 aircraft (4 engines)
+               off-peak, 1 aircraft in peaks, +1 aircraft once 737-8 deliveries build up
 
   python levers.py                      # writes levers.json
 """
@@ -45,6 +48,7 @@ LEVERS = {
     "usm": ("USM 部品の活用（CORE/FULL −10%）", ("usm", 0.10)),
     "pool": ("エンジン・プール契約（+2 台）", ("pool", 2)),
     "fixed": ("アジア独立系を固定価格化（+8%）", ("fixed", 0.08)),
+    "substitute": ("別機種で代替運航", ("substitute", 450)),
 }
 
 
@@ -80,6 +84,12 @@ def apply(p, lever):
             w: dataclasses.replace(q, price=q.price * (1 + x)) for w, q in k.quotes.items()})
             if k.id == "IND-ASIA" else k for k in p.shops]
         return dataclasses.replace(p, shops=shops)
+    if kind == "substitute":
+        cap = []
+        for t in range(p.horizon):
+            base = 2 if p.is_peak(t) else 4
+            cap.append(base + (2 if p.calendar(t) >= (2027, 4) else 0))
+        return dataclasses.replace(p, sub_cost=float(x), sub_cap=cap)
     raise ValueError(kind)
 
 

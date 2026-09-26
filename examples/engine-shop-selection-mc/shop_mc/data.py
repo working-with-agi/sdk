@@ -107,6 +107,11 @@ class Problem:
     short_lease_max: int
     short_lease_max_peak: int
     """Lease engines available in peak months (the market is tight then)."""
+    sub_cost: float
+    """Cost of flying the missing capacity with another aircraft type, per engine-month
+    (bigger aircraft: extra trip cost; smaller: spilled revenue) [k$]."""
+    sub_cap: list[int]
+    """Engine-equivalents other fleets can cover each month (2 per aircraft; fewer in peaks)."""
     long_spare_cost: float
     long_spare_max: int
     aog_tiers: list[tuple[float, float]]
@@ -233,6 +238,8 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
         short_lease_cost=lease["cost_per_month"],
         short_lease_max=lease["max_engines"],
         short_lease_max_peak=lease.get("max_engines_peak", lease["max_engines"]),
+        sub_cost=f.get("aircraft_substitution", {}).get("cost_per_engine_month", 0.0),
+        sub_cap=_monthly(f.get("aircraft_substitution", {}) | {"horizon_months": f["horizon_months"]}, "engines_by_month", 0),
         long_spare_cost=f["long_term_spare"]["cost_per_month"],
         long_spare_max=f["long_term_spare"]["max_engines"],
         aog_tiers=[
@@ -278,6 +285,11 @@ def _monthly(f: dict, key: str, default) -> list[int]:
 
 
 def _validate(p: Problem) -> None:
+    if p.sub_cap and max(p.sub_cap) > 0 and not (
+        p.short_lease_cost <= p.sub_cost <= min(c for _e, c in p.aog_tiers)
+    ):
+        # the closed-form recourse in evaluate() fills lease -> substitution -> cancellation
+        raise ValueError("aircraft substitution must cost between an engine lease and the cheapest cancellation")
     if len(p.required_positions) != p.horizon or len(p.buffer) != p.horizon:
         raise ValueError("required_positions / buffer_spares must have one value per month")
     for k in p.shops:

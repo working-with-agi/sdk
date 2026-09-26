@@ -7,6 +7,7 @@ First stage (decided now, before uncertainty is revealed):
 
 Second stage (per scenario s and month t, after costs / delays / removals are known):
   l[s,t] >= 0     short-term lease engines (<= cap_t, tighter in peak months)
+  sub[s,t] >= 0   capacity flown by another aircraft type instead (<= what other fleets can spare)
   a[s,t] >= 0     uncovered positions (AOG), cost c_aog,t higher in peak months
 
   min  c_S*S*T + sum_i F_i x[i] + sum_k pen_k q[k]
@@ -107,6 +108,7 @@ def solve_saa(
     S = pulp.LpVariable("long_spares", 0, 0 if req.no_new_spares else p.long_spare_max, cat="Integer")
     K = pulp.LpVariable("emergency_kits", 0, 0 if req.kits_on_hand_only else None, cat="Integer")
     l = {(s, t): pulp.LpVariable(f"l_{s}_{t}", 0, p.lease_cap_at(t)) for s in range(N) for t in range(T)}
+    sub = {(s, t): pulp.LpVariable(f"sub_{s}_{t}", 0, p.sub_cap[t]) for s in range(N) for t in range(T)}
     tiers = p.aog_tiers
     a = {
         (s, t, j): pulp.LpVariable(f"a_{s}_{t}_{j}", 0, None if cap == float("inf") else cap)
@@ -172,7 +174,7 @@ def solve_saa(
             off = np.nonzero((start <= t) & (t < end))[0]
             prob += (
                 p.owned_engines - pulp.lpSum(x[i] for i in off) - sc.unsched[s, t]
-                + S + l[s, t] + a_tot[s, t] >= p.required_positions[t]
+                + S + l[s, t] + sub[s, t] + a_tot[s, t] >= p.required_positions[t]
             ), f"cover_{s}_{t}"
 
     first_stage = (
@@ -186,6 +188,7 @@ def solve_saa(
         pulp.lpSum(sc.cost[s, i] * x[i] for i in range(len(opts)))
         + pulp.lpSum(
             p.short_lease_cost * l[s, t]
+            + p.sub_cost * sub[s, t]
             + p.season(t) * pulp.lpSum(c * a[s, t, j] for j, (_cap, c) in enumerate(tiers))
             for t in range(T)
         )
