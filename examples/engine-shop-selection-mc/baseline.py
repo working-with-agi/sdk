@@ -31,6 +31,7 @@ import pulp
 from shop_mc import Requirements, sample, solve_saa
 from shop_mc.model import InfeasibleError
 from shop_mc.summary import diff, summarize
+from shop_mc.urgency import lead_times
 
 import actions
 import lifecycle
@@ -67,8 +68,21 @@ def solve_summary(args):
     except InfeasibleError:
         return acts, case, None, None
     sc = sample(p, n_eval, seed + 999)
-    rows = [{"esn": o.visit.esn, "shop": o.shop.id, "workscope": o.workscope, "month": p.month_label(o.month), "rush": o.rush}
-            for o in sorted((sc.options[i] for i in plan.chosen), key=lambda o: o.month)]
+    rows = []
+    leads = lead_times(p, [sc.options[i] for i in plan.chosen])
+    for i in sorted(plan.chosen, key=lambda i: sc.options[i].month):
+        o = sc.options[i]
+        reason, lead = max(leads[o.visit.esn], key=lambda r: r[1])
+        rows.append({
+            "esn": o.visit.esn, "shop": o.shop.id, "workscope": o.workscope, "month": p.month_label(o.month),
+            "t": o.month, "fy": p.fiscal_year(o.month), "rush": o.rush, "watch": o.visit.watch,
+            "limit": p.month_label(o.visit.latest), "earliest": p.month_label(o.visit.earliest),
+            "exp_cost": round(float(sc.cost[:, i].mean())), "off_wing": round(float(sc.down[:, i].mean()), 1),
+            "quoted_off_wing": o.shop.transport_months + o.tat(),
+            # the decision must be made this many months before induction (slot booking,
+            # or LLP kit order when the kits on hand are already committed)
+            "deadline_t": o.month - lead, "deadline_reason": f"{reason} {lead} か月前",
+        })
     return acts, case, summarize(p, plan, sc), rows
 
 
@@ -80,6 +94,28 @@ def freeze(args) -> int:
         print("no plan meets every requirement in the base case; relax one before freezing")
         return 1
     visits, shelf, short, _state, T = lifecycle.simulate(args.seed)
+    p = actions.build(str(args.fleet), str(args.shops), (), "base")
+    monthly = {
+        "labels": [p.month_label(t) for t in range(p.horizon)],
+        "fy": [p.fiscal_year(t) for t in range(p.horizon)],
+        "peak": [p.is_peak(t) for t in range(p.horizon)],
+        "required": p.required_positions, "buffer": p.buffer,
+        # engines available on the plan's quoted schedule (no delays): the planning view
+        "serviceable": [p.owned_engines - sum(1 for r in rows if r["t"] <= t < r["t"] + r["quoted_off_wing"])
+                        for t in range(p.horizon)],
+    }
+    outlook = {}
+    for name, aging in (("stationary", 0.0), ("aging_2pct", 0.02)):
+        # same seed: the first YEARS reproduce the history that led to today; the 10 years
+        # after that are the outlook (year 0 = the 12 months from the window start)
+        v, sh, st, _s, TT = lifecycle.simulate(args.seed, years=lifecycle.YEARS + 10, aging=aging)
+        years = []
+        for y in range(lifecycle.YEARS - 5, lifecycle.YEARS + 10):
+            vs = [x for x in v if y * 12 <= x["t"] < (y + 1) * 12]
+            years.append({"year": y - lifecycle.YEARS, "visits": len(vs),
+                          "by_ws": {w: sum(1 for x in vs if x["ws"] == w) for w in lifecycle.COST},
+                          "spend": sum(lifecycle.COST[x["ws"]] for x in vs)})
+        outlook[name] = years
     base = {
         "version": dt.date.today().isoformat(),
         "created": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
@@ -89,6 +125,9 @@ def freeze(args) -> int:
         "norms": lifecycle.norms(visits, shelf, short, T),
         "plan_of_record": summ,
         "plan": rows,
+        "monthly": monthly,
+        "budgets": p.budget_by_fy,
+        "outlook": outlook,
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(base, ensure_ascii=False, indent=1), encoding="utf-8")

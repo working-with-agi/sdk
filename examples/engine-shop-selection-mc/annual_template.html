@@ -1,0 +1,393 @@
+<title>737-800 エンジン整備計画</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --ws-pr: #3d8fb8; --ws-core: #d08a2e; --ws-full: #7a5aa8;
+  --peak: rgba(168, 103, 26, .10);
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+    --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+  --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); }
+.kpi .value { font-size: 22px; font-weight: 500; }
+.kpi .sub { font-size: 11px; color: var(--muted); }
+.meter { height: 6px; border-radius: 3px; background: var(--accent-soft); overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); } .meter > span.over { background: var(--crit); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 18px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .pr { fill: var(--ws-pr); } svg .core { fill: var(--ws-core); } svg .full { fill: var(--ws-full); }
+svg .spend { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+svg .spend-dot { fill: var(--ink); }
+svg .req { fill: var(--accent-soft); } svg .buf { fill: var(--warn-soft); }
+svg .have { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .aging { fill: none; stroke: var(--crit); stroke-width: 1.5; stroke-dasharray: 4 3; }
+svg .win { fill: var(--accent-soft); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 640px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+.ws { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 4px; color: #fff; }
+.ws.PR { background: var(--ws-pr); } .ws.CORE { background: var(--ws-core); } .ws.FULL { background: var(--ws-full); }
+.flag { font-size: 11px; color: var(--crit); font-weight: 600; }
+.bars { display: grid; gap: 8px; }
+.bar-row { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 48px; gap: 10px; align-items: center; font-size: 12px; }
+.bar-row .meter { margin: 0; height: 10px; }
+.ai-out { white-space: pre-wrap; font-size: 13px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-height: 44px; }
+.btn { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+.strip { display: grid; grid-template-columns: repeat(24, minmax(44px, 1fr)); gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+.cell { font: inherit; display: grid; gap: 2px; justify-items: center; padding: 6px 2px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); cursor: pointer; font-size: 11px; }
+.cell .m { font-weight: 600; }
+.cell .y { color: var(--muted); font-size: 10px; }
+.cell .n { font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+.cell.peak { background: var(--peak); }
+.cell.tight { border-color: var(--warn); box-shadow: inset 0 -3px 0 var(--warn); }
+.cell.short { border-color: var(--crit); box-shadow: inset 0 -3px 0 var(--crit); }
+.cell[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.cell .due { width: 6px; height: 6px; border-radius: 50%; background: var(--crit); }
+.cell .due.none { background: transparent; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips span { font-size: 12px; border: 1px solid var(--rule); border-radius: 6px; padding: 1px 8px; font-family: "IBM Plex Mono", monospace; }
+.over { color: var(--crit); font-weight: 600; }
+.nav { display: flex; gap: 6px; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <div class="eyebrow">737-800 engine shop visits · plan</div>
+    <h1>エンジン整備計画（月次）</h1>
+    <p class="hint" id="sub"></p>
+  </header>
+
+  <nav class="tabs" role="tablist" id="tabs" aria-label="年度"></nav>
+
+  <div id="month-view" style="display:grid;gap:18px">
+    <section class="panel" aria-label="24 か月">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline">
+        <h2>月を選ぶ</h2>
+        <span class="legend"><span>数字＝入場件数</span><span><span class="sw" style="background:var(--crit);height:6px;width:6px;border-radius:50%"></span>判断期限あり</span><span><span class="sw" style="background:var(--warn);height:3px"></span>余力が薄い</span><span><span class="sw" style="background:var(--peak)"></span>繁忙期</span></span>
+      </div>
+      <div class="strip" id="strip" role="group" aria-label="月"></div>
+    </section>
+    <section class="panel" aria-label="選んだ月の要約">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+        <h2 id="m-title"></h2>
+        <span class="nav"><button type="button" class="btn ghost" id="prev">← 前月</button><button type="button" class="btn ghost" id="next">翌月 →</button></span>
+      </div>
+      <div class="kpis" id="m-kpis"></div>
+    </section>
+    <section class="panel" aria-label="今月決めること">
+      <h2 id="d-title">今月決めること</h2>
+      <p class="hint">この月が判断期限の入場（工場の枠予約、LLP キットの発注に間に合わせるため）。期限を過ぎているものは最初の月に含めています。</p>
+      <div class="scroll"><table id="m-due"></table></div>
+    </section>
+    <div class="grid2">
+      <section class="panel" aria-label="入場"><h2 id="in-title">入場</h2><div class="scroll"><table id="m-in"></table></div></section>
+      <section class="panel" aria-label="戻り"><h2 id="out-title">工場から戻る</h2><div class="scroll"><table id="m-out"></table></div>
+        <h2 id="shop-title" style="margin-top:8px">工場にいる</h2><div class="chips" id="m-shop"></div></section>
+    </div>
+  </div>
+
+  <div id="fy-view" hidden style="display:grid;gap:18px">
+    <section class="panel" aria-label="年度の要約"><div class="kpis" id="kpis"></div></section>
+    <div class="grid2">
+      <section class="panel" aria-label="月別の入場と支出">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><h2>月別の入場と支出</h2>
+          <div class="legend"><span><span class="sw" style="background:var(--ws-pr)"></span>PR</span><span><span class="sw" style="background:var(--ws-core)"></span>CORE</span><span><span class="sw" style="background:var(--ws-full)"></span>FULL</span><span><span class="sw" style="background:var(--ink);height:2px"></span>支出（右軸、百万ドル）</span><span><span class="sw" style="background:var(--peak)"></span>繁忙期</span></div></div>
+        <svg id="monthly" viewBox="0 0 640 260" role="img" aria-label="月別の入場件数と支出"></svg>
+      </section>
+      <section class="panel" aria-label="工場の配分">
+        <h2>工場の配分</h2>
+        <div class="bars" id="shops"></div>
+        <p class="hint">期待整備費ベース。外部工場の比率と、1 工場への集中度を見ます。</p>
+      </section>
+    </div>
+    <section class="panel" aria-label="余力">
+      <h2>使えるエンジンの余力</h2>
+      <p class="hint">計画上（見積もりどおりの TAT）で翼にもどせるエンジン数と、便を飛ばすのに必要な装着数＋棚のバッファ。線が帯の上なら余力あり。</p>
+      <svg id="capacity" viewBox="0 0 900 220" role="img" aria-label="月別の余力"></svg>
+    </section>
+    <section class="panel" aria-label="入場一覧">
+      <h2 id="list-title">入場一覧</h2>
+      <div class="scroll"><table id="list"></table></div>
+    </section>
+
+  </div>
+
+  <div id="outlook-view" hidden style="display:grid;gap:18px">
+    <section class="panel" aria-label="10 年の見通し">
+      <h2>10 年の見通し（年度計画の前後を含む）</h2>
+      <p class="hint">20 年のライフサイクル・シミュレーション（パラメーター一定）を現在の状態から 10 年先まで延ばした年別の入場件数（棒）と支出。赤の破線は老朽化あり（劣化が年 2% 加速）の支出。網掛けは今の 2 年の計画の範囲。年ごとの山谷は、平準化（入場の前倒し・先送り）を検討する目安です。</p>
+      <svg id="outlook" viewBox="0 0 900 280" role="img" aria-label="10 年の入場件数と支出"></svg>
+      <div class="legend"><span><span class="sw" style="background:var(--ws-pr)"></span>PR</span><span><span class="sw" style="background:var(--ws-core)"></span>CORE</span><span><span class="sw" style="background:var(--ws-full)"></span>FULL</span><span><span class="sw" style="background:var(--ink);height:2px"></span>支出（一定）</span><span><span class="sw" style="background:var(--crit);height:2px"></span>支出（老朽化あり）</span></div>
+    </section>
+    <section class="panel"><div class="kpis" id="outlook-kpis"></div></section>
+  </div>
+  <section class="panel" aria-label="AI の説明" id="ai-panel" hidden>
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h2>AI による計画の説明</h2>
+        <span style="display:flex;gap:6px"><button type="button" class="btn ghost" id="ai-stop" hidden>止める</button><button type="button" class="btn" id="ai-go">説明する</button></span></div>
+      <div class="ai-out" id="ai-out">経営会議向けに、この年度の計画の要点（件数・支出・山谷・リスク）を説明します。</div>
+    </section>
+  <p class="hint">データは公開情報からの推定による合成値です（737-800 76 機、保有 166 基）。</p>
+</div>
+
+<script>
+const D = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const musd = (k) => (k / 1000).toFixed(1);
+  const M = D.monthly, P = D.plan, N = D.norms;
+  const fys = [...new Set(M.fy)];
+  const monthsIn = (fy) => M.fy.map((f, t) => (f === fy ? t : -1)).filter((t) => t >= 0);
+  const fyLabel = (fy) => { const n = monthsIn(fy).length; return n === 12 ? fy : `${fy}（${M.labels[monthsIn(fy)[0]]}〜${M.labels[monthsIn(fy)[n - 1]]}）`; };
+  $("sub").textContent = `基準 ${D.version} 版。便の計画から逆算した必要装着数と、全要望（予算・バッファ・契約など）を守る計画。定常の目安：年 ${N.visits_per_year.toFixed(1)} 件・${musd(N.spend_per_year_k)} 百万ドル。`;
+
+  let tab = "month", cur = 0;
+  const tabs = [["month", "月次計画"], ...fys.map((f) => [f, `年度：${fyLabel(f)}`]), ["outlook", "10 年の見通し"]];
+  tabs.forEach(([k, label]) => {
+    const b = document.createElement("button"); b.type = "button"; b.role = "tab"; b.textContent = label; b.dataset.k = k;
+    b.onclick = () => { tab = k; render(); };
+    $("tabs").append(b);
+  });
+
+  function render() {
+    document.querySelectorAll("#tabs button").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.k === tab)));
+    const isO = tab === "outlook", isM = tab === "month";
+    $("month-view").hidden = !isM; $("fy-view").hidden = isO || isM; $("outlook-view").hidden = !isO;
+    if (isM) return monthView();
+    if (isO) return outlook();
+    const ts = monthsIn(tab), rows = P.filter((r) => r.fy === tab);
+    const months = ts.length, spend = rows.reduce((a, r) => a + r.exp_cost, 0), budget = D.budgets[tab] || 0;
+    const normVisits = N.visits_per_year * months / 12, normSpend = N.spend_per_year_k * months / 12;
+    const ws = { PR: 0, CORE: 0, FULL: 0 }; rows.forEach((r) => { if (r.workscope in ws) ws[r.workscope]++; });
+    const ext = rows.filter((r) => r.shop !== "GRP-JP").length;
+    const r = budget ? spend / budget : 0;
+    const kpi = (l, v, s, meter) => `<div class="kpi"><span class="label">${l}</span><span class="value num">${v}</span><span class="sub">${s}</span>${meter || ""}</div>`;
+    $("kpis").innerHTML =
+      kpi("入場件数", rows.length, `定常の目安 ${normVisits.toFixed(1)} 件（${months} か月）`) +
+      kpi("支出（百万ドル）", musd(spend), `予算 ${musd(budget)}・目安 ${musd(normSpend)}`,
+        `<div class="meter"><span class="${r > 1.01 ? "over" : r > 0.95 ? "hot" : ""}" style="width:${Math.min(100, r * 100)}%"></span></div>`) +
+      kpi("ワークスコープ", `${ws.PR}/${ws.CORE}/${ws.FULL}`, "PR / CORE / FULL") +
+      kpi("外部工場", `${Math.round(ext / Math.max(1, rows.length) * 100)}%`, `${ext} / ${rows.length} 件`) +
+      kpi("要監視エンジン", rows.filter((x) => x.watch).length, "故障リスクが高く、期限を待たない候補");
+    monthly(ts, rows); shops(rows); capacity(ts); list(rows);
+  }
+
+  /* ---------- monthly plan ---------- */
+  const back = (r) => r.t + r.quoted_off_wing;               // planned return month
+  const dueAt = (r) => Math.max(0, r.deadline_t);            // overdue decisions land in month 0
+  const margin = (t) => M.serviceable[t] - M.required[t] - M.buffer[t];
+  const monthName = (t) => { const [y, m] = M.labels[t].split("-"); return { y, m: Number(m) }; };
+
+  function strip() {
+    $("strip").textContent = "";
+    M.labels.forEach((l, t) => {
+      const b = document.createElement("button"); b.type = "button";
+      const g = margin(t), n = P.filter((r) => r.t === t).length, due = P.some((r) => dueAt(r) === t);
+      b.className = "cell" + (M.peak[t] ? " peak" : "") + (g < 0 ? " short" : g <= 2 ? " tight" : "");
+      b.setAttribute("aria-pressed", String(t === cur));
+      b.setAttribute("aria-label", `${l} 入場 ${n} 件 余力 ${g}`);
+      const { y, m } = monthName(t);
+      b.innerHTML = `<span class="y">${y}</span><span class="m">${m}月</span><span class="n">${n}</span><span class="due${due ? "" : " none"}"></span>`;
+      b.onclick = () => { cur = t; render(); };
+      $("strip").append(b);
+    });
+  }
+
+  function monthView() {
+    strip();
+    const t = cur, { y, m } = monthName(t);
+    const ins = P.filter((r) => r.t === t), outs = P.filter((r) => back(r) === t);
+    const inShop = P.filter((r) => r.t <= t && t < back(r)), due = P.filter((r) => dueAt(r) === t);
+    const spend = ins.reduce((a, r) => a + r.exp_cost, 0), g = margin(t);
+    $("m-title").textContent = `${y} 年 ${m} 月（${M.fy[t]}）` + (M.peak[t] ? "・繁忙期" : "");
+    const kpi = (l, v, s) => `<div class="kpi"><span class="label">${l}</span><span class="value num">${v}</span><span class="sub">${s}</span></div>`;
+    const ws = (xs) => ["PR", "CORE", "FULL"].map((w) => xs.filter((r) => r.workscope === w).length).join("/");
+    $("m-kpis").innerHTML =
+      kpi("今月決めること", due.length, due.some((r) => r.deadline_t < 0) ? '<span class="over">期限超過を含む</span>' : "判断期限が今月の入場") +
+      kpi("入場", ins.length, `PR/CORE/FULL ${ws(ins)}`) +
+      kpi("工場から戻る", outs.length, `工場にいる ${inShop.length} 基`) +
+      kpi("余力", (g >= 0 ? "+" : "") + g, `使える ${M.serviceable[t]} ／ 必要 ${M.required[t]}＋バッファ ${M.buffer[t]}`) +
+      kpi("支出（百万ドル）", musd(spend), `年度予算 ${musd(D.budgets[M.fy[t]] || 0)}`);
+    $("d-title").textContent = `今月決めること（${due.length} 件）`;
+    $("m-due").innerHTML = due.length ? `<thead><tr><th>ESN</th><th>入場予定</th><th>ワークスコープ</th><th>工場</th><th>理由</th><th>取卸し期限</th><th></th></tr></thead><tbody>` +
+      due.map((r) => `<tr><td class="mono">${r.esn}</td><td class="mono">${r.month}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${D.shops[r.shop] || r.shop}</td><td>${r.deadline_reason}${r.deadline_t < 0 ? ' <span class="over">期限超過</span>' : ""}</td><td class="mono">${r.limit}</td><td>${r.watch ? '<span class="flag">要監視</span>' : ""}</td></tr>`).join("") + "</tbody>"
+      : `<tbody><tr><td class="hint">この月に判断期限の入場はありません。</td></tr></tbody>`;
+    $("in-title").textContent = `入場（${ins.length} 件）`;
+    $("m-in").innerHTML = ins.length ? `<thead><tr><th>ESN</th><th>ワークスコープ</th><th>工場</th><th class="n">期待費用（千ドル）</th><th class="n">戻り予定</th><th></th></tr></thead><tbody>` +
+      ins.map((r) => `<tr><td class="mono">${r.esn}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${D.shops[r.shop] || r.shop}${r.rush ? "・特急" : ""}</td><td class="n num">${fmt(r.exp_cost)}</td><td class="n mono">${M.labels[back(r)] || "期間後"}</td><td>${r.watch ? '<span class="flag">要監視</span>' : ""}</td></tr>`).join("") + "</tbody>"
+      : `<tbody><tr><td class="hint">この月の入場はありません。</td></tr></tbody>`;
+    $("out-title").textContent = `工場から戻る（${outs.length} 件）`;
+    $("m-out").innerHTML = outs.length ? `<thead><tr><th>ESN</th><th>ワークスコープ</th><th>工場</th><th>入場月</th></tr></thead><tbody>` +
+      outs.map((r) => `<tr><td class="mono">${r.esn}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${D.shops[r.shop] || r.shop}</td><td class="mono">${r.month}</td></tr>`).join("") + "</tbody>"
+      : `<tbody><tr><td class="hint">この月に戻るエンジンはありません。</td></tr></tbody>`;
+    $("shop-title").textContent = `工場にいる（${inShop.length} 基）`;
+    $("m-shop").innerHTML = inShop.map((r) => `<span title="${D.shops[r.shop] || r.shop}・${r.workscope}">${r.esn}</span>`).join("") || '<span class="hint">なし</span>';
+  }
+  $("prev").onclick = () => { if (cur > 0) { cur--; render(); } };
+  $("next").onclick = () => { if (cur < M.labels.length - 1) { cur++; render(); } };
+
+  function monthly(ts, rows) {
+    const W = 640, H = 260, L = 36, R = 44, T = 14, B = 34, n = ts.length, bw = (W - L - R) / n;
+    const cnt = ts.map((t) => ({ PR: 0, CORE: 0, FULL: 0, spend: 0 }));
+    rows.forEach((r) => { const i = ts.indexOf(r.t); if (i >= 0) { if (r.workscope in cnt[i]) cnt[i][r.workscope]++; cnt[i].spend += r.exp_cost; } });
+    const maxC = Math.max(4, ...cnt.map((c) => c.PR + c.CORE + c.FULL)), maxS = Math.max(1, ...cnt.map((c) => c.spend));
+    const y = (v) => H - B - v / maxC * (H - T - B), ys = (v) => H - B - v / maxS * (H - T - B);
+    let s = "";
+    ts.forEach((t, i) => { if (M.peak[t]) s += `<rect class="peak" x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}"/>`; });
+    for (let v = 0; v <= maxC; v += Math.max(1, Math.round(maxC / 4))) s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    [0, maxS / 2, maxS].forEach((v) => { s += `<text x="${W - R + 6}" y="${ys(v) + 3}">${musd(v)}</text>`; });
+    cnt.forEach((c, i) => {
+      let acc = 0;
+      ["PR", "CORE", "FULL"].forEach((w) => { if (!c[w]) return; s += `<rect class="${w.toLowerCase()}" x="${L + i * bw + 3}" y="${y(acc + c[w])}" width="${bw - 6}" height="${y(acc) - y(acc + c[w])}"><title>${M.labels[ts[i]]} ${w} ${c[w]} 件</title></rect>`; acc += c[w]; });
+      s += `<text x="${L + i * bw + bw / 2}" y="${H - B + 14}" text-anchor="middle">${M.labels[ts[i]].slice(5)}</text>`;
+    });
+    s += `<polyline class="spend" points="${cnt.map((c, i) => `${L + i * bw + bw / 2},${ys(c.spend)}`).join(" ")}"/>`;
+    cnt.forEach((c, i) => { s += `<circle class="spend-dot" cx="${L + i * bw + bw / 2}" cy="${ys(c.spend)}" r="2.5"><title>${M.labels[ts[i]]} 支出 ${musd(c.spend)} 百万ドル</title></circle>`; });
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/><text x="${L}" y="${H - 4}">月</text>`;
+    $("monthly").innerHTML = s;
+  }
+
+  function shops(rows) {
+    const by = {}; rows.forEach((r) => { by[r.shop] = (by[r.shop] || 0) + r.exp_cost; });
+    const total = Object.values(by).reduce((a, b) => a + b, 0) || 1;
+    $("shops").innerHTML = Object.entries(D.shops).map(([id, name]) => {
+      const v = by[id] || 0, n = rows.filter((r) => r.shop === id).length;
+      return `<div class="bar-row"><span>${name}</span><div class="meter"><span style="width:${v / total * 100}%"></span></div><span class="mono">${n} 件</span></div>`;
+    }).join("");
+  }
+
+  function capacity(ts) {
+    const W = 900, H = 220, L = 44, R = 12, T = 12, B = 30, n = M.labels.length, bw = (W - L - R) / n;
+    const have = M.serviceable, req = M.required, buf = M.buffer;
+    const lo = Math.min(...req) - 8, hi = Math.max(...have, ...req.map((r, i) => r + buf[i])) + 4;
+    const x = (i) => L + i * bw, y = (v) => H - B - (v - lo) / (hi - lo) * (H - T - B);
+    let s = "";
+    for (let i = 0; i < n; i++) {
+      const inFy = ts.includes(i);
+      if (M.peak[i]) s += `<rect class="peak" x="${x(i)}" y="${T}" width="${bw}" height="${H - T - B}"/>`;
+      s += `<rect class="req" x="${x(i) + 2}" y="${y(req[i])}" width="${bw - 4}" height="${H - B - y(req[i])}" opacity="${inFy ? 1 : 0.35}"><title>${M.labels[i]} 必要装着 ${req[i]}</title></rect>`;
+      s += `<rect class="buf" x="${x(i) + 2}" y="${y(req[i] + buf[i])}" width="${bw - 4}" height="${y(req[i]) - y(req[i] + buf[i])}" opacity="${inFy ? 1 : 0.35}"/>`;
+      if (i % 3 === 0) s += `<text x="${x(i) + bw / 2}" y="${H - B + 14}" text-anchor="middle">${M.labels[i].slice(2)}</text>`;
+    }
+    for (let v = Math.ceil(lo / 10) * 10; v <= hi; v += 10) s += `<text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    s += `<polyline class="have" points="${have.map((v, i) => `${x(i) + bw / 2},${y(v)}`).join(" ")}"/>`;
+    have.forEach((v, i) => { s += `<circle cx="${x(i) + bw / 2}" cy="${y(v)}" r="2.5" fill="var(--accent)"><title>${M.labels[i]} 使える ${v}・必要＋バッファ ${req[i] + buf[i]}（余力 ${v - req[i] - buf[i]}）</title></circle>`; });
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+    $("capacity").innerHTML = s;
+  }
+
+  function list(rows) {
+    $("list-title").textContent = `入場一覧（${rows.length} 件）`;
+    $("list").innerHTML = `<thead><tr><th>入場月</th><th>ESN</th><th>ワークスコープ</th><th>工場</th><th>取卸し可能</th><th class="n">期待費用（千ドル）</th><th class="n">翼を離れる期間</th><th></th></tr></thead><tbody>` +
+      rows.map((r) => `<tr><td class="mono">${r.month}</td><td class="mono">${r.esn}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${D.shops[r.shop] || r.shop}${r.rush ? "・特急" : ""}</td><td class="mono">${r.earliest}〜${r.limit}</td><td class="n num">${fmt(r.exp_cost)}</td><td class="n num">${r.off_wing} か月</td><td>${r.watch ? '<span class="flag">要監視</span>' : ""}</td></tr>`).join("") + "</tbody>";
+  }
+
+  function outlook() {
+    const S = D.outlook.stationary, A = D.outlook.aging_2pct;
+    const W = 900, H = 280, L = 40, R = 52, T = 14, B = 36, n = S.length, bw = (W - L - R) / n;
+    const maxC = Math.max(...S.map((y) => y.visits)) * 1.1, maxS = Math.max(...S.map((y) => y.spend), ...A.map((y) => y.spend)) * 1.05;
+    const y = (v) => H - B - v / maxC * (H - T - B), ys = (v) => H - B - v / maxS * (H - T - B);
+    let s = "";
+    S.forEach((yr, i) => { if (yr.year === 0 || yr.year === 1) s += `<rect class="win" x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}"/>`; });
+    for (let v = 0; v <= maxC; v += 10) s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    [0, maxS / 2, maxS].forEach((v) => { s += `<text x="${W - R + 6}" y="${ys(v) + 3}">${musd(v)}</text>`; });
+    S.forEach((yr, i) => {
+      let acc = 0;
+      ["PR", "CORE", "FULL"].forEach((w) => { const c = yr.by_ws[w] || 0; if (!c) return; s += `<rect class="${w.toLowerCase()}" x="${L + i * bw + 5}" y="${y(acc + c)}" width="${bw - 10}" height="${y(acc) - y(acc + c)}"><title>${yr.year >= 0 ? "+" : ""}${yr.year} 年目 ${w} ${c} 件</title></rect>`; acc += c; });
+      s += `<text x="${L + i * bw + bw / 2}" y="${H - B + 14}" text-anchor="middle">${yr.year === 0 ? "今年" : (yr.year > 0 ? "+" : "") + yr.year}</text>`;
+    });
+    s += `<polyline class="spend" points="${S.map((yr, i) => `${L + i * bw + bw / 2},${ys(yr.spend)}`).join(" ")}"/>`;
+    s += `<polyline class="aging" points="${A.map((yr, i) => `${L + i * bw + bw / 2},${ys(yr.spend)}`).join(" ")}"/>`;
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/><text x="${L}" y="${H - 6}">年（今年 = 計画開始からの 12 か月）</text>`;
+    $("outlook").innerHTML = s;
+    const fut = S.filter((y) => y.year >= 0), futA = A.filter((y) => y.year >= 0);
+    const avg = (xs, k) => xs.reduce((a, x) => a + x[k], 0) / xs.length;
+    const peak = fut.reduce((a, x) => (x.visits > a.visits ? x : a), fut[0]);
+    const kpi = (l, v, sub) => `<div class="kpi"><span class="label">${l}</span><span class="value num">${v}</span><span class="sub">${sub}</span></div>`;
+    $("outlook-kpis").innerHTML =
+      kpi("今後 10 年の平均", `${avg(fut, "visits").toFixed(1)} 件`, `支出 ${musd(avg(fut, "spend"))} 百万ドル/年`) +
+      kpi("山の年", `+${peak.year} 年目`, `${peak.visits} 件・${musd(peak.spend)} 百万ドル`) +
+      kpi("年ごとの幅", `${Math.min(...fut.map((x) => x.visits))}〜${Math.max(...fut.map((x) => x.visits))} 件`, "平準化の余地") +
+      kpi("老朽化ありの平均", `${avg(futA, "visits").toFixed(1)} 件`, `支出 ${musd(avg(futA, "spend"))} 百万ドル/年`) +
+      kpi("老朽化による増分", `+${musd(avg(futA, "spend") - avg(fut, "spend"))}`, "百万ドル/年（劣化が年 2% 加速）");
+  }
+
+  render();
+
+  /* ---------- AI ---------- */
+  let sample = null, ctl = null;
+  (async () => { sample = await claude.use("sample"); if (sample) $("ai-panel").hidden = false; })();
+  $("ai-go").onclick = async () => {
+    if (!sample || ctl || tab === "outlook") return;
+    const fy = tab === "month" ? M.fy[cur] : tab;
+    const ts = monthsIn(fy), rows = P.filter((r) => r.fy === fy);
+    const payload = {
+      fiscal_year: fyLabel(fy), months: ts.length, budget_k: D.budgets[fy], norms: D.norms,
+      focus_month: tab === "month" ? M.labels[cur] : null,
+      inductions: rows.map((r) => ({ month: r.month, decide_by: M.labels[Math.max(0, r.deadline_t)], esn: r.esn, ws: r.workscope, shop: D.shops[r.shop] || r.shop, cost_k: r.exp_cost, off_wing: r.off_wing, watch: r.watch, window: `${r.earliest}〜${r.limit}` })),
+      capacity: ts.map((t) => ({ month: M.labels[t], serviceable: M.serviceable[t], required: M.required[t], buffer: M.buffer[t], peak: M.peak[t] })),
+      outlook_next_years: D.outlook.stationary.filter((y) => y.year >= 0 && y.year <= 4),
+    };
+    const prompt = (tab === "month"
+      ? "航空会社の整備計画会議向けに、737-800 エンジン計画の focus_month の月について日本語で説明してください。データだけを根拠にし、数字を作らないこと。構成：1) この月に決めること（判断期限）と入場・戻り 2) 余力と繁忙期の関係 3) 前後の月との関係で注意すべき点。300 字程度。"
+      : "航空会社の経営会議向けに、737-800 エンジンの年度整備計画を日本語で説明してください。データだけを根拠にし、数字を作らないこと。構成：1) 年度の要点（件数、支出と予算、定常の目安との比較） 2) 月の山谷と繁忙期との関係、余力が最も薄い月 3) 工場の配分と要監視エンジンの扱い 4) 来年度以降の見通しで注意すべき点。400 字程度。")
+      + "\n\nデータ(JSON)：\n" + JSON.stringify(payload);
+    ctl = new AbortController(); $("ai-go").disabled = true; $("ai-stop").hidden = false; $("ai-out").textContent = "考えています…";
+    try { await sample(prompt, { signal: ctl.signal, onText: ({ text }) => { $("ai-out").textContent = text; } }); }
+    catch (e) {
+      const msg = { cancelled: "", not_granted: "AI の利用が許可されていません。", sampling_disabled: "このアカウントでは AI を使えません。", rate_limited: "混み合っています。少し待ってからもう一度押してください。" }[e && e.code] ?? "説明を受け取れませんでした。もう一度押してください。";
+      $("ai-out").textContent = ((e && e.text) || "") + (msg ? (e && e.text ? "\n\n" : "") + msg : "");
+      if (e && (e.code === "not_granted" || e.code === "sampling_disabled")) $("ai-panel").hidden = true;
+    } finally { ctl = null; $("ai-go").disabled = false; $("ai-stop").hidden = true; }
+  };
+  $("ai-stop").onclick = () => ctl && ctl.abort();
+})();
+</script>

@@ -1,6 +1,6 @@
 {
  "version": "2026-09-26",
- "created": "2026-09-26T23:03:15+00:00",
+ "created": "2026-09-26T23:12:55+00:00",
  "inputs": {
   "fleet_visits_lifecycle.json": "7b9f82abdf67a8e2",
   "shop_quotes.json": "4c56fc86c389b48e"
@@ -90,315 +90,1234 @@
    "shop": "IND-NA",
    "workscope": "FULL",
    "month": "2026-10",
-   "rush": false
+   "t": 0,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2026-12",
+   "earliest": "2026-10",
+   "exp_cost": 9918,
+   "off_wing": 7.7,
+   "quoted_off_wing": 7,
+   "deadline_t": -2,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-107",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2026-10",
-   "rush": false
+   "t": 0,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2026-12",
+   "earliest": "2026-10",
+   "exp_cost": 10208,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": -4,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-180",
    "shop": "IND-NA",
    "workscope": "PR",
    "month": "2026-10",
-   "rush": false
+   "t": 0,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": true,
+   "limit": "2026-10",
+   "earliest": "2026-10",
+   "exp_cost": 2490,
+   "off_wing": 5.7,
+   "quoted_off_wing": 5,
+   "deadline_t": -2,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-263",
    "shop": "OEM-ASIA",
    "workscope": "PR",
    "month": "2026-10",
-   "rush": false
+   "t": 0,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": true,
+   "limit": "2026-11",
+   "earliest": "2026-10",
+   "exp_cost": 2838,
+   "off_wing": 3.2,
+   "quoted_off_wing": 3,
+   "deadline_t": -4,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-239",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2026-11",
-   "rush": false
+   "t": 1,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2026-11",
+   "earliest": "2026-10",
+   "exp_cost": 5874,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": -1,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-173",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2026-12",
-   "rush": false
+   "t": 2,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-01",
+   "earliest": "2026-10",
+   "exp_cost": 10276,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": -2,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-125",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2027-01",
-   "rush": false
+   "t": 3,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-01",
+   "earliest": "2026-10",
+   "exp_cost": 10284,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": -1,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-255",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2027-01",
-   "rush": false
+   "t": 3,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-01",
+   "earliest": "2026-10",
+   "exp_cost": 5908,
+   "off_wing": 6.7,
+   "quoted_off_wing": 6,
+   "deadline_t": 1,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-154",
    "shop": "OEM-ASIA",
    "workscope": "PR",
    "month": "2027-02",
-   "rush": false
+   "t": 4,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-02",
+   "earliest": "2026-10",
+   "exp_cost": 2870,
+   "off_wing": 3.2,
+   "quoted_off_wing": 3,
+   "deadline_t": 0,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-161",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2027-03",
-   "rush": false
+   "t": 5,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-03",
+   "earliest": "2026-10",
+   "exp_cost": 5963,
+   "off_wing": 6.8,
+   "quoted_off_wing": 6,
+   "deadline_t": 3,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-224",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2027-03",
-   "rush": false
+   "t": 5,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-03",
+   "earliest": "2026-10",
+   "exp_cost": 9982,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 3,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-232",
    "shop": "OEM-ASIA",
    "workscope": "PR",
    "month": "2027-03",
-   "rush": false
+   "t": 5,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": true,
+   "limit": "2027-03",
+   "earliest": "2026-10",
+   "exp_cost": 3058,
+   "off_wing": 3.4,
+   "quoted_off_wing": 3,
+   "deadline_t": 1,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-158",
    "shop": "IND-NA",
    "workscope": "PR",
    "month": "2027-04",
-   "rush": false
+   "t": 6,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-04",
+   "earliest": "2026-11",
+   "exp_cost": 2527,
+   "off_wing": 5.8,
+   "quoted_off_wing": 5,
+   "deadline_t": 4,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-259",
    "shop": "OEM-ASIA",
    "workscope": "PR",
    "month": "2027-04",
-   "rush": false
+   "t": 6,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2027-09",
+   "earliest": "2027-04",
+   "exp_cost": 2838,
+   "off_wing": 3.1,
+   "quoted_off_wing": 3,
+   "deadline_t": 2,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-104",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2027-06",
-   "rush": false
+   "t": 8,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-06",
+   "earliest": "2027-01",
+   "exp_cost": 5984,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 0,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-126",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2027-06",
-   "rush": false
+   "t": 8,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-06",
+   "earliest": "2027-01",
+   "exp_cost": 5941,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 0,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-171",
    "shop": "IND-NA",
    "workscope": "PR",
    "month": "2027-06",
-   "rush": false
+   "t": 8,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-06",
+   "earliest": "2027-01",
+   "exp_cost": 2511,
+   "off_wing": 5.8,
+   "quoted_off_wing": 5,
+   "deadline_t": 6,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-253",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2027-06",
-   "rush": false
+   "t": 8,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-06",
+   "earliest": "2027-01",
+   "exp_cost": 5969,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 0,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-108",
    "shop": "IND-NA",
    "workscope": "PR",
    "month": "2027-07",
-   "rush": false
+   "t": 9,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2027-07",
+   "earliest": "2027-02",
+   "exp_cost": 2668,
+   "off_wing": 6.0,
+   "quoted_off_wing": 5,
+   "deadline_t": 7,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-143",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2027-07",
-   "rush": false
+   "t": 9,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-07",
+   "earliest": "2027-02",
+   "exp_cost": 5967,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 1,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-246",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2027-07",
-   "rush": false
+   "t": 9,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-07",
+   "earliest": "2027-02",
+   "exp_cost": 5894,
+   "off_wing": 6.8,
+   "quoted_off_wing": 6,
+   "deadline_t": 1,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-197",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2027-08",
-   "rush": false
+   "t": 10,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-08",
+   "earliest": "2027-03",
+   "exp_cost": 5999,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 2,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-138",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2027-09",
-   "rush": false
+   "t": 11,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2028-02",
+   "earliest": "2027-09",
+   "exp_cost": 9872,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 3,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-241",
    "shop": "IND-NA",
    "workscope": "FULL",
    "month": "2027-09",
-   "rush": false
+   "t": 11,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2028-02",
+   "earliest": "2027-09",
+   "exp_cost": 9880,
+   "off_wing": 7.7,
+   "quoted_off_wing": 7,
+   "deadline_t": 3,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-190",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2027-10",
-   "rush": false
+   "t": 12,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-10",
+   "earliest": "2027-05",
+   "exp_cost": 9983,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 4,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-114",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2027-11",
-   "rush": false
+   "t": 13,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-11",
+   "earliest": "2027-06",
+   "exp_cost": 5937,
+   "off_wing": 6.8,
+   "quoted_off_wing": 6,
+   "deadline_t": 5,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-113",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2027-12",
-   "rush": false
+   "t": 14,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-12",
+   "earliest": "2027-07",
+   "exp_cost": 10075,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 6,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-168",
    "shop": "IND-NA",
    "workscope": "PR",
    "month": "2027-12",
-   "rush": false
+   "t": 14,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2027-12",
+   "earliest": "2027-07",
+   "exp_cost": 2686,
+   "off_wing": 6.0,
+   "quoted_off_wing": 5,
+   "deadline_t": 12,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-103",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2028-01",
-   "rush": false
+   "t": 15,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-01",
+   "earliest": "2027-08",
+   "exp_cost": 9987,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 7,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-183",
    "shop": "OEM-ASIA",
    "workscope": "PR",
    "month": "2028-01",
-   "rush": false
+   "t": 15,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-01",
+   "earliest": "2027-08",
+   "exp_cost": 2882,
+   "off_wing": 3.2,
+   "quoted_off_wing": 3,
+   "deadline_t": 11,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-243",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2028-01",
-   "rush": false
+   "t": 15,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-06",
+   "earliest": "2028-01",
+   "exp_cost": 10208,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": 7,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-139",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2028-02",
-   "rush": false
+   "t": 16,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-04",
+   "earliest": "2027-11",
+   "exp_cost": 10292,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": 8,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-142",
    "shop": "IND-NA",
    "workscope": "FULL",
    "month": "2028-02",
-   "rush": false
+   "t": 16,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-03",
+   "earliest": "2027-10",
+   "exp_cost": 10032,
+   "off_wing": 7.8,
+   "quoted_off_wing": 7,
+   "deadline_t": 8,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-234",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2028-02",
-   "rush": false
+   "t": 16,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-02",
+   "earliest": "2027-09",
+   "exp_cost": 9943,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 8,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-141",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2028-03",
-   "rush": false
+   "t": 17,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-04",
+   "earliest": "2027-11",
+   "exp_cost": 10317,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": 9,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-170",
    "shop": "OEM-ASIA",
    "workscope": "FULL",
    "month": "2028-03",
-   "rush": false
+   "t": 17,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-08",
+   "earliest": "2028-03",
+   "exp_cost": 10208,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": 9,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-220",
    "shop": "OEM-ASIA",
    "workscope": "PR",
    "month": "2028-03",
-   "rush": false
+   "t": 17,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-03",
+   "earliest": "2027-10",
+   "exp_cost": 2882,
+   "off_wing": 3.2,
+   "quoted_off_wing": 3,
+   "deadline_t": 13,
+   "deadline_reason": "工場の枠予約 4 か月前"
   },
   {
    "esn": "896-207",
    "shop": "IND-NA",
    "workscope": "PR",
    "month": "2028-04",
-   "rush": false
+   "t": 18,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-04",
+   "earliest": "2027-11",
+   "exp_cost": 2521,
+   "off_wing": 5.8,
+   "quoted_off_wing": 5,
+   "deadline_t": 16,
+   "deadline_reason": "工場の枠予約 2 か月前"
   },
   {
    "esn": "896-222",
    "shop": "IND-ASIA",
    "workscope": "CORE",
    "month": "2028-04",
-   "rush": false
+   "t": 18,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-04",
+   "earliest": "2027-11",
+   "exp_cost": 5957,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 10,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-262",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2028-04",
-   "rush": false
+   "t": 18,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-04",
+   "earliest": "2027-11",
+   "exp_cost": 5920,
+   "off_wing": 6.8,
+   "quoted_off_wing": 6,
+   "deadline_t": 10,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-157",
    "shop": "OEM-ASIA",
    "workscope": "CORE",
    "month": "2028-05",
-   "rush": false
+   "t": 19,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-07",
+   "earliest": "2028-02",
+   "exp_cost": 6346,
+   "off_wing": 4.2,
+   "quoted_off_wing": 4,
+   "deadline_t": 11,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-195",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2028-06",
-   "rush": false
+   "t": 20,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-06",
+   "earliest": "2028-01",
+   "exp_cost": 9992,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 12,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-111",
    "shop": "IND-ASIA",
    "workscope": "FULL",
    "month": "2028-07",
-   "rush": false
+   "t": 21,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-07",
+   "earliest": "2028-02",
+   "exp_cost": 10025,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 13,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-136",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2028-07",
-   "rush": false
+   "t": 21,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-07",
+   "earliest": "2028-02",
+   "exp_cost": 5935,
+   "off_wing": 6.8,
+   "quoted_off_wing": 6,
+   "deadline_t": 13,
+   "deadline_reason": "LLP キット発注 8 か月前"
   },
   {
    "esn": "896-205",
    "shop": "IND-NA",
    "workscope": "CORE",
    "month": "2028-07",
-   "rush": false
+   "t": 21,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-08",
+   "earliest": "2028-03",
+   "exp_cost": 5954,
+   "off_wing": 6.8,
+   "quoted_off_wing": 6,
+   "deadline_t": 13,
+   "deadline_reason": "LLP キット発注 8 か月前"
   }
- ]
+ ],
+ "monthly": {
+  "labels": [
+   "2026-10",
+   "2026-11",
+   "2026-12",
+   "2027-01",
+   "2027-02",
+   "2027-03",
+   "2027-04",
+   "2027-05",
+   "2027-06",
+   "2027-07",
+   "2027-08",
+   "2027-09",
+   "2027-10",
+   "2027-11",
+   "2027-12",
+   "2028-01",
+   "2028-02",
+   "2028-03",
+   "2028-04",
+   "2028-05",
+   "2028-06",
+   "2028-07",
+   "2028-08",
+   "2028-09"
+  ],
+  "fy": [
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2028",
+   "FY2028",
+   "FY2028",
+   "FY2028",
+   "FY2028",
+   "FY2028"
+  ],
+  "peak": [
+   false,
+   false,
+   true,
+   true,
+   false,
+   true,
+   false,
+   true,
+   false,
+   true,
+   true,
+   false,
+   false,
+   false,
+   true,
+   true,
+   false,
+   true,
+   false,
+   true,
+   false,
+   true,
+   true,
+   false
+  ],
+  "required": [
+   136,
+   132,
+   142,
+   124,
+   120,
+   146,
+   132,
+   140,
+   124,
+   140,
+   148,
+   134,
+   136,
+   132,
+   142,
+   124,
+   120,
+   146,
+   132,
+   140,
+   124,
+   140,
+   148,
+   134
+  ],
+  "buffer": [
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4,
+   4
+  ],
+  "serviceable": [
+   162,
+   161,
+   160,
+   159,
+   159,
+   157,
+   157,
+   160,
+   157,
+   156,
+   156,
+   156,
+   155,
+   158,
+   158,
+   157,
+   155,
+   153,
+   152,
+   155,
+   157,
+   157,
+   157,
+   161
+  ]
+ },
+ "budgets": {
+  "FY2026": 91900.0,
+  "FY2027": 183900.0,
+  "FY2028": 91900.0
+ },
+ "outlook": {
+  "stationary": [
+   {
+    "year": -5,
+    "visits": 28,
+    "by_ws": {
+     "PR": 13,
+     "CORE": 3,
+     "FULL": 12
+    },
+    "spend": 169000
+   },
+   {
+    "year": -4,
+    "visits": 27,
+    "by_ws": {
+     "PR": 10,
+     "CORE": 8,
+     "FULL": 9
+    },
+    "spend": 161300
+   },
+   {
+    "year": -3,
+    "visits": 27,
+    "by_ws": {
+     "PR": 8,
+     "CORE": 9,
+     "FULL": 10
+    },
+    "spend": 172100
+   },
+   {
+    "year": -2,
+    "visits": 23,
+    "by_ws": {
+     "PR": 11,
+     "CORE": 3,
+     "FULL": 9
+    },
+    "spend": 134300
+   },
+   {
+    "year": -1,
+    "visits": 39,
+    "by_ws": {
+     "PR": 11,
+     "CORE": 13,
+     "FULL": 15
+    },
+    "spend": 252700
+   },
+   {
+    "year": 0,
+    "visits": 27,
+    "by_ws": {
+     "PR": 7,
+     "CORE": 6,
+     "FULL": 14
+    },
+    "spend": 191500
+   },
+   {
+    "year": 1,
+    "visits": 27,
+    "by_ws": {
+     "PR": 5,
+     "CORE": 8,
+     "FULL": 14
+    },
+    "spend": 198300
+   },
+   {
+    "year": 2,
+    "visits": 30,
+    "by_ws": {
+     "PR": 5,
+     "CORE": 10,
+     "FULL": 15
+    },
+    "spend": 220000
+   },
+   {
+    "year": 3,
+    "visits": 23,
+    "by_ws": {
+     "PR": 10,
+     "CORE": 5,
+     "FULL": 8
+    },
+    "spend": 133700
+   },
+   {
+    "year": 4,
+    "visits": 43,
+    "by_ws": {
+     "PR": 8,
+     "CORE": 9,
+     "FULL": 26
+    },
+    "spend": 330500
+   },
+   {
+    "year": 5,
+    "visits": 27,
+    "by_ws": {
+     "PR": 11,
+     "CORE": 5,
+     "FULL": 11
+    },
+    "spend": 165900
+   },
+   {
+    "year": 6,
+    "visits": 28,
+    "by_ws": {
+     "PR": 9,
+     "CORE": 6,
+     "FULL": 13
+    },
+    "spend": 186600
+   },
+   {
+    "year": 7,
+    "visits": 23,
+    "by_ws": {
+     "PR": 10,
+     "CORE": 5,
+     "FULL": 8
+    },
+    "spend": 133700
+   },
+   {
+    "year": 8,
+    "visits": 24,
+    "by_ws": {
+     "PR": 11,
+     "CORE": 4,
+     "FULL": 9
+    },
+    "spend": 140200
+   },
+   {
+    "year": 9,
+    "visits": 38,
+    "by_ws": {
+     "PR": 14,
+     "CORE": 5,
+     "FULL": 19
+    },
+    "spend": 252600
+   }
+  ],
+  "aging_2pct": [
+   {
+    "year": -5,
+    "visits": 36,
+    "by_ws": {
+     "PR": 16,
+     "CORE": 7,
+     "FULL": 13
+    },
+    "spend": 210000
+   },
+   {
+    "year": -4,
+    "visits": 41,
+    "by_ws": {
+     "PR": 18,
+     "CORE": 8,
+     "FULL": 15
+    },
+    "spend": 240700
+   },
+   {
+    "year": -3,
+    "visits": 37,
+    "by_ws": {
+     "PR": 21,
+     "CORE": 9,
+     "FULL": 7
+    },
+    "spend": 174900
+   },
+   {
+    "year": -2,
+    "visits": 36,
+    "by_ws": {
+     "PR": 14,
+     "CORE": 11,
+     "FULL": 11
+    },
+    "spend": 208800
+   },
+   {
+    "year": -1,
+    "visits": 40,
+    "by_ws": {
+     "PR": 18,
+     "CORE": 8,
+     "FULL": 14
+    },
+    "spend": 230800
+   },
+   {
+    "year": 0,
+    "visits": 37,
+    "by_ws": {
+     "PR": 14,
+     "CORE": 8,
+     "FULL": 15
+    },
+    "spend": 230700
+   },
+   {
+    "year": 1,
+    "visits": 49,
+    "by_ws": {
+     "PR": 24,
+     "CORE": 14,
+     "FULL": 11
+    },
+    "spend": 251500
+   },
+   {
+    "year": 2,
+    "visits": 38,
+    "by_ws": {
+     "PR": 14,
+     "CORE": 10,
+     "FULL": 14
+    },
+    "spend": 232600
+   },
+   {
+    "year": 3,
+    "visits": 35,
+    "by_ws": {
+     "PR": 14,
+     "CORE": 6,
+     "FULL": 15
+    },
+    "spend": 218900
+   },
+   {
+    "year": 4,
+    "visits": 42,
+    "by_ws": {
+     "PR": 21,
+     "CORE": 6,
+     "FULL": 15
+    },
+    "spend": 236400
+   },
+   {
+    "year": 5,
+    "visits": 46,
+    "by_ws": {
+     "PR": 13,
+     "CORE": 13,
+     "FULL": 20
+    },
+    "spend": 307200
+   },
+   {
+    "year": 6,
+    "visits": 42,
+    "by_ws": {
+     "PR": 17,
+     "CORE": 7,
+     "FULL": 18
+    },
+    "spend": 262000
+   },
+   {
+    "year": 7,
+    "visits": 35,
+    "by_ws": {
+     "PR": 22,
+     "CORE": 7,
+     "FULL": 6
+    },
+    "spend": 155700
+   },
+   {
+    "year": 8,
+    "visits": 47,
+    "by_ws": {
+     "PR": 23,
+     "CORE": 14,
+     "FULL": 10
+    },
+    "spend": 239100
+   },
+   {
+    "year": 9,
+    "visits": 47,
+    "by_ws": {
+     "PR": 25,
+     "CORE": 9,
+     "FULL": 13
+    },
+    "spend": 244300
+   }
+  ]
+ }
 }
