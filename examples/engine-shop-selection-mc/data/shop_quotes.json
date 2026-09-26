@@ -6,7 +6,7 @@
     {
       "id": "IN-HOUSE",
       "name": "In-house shop (T&M)",
-      "slots": 1,
+      "slots": 4,
       "transport_cost": 0,
       "transport_months": 0,
       "overrun_share": 1.0,
@@ -57,7 +57,7 @@
     {
       "id": "OEM-NET",
       "name": "OEM network shop (fixed price)",
-      "slots": 2,
+      "slots": 5,
       "transport_cost": 80,
       "transport_months": 1,
       "overrun_share": 0.0,
@@ -105,14 +105,14 @@
         "tat_reduction": 1
       },
       "volume_commitment": {
-        "min_visits": 2,
+        "min_visits": 12,
         "shortfall_penalty": 900
       }
     },
     {
       "id": "IND-MRO",
       "name": "Independent MRO (capped T&M, 50% share)",
-      "slots": 1,
+      "slots": 4,
       "transport_cost": 60,
       "transport_months": 1,
       "overrun_share": 0.5,

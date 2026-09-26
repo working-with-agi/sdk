@@ -34,7 +34,8 @@ def _blocker(p: Problem, sc: ScenarioSet, idx: list[int], exp_cost: np.ndarray) 
     if early > p.llp_kits_on_hand:
         return "LLP キット"
     for fy, budget in p.budget_by_fy.items():
-        if sum(exp_cost[i] for i in idx if p.fiscal_year(sc.options[i].month) == fy) > budget + 1e-6:
+        # 1 % tolerance: expected costs here come from a different sample than the plan's
+        if sum(exp_cost[i] for i in idx if p.fiscal_year(sc.options[i].month) == fy) > budget * 1.01:
             return f"{fy} 予算"
     return None
 
@@ -69,7 +70,7 @@ def analyse(p: Problem, plan: Plan, sc: ScenarioSet) -> dict:
                 if o.visit is not v or o.month != t:
                     continue
                 trial = others + [i]
-                why = _blocker(p, sc, trial, exp_cost)
+                why = None if i == i_star else _blocker(p, sc, trial, exp_cost)
                 if why:
                     blockers.add(why)
                     continue

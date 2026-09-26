@@ -55,7 +55,8 @@ class ShopMcTest(unittest.TestCase):
                      if o.shop.id == "OEM-NET" and o.visit.esn == esn and o.workscope == "PR" and not o.rush)
             k = sc.options[i].shop
             return (sc.cost[:, i] - k.transport_cost) / k.quotes["PR"].price
-        self.assertTrue(np.allclose(ratio("E-903"), ratio("E-905")))
+        a, b = [v.esn for v in P.visits if "PR" in v.allowed_workscopes][:2]
+        self.assertTrue(np.allclose(ratio(a), ratio(b)))
 
     def test_llp_kits_and_budget(self):
         chosen = [self.sc.options[i] for i in self.plan.chosen]

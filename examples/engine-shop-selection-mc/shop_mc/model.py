@@ -16,7 +16,7 @@ Second stage (per scenario s and month t, after costs / delays / removals are kn
              - build_value(workscope)              (life the visit builds)
   s.t. sum_{i of engine e} x[i] = 1                                   (each visit planned once)
        sum_{i at shop k, in shop at t} x[i] <= slots_k                (planned capacity)
-       sum_{i needing an LLP kit, month < kit lead time} x[i] <= kits on hand
+       sum_{i needing an LLP kit, month < kit lead time} x[i] <= kits on hand (+ emergency kits)
        sum_{i inducted in fiscal year y} E[cost_i] x[i] <= budget_y
        q[k] >= min_visits_k - sum_{i at shop k} x[i]                  (take-or-pay)
        owned - sum_i A[s,i,t] x[i] - U[s,t] + S + l[s,t] + a[s,t] >= D  (coverage)
@@ -44,6 +44,28 @@ class InfeasibleError(RuntimeError):
     pass
 
 
+@dataclass(frozen=True)
+class Requirements:
+    """Company requirements. Each one can be enforced (hard) or relaxed.
+
+    budget             keep every fiscal-year budget (relaxed: overspend allowed)
+    service            P(any AOG month) <= Problem.max_aog_prob, as a chance
+                       constraint over the SAA scenarios (relaxed: AOG only costs money)
+    volume             meet contracted minimum volumes (relaxed: pay the shortfall penalty)
+    kits_on_hand_only  no emergency LLP kits (relaxed: buy kits at a premium)
+    no_new_spares      no extra long-term spare engines (relaxed: lease up to the max)
+    """
+
+    budget: bool = True
+    service: bool = False
+    volume: bool = False
+    kits_on_hand_only: bool = True
+    no_new_spares: bool = False
+
+    def relaxed(self) -> list[str]:
+        return [k for k, v in self.__dict__.items() if not v]
+
+
 @dataclass
 class Plan:
     chosen: list[int]
@@ -53,6 +75,8 @@ class Plan:
     """In-sample SAA objective."""
     status: str
     dual_bound: float | None = None
+    emergency_kits: int = 0
+    """LLP kits bought at a premium because the kits on hand were not enough."""
 
 
 def solve_saa(
@@ -64,13 +88,16 @@ def solve_saa(
     gap: float = 1e-4,
     threads: int | None = None,
     msg: bool = False,
+    req: Requirements = Requirements(),
+    service_margin: float = 0.5,
 ) -> Plan:
     T, N = p.horizon, sc.n
     opts = sc.options
     prob = pulp.LpProblem("shop_selection_saa", pulp.LpMinimize)
 
     x = [pulp.LpVariable(f"x_{i}", cat="Binary") for i in range(len(opts))]
-    S = pulp.LpVariable("long_spares", 0, p.long_spare_max, cat="Integer")
+    S = pulp.LpVariable("long_spares", 0, 0 if req.no_new_spares else p.long_spare_max, cat="Integer")
+    K = pulp.LpVariable("emergency_kits", 0, 0 if req.kits_on_hand_only else None, cat="Integer")
     l = {(s, t): pulp.LpVariable(f"l_{s}_{t}", 0, p.lease_cap_at(t)) for s in range(N) for t in range(T)}
     a = {(s, t): pulp.LpVariable(f"a_{s}_{t}", 0) for s in range(N) for t in range(T)}
     q = {k.id: pulp.LpVariable(f"shortfall_{k.id}", 0) for k in p.shops if k.min_visits}
@@ -92,11 +119,11 @@ def solve_saa(
         if o.workscope in p.llp_workscopes and o.month < p.llp_kit_lead_months
     ]
     if early_llp:
-        prob += pulp.lpSum(early_llp) <= p.llp_kits_on_hand, "llp_kits"
+        prob += pulp.lpSum(early_llp) <= p.llp_kits_on_hand + K, "llp_kits"
 
     # fiscal-year budget on expected shop-visit spend
     exp_cost = sc.cost.mean(axis=0)
-    for fy, budget in p.budget_by_fy.items():
+    for fy, budget in (p.budget_by_fy.items() if req.budget else ()):
         spend = [exp_cost[i] * x[i] for i, o in enumerate(opts) if p.fiscal_year(o.month) == fy]
         if spend:
             prob += pulp.lpSum(spend) <= budget, f"budget_{fy}"
@@ -105,6 +132,8 @@ def solve_saa(
     for k in p.shops:
         if k.min_visits:
             prob += q[k.id] >= k.min_visits - pulp.lpSum(x[i] for i, o in enumerate(opts) if o.shop is k), f"volume_{k.id}"
+            if req.volume:
+                prob += q[k.id] == 0, f"volume_hard_{k.id}"
 
     # coverage per scenario and month
     start = np.array([o.month for o in opts])
@@ -121,6 +150,7 @@ def solve_saa(
         p.long_spare_cost * T * S
         + pulp.lpSum(fixed_cost(p, o) * x[i] for i, o in enumerate(opts))
         + pulp.lpSum(k.shortfall_penalty * q[k.id] for k in p.shops if k.min_visits)
+        + p.emergency_kit_premium * K
     )
     aog = [p.aog_cost_at(t) for t in range(T)]
     scen_cost = [
@@ -129,6 +159,16 @@ def solve_saa(
         for s in range(N)
     ]
     objective = first_stage + pulp.lpSum(scen_cost) / N
+
+    if req.service and p.max_aog_prob is not None:
+        # chance constraint: at most floor(alpha * N) scenarios may have any AOG month
+        zs = [pulp.LpVariable(f"aog_any_{s}", cat="Binary") for s in range(N)]
+        for s in range(N):
+            for t in range(T):
+                prob += a[s, t] <= p.installed_positions * zs[s], f"aog_flag_{s}_{t}"
+        # SAA chance constraints are optimistic out of sample, so the in-sample level is
+        # tightened (service_margin < 1) and the result is always re-checked by Monte Carlo
+        prob += pulp.lpSum(zs) <= int(p.max_aog_prob * service_margin * N), "service_target"
 
     if cvar_weight > 0:
         eta = pulp.LpVariable("var_eta")
@@ -144,7 +184,7 @@ def solve_saa(
     if pulp.value(prob.objective) is None or "nfeasible" in h.modelStatusToString(h.getModelStatus()):
         raise InfeasibleError(
             f"no feasible plan ({h.modelStatusToString(h.getModelStatus())}): "
-            "check budgets, LLP kits on hand and shop slots"
+            f"check the requirements that are enforced: {req}"
         )
     return Plan(
         chosen=[i for i in range(len(opts)) if (x[i].value() or 0) > 0.5],
@@ -152,4 +192,5 @@ def solve_saa(
         objective=pulp.value(prob.objective),
         status=h.modelStatusToString(h.getModelStatus()),
         dual_bound=h.getInfo().mip_dual_bound,
+        emergency_kits=round(K.value() or 0),
     )

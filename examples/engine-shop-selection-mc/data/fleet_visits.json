@@ -1,23 +1,24 @@
 {
   "meta": {
-    "description": "Synthetic 10-aircraft narrow-body fleet (20 installed positions, 22 owned engines, i.e. ~10% spares), 10 planned shop visits over 24 months starting 2026-10. Illustrative values, not OEM or shop data.",
+    "description": "Major-airline-scale synthetic sample: one engine type (CFM56-7B class) on a 62-aircraft 737-800 fleet, 124 installed positions, 136 owned engines (~9% spares), 44 planned shop visits over 24 months from 2026-10. Estimates from public information; not operator data.",
     "units": {
       "money": "k$ (home-currency equivalent at today's FX rate)",
       "time": "month"
-    }
+    },
+    "generator": "data/generate_fleet.py"
   },
   "start": "2026-10",
   "horizon_months": 24,
-  "installed_positions": 20,
-  "owned_engines": 22,
+  "installed_positions": 124,
+  "owned_engines": 136,
   "short_term_lease": {
-    "cost_per_month": 220,
-    "max_engines": 2,
+    "cost_per_month": 190,
+    "max_engines": 4,
     "max_engines_peak": 2
   },
   "long_term_spare": {
     "cost_per_month": 120,
-    "max_engines": 3
+    "max_engines": 6
   },
   "aog_cost_per_month": 1500,
   "aog_peak_multiplier": {
@@ -29,7 +30,7 @@
     "8": 1.8
   },
   "unscheduled_removals": {
-    "rate_per_engine_month": 0.006,
+    "rate_per_engine_month": 0.004,
     "tat_months": [
       2,
       3,
@@ -53,14 +54,18 @@
       "FULL"
     ],
     "lead_time_months": 8,
-    "on_hand": 2
+    "on_hand": 6,
+    "emergency_premium": 900
+  },
+  "service_target": {
+    "max_aog_prob": 0.05
   },
   "budget": {
     "fiscal_year_start_month": 4,
     "by_fiscal_year": {
-      "FY2026": 18000,
-      "FY2027": 30000,
-      "FY2028": 15000
+      "FY2026": 30000,
+      "FY2027": 110000,
+      "FY2028": 62000
     }
   },
   "fx": {
@@ -68,10 +73,10 @@
   },
   "engines": [
     {
-      "esn": "E-901",
+      "esn": "896-101",
       "window": [
         0,
-        3
+        4
       ],
       "allowed_workscopes": [
         "PR",
@@ -79,7 +84,18 @@
       ]
     },
     {
-      "esn": "E-902",
+      "esn": "896-102",
+      "window": [
+        0,
+        3
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-103",
       "window": [
         0,
         4
@@ -90,32 +106,10 @@
       ]
     },
     {
-      "esn": "E-903",
+      "esn": "896-104",
       "window": [
-        2,
-        6
-      ],
-      "allowed_workscopes": [
-        "PR",
-        "CORE",
-        "FULL"
-      ]
-    },
-    {
-      "esn": "E-904",
-      "window": [
-        3,
-        7
-      ],
-      "allowed_workscopes": [
-        "FULL"
-      ]
-    },
-    {
-      "esn": "E-905",
-      "window": [
-        6,
-        10
+        0,
+        4
       ],
       "allowed_workscopes": [
         "PR",
@@ -123,10 +117,54 @@
       ]
     },
     {
-      "esn": "E-906",
+      "esn": "896-105",
       "window": [
-        8,
-        12
+        1,
+        6
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-106",
+      "window": [
+        3,
+        8
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-107",
+      "window": [
+        3,
+        8
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-108",
+      "window": [
+        3,
+        7
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-109",
+      "window": [
+        4,
+        8
       ],
       "allowed_workscopes": [
         "CORE",
@@ -134,9 +172,76 @@
       ]
     },
     {
-      "esn": "E-907",
+      "esn": "896-110",
       "window": [
-        10,
+        6,
+        11
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-111",
+      "window": [
+        6,
+        11
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-112",
+      "window": [
+        7,
+        11
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-113",
+      "window": [
+        7,
+        10
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-114",
+      "window": [
+        8,
+        14
+      ],
+      "allowed_workscopes": [
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-115",
+      "window": [
+        8,
+        13
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-116",
+      "window": [
+        8,
         14
       ],
       "allowed_workscopes": [
@@ -146,10 +251,10 @@
       ]
     },
     {
-      "esn": "E-908",
+      "esn": "896-117",
       "window": [
-        13,
-        17
+        9,
+        15
       ],
       "allowed_workscopes": [
         "CORE",
@@ -157,24 +262,301 @@
       ]
     },
     {
-      "esn": "E-909",
+      "esn": "896-118",
+      "window": [
+        9,
+        15
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-119",
+      "window": [
+        9,
+        15
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-120",
+      "window": [
+        9,
+        14
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-121",
+      "window": [
+        10,
+        14
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-122",
+      "window": [
+        10,
+        13
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-123",
+      "window": [
+        10,
+        13
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-124",
+      "window": [
+        10,
+        16
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-125",
+      "window": [
+        11,
+        15
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-126",
+      "window": [
+        11,
+        14
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-127",
+      "window": [
+        12,
+        15
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-128",
+      "window": [
+        12,
+        16
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-129",
+      "window": [
+        13,
+        19
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-130",
+      "window": [
+        13,
+        17
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-131",
+      "window": [
+        14,
+        17
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-132",
       "window": [
         15,
-        19
+        20
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-133",
+      "window": [
+        15,
+        18
       ],
       "allowed_workscopes": [
         "FULL"
       ]
     },
     {
-      "esn": "E-910",
+      "esn": "896-134",
       "window": [
-        17,
-        21
+        15,
+        19
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-135",
+      "window": [
+        15,
+        18
       ],
       "allowed_workscopes": [
         "PR",
         "CORE"
+      ]
+    },
+    {
+      "esn": "896-136",
+      "window": [
+        16,
+        19
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-137",
+      "window": [
+        16,
+        20
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-138",
+      "window": [
+        16,
+        19
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-139",
+      "window": [
+        17,
+        23
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-140",
+      "window": [
+        18,
+        23
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-141",
+      "window": [
+        18,
+        23
+      ],
+      "allowed_workscopes": [
+        "CORE",
+        "FULL"
+      ]
+    },
+    {
+      "esn": "896-142",
+      "window": [
+        19,
+        23
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-143",
+      "window": [
+        20,
+        23
+      ],
+      "allowed_workscopes": [
+        "PR",
+        "CORE"
+      ]
+    },
+    {
+      "esn": "896-144",
+      "window": [
+        20,
+        23
+      ],
+      "allowed_workscopes": [
+        "FULL"
       ]
     }
   ]

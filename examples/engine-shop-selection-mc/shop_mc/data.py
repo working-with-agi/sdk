@@ -115,6 +115,10 @@ class Problem:
     fiscal_year_start_month: int
     budget_by_fy: dict[str, float]
     """Expected shop-visit spend allowed per fiscal year, by induction month [k$]."""
+    emergency_kit_premium: float
+    """Extra cost of an LLP kit bought outside the normal lead time (broker / USM) [k$]."""
+    max_aog_prob: float | None
+    """Service target: maximum probability of any AOG month over the horizon."""
     fx_vol: float
     """Volatility of the home/foreign FX rate over the horizon (lognormal sigma)."""
     visits: list[Visit]
@@ -211,6 +215,8 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
         llp_kits_on_hand=llp.get("on_hand", 10**6),
         fiscal_year_start_month=budget.get("fiscal_year_start_month", 1),
         budget_by_fy=budget.get("by_fiscal_year", {}),
+        emergency_kit_premium=llp.get("emergency_premium", 0.0),
+        max_aog_prob=f.get("service_target", {}).get("max_aog_prob"),
         fx_vol=f.get("fx", {}).get("volatility", 0.0),
         visits=[
             Visit(
