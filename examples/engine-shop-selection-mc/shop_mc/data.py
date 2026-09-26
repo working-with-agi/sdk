@@ -58,6 +58,8 @@ class Shop:
     """Contracted volume over the horizon (take-or-pay)."""
     shortfall_penalty: float = 0.0
     """Penalty per visit below ``min_visits`` [k$]."""
+    max_visits: int | None = None
+    """Upper limit on visits over the horizon (e.g. mid-life engines available on the market)."""
 
 
 @dataclass(frozen=True)
@@ -136,6 +138,8 @@ class Problem:
     """Extra cost of an LLP kit bought outside the normal lead time (broker / USM) [k$]."""
     max_aog_prob: float | None
     """Service target: maximum probability of any AOG month over the horizon."""
+    extra_fixed_cost: float
+    """Scenario-independent cost of a lever such as a pool fee or extra leased spares [k$]."""
     fx_vol: float
     """Volatility of the home/foreign FX rate over the horizon (lognormal sigma)."""
     visits: list[Visit]
@@ -214,6 +218,7 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
                 rush_tat_reduction=rush["tat_reduction"] if rush else 0,
                 min_visits=vol.get("min_visits", 0),
                 shortfall_penalty=vol.get("shortfall_penalty", 0.0),
+                max_visits=k.get("max_visits"),
             )
         )
     lease = f["short_term_lease"]
@@ -249,6 +254,7 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
         budget_by_fy=budget.get("by_fiscal_year", {}),
         emergency_kit_premium=llp.get("emergency_premium", 0.0),
         max_aog_prob=f.get("service_target", {}).get("max_aog_prob"),
+        extra_fixed_cost=f.get("extra_fixed_cost", 0.0),
         fx_vol=f.get("fx", {}).get("volatility", 0.0),
         visits=[
             Visit(

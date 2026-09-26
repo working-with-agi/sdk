@@ -63,6 +63,7 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
     first_stage = (
         p.long_spare_cost * T * plan.long_spares + sum(fixed_cost(p, o) for o in chosen) + shortfall
         + p.emergency_kit_premium * plan.emergency_kits
+        + p.extra_fixed_cost
     )
     total = first_stage + visit_cost + p.short_lease_cost * lease.sum(1) + (aog_money * season).sum(1)
     q = np.sort(total)

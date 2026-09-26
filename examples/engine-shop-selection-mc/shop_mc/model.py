@@ -141,6 +141,11 @@ def solve_saa(
         if spend:
             prob += pulp.lpSum(spend) <= budget, f"budget_{fy}"
 
+    # supply limits (e.g. mid-life engines on the market)
+    for k in p.shops:
+        if k.max_visits is not None:
+            prob += pulp.lpSum(x[i] for i, o in enumerate(opts) if o.shop is k) <= k.max_visits, f"supply_{k.id}"
+
     # take-or-pay volume commitments
     for k in p.shops:
         if k.min_visits:
@@ -175,6 +180,7 @@ def solve_saa(
         + pulp.lpSum(fixed_cost(p, o) * x[i] for i, o in enumerate(opts))
         + pulp.lpSum(k.shortfall_penalty * q[k.id] for k in p.shops if k.min_visits)
         + p.emergency_kit_premium * K
+        + p.extra_fixed_cost
     )
     scen_cost = [
         pulp.lpSum(sc.cost[s, i] * x[i] for i in range(len(opts)))
