@@ -237,7 +237,7 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                     if hint is not None and lasts >= need:
                         reason += "・退役まで持つ最軽の範囲"
                 # what the visit throws away is nothing (engine is at its limit); record the state before
-                v = {"t": t, "label": month_label(start, t), "ws": ws, "cost_k": price[ws], "reason": reason,
+                v = {"t": t, "label": month_label(start, t), "ws": ws, "cost_k": price[ws], "reason": reason, "off_wing": tat[ws],
                      "margin_before": round(s["margin"], 1), "llp_before": int(min(s["core"], s["lp"], s["fan"])), "lasts_months": round(lasts, 1)}
                 ph.restore_state(s, ws)
                 s["back"] = t + tat[ws]

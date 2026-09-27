@@ -193,6 +193,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 14.8,
      "llp_before": 2521,
      "lasts_months": 67.4
@@ -208,6 +209,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 14.8,
     "llp_before": 2521,
     "lasts_months": 67.4
@@ -231,6 +233,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 6.5,
      "llp_before": 8252,
      "lasts_months": 41.3
@@ -246,6 +249,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 6.5,
     "llp_before": 8252,
     "lasts_months": 41.3
@@ -269,6 +273,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 15.3,
      "llp_before": 1688,
      "lasts_months": 62.3
@@ -284,6 +289,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 15.3,
     "llp_before": 1688,
     "lasts_months": 62.3
@@ -307,6 +313,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 5.3,
      "llp_before": 3149,
      "lasts_months": 53.0
@@ -322,6 +329,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 5.3,
     "llp_before": 3149,
     "lasts_months": 53.0
@@ -354,6 +362,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 1.7,
      "llp_before": 6900,
      "lasts_months": 63.6
@@ -369,6 +378,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 1.7,
     "llp_before": 6900,
     "lasts_months": 63.6
@@ -392,6 +402,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 27.1,
      "llp_before": 2309,
      "lasts_months": 113.1
@@ -407,6 +418,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 27.1,
     "llp_before": 2309,
     "lasts_months": 113.1
@@ -430,6 +442,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 22.4,
      "llp_before": 1550,
      "lasts_months": 88.1
@@ -445,6 +458,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 22.4,
     "llp_before": 1550,
     "lasts_months": 88.1
@@ -468,6 +482,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 19.0,
      "llp_before": 1709,
      "lasts_months": 62.4
@@ -478,6 +493,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 5.8,
      "llp_before": 1406,
      "lasts_months": 67.1
@@ -493,6 +509,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 5.8,
     "llp_before": 1406,
     "lasts_months": 67.1
@@ -516,6 +533,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 11.0,
      "llp_before": 1791,
      "lasts_months": 62.9
@@ -526,6 +544,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP",
+     "off_wing": 5,
      "margin_before": 11.4,
      "llp_before": 1488,
      "lasts_months": 77.3
@@ -541,6 +560,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP",
+    "off_wing": 5,
     "margin_before": 11.4,
     "llp_before": 1488,
     "lasts_months": 77.3
@@ -564,6 +584,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 3.4,
      "llp_before": 8339,
      "lasts_months": 41.8
@@ -579,6 +600,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 3.4,
     "llp_before": 8339,
     "lasts_months": 41.8
@@ -602,6 +624,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 4.0,
      "llp_before": 7547,
      "lasts_months": 67.5
@@ -617,6 +640,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 4.0,
     "llp_before": 7547,
     "lasts_months": 67.5
@@ -640,6 +664,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 15.7,
      "llp_before": 1891,
      "lasts_months": 76.8
@@ -655,6 +680,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 15.7,
     "llp_before": 1891,
     "lasts_months": 76.8
@@ -678,6 +704,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 4.7,
      "llp_before": 7676,
      "lasts_months": 67.5
@@ -693,6 +720,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 4.7,
     "llp_before": 7676,
     "lasts_months": 67.5
@@ -716,6 +744,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 29.0,
      "llp_before": 1794,
      "lasts_months": 98.5
@@ -731,6 +760,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 29.0,
     "llp_before": 1794,
     "lasts_months": 98.5
@@ -754,6 +784,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 2.7,
      "llp_before": 9492,
      "lasts_months": 48.9
@@ -769,6 +800,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 2.7,
     "llp_before": 9492,
     "lasts_months": 48.9
@@ -792,6 +824,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 14.1,
      "llp_before": 1549,
      "lasts_months": 61.4
@@ -807,6 +840,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 14.1,
     "llp_before": 1549,
     "lasts_months": 61.4
@@ -839,6 +873,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 2.1,
      "llp_before": 7982,
      "lasts_months": 39.6
@@ -854,6 +889,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 2.1,
     "llp_before": 7982,
     "lasts_months": 39.6
@@ -877,6 +913,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 3.9,
      "llp_before": 12203,
      "lasts_months": 38.8
@@ -892,6 +929,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 3.9,
     "llp_before": 12203,
     "lasts_months": 38.8
@@ -915,6 +953,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 12.9,
      "llp_before": 1828,
      "lasts_months": 62.8
@@ -925,6 +964,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 2.9,
      "llp_before": 1524,
      "lasts_months": 62.8
@@ -940,6 +980,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 2.9,
     "llp_before": 1524,
     "lasts_months": 62.8
@@ -963,6 +1004,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 10.6,
      "llp_before": 1849,
      "lasts_months": 74.3
@@ -978,6 +1020,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 10.6,
     "llp_before": 1849,
     "lasts_months": 74.3
@@ -1001,6 +1044,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.0,
      "llp_before": 2964,
      "lasts_months": 39.5
@@ -1016,6 +1060,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 3.0,
     "llp_before": 2964,
     "lasts_months": 39.5
@@ -1039,6 +1084,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 25.2,
      "llp_before": 1547,
      "lasts_months": 102.6
@@ -1054,6 +1100,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 25.2,
     "llp_before": 1547,
     "lasts_months": 102.6
@@ -1077,6 +1124,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 5.7,
      "llp_before": 10799,
      "lasts_months": 53.2
@@ -1092,6 +1140,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 5.7,
     "llp_before": 10799,
     "lasts_months": 53.2
@@ -1115,6 +1164,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 27.5,
      "llp_before": 1788,
      "lasts_months": 100.5
@@ -1130,6 +1180,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 27.5,
     "llp_before": 1788,
     "lasts_months": 100.5
@@ -1153,6 +1204,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.0,
      "llp_before": 6143,
      "lasts_months": 59.0
@@ -1168,6 +1220,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 3.0,
     "llp_before": 6143,
     "lasts_months": 59.0
@@ -1191,6 +1244,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 10.9,
      "llp_before": 1761,
      "lasts_months": 77.1
@@ -1206,6 +1260,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 10.9,
     "llp_before": 1761,
     "lasts_months": 77.1
@@ -1229,6 +1284,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 8.2,
      "llp_before": 1621,
      "lasts_months": 61.9
@@ -1244,6 +1300,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 8.2,
     "llp_before": 1621,
     "lasts_months": 61.9
@@ -1267,6 +1324,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.8,
      "llp_before": 5807,
      "lasts_months": 56.9
@@ -1277,6 +1335,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 13.0,
      "llp_before": 1485,
      "lasts_months": 79.8
@@ -1292,6 +1351,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 13.0,
     "llp_before": 1485,
     "lasts_months": 79.8
@@ -1315,6 +1375,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.7,
      "llp_before": 1887,
      "lasts_months": 63.5
@@ -1325,6 +1386,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP",
+     "off_wing": 5,
      "margin_before": 14.2,
      "llp_before": 1420,
      "lasts_months": 85.0
@@ -1340,6 +1402,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP",
+    "off_wing": 5,
     "margin_before": 14.2,
     "llp_before": 1420,
     "lasts_months": 85.0
@@ -1363,6 +1426,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.1,
      "llp_before": 4791,
      "lasts_months": 50.7
@@ -1378,6 +1442,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 3.1,
     "llp_before": 4791,
     "lasts_months": 50.7
@@ -1401,6 +1466,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 16.0,
      "llp_before": 1502,
      "lasts_months": 83.1
@@ -1416,6 +1482,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 16.0,
     "llp_before": 1502,
     "lasts_months": 83.1
@@ -1439,6 +1506,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.2,
      "llp_before": 3247,
      "lasts_months": 41.3
@@ -1454,6 +1522,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 3.2,
     "llp_before": 3247,
     "lasts_months": 41.3
@@ -1477,6 +1546,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 6.5,
      "llp_before": 11913,
      "lasts_months": 43.4
@@ -1492,6 +1562,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 6.5,
     "llp_before": 11913,
     "lasts_months": 43.4
@@ -1515,6 +1586,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 7.1,
      "llp_before": 10363,
      "lasts_months": 45.0
@@ -1530,6 +1602,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
+    "off_wing": 3,
     "margin_before": 7.1,
     "llp_before": 10363,
     "lasts_months": 45.0
@@ -1553,6 +1626,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 3.3,
      "llp_before": 3990,
      "lasts_months": 45.8
@@ -1563,6 +1637,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 23.1,
      "llp_before": 1467,
      "lasts_months": 94.7
@@ -1578,6 +1653,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 23.1,
     "llp_before": 1467,
     "lasts_months": 94.7
@@ -1601,6 +1677,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
+     "off_wing": 3,
      "margin_before": 3.8,
      "llp_before": 9036,
      "lasts_months": 46.1
@@ -1611,6 +1688,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "LLP",
+     "off_wing": 5,
      "margin_before": 8.2,
      "llp_before": 1350,
      "lasts_months": 29.7
@@ -1626,6 +1704,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "LLP",
+    "off_wing": 5,
     "margin_before": 8.2,
     "llp_before": 1350,
     "lasts_months": 29.7
@@ -1649,6 +1728,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 12.4,
      "llp_before": 1503,
      "lasts_months": 75.8
@@ -1664,6 +1744,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 12.4,
     "llp_before": 1503,
     "lasts_months": 75.8
@@ -1687,6 +1768,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 20.0,
      "llp_before": 1571,
      "lasts_months": 88.1
@@ -1702,6 +1784,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 20.0,
     "llp_before": 1571,
     "lasts_months": 88.1
@@ -1734,6 +1817,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 2.1,
      "llp_before": 4554,
      "lasts_months": 49.3
@@ -1749,6 +1833,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 2.1,
     "llp_before": 4554,
     "lasts_months": 49.3
@@ -1772,6 +1857,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 23.5,
      "llp_before": 2455,
      "lasts_months": 67.0
@@ -1787,6 +1873,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 23.5,
     "llp_before": 2455,
     "lasts_months": 67.0
@@ -1918,6 +2005,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 5.4,
      "llp_before": 1395,
      "lasts_months": 60.5
@@ -1933,6 +2021,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 5.4,
     "llp_before": 1395,
     "lasts_months": 60.5
@@ -2208,6 +2297,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 3,
      "margin_before": 2.8,
      "llp_before": 6574,
      "lasts_months": 31.0
@@ -2223,6 +2313,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 3,
     "margin_before": 2.8,
     "llp_before": 6574,
     "lasts_months": 31.0
@@ -2372,6 +2463,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 2.8,
      "llp_before": 3368,
      "lasts_months": 42.0
@@ -2387,6 +2479,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 2.8,
     "llp_before": 3368,
     "lasts_months": 42.0
@@ -2500,6 +2593,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP",
+     "off_wing": 5,
      "margin_before": 20.5,
      "llp_before": 1479,
      "lasts_months": 100.2
@@ -2515,6 +2609,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP",
+    "off_wing": 5,
     "margin_before": 20.5,
     "llp_before": 1479,
     "lasts_months": 100.2
@@ -2664,6 +2759,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "LLP",
+     "off_wing": 5,
      "margin_before": 13.6,
      "llp_before": 1345,
      "lasts_months": 87.6
@@ -2679,6 +2775,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "LLP",
+    "off_wing": 5,
     "margin_before": 13.6,
     "llp_before": 1345,
     "lasts_months": 87.6
@@ -2990,6 +3087,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 2.9,
      "llp_before": 3509,
      "lasts_months": 73.4
@@ -3005,6 +3103,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 2.9,
     "llp_before": 3509,
     "lasts_months": 73.4
@@ -3082,6 +3181,7 @@
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 2.8,
      "llp_before": 5794,
      "lasts_months": 56.8
@@ -3097,6 +3197,7 @@
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 2.8,
     "llp_before": 5794,
     "lasts_months": 56.8
@@ -3246,6 +3347,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 5,
      "margin_before": 2.8,
      "llp_before": 2895,
      "lasts_months": 69.7
@@ -3261,6 +3363,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 5,
     "margin_before": 2.8,
     "llp_before": 2895,
     "lasts_months": 69.7
@@ -3338,6 +3441,7 @@
      "ws": "PR",
      "cost_k": 2900,
      "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 3,
      "margin_before": 2.9,
      "llp_before": 5608,
      "lasts_months": 25.1
@@ -3353,6 +3457,7 @@
     "ws": "PR",
     "cost_k": 2900,
     "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 3,
     "margin_before": 2.9,
     "llp_before": 5608,
     "lasts_months": 25.1

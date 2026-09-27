@@ -139,6 +139,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 14.1,
      "llp_before": 2396,
      "lasts_months": 90.3
@@ -154,6 +155,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 14.1,
     "llp_before": 2396,
     "lasts_months": 90.3
@@ -177,6 +179,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 29.2,
      "llp_before": 1675,
      "lasts_months": 106.7
@@ -192,6 +195,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 29.2,
     "llp_before": 1675,
     "lasts_months": 106.7
@@ -215,6 +219,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 17.2,
      "llp_before": 2274,
      "lasts_months": 97.3
@@ -230,6 +235,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 17.2,
     "llp_before": 2274,
     "lasts_months": 97.3
@@ -253,6 +259,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 26.0,
      "llp_before": 2207,
      "lasts_months": 85.3
@@ -268,6 +275,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 26.0,
     "llp_before": 2207,
     "lasts_months": 85.3
@@ -291,6 +299,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 29.8,
      "llp_before": 1990,
      "lasts_months": 97.8
@@ -306,6 +315,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 29.8,
     "llp_before": 1990,
     "lasts_months": 97.8
@@ -329,6 +339,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 23.7,
      "llp_before": 2116,
      "lasts_months": 98.6
@@ -344,6 +355,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 23.7,
     "llp_before": 2116,
     "lasts_months": 98.6
@@ -367,6 +379,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 38.7,
      "llp_before": 2379,
      "lasts_months": 100.3
@@ -382,6 +395,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 38.7,
     "llp_before": 2379,
     "lasts_months": 100.3
@@ -405,6 +419,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 31.8,
      "llp_before": 2264,
      "lasts_months": 69.3
@@ -420,6 +435,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 31.8,
     "llp_before": 2264,
     "lasts_months": 69.3
@@ -443,6 +459,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 39.5,
      "llp_before": 1818,
      "lasts_months": 116.8
@@ -458,6 +475,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 39.5,
     "llp_before": 1818,
     "lasts_months": 116.8
@@ -481,6 +499,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 23.1,
      "llp_before": 1547,
      "lasts_months": 116.8
@@ -496,6 +515,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 23.1,
     "llp_before": 1547,
     "lasts_months": 116.8
@@ -519,6 +539,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 28.4,
      "llp_before": 1941,
      "lasts_months": 116.8
@@ -534,6 +555,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 28.4,
     "llp_before": 1941,
     "lasts_months": 116.8
@@ -557,6 +579,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 32.7,
      "llp_before": 1628,
      "lasts_months": 116.8
@@ -572,6 +595,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 32.7,
     "llp_before": 1628,
     "lasts_months": 116.8
@@ -595,6 +619,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 28.1,
      "llp_before": 1909,
      "lasts_months": 116.8
@@ -610,6 +635,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 28.1,
     "llp_before": 1909,
     "lasts_months": 116.8
@@ -633,6 +659,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 31.5,
      "llp_before": 1598,
      "lasts_months": 95.4
@@ -648,6 +675,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 31.5,
     "llp_before": 1598,
     "lasts_months": 95.4
@@ -671,6 +699,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 13.2,
      "llp_before": 1742,
      "lasts_months": 93.9
@@ -686,6 +715,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 13.2,
     "llp_before": 1742,
     "lasts_months": 93.9
@@ -709,6 +739,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 20.2,
      "llp_before": 1509,
      "lasts_months": 94.8
@@ -724,6 +755,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 20.2,
     "llp_before": 1509,
     "lasts_months": 94.8
@@ -747,6 +779,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 24.3,
      "llp_before": 1704,
      "lasts_months": 96.0
@@ -762,6 +795,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 24.3,
     "llp_before": 1704,
     "lasts_months": 96.0
@@ -785,6 +819,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 22.1,
      "llp_before": 1509,
      "lasts_months": 113.6
@@ -800,6 +835,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 22.1,
     "llp_before": 1509,
     "lasts_months": 113.6
@@ -823,6 +859,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 37.4,
      "llp_before": 2098,
      "lasts_months": 116.8
@@ -838,6 +875,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 37.4,
     "llp_before": 2098,
     "lasts_months": 116.8
@@ -861,6 +899,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 12.9,
      "llp_before": 1829,
      "lasts_months": 96.8
@@ -876,6 +915,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 12.9,
     "llp_before": 1829,
     "lasts_months": 96.8
@@ -899,6 +939,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 15.6,
      "llp_before": 2038,
      "lasts_months": 95.2
@@ -914,6 +955,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 15.6,
     "llp_before": 2038,
     "lasts_months": 95.2
@@ -937,6 +979,7 @@
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
+     "off_wing": 5,
      "margin_before": 27.7,
      "llp_before": 1585,
      "lasts_months": 116.8
@@ -952,6 +995,7 @@
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
+    "off_wing": 5,
     "margin_before": 27.7,
     "llp_before": 1585,
     "lasts_months": 116.8

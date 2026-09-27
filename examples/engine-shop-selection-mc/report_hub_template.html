@@ -679,7 +679,7 @@ const DATA = /*__DATA__*/null;
       fleetalloc: ["機種ごとに予算を ×0.9／×1.0／×1.1 で解き直した費用と欠航リスクの表と、会社の枠の中で最も良い組み合わせ", "予算を締めると費用は下がるが欠航リスクが上がる機種、締めても変わらない機種がある。変わらない機種の予算を締めて、変わる機種に回す", c.multi && c.multi.allocation ? `配分：${Object.entries(c.multi.allocation.levels).map(([k, v]) => `${k} ×${v}`).join("、")}` : "", "配分を予算要求に反映する。機種の入れ替え（退役・受領）がある年は再計算"],
       runoutYears: ["退役までの毎年の入場件数（整備範囲で色分け）と、その年に退役する基数（線）", "窓（最初の 2 年）は凍結した計画、その後は平均の劣化で退役まで飛ばした結果。退役が進むと、入場の代わりに退役で済む機が増える",
         c.runout ? runoutLine(c.runout) : "", "山の年は退役順を前後させて均す。谷の年に前倒しできる重整備があるか、機ごとの列で探す"],
-      runoutBoard: ["エンジン 1 基ごとの、今日から退役までの入場の列", "色の棒＝入場（整備範囲）。白い菱形＝退役。赤い印＝平均の劣化では計画の入場より前に限界が来る。退役の直前に濃い棒（CORE/FULL）がある機は、寿命を買って捨てている",
+      runoutBoard: ["エンジン 1 基ごとの、今日から退役までの入場の列", "色の棒＝工場に入ってから戻るまで（工期＋輸送、整備範囲ごとの月数。計画ボードの棒と同じ意味）。白い菱形＝退役。赤い印＝平均の劣化では計画の入場より前に限界が来る。退役の直前に濃い棒（CORE/FULL）がある機は、寿命を買って捨てている",
         c.runout ? `重整備を退役の 2 年以内に買う機 ${c.runout.totals.heavy_late_engines} 基、寿命を残して退役する機 ${c.runout.totals.green_time_engines} 基` : "", "退役直前の重整備は退役順を前に。寿命を残す機は売却・グリーンタイムリースの候補"],
       runoutPolicy: ["退役順の方針ごとの生涯費用・入場件数・退役時の残存価値", "「次に入場が近い機から」が入場を最も減らす。「無作為」は寿命を買って捨てる回数が最大。最下行は窓の後の整備範囲を「退役まで持つ最軽」にしない場合",
         "", "退役順は計画の変数。年次の版で方針を決め、月次で機を指名する"],
@@ -946,7 +946,7 @@ const DATA = /*__DATA__*/null;
       if (e.retire_t != null) s += `<line x1="${x(0)}" x2="${x(e.retire_t)}" y1="${y + 7}" y2="${y + 7}" stroke="var(--rule)" stroke-dasharray="1 3"/>`;
       e.chain.forEach((c) => {
         if (c.gap) { s += `<circle cx="${x(c.t)}" cy="${y + 7}" r="3" fill="var(--crit)"><title>${esc(c.reason)}</title></circle>`; return; }
-        s += `<rect x="${x(c.t)}" y="${y + 2}" width="${Math.max(3, x(c.t + 4) - x(c.t))}" height="10" fill="${WS[c.ws]}"><title>${c.label} ${c.ws} ${fmt(c.cost_k)} k$（${esc(c.reason)}、持つ ${c.lasts_months} か月）</title></rect>`;
+        s += `<rect x="${x(c.t)}" y="${y + 2}" width="${Math.max(3, x(c.t + (c.off_wing || 4)) - x(c.t))}" height="10" fill="${WS[c.ws]}"><title>${c.label} ${c.ws} ${fmt(c.cost_k)} k$、翼を離れる ${c.off_wing || 4} か月（工期＋輸送）。${esc(c.reason)}、戻ってから ${c.lasts_months} か月持つ</title></rect>`;
       });
       if (e.retire_t != null) s += `<path d="M${x(e.retire_t)},${y + 2} l5,5 l-5,5 l-5,-5 z" fill="#fff" stroke="var(--ink)"><title>${e.retire} 退役。${esc(e.note)}。残る寿命部品 ${fmt(e.residual_llp_cycles)} サイクル、翼上 ${e.residual_run_months} か月、残存価値 ${fmt(e.residual_value_k)} k$</title></path>`;
     });
