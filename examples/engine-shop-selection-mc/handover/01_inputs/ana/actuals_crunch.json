@@ -1,0 +1,278 @@
+{
+ "as_of": "2027-09",
+ "months": 12,
+ "inductions": [
+  {
+   "esn": "A-124",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-137",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-164",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "MTU-ZH",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-182",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-115",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-186",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-135",
+   "month": "2027-01",
+   "t": 3,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-153",
+   "month": "2027-02",
+   "t": 4,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-130",
+   "month": "2027-03",
+   "t": 5,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-118",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-178",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-108",
+   "month": "2027-07",
+   "t": 9,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-121",
+   "month": "2027-08",
+   "t": 10,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-165",
+   "month": "2027-08",
+   "t": 10,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-105",
+   "month": "2027-09",
+   "t": 11,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  }
+ ],
+ "returns": [
+  {
+   "esn": "A-124",
+   "month": "2027-03",
+   "t": 5,
+   "cost_k": 13924
+  },
+  {
+   "esn": "A-137",
+   "month": "2027-03",
+   "t": 5,
+   "cost_k": 13173
+  },
+  {
+   "esn": "A-164",
+   "month": "2027-03",
+   "t": 5,
+   "cost_k": 7557
+  },
+  {
+   "esn": "A-182",
+   "month": "2027-03",
+   "t": 5,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-115",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-186",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-135",
+   "month": "2027-06",
+   "t": 8,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-153",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 12206
+  },
+  {
+   "esn": "A-130",
+   "month": "2027-08",
+   "t": 10,
+   "cost_k": 12509
+  }
+ ],
+ "unscheduled_in_shop": [
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
+  1,
+  1,
+  1,
+  0
+ ],
+ "kit_quotes": [
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "A-118",
+   "lead_months": 10
+  },
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "A-178",
+   "lead_months": 13
+  },
+  {
+   "month": "2026-11",
+   "t": 1,
+   "esn": "A-108",
+   "lead_months": 13
+  },
+  {
+   "month": "2026-12",
+   "t": 2,
+   "esn": "A-121",
+   "lead_months": 12
+  },
+  {
+   "month": "2026-12",
+   "t": 2,
+   "esn": "A-165",
+   "lead_months": 12
+  },
+  {
+   "month": "2027-01",
+   "t": 3,
+   "esn": "A-105",
+   "lead_months": 14
+  },
+  {
+   "month": "2027-02",
+   "t": 4,
+   "esn": "A-163",
+   "lead_months": 10
+  },
+  {
+   "month": "2027-04",
+   "t": 6,
+   "esn": "A-107",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-06",
+   "t": 8,
+   "esn": "A-113",
+   "lead_months": 11
+  },
+  {
+   "month": "2027-07",
+   "t": 9,
+   "esn": "A-134",
+   "lead_months": 10
+  },
+  {
+   "month": "2027-09",
+   "t": 11,
+   "esn": "A-103",
+   "lead_months": 12
+  },
+  {
+   "month": "2027-09",
+   "t": 11,
+   "esn": "A-145",
+   "lead_months": 14
+  }
+ ],
+ "meta": {
+  "synthetic": true,
+  "truth_world": "crunch",
+  "scenario": 0,
+  "seed": 42,
+  "executed_plan": "base",
+  "note": "合成データ。正解の世界は検証用にここだけに書き、追跡には使わない。"
+ }
+}

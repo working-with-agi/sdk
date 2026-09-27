@@ -1,0 +1,230 @@
+{
+ "company": "ana",
+ "from_version": "2026-09-27",
+ "to_version": "2027-10",
+ "months_of_actuals": 12,
+ "learned": {
+  "delay": {
+   "n": 9,
+   "observed": 1.0,
+   "prior": 1.15,
+   "updated": 1.0857142857142856,
+   "weight": 0.42857142857142855,
+   "what": "戻ったエンジンの、見積もりより長く翼を離れた月数"
+  },
+  "findings": {
+   "n": 9,
+   "observed": 0.9581246652973618,
+   "prior": 1.0,
+   "updated": 0.9820534279845836,
+   "weight": 0.42857142857142855,
+   "what": "請求額 ÷ 見込み額（戻ったエンジン）",
+   "overrun_mean": [
+    0.2,
+    0.16
+   ]
+  },
+  "unsched": {
+   "n": 12,
+   "observed": 0.001853911753800519,
+   "prior": 0.004,
+   "updated": 0.0029269558769002596,
+   "weight": 0.5,
+   "what": "計画外の取卸しで工場にいるエンジン数から逆算した、1 基 1 か月あたりの率"
+  },
+  "hazard": {
+   "n": 15,
+   "observed": 0,
+   "prior": 0.335,
+   "updated": 0.1675,
+   "weight": 0.6521739130434783,
+   "what": "計画前に故障して入場した基数（累計）と、計画が見込んだ数"
+  },
+  "world": {
+   "posterior": {
+    "base": 0.7275963145908898,
+    "backlog": 0.27217172523838584,
+    "crunch": 0.00017811292246484815,
+    "stress": 5.384724825949405e-05
+   },
+   "what": "追跡で更新した前提の確率を、次の版の出発点にする"
+  }
+ },
+ "carried": {
+  "fixed": [
+   {
+    "esn": "A-163",
+    "month": "2027-10",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "A-107",
+    "month": "2027-12",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "A-113",
+    "month": "2028-02",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "A-134",
+    "month": "2028-03",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "A-103",
+    "month": "2028-05",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "A-145",
+    "month": "2028-05",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   }
+  ],
+  "dropped_committed": [],
+  "kits": {
+   "old_on_hand": 4,
+   "used": 15,
+   "ordered": 6,
+   "new_on_hand": 6
+  }
+ },
+ "bridge": {
+  "old_year2": {
+   "visits": 9,
+   "spend": 109915
+  },
+  "state": {
+   "visits": 13,
+   "spend": 157665,
+   "added": [
+    "A-105",
+    "A-118",
+    "A-143",
+    "A-165",
+    "A-178"
+   ],
+   "gone": [
+    "A-133"
+   ],
+   "moved": 0
+  },
+  "learned": {
+   "visits": 12,
+   "spend": 143075
+  },
+  "steps": [
+   {
+    "label": "2026-09-27 版の 2 年目",
+    "value": 109915,
+    "kind": "level"
+   },
+   {
+    "label": "機材の状態が動いた分（新たに期限が来た・済んだ・時期が動いた）",
+    "value": 47750,
+    "kind": "delta"
+   },
+   {
+    "label": "前提を実績で直した分（工期・所見・故障率）",
+    "value": -14590,
+    "kind": "delta"
+   },
+   {
+    "label": "2027-10 版の 1 年目",
+    "value": 143075,
+    "kind": "level"
+   }
+  ]
+ },
+ "next": {
+  "plan_of_record": {
+   "total_cost": 121112.4149091853,
+   "p90": 154257.88870998527,
+   "aog_prob": 0.00375,
+   "by_fiscal_year": {
+    "FY2027": {
+     "visits": 8,
+     "spend": 95314.2323267251,
+     "PR": 0,
+     "CORE": 0,
+     "FULL": 8,
+     "GT": 0,
+     "PO": 0
+    },
+    "FY2028": {
+     "visits": 10,
+     "spend": 119703.30185175716,
+     "PR": 0,
+     "CORE": 0,
+     "FULL": 10,
+     "GT": 0,
+     "PO": 0
+    },
+    "FY2029": {
+     "visits": 2,
+     "spend": 23949.293230703108,
+     "PR": 0,
+     "CORE": 0,
+     "FULL": 2,
+     "GT": 0,
+     "PO": 0
+    }
+   },
+   "shop_visits": 20,
+   "midlife_swaps": 0,
+   "partouts": 0,
+   "long_spares": 0,
+   "emergency_kits": 4,
+   "early_months": 12,
+   "rush": 0,
+   "shops": {
+    "MTU-ZH": 20
+   },
+   "relaxed": [
+    "budget"
+   ]
+  },
+  "visits": 20,
+  "by_fy": {
+   "FY2027": {
+    "visits": 8,
+    "spend": 95314.2323267251,
+    "PR": 0,
+    "CORE": 0,
+    "FULL": 8,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2028": {
+    "visits": 10,
+    "spend": 119703.30185175716,
+    "PR": 0,
+    "CORE": 0,
+    "FULL": 10,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2029": {
+    "visits": 2,
+    "spend": 23949.293230703108,
+    "PR": 0,
+    "CORE": 0,
+    "FULL": 2,
+    "GT": 0,
+    "PO": 0
+   }
+  }
+ },
+ "paths": {
+  "fleet": "data/ana/fleet_next.json",
+  "shops": "data/ana/shops_next.json"
+ }
+}

@@ -1,0 +1,255 @@
+{
+ "company": "jal",
+ "from_version": "2026-09-27",
+ "to_version": "2027-10",
+ "months_of_actuals": 12,
+ "learned": {
+  "delay": {
+   "n": 16,
+   "observed": 1.125,
+   "prior": 1.15,
+   "updated": 1.1357142857142857,
+   "weight": 0.5714285714285714,
+   "what": "戻ったエンジンの、見積もりより長く翼を離れた月数"
+  },
+  "findings": {
+   "n": 16,
+   "observed": 1.038346533335023,
+   "prior": 1.0,
+   "updated": 1.0219123047628702,
+   "weight": 0.5714285714285714,
+   "what": "請求額 ÷ 見込み額（戻ったエンジン）",
+   "overrun_mean": [
+    0.2,
+    0.249
+   ]
+  },
+  "unsched": {
+   "n": 12,
+   "observed": 0.001038637307852098,
+   "prior": 0.004,
+   "updated": 0.002519318653926049,
+   "weight": 0.5,
+   "what": "計画外の取卸しで工場にいるエンジン数から逆算した、1 基 1 か月あたりの率"
+  },
+  "hazard": {
+   "n": 24,
+   "observed": 2,
+   "prior": 0.9675,
+   "updated": 1.7418749999999998,
+   "weight": 0.75,
+   "what": "計画前に故障して入場した基数（累計）と、計画が見込んだ数"
+  },
+  "world": {
+   "posterior": {
+    "base": 0.7194148052054637,
+    "backlog": 0.28000324546554217,
+    "crunch": 0.0004283747357887814,
+    "stress": 0.00015357459320529442
+   },
+   "what": "追跡で更新した前提の確率を、次の版の出発点にする"
+  }
+ },
+ "carried": {
+  "fixed": [
+   {
+    "esn": "J-179",
+    "month": "2027-10",
+    "workscope": "PR",
+    "reason": "工場の枠予約 3 か月前"
+   },
+   {
+    "esn": "J-139",
+    "month": "2027-11",
+    "workscope": "CORE",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-146",
+    "month": "2027-12",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-173",
+    "month": "2027-12",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-188",
+    "month": "2027-12",
+    "workscope": "CORE",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-177",
+    "month": "2028-01",
+    "workscope": "CORE",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-213",
+    "month": "2028-01",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-108",
+    "month": "2028-02",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-114",
+    "month": "2028-04",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-195",
+    "month": "2028-05",
+    "workscope": "FULL",
+    "reason": "LLP キット発注 8 か月前"
+   }
+  ],
+  "dropped_committed": [],
+  "kits": {
+   "old_on_hand": 6,
+   "used": 17,
+   "ordered": 9,
+   "new_on_hand": 9
+  }
+ },
+ "bridge": {
+  "old_year2": {
+   "visits": 17,
+   "spend": 165462
+  },
+  "state": {
+   "visits": 20,
+   "spend": 195364,
+   "added": [
+    "J-111",
+    "J-116",
+    "J-119",
+    "J-122",
+    "J-206"
+   ],
+   "gone": [
+    "J-115",
+    "J-132"
+   ],
+   "moved": 1
+  },
+  "learned": {
+   "visits": 20,
+   "spend": 202945
+  },
+  "steps": [
+   {
+    "label": "2026-09-27 版の 2 年目",
+    "value": 165462,
+    "kind": "level"
+   },
+   {
+    "label": "機材の状態が動いた分（新たに期限が来た・済んだ・時期が動いた）",
+    "value": 29902,
+    "kind": "delta"
+   },
+   {
+    "label": "前提を実績で直した分（工期・所見・故障率）",
+    "value": 7581,
+    "kind": "delta"
+   },
+   {
+    "label": "2027-10 版の 1 年目",
+    "value": 202945,
+    "kind": "level"
+   }
+  ]
+ },
+ "next": {
+  "plan_of_record": {
+   "total_cost": 196490.03192860872,
+   "p90": 240837.477335402,
+   "aog_prob": 0.0025,
+   "by_fiscal_year": {
+    "FY2027": {
+     "visits": 12,
+     "spend": 116173.03719795766,
+     "PR": 2,
+     "CORE": 4,
+     "FULL": 6,
+     "GT": 0,
+     "PO": 0
+    },
+    "FY2028": {
+     "visits": 19,
+     "spend": 203441.97569139427,
+     "PR": 1,
+     "CORE": 7,
+     "FULL": 11,
+     "GT": 0,
+     "PO": 0
+    },
+    "FY2029": {
+     "visits": 2,
+     "spend": 15928.019039256656,
+     "PR": 1,
+     "CORE": 0,
+     "FULL": 1,
+     "GT": 0,
+     "PO": 0
+    }
+   },
+   "shop_visits": 33,
+   "midlife_swaps": 0,
+   "partouts": 0,
+   "long_spares": 0,
+   "emergency_kits": 4,
+   "early_months": 52,
+   "rush": 0,
+   "shops": {
+    "GE-TC": 33
+   },
+   "relaxed": [
+    "budget"
+   ]
+  },
+  "visits": 33,
+  "by_fy": {
+   "FY2027": {
+    "visits": 12,
+    "spend": 116173.03719795766,
+    "PR": 2,
+    "CORE": 4,
+    "FULL": 6,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2028": {
+    "visits": 19,
+    "spend": 203441.97569139427,
+    "PR": 1,
+    "CORE": 7,
+    "FULL": 11,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2029": {
+    "visits": 2,
+    "spend": 15928.019039256656,
+    "PR": 1,
+    "CORE": 0,
+    "FULL": 1,
+    "GT": 0,
+    "PO": 0
+   }
+  }
+ },
+ "paths": {
+  "fleet": "data/jal/fleet_next.json",
+  "shops": "data/jal/shops_next.json"
+ }
+}
