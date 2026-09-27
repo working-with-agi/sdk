@@ -180,6 +180,8 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     }
     if invest_path and invest_path.exists():
         c["invest"] = json.loads(invest_path.read_text(encoding="utf-8"))
+        for p in c["invest"]["policies"]:
+            p.pop("cum_mean", None)
     c["verdict"] = verdict(c)
     return c
 

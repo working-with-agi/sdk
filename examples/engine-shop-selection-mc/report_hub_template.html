@@ -324,7 +324,7 @@ const DATA = /*__DATA__*/null;
       card("month", due3 ? "warn" : "ok", "今月からの判断", `3 か月以内に ${due3} 件の判断`, ""),
       card("track", tr && !tr.world_is_base ? "warn" : "ok", "計画の追跡", tr ? (tr.recommend === "switch" ? `乗り換えを推奨：${esc(tr.switch_to)}` : "今の計画を続けてよい") : "実績なし", tr ? trackChart(tr, 320, 70, true) : ""),
       card("actions", "ok", "打ち手の効果", "左下ほど安くて安全", scatter(c, 320, 150, true)),
-      card("invest", inv ? "warn" : "", "国内工場の新設（LEAP-1B）", inv ? esc(inv.headline) : "試算中", ""),
+      card("invest", inv ? (inv.recommend.go ? "ok" : "warn") : "", "国内工場の新設（LEAP-1B）", inv ? esc(inv.headline) : "試算中", inv ? breakevenChart(inv.breakeven, 320, 170) : ""),
       card("sources", c.unsourced.length ? "warn" : "ok", "前提と出典", `出典のない数字 ${c.unsourced.length} 件`, ""),
     ];
     return `<section class="panel verdict" aria-label="結論">${lines}</section>`
@@ -361,8 +361,59 @@ const DATA = /*__DATA__*/null;
 
   function invest() {
     const v = C().invest;
-    if (!v) return panel("国内工場の新設（LEAP-1B）", '<p class="hint">試算中です。LEAP-1B の整備間隔・費用と工場投資の数字を調べています。</p>');
-    return panel("", `<p class="chart-note">${esc(v.headline)}</p>` + (v.chart || ""), esc(v.note || ""));
+    if (!v) return panel("国内工場の新設（LEAP-1B）", '<p class="hint">試算中です。</p>');
+    return panel("", `<p class="chart-note">${esc(v.headline)}</p><p class="hint">${esc(v.why)}</p>`)
+      + `<div class="vgrid">${panel("", `<p class="chart-note">何があれば得になるか：受託の件数が決め手、補助は効きが小さい</p>` + breakevenChart(v.breakeven), esc(v.breakeven.note))}`
+      + `${panel("", `<p class="chart-note">案ごとの損得の幅（正味現在価値、百万ドル）</p>` + npvChart(v), "線は 10〜90% の幅、点は平均。0 より右なら海外に出し続けるより得。")}</div>`
+      + `<div class="vgrid">${panel("", `<p class="chart-note">国内の自社の入場（年）：737-8 の受領に遅れて立ち上がる</p>` + demandChart(v), "帯は 10〜90%、線は中央値。短期入場（破線）は機数に比例。")}`
+      + `${panel("", `<p class="chart-note">海外の入場待ち（か月）：世界の整備能力が追いつくと縮む</p>` + queueChart(v), "国内化の価値の大半は、往復の輸送（2 か月）と入場待ちの分だけ予備エンジンを借りずに済むこと。")}</div>`
+      + `<details class="panel"><summary>前提と出典</summary><div class="scroll"><table><tbody>${Object.entries(v.sources).map(([k, t]) => `<tr><td class="mono">${esc(k)}</td><td class="src">${esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</td></tr>`).join("")}</tbody></table></div><p class="hint">${esc(v.note)}</p></details>`;
+  }
+  function breakevenChart(b, W = 520, H = 260) {
+    const L = 70, T = 16, R = 10, B = 40, nx = b.third_party_sv.length, ny = b.subsidy.length, cw = (W - L - R) / nx, ch = (H - T - B) / ny;
+    const mx = Math.max(...b.npv.flat().map(Math.abs));
+    let s = "";
+    b.npv.forEach((row, j) => row.forEach((v, i) => {
+      const a = Math.min(1, Math.abs(v) / mx) * 0.85 + 0.1;
+      s += `<rect x="${L + i * cw + 1}" y="${T + (ny - 1 - j) * ch + 1}" width="${cw - 2}" height="${ch - 2}" rx="3" fill="${v >= 0 ? "var(--good)" : "var(--crit)"}" opacity="${a}"><title>補助 ${Math.round(b.subsidy[j] * 100)}%・受託 ${b.third_party_sv[i]} 件/年：${v > 0 ? "+" : ""}${Math.round(v)} 百万ドル</title></rect>`;
+      s += `<text class="tick" x="${L + i * cw + cw / 2}" y="${T + (ny - 1 - j) * ch + ch / 2 + 3}" text-anchor="middle" style="fill:${a > 0.5 ? "var(--surface)" : "var(--ink)"}">${v > 0 ? "+" : ""}${Math.round(v)}</text>`;
+    }));
+    b.third_party_sv.forEach((v, i) => { s += `<text class="tick" x="${L + i * cw + cw / 2}" y="${H - B + 14}" text-anchor="middle">${v}</text>`; });
+    b.subsidy.forEach((v, j) => { s += `<text class="tick" x="${L - 6}" y="${T + (ny - 1 - j) * ch + ch / 2 + 3}" text-anchor="end">補助 ${Math.round(v * 100)}%</text>`; });
+    s += `<text class="tick" x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">受託の件数（年）</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="損益分岐の地図">${s}</svg>`;
+  }
+  function npvChart(v, W = 520) {
+    const P = v.policies.filter((p) => p.id !== "outsource"), L = 170, R = 16, rowH = 34, H = P.length * rowH + 30;
+    const lo = Math.min(0, ...P.map((p) => p.p10)) * 1.08, hi = Math.max(10, ...P.map((p) => p.p90)) * 1.08, x = (t) => L + (t - lo) / (hi - lo) * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 24}" stroke="var(--ink)"/><text class="tick" x="${x(0)}" y="${H - 8}" text-anchor="middle">0</text>`;
+    [-200, -100, 100].forEach((t) => { if (t > lo && t < hi) s += `<text class="tick" x="${x(t)}" y="${H - 8}" text-anchor="middle">${t > 0 ? "+" : ""}${t}</text>`; });
+    P.forEach((p, i) => {
+      const y = 12 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 4}" text-anchor="end">${esc(p.label)}</text>`;
+      s += `<line x1="${x(p.p10)}" x2="${x(p.p90)}" y1="${y}" y2="${y}" stroke="${p.npv >= 0 ? "var(--good)" : "var(--crit)"}" stroke-width="6" stroke-linecap="round" opacity=".45"/>`;
+      s += `<circle cx="${x(p.npv)}" cy="${y}" r="6" fill="${p.npv >= 0 ? "var(--good)" : "var(--crit)"}"><title>${esc(p.label)}：平均 ${Math.round(p.npv)}、10〜90% ${Math.round(p.p10)}〜${Math.round(p.p90)}、得になる確率 ${Math.round(p.p_positive * 100)}%、投資 ${Math.round(p.capex)}</title></circle>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="案ごとの正味現在価値">${s}</svg>`;
+  }
+  function demandChart(v, W = 520, H = 220) {
+    const Y = v.years, n = Y.length, L = 34, R = 8, T = 10, B = 24, top = Math.max(...v.own_sv["90"], ...v.quick_turns) * 1.1;
+    const x = (i) => L + i / (n - 1) * (W - L - R), y = (t) => H - B - t / top * (H - T - B);
+    let s = `<polygon fill="var(--accent-soft)" points="${v.own_sv["90"].map((t, i) => `${x(i)},${y(t)}`).join(" ")} ${v.own_sv["10"].map((t, i) => `${x(i)},${y(t)}`).reverse().join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${v.own_sv["50"].map((t, i) => `${x(i)},${y(t)}`).join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--muted)" stroke-dasharray="4 3" points="${v.quick_turns.map((t, i) => `${x(i)},${y(t)}`).join(" ")}"/>`;
+    [0, 20, 40, 60].forEach((t) => { if (t < top) s += `<text class="tick" x="${L - 4}" y="${y(t) + 3}" text-anchor="end">${t}</text>`; });
+    Y.forEach((yr, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">FY${String(yr).slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="国内の入場件数">${s}</svg>`;
+  }
+  function queueChart(v, W = 520, H = 220) {
+    const Y = v.years, n = Y.length, L = 34, R = 8, T = 10, B = 24, top = Math.max(3, ...v.queue_months);
+    const x = (i) => L + i / (n - 1) * (W - L - R), y = (t) => H - B - t / top * (H - T - B);
+    let s = `<polygon fill="var(--warn-soft)" points="${x(0)},${y(0)} ${v.queue_months.map((t, i) => `${x(i)},${y(t)}`).join(" ")} ${x(n - 1)},${y(0)}"/>`;
+    s += `<polyline fill="none" stroke="var(--warn)" stroke-width="2" points="${v.queue_months.map((t, i) => `${x(i)},${y(t)}`).join(" ")}"/>`;
+    [0, 1, 2, 3].forEach((t) => { s += `<text class="tick" x="${L - 4}" y="${y(t) + 3}" text-anchor="end">${t}</text>`; });
+    Y.forEach((yr, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">FY${String(yr).slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="海外の入場待ち">${s}</svg>`;
   }
 
   /* ---------------- level 3 ---------------- */
