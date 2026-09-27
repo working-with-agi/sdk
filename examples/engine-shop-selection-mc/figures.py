@@ -240,80 +240,88 @@ HANDOVER = [  # what crosses between the pages
 
 # ---------------------------------------------------------------- the strategy stack
 def strategy_stack() -> str:
-    """One page: the layers of the problem, the method used at each layer (with where the
-    literature sits), and the recommended path of the analysis strategy (thick arrows)."""
-    W, Hh = 1200, 1010
+    """Left to right: what comes in, the four strategies run side by side, how they are
+    bundled, how the plan is solved, and — on the far right — what the result should be.
+    Thick crimson = the recommended path; small grey line under a box = where the literature
+    for that method sits."""
+    W, Hh = 1400, 760
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
          f'<defs><marker id="sa" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="{LINE}"/></marker>'
          f'<marker id="sr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="{LOOP}"/></marker></defs>']
     def T(x, y, t, size=12, fill=INK, w="", anchor="start"):
         o.append(f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" text-anchor="{anchor}" {w}>{t}</text>')
-    def box(x, y, w, h, title, l1, lit, kind="det", strong=False):
+    def box(x, y, w, h, title, l1, lit="", kind="det", strong=False):
         f, st = COL[kind]
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="7" fill="{f}" stroke="{LOOP if strong else st}" stroke-width="{2.5 if strong else 1.5}"/>')
         T(x + 9, y + 17, title, 12, INK, 'font-weight="700"'); T(x + 9, y + 33, l1, 10.5)
         if lit: T(x + 9, y + h - 8, lit, 9.5, MUTE)
-    def band(y, h, label, cadence, fill):
-        o.append(f'<rect x="20" y="{y}" width="{W - 40}" height="{h}" rx="10" fill="{fill}" stroke="#e2e8f0"/>')
-        T(32, y + 18, label, 12.5, INK, 'font-weight="700"'); T(32, y + 34, cadence, 10.5, MUTE)
-    def arrow(x1, y1, x2, y2, red=False, w=1.6, dash=""):
-        o.append(f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{LOOP if red else LINE}" stroke-width="{w}" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#{"sr" if red else "sa"})"/>')
-    T(20, 30, "あるべき分析ストラテジー：層ごとの方法と束ね方（文献の位置つき）", 20, INK, 'font-weight="700"')
-    T(20, 52, "下から上へ観測が流れ、上から下へ決定が流れる。太い深紅の矢印＝推奨する経路。各箱の 3 行目＝その方法が語られている文献の系統。深紅の枠＝この設計で新しく足す層。", 11, MUTE)
-    LX = 240   # boxes start here; the band label sits left of it
-    C1, C2, C3, BW = LX, LX + 300, LX + 600, 280   # three columns
-    # band 1: the layer above
-    band(66, 120, "① 上の層", "需要と機材｜年 1 回", ROWB)
-    box(C1, 78, BW, 96, "需要の前提（伸び・季節・稼働）", "直近と長期を地平で混ぜる。3pt で随時", "予測結合：Timmermann 2006", "det")
-    box(C2, 78, BW, 96, "機材計画 → 必要エンジン数", "便の計画が「必要」を決める。足す計画は半期", "機材計画のポートフォリオ：Omega 2019 頃（B）", "det")
-    box(C3, 78, BW + 20, 96, "決定：版の承認・購入・便・投資", "経営が決める。計算は材料を渡すだけ", "RDM：Lempert ほか 2003", "judge")
-    # band 2: fleet planning
-    band(196, 150, "② 機隊の計画", "確率計画と購入の輪｜年 1 回・随時", ROWA)
-    box(C1, 208, BW, 126, "内側：解いて叩く", "MILP 40 本 → MC 800 本 × 24 か月", "確率計画：SDDP、EJOR 2024", "mc")
-    box(C2, 208, BW, 126, "購入の輪：予備・購入・プール・中寿命", "後悔最小：どの型でも 5% を満たす手だけ", "Savage 1951／Lempert 2003／METRIC", "mc", strong=True)
-    box(C3, 208, BW + 20, 126, "工場の約束・容量／中古市場", "約束件数 → 増強、晩年 → 供給の上限", "容量計画：Management Science 1991", "det")
-    # band 3: learning the assumptions (new)
-    band(366, 330, "③ 前提の学習", "ストラテジーを選ぶ・束ねる｜月 1 回・年 1 回", ROWB)
-    o.append(f'<rect x="{LX - 8}" y="378" width="{W - LX - 24}" height="308" rx="10" fill="none" stroke="{LOOP}" stroke-width="2.5" stroke-dasharray="10 5"/>')
-    o.append(f'<rect x="{C2}" y="368" width="392" height="19" rx="5" fill="{LOOP}"/>'); T(C2 + 8, 381, "新しく足す層：RUL のアンサンブル（部品層）と確率計画（機隊層）の間", 11, "#fff", 'font-weight="700"')
-    cards = [("平均（既定）", "全期間を等しく。忘却なし、K 大", "予測結合のパズル（等重み）"), ("新しさ優先", "半減期 6〜12 か月で古い月を薄める", "DMA：Raftery ほか 2010"),
-             ("クラスタ", "変化点で切る。世界を足す・外す", "BOCPD 2007／DWM：Kolter & Maloof 2007"), ("混成（推奨）", "平均を既定に、ゆっくり忘れ、検知で切る", "Gama ほか 2014（検知型＋窓型）")]
-    for i, (t, l, lit) in enumerate(cards):
-        box(C1, 398 + i * 70, BW, 62, t, l, lit, "mc", strong=(i == 3))
-    box(C2, 398, BW, 90, "束ね方 ① 等重み平均（既定）", "4 つの世界の確率・補正・伸びを等しく平均", "予測結合のパズル：Bates & Granger 1969", "mc", strong=True)
-    box(C2, 498, BW, 90, "束ね方 ② 採点重み（年 1 回）", "過去での検証の点数で重み。年 1 回だけ更新", "スタッキング：Yao ほか 2018／BPS 2019", "mc")
-    box(C2, 598, BW, 78, "束ね方 ③ 幅を信号に", "4 つの答えの幅が広い月 → 見直しの引き金", "spread–skill：Leutbecher & Palmer 2008", "judge", strong=True)
-    box(C3, 398, BW + 20, 90, "束ねた前提（世界の確率・補正・伸び）", "→ 内側へ。表紙に「束ね方」を記す", "", "det", strong=True)
-    box(C3, 498, BW + 20, 90, "過去での検証：4 つを採点", "学ぶ 5 版／確かめる 5 版。被覆率・時期・需要", "交差検証に相当（backtest.py）", "mc")
-    box(C3, 598, BW + 20, 78, "見直し（月次会議）", "幅が広い・変化点・引き金 → Check → Act", "review.py（規則層＋AI 層）", "judge")
-    # band 4: observation
-    band(716, 150, "④ 観測", "部品の寿命と実績｜便ごと〜月次", ROWA)
-    box(C1, 728, BW, 126, "状態監視と RUL（残り寿命）", "EGT・LLP。複数モデルを束ねて誤差を 1〜2 割下げる", "RUL のアンサンブル：Sci. Rep. 2025／JAIS", "det")
-    box(C2, 728, BW, 126, "実績（入場・遅れ・所見・故障・費用）", "計画との差。Secretary.io が会議前に整える", "取り込み（データ）。シミュレーションではない", "det")
-    box(C3, 728, BW + 20, 126, "回答ログ・便の実績・納期回答", "週次の先行指標、必要エンジン数の再計算", "変化点検知の入力（cpd.py）", "det")
-    # arrows: observation -> learning (thick red on the recommended path)
+    def col(x, w, n, title, sub, fill):
+        o.append(f'<rect x="{x}" y="70" width="{w}" height="{Hh - 150}" rx="10" fill="{fill}" stroke="#e2e8f0"/>')
+        o.append(f'<rect x="{x}" y="70" width="{w}" height="40" rx="10" fill="{HEAD}"/>')
+        T(x + w / 2, 88, f"{n} {title}", 13, "#fff", 'font-weight="700"', "middle"); T(x + w / 2, 103, sub, 10, "#cbd5e1", "", "middle")
     def poly(pts, red=False, w=1.6, dash=""):
         o.append(f'<polyline fill="none" points="{pts}" stroke="{LOOP if red else LINE}" stroke-width="{w}" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#{"sr" if red else "sa"})"/>')
-    arrow(C1 + 140, 728, C1 + 140, 686, True, 3)            # RUL -> strategies
-    arrow(C2 + 140, 728, C2 + 140, 686, True, 3)            # actuals -> ensemble
-    arrow(C3 + 150, 728, C3 + 150, 686, False, 1.8)         # logs -> review
-    arrow(C1 + BW, 452, C2, 452, True, 3)                   # strategies -> ①
-    arrow(C1 + BW, 637, C2, 637, True, 3)                   # -> ③
-    arrow(C2 + BW, 443, C3, 443, True, 3)                   # ① -> bundled
-    arrow(C3, 543, C2 + BW, 543, False, 1.8, "6 4")         # backtest -> ② (weights, yearly)
-    arrow(C2 + BW, 637, C3, 637, True, 3)                   # ③ -> review
-    poly(f"{C3 + 150},398 {C3 + 150},356 {C1 + 140},356 {C1 + 140},336", True, 3)   # bundled -> inner
-    arrow(C1 + BW, 271, C2, 271, True, 3)                   # inner -> purchase loop
-    poly(f"{C2 + 200},208 {C2 + 200},190 {C3 + 60},190 {C3 + 60},176", True, 3)     # purchase loop -> decision
-    arrow(C1 + 140, 176, C1 + 140, 206, False, 1.8)         # demand -> inner
-    arrow(C2 + 140, 176, C2 + 140, 206, False, 1.8)         # fleet plan -> purchase loop (required)
-    arrow(C3 + 220, 176, C3 + 220, 206, False, 1.8, "6 4")  # decision -> shops/market (commitments)
+    T(20, 30, "あるべき分析ストラテジー：左から右へ。いちばん右が「あるべき結果」", 20, INK, 'font-weight="700"')
+    T(20, 52, "太い深紅の矢印＝推奨する経路。各箱の下の小さな灰色＝その方法が語られている文献の系統。深紅の枠＝この設計で新しく足すところ。", 11, MUTE)
+    # five columns
+    X = [20, 262, 504, 746, 988]; CW = 232; G = 10
+    col(X[0], CW, "①", "観測（入る）", "便ごと〜月次", ROWA)
+    col(X[1], CW, "②", "4 つのストラテジー", "同時に回す（新しく足す）", ROWB)
+    col(X[2], CW, "③", "束ねる", "①等重み ②採点重み ③幅", ROWB)
+    col(X[3], CW, "④", "計画を解く", "年 1 回・見張りで随時", ROWA)
+    o.append(f'<rect x="{X[4]}" y="70" width="{W - X[4] - 20}" height="{Hh - 150}" rx="10" fill="rgba(190,18,60,0.05)" stroke="{LOOP}" stroke-width="2.5"/>')
+    o.append(f'<rect x="{X[4]}" y="70" width="{W - X[4] - 20}" height="40" rx="10" fill="{LOOP}"/>')
+    T(X[4] + (W - X[4] - 20) / 2, 88, "⑤ あるべき結果", 13, "#fff", 'font-weight="700"', "middle"); T(X[4] + (W - X[4] - 20) / 2, 103, "決める人が受け取るもの", 10, "#fecdd3", "", "middle")
+    # column 1: observations
+    box(X[0] + G, 124, CW - 2 * G, 92, "状態監視・残り寿命（RUL）", "EGT・LLP。複数モデルを束ねる", "RUL のアンサンブル：Sci. Rep. 2025")
+    box(X[0] + G, 230, CW - 2 * G, 92, "実績（入場・遅れ・所見・故障・費用）", "計画との差。会議前に整える", "取り込み（Secretary.io）")
+    box(X[0] + G, 336, CW - 2 * G, 92, "回答ログ・便の実績・納期回答", "週次の先行指標、必要エンジン数", "変化点検知の入力（cpd.py）")
+    box(X[0] + G, 442, CW - 2 * G, 92, "需要（e-Stat・各社月次）", "伸び・季節・逼迫の月", "予測結合：Timmermann 2006")
+    # column 2: strategies
+    cards = [("平均（既定）", "全期間を等しく。忘却なし、K 大", "予測結合のパズル（等重み）"), ("新しさ優先", "半減期 6〜12 か月で古い月を薄める", "DMA：Raftery ほか 2010"),
+             ("クラスタ", "変化点で切る。世界を足す・外す", "BOCPD 2007／DWM 2007"), ("混成（推奨）", "平均を既定に、ゆっくり忘れ、検知で切る", "Gama ほか 2014")]
+    for k, (t, l, lit) in enumerate(cards):
+        box(X[1] + G, 124 + k * 106, CW - 2 * G, 92, t, l, lit, "mc", strong=(k == 3))
+    T(X[1] + CW / 2, 552, "同じ観測から 4 本の「前提」が出る", 10.5, MUTE, "", "middle"); T(X[1] + CW / 2, 567, "（世界の確率・補正・伸び）", 10.5, MUTE, "", "middle")
+    # column 3: bundling
+    box(X[2] + G, 124, CW - 2 * G, 110, "① 等重み平均（既定）", "4 本を等しく平均 → 束ねた前提", "予測結合のパズル：Bates & Granger 1969", "mc", strong=True)
+    box(X[2] + G, 248, CW - 2 * G, 110, "② 採点重み（年 1 回）", "過去での検証の点数で重み。年 1 回だけ", "スタッキング：Yao ほか 2018／BPS 2019", "mc")
+    box(X[2] + G, 372, CW - 2 * G, 110, "③ 幅を信号に", "4 本の答えの幅が広い月 → 見直しへ", "spread–skill：Leutbecher & Palmer 2008", "judge", strong=True)
+    box(X[2] + G, 496, CW - 2 * G, 92, "過去での検証：4 つを採点", "学ぶ 5 版／確かめる 5 版", "交差検証に相当（backtest.py）", "mc")
+    # column 4: solving
+    box(X[3] + G, 124, CW - 2 * G, 110, "内側：解いて叩く", "MILP 40 本 → MC 800 本 × 24 か月", "確率計画：SDDP、EJOR 2024", "mc", strong=True)
+    box(X[3] + G, 248, CW - 2 * G, 110, "購入の輪（後悔最小）", "どの型でも 5% を満たす手だけ候補", "Savage 1951／RDM 2003／METRIC", "mc", strong=True)
+    T(X[3] + G + 9, 248 + 49, "上限：工場の約束・中古市場・予備", 10.5, MUTE)
+    box(X[3] + G, 372, CW - 2 * G, 110, "見直し（月次会議）", "幅・変化点・引き金 → Check → Act", "review.py（規則層＋AI 層）", "judge")
+    # column 5: the result
+    RX = X[4] + G; RW = W - X[4] - 20 - 2 * G
+    box(RX, 124, RW, 110, "予算内の年度計画（幅つき）", "p10〜p90 と欠航確率。束ねた前提で 1 本", "", "judge", strong=True)
+    box(RX, 248, RW, 110, "壊れにくい購入計画", "4 つのストラテジーすべてで欠航 ≤ 5%。手は最小限", "後悔最小・RDM", "judge", strong=True)
+    box(RX, 372, RW, 110, "見直しの引き金（いつ会議か）", "幅が広い月・変化点・伸び差 3pt", "", "judge", strong=True)
+    box(RX, 496, RW, 92, "来年のストラテジーと採点表", "4 つの点数と、表紙に記す束ね方", "", "judge", strong=True)
+    box(RX + 60, 602, RW - 60, 36, "→ 決める：版の承認・購入・便・投資", "", "", "judge")
+    # arrows (recommended path thick crimson)
+    for y in (170, 276, 382, 488):
+        poly(f"{X[0] + CW - G},{y} {X[1] + G},{y}", True, 3)                       # observations -> strategies (each row)
+    poly(f"{X[1] + CW - G},{170} {X[2] + G},{179}", True, 3)                         # strategies -> ①
+    poly(f"{X[1] + CW - G},{382} {X[2] + G},{427}", True, 3)                         # -> ③
+    poly(f"{X[2] + CW - G},{179} {X[3] + G},{179}", True, 3)                         # ① -> inner
+    poly(f"{X[3] + CW / 2},{234} {X[3] + CW / 2},{248}", True, 3)                    # inner -> purchase loop
+    poly(f"{X[3] + CW - G},{303} {X[4] + G},{303}", True, 3)                         # purchase loop -> robust plan
+    poly(f"{X[3] + CW - G},{179} {X[4] + G},{179}", True, 3)                         # inner -> budget plan
+    poly(f"{X[2] + CW - G},{427} {X[3] + G},{427}", True, 3)                         # ③ -> review
+    poly(f"{X[3] + CW - G},{427} {X[4] + G},{427}", True, 3)                         # review -> trigger
+    poly(f"{X[2] + CW / 2},{496} {X[2] + CW / 2},{358}", False, 1.8, "6 4")           # backtest -> ② (yearly weights)
+    poly(f"{X[2] + CW - G},{542} {X[4] + G},{542}", False, 1.8)                      # backtest -> scoring table (through the empty row)
+    poly(f"{X[4] + RW / 2 + 30},{588} {X[4] + RW / 2 + 30},{602}", True, 3)          # results -> decide
+    # feedback: next year's strategy -> strategies (dashed along the bottom)
+    poly(f"{RX + 24},{588} {RX + 24},{Hh - 96} {X[1] + CW / 2},{Hh - 96} {X[1] + CW / 2},{Hh - 118}", False, 1.8, "6 4")
+    T(X[1] + CW / 2 + 14, Hh - 102, "年 1 回：採点で来年の型と重みを決めて戻す（点線）", 10.5, MUTE)
     # legend
-    y0 = 884
-    T(20, y0, "推奨経路（太い深紅）：観測 → 4 ストラテジーを同時に回す → ① 等重み平均で束ねた前提（③ の幅は見直しへ）→ 内側で解いて叩く → 購入の輪は後悔最小で手を絞る → 決定。", 12, INK, 'font-weight="700"')
-    T(20, y0 + 20, "② 採点重みは年 1 回、過去での検証（スタッキングの交差検証に相当）で決める（点線）。月次では重みを動かさない：推定誤差を避ける（予測結合のパズル）。", 11.5)
-    T(20, y0 + 40, "層と文献：④ RUL のアンサンブルは部品層、② 確率計画（SDDP）は機隊層、予備は在庫理論、工場は容量計画。③ の「学習の型を束ねる」層は当たった範囲で論文がなく、ここが新規。", 11.5)
-    T(20, y0 + 60, "上下の流れ：観測は下から上へ、決定は上から下へ（機材計画 → 必要エンジン数 → 内側、決定 → 工場の約束・中古市場）。すべて合成データの目安。文献の年・掲載誌は確認済み、細部は要再確認。", 11.5, MUTE)
+    y0 = Hh - 60
+    T(20, y0, "推奨経路（太い深紅）：観測 → 4 つを同時に回す → ① 等重みで束ねる → 内側で解いて叩く → 購入の輪で後悔最小 → 壊れにくい購入計画と予算内の年度計画 → 決める。③ の幅は見直しの引き金に。", 12, INK, 'font-weight="700"')
+    T(20, y0 + 20, "② 採点重みは年 1 回だけ（点線）。月次では重みを動かさない。理由：重みを推定するほど誤差が増える（予測結合のパズル）。", 11.5)
+    T(20, y0 + 40, "文献の位置：① の RUL は部品層のアンサンブル、④ は機隊層の確率計画（SDDP）、上限は在庫理論と容量計画。② と ③（学習の型を束ねる）は当たった範囲で論文がなく、ここが新しい。すべて合成データの目安。", 11.5, MUTE)
     body = "".join(o)
     def fix(m):
         tag = m.group(0); st = []
