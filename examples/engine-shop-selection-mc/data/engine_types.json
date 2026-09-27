@@ -1,0 +1,60 @@
+{
+ "note": "型式の時計：就航 → 生産終了 → 退役の波 → 次世代。エンジン 1 基の時計（サイクル・EGT）の上にある、型式の世代の時計。晩年ほど残存価値が下がり、部品と工場が新型式へ移る",
+ "types": {
+  "CFM56-7B": {
+   "aircraft": "737-800 (737NG)",
+   "eis": 1997,
+   "eis_source": "1997 年 12 月〜1998 年 1 月に 737-700 で就航（Southwest） https://www.geaerospace.com/news/press-releases/joint-ventures/cfm56-7-powered-737-700-enters-service-us-and-europe",
+   "production_end": 2020,
+   "production_end_source": "商用 737NG の最終納入は 2020 年 1 月（China Eastern）、生産は 1997 年末から約 22 年・約 6,900 機 https://www.flightglobal.com/airframers/boeing-delivered-final-commercial-737ng-in-january-ending-23-years-of-production/137879.article",
+   "successor": "LEAP-1B",
+   "aircraft_life_years": 25,
+   "aircraft_life_source": "no_source: 機体寿命の業界目安 25 年（C）",
+   "retirement_wave_end": 2045,
+   "retirement_wave_end_note": "最終納入 2020 + 25 年 = 2045 年ごろに型式が世界から消える（導出）",
+   "values": {
+    "green_time_musd": [
+     2.8,
+     3.4
+    ],
+    "half_life_musd": [
+     3.8,
+     7.1
+    ],
+    "source": "Safe Fly Aviation 2026 市場レポート（グリーンタイム 2.8〜3.4、ハーフライフ 3.8〜7.1 百万ドル） https://safefly.aero/cfm56-engine-market-report-2026/ 、simpleflying https://simpleflying.com/retired-boeing-737-engines-actually-worth/",
+    "confidence": "B"
+   },
+   "market_note": "退役は当初予想より少ない（GE：2026 年の退役率 3〜4% → 1.5〜2%）。LEAP の生産制約で MAX の受領が遅れ、737NG が長く飛び CFM56 の整備需要が続く https://aviationweek.com/mro/aircraft-propulsion/cfm56-overhaul-demand-remains-strong-ge-aerospace-says"
+  },
+  "LEAP-1B": {
+   "aircraft": "737 MAX (737-8)",
+   "eis": 2017,
+   "eis_source": "2017 年 5 月に Malindo Air の 737 MAX 8 で就航 https://en.wikipedia.org/wiki/Boeing_737_MAX",
+   "production_end": null,
+   "successor": "CFM RISE（開放ファン）",
+   "successor_eis": 2035,
+   "successor_eis_source": "CFM RISE は 2030 年代半ば（2035 年）の就航目標、遅れる公算 https://leehamnews.com/2022/02/01/ges-open-fan-targets-mid-2030s-for-entry-into-service/",
+   "aircraft_life_years": 25,
+   "delivery_note": "LEAP の生産制約で 737 MAX の受領が遅れている（2025〜26 年）"
+  }
+ },
+ "assumptions": {
+  "generation_interval_years": 20,
+  "generation_source": "CFM56-7B 1997 → LEAP-1B 2017 → RISE 2035 目標：約 20 年（A から導出）",
+  "residual_decay": {
+   "start": "production_end",
+   "end": "retirement_wave_end",
+   "floor": 0.35,
+   "note": "no_source（C）：生産終了の年に 1.0、型式が消える年に床値へ直線で下がる。グリーンタイム価格 ÷ ハーフライフ価値の比（2.8〜3.4 ÷ 3.8〜7.1 ≒ 0.4〜0.9）を参考に床 0.35"
+  },
+  "late_life_parts_escalation_per_year": 0.03,
+  "late_life_tat_extra_months_per_5y": 0.5,
+  "late_life_source": "no_source（C）：生産終了後の寿命部品の値上がりと、工場が新型式に移ることによる工期の延び",
+  "delivery_delay_prob_by_successor_age": {
+   "0-5": 0.5,
+   "5-10": 0.3,
+   "10+": 0.15,
+   "source": "no_source（C）：次世代が若いほど受領が遅れやすい。LEAP は就航 8 年目でも生産制約で遅れている"
+  }
+ }
+}

@@ -691,6 +691,7 @@ const DATA = /*__DATA__*/null;
         c.runout ? runoutLine(c.runout) : "", "山の年は退役順を前後させて均す。谷の年に前倒しできる重整備があるか、機ごとの列で探す"],
       runoutOps: ["退役までの毎月、運航が必要とするエンジン数と、計画が残す稼働可能なエンジン数", "黒い線が必要な数（運航指数 × 飛ぶ機数の 2 倍、機体整備で止まる機は引く）、灰色の帯が予備、緑の線が稼働可能（保有から工場にいる数を引いた数）。緑が帯の上端を割る月は赤",
         c.runout && c.runout.ops_summary && c.runout.ops_summary.thin ? `余力が最も薄いのは ${c.runout.ops_summary.thin.label}（${c.runout.ops_summary.thin.margin} 基）` : "", "赤い月がある年は退役順を後ろへ（機を残す）か、入場を前後へ。緑と黒の間が広い年は退役を早められる"],
+      typeClock: ["型式の世代の時計と、退役年ごとの残存価値の倍率", "生産終了の年に 1.0、型式が世界から消える年に床値へ下がる。当社の最終退役が世界より早いほど、退役機の売り先がある", c.typelife ? c.typelife.fleet_vs_world : "", "退役機の処分（売却・グリーンタイムリース・部品取り）は型式の晩年に入る前に決める"],
       runoutBoard: ["エンジン 1 基ごとの、今日から退役までの入場の列", "色の棒＝工場に入ってから戻るまで（工期＋輸送、整備範囲ごとの月数。計画ボードの棒と同じ意味）。白い菱形＝退役。赤い印＝平均の劣化では計画の入場より前に限界が来る。退役の直前に濃い棒（CORE/FULL）がある機は、寿命を買って捨てている",
         c.runout ? `重整備を退役の 2 年以内に買う機 ${c.runout.totals.heavy_late_engines} 基、寿命を残して退役する機 ${c.runout.totals.green_time_engines} 基` : "", "退役直前の重整備は退役順を前に。寿命を残す機は売却・グリーンタイムリースの候補"],
       runoutPolicy: ["退役順の方針ごとの生涯費用・入場件数・退役時の残存価値", "「次に入場が近い機から」が入場を最も減らす。「無作為」は寿命を買って捨てる回数が最大。最下行は窓の後の整備範囲を「退役まで持つ最軽」にしない場合",
@@ -1031,6 +1032,21 @@ const DATA = /*__DATA__*/null;
     O.forEach((o) => { s += `<rect x="${x(o.t)}" y="${T}" width="${x(o.t + 1) - x(o.t)}" height="${H - T - B}" fill="transparent"><title>${o.label}：機数 ${o.aircraft}、必要 ${o.required}、予備 ${o.buffer}、工場 ${o.in_shop}、稼働可能 ${o.serviceable}／保有 ${o.owned}、余力 ${o.margin >= 0 ? "+" : ""}${o.margin}</title></rect>`; });
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="運航側：必要なエンジン数と稼働可能なエンジン数">${s}</svg>`;
   }
+  function typeClockPanel(TL) {
+    const W = 900, H = 150, L = 44, B = 26, T = 10, ys = TL.curve, y0 = ys[0].year, y1 = ys[ys.length - 1].year, x = (y) => L + (y - y0) / (y1 - y0) * (W - L - 20), y = (v) => T + (H - T - B) * (1 - v);
+    let s = `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${ys.map((c) => `${x(c.year)},${y(c.multiplier)}`).join(" ")}"/>`;
+    const marks = [[TL.production_end, "生産終了", "var(--warn)"], [TL.fleet_exit_year, "当社の最終退役", "var(--accent)"], [TL.successor_next_eis, `次々世代 ${TL.successor_next || ""}`, "var(--muted)"], [TL.retirement_wave_end, "型式が消える", "var(--crit)"]];
+    marks.forEach(([yr, lab, col]) => { if (yr && yr >= y0 && yr <= y1) s += `<line x1="${x(yr)}" x2="${x(yr)}" y1="${T}" y2="${H - B}" stroke="${col}" stroke-dasharray="4 3"/><text class="tick" x="${x(yr) + 3}" y="${T + 10}" style="fill:${col}">${lab} ${yr}</text>`; });
+    for (let yr = y0; yr <= y1; yr += 3) s += `<text class="tick" x="${x(yr)}" y="${H - B + 14}" text-anchor="middle">${yr}</text>`;
+    [0, 0.5, 1].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v.toFixed(1)}</text>`; });
+    const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="型式の年齢による残存価値の倍率">${s}</svg>`;
+    const r = TL.residual, ll = TL.late_life;
+    const stageJ = { young: "若い（生産中）", late: "晩年（生産終了後）", fading: "終盤（退役の波の後半）" }[TL.stage_now];
+    const clock = `<p class="chart-note">${esc(TL.type)}：就航 ${TL.eis} → 生産終了 ${TL.production_end} → 型式が消える ${TL.retirement_wave_end}（推定）。今は就航 ${TL.age_at_start} 年目・生産終了から ${TL.years_since_production_end} 年＝${stageJ}。次世代 ${esc(TL.successor || "")} は ${TL.successor_eis} 就航、次々世代 ${esc(TL.successor_next || "")} は ${TL.successor_next_eis} 目標（世代の間隔 約 ${TL.generation_interval} 年）</p>`;
+    const eff = `<div class="vgrid"><div><h3 style="margin:0 0 6px">残存価値（型式の年齢で割り引く）</h3><p>退役で処分する残存価値 ${(r.raw_k / 1000).toFixed(0)} → <b>${(r.adjusted_k / 1000).toFixed(0)} 百万ドル</b>（型式の晩年に売る分の値下がり ${(r.lost_to_type_age_k / 1000).toFixed(0)}）</p><p class="hint">${esc(r.note)}</p></div><div><h3 style="margin:0 0 6px">晩年の費用（仮定）</h3><p>当社の最終退役までに生産終了から ${ll.years_late_by_fleet_exit} 年。寿命部品の値上がり ×${ll.parts_factor_by_fleet_exit}（年 ${(ll.parts_escalation_per_year * 100).toFixed(0)}%）、工期の延び +${ll.tat_extra_by_fleet_exit} か月</p><p class="hint">受領遅れの確率の目安：次世代の年齢から ${(TL.successor_delay_prob_now * 100).toFixed(0)}%（仮定）</p></div></div>`;
+    return panel("型式の時計（エンジン 1 基の時計の上にある世代の時計）", clock + svg + legend([["残存価値の倍率（ハーフライフ価値に掛ける）", "var(--ink)", 1]]) + eff + `<p><b>${esc(TL.fleet_vs_world)}</b></p>`,
+      `出典：就航・生産終了・次世代の目標は公表（A）。残存価値の低下曲線・晩年の値上がりと工期・受領遅れの確率は仮定（C）。${esc(TL.sources.market || "")}`);
+  }
   function runoutBoard(R, W = 1000) {
     const E = R.engines.filter((e) => e.visits > 0 || e.in_window_plan).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9) || (a.chain[0] ? a.chain[0].t : 0) - (b.chain[0] ? b.chain[0].t : 0));
     const rowH = 14, L = 64, T = 22, H = T + E.length * rowH + 8, N = R.end_t, x = (t) => L + t / N * (W - L - 10);
@@ -1064,6 +1080,7 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">${esc(runoutLine(R))}</p>` + runoutYears(R) + legend([["軽作業 PR", WS.PR], ["コア CORE", WS.CORE], ["全面 FULL", WS.FULL], ["退役する基数", "var(--ink)", 1]]) + G("runoutYears"), esc(R.note))
       + panel("年ごとの注釈", notes + `<p><b>この結果の限界</b></p><ul>${cav}</ul>`)
       + (R.ops ? panel("対になる運航側（必要なエンジン数と稼働可能な数）", `<p class="chart-note">${R.ops_summary.thin ? `余力が最も薄いのは ${R.ops_summary.thin.label}（${R.ops_summary.thin.margin >= 0 ? "+" : ""}${R.ops_summary.thin.margin} 基）、足りない月 ${R.ops_summary.months_short}` : ""}</p>` + runoutOps(R) + legend([["保有（退役で減る）", "var(--rule)", 1], ["稼働可能（保有 − 工場にいる数）", "var(--good)", 1], ["必要（2 × 飛ぶ機数）", "var(--ink)", 1], ["予備の帯", "var(--muted)"], ["足りない月", "var(--crit)"]]) + G("runoutOps"), esc(R.ops_summary.note)) : "")
+      + (C().typelife ? typeClockPanel(C().typelife) : "")
       + panel("エンジンごとの列", runoutBoard(R) + G("runoutBoard"), `窓（薄い帯）は凍結した計画の入場、その後は退役まで持つ最軽の整備範囲。退役の間隔 ${R.exits.length ? `${R.exits[0]} から 1 機ずつ` : "—"}（no_source）`)
       + panel("退役順の方針", pol + G("runoutPolicy"))
       + (R.delivery_delay ? panel("新機の受領が遅れたら（全体の運航は新機が引き継ぐ前提の、その前提が崩れる側）", `<table><thead><tr><th>受領の遅れ</th><th>最終退役</th><th>不意打ち：追加の入場</th><th>追加の費用（百万ドル）</th><th>足りない月</th><th>分かってから直す：追加の入場</th><th>追加の費用</th><th>足りない月</th><th>早く知る価値</th></tr></thead><tbody>`

@@ -35,7 +35,8 @@ JP = {"Plan": "つくる", "Do": "回す", "Check": "確かめる", "Act": "直�
 
 
 # ------------------------------------------------------------------ 1. the fact pack
-def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None, plan_from_demand: dict | None = None, backtest: dict | None = None) -> dict:
+def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None, plan_from_demand: dict | None = None, backtest: dict | None = None,
+          typelife_out: dict | None = None) -> dict:
     pr = b["plan_of_record"]
     labels = b["monthly"]["labels"]
     fy = {k: {"spend": v.get("spend", 0.0), "budget": b["budgets"].get(k)} for k, v in pr["by_fiscal_year"].items()}
@@ -83,6 +84,10 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
                        "heavy_late_engines": T["heavy_late_engines"], "plan_gaps": T["plan_gaps"], "plan_gap_max_months": T.get("plan_gap_max_months", 0), "policies": runout["policies"],
                        "without_runout": runout["without_runout"], "by_year": [{k: y[k] for k in ("year", "visits", "spend_k", "retired", "engines")} for y in runout["by_year"]]}
     F["framework"] = framework_status(b, plan_from_demand, track)
+    if typelife_out:
+        F["typelife"] = {"type": typelife_out["type"], "age_at_start": typelife_out["age_at_start"], "years_since_production_end": typelife_out["years_since_production_end"],
+                         "stage_now": typelife_out["stage_now"], "residual_raw_k": typelife_out.get("residual", {}).get("raw_k", 0), "residual_adj_k": typelife_out.get("residual", {}).get("adjusted_k", 0),
+                         "parts_factor": typelife_out["late_life"].get("parts_factor_by_fleet_exit"), "tat_extra": typelife_out["late_life"].get("tat_extra_by_fleet_exit")}
     if backtest:
         F["backtest"] = {"n_versions": backtest["engine"]["n_versions"], "n_fy": backtest["engine"]["n_fy"], "coverage": backtest["engine"]["coverage"],
                          "timing_mean": backtest["engine"]["timing"]["mean"], "unsched_ratio": backtest["engine"]["unsched_ratio"],
@@ -251,6 +256,12 @@ def symptoms(F: dict) -> list[dict]:
                 "、".join(v["text"] for v in sp["verdict"]), "改善した補正だけを次の版の決め方に持ち込む（期限のずらし・計画外の率・幅）")
         for v in BT["verdict"]:
             add("PDCA", "Check", v["status"] if v["status"] in ("ok", "warn", "info") else "info", "過去で検証：" + v["text"], f"{BT['n_versions']} 版・{BT['n_fy']} 年度のバックテスト", "" if v["status"] == "ok" else "決め方（幅・窓の下端・計画外の率）を次の版で直す")
+    TL = F.get("typelife")
+    if TL:
+        add("PDCA", "Plan", "info" if TL["stage_now"] == "late" else "warn" if TL["stage_now"] == "fading" else "ok",
+            f"型式 {TL['type']} は就航 {TL['age_at_start']:.0f} 年目、生産終了から {TL['years_since_production_end']:.0f} 年（{ {'young': '生産中', 'late': '晩年', 'fading': '終盤'}[TL['stage_now']] }）",
+            f"退役で処分する残存価値は型式の年齢で {TL['residual_raw_k'] / 1000:.0f} → {TL['residual_adj_k'] / 1000:.0f} 百万ドル、最終退役までに部品 ×{TL['parts_factor']}・工期 +{TL['tat_extra']} か月（仮定）",
+            "退役機の処分は型式の晩年に入る前に決める。晩年の部品値上がりと工期の延びを世界（前提）に入れる")
     H = F.get("history")
     if H and H["fy_scored"]:
         r = H["fy_inside_range"] / H["fy_scored"]
@@ -324,7 +335,15 @@ def build(cid: str, baseline_path: Path | None, track_path: Path | None, roll_pa
           history_path: Path | None = None, use_ai: bool = True, plan_path: Path | None = None, backtest_path: Path | None = None) -> dict:
     load = lambda p: json.loads(p.read_text(encoding="utf-8")) if p and Path(p).exists() else None  # noqa: E731
     b = load(baseline_path or HERE / "baselines" / f"{cid}-2026-10.json")
-    F = facts(b, load(track_path), load(roll_path), load(runout_path), load(history_path), load(plan_path), load(backtest_path))
+    ro = load(runout_path)
+    tl = None
+    if ro:
+        import typelife
+        fleet = json.loads((HERE / b["paths"]["fleet"]).read_text(encoding="utf-8"))
+        et = fleet.get("meta", {}).get("engine_type", "CFM56-7B")
+        if et in typelife.load()["types"]:
+            tl = typelife.build(et, ro["start"], ro)
+    F = facts(b, load(track_path), load(roll_path), ro, load(history_path), load(plan_path), load(backtest_path), tl)
     sym = symptoms(F)
     rev = ai_review(F, sym) if use_ai else {"mode": "rules", "reason": "--no-ai", "text": rules_text(F, sym)}
     return {"company": cid, "facts": F, "symptoms": sym, "coverage": coverage(sym), "review": rev, "framework": F.get("framework"),

@@ -27,6 +27,7 @@ import usecases
 import finance
 import lease
 import mx4
+import typelife
 import tax
 
 HERE = Path(__file__).resolve().parent
@@ -321,6 +322,10 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
                                                    "residual_value_k", "green_time", "heavy_late", "last_visit_to_exit_months", "due_in_at_exit", "note")}
                                   | {"chain": [{k: v for k, v in x.items() if k in ("t", "label", "ws", "cost_k", "reason", "lasts_months", "gap", "slack_months", "off_wing")} for x in e["chain"]]}
                                   for e in ro["engines"]]
+    if c.get("runout"):
+        etype = fleet_json.get("meta", {}).get("engine_type", "CFM56-7B")
+        if etype in typelife.load()["types"]:
+            c["typelife"] = typelife.build(etype, c["runout"]["start"], c["runout"])
     if demand_path and demand_path.exists():
         c["demand"] = json.loads(demand_path.read_text(encoding="utf-8"))
         pp = demand_path.with_name(demand_path.stem + "-plan.json")
