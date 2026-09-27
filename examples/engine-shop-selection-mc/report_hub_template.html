@@ -348,7 +348,7 @@ const DATA = /*__DATA__*/null;
     const extra = [
       card("quote", "", "見積もりの承認", `追加作業は、延びる 1 か月あたり ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドルまでなら承認が得`, quoteChart(u, 320, 130, true)),
       card("trend", "", "状態監視の警報", trendLine(u), trendChart(u, 320, 130, true)),
-      card("spares", sparesCls(u), "予備エンジンの数", sparesLine(u), sparesChart(u, 320, 130, true)),
+      card("spares", sparesCls(u), "予備エンジンの数", sparesCostLine(u), sparesChart(u, 320, 130, true)),
       card("offer", "", "エンジンの打診", offerLine(u), offerChart(u, 320, 130, true)),
       card("cash", "", "支払いと為替", cashLine(u), cashChart(u, 320, 130, true)),
       card("reliability", u.reliability.above ? "flag" : "ok", "信頼性管理", relLine(u), relChart(u, 320, 130, true)),
@@ -663,6 +663,8 @@ const DATA = /*__DATA__*/null;
       quote: ["見積もりで追加作業を示されたとき、いくらまでなら承認してよいか", `横が「その作業で次の入場が何か月先に延びるか」、縦が作業の費用。線より下（緑）なら承認が得。1 か月延びる価値は ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル（1 基が 1 か月飛ぶごとに積もる整備費）`,
         "例：タービン翼の追加交換 0.45 百万ドルで 6 か月延びるなら承認、寿命部品の早め交換 1.2 百万ドルで 14 か月なら承認", "工場から見積もりが来たら、延びる月数を技術担当に見積もってもらい、この線と比べて即答する"],
       trend: ["状態監視で警報が出たエンジンを、今下ろすか様子を見るか", "横が「あと何か月飛ばすか」、縦が見込みの損。青＝今下ろすと失う飛べる寿命、それ以外＝待って故障した場合の損（通常・要監視・繁忙期）。青より上の線は「待つほうが損」", trendLine(u), "要監視のエンジンで残りが短い、または繁忙期にかかるなら、次の枠で下ろす手配をする"],
+      sparescost: ["予備を 1 基増やすごとに、持つ費用（右上がり）と足りない損（右下がり）がどう動くか。合計が最も低いところが、ちょうどよい数", "黒い太線が今の工期での合計。U 字の底がちょうどよい数で、そこより右は持ちすぎ（持つ費用が得を上回る）、左は不足。緑・赤の点線は、工期が平常に戻った場合と、さらに延びた場合の合計",
+        sparesCostLine(u), "工期が縮む見通しに合わせて、余る予備の出口（他社への貸し出し、売却、残り寿命の使い切り、ANA と JAL の共同プール）を先に決めておく。逆に延びる見通しなら短期リースの枠を押さえる"],
       spares: ["予備エンジンを何基持てば、工場に出ている分を埋められるか", `横が予備の数、縦が足りる確率。曲線は工場の工期ごと（工期が長いほど右にずれ、多くの予備が要る）。黒い縦線が今の予備（${u.spares.have} 基）、点線が業界の目安（取付の 10%）`, sparesLine(u), "工期が延びる見通しなら、リースかプール契約で数基の余裕を確保する"],
       offer: ["エンジンの売り込みが来たとき、いくらまでなら買ってよいか", "横が残りの飛行回数、縦が払ってよい上限。青の線より安ければ買いが得。茶色の帯が市場の相場（ハーフライフ）", offerLine(u), "相手の言い値が線より上なら、線の値を上限に交渉する。記録の欠けや推力の型はさらに差し引く"],
       cash: ["月ごとの支払い（棒）と、その累計（黒線）、予算の累計（赤い点線）", "黒線が赤い点線より上なら、予算より早く・多くお金が出ている。支払いは工場から戻った月に集中する", cashLine(u), "支払いの山の月に合わせて資金を手当てする。ドル建てなので、円安に振れると円の支払いが増える"],
@@ -746,7 +748,24 @@ const DATA = /*__DATA__*/null;
   }
   function spares() {
     const u = C().usecases, sp = u.spares;
-    return panel("", `<p class="chart-note">${sparesLine(u)}</p>` + sparesChart(u) + G("spares") + legend(Object.keys(sp.curves).map((k, i) => [`${k}（工場側に平均 ${sp.mean_off[k].toFixed(1)} 基）`, ["var(--good)", "var(--accent)", "var(--crit)"][i], 1])), esc(sp.note) + "業界の目安（取付の 10%）は、工期が長い今は足りない側に出ます。");
+    return panel("", `<p class="chart-note">${sparesLine(u)}</p>` + sparesChart(u) + G("spares") + legend(Object.keys(sp.curves).map((k, i) => [`${k}（工場側に平均 ${sp.mean_off[k].toFixed(1)} 基）`, ["var(--good)", "var(--accent)", "var(--crit)"][i], 1])), esc(sp.note) + "業界の目安（取付の 10%）は、工期が長い今は足りない側に出ます。")
+      + panel("", `<p class="chart-note">${sparesCostLine(u)}</p>` + sparesCostChart(u) + G("sparescost") + legend([["持つ費用（1 基ごとに増える）", "var(--warn)", 1], ["足りない損（リース・運休、予備が増えると減る）", "var(--accent)", 1], ["合計：今の工期", "var(--ink)", 1], ["合計：平常の工期", "var(--good)", 1], ["合計：混雑が 2 か月延びる", "var(--crit)", 1]]), esc(sp.note_cost));
+  }
+  const sparesCostLine = (u) => { const c = u.spares.cost, h = u.spares.have, now = c["今の工期"], nor = c["平常（工期 4 か月）"], con = c["混雑がさらに 2 か月"];
+    const verdict = h > now.best ? `今の工期でも ${h - now.best} 基多く、年 ${now.excess_cost.toFixed(1)} 百万ドル余分` : h < now.best ? `今の工期では ${now.best - h} 基足りない` : "今の工期ではちょうどよい";
+    return `ちょうどよい予備は、平常 ${nor.best} 基・今 ${now.best} 基・混雑 ${con.best} 基。今の ${h} 基は、${verdict}。工期が平常に戻ると年 ${nor.excess_cost.toFixed(1)} 百万ドルの持ちすぎ`; };
+  function sparesCostChart(u, W = 900, H = 320) {
+    const sp = u.spares, c = sp.cost, now = c["今の工期"], xs = sp.spares.slice(0, 21);
+    const cut = (a) => a.slice(0, 21);
+    return lineChart({ xs, series: [
+      { ys: cut(now.hold), color: "var(--warn)", label: "持つ費用" }, { ys: cut(now.short), color: "var(--accent)", label: "足りない損（今の工期）" },
+      { ys: cut(now.total), color: "var(--ink)", label: "合計（今の工期）" },
+      { ys: cut(c["平常（工期 4 か月）"].total), color: "var(--good)", dash: "5 4", label: "合計（平常）" },
+      { ys: cut(c["混雑がさらに 2 か月"].total), color: "var(--crit)", dash: "5 4", label: "合計（混雑）" }],
+      ymax: 0, points: [{ x: now.best, y: now.total[now.best], color: "var(--ink)", label: `今の工期で最も安い ${now.best} 基` },
+        { x: c["平常（工期 4 か月）"].best, y: c["平常（工期 4 か月）"].total[c["平常（工期 4 か月）"].best], color: "var(--good)", label: `平常なら ${c["平常（工期 4 か月）"].best} 基` }],
+      vlines: [{ x: sp.have, color: "var(--muted)", dash: "3 3", label: `今の予備 ${sp.have} 基` }],
+      yticks: [0, 10, 20, 30], xticks: [0, 5, 10, 15, 20], yfmt: (v) => v + " M$", xlabel: "予備エンジンの数", ylabel: "年間の費用（百万ドル）", aria: "予備の持ちすぎと不足の費用" }, W, H, false);
   }
 
   const offerLine = (u) => { const o = u.offer, i = o.cycles.indexOf(o.market.cycles); return `残り ${o.market.cycles.toLocaleString()} 回のエンジンは ${o.max_price[i].toFixed(1)} 百万ドルまでなら買い（相場 ${o.market.low}〜${o.market.high}）`; };

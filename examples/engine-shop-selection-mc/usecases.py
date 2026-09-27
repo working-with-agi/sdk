@@ -85,6 +85,41 @@ def build(b: dict) -> dict:
                      "mean_off": {k: lam * m for k, m in scen.items()},
                      "note": "取卸しは月 {:.1f} 基。翼を離れる期間 × 取卸しの率 が同時に工場側にいる基数の平均（ポアソン）。".format(lam)}
 
+    # 3b. the other side: what each spare costs to hold, against the shortage it avoids.
+    # Shortage engine-months are filled by short-term leases up to the market cap, then by
+    # cancelling flights (the cheapest AOG tier). Holding a spare costs a long-term lease
+    # (or the capital and preservation of an owned one). The best count balances the two.
+    hold = fleet["long_term_spare"]["cost_per_month"] / 1000
+    cap = fleet["short_term_lease"]["max_engines"]
+
+    def shortage(k: int, mu: float) -> float:
+        """E[(X - k)^+] for X ~ Poisson(mu)."""
+        tail, p, cdf = 0.0, math.exp(-mu), 0.0
+        for x in range(0, int(mu * 4 + 40)):
+            if x > 0:
+                p *= mu / x
+            if x > k:
+                tail += (x - k) * p
+        return tail
+    cost = {}
+    for k_, m_ in scen.items():
+        mu = lam * m_
+        rows = []
+        for s_ in s_range:
+            leased = shortage(s_, mu) - shortage(s_ + cap, mu)
+            cancelled = shortage(s_ + cap, mu)
+            rows.append({"hold": 12 * s_ * hold, "lease": 12 * leased * lease, "cancel": 12 * cancelled * aog})
+        tot = [r["hold"] + r["lease"] + r["cancel"] for r in rows]
+        best = int(np.argmin(tot))
+        cost[k_] = {"hold": [r["hold"] for r in rows], "short": [r["lease"] + r["cancel"] for r in rows],
+                    "total": tot, "best": best, "at_have": tot[have] if have < len(tot) else None,
+                    "excess_cost": (tot[have] - tot[best]) if have < len(tot) else None}
+    out["spares"]["cost"] = cost
+    out["spares"]["hold_per_month"] = hold
+    out["spares"]["lease_out"] = {"per_month": [0.08, 0.09], "source": "IBA 2025：CFM56-7B の中長期リース 80〜90k$/月"}
+    out["spares"]["note_cost"] = ("予備 1 基を持つ費用は長期リース 1 か月 {:.0f} 千ドル（自社保有なら資本費・保管・保存整備）。足りない分は短期リース（上限 {} 基）、"
+                                  "それでも足りなければ便を止める損（1 基 1 か月 {:.0f} 千ドル〜）").format(hold * 1000, cap, aog * 1000)
+
     # 4. offer: the most to pay for a green-time engine with R cycles left
     cpm = lifecycle.CYCLES_PER_MONTH if lifecycle.CYCLES_PER_MONTH else 2000 / 12
     cycles = list(range(0, 16001, 1000))
