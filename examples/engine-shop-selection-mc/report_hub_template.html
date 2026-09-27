@@ -123,6 +123,10 @@ details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
 .bar > i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 4px; }
 .bar > i.over { background: var(--crit); } .bar > i.hot { background: var(--warn); }
 .src { font-size: 12px; word-break: break-all; }
+.panel > .guide { order: 9; } .panel > p.hint { order: 10; }
+.guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 16px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; line-height: 1.6; }
+.guide b { display: block; font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; margin-bottom: 1px; }
+.guide .say { color: var(--ink); font-weight: 600; }
 </style>
 <style>
 .chart-note { font-size: 13px; font-weight: 600; margin: 0; }
@@ -354,49 +358,49 @@ const DATA = /*__DATA__*/null;
     const roleBar = `<div class="tabs" role="tablist" aria-label="見方">${Object.entries(ROLES).map(([k, l]) => `<button type="button" role="tab" data-role="${k}" aria-selected="${k === role}">${l}</button>`).join("")}</div>`;
     const rl = roleLine(c);
     return roleBar + `<section class="panel verdict" aria-label="結論">${rl ? `<div class="line"><span class="q">${ROLES[role]}の視点</span><span class="a">${esc(rl)}</span></div>` : ""}${lines}</section>`
-      + (role === "all" || role === "ops" || role === "plan" || role === "exec" ? panel("この 24 か月の地図", monthMap(c) + legendMap, "マスにマウスを載せると数字が出ます。") : "")
+      + (role === "all" || role === "ops" || role === "plan" || role === "exec" ? panel("この 24 か月の地図", monthMap(c) + legendMap + G("monthmap"), "マスにマウスを載せると数字が出ます。") : "")
       + `<div class="cards">${all.join("")}</div>`;
   }
 
   /* ---------------- level 2 ---------------- */
   function budget() {
     const c = C(), f = c.fiscal_years, worst = f.reduce((a, b) => (b.over > a.over ? b : a), f[0]);
-    return `<div class="vgrid">${panel("", `<p class="chart-note">${worst.over > 0.05 ? `${worst.fy} は予算を ${Math.round(worst.over * 100)}% 超える` : "どの年度も予算内"}</p>` + fyBars(c) + `<div class="legend"><span><span class="sw" style="background:var(--accent)"></span>計画の整備費</span><span><span class="sw" style="background:var(--ink);width:3px"></span>予算（平年並み）</span><span><span class="sw" style="background:var(--crit)"></span>予算超過</span></div>`, c.relaxed.includes("budget") ? "平年並みの予算ではこの期間に期限の来るエンジンを回しきれないため、予算の条件を外して解いています。" : "")}`
-      + `${panel("", `<p class="chart-note">10 年先まで：入場は年によって大きく波打つ（点線＝平年）</p>` + outlookChart(c) + wsLegend)}</div>`
+    return `<div class="vgrid">${panel("", `<p class="chart-note">${worst.over > 0.05 ? `${worst.fy} は予算を ${Math.round(worst.over * 100)}% 超える` : "どの年度も予算内"}</p>` + fyBars(c) + G("fybars") + `<div class="legend"><span><span class="sw" style="background:var(--accent)"></span>計画の整備費</span><span><span class="sw" style="background:var(--ink);width:3px"></span>予算（平年並み）</span><span><span class="sw" style="background:var(--crit)"></span>予算超過</span></div>`, c.relaxed.includes("budget") ? "平年並みの予算ではこの期間に期限の来るエンジンを回しきれないため、予算の条件を外して解いています。" : "")}`
+      + `${panel("", `<p class="chart-note">10 年先まで：入場は年によって大きく波打つ（点線＝平年）</p>` + outlookChart(c) + wsLegend + G("outlook"))}</div>`
       + `<div class="cards">${card("engines", "", "エンジン別の明細", "取卸しできる期間・入場・戻り・判断期限を 1 基ずつ", "")}</div>`;
   }
 
   function month() {
     const c = C();
-    return panel("", `<p class="chart-note">いつ詰まり、いつ判断が要るか</p>` + monthMap(c) + legendMap)
-      + panel("", `<p class="chart-note">エンジンごとの予定（先頭 3 か月に判断が集中）</p>` + gantt(c) + ganttLegend, "");
+    return panel("", `<p class="chart-note">いつ詰まり、いつ判断が要るか</p>` + monthMap(c) + legendMap + G("monthmap"))
+      + panel("", `<p class="chart-note">エンジンごとの予定（先頭 3 か月に判断が集中）</p>` + gantt(c) + ganttLegend + G("gantt"), "");
   }
   const ganttLegend = `<div class="legend"><span><span class="sw" style="background:var(--accent-soft)"></span>取卸しできる期間</span><span><span class="sw" style="background:var(--ws-pr)"></span><span class="sw" style="background:var(--ws-core)"></span><span class="sw" style="background:var(--ws-full)"></span>入場から戻りまで（整備範囲の色）</span><span><span class="sw" style="background:var(--crit)"></span>判断期限</span><span><span class="sw" style="background:var(--muted)"></span>手配済み（前提）</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>要監視</span></div>`;
 
   function track() {
     const t = C().track;
     if (!t) return panel("計画の追跡", '<p class="hint">実績がまだありません。</p>');
-    return `<div class="vgrid">${panel("", `<p class="chart-note">前提は${t.world_is_base ? "基準どおり" : esc(t.world) + "に近づいている"}（${t.as_of} 時点 ${pct(t.world_p)}）${t.demo ? "・デモ用の合成実績" : ""}</p>` + trackChart(t) + worldLegend(t))}`
-      + `${panel("", `<p class="chart-note">${t.recommend === "switch" ? "乗り換えると得（黄色の帯を超えた）" : "乗り換えても得にならない（黄色の帯より下）"}</p>` + switchChart(t), "線：最も得な乗り換え先の期待差額（百万ドル）。黄色の帯は得でも小さい範囲（0.3 百万ドル未満）。")}</div>`;
+    return `<div class="vgrid">${panel("", `<p class="chart-note">前提は${t.world_is_base ? "基準どおり" : esc(t.world) + "に近づいている"}（${t.as_of} 時点 ${pct(t.world_p)}）${t.demo ? "・デモ用の合成実績" : ""}</p>` + trackChart(t) + worldLegend(t) + G("posterior"))}`
+      + `${panel("", `<p class="chart-note">${t.recommend === "switch" ? "乗り換えると得（黄色の帯を超えた）" : "乗り換えても得にならない（黄色の帯より下）"}</p>` + switchChart(t) + G("switch"), "線：最も得な乗り換え先の期待差額（百万ドル）。黄色の帯は得でも小さい範囲（0.3 百万ドル未満）。")}</div>`;
   }
 
   function actions() {
     const c = C();
-    return panel("", `<p class="chart-note">打ち手・状況ごとの、費用とリスクの動き（基準の計画からの差、2 年）</p>` + scatter(c, 1000, 460), "点にマウスを載せると数字が出ます。部品取りは機体が減る 737-8 受領の場合を除き、欠航リスクが大きく上がります。グリーンタイム・エンジンの入手数は楽観的な仮定です。");
+    return panel("", `<p class="chart-note">打ち手・状況ごとの、費用とリスクの動き（基準の計画からの差、2 年）</p>` + scatter(c, 1000, 460) + G("scatter"), "点にマウスを載せると数字が出ます。部品取りは機体が減る 737-8 受領の場合を除き、欠航リスクが大きく上がります。グリーンタイム・エンジンの入手数は楽観的な仮定です。");
   }
 
   function invest() {
     const v = C().invest;
     if (!v) return panel("国内工場の新設（LEAP-1B）", '<p class="hint">試算中です。</p>');
     return panel("", `<p class="chart-note">${esc(v.headline)}</p><p class="hint">${esc(v.why)}</p>`)
-      + `<div class="vgrid">${panel("", `<p class="chart-note">何があれば得になるか：受託の件数が決め手、補助は効きが小さい</p>` + breakevenChart(v.breakeven), esc(v.breakeven.note))}`
-      + `${panel("", `<p class="chart-note">案ごとの損得の幅（正味現在価値、百万ドル）</p>` + npvChart(v), "線は 10〜90% の幅、点は平均。0 より右なら海外に出し続けるより得。")}</div>`
-      + `<div class="vgrid">${panel("", `<p class="chart-note">損得の内訳：交渉で下がる海外の価格（ゲーム理論）が、どれだけ効くか</p>` + partsChart(v) + partsLegend, "交渉＝国内に能力を持つことで、海外に残る入場の価格が下がる分（ナッシュ交渉）。足元＝建てた後にメーカーが部品・認可の条件を厳しくする分。")}`
-      + `${v.consortium ? panel("", `<p class="chart-note">3 社で組むと：単独よりずっと損が小さく、IHI の技術が価値を生む</p>` + consortiumChart(v.consortium), esc(v.consortium.note)) : ""}</div>`
-      + (v.market ? `<div class="vgrid">${panel("", `<p class="chart-note">受託の取り合い：日本が先に決めると多く取れる（先手の価値）</p>` + marketChart(v.market), `3 者が同時に決めた場合と日本が先に決めた場合の能力（年間の受託件数）。段階 1〜3 の価値は ${Math.round(v.market.npv_simultaneous.commit123)} → ${Math.round(v.market.npv_if_first.commit123)} 百万ドル。先に決めることは「待って様子を見る」選択を捨てることでもある。`)}`
-      + `${v.booking ? panel("", `<p class="chart-note">海外の枠の取り合い：入場待ちが長い間は囚人のジレンマ</p>` + bookingMatrix(v.booking) + bookingTimeline(v.booking), `割増を払って早めに押さえると自分の待ちが減り、相手の待ちが増える。待ちが ${v.booking.threshold_months.toFixed(1)} か月を超える間は、両社とも早めに押さえるのが自分にとって最善（赤枠）だが、両社とも待つほうが両社とも得（緑の点線）。今の 737-800 のエンジンで、互いに払い合う割増は今の価値で約 ${v.booking.pv_cfm56.toFixed(1)} 百万ドル。共同で枠を押さえる（プール）ことの価値でもある。`) : ""}</div>` : "")
-      + `<div class="vgrid">${panel("", `<p class="chart-note">国内の自社の入場（年）：737-8 の受領に遅れて立ち上がる</p>` + demandChart(v), "帯は 10〜90%、線は中央値。短期入場（破線）は機数に比例。")}`
-      + `${panel("", `<p class="chart-note">海外の入場待ち（か月）：世界の整備能力が追いつくと縮む</p>` + queueChart(v), "国内化の価値の大半は、往復の輸送（2 か月）と入場待ちの分だけ予備エンジンを借りずに済むこと。")}</div>`
+      + `<div class="vgrid">${panel("", `<p class="chart-note">何があれば得になるか：受託の件数が決め手、補助は効きが小さい</p>` + breakevenChart(v.breakeven) + G("breakeven"), esc(v.breakeven.note))}`
+      + `${panel("", `<p class="chart-note">案ごとの損得の幅（正味現在価値、百万ドル）</p>` + npvChart(v) + G("npv"), "線は 10〜90% の幅、点は平均。0 より右なら海外に出し続けるより得。")}</div>`
+      + `<div class="vgrid">${panel("", `<p class="chart-note">損得の内訳：交渉で下がる海外の価格（ゲーム理論）が、どれだけ効くか</p>` + partsChart(v) + partsLegend + G("parts"), "交渉＝国内に能力を持つことで、海外に残る入場の価格が下がる分（ナッシュ交渉）。足元＝建てた後にメーカーが部品・認可の条件を厳しくする分。")}`
+      + `${v.consortium ? panel("", `<p class="chart-note">3 社で組むと：単独よりずっと損が小さく、IHI の技術が価値を生む</p>` + consortiumChart(v.consortium) + G("consortium"), esc(v.consortium.note)) : ""}</div>`
+      + (v.market ? `<div class="vgrid">${panel("", `<p class="chart-note">受託の取り合い：日本が先に決めると多く取れる（先手の価値）</p>` + marketChart(v.market) + G("market"), `3 者が同時に決めた場合と日本が先に決めた場合の能力（年間の受託件数）。段階 1〜3 の価値は ${Math.round(v.market.npv_simultaneous.commit123)} → ${Math.round(v.market.npv_if_first.commit123)} 百万ドル。先に決めることは「待って様子を見る」選択を捨てることでもある。`)}`
+      + `${v.booking ? panel("", `<p class="chart-note">海外の枠の取り合い：入場待ちが長い間は囚人のジレンマ</p>` + bookingMatrix(v.booking) + bookingTimeline(v.booking) + G("booking"), `割増を払って早めに押さえると自分の待ちが減り、相手の待ちが増える。待ちが ${v.booking.threshold_months.toFixed(1)} か月を超える間は、両社とも早めに押さえるのが自分にとって最善（赤枠）だが、両社とも待つほうが両社とも得（緑の点線）。今の 737-800 のエンジンで、互いに払い合う割増は今の価値で約 ${v.booking.pv_cfm56.toFixed(1)} 百万ドル。共同で枠を押さえる（プール）ことの価値でもある。`) : ""}</div>` : "")
+      + `<div class="vgrid">${panel("", `<p class="chart-note">国内の自社の入場（年）：737-8 の受領に遅れて立ち上がる</p>` + demandChart(v) + G("demand"), "帯は 10〜90%、線は中央値。短期入場（破線）は機数に比例。")}`
+      + `${panel("", `<p class="chart-note">海外の入場待ち（か月）：世界の整備能力が追いつくと縮む</p>` + queueChart(v) + G("queue"), "国内化の価値の大半は、往復の輸送（2 か月）と入場待ちの分だけ予備エンジンを借りずに済むこと。")}</div>`
       + `<details class="panel"><summary>前提と出典</summary><div class="scroll"><table><tbody>${Object.entries(v.sources).map(([k, t]) => `<tr><td class="mono">${esc(k)}</td><td class="src">${esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</td></tr>`).join("")}</tbody></table></div><p class="hint">${esc(v.note)}</p></details>`;
   }
   const PARTS = [["ops", "運用の節約（輸送・待ち・予備）", "var(--good)"], ["third", "受託の利益", "var(--accent)"], ["bargain", "交渉で下がる価格", "var(--ws-full)"], ["holdup", "足元を見られる", "var(--warn)"], ["fixed", "固定費", "var(--crit-soft)"], ["capex", "投資", "var(--crit)"]];
@@ -582,9 +586,9 @@ const DATA = /*__DATA__*/null;
     const c = C(), h = c.history;
     if (!h) return panel("過去の計画との整合", '<p class="hint">過去の版がありません。</p>');
     return panel("", `<p class="chart-note">${histLine(c)}</p><p class="hint">2 年前・1 年前にも同じ方法で計画を立てていたとして、その後に実際に起きたことと比べています（合成データ）。</p>`)
-      + `<div class="vgrid">${panel("", `<p class="chart-note">当時考えたリスクの幅に、実績は入ったか（年度ごとの入場件数）</p>` + fitChart(h) + `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>当時の見込みの幅（10〜90%）</span><span><span class="sw" style="background:var(--muted);width:3px"></span>計画</span><span><span class="sw" style="background:var(--good);border-radius:50%"></span>実績（幅の外は赤）</span></div>`, "見込みの幅＝計画した入場（年度をまたいでずれる可能性）＋予定外の取卸し（想定した率）。")}`
-      + `${panel("", `<p class="chart-note">取卸しの時期は見込みとどれだけずれたか（実際 − 見込み、か月）</p>` + timingChart(h) + `<div class="legend"><span><span class="sw" style="background:var(--accent);border-radius:50%"></span>予定どおりの取卸し</span><span><span class="sw" style="background:var(--crit);border-radius:50%"></span>予定外（故障など）</span></div>`, "右にずれるほど、見込みより長く飛べた（予備として棚にいた期間がある）。")}</div>`
-      + panel("", `<p class="chart-note">前の版の 2 年目は、次の版の 1 年目にどれだけ残ったか（計画の積み上がり）</p>` + stabilityChart(h, 1100) + stabLegend, "残る割合が低いほど、毎年の計画が大きく作り直されている。どの変更が実績によるもので、どれが前提の変更によるものかを分けるのが次の段階。");
+      + `<div class="vgrid">${panel("", `<p class="chart-note">当時考えたリスクの幅に、実績は入ったか（年度ごとの入場件数）</p>` + fitChart(h) + G("fit") + `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>当時の見込みの幅（10〜90%）</span><span><span class="sw" style="background:var(--muted);width:3px"></span>計画</span><span><span class="sw" style="background:var(--good);border-radius:50%"></span>実績（幅の外は赤）</span></div>`, "見込みの幅＝計画した入場（年度をまたいでずれる可能性）＋予定外の取卸し（想定した率）。")}`
+      + `${panel("", `<p class="chart-note">取卸しの時期は見込みとどれだけずれたか（実際 − 見込み、か月）</p>` + timingChart(h) + G("timing") + `<div class="legend"><span><span class="sw" style="background:var(--accent);border-radius:50%"></span>予定どおりの取卸し</span><span><span class="sw" style="background:var(--crit);border-radius:50%"></span>予定外（故障など）</span></div>`, "右にずれるほど、見込みより長く飛べた（予備として棚にいた期間がある）。")}</div>`
+      + panel("", `<p class="chart-note">前の版の 2 年目は、次の版の 1 年目にどれだけ残ったか（計画の積み上がり）</p>` + stabilityChart(h, 1100) + stabLegend + G("stability"), "残る割合が低いほど、毎年の計画が大きく作り直されている。どの変更が実績によるもので、どれが前提の変更によるものかを分けるのが次の段階。");
   }
 
   // horizons: log time axis from a month to 20 years; links from long to short
@@ -612,9 +616,62 @@ const DATA = /*__DATA__*/null;
   function horizon() {
     const hz = C().horizons, col = { ok: "var(--good)", warn: "var(--warn)", bad: "var(--crit)" };
     const list = hz.links.map((k, j) => `<tr><td class="mono">${j + 1}</td><td><span class="sw" style="background:${col[k.status]};border-radius:50%"></span>${esc(k.what)}</td><td class="src">${esc(k.measure || "")}</td></tr>`).join("");
-    return panel("", `<p class="chart-note">長い時間軸の考えが、短い時間軸の行動まで落ちているか（つながり ${Math.round(hz.score * 100)}%）</p>` + horizonChart(hz)
+    return panel("", `<p class="chart-note">長い時間軸の考えが、短い時間軸の行動まで落ちているか（つながり ${Math.round(hz.score * 100)}%）</p>` + horizonChart(hz) + G("horizon")
       + `<div class="legend"><span><span class="sw" style="background:var(--accent-soft);border:1px solid var(--accent)"></span>考えている時間の長さ（右ほど長期、目盛りは対数）</span><span><span class="sw" style="background:var(--good)"></span>つながっていて整合</span><span><span class="sw" style="background:var(--warn)"></span>つながっているがずれがある</span><span><span class="sw" style="background:var(--crit)"></span>つながっていない</span><span>丸＝同じ層の中での振り返り</span></div>`)
       + panel("つながりの中身", `<div class="scroll"><table><tbody>${list}</tbody></table></div>`, "赤は、長期で考えたことが短期の行動（判断期限・次の計画の前提）に落ちていないところ。ここを埋めるのが次の作業の候補。");
+  }
+
+  /* ---------------- how to read each chart ---------------- */
+  // [何の図か, どう読むか, ここから言えること, 次にすること]
+  function G(key) {
+    const c = C(), u = c.usecases, m = c.months, f = c.fiscal_years;
+    const thin = m.reduce((a, b) => (b.margin < a.margin ? b : a), m[0]), load = m.reduce((a, b) => (b.load > a.load ? b : a), m[0]);
+    const dueMax = m.reduce((a, b) => (b.due > a.due ? b : a), m[0]), worst = f.reduce((a, b) => (b.over > a.over ? b : a), f[0]);
+    const ol = c.outlook.filter((y) => y.year >= 0), peak = ol.reduce((a, b) => (b.visits > a.visits ? b : a), ol[0]);
+    const soon = c.plan.filter((r) => r.deadline_t >= 0 && r.deadline_t <= 2).length;
+    const t = c.track, v = c.invest, h = c.history, hz = c.horizons;
+    const T = {
+      monthmap: ["今後 24 か月を横に並べ、月ごとに 4 つの問いの答えを色で塗った地図", "行が問い（余力・工場の混み具合・入場の多さ・判断期限）、列が月。淡い色は安心、黄・赤は要注意。赤い丸はその月に決めることがある印で、大きいほど件数が多い。背景に色の付いた列は繁忙期",
+        `余力が最も薄いのは ${thin.label}（${thin.margin >= 0 ? "+" : ""}${thin.margin} 基）、工場が最も込むのは ${load.label}（${load.load}/${load.slots}）、判断が最も多いのは ${dueMax.label}（${dueMax.due} 件）`, "赤い丸の月より前に、工場の枠予約と部品の発注を済ませる。黄・赤が重なる月は、入場を前後にずらせないか「エンジン別の明細」で確かめる"],
+      fybars: ["年度ごとの整備費の見込み（棒）と予算（黒い縦線）", "棒が縦線を超えていれば予算超過（赤）。右の % は予算との差", worst.over > 0.05 ? `${worst.fy} は予算を ${Math.round(worst.over * 100)}% 超える。平年並みの予算では、この期間に期限の来るエンジンを回しきれない` : "どの年度も予算内", "超過する年度は、予算要求の根拠としてこの見込みを出す。入場を前後の年度に動かせるかは「打ち手の効果」で確かめる"],
+      outlook: ["今後 10 年、毎年何件のエンジンが工場に入るか（整備範囲で色分け）", "棒が点線（平年）より高い年は入場の山。紫（全面オーバーホール）が多い年は 1 件あたりが高く、整備費も山になる",
+        `山は ${peak.year === 0 ? "今年" : "+" + peak.year + " 年目"}（${peak.visits} 件）。年によって ${Math.min(...ol.map((y) => y.visits))}〜${Math.max(...ol.map((y) => y.visits))} 件と大きく波打つ`, "山の年は 2〜3 年前から工場の枠と予算を押さえる。谷の年に前倒しできる入場がないか探す"],
+      gantt: ["エンジン 1 基ごとの予定を 1 行ずつ並べた図", "薄い帯＝下ろしてよい期間（この中ならいつでもよい）。色の棒＝工場に入ってから戻るまで（色は整備範囲）。赤い菱形＝その入場のための判断期限（枠の予約、部品の発注）。灰色の三角＝計画開始前に手配済みという前提",
+        `3 か月以内に判断期限が来るのは ${soon} 基。部品キットは入場の 8 か月前に発注が要るので、菱形は棒よりかなり左にある`, "菱形が今月・来月にあるエンジンから手配する。棒が帯の右端（期限）ぎりぎりのものは、遅れると飛べなくなるので優先して見る"],
+      scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
+        (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
+      posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      switch: ["今から別の計画案に乗り換えたら、どれだけ得か（最も得な乗り換え先）の推移", "線が黄色の帯（0.3 百万ドル）より上に出たら乗り換えが得。帯の中は得でも小さく、乗り換える手間に見合わない", t ? (t.recommend === "switch" ? `${t.switch_to}への乗り換えが得` : "乗り換えても得にならない") : "", "帯を超えたら、変わるエンジンと判断期限を「計画の追跡」ページで確かめる"],
+      breakeven: ["補助率（縦）と受託件数（横）の組み合わせごとに、国内工場が得か損か", "緑は得、赤は損。数字は今の価値に直した損得（百万ドル）。横に進むと色が大きく変わり、縦に進んでもあまり変わらない",
+        v ? `受託が年 ${Math.round(v.breakeven.breakeven_sv_no_subsidy || 0)} 件を超えると得。補助より受託の件数が決め手` : "", "補助の交渉より先に、どこの受託を取れるか（相手・件数）の見込みを固める"],
+      npv: ["投資の案ごとの損得の幅", "点が平均、線が 10〜90% の幅。0（縦線）より右なら、海外に出し続けるより得", v ? `平均で得になる案はない。損が最も小さいのは「${v.policies.filter((p) => p.id !== "outsource").sort((a, b) => b.npv - a.npv)[0].label}」` : "", "線が 0 をまたぐ案は、条件次第で得になる。その条件（受託・補助）を左の図で見る"],
+      parts: ["案ごとの損得の中身。得の要因は右へ、損の要因は左へ積み上げ、黒い点が合計", "緑＝輸送・待ち・予備の節約、紺＝受託の利益、紫＝交渉で下がる海外の価格、茶＝メーカーに足元を見られる分、淡い赤＝固定費、赤＝投資",
+        v ? `交渉の効き（紫）は ${Math.round(v.policies.find((p) => p.id === "commit12").parts.bargain)} 百万ドル。一番大きい損は固定費` : "", "固定費を下げる（既存設備の共用、IHI の設備）か、受託で埋めるかが焦点"],
+      consortium: ["JAL・ANA・IHI が単独で建てた場合（白丸）と、3 社で組んだときの取り分（塗った丸）", "矢印が右に長いほど、組むことで得をする。0 より右なら、海外に出し続けるより得",
+        v && v.consortium ? `どの社も組むほうが得。取り分は ${Object.entries(v.consortium.shapley).map(([k, x]) => `${k} ${x > 0 ? "+" : ""}${Math.round(x)}`).join("、")}` : "", "取り分がマイナスの社には、補助や受託で埋める仕組みが要る。費用分担の交渉の出発点に使う"],
+      market: ["アジアの受託市場で、3 者がそれぞれ年何件分の能力を出すか", "灰色の棒＝3 者が同時に決めた場合、色の棒＝日本が先に決めた場合",
+        v && v.market ? `日本が先に決めると ${v.market.japan_first.capacity[v.market.players[0]]} 件取れ、損が ${Math.round(v.market.npv_simultaneous.commit123)} → ${Math.round(v.market.npv_if_first.commit123)} 百万ドルに縮む` : "", "先に決める価値と、待って様子を見る価値を比べ、判断の期限を決める"],
+      booking: ["海外の工場の枠を早めに押さえるかどうかを、JAL と ANA の 2 社で表にしたもの。各マスは両社の年間の損（百万ドル、0 に近いほどよい）", "行が JAL の手、列が ANA の手。赤枠＝お互いに相手の手を前提にすると動けない組み合わせ（ここに落ち着く）。緑の点線＝それより両社とも得な組み合わせ。下の線は、入場待ちが閾値を超えて取り合いになる期間（赤い帯）",
+        v && v.booking ? `待ちが長い FY${v.booking.race_years[0]}〜${v.booking.race_years.at(-1)} は、両社とも割増を払って早く押さえ合い、互いに損をする（約 ${v.booking.pv_cfm56.toFixed(1)} 百万ドル）` : "", "共同で枠を押さえる（プール契約）か、業界の場で予約のルールを決めると、この損を避けられる"],
+      demand: ["国内で LEAP エンジンが毎年何件工場に入るかの見込み", "線が中央の見込み、帯が 10〜90% の幅、破線が短期の入場", "737-8 の受領から数年遅れて 2031 年頃から立ち上がり、落ち着くと年 46 件前後", "工場の立ち上げの時期を、この線の立ち上がりに合わせる"],
+      queue: ["海外の工場の入場待ちが何か月あるかの見込み", "高いほど待ちが長く、国内に工場を持つ価値が高い", "世界の整備能力が追いつく 2030 年頃に縮み、その後は少し残る想定", "待ちが縮むほど国内化の価値は目減りする。投資の判断はこの線の見通しに敏感"],
+      fit: ["過去の各版が「この年度は何件くらい」と見込んだ幅（帯）と、実際の件数（丸）", "丸が帯の中なら当時のリスクの見積もりは適切、外なら甘かった（または厳しすぎた）。縦線は計画した件数", h ? histLine(c) : "", "外れた年度は原因（予定外の取卸し、前提の違い）を調べ、次の版の幅を直す"],
+      timing: ["取卸しの時期が見込みからどれだけずれたか（エンジン 1 基が 1 点）", "0 より右＝見込みより遅く取卸し（長く飛べた）、左＝早く取卸し。赤は予定外（故障など）", h ? "ずれは右（遅い側）に偏っている：予備として棚にいた期間の分、見込みより長く持った" : "", "偏りが続くなら、使われ方や劣化の前提を直す"],
+      stability: ["前の版で 2 年目にあった入場が、次の版の 1 年目でどうなったか", "緑＝ほぼそのまま、黄＝時期が動いた、赤＝消えた、青＝新たに入った", h ? `そのまま残ったのは約 ${Math.round(h.stability.reduce((a, x) => a + x.same, 0) / Math.max(1, h.stability.reduce((a, x) => a + x.same + x.moved + x.moved_far + x.dropped, 0)) * 100)}%。毎年かなり作り直している` : "", "動いた・消えた理由を「実績による」と「前提の変更による」に分け、無駄な作り直しを減らす"],
+      horizon: ["計画がどれだけ先まで考えているか（横棒、右ほど長期、目盛りは対数）と、長い層から短い層へのつながり（矢印）", "矢印の色：緑＝つながっていて整合、黄＝ずれがある、赤の点線＝つながっていない。番号は下の表と対応。丸は同じ層の中での振り返り",
+        `つながりは ${Math.round(hz.score * 100)}%。赤は ${hz.links.filter((k) => k.status === "bad").map((k) => k.what.split("（")[0]).join("、")}`, "赤の矢印を埋める：長期の判断に必要な準備を、今月からの判断期限に載せる"],
+      quote: ["見積もりで追加作業を示されたとき、いくらまでなら承認してよいか", `横が「その作業で次の入場が何か月先に延びるか」、縦が作業の費用。線より下（緑）なら承認が得。1 か月延びる価値は ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル（1 基が 1 か月飛ぶごとに積もる整備費）`,
+        "例：タービン翼の追加交換 0.45 百万ドルで 6 か月延びるなら承認、寿命部品の早め交換 1.2 百万ドルで 14 か月なら承認", "工場から見積もりが来たら、延びる月数を技術担当に見積もってもらい、この線と比べて即答する"],
+      trend: ["状態監視で警報が出たエンジンを、今下ろすか様子を見るか", "横が「あと何か月飛ばすか」、縦が見込みの損。青＝今下ろすと失う飛べる寿命、それ以外＝待って故障した場合の損（通常・要監視・繁忙期）。青より上の線は「待つほうが損」", trendLine(u), "要監視のエンジンで残りが短い、または繁忙期にかかるなら、次の枠で下ろす手配をする"],
+      spares: ["予備エンジンを何基持てば、工場に出ている分を埋められるか", `横が予備の数、縦が足りる確率。曲線は工場の工期ごと（工期が長いほど右にずれ、多くの予備が要る）。黒い縦線が今の予備（${u.spares.have} 基）、点線が業界の目安（取付の 10%）`, sparesLine(u), "工期が延びる見通しなら、リースかプール契約で数基の余裕を確保する"],
+      offer: ["エンジンの売り込みが来たとき、いくらまでなら買ってよいか", "横が残りの飛行回数、縦が払ってよい上限。青の線より安ければ買いが得。茶色の帯が市場の相場（ハーフライフ）", offerLine(u), "相手の言い値が線より上なら、線の値を上限に交渉する。記録の欠けや推力の型はさらに差し引く"],
+      cash: ["月ごとの支払い（棒）と、その累計（黒線）、予算の累計（赤い点線）", "黒線が赤い点線より上なら、予算より早く・多くお金が出ている。支払いは工場から戻った月に集中する", cashLine(u), "支払いの山の月に合わせて資金を手当てする。ドル建てなので、円安に振れると円の支払いが増える"],
+      reliability: ["予定外の取卸し（故障などで計画外に下ろした数）の率の推移。当局向けの信頼性管理と同じ形", "線が 3 か月の平均、赤い点線が警戒値（過去の平均＋3 標準偏差）。線が警戒値を超えたら原因の調査が要る", relLine(u), "超えた月が出たら、原因を調べて信頼性管理の会議にかける"],
+      sources: ["数字の種類ごとに、出典のあるもの（緑）とないもの（黄）の数", "黄が多い種類ほど、仮定に頼っている", `出典のない数字は ${c.unsourced.length} 件`, "黄の多い種類から、実データか社内の合意値に置き換える"],
+    };
+    const g = T[key];
+    if (!g) return "";
+    return `<div class="guide"><div><b>何の図か</b>${esc(g[0])}</div><div><b>どう読むか</b>${esc(g[1])}</div><div class="say"><b>ここから言えること</b>${esc(g[2])}</div><div><b>次にすること</b>${esc(g[3])}</div></div>`;
   }
 
   /* ---------------- everyday decisions ---------------- */
@@ -650,7 +707,7 @@ const DATA = /*__DATA__*/null;
   }
   function quote() {
     const u = C().usecases;
-    return panel("", `<p class="chart-note">追加作業は「延びる月数 × ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル」まで承認してよい（緑の領域なら承認）</p>` + quoteChart(u)
+    return panel("", `<p class="chart-note">追加作業は「延びる月数 × ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル」まで承認してよい（緑の領域なら承認）</p>` + quoteChart(u) + G("quote")
       + legend([["承認してよい上限額（線より下が承認）", "var(--good)", 1], ["例：承認が得", "var(--good)"], ["例：見送りが得", "var(--crit)"]]), `1 基が 1 か月飛ぶごとに積もる整備費（平年の整備費 ÷ 取付エンジン）を、延びる寿命の価値としています。${esc(u.quote.note)}。繁忙期をまたいで延びる、同じ機体の 2 基をずらせる、などの価値は含まない。`);
   }
 
@@ -668,11 +725,12 @@ const DATA = /*__DATA__*/null;
       { ys: c["通常のエンジン"].wait, color: "var(--good)", dash: "5 4", label: "待つ：通常のエンジン（故障率 月 1%）" },
       { ys: c["要監視のエンジン"].wait, color: "var(--warn)", label: "待つ：要監視（月 6%）" },
       { ys: c["要監視のエンジン"].wait_peak, color: "var(--crit)", label: "待つ：要監視・繁忙期にかかる" }],
+      points: compact ? [] : (() => { const r = t.remove_now, w = c["要監視のエンジン"].wait, k = w.findIndex((x, i) => i > 0 && x < r[i]); return k > 0 ? [{ x: k, y: r[k], color: "var(--ink)", label: `ここから先は待つほうが得（要監視・${k} か月）` }] : []; })(),
       yticks: [0, 0.5, 1, 1.5], xticks: [0, 3, 6, 9, 12], yfmt: (v) => v + " M$", xlabel: "あと何か月飛ばすか（残りの余裕）", ylabel: "見込みの損（百万ドル）", aria: "警報時の判断" }, W, H, compact);
   }
   function trend() {
     const u = C().usecases;
-    return panel("", `<p class="chart-note">${trendLine(u)}。通常のエンジンは待つほうが得</p>` + trendChart(u)
+    return panel("", `<p class="chart-note">${trendLine(u)}。通常のエンジンは待つほうが得</p>` + trendChart(u) + G("trend")
       + legend([["今下ろすと失う寿命", "var(--accent)", 1], ["待つ：通常", "var(--good)", 1], ["待つ：要監視", "var(--warn)", 1], ["待つ：要監視・繁忙期", "var(--crit)", 1]]), esc(u.trend.note));
   }
 
@@ -682,12 +740,13 @@ const DATA = /*__DATA__*/null;
   function sparesChart(u, W = 900, H = 320, compact = false) {
     const sp = u.spares, cols = ["var(--good)", "var(--accent)", "var(--crit)"];
     return lineChart({ xs: sp.spares, series: Object.entries(sp.curves).map(([k, ys], i) => ({ ys: ys.map((v) => v * 100), color: cols[i], label: k })),
+      points: compact ? [] : [{ x: sp.have, y: sp.curves["今の工期"][sp.have] * 100, color: "var(--accent)", label: `今の予備・今の工期 → ${Math.round(sp.curves["今の工期"][sp.have] * 100)}%` }, { x: sp.have, y: sp.curves["混雑がさらに 2 か月"][sp.have] * 100, color: "var(--crit)", label: `混雑が延びると → ${Math.round(sp.curves["混雑がさらに 2 か月"][sp.have] * 100)}%` }],
       vlines: [{ x: sp.have, color: "var(--ink)", label: `今の予備 ${sp.have} 基` }, { x: sp.rule_10pct, color: "var(--muted)", dash: "4 3", label: "業界の目安 10%", dy: 14 }],
       yticks: [0, 50, 90, 100], xticks: [0, 5, 10, 15, 20, 25], yfmt: (v) => v + "%", xlabel: "予備エンジンの数（取付の最大を超えて持つ基数）", ylabel: "足りる確率", aria: "予備エンジンの数" }, W, H, compact);
   }
   function spares() {
     const u = C().usecases, sp = u.spares;
-    return panel("", `<p class="chart-note">${sparesLine(u)}</p>` + sparesChart(u) + legend(Object.keys(sp.curves).map((k, i) => [`${k}（工場側に平均 ${sp.mean_off[k].toFixed(1)} 基）`, ["var(--good)", "var(--accent)", "var(--crit)"][i], 1])), esc(sp.note) + "業界の目安（取付の 10%）は、工期が長い今は足りない側に出ます。");
+    return panel("", `<p class="chart-note">${sparesLine(u)}</p>` + sparesChart(u) + G("spares") + legend(Object.keys(sp.curves).map((k, i) => [`${k}（工場側に平均 ${sp.mean_off[k].toFixed(1)} 基）`, ["var(--good)", "var(--accent)", "var(--crit)"][i], 1])), esc(sp.note) + "業界の目安（取付の 10%）は、工期が長い今は足りない側に出ます。");
   }
 
   const offerLine = (u) => { const o = u.offer, i = o.cycles.indexOf(o.market.cycles); return `残り ${o.market.cycles.toLocaleString()} 回のエンジンは ${o.max_price[i].toFixed(1)} 百万ドルまでなら買い（相場 ${o.market.low}〜${o.market.high}）`; };
@@ -699,7 +758,7 @@ const DATA = /*__DATA__*/null;
   }
   function offer() {
     const u = C().usecases;
-    return panel("", `<p class="chart-note">${offerLine(u)}</p>` + offerChart(u) + legend([["上限価格", "var(--accent)", 1], ["繁忙期の前に届く場合", "var(--good)", 1], ["ハーフライフの相場（IBA 2025）", "var(--warn)"]]), esc(u.offer.note) + "。記録の欠け、推力の型、載せ替え費用は別に差し引く。");
+    return panel("", `<p class="chart-note">${offerLine(u)}</p>` + offerChart(u) + G("offer") + legend([["上限価格", "var(--accent)", 1], ["繁忙期の前に届く場合", "var(--good)", 1], ["ハーフライフの相場（IBA 2025）", "var(--warn)"]]), esc(u.offer.note) + "。記録の欠け、推力の型、載せ替え費用は別に差し引く。");
   }
 
   const cashLine = (u) => `2 年の支払い ${u.cash.cum.at(-1).toFixed(0)} 百万ドル（予算 ${u.cash.cum_budget.at(-1).toFixed(0)}）。円では ${Math.round(u.cash.yen_oku.low)}〜${Math.round(u.cash.yen_oku.high)} 億円`;
@@ -711,7 +770,7 @@ const DATA = /*__DATA__*/null;
   }
   function cash() {
     const u = C().usecases;
-    return panel("", `<p class="chart-note">${cashLine(u)}</p>` + cashChart(u) + legend([["月ごとの支払い", "var(--accent)"], ["支払いの累計", "var(--ink)", 1], ["予算の累計", "var(--crit)", 1]]), esc(u.cash.note) + "。戻りの月に支払いが集中するので、入場の山より数か月遅れて支払いの山が来る。");
+    return panel("", `<p class="chart-note">${cashLine(u)}</p>` + cashChart(u) + G("cash") + legend([["月ごとの支払い", "var(--accent)"], ["支払いの累計", "var(--ink)", 1], ["予算の累計", "var(--crit)", 1]]), esc(u.cash.note) + "。戻りの月に支払いが集中するので、入場の山より数か月遅れて支払いの山が来る。");
   }
 
   const relLine = (u) => `予定外取卸し率 ${u.reliability.mean.toFixed(3)}（1,000 時間あたり）、警戒値 ${u.reliability.alert.toFixed(3)} を超えた月 ${u.reliability.above}`;
@@ -723,7 +782,7 @@ const DATA = /*__DATA__*/null;
   }
   function reliability() {
     const u = C().usecases;
-    return panel("", `<p class="chart-note">${relLine(u)}</p>` + relChart(u) + legend([["3 か月移動平均", "var(--accent)", 1], ["警戒値", "var(--crit)", 1], ["平均", "var(--muted)", 1]]), esc(u.reliability.note) + `。予定外を含む入場全体は 1,000 時間あたり ${u.reliability.svr_per_1000.toFixed(3)}。`);
+    return panel("", `<p class="chart-note">${relLine(u)}</p>` + relChart(u) + G("reliability") + legend([["3 か月移動平均", "var(--accent)", 1], ["警戒値", "var(--crit)", 1], ["平均", "var(--muted)", 1]]), esc(u.reliability.note) + `。予定外を含む入場全体は 1,000 時間あたり ${u.reliability.svr_per_1000.toFixed(3)}。`);
   }
 
   function roleLine(c) {
@@ -734,7 +793,7 @@ const DATA = /*__DATA__*/null;
   /* ---------------- level 3 ---------------- */
   function engines() {
     const c = C();
-    return panel("", `<p class="chart-note">${c.plan.length} 基の予定</p>` + gantt(c) + ganttLegend, "バーにマウスを載せると、工場・費用・判断期限の理由が出ます。");
+    return panel("", `<p class="chart-note">${c.plan.length} 基の予定</p>` + gantt(c) + ganttLegend + G("gantt"), "バーにマウスを載せると、工場・費用・判断期限の理由が出ます。");
   }
 
   /* ---------------- level 4 ---------------- */
@@ -750,7 +809,7 @@ const DATA = /*__DATA__*/null;
     let s = "";
     E.forEach(([g, [a, b]], i) => { const y = 4 + i * rowH, x = (v) => L + v / top * (W - L - 20); s += `<text class="lbl" x="${L - 8}" y="${y + 13}" text-anchor="end">${esc(g)}</text><rect x="${L}" y="${y + 2}" width="${x(a) - L}" height="14" fill="var(--good)"/><rect x="${x(a)}" y="${y + 2}" width="${x(a + b) - x(a)}" height="14" fill="var(--warn)"/>`; });
     const link = (t) => esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
-    return panel("", `<p class="chart-note">どこまで根拠があるか（緑＝出典あり、黄＝出典なし）</p><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="出典の有無">${s}</svg>`)
+    return panel("", `<p class="chart-note">どこまで根拠があるか（緑＝出典あり、黄＝出典なし）</p><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="出典の有無">${s}</svg>` + G("sources"))
       + `<details class="panel"><summary>出典の一覧</summary><div class="scroll"><table><tbody>${flat.map(([k, v]) => `<tr><td class="mono" style="white-space:nowrap">${esc(k)}</td><td class="src">${link(v)}</td></tr>`).join("")}</tbody></table></div></details>`
       + `<details class="panel"><summary>出典のない数字（${c.unsourced.length} 件）</summary><div class="scroll"><table><tbody>${c.unsourced.map((u) => `<tr><td class="mono" style="white-space:nowrap">${esc(u.where)}</td><td class="src">${esc(u.what)}</td></tr>`).join("")}</tbody></table></div></details>`;
   }
