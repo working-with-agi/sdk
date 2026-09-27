@@ -121,7 +121,9 @@ def build_fleet(cid: str, overrides: dict) -> tuple[dict, dict]:
     g = float(overrides.get("demand_growth_per_year", 0.0))
     cap = 2 * cfg["aircraft"]["total"]
     g_long = float(overrides.get("demand_growth_long_run", g))
-    required = [min(cap, int(math.ceil(lifecycle.needed_positions(t) * (1 + growth_at(t, g, g_long)) ** (t / 12)))) for t in range(H)]
+    # the current input's required positions already carry the flight schedule (company.py);
+    # the demand trend scales them, the seasonal shape only re-derives the engine windows
+    required = [min(cap, int(math.ceil(cur["required_positions"][t] * (1 + growth_at(t, g, g_long)) ** (t / 12)))) for t in range(H)]
     u = float(overrides["utilisation_multiplier"])
     new = json.loads(json.dumps(cur))
     new["engines"] = [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard", "driver", "egt_margin", "llp_remaining")} for r in rows]

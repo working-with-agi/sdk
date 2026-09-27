@@ -2,39 +2,39 @@
  "baseline": {
   "version": "2026-09-27",
   "inputs": {
-   "fleet.json": "567db709159be51c",
+   "fleet.json": "2045156ac96b013d",
    "shops.json": "6b48bcf3d5bc87f0"
   },
   "plan_of_record": {
-   "total_cost": 151461.79423179242,
-   "p90": 188938.75142376704,
-   "committed": 121255.0,
-   "recourse": 30206.794231792406,
-   "recourse_p90": 67683.75142376704,
+   "total_cost": 151986.97877188044,
+   "p90": 189323.3766846415,
+   "committed": 120895.0,
+   "recourse": 31091.97877188043,
+   "recourse_p90": 68428.37668464148,
    "recourse_parts": {
-    "overrun": 25659.274231792406,
-    "lease": 15.6,
+    "overrun": 26306.10377188043,
+    "lease": 84.24,
     "substitute": 0.0,
-    "aog": 31.92,
+    "aog": 201.635,
     "emergency_kits": 4500.0
    },
-   "aog_prob": 0.0245,
+   "aog_prob": 0.158,
    "by_fiscal_year": {
     "FY2026": {
-     "visits": 9,
-     "spend": 105441.76709307783,
+     "visits": 8,
+     "spend": 93345.81738626977,
      "PR": 0,
      "CORE": 1,
-     "FULL": 8,
+     "FULL": 7,
      "GT": 0,
      "PO": 0
     },
     "FY2027": {
-     "visits": 10,
-     "spend": 121920.19279839183,
+     "visits": 11,
+     "spend": 134662.9720452879,
      "PR": 0,
      "CORE": 0,
-     "FULL": 10,
+     "FULL": 11,
      "GT": 0,
      "PO": 0
     },
@@ -53,7 +53,7 @@
    "partouts": 0,
    "long_spares": 0,
    "emergency_kits": 5,
-   "early_months": 43,
+   "early_months": 35,
    "rush": 0,
    "shops": {
     "MTU-ZH": 24
@@ -64,7 +64,7 @@
   }
  },
  "inputs_changed": [],
- "wall_seconds": 6.3,
+ "wall_seconds": 6.7,
  "answers": [
   {
    "use_case": "② 月次の入場判断",
@@ -73,32 +73,32 @@
    "case": "backlog",
    "feasible": true,
    "summary": {
-    "total_cost": 151361.28305925944,
-    "p90": 188893.75142376704,
-    "committed": 121210.0,
-    "recourse": 30151.283059259466,
-    "recourse_p90": 67683.75142376704,
+    "total_cost": 154245.79618263454,
+    "p90": 191731.0044886874,
+    "committed": 122755.0,
+    "recourse": 31490.79618263453,
+    "recourse_p90": 68976.0044886874,
     "recourse_parts": {
-     "overrun": 25633.143059259466,
-     "lease": 6.24,
+     "overrun": 26850.646182634533,
+     "lease": 73.58,
      "substitute": 0.0,
-     "aog": 11.9,
+     "aog": 66.57,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0105,
+    "aog_prob": 0.059,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 7,
-      "spend": 81066.5657843702,
+      "visits": 6,
+      "spend": 68967.2668571212,
       "PR": 0,
       "CORE": 1,
-      "FULL": 6,
+      "FULL": 5,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
       "visits": 12,
-      "spend": 146269.26293456653,
+      "spend": 147340.41959901943,
       "PR": 0,
       "CORE": 0,
       "FULL": 12,
@@ -106,11 +106,11 @@
       "PO": 0
      },
      "FY2028": {
-      "visits": 5,
-      "spend": 61117.314340322824,
+      "visits": 6,
+      "spend": 73362.95972649394,
       "PR": 0,
       "CORE": 0,
-      "FULL": 5,
+      "FULL": 6,
       "GT": 0,
       "PO": 0
      }
@@ -118,9 +118,9 @@
     "shop_visits": 24,
     "midlife_swaps": 0,
     "partouts": 0,
-    "long_spares": 0,
+    "long_spares": 1,
     "emergency_kits": 5,
-    "early_months": 42,
+    "early_months": 31,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -130,33 +130,33 @@
     ]
    },
    "delta": {
-    "total_cost": -100.51117253297707,
-    "p90": -45.0,
-    "aog_prob": -0.014,
+    "total_cost": 2258.817410754098,
+    "p90": 2407.6278040459147,
+    "aog_prob": -0.099,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
-    "long_spares": 0,
+    "long_spares": 1,
     "emergency_kits": 0,
-    "early_months": -1,
+    "early_months": -4,
     "rush": 0,
-    "committed": -45.0,
-    "recourse": -55.51117253294069,
-    "recourse_p90": 0.0,
-    "premium": -45.0,
-    "payout": 55.51117253294069,
+    "committed": 1860.0,
+    "recourse": 398.81741075410173,
+    "recourse_p90": 547.6278040459147,
+    "premium": 1860.0,
+    "payout": -398.81741075410173,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -2,
-      "spend": -24375.20130870762
+      "spend": -24378.550529148575
      },
      "FY2027": {
-      "visits": 2,
-      "spend": 24349.070136174705
+      "visits": 1,
+      "spend": 12677.44755373153
      },
      "FY2028": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": 1,
+      "spend": 12245.645386171112
      }
     },
     "shops": {
@@ -173,35 +173,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 152259.3640503872,
-    "p90": 189659.8887569195,
-    "committed": 122145.0,
-    "recourse": 30114.36405038723,
-    "recourse_p90": 67514.88875691952,
+    "total_cost": 152793.1895326438,
+    "p90": 190284.58165861544,
+    "committed": 121920.0,
+    "recourse": 30873.189532643795,
+    "recourse_p90": 68364.58165861544,
     "recourse_parts": {
-     "overrun": 25567.03905038723,
-     "lease": 15.405,
+     "overrun": 26102.669532643795,
+     "lease": 75.465,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 195.055,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.1535,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 105349.53191167265,
+      "visits": 8,
+      "spend": 93142.38314703314,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 121920.19279839183,
+      "visits": 11,
+      "spend": 134662.9720452879,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -220,7 +220,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 45,
+    "early_months": 40,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -230,25 +230,25 @@
     ]
    },
    "delta": {
-    "total_cost": 797.569818594784,
-    "p90": 721.1373331524665,
-    "aog_prob": 0.0,
+    "total_cost": 806.2107607633516,
+    "p90": 961.204973973945,
+    "aog_prob": -0.004500000000000004,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 2,
+    "early_months": 5,
     "rush": 0,
-    "committed": 890.0,
-    "recourse": -92.43018140517597,
-    "recourse_p90": -168.862666847519,
-    "premium": 890.0,
-    "payout": 92.43018140517597,
+    "committed": 1025.0,
+    "recourse": -218.78923923663388,
+    "recourse_p90": -63.79502602604043,
+    "premium": 1025.0,
+    "payout": 218.78923923663388,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": -92.2351814051799
+      "spend": -203.43423923663795
      },
      "FY2027": {
       "visits": 0,
@@ -273,19 +273,19 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 152136.61923179243,
-    "p90": 189638.75142376704,
-    "committed": 121955.0,
-    "recourse": 30181.619231792407,
-    "recourse_p90": 67683.75142376704,
+    "total_cost": 152700.71581557734,
+    "p90": 190075.72676065614,
+    "committed": 121820.0,
+    "recourse": 30880.715815577307,
+    "recourse_p90": 68255.72676065615,
     "recourse_parts": {
-     "overrun": 25659.274231792406,
-     "lease": 19.825,
+     "overrun": 26163.090815577307,
+     "lease": 185.705,
      "substitute": 0.0,
-     "aog": 2.52,
+     "aog": 31.92,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0015,
+    "aog_prob": 0.0245,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 9,
@@ -298,7 +298,7 @@
      },
      "FY2027": {
       "visits": 10,
-      "spend": 121920.19279839183,
+      "spend": 122424.00938217671,
       "PR": 0,
       "CORE": 0,
       "FULL": 10,
@@ -320,7 +320,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 40,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -330,29 +330,29 @@
     ]
    },
    "delta": {
-    "total_cost": 674.8250000000116,
-    "p90": 700.0,
-    "aog_prob": -0.023,
+    "total_cost": 713.7370436968922,
+    "p90": 752.3500760146417,
+    "aog_prob": -0.1335,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 0,
+    "early_months": 5,
     "rush": 0,
-    "committed": 700.0,
-    "recourse": -25.174999999999272,
-    "recourse_p90": 0.0,
-    "premium": 700.0,
-    "payout": 25.174999999999272,
+    "committed": 925.0,
+    "recourse": -211.26295630312234,
+    "recourse_p90": -172.64992398532922,
+    "premium": 925.0,
+    "payout": 211.26295630312234,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": 1,
+      "spend": 12095.949706808053
      },
      "FY2027": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": -1,
+      "spend": -12238.96266311119
      },
      "FY2028": {
       "visits": 0,
@@ -373,35 +373,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 149017.52744712096,
-    "p90": 185732.31411613076,
-    "committed": 142127.0,
-    "recourse": 6890.527447120978,
-    "recourse_p90": 43605.31411613076,
+    "total_cost": 149569.3449543577,
+    "p90": 186572.91620394238,
+    "committed": 141812.0,
+    "recourse": 7757.344954357672,
+    "recourse_p90": 44760.91620394238,
     "recourse_parts": {
-     "overrun": 2343.007447120978,
-     "lease": 15.6,
+     "overrun": 2973.0649543576715,
+     "lease": 82.68,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.6,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.157,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 104593.24620602519,
+      "visits": 8,
+      "spend": 92551.31988640894,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 120922.20422608992,
+      "visits": 11,
+      "spend": 133594.18805294286,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -420,7 +420,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 36,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -430,29 +430,29 @@
     ]
    },
    "delta": {
-    "total_cost": -2444.266784671461,
-    "p90": -3206.4373076362826,
-    "aog_prob": 0.0,
+    "total_cost": -2417.6338175227575,
+    "p90": -2750.460480699112,
+    "aog_prob": -0.0010000000000000009,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 0,
+    "early_months": 1,
     "rush": 0,
-    "committed": 20872.0,
-    "recourse": -23316.26678467143,
-    "recourse_p90": -24078.437307636283,
-    "premium": 20872.0,
-    "payout": 23316.26678467143,
+    "committed": 20917.0,
+    "recourse": -23334.633817522757,
+    "recourse_p90": -23667.460480699097,
+    "premium": 20917.0,
+    "payout": 23334.633817522757,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": -848.5208870526403
+      "spend": -794.4974998608377
      },
      "FY2027": {
       "visits": 0,
-      "spend": -997.9885723019106
+      "spend": -1068.7839923450374
      },
      "FY2028": {
       "visits": 0,
@@ -473,35 +473,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 147961.44997165762,
-    "p90": 184065.14575551316,
-    "committed": 129082.0,
-    "recourse": 18879.449971657625,
-    "recourse_p90": 54983.145755513164,
+    "total_cost": 148512.15147698805,
+    "p90": 184706.45525988878,
+    "committed": 128767.0,
+    "recourse": 19745.15147698805,
+    "recourse_p90": 55939.45525988877,
     "recourse_parts": {
-     "overrun": 14331.929971657626,
-     "lease": 15.6,
+     "overrun": 14960.871476988048,
+     "lease": 82.68,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.6,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.157,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 104183.87941969719,
+      "visits": 8,
+      "spend": 92211.59381235548,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 120457.4705049092,
+      "visits": 11,
+      "spend": 133058.69761758135,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -520,7 +520,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 36,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -530,29 +530,29 @@
     ]
    },
    "delta": {
-    "total_cost": -3500.3442601347924,
-    "p90": -4873.6056682538765,
-    "aog_prob": 0.0,
+    "total_cost": -3474.8272948923986,
+    "p90": -4616.9214247527125,
+    "aog_prob": -0.0010000000000000009,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 0,
+    "early_months": 1,
     "rush": 0,
-    "committed": 7827.0,
-    "recourse": -11327.344260134782,
-    "recourse_p90": -12700.605668253877,
-    "premium": 7827.0,
-    "payout": 11327.344260134782,
+    "committed": 7872.0,
+    "recourse": -11346.82729489238,
+    "recourse_p90": -12488.921424752712,
+    "premium": 7872.0,
+    "payout": 11346.82729489238,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": -1257.8876733806392
+      "spend": -1134.2235739142925
      },
      "FY2027": {
       "visits": 0,
-      "spend": -1462.7222934826277
+      "spend": -1604.2744277065503
      },
      "FY2028": {
       "visits": 0,
@@ -573,35 +573,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 165984.5080252129,
-    "p90": 204876.55424816353,
-    "committed": 158955.05,
-    "recourse": 7029.458025212934,
-    "recourse_p90": 45921.50424816356,
+    "total_cost": 166573.70241690957,
+    "p90": 205703.2931220628,
+    "committed": 158640.05,
+    "recourse": 7933.652416909597,
+    "recourse_p90": 47063.24312206283,
     "recourse_parts": {
-     "overrun": 2481.938025212933,
-     "lease": 15.6,
+     "overrun": 3149.3724169095967,
+     "lease": 82.68,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.6,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.157,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 110796.64396555162,
+      "visits": 8,
+      "spend": 98040.35994073609,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 128095.61450070352,
+      "visits": 11,
+      "spend": 141519.33291721574,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -620,7 +620,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 36,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -630,29 +630,29 @@
     ]
    },
    "delta": {
-    "total_cost": 14522.713793420495,
-    "p90": 15937.802824396495,
-    "aog_prob": 0.0,
+    "total_cost": 14586.723645029124,
+    "p90": 16379.916437421314,
+    "aog_prob": -0.0010000000000000009,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 0,
+    "early_months": 1,
     "rush": 0,
-    "committed": 37700.04999999999,
-    "recourse": -23177.33620657947,
-    "recourse_p90": -21762.24717560348,
-    "premium": 37700.04999999999,
-    "payout": 23177.33620657947,
+    "committed": 37745.04999999999,
+    "recourse": -23158.32635497083,
+    "recourse_p90": -21365.133562578652,
+    "premium": 37745.04999999999,
+    "payout": 23158.32635497083,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": 5354.876872473789
+      "spend": 4694.542554466316
      },
      "FY2027": {
       "visits": 0,
-      "spend": 6175.421702311694
+      "spend": 6856.360871927842
      },
      "FY2028": {
       "visits": 0,
@@ -673,35 +673,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 149551.51059024708,
-    "p90": 186778.2090809419,
-    "committed": 119515.6666666666,
-    "recourse": 30035.843923580505,
-    "recourse_p90": 67262.54241427527,
+    "total_cost": 150072.41157340122,
+    "p90": 187157.9981734105,
+    "committed": 119155.6666666666,
+    "recourse": 30916.744906734617,
+    "recourse_p90": 68002.33150674393,
     "recourse_parts": {
-     "overrun": 25488.323923580505,
-     "lease": 15.6,
+     "overrun": 26130.869906734617,
+     "lease": 84.24,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.635,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.158,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 104743.63797912392,
+      "visits": 8,
+      "spend": 92727.79068369456,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 121112.78676640245,
+      "visits": 11,
+      "spend": 133771.1800449859,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -720,7 +720,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 35,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -730,8 +730,8 @@
     ]
    },
    "delta": {
-    "total_cost": -1910.2836415453348,
-    "p90": -2160.5423428251524,
+    "total_cost": -1914.567198479228,
+    "p90": -2165.378511230985,
     "aog_prob": 0.0,
     "shop_visits": 0,
     "midlife_swaps": 0,
@@ -741,18 +741,18 @@
     "early_months": 0,
     "rush": 0,
     "committed": -1739.3333333334012,
-    "recourse": -170.95030821190085,
-    "recourse_p90": -421.20900949176576,
+    "recourse": -175.23386514581216,
+    "recourse_p90": -426.0451778975548,
     "premium": -1739.3333333334012,
-    "payout": 170.95030821190085,
+    "payout": 175.23386514581216,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": -698.1291139539098
+      "spend": -618.026702575211
      },
      "FY2027": {
       "visits": 0,
-      "spend": -807.4060319893761
+      "spend": -891.7920003019972
      },
      "FY2028": {
       "visits": 0,
@@ -773,35 +773,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 148596.36876947447,
-    "p90": 185697.9379095294,
-    "committed": 118646.0,
-    "recourse": 29950.36876947448,
-    "recourse_p90": 67051.93790952941,
+    "total_cost": 149115.12797416162,
+    "p90": 186075.3089177952,
+    "committed": 118286.0,
+    "recourse": 30829.127974161627,
+    "recourse_p90": 67789.3089177952,
     "recourse_parts": {
-     "overrun": 25402.848769474484,
-     "lease": 15.6,
+     "overrun": 26043.252974161627,
+     "lease": 84.24,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.635,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.158,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 104394.5734221471,
+      "visits": 8,
+      "spend": 92418.77733240712,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 120709.08375040781,
+      "visits": 11,
+      "spend": 133325.28404483496,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -820,7 +820,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 35,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -830,8 +830,8 @@
     ]
    },
    "delta": {
-    "total_cost": -2865.425462317944,
-    "p90": -3240.8135142376414,
+    "total_cost": -2871.8507977188274,
+    "p90": -3248.067766846303,
     "aog_prob": 0.0,
     "shop_visits": 0,
     "midlife_swaps": 0,
@@ -841,18 +841,18 @@
     "early_months": 0,
     "rush": 0,
     "committed": -2609.0,
-    "recourse": -256.42546231792585,
-    "recourse_p90": -631.8135142376268,
+    "recourse": -262.8507977188019,
+    "recourse_p90": -639.067766846274,
     "premium": -2609.0,
-    "payout": 256.42546231792585,
+    "payout": 262.8507977188019,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": -1047.1936709307192
+      "spend": -927.0400538626564
      },
      "FY2027": {
       "visits": 0,
-      "spend": -1211.1090479840204
+      "spend": -1337.6880004529376
      },
      "FY2028": {
       "visits": 0,
@@ -873,32 +873,32 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 151461.79423179242,
-    "p90": 188938.75142376704,
-    "committed": 121255.0,
-    "recourse": 30206.794231792406,
-    "recourse_p90": 67683.75142376704,
+    "total_cost": 151716.09562820167,
+    "p90": 189181.65756795462,
+    "committed": 121075.0,
+    "recourse": 30641.095628201656,
+    "recourse_p90": 68106.65756795464,
     "recourse_parts": {
-     "overrun": 25659.274231792406,
-     "lease": 15.6,
+     "overrun": 25805.800628201658,
+     "lease": 110.63,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 224.665,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.171,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 105441.76709307783,
+      "visits": 8,
+      "spend": 93313.56488846178,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
       "visits": 10,
-      "spend": 121920.19279839183,
+      "spend": 121949.27601324601,
       "PR": 0,
       "CORE": 0,
       "FULL": 10,
@@ -906,11 +906,11 @@
       "PO": 0
      },
      "FY2028": {
-      "visits": 5,
-      "spend": 61117.314340322824,
+      "visits": 6,
+      "spend": 73362.95972649394,
       "PR": 0,
       "CORE": 0,
-      "FULL": 5,
+      "FULL": 6,
       "GT": 0,
       "PO": 0
      }
@@ -920,7 +920,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 39,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -930,33 +930,33 @@
     ]
    },
    "delta": {
-    "total_cost": 0.0,
-    "p90": 0.0,
-    "aog_prob": 0.0,
+    "total_cost": -270.8831436787732,
+    "p90": -141.71911668687244,
+    "aog_prob": 0.013000000000000012,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 0,
+    "early_months": 4,
     "rush": 0,
-    "committed": 0.0,
-    "recourse": 0.0,
-    "recourse_p90": 0.0,
-    "premium": 0.0,
-    "payout": -0.0,
+    "committed": 180.0,
+    "recourse": -450.8831436787732,
+    "recourse_p90": -321.71911668684334,
+    "premium": 180.0,
+    "payout": 450.8831436787732,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": 0.0
+      "spend": -32.25249780798913
      },
      "FY2027": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": -1,
+      "spend": -12713.696032041888
      },
      "FY2028": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": 1,
+      "spend": 12245.645386171112
      }
     },
     "shops": {
@@ -973,32 +973,32 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 152130.37179287628,
-    "p90": 192345.96752275797,
-    "committed": 121210.0,
-    "recourse": 30920.371792876274,
-    "recourse_p90": 71135.96752275797,
+    "total_cost": 152575.99463966742,
+    "p90": 192665.5198879464,
+    "committed": 120895.0,
+    "recourse": 31680.994639667428,
+    "recourse_p90": 71770.5198879464,
     "recourse_parts": {
-     "overrun": 26402.856792876275,
-     "lease": 6.175,
+     "overrun": 27025.38463966743,
+     "lease": 65.52,
      "substitute": 0.0,
-     "aog": 11.34,
+     "aog": 90.09,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.01,
+    "aog_prob": 0.072,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 8,
-      "spend": 93565.77850666369,
+      "visits": 7,
+      "spend": 81455.57826357332,
       "PR": 0,
       "CORE": 1,
-      "FULL": 7,
+      "FULL": 6,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
       "visits": 12,
-      "spend": 146548.69675829337,
+      "spend": 147021.92775501477,
       "PR": 0,
       "CORE": 0,
       "FULL": 12,
@@ -1006,11 +1006,111 @@
       "PO": 0
      },
      "FY2028": {
-      "visits": 4,
-      "spend": 49108.381527919475,
+      "visits": 5,
+      "spend": 61367.8786210796,
       "PR": 0,
       "CORE": 0,
-      "FULL": 4,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 589.0158677869767,
+    "p90": 3342.143203304906,
+    "aog_prob": -0.08600000000000001,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 0,
+    "rush": 0,
+    "committed": 0.0,
+    "recourse": 589.0158677869986,
+    "recourse_p90": 3342.1432033049205,
+    "premium": 0.0,
+    "payout": -589.0158677869986,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -1,
+      "spend": -11890.239122696454
+     },
+     "FY2027": {
+      "visits": 1,
+      "spend": 12358.95570972687
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 250.56428075677832
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "為替を先物で固定したら",
+   "actions": [
+    "fin_fx_hedge"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 152135.20224269255,
+    "p90": 162897.1827768218,
+    "committed": 121210.0,
+    "recourse": 30925.202242692554,
+    "recourse_p90": 41687.182776821806,
+    "recourse_parts": {
+     "overrun": 26169.217242692554,
+     "lease": 73.32,
+     "substitute": 0.0,
+     "aog": 182.665,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.1445,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93284.29171138289,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 134594.79370650643,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61110.13182480323,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
       "GT": 0,
       "PO": 0
      }
@@ -1030,133 +1130,33 @@
     ]
    },
    "delta": {
-    "total_cost": 668.5775610838609,
-    "p90": 3407.2160989909316,
-    "aog_prob": -0.0145,
+    "total_cost": 148.22347081211046,
+    "p90": -26426.19390781969,
+    "aog_prob": -0.013500000000000012,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": -1,
+    "early_months": 7,
     "rush": 0,
-    "committed": -45.0,
-    "recourse": 713.5775610838682,
-    "recourse_p90": 3452.2160989909316,
-    "premium": -45.0,
-    "payout": -713.5775610838682,
-    "by_fiscal_year": {
-     "FY2026": {
-      "visits": -1,
-      "spend": -11875.98858641414
-     },
-     "FY2027": {
-      "visits": 2,
-      "spend": 24628.503959901544
-     },
-     "FY2028": {
-      "visits": -1,
-      "spend": -12008.932812403349
-     }
-    },
-    "shops": {
-     "MTU-ZH": 0
-    }
-   }
-  },
-  {
-   "use_case": "⑥ お金の仕組み",
-   "question": "為替を先物で固定したら",
-   "actions": [
-    "fin_fx_hedge"
-   ],
-   "case": "base",
-   "feasible": true,
-   "summary": {
-    "total_cost": 151687.93827514452,
-    "p90": 162185.12538628056,
-    "committed": 121705.0,
-    "recourse": 29982.9382751445,
-    "recourse_p90": 40480.125386280546,
-    "recourse_parts": {
-     "overrun": 25433.768275144503,
-     "lease": 15.99,
-     "substitute": 0.0,
-     "aog": 33.18,
-     "emergency_kits": 4500.0
-    },
-    "aog_prob": 0.029,
-    "by_fiscal_year": {
-     "FY2026": {
-      "visits": 9,
-      "spend": 105457.89294384798,
-      "PR": 0,
-      "CORE": 1,
-      "FULL": 8,
-      "GT": 0,
-      "PO": 0
-     },
-     "FY2027": {
-      "visits": 11,
-      "spend": 133960.75257530424,
-      "PR": 0,
-      "CORE": 0,
-      "FULL": 11,
-      "GT": 0,
-      "PO": 0
-     },
-     "FY2028": {
-      "visits": 4,
-      "spend": 48835.12275599229,
-      "PR": 0,
-      "CORE": 0,
-      "FULL": 4,
-      "GT": 0,
-      "PO": 0
-     }
-    },
-    "shop_visits": 24,
-    "midlife_swaps": 0,
-    "partouts": 0,
-    "long_spares": 0,
-    "emergency_kits": 5,
-    "early_months": 53,
-    "rush": 0,
-    "shops": {
-     "MTU-ZH": 24
-    },
-    "relaxed": [
-     "budget"
-    ]
-   },
-   "delta": {
-    "total_cost": 226.14404335210565,
-    "p90": -26753.62603748648,
-    "aog_prob": 0.0045000000000000005,
-    "shop_visits": 0,
-    "midlife_swaps": 0,
-    "partouts": 0,
-    "long_spares": 0,
-    "emergency_kits": 0,
-    "early_months": 10,
-    "rush": 0,
-    "committed": 450.0,
-    "recourse": -223.85595664790526,
-    "recourse_p90": -27203.626037486494,
-    "premium": 450.0,
-    "payout": 223.85595664790526,
+    "committed": 315.0,
+    "recourse": -166.77652918787498,
+    "recourse_p90": -26741.193907819674,
+    "premium": 315.0,
+    "payout": 166.77652918787498,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
-      "spend": 16.12585077015683
+      "spend": -61.5256748868851
      },
      "FY2027": {
-      "visits": 1,
-      "spend": 12040.559776912414
+      "visits": 0,
+      "spend": -68.17833878146484
      },
      "FY2028": {
-      "visits": -1,
-      "spend": -12282.191584330532
+      "visits": 0,
+      "spend": -7.182515519591107
      }
     },
     "shops": {
@@ -1173,35 +1173,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 155493.5332483004,
-    "p90": 192970.49044027503,
-    "committed": 125286.73901650799,
-    "recourse": 30206.794231792406,
-    "recourse_p90": 67683.75142376704,
+    "total_cost": 156018.71778838843,
+    "p90": 193355.11570114948,
+    "committed": 124926.73901650799,
+    "recourse": 31091.97877188043,
+    "recourse_p90": 68428.37668464148,
     "recourse_parts": {
-     "overrun": 25659.274231792406,
-     "lease": 15.6,
+     "overrun": 26306.10377188043,
+     "lease": 84.24,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.635,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.158,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 105441.76709307783,
+      "visits": 8,
+      "spend": 93345.81738626977,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 121920.19279839183,
+      "visits": 11,
+      "spend": 134662.9720452879,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -1220,7 +1220,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 35,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -1273,119 +1273,19 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 148146.77164356978,
-    "p90": 158085.7657933715,
-    "committed": 118082.42000000001,
-    "recourse": 30064.351643569746,
-    "recourse_p90": 40003.3457933715,
-    "recourse_parts": {
-     "overrun": 25538.951643569744,
-     "lease": 9.23,
-     "substitute": 0.0,
-     "aog": 16.17,
-     "emergency_kits": 4500.0
-    },
-    "aog_prob": 0.0165,
-    "by_fiscal_year": {
-     "FY2026": {
-      "visits": 8,
-      "spend": 92312.59272490966,
-      "PR": 0,
-      "CORE": 1,
-      "FULL": 7,
-      "GT": 0,
-      "PO": 0
-     },
-     "FY2027": {
-      "visits": 11,
-      "spend": 132696.94914431972,
-      "PR": 0,
-      "CORE": 0,
-      "FULL": 11,
-      "GT": 0,
-      "PO": 0
-     },
-     "FY2028": {
-      "visits": 5,
-      "spend": 60740.409774340354,
-      "PR": 0,
-      "CORE": 0,
-      "FULL": 5,
-      "GT": 0,
-      "PO": 0
-     }
-    },
-    "shop_visits": 24,
-    "midlife_swaps": 0,
-    "partouts": 0,
-    "long_spares": 0,
-    "emergency_kits": 5,
-    "early_months": 44,
-    "rush": 0,
-    "shops": {
-     "MTU-ZH": 24
-    },
-    "relaxed": [
-     "budget"
-    ]
-   },
-   "delta": {
-    "total_cost": -3315.022588222637,
-    "p90": -30852.98563039553,
-    "aog_prob": -0.008,
-    "shop_visits": 0,
-    "midlife_swaps": 0,
-    "partouts": 0,
-    "long_spares": 0,
-    "emergency_kits": 0,
-    "early_months": 1,
-    "rush": 0,
-    "committed": -3172.579999999987,
-    "recourse": -142.44258822266056,
-    "recourse_p90": -27680.405630395537,
-    "premium": -3172.579999999987,
-    "payout": 142.44258822266056,
-    "by_fiscal_year": {
-     "FY2026": {
-      "visits": -1,
-      "spend": -13129.17436816817
-     },
-     "FY2027": {
-      "visits": 1,
-      "spend": 10776.75634592789
-     },
-     "FY2028": {
-      "visits": 0,
-      "spend": -376.90456598246965
-     }
-    },
-    "shops": {
-     "MTU-ZH": 0
-    }
-   }
-  },
-  {
-   "use_case": "⑥ お金の仕組み",
-   "question": "大手パッケージを混雑の世界で",
-   "actions": [
-    "fin_package"
-   ],
-   "case": "backlog",
-   "feasible": true,
-   "summary": {
-    "total_cost": 148112.74018149573,
-    "p90": 158195.66743374665,
+    "total_cost": 148284.37784375422,
+    "p90": 158349.77470904277,
     "committed": 117902.42000000001,
-    "recourse": 30210.320181495736,
-    "recourse_p90": 40293.247433746634,
+    "recourse": 30381.9578437542,
+    "recourse_p90": 40447.35470904275,
     "recourse_parts": {
-     "overrun": 25682.785181495736,
-     "lease": 11.505,
+     "overrun": 25667.2678437542,
+     "lease": 90.545,
      "substitute": 0.0,
-     "aog": 16.03,
+     "aog": 124.145,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.014,
+    "aog_prob": 0.1,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 7,
@@ -1398,7 +1298,7 @@
      },
      "FY2027": {
       "visits": 12,
-      "spend": 144844.27258355916,
+      "spend": 144828.7552458176,
       "PR": 0,
       "CORE": 0,
       "FULL": 12,
@@ -1430,29 +1330,129 @@
     ]
    },
    "delta": {
-    "total_cost": -3349.0540502966905,
-    "p90": -30743.083990020386,
-    "aog_prob": -0.0105,
+    "total_cost": -3702.600928126223,
+    "p90": -30973.60197559872,
+    "aog_prob": -0.057999999999999996,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": -3,
+    "early_months": 5,
     "rush": 0,
-    "committed": -3352.579999999987,
-    "recourse": 3.5259497033293883,
-    "recourse_p90": -27390.503990020406,
-    "premium": -3352.579999999987,
-    "payout": -3.5259497033293883,
+    "committed": -2992.579999999987,
+    "recourse": -710.0209281262287,
+    "recourse_p90": -27981.021975598727,
+    "premium": -2992.579999999987,
+    "payout": 710.0209281262287,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -1,
+      "spend": -13036.714562673573
+     },
+     "FY2027": {
+      "visits": 1,
+      "spend": 10165.783200529695
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -376.90456598246965
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "大手パッケージを混雑の世界で",
+   "actions": [
+    "fin_package"
+   ],
+   "case": "backlog",
+   "feasible": true,
+   "summary": {
+    "total_cost": 149261.22728393233,
+    "p90": 159873.53625947042,
+    "committed": 117722.42000000001,
+    "recourse": 31538.8072839323,
+    "recourse_p90": 42151.11625947039,
+    "recourse_parts": {
+     "overrun": 26573.9272839323,
+     "lease": 195.975,
+     "substitute": 0.0,
+     "aog": 268.905,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.201,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 6,
+      "spend": 68325.39172237155,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 13,
+      "spend": 157719.12578722037,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 13,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60740.409774340354,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -2725.751487948117,
+    "p90": -29449.840425171074,
+    "aog_prob": 0.04300000000000001,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 1,
+    "rush": 0,
+    "committed": -3172.579999999987,
+    "recourse": 446.82851205187035,
+    "recourse_p90": -26277.260425171087,
+    "premium": -3172.579999999987,
+    "payout": -446.82851205187035,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -2,
-      "spend": -25132.664269481626
+      "spend": -25020.42566389822
      },
      "FY2027": {
       "visits": 2,
-      "spend": 22924.079785167327
+      "spend": 23056.153741932474
      },
      "FY2028": {
       "visits": 0,
@@ -1473,19 +1473,19 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 154662.37920857043,
-    "p90": 192078.89894410313,
-    "committed": 120850.0,
-    "recourse": 33812.37920857042,
-    "recourse_p90": 71228.89894410314,
+    "total_cost": 157029.59901851043,
+    "p90": 194801.09223743313,
+    "committed": 122935.0,
+    "recourse": 34094.599018510424,
+    "recourse_p90": 71866.09223743311,
     "recourse_parts": {
-     "overrun": 27344.154208570424,
-     "lease": 43.485,
+     "overrun": 27297.254018510423,
+     "lease": 103.61,
      "substitute": 0.0,
-     "aog": 124.74,
+     "aog": 393.735,
      "emergency_kits": 6300.0
     },
-    "aog_prob": 0.0935,
+    "aog_prob": 0.253,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 9,
@@ -1498,7 +1498,7 @@
      },
      "FY2027": {
       "visits": 14,
-      "spend": 172644.76990122272,
+      "spend": 172597.86971116273,
       "PR": 0,
       "CORE": 0,
       "FULL": 14,
@@ -1518,9 +1518,9 @@
     "shop_visits": 24,
     "midlife_swaps": 0,
     "partouts": 0,
-    "long_spares": 0,
+    "long_spares": 1,
     "emergency_kits": 7,
-    "early_months": 34,
+    "early_months": 35,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -1530,29 +1530,29 @@
     ]
    },
    "delta": {
-    "total_cost": 3200.5849767780164,
-    "p90": 3140.1475203360897,
-    "aog_prob": 0.069,
+    "total_cost": 5042.620246629987,
+    "p90": 5477.715552791633,
+    "aog_prob": 0.095,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
-    "long_spares": 0,
+    "long_spares": 1,
     "emergency_kits": 2,
-    "early_months": -9,
+    "early_months": 0,
     "rush": 0,
-    "committed": -405.0,
-    "recourse": 3605.584976778013,
-    "recourse_p90": 3545.147520336104,
-    "premium": -405.0,
-    "payout": -3605.584976778013,
+    "committed": 2040.0,
+    "recourse": 3002.6202466299947,
+    "recourse_p90": 3437.715552791633,
+    "premium": 2040.0,
+    "payout": -3002.6202466299947,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 0,
-      "spend": -168.02817190118367
+      "visits": 1,
+      "spend": 11927.921534906869
      },
      "FY2027": {
-      "visits": 4,
-      "spend": 50724.577102830895
+      "visits": 3,
+      "spend": 37934.89766587483
      },
      "FY2028": {
       "visits": -4,
@@ -1573,35 +1573,35 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 165141.79423179242,
-    "p90": 202618.75142376704,
-    "committed": 134935.0,
-    "recourse": 30206.794231792406,
-    "recourse_p90": 67683.75142376704,
+    "total_cost": 165666.97877188044,
+    "p90": 203003.3766846415,
+    "committed": 134575.0,
+    "recourse": 31091.97877188043,
+    "recourse_p90": 68428.37668464148,
     "recourse_parts": {
-     "overrun": 25659.274231792406,
-     "lease": 15.6,
+     "overrun": 26306.10377188043,
+     "lease": 84.24,
      "substitute": 0.0,
-     "aog": 31.92,
+     "aog": 201.635,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0245,
+    "aog_prob": 0.158,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 105441.76709307783,
+      "visits": 8,
+      "spend": 93345.81738626977,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 121920.19279839183,
+      "visits": 11,
+      "spend": 134662.9720452879,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -1620,7 +1620,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": 43,
+    "early_months": 35,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -1673,19 +1673,19 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 113681.43485988065,
+    "total_cost": 113694.72485988066,
     "p90": 146021.18089072185,
     "committed": 95815.0,
-    "recourse": 17866.43485988066,
+    "recourse": 17879.72485988066,
     "recourse_p90": 50206.180890721844,
     "recourse_parts": {
      "overrun": 17865.46485988066,
-     "lease": 0.13,
+     "lease": 4.81,
      "substitute": 0.0,
-     "aog": 0.84,
+     "aog": 9.45,
      "emergency_kits": 0.0
     },
-    "aog_prob": 0.0005,
+    "aog_prob": 0.0065,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 8,
@@ -1731,29 +1731,29 @@
     ]
    },
    "delta": {
-    "total_cost": -37780.35937191176,
-    "p90": -42917.57053304519,
-    "aog_prob": -0.024,
+    "total_cost": -38292.25391199978,
+    "p90": -43302.19579391964,
+    "aog_prob": -0.1515,
     "shop_visits": -8,
     "midlife_swaps": 8,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": -5,
-    "early_months": 0,
+    "early_months": 8,
     "rush": 0,
-    "committed": -25440.0,
-    "recourse": -12340.359371911745,
-    "recourse_p90": -17477.570533045196,
-    "premium": -25440.0,
-    "payout": 12340.359371911745,
+    "committed": -25080.0,
+    "recourse": -13212.253911999771,
+    "recourse_p90": -18222.195793919636,
+    "premium": -25080.0,
+    "payout": 13212.253911999771,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": -1,
-      "spend": -40254.0840570748
+      "visits": 0,
+      "spend": -28158.134350266744
      },
      "FY2027": {
-      "visits": 2,
-      "spend": -4170.79250243344
+      "visits": 1,
+      "spend": -16913.57174932951
      },
      "FY2028": {
       "visits": -1,
@@ -1775,19 +1775,19 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 155497.83423179243,
+    "total_cost": 155544.26423179242,
     "p90": 193018.75142376704,
     "committed": 125335.0,
-    "recourse": 30162.834231792403,
+    "recourse": 30209.264231792404,
     "recourse_p90": 67683.75142376704,
     "recourse_parts": {
      "overrun": 25659.274231792406,
-     "lease": 1.04,
+     "lease": 18.07,
      "substitute": 0.0,
-     "aog": 2.52,
+     "aog": 31.92,
      "emergency_kits": 4500.0
     },
-    "aog_prob": 0.0015,
+    "aog_prob": 0.0245,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 9,
@@ -1832,29 +1832,29 @@
     ]
    },
    "delta": {
-    "total_cost": 4036.040000000008,
-    "p90": 4080.0,
-    "aog_prob": -0.023,
+    "total_cost": 3557.2854599119746,
+    "p90": 3695.3747391255456,
+    "aog_prob": -0.1335,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 0,
+    "early_months": 8,
     "rush": 0,
-    "committed": 4080.0,
-    "recourse": -43.960000000002765,
-    "recourse_p90": 0.0,
-    "premium": 4080.0,
-    "payout": 43.960000000002765,
+    "committed": 4440.0,
+    "recourse": -882.7145400880254,
+    "recourse_p90": -744.6252608744398,
+    "premium": 4440.0,
+    "payout": 882.7145400880254,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": 1,
+      "spend": 12095.949706808053
      },
      "FY2027": {
-      "visits": 0,
-      "spend": 0.0
+      "visits": -1,
+      "spend": -12742.779246896069
      },
      "FY2028": {
       "visits": 0,
@@ -1875,96 +1875,96 @@
    "case": "base",
    "feasible": true,
    "summary": {
-    "total_cost": 93434.46464114003,
-    "p90": 121561.02032478833,
-    "committed": 73975.0,
-    "recourse": 19459.464641140028,
-    "recourse_p90": 47586.020324788326,
+    "total_cost": 113107.18762741706,
+    "p90": 144536.95354044336,
+    "committed": 87490.0,
+    "recourse": 25617.18762741705,
+    "recourse_p90": 57046.95354044335,
     "recourse_parts": {
-     "overrun": 17168.96964114003,
-     "lease": 99.385,
+     "overrun": 19890.497627417048,
+     "lease": 104.195,
      "substitute": 0.0,
-     "aog": 391.11,
-     "emergency_kits": 1800.0
+     "aog": 222.495,
+     "emergency_kits": 5400.0
     },
-    "aog_prob": 0.2255,
+    "aog_prob": 0.1615,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 6,
-      "spend": 67433.41055039986,
+      "visits": 8,
+      "spend": 93494.77049010564,
       "PR": 0,
       "CORE": 1,
-      "FULL": 5,
+      "FULL": 7,
       "GT": 0,
-      "PO": 1
+      "PO": 0
      },
      "FY2027": {
       "visits": 11,
-      "spend": 127870.88909074038,
+      "spend": 132122.1071373116,
       "PR": 0,
       "CORE": 0,
       "FULL": 11,
       "GT": 0,
-      "PO": 3
+      "PO": 1
      },
      "FY2028": {
       "visits": 0,
-      "spend": -5475.33,
+      "spend": -7306.38,
       "PR": 0,
       "CORE": 0,
       "FULL": 0,
       "GT": 0,
-      "PO": 3
+      "PO": 4
      }
     },
-    "shop_visits": 17,
+    "shop_visits": 19,
     "midlife_swaps": 0,
-    "partouts": 7,
+    "partouts": 5,
     "long_spares": 0,
-    "emergency_kits": 2,
-    "early_months": 47,
+    "emergency_kits": 6,
+    "early_months": 46,
     "rush": 0,
     "shops": {
-     "MTU-ZH": 17,
-     "PARTOUT": 7
+     "MTU-ZH": 19,
+     "PARTOUT": 5
     },
     "relaxed": [
      "budget"
     ]
    },
    "delta": {
-    "total_cost": -58027.329590652385,
-    "p90": -67377.73109897871,
-    "aog_prob": 0.201,
-    "shop_visits": -7,
+    "total_cost": -38879.79114446338,
+    "p90": -44786.42314419814,
+    "aog_prob": 0.003500000000000003,
+    "shop_visits": -5,
     "midlife_swaps": 0,
-    "partouts": 7,
+    "partouts": 5,
     "long_spares": 0,
-    "emergency_kits": -3,
-    "early_months": 4,
+    "emergency_kits": 1,
+    "early_months": 11,
     "rush": 0,
-    "committed": -47280.0,
-    "recourse": -10747.329590652378,
-    "recourse_p90": -20097.731098978715,
-    "premium": -47280.0,
-    "payout": 10747.329590652378,
+    "committed": -33405.0,
+    "recourse": -5474.791144463379,
+    "recourse_p90": -11381.423144198132,
+    "premium": -33405.0,
+    "payout": 5474.791144463379,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": -3,
-      "spend": -38008.35654267797
+      "visits": 0,
+      "spend": 148.95310383586911
      },
      "FY2027": {
-      "visits": 1,
-      "spend": 5950.696292348555
+      "visits": 0,
+      "spend": -2540.864907976298
      },
      "FY2028": {
       "visits": -5,
-      "spend": -66592.64434032282
+      "spend": -68423.69434032282
      }
     },
     "shops": {
-     "MTU-ZH": -7,
-     "PARTOUT": 7
+     "MTU-ZH": -5,
+     "PARTOUT": 5
     }
    }
   },
@@ -1977,13 +1977,13 @@
    "case": "transition",
    "feasible": true,
    "summary": {
-    "total_cost": -5402.659506784845,
-    "p90": 2980.662372335976,
-    "committed": -9410.0,
-    "recourse": 4007.340493215154,
-    "recourse_p90": 12390.662372335975,
+    "total_cost": 42782.73749159839,
+    "p90": 61426.89874394312,
+    "committed": 31990.0,
+    "recourse": 10792.737491598396,
+    "recourse_p90": 29436.898743943126,
     "recourse_parts": {
-     "overrun": 4007.340493215154,
+     "overrun": 10792.737491598396,
      "lease": 0.0,
      "substitute": 0.0,
      "aog": 0.0,
@@ -1992,79 +1992,79 @@
     "aog_prob": 0.0,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 3,
-      "spend": 29097.28734743203,
+      "visits": 4,
+      "spend": 41207.48759052238,
       "PR": 0,
       "CORE": 1,
-      "FULL": 2,
+      "FULL": 3,
       "GT": 0,
       "PO": 2
      },
      "FY2027": {
-      "visits": 0,
-      "spend": -24214.32,
+      "visits": 4,
+      "spend": 31816.689294596956,
       "PR": 0,
       "CORE": 0,
-      "FULL": 0,
+      "FULL": 4,
       "GT": 0,
-      "PO": 13
+      "PO": 9
      },
      "FY2028": {
-      "visits": 2,
-      "spend": 17224.37314578314,
+      "visits": 3,
+      "spend": 33148.560606479165,
       "PR": 0,
       "CORE": 0,
-      "FULL": 2,
+      "FULL": 3,
       "GT": 0,
-      "PO": 4
+      "PO": 2
      }
     },
-    "shop_visits": 5,
+    "shop_visits": 11,
     "midlife_swaps": 0,
-    "partouts": 19,
+    "partouts": 13,
     "long_spares": 0,
     "emergency_kits": 0,
-    "early_months": 2,
+    "early_months": 18,
     "rush": 0,
     "shops": {
-     "MTU-ZH": 5,
-     "PARTOUT": 19
+     "MTU-ZH": 11,
+     "PARTOUT": 13
     },
     "relaxed": []
    },
    "delta": {
-    "total_cost": -156864.45373857726,
-    "p90": -185958.08905143107,
-    "aog_prob": -0.0245,
-    "shop_visits": -19,
+    "total_cost": -109204.24128028206,
+    "p90": -127896.47794069837,
+    "aog_prob": -0.158,
+    "shop_visits": -13,
     "midlife_swaps": 0,
-    "partouts": 19,
+    "partouts": 13,
     "long_spares": 0,
     "emergency_kits": -5,
-    "early_months": -41,
+    "early_months": -17,
     "rush": 0,
-    "committed": -130665.0,
-    "recourse": -26199.453738577253,
-    "recourse_p90": -55293.08905143107,
-    "premium": -130665.0,
-    "payout": 26199.453738577253,
+    "committed": -88905.0,
+    "recourse": -20299.241280282033,
+    "recourse_p90": -38991.47794069836,
+    "premium": -88905.0,
+    "payout": 20299.241280282033,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": -6,
-      "spend": -76344.4797456458
+      "visits": -4,
+      "spend": -52138.32979574739
      },
      "FY2027": {
-      "visits": -10,
-      "spend": -146134.51279839184
+      "visits": -7,
+      "spend": -102846.28275069094
      },
      "FY2028": {
-      "visits": -3,
-      "spend": -43892.941194539686
+      "visits": -2,
+      "spend": -27968.75373384366
      }
     },
     "shops": {
-     "MTU-ZH": -19,
-     "PARTOUT": 19
+     "MTU-ZH": -13,
+     "PARTOUT": 13
     }
    }
   },
@@ -2075,35 +2075,35 @@
    "case": "crunch",
    "feasible": true,
    "summary": {
-    "total_cost": 156699.66136865516,
-    "p90": 194357.53478274622,
-    "committed": 120985.0,
-    "recourse": 35714.66136865514,
-    "recourse_p90": 73372.53478274624,
+    "total_cost": 156948.67390889043,
+    "p90": 194226.6274734066,
+    "committed": 120940.0,
+    "recourse": 36008.67390889043,
+    "recourse_p90": 73286.6274734066,
     "recourse_parts": {
-     "overrun": 26660.131368655144,
-     "lease": 18.2,
+     "overrun": 26667.478908890425,
+     "lease": 100.36,
      "substitute": 0.0,
-     "aog": 36.33,
+     "aog": 240.835,
      "emergency_kits": 9000.0
     },
-    "aog_prob": 0.0285,
+    "aog_prob": 0.1795,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 105441.76709307783,
+      "visits": 8,
+      "spend": 93345.81738626977,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 122921.04993525456,
+      "visits": 11,
+      "spend": 135024.3471822979,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -2122,7 +2122,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 10,
-    "early_months": 37,
+    "early_months": 36,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -2132,21 +2132,21 @@
     ]
    },
    "delta": {
-    "total_cost": 5237.86713686274,
-    "p90": 5418.783358979184,
-    "aog_prob": 0.004,
+    "total_cost": 4961.695137009985,
+    "p90": 4903.250788765115,
+    "aog_prob": 0.02149999999999999,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 5,
-    "early_months": -6,
+    "early_months": 1,
     "rush": 0,
-    "committed": -270.0,
-    "recourse": 5507.8671368627365,
-    "recourse_p90": 5688.783358979199,
-    "premium": -270.0,
-    "payout": -5507.8671368627365,
+    "committed": 45.0,
+    "recourse": 4916.69513701,
+    "recourse_p90": 4858.250788765115,
+    "premium": 45.0,
+    "payout": -4916.69513701,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -2154,7 +2154,7 @@
      },
      "FY2027": {
       "visits": 0,
-      "spend": 1000.8571368627308
+      "spend": 361.37513701000717
      },
      "FY2028": {
       "visits": 0,
@@ -2175,35 +2175,35 @@
    "case": "crunch",
    "feasible": true,
    "summary": {
-    "total_cost": 156579.66136865516,
-    "p90": 194237.53478274622,
-    "committed": 122665.0,
-    "recourse": 33914.66136865514,
-    "recourse_p90": 71572.53478274624,
+    "total_cost": 156828.67390889043,
+    "p90": 194106.6274734066,
+    "committed": 122620.0,
+    "recourse": 34208.67390889043,
+    "recourse_p90": 71486.6274734066,
     "recourse_parts": {
-     "overrun": 26660.131368655144,
-     "lease": 18.2,
+     "overrun": 26667.478908890425,
+     "lease": 100.36,
      "substitute": 0.0,
-     "aog": 36.33,
+     "aog": 240.835,
      "emergency_kits": 7200.0
     },
-    "aog_prob": 0.0285,
+    "aog_prob": 0.1795,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 9,
-      "spend": 105441.76709307783,
+      "visits": 8,
+      "spend": 93345.81738626977,
       "PR": 0,
       "CORE": 1,
-      "FULL": 8,
+      "FULL": 7,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
-      "visits": 10,
-      "spend": 122921.04993525456,
+      "visits": 11,
+      "spend": 135024.3471822979,
       "PR": 0,
       "CORE": 0,
-      "FULL": 10,
+      "FULL": 11,
       "GT": 0,
       "PO": 0
      },
@@ -2222,7 +2222,7 @@
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 8,
-    "early_months": 37,
+    "early_months": 36,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -2232,21 +2232,21 @@
     ]
    },
    "delta": {
-    "total_cost": 5117.86713686274,
-    "p90": 5298.783358979184,
-    "aog_prob": 0.004,
+    "total_cost": 4841.695137009985,
+    "p90": 4783.250788765115,
+    "aog_prob": 0.02149999999999999,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
     "long_spares": 0,
     "emergency_kits": 3,
-    "early_months": -6,
+    "early_months": 1,
     "rush": 0,
-    "committed": 1410.0,
-    "recourse": 3707.8671368627365,
-    "recourse_p90": 3888.783358979199,
-    "premium": 1410.0,
-    "payout": -3707.8671368627365,
+    "committed": 1725.0,
+    "recourse": 3116.6951370099996,
+    "recourse_p90": 3058.2507887651154,
+    "premium": 1725.0,
+    "payout": -3116.6951370099996,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -2254,7 +2254,7 @@
      },
      "FY2027": {
       "visits": 0,
-      "spend": 1000.8571368627308
+      "spend": 361.37513701000717
      },
      "FY2028": {
       "visits": 0,
@@ -2273,32 +2273,32 @@
    "case": "stress",
    "feasible": true,
    "summary": {
-    "total_cost": 157891.1886507967,
-    "p90": 195056.8869898238,
-    "committed": 121480.0,
-    "recourse": 36411.18865079671,
-    "recourse_p90": 73576.8869898238,
+    "total_cost": 161675.64078559203,
+    "p90": 199229.50689688855,
+    "committed": 122890.0,
+    "recourse": 38785.64078559199,
+    "recourse_p90": 76339.50689688855,
     "recourse_parts": {
-     "overrun": 26409.428650796704,
-     "lease": 26.65,
+     "overrun": 28510.745785591993,
+     "lease": 120.9,
      "substitute": 0.0,
-     "aog": 75.11,
+     "aog": 253.995,
      "emergency_kits": 9900.0
     },
-    "aog_prob": 0.055,
+    "aog_prob": 0.165,
     "by_fiscal_year": {
      "FY2026": {
-      "visits": 7,
-      "spend": 81278.83934900677,
+      "visits": 6,
+      "spend": 69147.40081729922,
       "PR": 0,
       "CORE": 1,
-      "FULL": 6,
+      "FULL": 5,
       "GT": 0,
       "PO": 0
      },
      "FY2027": {
       "visits": 13,
-      "spend": 158874.2246937799,
+      "spend": 160790.8540759453,
       "PR": 0,
       "CORE": 0,
       "FULL": 13,
@@ -2306,11 +2306,11 @@
       "PO": 0
      },
      "FY2028": {
-      "visits": 4,
-      "spend": 49076.364608010066,
+      "visits": 5,
+      "spend": 61392.49089234751,
       "PR": 0,
       "CORE": 0,
-      "FULL": 4,
+      "FULL": 5,
       "GT": 0,
       "PO": 0
      }
@@ -2318,9 +2318,9 @@
     "shop_visits": 24,
     "midlife_swaps": 0,
     "partouts": 0,
-    "long_spares": 0,
+    "long_spares": 1,
     "emergency_kits": 11,
-    "early_months": 48,
+    "early_months": 34,
     "rush": 0,
     "shops": {
      "MTU-ZH": 24
@@ -2330,33 +2330,33 @@
     ]
    },
    "delta": {
-    "total_cost": 6429.394419004297,
-    "p90": 6118.135566056764,
-    "aog_prob": 0.0305,
+    "total_cost": 9688.662013711582,
+    "p90": 9906.130212247052,
+    "aog_prob": 0.007000000000000006,
     "shop_visits": 0,
     "midlife_swaps": 0,
     "partouts": 0,
-    "long_spares": 0,
+    "long_spares": 1,
     "emergency_kits": 6,
-    "early_months": 5,
+    "early_months": -1,
     "rush": 0,
-    "committed": 225.0,
-    "recourse": 6204.3944190043,
-    "recourse_p90": 5893.135566056764,
-    "premium": 225.0,
-    "payout": -6204.3944190043,
+    "committed": 1995.0,
+    "recourse": 7693.662013711561,
+    "recourse_p90": 7911.130212247066,
+    "premium": 1995.0,
+    "payout": -7693.662013711561,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -2,
-      "spend": -24162.927744071058
+      "spend": -24198.416568970555
      },
      "FY2027": {
-      "visits": 3,
-      "spend": 36954.03189538806
+      "visits": 2,
+      "spend": 26127.882030657405
      },
      "FY2028": {
-      "visits": -1,
-      "spend": -12040.949732312758
+      "visits": 0,
+      "spend": 275.1765520246845
      }
     },
     "shops": {

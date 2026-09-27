@@ -1,0 +1,133 @@
+{
+ "company": "ana",
+ "as_of": "2027-09",
+ "k": 12,
+ "target": 0.05,
+ "in_shop_now": 5,
+ "planned_to_come": 6,
+ "months": [
+  {
+   "t": 12,
+   "label": "2027-10",
+   "required": 78,
+   "buffer": 3,
+   "in_shop_mean": 5.904,
+   "serviceable_mean": 80.096,
+   "serviceable_p10": 79.0,
+   "margin_mean": -0.904,
+   "p_aog": 0.00175,
+   "p_margin_gone": 0.73375
+  },
+  {
+   "t": 13,
+   "label": "2027-11",
+   "required": 74,
+   "buffer": 3,
+   "in_shop_mean": 7.14175,
+   "serviceable_mean": 78.85825,
+   "serviceable_p10": 77.0,
+   "margin_mean": 1.85825,
+   "p_aog": 0.0,
+   "p_margin_gone": 0.0215
+  },
+  {
+   "t": 14,
+   "label": "2027-12",
+   "required": 74,
+   "buffer": 3,
+   "in_shop_mean": 7.17275,
+   "serviceable_mean": 78.82725,
+   "serviceable_p10": 77.0,
+   "margin_mean": 1.82725,
+   "p_aog": 0.00025,
+   "p_margin_gone": 0.037
+  },
+  {
+   "t": 15,
+   "label": "2028-01",
+   "required": 66,
+   "buffer": 3,
+   "in_shop_mean": 5.99375,
+   "serviceable_mean": 80.00625,
+   "serviceable_p10": 78.0,
+   "margin_mean": 11.00625,
+   "p_aog": 0.0,
+   "p_margin_gone": 0.0
+  },
+  {
+   "t": 16,
+   "label": "2028-02",
+   "required": 66,
+   "buffer": 3,
+   "in_shop_mean": 6.2075,
+   "serviceable_mean": 79.7925,
+   "serviceable_p10": 78.0,
+   "margin_mean": 10.7925,
+   "p_aog": 0.0,
+   "p_margin_gone": 0.0
+  },
+  {
+   "t": 17,
+   "label": "2028-03",
+   "required": 78,
+   "buffer": 3,
+   "in_shop_mean": 6.5,
+   "serviceable_mean": 79.5,
+   "serviceable_p10": 78.0,
+   "margin_mean": -1.5,
+   "p_aog": 0.0395,
+   "p_margin_gone": 0.85075
+  }
+ ],
+ "worst": {
+  "t": 12,
+  "label": "2027-10",
+  "required": 78,
+  "buffer": 3,
+  "in_shop_mean": 5.904,
+  "serviceable_mean": 80.096,
+  "serviceable_p10": 79.0,
+  "margin_mean": -0.904,
+  "p_aog": 0.00175,
+  "p_margin_gone": 0.73375
+ },
+ "triggered": false,
+ "fix": {
+  "short_lease_engines": 0,
+  "cap": 2,
+  "months": 3,
+  "cost_k": 0,
+  "p_aog_after": 0.00175,
+  "enough": true,
+  "what": "追加不要"
+ },
+ "levers": [
+  {
+   "actions": [
+    "slots"
+   ],
+   "question": "工場の枠を 2 つ事前確保したら",
+   "cost_k": 806.2107607633516,
+   "aog_delta": -0.004500000000000004
+  },
+  {
+   "actions": [
+    "pool"
+   ],
+   "question": "エンジン・プール契約を結んだら",
+   "cost_k": 713.7370436968922,
+   "aog_delta": -0.1335
+  },
+  {
+   "actions": [
+    "spares"
+   ],
+   "question": "予備エンジンを 2 基増やしたら",
+   "cost_k": 3557.2854599119746,
+   "aog_delta": -0.1335
+  }
+ ],
+ "verdict": "見張りは静か：3 か月先までの欠航確率は最大 0.2%（目標 5%）",
+ "rule": "実績が入るたびに 6 か月先まで見る。3 か月先までの欠航確率が目標を超えたら月次会議を待たずに解き直す（短期リース → 予備・プール・代替運航の順）",
+ "note": "工場の遅れの分布・計画外取卸しの率・工期は入力の前提。合成データ"
+}

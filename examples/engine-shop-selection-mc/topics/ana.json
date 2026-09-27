@@ -44,7 +44,7 @@
      "loop": "PDCA",
      "stage": "Plan",
      "severity": "warn",
-     "finding": "FY2026 の予算前提が計画と合わない（+124%）",
+     "finding": "FY2026 の予算前提が計画と合わない（+99%）",
      "ask": "予算を直すのか、入場を前後の年度へ動かすのか。どちらも決めないまま回す年にしない"
     },
     {
@@ -63,8 +63,8 @@
      "when": "次の契約更新（2026 年、未確認）",
      "deadline": "更新の 6 か月前",
      "trigger": "追跡の例外のうち費用超過が過半（今回 17／24）",
-     "expected_delta_k": -3495.0456861154235,
-     "aog_delta_pt": -0.025000000000000022
+     "expected_delta_k": -3505.914078991016,
+     "aog_delta_pt": 0
     }
    ],
    "exceptions": [],
@@ -131,7 +131,7 @@
      "loop": "OODA",
      "stage": "Decide",
      "severity": "warn",
-     "finding": "分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +1.0 百万ドル",
+     "finding": "分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +1.4 百万ドル",
      "ask": "承認線 v を年次で見直す（追加作業の延びる月数の実績で）"
     },
     {
@@ -166,7 +166,7 @@
      "loop": "OODA",
      "stage": "Decide",
      "severity": "info",
-     "finding": "暗黙のルールで決めた 6 件、会議へ 12 件",
+     "finding": "暗黙のルールで決めた 5 件、会議へ 12 件",
      "ask": "会議に回した件は、ルールにできないか"
     },
     {
@@ -187,14 +187,14 @@
      "loop": "PDCA",
      "stage": "Act",
      "severity": "info",
-     "finding": "delay の学習は 5 件の実績（重み 29%）",
+     "finding": "delay の学習は 4 件の実績（重み 25%）",
      "ask": "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない"
     },
     {
      "loop": "PDCA",
      "stage": "Act",
      "severity": "info",
-     "finding": "findings の学習は 5 件の実績（重み 29%）",
+     "finding": "findings の学習は 4 件の実績（重み 25%）",
      "ask": "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない"
     },
     {
@@ -259,7 +259,7 @@
    "triggers": [
     {
      "name": "暗黙のルールと承認線 v",
-     "evidence": "分解の追加作業の純額 +1.0 百万ドル"
+     "evidence": "分解の追加作業の純額 +1.4 百万ドル"
     }
    ],
    "status": "warn",
@@ -268,6 +268,157 @@
     "findings": 19,
     "actions": 0,
     "exceptions": 0,
+    "triggers": 1
+   }
+  },
+  {
+   "id": "supply",
+   "name": "部品と工場",
+   "what": "LLP キットの納期、工場の枠と工期、所見と費用超過、第二工場",
+   "owner": "調達・整備計画",
+   "views": [
+    "cpd",
+    "playbook",
+    "actions",
+    "invest"
+   ],
+   "assumptions": [
+    {
+     "key": "tat_findings",
+     "name": "工期・所見・費用超過",
+     "cadence_months": 12,
+     "trigger": "変化点検知（週次の見積もり工期・枠回答）",
+     "last_derived": "2027-10",
+     "status": "ok",
+     "owner": "整備計画・調達"
+    },
+    {
+     "key": "kit_lead",
+     "name": "LLP キットの納期",
+     "cadence_months": 12,
+     "trigger": "変化点検知（週次のキット納期回答）",
+     "last_derived": "2027-10",
+     "status": "fired",
+     "owner": "調達"
+    },
+    {
+     "key": "shop_capacity",
+     "name": "工場の枠と容量反応",
+     "cadence_months": 12,
+     "trigger": "枠の回答が 2 か月以上遅れる",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "調達・経営"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "OODA",
+     "stage": "Orient",
+     "severity": "warn",
+     "finding": "前提「LLP キットの納期」の引き金が引かれた",
+     "ask": "調達が年次を待たず月次会議へ（影響先 判断期限 R・先行発注・緊急キット）"
+    },
+    {
+     "loop": "OODA",
+     "stage": "Observe",
+     "severity": "info",
+     "finding": "警報の出た先行指標",
+     "ask": "その指標の出所（工場・サプライヤーの回答ログ）を実データでつなぐ"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "info",
+     "finding": "計画開始前に手配済みを前提にした判断 9 件",
+     "ask": "手配済みの前提（枠・キット）が本当に済んでいるか、月次の最初に確認する"
+    },
+    {
+     "loop": "OODA",
+     "stage": "Decide",
+     "severity": "ok",
+     "finding": "エンジン不足の見張り：見張りは静か：3 か月先までの欠航確率は最大 0.2%（目標 5%）",
+     "ask": ""
+    }
+   ],
+   "actions": [
+    {
+     "key": "kits",
+     "label": "① キットの先行発注・プール（変化点検知に連動）",
+     "who": "調達",
+     "when": "変化点検知がキット納期で警報を出した月（今回は 2 か月目）",
+     "deadline": "判断期限 R = キット納期 8 か月の前",
+     "trigger": "先行指標『LLP キット納期回答（週）』の変化点",
+     "expected_delta_k": -43.12155491637532,
+     "aog_delta_pt": 0
+    },
+    {
+     "key": "second",
+     "label": "③ 第二工場の枠組み契約（選択権、新設しない）",
+     "who": "調達・経営",
+     "when": "年次の版（型式の晩年に入っているので早めに）",
+     "deadline": "工場の枠が 9／10 を超える前",
+     "trigger": "枠の回答が 2 か月以上遅れる／混雑の世界の確率が 30% を超える",
+     "expected_delta_k": -435.60469876352,
+     "aog_delta_pt": -1.6625640597824856
+    }
+   ],
+   "exceptions": [
+    {
+     "as_of": "2027-03",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-04",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-05",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-06",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-07",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-08",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-09",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "LLP キットの納期",
+     "evidence": "変化点検知：LLP キット納期回答（週）"
+    }
+   ],
+   "status": "warn",
+   "counts": {
+    "assumptions": 3,
+    "findings": 4,
+    "actions": 2,
+    "exceptions": 7,
     "triggers": 1
    }
   },
@@ -346,150 +497,6 @@
     "findings": 3,
     "actions": 0,
     "exceptions": 0,
-    "triggers": 1
-   }
-  },
-  {
-   "id": "supply",
-   "name": "部品と工場",
-   "what": "LLP キットの納期、工場の枠と工期、所見と費用超過、第二工場",
-   "owner": "調達・整備計画",
-   "views": [
-    "cpd",
-    "playbook",
-    "actions",
-    "invest"
-   ],
-   "assumptions": [
-    {
-     "key": "tat_findings",
-     "name": "工期・所見・費用超過",
-     "cadence_months": 12,
-     "trigger": "変化点検知（週次の見積もり工期・枠回答）",
-     "last_derived": "2027-10",
-     "status": "ok",
-     "owner": "整備計画・調達"
-    },
-    {
-     "key": "kit_lead",
-     "name": "LLP キットの納期",
-     "cadence_months": 12,
-     "trigger": "変化点検知（週次のキット納期回答）",
-     "last_derived": "2027-10",
-     "status": "fired",
-     "owner": "調達"
-    },
-    {
-     "key": "shop_capacity",
-     "name": "工場の枠と容量反応",
-     "cadence_months": 12,
-     "trigger": "枠の回答が 2 か月以上遅れる",
-     "last_derived": "2026-10",
-     "status": "ok",
-     "owner": "調達・経営"
-    }
-   ],
-   "findings": [
-    {
-     "loop": "OODA",
-     "stage": "Orient",
-     "severity": "warn",
-     "finding": "前提「LLP キットの納期」の引き金が引かれた",
-     "ask": "調達が年次を待たず月次会議へ（影響先 判断期限 R・先行発注・緊急キット）"
-    },
-    {
-     "loop": "OODA",
-     "stage": "Observe",
-     "severity": "info",
-     "finding": "警報の出た先行指標",
-     "ask": "その指標の出所（工場・サプライヤーの回答ログ）を実データでつなぐ"
-    },
-    {
-     "loop": "PDCA",
-     "stage": "Plan",
-     "severity": "info",
-     "finding": "計画開始前に手配済みを前提にした判断 9 件",
-     "ask": "手配済みの前提（枠・キット）が本当に済んでいるか、月次の最初に確認する"
-    }
-   ],
-   "actions": [
-    {
-     "key": "kits",
-     "label": "① キットの先行発注・プール（変化点検知に連動）",
-     "who": "調達",
-     "when": "変化点検知がキット納期で警報を出した月（今回は 2 か月目）",
-     "deadline": "判断期限 R = キット納期 8 か月の前",
-     "trigger": "先行指標『LLP キット納期回答（週）』の変化点",
-     "expected_delta_k": -43.12155491637532,
-     "aog_delta_pt": 0
-    },
-    {
-     "key": "second",
-     "label": "③ 第二工場の枠組み契約（選択権、新設しない）",
-     "who": "調達・経営",
-     "when": "年次の版（型式の晩年に入っているので早めに）",
-     "deadline": "工場の枠が 9／10 を超える前",
-     "trigger": "枠の回答が 2 か月以上遅れる／混雑の世界の確率が 30% を超える",
-     "expected_delta_k": -499.74935504759196,
-     "aog_delta_pt": 1.35
-    }
-   ],
-   "exceptions": [
-    {
-     "as_of": "2027-03",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    },
-    {
-     "as_of": "2027-04",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    },
-    {
-     "as_of": "2027-05",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    },
-    {
-     "as_of": "2027-06",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    },
-    {
-     "as_of": "2027-07",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    },
-    {
-     "as_of": "2027-08",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    },
-    {
-     "as_of": "2027-09",
-     "esn": "A-124",
-     "kind": "費用超過",
-     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
-    }
-   ],
-   "triggers": [
-    {
-     "name": "LLP キットの納期",
-     "evidence": "変化点検知：LLP キット納期回答（週）"
-    }
-   ],
-   "status": "warn",
-   "counts": {
-    "assumptions": 3,
-    "findings": 3,
-    "actions": 2,
-    "exceptions": 7,
     "triggers": 1
    }
   },

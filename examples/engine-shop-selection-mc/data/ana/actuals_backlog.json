@@ -59,17 +59,17 @@
    "reason": "planned"
   },
   {
-   "esn": "A-153",
-   "month": "2027-02",
-   "t": 4,
+   "esn": "A-130",
+   "month": "2027-03",
+   "t": 5,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-130",
-   "month": "2027-03",
-   "t": 5,
+   "esn": "A-153",
+   "month": "2027-05",
+   "t": 7,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
@@ -83,7 +83,7 @@
    "reason": "planned"
   },
   {
-   "esn": "A-178",
+   "esn": "A-121",
    "month": "2027-06",
    "t": 8,
    "shop": "MTU-ZH",
@@ -99,25 +99,9 @@
    "reason": "planned"
   },
   {
-   "esn": "A-121",
-   "month": "2027-08",
-   "t": 10,
-   "shop": "MTU-ZH",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
    "esn": "A-165",
    "month": "2027-08",
    "t": 10,
-   "shop": "MTU-ZH",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-105",
-   "month": "2027-09",
-   "t": 11,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
@@ -167,12 +151,6 @@
    "cost_k": 10491
   },
   {
-   "esn": "A-153",
-   "month": "2027-08",
-   "t": 10,
-   "cost_k": 12206
-  },
-  {
    "esn": "A-130",
    "month": "2027-09",
    "t": 11,
@@ -203,7 +181,7 @@
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "A-178",
+   "esn": "A-121",
    "lead_months": 9
   },
   {
@@ -215,24 +193,24 @@
   {
    "month": "2026-12",
    "t": 2,
-   "esn": "A-121",
-   "lead_months": 8
-  },
-  {
-   "month": "2026-12",
-   "t": 2,
    "esn": "A-165",
    "lead_months": 8
   },
   {
-   "month": "2027-01",
-   "t": 3,
+   "month": "2027-02",
+   "t": 4,
+   "esn": "A-178",
+   "lead_months": 8
+  },
+  {
+   "month": "2027-03",
+   "t": 5,
    "esn": "A-105",
    "lead_months": 10
   },
   {
-   "month": "2027-02",
-   "t": 4,
+   "month": "2027-03",
+   "t": 5,
    "esn": "A-163",
    "lead_months": 6
   },

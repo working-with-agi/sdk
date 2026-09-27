@@ -168,20 +168,20 @@
   {
    "esn": "A-105",
    "in_window_plan": true,
-   "retire_t": 60,
-   "retire": "2031-10",
+   "retire_t": 62,
+   "retire": "2031-12",
    "visits": 1,
    "spend_k": 11000,
    "chain": [
     {
-     "t": 11,
-     "label": "2027-09",
+     "t": 13,
+     "label": "2027-11",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 14.6,
-     "llp_before": 2356,
+     "margin_before": 13.1,
+     "llp_before": 2039,
      "lasts_months": 90.3
     }
    ],
@@ -190,20 +190,20 @@
    "residual_value_k": 3468,
    "green_time": false,
    "last_visit": {
-    "t": 11,
-    "label": "2027-09",
+    "t": 13,
+    "label": "2027-11",
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 14.6,
-    "llp_before": 2356,
+    "margin_before": 13.1,
+    "llp_before": 2039,
     "lasts_months": 90.3
    },
    "last_visit_to_exit_months": 49,
    "heavy_late": false,
    "due_in_at_exit": 46.3,
-   "note": "2027-09 FULL（計画）のあと退役まで 49 か月"
+   "note": "2027-11 FULL（計画）のあと退役まで 49 か月"
   },
   {
    "esn": "A-107",
@@ -414,15 +414,15 @@
    "spend_k": 11000,
    "chain": [
     {
-     "t": 10,
-     "label": "2027-08",
+     "t": 8,
+     "label": "2027-06",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 12.9,
-     "llp_before": 1577,
-     "lasts_months": 63.6
+     "margin_before": 13.9,
+     "llp_before": 1894,
+     "lasts_months": 65.6
     }
    ],
    "residual_llp_cycles": 6985,
@@ -430,20 +430,20 @@
    "residual_value_k": 2217,
    "green_time": false,
    "last_visit": {
-    "t": 10,
-    "label": "2027-08",
+    "t": 8,
+    "label": "2027-06",
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 12.9,
-    "llp_before": 1577,
-    "lasts_months": 63.6
+    "margin_before": 13.9,
+    "llp_before": 1894,
+    "lasts_months": 65.6
    },
-   "last_visit_to_exit_months": 34,
+   "last_visit_to_exit_months": 36,
    "heavy_late": false,
    "due_in_at_exit": 34.6,
-   "note": "2027-08 FULL（計画）のあと退役まで 34 か月"
+   "note": "2027-06 FULL（計画）のあと退役まで 36 か月"
   },
   {
    "esn": "A-124",
@@ -823,15 +823,15 @@
    "spend_k": 11000,
    "chain": [
     {
-     "t": 4,
-     "label": "2027-02",
+     "t": 7,
+     "label": "2027-05",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 35.9,
-     "llp_before": 2058,
-     "lasts_months": 66.7
+     "margin_before": 34.4,
+     "llp_before": 1583,
+     "lasts_months": 63.7
     }
    ],
    "residual_llp_cycles": 7150,
@@ -839,20 +839,20 @@
    "residual_value_k": 2284,
    "green_time": false,
    "last_visit": {
-    "t": 4,
-    "label": "2027-02",
+    "t": 7,
+    "label": "2027-05",
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 35.9,
-    "llp_before": 2058,
-    "lasts_months": 66.7
+    "margin_before": 34.4,
+    "llp_before": 1583,
+    "lasts_months": 63.7
    },
-   "last_visit_to_exit_months": 36,
+   "last_visit_to_exit_months": 33,
    "heavy_late": false,
    "due_in_at_exit": 35.7,
-   "note": "2027-02 FULL（計画）のあと退役まで 36 か月"
+   "note": "2027-05 FULL（計画）のあと退役まで 33 か月"
   },
   {
    "esn": "A-163",
@@ -863,36 +863,36 @@
    "spend_k": 11000,
    "chain": [
     {
-     "t": 12,
-     "label": "2027-10",
+     "t": 13,
+     "label": "2027-11",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 45.2,
-     "llp_before": 1891,
+     "margin_before": 44.8,
+     "llp_before": 1733,
      "lasts_months": 116.8
     }
    ],
-   "residual_llp_cycles": 10658,
-   "residual_run_months": 57.8,
-   "residual_value_k": 3702,
+   "residual_llp_cycles": 10816,
+   "residual_run_months": 58.8,
+   "residual_value_k": 3766,
    "green_time": true,
    "last_visit": {
-    "t": 12,
-    "label": "2027-10",
+    "t": 13,
+    "label": "2027-11",
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 45.2,
-    "llp_before": 1891,
+    "margin_before": 44.8,
+    "llp_before": 1733,
     "lasts_months": 116.8
    },
-   "last_visit_to_exit_months": 64,
+   "last_visit_to_exit_months": 63,
    "heavy_late": false,
-   "due_in_at_exit": 57.8,
-   "note": "2027-10 FULL（計画）のあと退役まで 64 か月"
+   "due_in_at_exit": 58.8,
+   "note": "2027-11 FULL（計画）のあと退役まで 63 か月"
   },
   {
    "esn": "A-164",
@@ -983,36 +983,36 @@
    "spend_k": 11000,
    "chain": [
     {
-     "t": 8,
-     "label": "2027-06",
+     "t": 12,
+     "label": "2027-10",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 46.0,
-     "llp_before": 2167,
+     "margin_before": 44.5,
+     "llp_before": 1533,
      "lasts_months": 116.8
     }
    ],
-   "residual_llp_cycles": 10341,
-   "residual_run_months": 55.8,
-   "residual_value_k": 3574,
+   "residual_llp_cycles": 10975,
+   "residual_run_months": 59.8,
+   "residual_value_k": 3830,
    "green_time": true,
    "last_visit": {
-    "t": 8,
-    "label": "2027-06",
+    "t": 12,
+    "label": "2027-10",
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 46.0,
-    "llp_before": 2167,
+    "margin_before": 44.5,
+    "llp_before": 1533,
     "lasts_months": 116.8
    },
-   "last_visit_to_exit_months": 66,
+   "last_visit_to_exit_months": 62,
    "heavy_late": false,
-   "due_in_at_exit": 55.8,
-   "note": "2027-06 FULL（計画）のあと退役まで 66 か月"
+   "due_in_at_exit": 59.8,
+   "note": "2027-10 FULL（計画）のあと退役まで 62 か月"
   },
   {
    "esn": "A-182",
@@ -2087,20 +2087,20 @@
   {
    "esn": "A-177",
    "in_window_plan": false,
-   "retire_t": 62,
-   "retire": "2031-12",
+   "retire_t": 60,
+   "retire": "2031-10",
    "visits": 0,
    "spend_k": 0,
    "chain": [],
-   "residual_llp_cycles": 10341,
-   "residual_run_months": 45.0,
-   "residual_value_k": 3084,
+   "residual_llp_cycles": 10658,
+   "residual_run_months": 47.0,
+   "residual_value_k": 3212,
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
    "heavy_late": false,
-   "due_in_at_exit": 45.0,
-   "note": "窓の外の機（状態はシミュレーションの続き）。入場なしで退役、翼上 45 か月を残す"
+   "due_in_at_exit": 47.0,
+   "note": "窓の外の機（状態はシミュレーションの続き）。入場なしで退役、翼上 47 か月を残す"
   },
   {
    "esn": "A-179",
@@ -2337,7 +2337,7 @@
   "engines": 86,
   "visits": 24,
   "spend_k": 260900,
-  "residual_value_k": 180669,
+  "residual_value_k": 181117,
   "after_window_visits": 0,
   "after_window_spend_k": 0,
   "green_time_engines": 8,
@@ -2431,9 +2431,9 @@
   "A-166",
   "A-136",
   "A-176",
-  "A-105",
   "A-162",
   "A-177",
+  "A-105",
   "A-158",
   "A-174",
   "A-116",
@@ -2455,23 +2455,23 @@
    "t": 0,
    "label": "2026-10",
    "aircraft": 39,
-   "required": 70,
+   "required": 78,
    "buffer": 3,
    "owned": 86,
    "in_shop": 6,
    "serviceable": 80,
-   "margin": 7
+   "margin": -1
   },
   {
    "t": 1,
    "label": "2026-11",
    "aircraft": 39,
-   "required": 68,
+   "required": 74,
    "buffer": 3,
    "owned": 86,
    "in_shop": 7,
    "serviceable": 79,
-   "margin": 8
+   "margin": 2
   },
   {
    "t": 2,
@@ -2488,34 +2488,34 @@
    "t": 3,
    "label": "2027-01",
    "aircraft": 39,
-   "required": 64,
+   "required": 66,
    "buffer": 3,
    "owned": 86,
    "in_shop": 6,
    "serviceable": 80,
-   "margin": 13
+   "margin": 11
   },
   {
    "t": 4,
    "label": "2027-02",
    "aircraft": 39,
-   "required": 62,
+   "required": 66,
    "buffer": 3,
    "owned": 86,
    "in_shop": 7,
    "serviceable": 79,
-   "margin": 14
+   "margin": 10
   },
   {
    "t": 5,
    "label": "2027-03",
    "aircraft": 39,
-   "required": 76,
+   "required": 78,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 4,
-   "serviceable": 82,
-   "margin": 3
+   "in_shop": 3,
+   "serviceable": 83,
+   "margin": 2
   },
   {
    "t": 6,
@@ -2524,86 +2524,86 @@
    "required": 68,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 3,
-   "serviceable": 83,
-   "margin": 12
+   "in_shop": 2,
+   "serviceable": 84,
+   "margin": 13
   },
   {
    "t": 7,
    "label": "2027-05",
    "aircraft": 39,
-   "required": 72,
+   "required": 76,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 3,
-   "serviceable": 83,
-   "margin": 8
+   "in_shop": 2,
+   "serviceable": 84,
+   "margin": 5
   },
   {
    "t": 8,
    "label": "2027-06",
    "aircraft": 39,
-   "required": 64,
+   "required": 66,
    "buffer": 3,
    "owned": 86,
    "in_shop": 2,
    "serviceable": 84,
-   "margin": 17
+   "margin": 15
   },
   {
    "t": 9,
    "label": "2027-07",
    "aircraft": 39,
-   "required": 72,
+   "required": 74,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 3,
-   "serviceable": 83,
-   "margin": 8
+   "in_shop": 4,
+   "serviceable": 82,
+   "margin": 5
   },
   {
    "t": 10,
    "label": "2027-08",
    "aircraft": 39,
-   "required": 76,
+   "required": 78,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 3,
-   "serviceable": 83,
-   "margin": 4
+   "in_shop": 4,
+   "serviceable": 82,
+   "margin": 1
   },
   {
    "t": 11,
    "label": "2027-09",
    "aircraft": 39,
-   "required": 70,
+   "required": 76,
    "buffer": 3,
    "owned": 86,
    "in_shop": 5,
    "serviceable": 81,
-   "margin": 8
+   "margin": 2
   },
   {
    "t": 12,
    "label": "2027-10",
    "aircraft": 39,
-   "required": 70,
+   "required": 78,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 6,
-   "serviceable": 80,
-   "margin": 7
+   "in_shop": 4,
+   "serviceable": 82,
+   "margin": 1
   },
   {
    "t": 13,
    "label": "2027-11",
    "aircraft": 39,
-   "required": 68,
+   "required": 74,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 5,
-   "serviceable": 81,
-   "margin": 10
+   "in_shop": 3,
+   "serviceable": 83,
+   "margin": 6
   },
   {
    "t": 14,
@@ -2620,34 +2620,34 @@
    "t": 15,
    "label": "2028-01",
    "aircraft": 39,
-   "required": 64,
+   "required": 66,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 3,
-   "serviceable": 83,
-   "margin": 16
+   "in_shop": 4,
+   "serviceable": 82,
+   "margin": 13
   },
   {
    "t": 16,
    "label": "2028-02",
    "aircraft": 39,
-   "required": 62,
+   "required": 66,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 2,
-   "serviceable": 84,
-   "margin": 19
+   "in_shop": 4,
+   "serviceable": 82,
+   "margin": 13
   },
   {
    "t": 17,
    "label": "2028-03",
    "aircraft": 39,
-   "required": 76,
+   "required": 78,
    "buffer": 3,
    "owned": 86,
-   "in_shop": 2,
-   "serviceable": 84,
-   "margin": 5
+   "in_shop": 4,
+   "serviceable": 82,
+   "margin": 1
   },
   {
    "t": 18,
@@ -2664,38 +2664,49 @@
    "t": 19,
    "label": "2028-05",
    "aircraft": 39,
-   "required": 72,
+   "required": 76,
    "buffer": 3,
    "owned": 86,
    "in_shop": 2,
    "serviceable": 84,
-   "margin": 9
+   "margin": 5
   },
   {
    "t": 20,
    "label": "2028-06",
    "aircraft": 39,
-   "required": 64,
+   "required": 66,
    "buffer": 3,
    "owned": 86,
    "in_shop": 4,
    "serviceable": 82,
-   "margin": 15
+   "margin": 13
   },
   {
    "t": 21,
    "label": "2028-07",
    "aircraft": 39,
-   "required": 72,
+   "required": 74,
    "buffer": 3,
    "owned": 86,
    "in_shop": 4,
    "serviceable": 82,
-   "margin": 7
+   "margin": 5
   },
   {
    "t": 22,
    "label": "2028-08",
+   "aircraft": 39,
+   "required": 78,
+   "buffer": 3,
+   "owned": 86,
+   "in_shop": 5,
+   "serviceable": 81,
+   "margin": 0
+  },
+  {
+   "t": 23,
+   "label": "2028-09",
    "aircraft": 39,
    "required": 76,
    "buffer": 3,
@@ -2703,17 +2714,6 @@
    "in_shop": 5,
    "serviceable": 81,
    "margin": 2
-  },
-  {
-   "t": 23,
-   "label": "2028-09",
-   "aircraft": 39,
-   "required": 70,
-   "buffer": 3,
-   "owned": 86,
-   "in_shop": 5,
-   "serviceable": 81,
-   "margin": 8
   },
   {
    "t": 24,
@@ -3301,17 +3301,17 @@
  ],
  "ops_summary": {
   "thin": {
-   "t": 34,
-   "label": "2029-08",
-   "aircraft": 21,
-   "required": 42,
-   "buffer": 5,
-   "owned": 47,
-   "in_shop": 0,
-   "serviceable": 47,
-   "margin": 0
+   "t": 0,
+   "label": "2026-10",
+   "aircraft": 39,
+   "required": 78,
+   "buffer": 3,
+   "owned": 86,
+   "in_shop": 6,
+   "serviceable": 80,
+   "margin": -1
   },
-  "months_short": 0,
+  "months_short": 1,
   "note": "運航側：必要なエンジン数 = 2 × 飛ぶ機数（運航指数 × 必要機数、機体整備で止まる機を引く）。窓の中は計画の系列、窓の後は退役後の機数で按分。余力 = 稼働可能 − 必要 − 予備"
  },
  "state_source": "simulation",
@@ -3325,7 +3325,7 @@
   "next_due": {
    "visits": 24,
    "spend_k": 260900,
-   "residual_value_k": 180669,
+   "residual_value_k": 181117,
    "green_time_engines": 8,
    "heavy_late_engines": 0,
    "after_window_visits": 0
@@ -3333,7 +3333,7 @@
   "oldest": {
    "visits": 24,
    "spend_k": 260900,
-   "residual_value_k": 180669,
+   "residual_value_k": 181117,
    "green_time_engines": 15,
    "heavy_late_engines": 0,
    "after_window_visits": 0
@@ -3341,7 +3341,7 @@
   "random": {
    "visits": 129,
    "spend_k": 565400,
-   "residual_value_k": 215436,
+   "residual_value_k": 215884,
    "green_time_engines": 29,
    "heavy_late_engines": 8,
    "after_window_visits": 105
@@ -3350,7 +3350,7 @@
  "without_runout": {
   "visits": 24,
   "spend_k": 260900,
-  "residual_value_k": 180669,
+  "residual_value_k": 181117,
   "heavy_late_engines": 0
  },
  "delivery_delay": {
@@ -3362,13 +3362,13 @@
    "extra_visits": 0,
    "extra_spend_k": 0,
    "engines_with_extra_visit": [],
-   "months_short": 0,
-   "residual_value_k": 161149,
+   "months_short": 1,
+   "residual_value_k": 161597,
    "known": {
     "visits": 24,
     "extra_visits": 0,
     "extra_spend_k": 0,
-    "months_short": 0
+    "months_short": 1
    }
   },
   "12": {
@@ -3379,13 +3379,13 @@
    "extra_visits": 0,
    "extra_spend_k": 0,
    "engines_with_extra_visit": [],
-   "months_short": 0,
-   "residual_value_k": 138109,
+   "months_short": 1,
+   "residual_value_k": 138557,
    "known": {
     "visits": 24,
     "extra_visits": 0,
     "extra_spend_k": 0,
-    "months_short": 0
+    "months_short": 1
    }
   },
   "note": "受領遅れ：新機の受領が遅れると退役も遅れ、退役まで持つ最軽の範囲で済ませた機が飛び続けて追加の入場が要る。「不意打ち」は整備範囲を当初の退役日で決めたまま、「分かってから直す」は遅れを知って整備範囲を決め直した場合。差が、受領の見通しを早く知る価値"

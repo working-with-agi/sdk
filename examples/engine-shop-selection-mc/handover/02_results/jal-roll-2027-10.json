@@ -5,15 +5,15 @@
  "months_of_actuals": 12,
  "learned": {
   "delay": {
-   "n": 11,
-   "observed": 1.0909090909090908,
+   "n": 9,
+   "observed": 1.1111111111111112,
    "prior": 1.15,
-   "updated": 1.1217391304347826,
-   "weight": 0.4782608695652174,
+   "updated": 1.1333333333333333,
+   "weight": 0.42857142857142855,
    "what": "戻ったエンジンの、見積もりより長く翼を離れた月数",
    "cpd_reset": {
     "reset_at_t": 1,
-    "dropped": 5,
+    "dropped": 7,
     "without_reset": {
      "n": 16,
      "observed": 1.125,
@@ -23,15 +23,15 @@
    }
   },
   "findings": {
-   "n": 11,
-   "observed": 1.0418036866908045,
+   "n": 9,
+   "observed": 1.0584306585890824,
    "prior": 1.0,
-   "updated": 1.019993067547776,
-   "weight": 0.4782608695652174,
+   "updated": 1.0250417108238925,
+   "weight": 0.42857142857142855,
    "what": "請求額 ÷ 見込み額（戻ったエンジン）",
    "overrun_mean": [
     0.2,
-    0.244
+    0.256
    ]
   },
   "unsched": {
@@ -43,40 +43,40 @@
    "what": "計画外の取卸しで工場にいるエンジン数から逆算した、1 基 1 か月あたりの率"
   },
   "hazard": {
-   "n": 24,
+   "n": 25,
    "observed": 2,
-   "prior": 0.9675,
-   "updated": 1.7418749999999998,
-   "weight": 0.75,
+   "prior": 0.6575,
+   "updated": 1.315,
+   "weight": 0.7575757575757576,
    "what": "計画前に故障して入場した基数（累計）と、計画が見込んだ数"
   },
   "world": {
    "posterior": {
-    "base": 0.5230006030879086,
-    "backlog": 0.20355692597016642,
-    "crunch": 0.06540572630889106,
-    "stress": 0.0234482964843601,
-    "observed": 0.18458844814867362
+    "base": 0.5199914701062609,
+    "backlog": 0.2044176821675194,
+    "crunch": 0.06502940833322779,
+    "stress": 0.027035038179017562,
+    "observed": 0.18352640121397443
    },
    "what": "追跡で更新した前提の確率を、次の版の出発点にする"
   },
   "ooda": {
-   "rule_cases": 2,
+   "rule_cases": 0,
    "rule_cases_by_rule": {
-    "teardown_extra": 2,
+    "teardown_extra": 0,
     "cm_alert": 0,
     "tat_slip": 0,
     "world_shift": 0,
     "safety_switch": 0,
     "invest_gate": 0
    },
-   "teardown_net_k": 6897.037348272643,
+   "teardown_net_k": 5589.049486461252,
    "teardown_review": "承認線 v を見直す",
-   "no_world_fits_months": 10,
+   "no_world_fits_months": 11,
    "add_world": true,
    "detection_delay_months": 2,
-   "bayes_delay_months": 5,
-   "to_meeting_by_safety": 10,
+   "bayes_delay_months": null,
+   "to_meeting_by_safety": 11,
    "streams_to_watch": [
     "工場の見積もり工期（週）",
     "枠の回答リード（週）"
@@ -93,16 +93,16 @@
  "carried": {
   "fixed": [
    {
-    "esn": "J-179",
-    "month": "2027-10",
-    "workscope": "PR",
-    "reason": "工場の枠予約 3 か月前"
-   },
-   {
     "esn": "J-139",
     "month": "2027-11",
     "workscope": "CORE",
     "reason": "LLP キット発注 8 か月前"
+   },
+   {
+    "esn": "J-179",
+    "month": "2027-11",
+    "workscope": "PR",
+    "reason": "工場の枠予約 3 か月前"
    },
    {
     "esn": "J-146",
@@ -111,15 +111,15 @@
     "reason": "LLP キット発注 8 か月前"
    },
    {
+    "esn": "J-158",
+    "month": "2027-12",
+    "workscope": "PR",
+    "reason": "工場の枠予約 3 か月前"
+   },
+   {
     "esn": "J-173",
     "month": "2027-12",
     "workscope": "FULL",
-    "reason": "LLP キット発注 8 か月前"
-   },
-   {
-    "esn": "J-188",
-    "month": "2027-12",
-    "workscope": "CORE",
     "reason": "LLP キット発注 8 か月前"
    },
    {
@@ -156,25 +156,25 @@
   "dropped_committed": [],
   "kits": {
    "old_on_hand": 6,
-   "used": 17,
-   "ordered": 9,
-   "new_on_hand": 9
+   "used": 18,
+   "ordered": 8,
+   "new_on_hand": 8
   }
  },
  "bridge": {
   "old_year2": {
    "visits": 17,
-   "spend": 165462
+   "spend": 160099
   },
   "state": {
    "visits": 20,
-   "spend": 195364,
+   "spend": 195535,
    "added": [
     "J-111",
     "J-116",
     "J-119",
     "J-122",
-    "J-206"
+    "J-188"
    ],
    "gone": [
     "J-115",
@@ -183,23 +183,23 @@
    "moved": 1
   },
   "learned": {
-   "visits": 20,
-   "spend": 202543
+   "visits": 21,
+   "spend": 216208
   },
   "steps": [
    {
     "label": "2026-09-27 版の 2 年目",
-    "value": 165462,
+    "value": 160099,
     "kind": "level"
    },
    {
     "label": "機材の状態が動いた分（新たに期限が来た・済んだ・時期が動いた）",
-    "value": 29902,
+    "value": 35436,
     "kind": "delta"
    },
    {
     "label": "前提を実績で直した分（工期・所見・故障率）",
-    "value": 7179,
+    "value": 20673,
     "kind": "delta"
    },
    {
@@ -209,40 +209,40 @@
    },
    {
     "label": "2027-10 版の 1 年目",
-    "value": 202543,
+    "value": 216208,
     "kind": "level"
    }
   ]
  },
  "next": {
   "plan_of_record": {
-   "total_cost": 195816.99513990243,
-   "p90": 240037.59315934713,
-   "committed": 156480.0,
-   "recourse": 39336.99513990241,
-   "recourse_p90": 83557.59315934715,
+   "total_cost": 198745.243095591,
+   "p90": 243182.68494047053,
+   "committed": 156705.0,
+   "recourse": 42040.24309559097,
+   "recourse_p90": 86477.68494047051,
    "recourse_parts": {
-    "overrun": 35730.157639902405,
-    "lease": 2.1125,
+    "overrun": 37530.53059559097,
+    "lease": 3.4125,
     "substitute": 0.0,
-    "aog": 4.725,
-    "emergency_kits": 3600.0
+    "aog": 6.3,
+    "emergency_kits": 4500.0
    },
-   "aog_prob": 0.0025,
+   "aog_prob": 0.00375,
    "by_fiscal_year": {
     "FY2027": {
-     "visits": 12,
-     "spend": 115940.24817620552,
-     "PR": 2,
+     "visits": 13,
+     "spend": 120156.26481550213,
+     "PR": 3,
      "CORE": 4,
      "FULL": 6,
      "GT": 0,
      "PO": 0
     },
     "FY2028": {
-     "visits": 19,
-     "spend": 203035.68950175785,
-     "PR": 1,
+     "visits": 18,
+     "spend": 200508.32872732694,
+     "PR": 0,
      "CORE": 7,
      "FULL": 11,
      "GT": 0,
@@ -250,7 +250,7 @@
     },
     "FY2029": {
      "visits": 2,
-     "spend": 15894.219961938898,
+     "spend": 16005.9370527618,
      "PR": 1,
      "CORE": 0,
      "FULL": 1,
@@ -262,8 +262,8 @@
    "midlife_swaps": 0,
    "partouts": 0,
    "long_spares": 0,
-   "emergency_kits": 4,
-   "early_months": 52,
+   "emergency_kits": 5,
+   "early_months": 57,
    "rush": 0,
    "shops": {
     "GE-TC": 33
@@ -275,18 +275,18 @@
   "visits": 33,
   "by_fy": {
    "FY2027": {
-    "visits": 12,
-    "spend": 115940.24817620552,
-    "PR": 2,
+    "visits": 13,
+    "spend": 120156.26481550213,
+    "PR": 3,
     "CORE": 4,
     "FULL": 6,
     "GT": 0,
     "PO": 0
    },
    "FY2028": {
-    "visits": 19,
-    "spend": 203035.68950175785,
-    "PR": 1,
+    "visits": 18,
+    "spend": 200508.32872732694,
+    "PR": 0,
     "CORE": 7,
     "FULL": 11,
     "GT": 0,
@@ -294,7 +294,7 @@
    },
    "FY2029": {
     "visits": 2,
-    "spend": 15894.219961938898,
+    "spend": 16005.9370527618,
     "PR": 1,
     "CORE": 0,
     "FULL": 1,

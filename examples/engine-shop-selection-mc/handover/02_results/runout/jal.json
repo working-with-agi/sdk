@@ -431,20 +431,20 @@
   {
    "esn": "J-119",
    "in_window_plan": true,
-   "retire_t": 97,
-   "retire": "2034-11",
+   "retire_t": 95,
+   "retire": "2034-09",
    "visits": 1,
    "spend_k": 11000,
    "chain": [
     {
-     "t": 11,
-     "label": "2027-09",
+     "t": 9,
+     "label": "2027-07",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 22.4,
-     "llp_before": 1550,
+     "margin_before": 23.4,
+     "llp_before": 1877,
      "lasts_months": 88.1
     }
    ],
@@ -453,20 +453,20 @@
    "residual_value_k": 948,
    "green_time": false,
    "last_visit": {
-    "t": 11,
-    "label": "2027-09",
+    "t": 9,
+    "label": "2027-07",
     "ws": "FULL",
     "cost_k": 11000,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 22.4,
-    "llp_before": 1550,
+    "margin_before": 23.4,
+    "llp_before": 1877,
     "lasts_months": 88.1
    },
    "last_visit_to_exit_months": 86,
    "heavy_late": false,
    "due_in_at_exit": 7.1,
-   "note": "2027-09 FULL（計画）のあと退役まで 86 か月"
+   "note": "2027-07 FULL（計画）のあと退役まで 86 か月"
   },
   {
    "esn": "J-122",
@@ -733,8 +733,8 @@
   {
    "esn": "J-140",
    "in_window_plan": true,
-   "retire_t": 97,
-   "retire": "2034-11",
+   "retire_t": 99,
+   "retire": "2035-01",
    "visits": 1,
    "spend_k": 11000,
    "chain": [
@@ -750,9 +750,9 @@
      "lasts_months": 98.5
     }
    ],
-   "residual_llp_cycles": 5608,
-   "residual_run_months": 10.5,
-   "residual_value_k": 967,
+   "residual_llp_cycles": 5281,
+   "residual_run_months": 8.5,
+   "residual_value_k": 837,
    "green_time": false,
    "last_visit": {
     "t": 4,
@@ -765,50 +765,50 @@
     "llp_before": 1794,
     "lasts_months": 98.5
    },
-   "last_visit_to_exit_months": 93,
+   "last_visit_to_exit_months": 95,
    "heavy_late": false,
-   "due_in_at_exit": 10.5,
-   "note": "2027-02 FULL（計画）のあと退役まで 93 か月"
+   "due_in_at_exit": 8.5,
+   "note": "2027-02 FULL（計画）のあと退役まで 95 か月"
   },
   {
    "esn": "J-141",
    "in_window_plan": true,
-   "retire_t": 55,
-   "retire": "2031-05",
+   "retire_t": 53,
+   "retire": "2031-03",
    "visits": 1,
    "spend_k": 2900,
    "chain": [
     {
-     "t": 5,
-     "label": "2027-03",
+     "t": 0,
+     "label": "2026-10",
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
      "off_wing": 3,
-     "margin_before": 2.7,
-     "llp_before": 9492,
-     "lasts_months": 48.9
+     "margin_before": 6.7,
+     "llp_before": 10310,
+     "lasts_months": 50.9
     }
    ],
-   "residual_llp_cycles": 1805,
-   "residual_run_months": 1.9,
-   "residual_value_k": 121,
+   "residual_llp_cycles": 2132,
+   "residual_run_months": 0.9,
+   "residual_value_k": 116,
    "green_time": false,
    "last_visit": {
-    "t": 5,
-    "label": "2027-03",
+    "t": 0,
+    "label": "2026-10",
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
     "off_wing": 3,
-    "margin_before": 2.7,
-    "llp_before": 9492,
-    "lasts_months": 48.9
+    "margin_before": 6.7,
+    "llp_before": 10310,
+    "lasts_months": 50.9
    },
-   "last_visit_to_exit_months": 50,
+   "last_visit_to_exit_months": 53,
    "heavy_late": false,
-   "due_in_at_exit": 1.9,
-   "note": "2027-03 PR（計画）のあと退役まで 50 か月"
+   "due_in_at_exit": 0.9,
+   "note": "2026-10 PR（計画）のあと退役まで 53 か月"
   },
   {
    "esn": "J-146",
@@ -853,51 +853,42 @@
   {
    "esn": "J-158",
    "in_window_plan": true,
-   "retire_t": 59,
-   "retire": "2031-09",
+   "retire_t": 57,
+   "retire": "2031-07",
    "visits": 1,
    "spend_k": 2900,
    "chain": [
     {
-     "t": 15,
-     "label": "2028-01",
-     "ws": null,
-     "cost_k": 0,
-     "gap": true,
-     "slack_months": 1,
-     "reason": "平均の劣化では 1 か月早く限界（計画の入場 2028-02）"
-    },
-    {
-     "t": 16,
-     "label": "2028-02",
+     "t": 14,
+     "label": "2027-12",
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
      "off_wing": 3,
-     "margin_before": 2.1,
-     "llp_before": 7982,
-     "lasts_months": 39.6
+     "margin_before": 3.5,
+     "llp_before": 8309,
+     "lasts_months": 41.6
     }
    ],
-   "residual_llp_cycles": 1440,
-   "residual_run_months": 0.0,
-   "residual_value_k": 0,
+   "residual_llp_cycles": 1767,
+   "residual_run_months": 1.6,
+   "residual_value_k": 106,
    "green_time": false,
    "last_visit": {
-    "t": 16,
-    "label": "2028-02",
+    "t": 14,
+    "label": "2027-12",
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
     "off_wing": 3,
-    "margin_before": 2.1,
-    "llp_before": 7982,
-    "lasts_months": 39.6
+    "margin_before": 3.5,
+    "llp_before": 8309,
+    "lasts_months": 41.6
    },
    "last_visit_to_exit_months": 43,
    "heavy_late": false,
-   "due_in_at_exit": 0.0,
-   "note": "2028-02 PR（計画）のあと退役まで 43 か月"
+   "due_in_at_exit": 1.6,
+   "note": "2027-12 PR（計画）のあと退役まで 43 か月"
   },
   {
    "esn": "J-159",
@@ -1113,42 +1104,53 @@
   {
    "esn": "J-179",
    "in_window_plan": true,
-   "retire_t": 69,
-   "retire": "2032-07",
-   "visits": 1,
-   "spend_k": 2900,
+   "retire_t": 97,
+   "retire": "2034-11",
+   "visits": 2,
+   "spend_k": 10800,
    "chain": [
     {
-     "t": 12,
-     "label": "2027-10",
+     "t": 13,
+     "label": "2027-11",
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
      "off_wing": 3,
-     "margin_before": 5.7,
-     "llp_before": 10799,
+     "margin_before": 5.0,
+     "llp_before": 10635,
      "lasts_months": 53.2
+    },
+    {
+     "t": 70,
+     "label": "2032-08",
+     "ws": "CORE",
+     "cost_k": 7900,
+     "reason": "EGT・退役まで持つ最軽の範囲",
+     "off_wing": 5,
+     "margin_before": 2.4,
+     "llp_before": 1804,
+     "lasts_months": 32.4
     }
    ],
-   "residual_llp_cycles": 1968,
-   "residual_run_months": 0.0,
-   "residual_value_k": 56,
+   "residual_llp_cycles": 3206,
+   "residual_run_months": 10.4,
+   "residual_value_k": 674,
    "green_time": false,
    "last_visit": {
-    "t": 12,
-    "label": "2027-10",
-    "ws": "PR",
-    "cost_k": 2900,
-    "reason": "計画",
-    "off_wing": 3,
-    "margin_before": 5.7,
-    "llp_before": 10799,
-    "lasts_months": 53.2
+    "t": 70,
+    "label": "2032-08",
+    "ws": "CORE",
+    "cost_k": 7900,
+    "reason": "EGT・退役まで持つ最軽の範囲",
+    "off_wing": 5,
+    "margin_before": 2.4,
+    "llp_before": 1804,
+    "lasts_months": 32.4
    },
-   "last_visit_to_exit_months": 57,
+   "last_visit_to_exit_months": 27,
    "heavy_late": false,
-   "due_in_at_exit": 0.0,
-   "note": "2027-10 PR（計画）のあと退役まで 57 か月"
+   "due_in_at_exit": 10.4,
+   "note": "2032-08 は退役まで持つ最軽の範囲 CORE（32.4 か月持つ、退役まで 27）"
   },
   {
    "esn": "J-187",
@@ -1199,15 +1201,15 @@
    "spend_k": 7900,
    "chain": [
     {
-     "t": 14,
-     "label": "2027-12",
+     "t": 11,
+     "label": "2027-09",
      "ws": "CORE",
      "cost_k": 7900,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 3.0,
-     "llp_before": 6143,
-     "lasts_months": 59.0
+     "margin_before": 4.7,
+     "llp_before": 6634,
+     "lasts_months": 62.0
     }
    ],
    "residual_llp_cycles": 1658,
@@ -1215,20 +1217,20 @@
    "residual_value_k": 62,
    "green_time": false,
    "last_visit": {
-    "t": 14,
-    "label": "2027-12",
+    "t": 11,
+    "label": "2027-09",
     "ws": "CORE",
     "cost_k": 7900,
     "reason": "計画",
     "off_wing": 5,
-    "margin_before": 3.0,
-    "llp_before": 6143,
-    "lasts_months": 59.0
+    "margin_before": 4.7,
+    "llp_before": 6634,
+    "lasts_months": 62.0
    },
-   "last_visit_to_exit_months": 63,
+   "last_visit_to_exit_months": 66,
    "heavy_late": false,
    "due_in_at_exit": 1.0,
-   "note": "2027-12 CORE（計画）のあと退役まで 63 か月"
+   "note": "2027-09 CORE（計画）のあと退役まで 66 か月"
   },
   {
    "esn": "J-191",
@@ -1370,15 +1372,15 @@
    "spend_k": 22000,
    "chain": [
     {
-     "t": 1,
-     "label": "2026-11",
+     "t": 2,
+     "label": "2026-12",
      "ws": "FULL",
      "cost_k": 11000,
      "reason": "計画",
      "off_wing": 5,
-     "margin_before": 3.7,
-     "llp_before": 1887,
-     "lasts_months": 63.5
+     "margin_before": 3.1,
+     "llp_before": 1723,
+     "lasts_months": 62.5
     },
     {
      "t": 70,
@@ -1387,7 +1389,7 @@
      "cost_k": 11000,
      "reason": "LLP",
      "off_wing": 5,
-     "margin_before": 14.2,
+     "margin_before": 14.7,
      "llp_before": 1420,
      "lasts_months": 85.0
     }
@@ -1403,7 +1405,7 @@
     "cost_k": 11000,
     "reason": "LLP",
     "off_wing": 5,
-    "margin_before": 14.2,
+    "margin_before": 14.7,
     "llp_before": 1420,
     "lasts_months": 85.0
    },
@@ -1455,8 +1457,8 @@
   {
    "esn": "J-204",
    "in_window_plan": true,
-   "retire_t": 99,
-   "retire": "2035-01",
+   "retire_t": 101,
+   "retire": "2035-03",
    "visits": 1,
    "spend_k": 11000,
    "chain": [
@@ -1472,9 +1474,9 @@
      "lasts_months": 83.1
     }
    ],
-   "residual_llp_cycles": 8225,
-   "residual_run_months": 11.1,
-   "residual_value_k": 1305,
+   "residual_llp_cycles": 7897,
+   "residual_run_months": 9.1,
+   "residual_value_k": 1175,
    "green_time": false,
    "last_visit": {
     "t": 22,
@@ -1487,10 +1489,10 @@
     "llp_before": 1502,
     "lasts_months": 83.1
    },
-   "last_visit_to_exit_months": 77,
+   "last_visit_to_exit_months": 79,
    "heavy_late": false,
-   "due_in_at_exit": 11.1,
-   "note": "2028-08 FULL（計画）のあと退役まで 77 か月"
+   "due_in_at_exit": 9.1,
+   "note": "2028-08 FULL（計画）のあと退役まで 79 か月"
   },
   {
    "esn": "J-205",
@@ -1535,42 +1537,42 @@
   {
    "esn": "J-206",
    "in_window_plan": true,
-   "retire_t": 57,
-   "retire": "2031-07",
+   "retire_t": 59,
+   "retire": "2031-09",
    "visits": 1,
    "spend_k": 2900,
    "chain": [
     {
-     "t": 11,
-     "label": "2027-09",
+     "t": 13,
+     "label": "2027-11",
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
      "off_wing": 3,
-     "margin_before": 6.5,
-     "llp_before": 11913,
+     "margin_before": 4.6,
+     "llp_before": 11585,
      "lasts_months": 43.4
     }
    ],
-   "residual_llp_cycles": 4880,
+   "residual_llp_cycles": 4553,
    "residual_run_months": 0.4,
-   "residual_value_k": 424,
+   "residual_value_k": 385,
    "green_time": false,
    "last_visit": {
-    "t": 11,
-    "label": "2027-09",
+    "t": 13,
+    "label": "2027-11",
     "ws": "PR",
     "cost_k": 2900,
     "reason": "計画",
     "off_wing": 3,
-    "margin_before": 6.5,
-    "llp_before": 11913,
+    "margin_before": 4.6,
+    "llp_before": 11585,
     "lasts_months": 43.4
    },
    "last_visit_to_exit_months": 46,
    "heavy_late": false,
    "due_in_at_exit": 0.4,
-   "note": "2027-09 PR（計画）のあと退役まで 46 か月"
+   "note": "2027-11 PR（計画）のあと退役まで 46 か月"
   },
   {
    "esn": "J-209",
@@ -1672,15 +1674,15 @@
    "spend_k": 10800,
    "chain": [
     {
-     "t": 2,
-     "label": "2026-12",
+     "t": 0,
+     "label": "2026-10",
      "ws": "PR",
      "cost_k": 2900,
      "reason": "計画",
      "off_wing": 3,
-     "margin_before": 3.8,
-     "llp_before": 9036,
-     "lasts_months": 46.1
+     "margin_before": 5.3,
+     "llp_before": 9364,
+     "lasts_months": 48.1
     },
     {
      "t": 52,
@@ -1689,7 +1691,7 @@
      "cost_k": 7900,
      "reason": "LLP",
      "off_wing": 5,
-     "margin_before": 8.2,
+     "margin_before": 6.7,
      "llp_before": 1350,
      "lasts_months": 29.7
     }
@@ -1705,7 +1707,7 @@
     "cost_k": 7900,
     "reason": "LLP",
     "off_wing": 5,
-    "margin_before": 8.2,
+    "margin_before": 6.7,
     "llp_before": 1350,
     "lasts_months": 29.7
    },
@@ -1757,8 +1759,8 @@
   {
    "esn": "J-215",
    "in_window_plan": true,
-   "retire_t": 101,
-   "retire": "2035-03",
+   "retire_t": 103,
+   "retire": "2035-05",
    "visits": 1,
    "spend_k": 11000,
    "chain": [
@@ -1774,9 +1776,9 @@
      "lasts_months": 88.1
     }
    ],
-   "residual_llp_cycles": 7734,
-   "residual_run_months": 13.1,
-   "residual_value_k": 1340,
+   "residual_llp_cycles": 7407,
+   "residual_run_months": 11.1,
+   "residual_value_k": 1210,
    "green_time": false,
    "last_visit": {
     "t": 21,
@@ -1789,10 +1791,10 @@
     "llp_before": 1571,
     "lasts_months": 88.1
    },
-   "last_visit_to_exit_months": 80,
+   "last_visit_to_exit_months": 82,
    "heavy_late": false,
-   "due_in_at_exit": 13.1,
-   "note": "2028-07 FULL（計画）のあと退役まで 80 か月"
+   "due_in_at_exit": 11.1,
+   "note": "2028-07 FULL（計画）のあと退役まで 82 か月"
   },
   {
    "esn": "J-219",
@@ -2380,20 +2382,20 @@
   {
    "esn": "J-138",
    "in_window_plan": false,
-   "retire_t": 95,
-   "retire": "2034-09",
+   "retire_t": 97,
+   "retire": "2034-11",
    "visits": 0,
    "spend_k": 0,
    "chain": [],
-   "residual_llp_cycles": 4138,
-   "residual_run_months": 7.4,
-   "residual_value_k": 652,
+   "residual_llp_cycles": 3811,
+   "residual_run_months": 5.4,
+   "residual_value_k": 523,
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
    "heavy_late": false,
-   "due_in_at_exit": 7.4,
-   "note": "窓の外の機（状態はシミュレーションの続き）。限界の 7.4 か月前に退役し、入場を 1 回避けた"
+   "due_in_at_exit": 5.4,
+   "note": "窓の外の機（状態はシミュレーションの続き）。限界の 5.4 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-142",
@@ -2452,42 +2454,20 @@
   {
    "esn": "J-145",
    "in_window_plan": false,
-   "retire_t": 103,
-   "retire": "2035-05",
-   "visits": 1,
-   "spend_k": 7900,
-   "chain": [
-    {
-     "t": 69,
-     "label": "2032-07",
-     "ws": "CORE",
-     "cost_k": 7900,
-     "reason": "EGT・退役まで持つ最軽の範囲",
-     "off_wing": 5,
-     "margin_before": 2.8,
-     "llp_before": 3368,
-     "lasts_months": 42.0
-    }
-   ],
-   "residual_llp_cycles": 3625,
-   "residual_run_months": 13.0,
-   "residual_value_k": 840,
+   "retire_t": 69,
+   "retire": "2032-07",
+   "visits": 0,
+   "spend_k": 0,
+   "chain": [],
+   "residual_llp_cycles": 3368,
+   "residual_run_months": 0.0,
+   "residual_value_k": 224,
    "green_time": false,
-   "last_visit": {
-    "t": 69,
-    "label": "2032-07",
-    "ws": "CORE",
-    "cost_k": 7900,
-    "reason": "EGT・退役まで持つ最軽の範囲",
-    "off_wing": 5,
-    "margin_before": 2.8,
-    "llp_before": 3368,
-    "lasts_months": 42.0
-   },
-   "last_visit_to_exit_months": 34,
+   "last_visit": null,
+   "last_visit_to_exit_months": null,
    "heavy_late": false,
-   "due_in_at_exit": 13.0,
-   "note": "2032-07 は退役まで持つ最軽の範囲 CORE（42.0 か月持つ、退役まで 34）"
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態はシミュレーションの続き）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-147",
@@ -3040,20 +3020,20 @@
   {
    "esn": "J-182",
    "in_window_plan": false,
-   "retire_t": 53,
-   "retire": "2031-03",
+   "retire_t": 55,
+   "retire": "2031-05",
    "visits": 0,
    "spend_k": 0,
    "chain": [],
-   "residual_llp_cycles": 3273,
-   "residual_run_months": 1.2,
-   "residual_value_k": 269,
+   "residual_llp_cycles": 2946,
+   "residual_run_months": 0.0,
+   "residual_value_k": 174,
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
    "heavy_late": false,
-   "due_in_at_exit": 1.2,
-   "note": "窓の外の機（状態はシミュレーションの続き）。限界の 1.2 か月前に退役し、入場を 1 回避けた"
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態はシミュレーションの続き）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-183",
@@ -3579,18 +3559,18 @@
  "by_year": [
   {
    "year": "2026",
-   "visits": 10,
+   "visits": 11,
    "by_ws": {
-    "PR": 4,
+    "PR": 5,
     "CORE": 2,
     "FULL": 4
    },
-   "spend_k": 71400,
+   "spend_k": 74300,
    "retired": 0,
    "absorbed": 0,
    "unknown_state_visits": 0,
    "engines": 123,
-   "note": "入場 10"
+   "note": "入場 11"
   },
   {
    "year": "2027",
@@ -3609,18 +3589,18 @@
   },
   {
    "year": "2028",
-   "visits": 11,
+   "visits": 10,
    "by_ws": {
-    "PR": 1,
+    "PR": 0,
     "CORE": 4,
     "FULL": 6
    },
-   "spend_k": 100500,
+   "spend_k": 97600,
    "retired": 12,
    "absorbed": 12,
    "unknown_state_visits": 0,
    "engines": 115,
-   "note": "入場 11、退役で 12 基を吸収"
+   "note": "入場 10、退役で 12 基を吸収"
   },
   {
    "year": "2029",
@@ -3678,7 +3658,7 @@
    "spend_k": 40900,
    "retired": 14,
    "absorbed": 14,
-   "unknown_state_visits": 2,
+   "unknown_state_visits": 1,
    "engines": 44,
    "note": "入場 4、退役で 14 基を吸収"
   },
@@ -3722,10 +3702,10 @@
    },
    "spend_k": 0,
    "retired": 12,
-   "absorbed": 3,
+   "absorbed": 5,
    "unknown_state_visits": 0,
    "engines": 8,
-   "note": "入場 0：限界が近い 3 基を退役で吸収（入場の代わりに退役）"
+   "note": "入場 0：限界が近い 5 基を退役で吸収（入場の代わりに退役）"
   },
   {
    "year": "2036",
@@ -3747,12 +3727,12 @@
   "engines": 123,
   "visits": 56,
   "spend_k": 486600,
-  "residual_value_k": 75055,
+  "residual_value_k": 74505,
   "after_window_visits": 16,
   "after_window_spend_k": 150500,
   "green_time_engines": 3,
   "heavy_late_engines": 0,
-  "plan_gaps": 3,
+  "plan_gaps": 2,
   "plan_gap_max_months": 2,
   "retired": 119
  },
@@ -3831,13 +3811,13 @@
   "J-125",
   "J-217",
   "J-185",
+  "J-141",
   "J-126",
   "J-182",
   "J-148",
-  "J-141",
   "J-103",
-  "J-206",
   "J-158",
+  "J-206",
   "J-177",
   "J-143",
   "J-127",
@@ -3848,8 +3828,8 @@
   "J-197",
   "J-181",
   "J-207",
-  "J-179",
   "J-201",
+  "J-145",
   "J-120",
   "J-220",
   "J-101",
@@ -3876,15 +3856,15 @@
   "J-173",
   "J-213",
   "J-102",
-  "J-138",
   "J-119",
+  "J-138",
+  "J-179",
   "J-140",
   "J-187",
   "J-204",
   "J-134",
   "J-215",
   "J-178",
-  "J-145",
   "J-214",
   "J-107",
   "J-190",
@@ -3901,265 +3881,265 @@
    "t": 0,
    "label": "2026-10",
    "aircraft": 56,
-   "required": 100,
+   "required": 112,
    "buffer": 4,
    "owned": 123,
    "in_shop": 5,
    "serviceable": 118,
-   "margin": 14
+   "margin": 2
   },
   {
    "t": 1,
    "label": "2026-11",
    "aircraft": 56,
-   "required": 96,
+   "required": 106,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 8,
-   "serviceable": 115,
-   "margin": 15
+   "in_shop": 10,
+   "serviceable": 113,
+   "margin": 3
   },
   {
    "t": 2,
    "label": "2026-12",
    "aircraft": 56,
-   "required": 104,
+   "required": 106,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 10,
-   "serviceable": 113,
-   "margin": 5
+   "in_shop": 11,
+   "serviceable": 112,
+   "margin": 2
   },
   {
    "t": 3,
    "label": "2027-01",
    "aircraft": 56,
-   "required": 90,
+   "required": 96,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 8,
-   "serviceable": 115,
-   "margin": 21
+   "in_shop": 7,
+   "serviceable": 116,
+   "margin": 16
   },
   {
    "t": 4,
    "label": "2027-02",
    "aircraft": 56,
-   "required": 88,
+   "required": 96,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 8,
-   "serviceable": 115,
-   "margin": 23
+   "in_shop": 7,
+   "serviceable": 116,
+   "margin": 16
   },
   {
    "t": 5,
    "label": "2027-03",
    "aircraft": 56,
-   "required": 106,
+   "required": 112,
    "buffer": 4,
    "owned": 123,
    "in_shop": 7,
    "serviceable": 116,
-   "margin": 6
+   "margin": 0
   },
   {
    "t": 6,
    "label": "2027-04",
    "aircraft": 56,
-   "required": 98,
+   "required": 96,
    "buffer": 4,
    "owned": 123,
    "in_shop": 5,
    "serviceable": 118,
-   "margin": 16
+   "margin": 18
   },
   {
    "t": 7,
    "label": "2027-05",
    "aircraft": 56,
-   "required": 102,
+   "required": 108,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 6,
-   "serviceable": 117,
-   "margin": 11
+   "in_shop": 5,
+   "serviceable": 118,
+   "margin": 6
   },
   {
    "t": 8,
    "label": "2027-06",
    "aircraft": 56,
-   "required": 90,
+   "required": 94,
    "buffer": 4,
    "owned": 123,
    "in_shop": 4,
    "serviceable": 119,
-   "margin": 25
+   "margin": 21
   },
   {
    "t": 9,
    "label": "2027-07",
    "aircraft": 56,
-   "required": 102,
+   "required": 108,
    "buffer": 4,
    "owned": 123,
    "in_shop": 4,
    "serviceable": 119,
-   "margin": 13
+   "margin": 7
   },
   {
    "t": 10,
    "label": "2027-08",
    "aircraft": 56,
-   "required": 110,
+   "required": 112,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 4,
-   "serviceable": 119,
-   "margin": 5
+   "in_shop": 5,
+   "serviceable": 118,
+   "margin": 2
   },
   {
    "t": 11,
    "label": "2027-09",
    "aircraft": 56,
-   "required": 98,
+   "required": 108,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 4,
-   "serviceable": 119,
-   "margin": 17
+   "in_shop": 5,
+   "serviceable": 118,
+   "margin": 6
   },
   {
    "t": 12,
    "label": "2027-10",
    "aircraft": 56,
-   "required": 100,
+   "required": 112,
    "buffer": 4,
    "owned": 123,
    "in_shop": 7,
    "serviceable": 116,
-   "margin": 12
+   "margin": 0
   },
   {
    "t": 13,
    "label": "2027-11",
    "aircraft": 56,
-   "required": 96,
+   "required": 106,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 4,
-   "serviceable": 119,
-   "margin": 19
+   "in_shop": 3,
+   "serviceable": 120,
+   "margin": 10
   },
   {
    "t": 14,
    "label": "2027-12",
    "aircraft": 56,
-   "required": 104,
+   "required": 106,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 5,
-   "serviceable": 118,
-   "margin": 10
+   "in_shop": 6,
+   "serviceable": 117,
+   "margin": 7
   },
   {
    "t": 15,
    "label": "2028-01",
    "aircraft": 56,
-   "required": 90,
+   "required": 96,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 7,
-   "serviceable": 116,
-   "margin": 22
+   "in_shop": 9,
+   "serviceable": 114,
+   "margin": 14
   },
   {
    "t": 16,
    "label": "2028-02",
    "aircraft": 56,
-   "required": 88,
+   "required": 96,
    "buffer": 4,
    "owned": 123,
    "in_shop": 7,
    "serviceable": 116,
-   "margin": 24
+   "margin": 16
   },
   {
    "t": 17,
    "label": "2028-03",
    "aircraft": 56,
-   "required": 106,
+   "required": 112,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 9,
-   "serviceable": 114,
-   "margin": 4
+   "in_shop": 7,
+   "serviceable": 116,
+   "margin": 0
   },
   {
    "t": 18,
    "label": "2028-04",
    "aircraft": 56,
-   "required": 98,
+   "required": 96,
    "buffer": 4,
    "owned": 123,
-   "in_shop": 7,
-   "serviceable": 116,
-   "margin": 14
+   "in_shop": 5,
+   "serviceable": 118,
+   "margin": 18
   },
   {
    "t": 19,
    "label": "2028-05",
    "aircraft": 56,
-   "required": 102,
+   "required": 108,
    "buffer": 4,
    "owned": 123,
    "in_shop": 4,
    "serviceable": 119,
-   "margin": 13
+   "margin": 7
   },
   {
    "t": 20,
    "label": "2028-06",
    "aircraft": 56,
-   "required": 90,
+   "required": 94,
    "buffer": 4,
    "owned": 123,
    "in_shop": 3,
    "serviceable": 120,
-   "margin": 26
+   "margin": 22
   },
   {
    "t": 21,
    "label": "2028-07",
    "aircraft": 56,
-   "required": 102,
+   "required": 108,
    "buffer": 4,
    "owned": 123,
    "in_shop": 3,
    "serviceable": 120,
-   "margin": 14
+   "margin": 8
   },
   {
    "t": 22,
    "label": "2028-08",
    "aircraft": 56,
-   "required": 110,
+   "required": 112,
    "buffer": 4,
    "owned": 123,
    "in_shop": 5,
    "serviceable": 118,
-   "margin": 4
+   "margin": 2
   },
   {
    "t": 23,
    "label": "2028-09",
    "aircraft": 56,
-   "required": 98,
+   "required": 108,
    "buffer": 4,
    "owned": 123,
    "in_shop": 6,
    "serviceable": 117,
-   "margin": 15
+   "margin": 5
   },
   {
    "t": 24,
@@ -4674,9 +4654,9 @@
    "required": 44,
    "buffer": 5,
    "owned": 49,
-   "in_shop": 2,
-   "serviceable": 47,
-   "margin": -2
+   "in_shop": 1,
+   "serviceable": 48,
+   "margin": -1
   },
   {
    "t": 71,
@@ -4718,9 +4698,9 @@
    "required": 38,
    "buffer": 4,
    "owned": 44,
-   "in_shop": 2,
-   "serviceable": 42,
-   "margin": 0
+   "in_shop": 3,
+   "serviceable": 41,
+   "margin": -1
   },
   {
    "t": 75,
@@ -5154,17 +5134,17 @@
  ],
  "ops_summary": {
   "thin": {
-   "t": 70,
-   "label": "2032-08",
-   "aircraft": 22,
-   "required": 44,
-   "buffer": 5,
-   "owned": 49,
+   "t": 77,
+   "label": "2033-03",
+   "aircraft": 18,
+   "required": 36,
+   "buffer": 4,
+   "owned": 40,
    "in_shop": 2,
-   "serviceable": 47,
+   "serviceable": 38,
    "margin": -2
   },
-  "months_short": 6,
+  "months_short": 7,
   "note": "運航側：必要なエンジン数 = 2 × 飛ぶ機数（運航指数 × 必要機数、機体整備で止まる機を引く）。窓の中は計画の系列、窓の後は退役後の機数で按分。余力 = 稼働可能 − 必要 − 予備"
  },
  "state_source": "simulation",
@@ -5178,55 +5158,52 @@
   "next_due": {
    "visits": 56,
    "spend_k": 486600,
-   "residual_value_k": 75055,
+   "residual_value_k": 74505,
    "green_time_engines": 3,
    "heavy_late_engines": 0,
    "after_window_visits": 16
   },
   "oldest": {
-   "visits": 85,
-   "spend_k": 533300,
-   "residual_value_k": 93063,
+   "visits": 87,
+   "spend_k": 534100,
+   "residual_value_k": 92381,
    "green_time_engines": 2,
    "heavy_late_engines": 0,
-   "after_window_visits": 45
+   "after_window_visits": 47
   },
   "random": {
-   "visits": 603,
-   "spend_k": 2086200,
-   "residual_value_k": 177717,
-   "green_time_engines": 33,
-   "heavy_late_engines": 14,
-   "after_window_visits": 563
+   "visits": 576,
+   "spend_k": 2066500,
+   "residual_value_k": 204061,
+   "green_time_engines": 42,
+   "heavy_late_engines": 20,
+   "after_window_visits": 536
   }
  },
  "without_runout": {
   "visits": 56,
-  "spend_k": 499700,
-  "residual_value_k": 81242,
+  "spend_k": 496600,
+  "residual_value_k": 78716,
   "heavy_late_engines": 0
  },
  "delivery_delay": {
   "6": {
    "months": 6,
    "end": "2036-09",
-   "visits": 87,
-   "spend_k": 579600,
-   "extra_visits": 31,
-   "extra_spend_k": 93000,
+   "visits": 85,
+   "spend_k": 583800,
+   "extra_visits": 29,
+   "extra_spend_k": 97200,
    "engines_with_extra_visit": [
     "J-113",
+    "J-141",
     "J-205",
-    "J-206",
-    "J-103",
     "J-124",
     "J-127",
-    "J-128",
     "J-160",
     "J-165",
     "J-176",
     "J-180",
-    "J-181",
     "J-182",
     "J-185",
     "J-192",
@@ -5235,12 +5212,12 @@
     "J-216",
     "J-223"
    ],
-   "months_short": 8,
-   "residual_value_k": 59427,
+   "months_short": 10,
+   "residual_value_k": 61342,
    "known": {
-    "visits": 68,
-    "extra_visits": 12,
-    "extra_spend_k": 75300,
+    "visits": 67,
+    "extra_visits": 11,
+    "extra_spend_k": 71200,
     "months_short": 7
    }
   },
@@ -5253,6 +5230,7 @@
    "extra_spend_k": 284300,
    "engines_with_extra_visit": [
     "J-113",
+    "J-141",
     "J-173",
     "J-177",
     "J-205",
@@ -5280,11 +5258,10 @@
     "J-197",
     "J-207",
     "J-208",
-    "J-216",
-    "J-218"
+    "J-216"
    ],
-   "months_short": 17,
-   "residual_value_k": 47552,
+   "months_short": 18,
+   "residual_value_k": 47039,
    "known": {
     "visits": 72,
     "extra_visits": 16,
