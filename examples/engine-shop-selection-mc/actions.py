@@ -202,8 +202,23 @@ def apply_lease(p, a):
     return dataclasses.replace(p, extra_fixed_cost=p.extra_fixed_cost + ext)
 
 
+BUY = {"price_k": 5500, "capital_rate": 0.07, "depreciation": 0.05, "lead_months": 6,
+       "note": "no_source（C）：予備エンジンの購入。窓の中の費用は資本費（7%）＋償却（5%）の 2 年分、納期 6 か月"}
+
+
 def apply_action(p, a):
     ids = {k.id for k in p.shops}
+    # counted levers for the purchase loop: spares@n (long-term lease), buy@n (purchase),
+    # pool@n (short-lease cap), midlife@n (green-time swaps)
+    if "@" in a:
+        name, n = a.split("@", 1)
+        n = int(n)
+        if name in ("spares", "pool", "midlife"):
+            return apply_lever(p, (name, n))
+        if name == "buy":
+            charge = n * BUY["price_k"] * (BUY["capital_rate"] + BUY["depreciation"]) * p.horizon / 12
+            return dataclasses.replace(p, owned_engines=p.owned_engines + n, extra_fixed_cost=p.extra_fixed_cost + charge)
+        raise ValueError(a)
     if a == "fixed" and "IND-ASIA" not in ids:
         raise NotApplicable(a)
     if a in CONTRACT_FORMS:

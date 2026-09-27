@@ -177,7 +177,7 @@ const DATA = /*__DATA__*/null;
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番（実行計画）", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番と購入計画の輪", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -1102,6 +1102,21 @@ const DATA = /*__DATA__*/null;
 
   /* ---------------- the playbook ---------------- */
   const playbookLine = (P) => { const f = P.steps[P.steps.length - 1]; return `3 段で期待値 ${(-f.delta_vs_base.total_cost / 1000).toFixed(1)} 百万ドル、立て直し費 ${(-f.delta_vs_base.recourse / 1000).toFixed(1)} 百万ドル減、ループ ${P.loop_time.before} → ${P.loop_time.after} か月。欠航リスク ${(f.delta_vs_base.aog_prob * 100) >= 0 ? "+" : ""}${(f.delta_vs_base.aog_prob * 100).toFixed(1)}pt`; };
+  function purchasePanel(PU) {
+    const S_ = PU.summary, tr = PU.trajectory;
+    const W = 900, H = 200, L = 44, B = 26, T = 10, n = tr.length, x = (i) => L + (n > 1 ? i / (n - 1) : 0) * (W - L - 60), top = Math.max(PU.target * 1.2, ...tr.map((s) => s.expected ? s.expected.aog_prob : 0)) * 1.1, y = (v) => T + (H - T - B) * (1 - v / top);
+    let s = `<line x1="${L}" x2="${W - 60}" y1="${y(PU.target)}" y2="${y(PU.target)}" stroke="var(--crit)" stroke-dasharray="4 3"/><text class="tick" x="${W - 56}" y="${y(PU.target) + 4}">目標 ${pct(PU.target)}</text>`;
+    s += `<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${tr.map((st, i) => `${x(i)},${y(st.expected.aog_prob)}`).join(" ")}"/>`;
+    tr.forEach((st, i) => { s += `<circle cx="${x(i)}" cy="${y(st.expected.aog_prob)}" r="4" fill="var(--accent)"><title>手 ${st.step}：欠航 ${pct(st.expected.aog_prob, 1)}、費用 ${(st.expected.total_cost / 1000).toFixed(1)} 百万ドル${st.added ? "。" + st.added.label : ""}</title></circle><text class="tick" x="${x(i)}" y="${H - B + 14}" text-anchor="middle">${st.added ? st.added.name + "+" + st.added.inc : "今"}</text>`; });
+    const steps = tr.slice(1).map((st) => `<tr><td>${st.step}</td><td>${esc(st.added.label)}</td><td>${(st.added.d_aog * 100).toFixed(1)}pt</td><td>${(st.added.d_cost / 1000).toFixed(1)}</td><td>${pct(st.expected.aog_prob, 1)}</td><td>${(st.expected.total_cost / 1000).toFixed(1)}</td></tr>`).join("");
+    const plan = PU.purchase_plan.map((p) => `<tr><td><b>${esc(p.what)}</b></td><td>${p.count}</td><td>${p.order_by}</td><td>${p.in_service}</td><td class="hint">${esc(p.note)}</td></tr>`).join("");
+    const cp = PU.couplings.map((c_) => `<li><b>${esc(c_.kind)}</b>：${esc(c_.text)}</li>`).join("");
+    const caps = Object.entries(PU.caps).map(([k, v]) => `${k} ≤ ${v.cap}（${esc(v.note)}）`).join("、");
+    return panel("購入計画の輪（置く → 便の計画で解く → 欠航確率と費用 → 最も安い 1 手 → 目標まで繰り返す）", `<p class="chart-note">${S_.steps} 手で欠航確率 ${pct(S_.aog_before, 1)} → ${pct(S_.aog_after, 1)}（目標 ${pct(PU.target)}）、費用 ${(S_.cost_before / 1000).toFixed(1)} → ${(S_.cost_after / 1000).toFixed(1)} 百万ドル。${esc(PU.stop)}${PU.seed_from ? "。" + esc(PU.seed_from.why) : ""}</p>` + `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="購入計画の輪の軌跡">${s}</svg>`
+      + `<div class="vgrid"><div><h3 style="margin:0 0 6px">購入計画</h3><table><thead><tr><th>何を</th><th>基数</th><th>発注</th><th>使える月</th><th></th></tr></thead><tbody>${plan || "<tr><td colspan=5>追加不要</td></tr>"}</tbody></table></div><div><h3 style="margin:0 0 6px">手順</h3><table><thead><tr><th>手</th><th>足したもの</th><th>欠航</th><th>費用（百万ドル）</th><th>欠航（後）</th><th>費用（後）</th></tr></thead><tbody>${steps}</tbody></table></div></div>`
+      + `<h3 style="margin:10px 0 4px">絡み合い（この輪が触る他の問題）</h3><ul>${cp}</ul><p class="hint">上限：${caps}</p>`
+      + `<h3 style="margin:10px 0 4px">戻りの輪</h3><ul><li>月次：${esc(PU.feedback.monthly)}</li><li>年次：${esc(PU.feedback.yearly)}</li></ul>`, esc(PU.note));
+  }
   function playbook() {
     const P = C().playbook;
     if (!P) return panel("打ち手の順番", '<p class="hint">playbook.py の結果がありません。</p>');
@@ -1110,7 +1125,9 @@ const DATA = /*__DATA__*/null;
     const rows = P.steps.map((st) => `<tr><td><b>${esc(st.label)}</b></td>${W_.map((w) => st.by_world[w] ? `<td>${(st.by_world[w].total_cost / 1000).toFixed(1)}<br><span class="hint">AOG ${pct(st.by_world[w].aog_prob, 1)}${st.actions[w].length ? "・" + st.actions[w].join("+") : ""}</span></td>` : "<td>—</td>").join("")}<td>${(st.expected.total_cost / 1000).toFixed(1)}</td><td>${st.delta_vs_base ? ((st.delta_vs_base.total_cost / 1000) >= 0 ? "+" : "") + (st.delta_vs_base.total_cost / 1000).toFixed(1) : "—"}</td><td>${pct(st.expected.aog_prob, 1)}</td><td>${(st.expected.recourse / 1000).toFixed(1)}</td></tr>`).join("");
     const plan = P.steps.slice(1).map((st) => `<tr><td><b>${esc(st.label)}</b></td><td>${esc(st.who)}</td><td>${esc(st.when)}</td><td>${esc(st.deadline)}</td><td>${esc(st.trigger)}</td></tr>`).join("");
     const vd = `<ul>${P.verdict.map((v) => `<li><span style="background:${SEV[v.status]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${esc(v.text)}</li>`).join("")}</ul>`;
-    return panel("", `<p class="chart-note">${esc(playbookLine(P))}</p><p>診断：遅いのは工場の数ではなく、部品（LLP キット）の納期と判断のリード。費用を膨らませるのは所見。だから順番は「キット → 契約 → 第二工場の選択権」。新設はしない。</p>` + vd, esc(P.note))
+    const PU = C().purchase;
+    const purchase = PU ? purchasePanel(PU) : "";
+    return purchase + panel("", `<p class="chart-note">${esc(playbookLine(P))}</p><p>診断：遅いのは工場の数ではなく、部品（LLP キット）の納期と判断のリード。費用を膨らませるのは所見。だから順番は「キット → 契約 → 第二工場の選択権」。新設はしない。</p>` + vd, esc(P.note))
       + panel("段ごとの効果（前の段の上に重ねる）", `<div class="scroll"><table><thead>${head}</thead><tbody>${rows}</tbody></table></div>`, `ループの時間：${esc(P.loop_time.rule)}`)
       + panel("誰が・いつ・何を引き金に", `<table><thead><tr><th>段</th><th>誰が</th><th>いつ</th><th>期限</th><th>引き金</th></tr></thead><tbody>${plan}</tbody></table>`, "引き金は「前提の見直しの枠組み」と同じ信号（変化点検知・追跡の例外・枠の回答）。");
   }

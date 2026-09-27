@@ -338,6 +338,9 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     pb = HERE / "playbook" / f"{c['id']}.json"
     if pb.exists():
         c["playbook"] = json.loads(pb.read_text(encoding="utf-8"))
+    pu = HERE / "purchase" / f"{c['id']}.json"
+    if pu.exists():
+        c["purchase"] = json.loads(pu.read_text(encoding="utf-8"))
     if backtest_path and backtest_path.exists():
         bt = json.loads(backtest_path.read_text(encoding="utf-8"))
         bt["engine"]["versions"] = [{k: v[k] for k in ("version", "planned", "matched", "missed", "unplanned", "timing_mean", "timing_sd", "fy")} for v in bt["engine"]["versions"]]

@@ -27,7 +27,7 @@ LOOPS = [
         ("roll", "次の版への引き継ぎ", "report"), ("history", "過去の計画との整合", "report"), ("invest", "国内工場の新設", "report"),
         ("tax", "税引後で比べる", "report"), ("finance", "お金の仕組み", "report"), ("mx4", "積立金と機体価値", "report"), ("annual", "年間計画レポート（別画面）", "annual")]),
     ("月次会議（回す・確かめる）", "月 1 回。計画との一致、前提の確率、乗り換えの価値と判断期限", [
-        ("month", "今月からの判断", "report"), ("track", "計画の追跡", "report"), ("cpd", "変化点と前提の整合", "report"), ("playbook", "打ち手の順番（実行計画）", "report"),
+        ("month", "今月からの判断", "report"), ("track", "計画の追跡", "report"), ("cpd", "変化点と前提の整合", "report"), ("playbook", "打ち手の順番と購入計画の輪", "report"),
         ("actions", "打ち手の効果", "report"), ("lease", "リース返却", "report"), ("resilience", "立て直しの安さ", "report"), ("loops", "PDCA と OODA（二つの輪）", "report"),
         ("monthly", "月次レポート（別画面）", "monthly"), ("tracking", "計画の追跡（別画面）", "track")]),
     ("その場（動く）", "当日〜数日。暗黙のルールで決め、会議は乗り換えと安全スイッチだけ", [
