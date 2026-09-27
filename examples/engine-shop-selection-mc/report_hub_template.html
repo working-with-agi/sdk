@@ -178,7 +178,7 @@ const DATA = /*__DATA__*/null; const FIG = /*__FIGURES__*/null;
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番と購入計画の輪", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, structure: { label: "計画の構造（基本計画と詳細計画）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番と購入計画の輪", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "付録：PDCA と OODA（二つの輪）", level: 4 }, structure: { label: "付録：計画の構造（基本計画と詳細計画）", level: 4 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -379,9 +379,9 @@ const DATA = /*__DATA__*/null; const FIG = /*__FIGURES__*/null;
     const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
     const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
     // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
-    const GROUPS = [["回し方：輪と段階", ["structure", "loops"]], ["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["playbook", "track", "cpd", "actions", "lease"]],
+    const GROUPS = [["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["playbook", "track", "cpd", "actions", "lease"]],
       ["確かめる：決め方の採点", ["review", "backtest", "history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
-      ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
+      ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]], ["付録：思考の枠組み（PDCA／OODA・輪の一覧）", ["structure", "loops"]]];
     const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
       + (() => { const rest = all.filter((h) => !GROUPS.some(([, keys]) => keys.includes(keyOf(h)))); return rest.length ? `<div class="cards">${rest.join("")}</div>` : ""; })();
     const roleBar = `<div class="tabs" role="tablist" aria-label="見方">${Object.entries(ROLES).map(([k, l]) => `<button type="button" role="tab" data-role="${k}" aria-selected="${k === role}">${l}</button>`).join("")}</div>`;

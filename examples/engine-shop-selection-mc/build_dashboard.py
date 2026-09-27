@@ -22,7 +22,7 @@ HERE = Path(__file__).resolve().parent
 # which report view answers what, by loop
 LOOPS = [
     ("年次の版（つくる・直す）", "年 1 回。前提を実績で引き直し、計画を凍結し、決め方を採点する", [
-        ("structure", "計画の構造（基本計画と詳細計画・輪と段階）", "report"), ("budget", "年間計画と予算", "report"), ("runout", "退役までの入場列", "report"), ("demand", "客席の需要（一つ上の層）・足す計画", "report"),
+        ("budget", "年間計画と予算", "report"), ("runout", "退役までの入場列", "report"), ("demand", "客席の需要（一つ上の層）・足す計画", "report"),
         ("fleets", "機種横断（会社全体）", "report"), ("backtest", "過去で検証（バックテスト）", "report"), ("review", "PDCA／OODA の見直し", "report"),
         ("roll", "次の版への引き継ぎ", "report"), ("history", "過去の計画との整合", "report"), ("invest", "国内工場の新設", "report"),
         ("tax", "税引後で比べる", "report"), ("finance", "お金の仕組み", "report"), ("mx4", "積立金と機体価値", "report"), ("annual", "年間計画レポート（別画面）", "annual")]),
@@ -33,9 +33,13 @@ LOOPS = [
     ("その場（動く）", "当日〜数日。暗黙のルールで決め、会議は乗り換えと安全スイッチだけ", [
         ("quote", "見積もりの承認", "report"), ("trend", "状態監視の警報", "report"), ("spares", "予備エンジンの数", "report"), ("offer", "エンジンの打診", "report"),
         ("cash", "支払いと為替", "report"), ("reliability", "信頼性管理", "report"), ("engines", "エンジン別の明細", "report"), ("sources", "前提と出典", "report")]),
+    ("付録（思考の枠組み）", "本文の裏で使っている考え方。読むのは必要なときだけ", [
+        ("structure", "計画の構造（基本計画と詳細計画・輪と段階）", "report"), ("loops", "PDCA と OODA（二つの輪）", "report"),
+        ("a4", "A4 版レポート（印刷用、付録つき）", "a4")]),
 ]
 FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）")]
 DOCS = [("story.html", "ストーリー：需要から検証まで", "handover/04_docs/story_需要から検証まで.md"),
+        ("appendix.html", "付録：思考の枠組み・新しい情報の重みづけ・シミュレーションの範囲", "handover/04_docs/appendix_思考の枠組み.md"),
         ("requirements.html", "要件と対応の記録（#1〜）", "REQUIREMENTS.md"),
         ("readme.html", "モデルの説明（README）", "README.md"),
         ("process.html", "進め方（PROCESS）", "handover/04_docs/PROCESS.md"),
@@ -177,7 +181,7 @@ td.peak{{background:#f3ede2}}td.fy1{{background:#eef2f7}}.bar{{display:inline-bl
 const DATA = {data}; const LOOPS = {loops}; let co = 0;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}}[c]));
-const link = (key, kind) => kind === "report" ? `report.html#co=${{co}}&v=${{key}}` : kind === "annual" ? "annual.html" : kind === "monthly" ? "monthly.html" : "track.html";
+const link = (key, kind) => kind === "report" ? `report.html#co=${{co}}&v=${{key}}` : kind === "annual" ? "annual.html" : kind === "a4" ? "report_a4.html" : kind === "monthly" ? "monthly.html" : "track.html";
 function render() {{
   const c = DATA[co];
   $("tabs").innerHTML = DATA.map((x, i) => `<button type="button" role="tab" aria-selected="${{i === co}}" data-i="${{i}}">${{esc(x.name)}}</button>`).join("");

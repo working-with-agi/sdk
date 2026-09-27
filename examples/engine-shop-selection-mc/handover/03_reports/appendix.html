@@ -1,0 +1,77 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>付録：思考の枠組み・新しい情報の重みづけ・シミュレーションの範囲</title><style>body{margin:0;background:#f6f4ee;color:#141413;font-family:'IBM Plex Sans JP',system-ui,sans-serif;line-height:1.7}main{max-width:880px;margin:0 auto;padding:40px 24px 80px}h1{font-size:28px}h2{font-size:20px;margin-top:36px;border-bottom:1px solid #cfcbc0;padding-bottom:6px}h3{font-size:16px;margin-top:24px}table{border-collapse:collapse;font-size:13px;margin:8px 0}th,td{border:1px solid #cfcbc0;padding:4px 8px;text-align:left}pre{background:#ffffff;border:1px solid #cfcbc0;padding:12px;overflow-x:auto;font-size:12px}code{background:#efece4;padding:0 4px}blockquote{border-left:3px solid #1f3d63;margin:8px 0;padding:4px 12px;color:#5b5a55}a{color:#1f3d63}.top{font-size:12px;color:#5b5a55}</style></head><body><main><p class="top"><a href="index.html">← ダッシュボード</a></p><h1>付録：思考の枠組み（PDCA／OODA）、新しい情報の重みづけ、シミュレーションの範囲</h1>
+<p>本文は「何が起きて、何を決めるか」だけを書く。ここには、その裏で使っている考え方をまとめる。数値はすべて合成データによる目安。</p>
+<h2>A. 思考の枠組み：基本計画は PDCA、詳細計画は OODA</h2>
+<p>計画は 2 頁の図で表している（<code>figures.py</code>、レポート「計画の構造」）。行は業務プロセス（経営・整備計画・調達・運航・技術・財務）、列は時間の段階。</p>
+<table><thead><tr><th>頁</th><th>列（段階）</th><th>輪</th><th>回数</th><th>回す条件</th></tr></thead><tbody>
+<tr><td>P1 基本計画（年次〜半期）＝ PDCA</td><td>① 前提を作る（Plan）→ ② 解く（Plan）→ ③ 打ち手と購入（Plan → Do＝承認）→ ④ 半期で確かめる（Check → Act）</td><td>F 年次の版の輪（本体）</td><td>年 1 回</td><td>前提 → 解く → 打ち手 → 承認。差し戻しなら前提を直して解き直す（1〜2 回が感覚値）</td></tr>
+<tr><td></td><td></td><td>A 購入の輪（Plan の中の小さな輪）</td><td>候補 4 × 4 手＝内側 32 回</td><td>AOG が 5% を切るまで 1 手ずつ</td></tr>
+<tr><td></td><td></td><td>D 需要の見直し（Check → Plan）</td><td>年 1 回</td><td>伸びの差が 3pt を超えたら随時</td></tr>
+<tr><td></td><td></td><td>G 半期の輪（Check → Act）</td><td>年 2 回</td><td>退役までの入場列と過去での検証で補正し次の版へ。足す計画が「必要」を変えたら解き直す</td></tr>
+<tr><td></td><td></td><td>内側：解いて叩く 1 回</td><td>基準計画 1 回ごと</td><td>MILP 40 本 → MC 800 本 × 24 か月 → 世界 2 つ分を確率で混ぜる（約 1.5 秒）</td></tr>
+<tr><td>P2 詳細計画（月次〜当日）＝ OODA</td><td>① 実績を入れる（Observe）→ ② 見張りと追跡（Orient → Decide）→ ③ 週次（Observe → Orient）→ ④ 当日（Decide → Act）</td><td>E 月次の輪</td><td>月 1 回</td><td>判断材料 → 見直し → 承認 → 追跡。PDCA の Check → Act と OODA の Decide をつなぐ</td></tr>
+<tr><td></td><td></td><td>C 年次の輪（学習）</td><td>年 1 回</td><td>追跡の事後確率と実績の重みで前提を補正し、P1 の世界と重みへ</td></tr>
+<tr><td></td><td></td><td>B 見張り</td><td>月 1 回（MC 4,000 本 × 6 か月）</td><td>3 か月先の AOG &gt; 5% なら短期リースを積み、年次を待たずに P1 の購入の輪へ</td></tr>
+<tr><td></td><td></td><td>週次</td><td>週 1 回</td><td>納期回答のログ → 変化点検知 → 追跡へ</td></tr>
+<tr><td></td><td></td><td>当日</td><td>毎日（計算なし）</td><td>承認線 v・警報・上限で動く</td></tr>
+</tbody></table>
+<p>二つの輪は互いの入力である。OODA の Observe（実績・回答ログ・便の実績・劣化率・計画外率）は次の版の ① 前提に、Orient（事後確率・変化点・補正）は ② 世界と重みに入る。逆に PDCA の Plan（基準計画）が Orient の入力になる。</p>
+<h2>B. 新しい情報を足したとき、どう重みづけるか</h2>
+<p>問い：「実績や新しい前提を足したとき、新しいものを優先して使うのか、平均して使うのか、クラスタを分けて運用するのか」。文献の整理と、このモデルの現状、次の版での方針。</p>
+<h3>B-1. 三つの型と、それぞれの根拠</h3>
+<table><thead><tr><th>型</th><th>考え方</th><th>代表的な文献</th><th>向く場面</th><th>弱点</th></tr></thead><tbody>
+<tr><td>新しいものを優先（忘却・割引）</td><td>古い観測の重みを指数的に落とす。忘却係数 λ（半減期）で「どれだけ速く忘れるか」を決める</td><td>動的モデル平均 DMA：Raftery, Kárný &amp; Ettler (2010, *Technometrics* 52(1)) は、正しいモデルが時間で変わることを忘却で表す。動的線形モデル：West &amp; Harrison (1997)</td><td>前提がゆっくり動く（劣化率、TAT の趨勢）</td><td>ノイズにも追随する。半減期の選び方が結果を左右する</td></tr>
+<tr><td>平均（等重み・部分プーリング）</td><td>候補を等重み、または事前分布へ縮める n/(n+K) で混ぜる</td><td>予測結合のパズル：Bates &amp; Granger (1969)、Timmermann (2006, *Handbook of Economic Forecasting* ch.4)、Smith &amp; Wallis (2009)、Claeskens ほか (2016)。重みを推定する誤差が大きいので、単純平均が「最適」重みに勝つことが多い。ベイズモデル平均：Hoeting ほか (1999)。部分プーリング：Gelman &amp; Hill (2007)</td><td>候補の誤差が似ていて、レジームが一つ</td><td>レジームが変わると遅れる（平均が古い世界を引きずる）</td></tr>
+<tr><td>クラスタ（レジーム）を分ける</td><td>観測を「世界」に分け、どの世界にいるかを検知して切り替える</td><td>レジーム切替：Hamilton (1989)。変化点検知：Adams &amp; MacKay (2007, BOCPD)。概念ドリフト適応の総覧：Gama ほか (2014, *ACM Computing Surveys* 46(4))—窓型・検知型・アンサンブル型に分類。適応窓：Bifet &amp; Gavaldà (2007, ADWIN)</td><td>前提が段で変わる（キットの納期、工場の混雑）</td><td>誤検知で不要な切替。クラスタ数の設計が要る</td></tr>
+</tbody></table>
+<p>出典の確からしさ：著者・年・掲載誌は確認済み（A）。頁や細部の主張は再確認が必要（B）。</p>
+<h3>B-2. このモデルの現状（三つの型が場所ごとに混ざっている）</h3>
+<table><thead><tr><th>対象</th><th>今の方式</th><th>型</th></tr></thead><tbody>
+<tr><td>世界の確率（追跡 <code>track.py</code>）</td><td>ベイズ更新を γ=0.5 で緩め（tempered）、乗り換えは ΔV が 2 か月続いたときだけ（ヒステリシス）</td><td>平均（慎重な平均）</td></tr>
+<tr><td>次の版の前提（<code>roll.py</code>）</td><td>実績の重み n/(n+K) で事前値へ縮める。変化点の後は、その月以降の入場だけを使って n を数え直す</td><td>平均 ＋ クラスタ（検知でリセット）</td></tr>
+<tr><td>変化点（<code>cpd.py</code>）</td><td>BOCPD・CUSUM で納期回答と戻りの遅れを見張り、検知したら「観測世界」を足す</td><td>クラスタ</td></tr>
+<tr><td>需要の伸び（<code>plan_from_demand.py</code>）</td><td>2 年先までは直近、5 年先からは長期に寄せる。前年比が仮定から 3pt 外れたら随時</td><td>地平で平均 ＋ 検知</td></tr>
+<tr><td>過去での検証（<code>backtest.py</code>）</td><td>学ぶ 5 版／確かめる 5 版で補正の効きを採点</td><td>補正の採点（どの型がよいかの証拠）</td></tr>
+</tbody></table>
+<h3>B-3. 文献とこのモデルの証拠から言えること</h3>
+<ol>
+<li><b>既定は平均。</b> 重みを賢く推定するほど誤差が増える（予測結合のパズル）。過去での検証でも、需要の伸びは「直近の傾向」より「長期の平均」が勝った。新しいものを無条件に優先しない。</li>
+<li><b>忘却はゆっくり、明示的に。</b> 世界の確率は今、全月を等重みで積み上げている。DMA の忘却係数を入れ、半減期 12 か月程度（月次 λ ≈ 0.94）で古い月を薄める。これで「正しい世界が変わる」ことを、検知を待たずに少しずつ表せる。</li>
+<li><b>段が変わるときはクラスタで切る。</b> キットの納期や工場の混雑は段で変わる。ここは平均でも忘却でも遅れるので、変化点検知でリセットし、必要なら世界（クラスタ）を足す。クラスタ数は少なく保つ（基準・混雑・逼迫・複合・観測の 5 つ）。「どの世界にも当てはまらない月が 3 か月続く」を足す条件にしている。</li>
+<li><b>結論：平均を既定に、ゆっくり忘れ、検知で切る（三つの混成）。</b> 一つの型に寄せない。それぞれの場所に理由がある。</li>
+</ol>
+<h3>B-4. 次の版で直すこと</h3>
+<table><thead><tr><th>対象</th><th>変更</th><th>期待する効き</th></tr></thead><tbody>
+<tr><td>世界の確率</td><td>忘却係数 λ（半減期 12 か月）を追加。γ はそのまま</td><td>検知前でも徐々に追随。誤検知の影響も薄まる</td></tr>
+<tr><td>roll の n/(n+K)</td><td>K を「確かめる期間」で採点して選ぶ（今は固定）</td><td>補正の過不足を減らす</td></tr>
+<tr><td>世界の追加</td><td>観測世界を足したら、古い世界の確率に下限を設ける（消えない）</td><td>戻りが起きたときに復帰できる</td></tr>
+<tr><td>需要の伸び</td><td>地平の混ぜ方（2 年／5 年）を過去での検証で採点</td><td>引き金の 3pt と整合させる</td></tr>
+</tbody></table>
+<h2>C. シミュレーションはどの矢印を包含するか</h2>
+<p>問い：「オペレーション的に同一か。シミュレーションは図のどの矢印を包含するか」。</p>
+<h3>C-1. 三つのシミュレータと、共通の前提</h3>
+<table><thead><tr><th>シミュレータ</th><th>地平・粒度</th><th>何を引くか</th><th>使う場所</th></tr></thead><tbody>
+<tr><td>20 年の履歴（<code>lifecycle.py</code>）</td><td>240 か月・エンジン 1 基ずつ</td><td>劣化（窓の物理）、故障、入場・戻り。最初の 5 年は捨てる</td><td>① 前提（今日の状態・平年値）、退役までの入場列</td></tr>
+<tr><td>計画の評価（<code>baseline.py</code> の MC）</td><td>24 か月 × 800 本</td><td>工場の遅れ、所見の追加費用、計画外の故障、戻り、予備の割当、欠航</td><td>内側（解いて叩く）、購入の輪、打ち手の値付け、投資、過去での検証</td></tr>
+<tr><td>不足の見張り（<code>shortage.py</code>）</td><td>6 か月 × 4,000 本</td><td>在庫機ごとの条件付き遅れ、予定入場、故障</td><td>B 見張り</td></tr>
+</tbody></table>
+<p>三つは同じ前提（<code>companies.json</code> の劣化率・TAT の分布・所見率・計画外率）と同じ乱数の引き方を使うが、コードは別で、粒度と地平が違う。<b>オペレーション的に「同一」なのは前提と分布であって、走らせ方ではない。</b> 20 年の履歴が「今日の状態」を作り、計画の評価がその状態から 24 か月を叩き、見張りが在庫だけを 6 か月先まで見る。</p>
+<h3>C-2. 矢印ごとの包含（計算・人・データ）</h3>
+<table><thead><tr><th>矢印</th><th>頁</th><th>誰が回す</th><th>中身</th></tr></thead><tbody>
+<tr><td>① 前提 → 内側（履歴・需要・便の計画・劣化・契約）</td><td>P1</td><td>計算</td><td>決定論・式。20 年の履歴だけがシミュレーション</td></tr>
+<tr><td>内側：解く → 叩く</td><td>P1</td><td>計算</td><td>MILP（PuLP・HiGHS）＋ MC 800 本。シミュレーションはここに包含</td></tr>
+<tr><td>A 購入の輪 → 内側</td><td>P1</td><td>計算</td><td>候補ごとに内側を呼ぶ</td></tr>
+<tr><td>内側 → 打ち手の値付け・順番・投資</td><td>P1</td><td>計算</td><td>手ごと・案ごとに内側を解き直す</td></tr>
+<tr><td>打ち手・購入・投資 → 版の承認</td><td>P1</td><td>人</td><td>判断ルーム。計算なし</td></tr>
+<tr><td>F 承認 → 差し戻し → 解き直す</td><td>P1</td><td>人が決め、計算が回す</td><td>差し戻しの判断は人、解き直しは内側</td></tr>
+<tr><td>D 需要の見直し → 前提</td><td>P1</td><td>計算＋引き金</td><td>引き金（3pt）は計算、年次の見直しは人が承認</td></tr>
+<tr><td>G 退役までの入場列・過去での検証 → 補正 → 次の版</td><td>P1</td><td>計算</td><td>決定論の入場列と、8 版の再解き（内側を過去で呼ぶ）</td></tr>
+<tr><td>G 足す計画 → 便の計画 → 解き直す</td><td>P1</td><td>計算が提案、人が便を決める</td><td>足せる便数は計算。便の計画そのものは運航の判断</td></tr>
+<tr><td>実績・回答ログ・状態監視・便の実績 → 追跡・見張り</td><td>P2</td><td>データ</td><td>シミュレーションではない。取り込み（Secretary.io が整える）</td></tr>
+<tr><td>追跡：事後確率 → ΔV → ヒステリシス</td><td>P2</td><td>計算</td><td>世界 5 つ分の内側を呼ぶ</td></tr>
+<tr><td>B 見張り → 短期リース → P1 の購入の輪</td><td>P2</td><td>計算が引き金、人が発注</td><td>6 か月の MC。引いたら購入の輪（計算）を回し、契約は人</td></tr>
+<tr><td>C 学習 → P1 の世界と重み</td><td>P2</td><td>計算</td><td>n/(n+K)、変化点でリセット</td></tr>
+<tr><td>E 判断材料 → 見直し → 承認 → 追跡</td><td>P2</td><td>人（計算は数十秒）</td><td>見直しの症状表は規則層＋AI 層。承認は人</td></tr>
+<tr><td>週次：回答ログ → 変化点 → 追跡</td><td>P2</td><td>計算</td><td>BOCPD・CUSUM</td></tr>
+<tr><td>当日：承認線・警報 → 短期リース・代替運航</td><td>P2</td><td>人（ルール）</td><td>計算なし。ルールは事前に計算した単位価値 v を使う</td></tr>
+</tbody></table>
+<p>要約：<b>藍の箱と藍の矢印はシミュレーションが包含する。琥珀の箱と点線は人の判断で、シミュレーションは材料を渡すだけ。青緑の箱のうち「実績」系はデータであり、シミュレーションの外から来る。</b></p></main></body></html>
