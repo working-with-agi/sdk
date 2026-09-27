@@ -242,7 +242,7 @@ def horizons(c: dict, b: dict) -> dict:
 
 def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None,
             history_path: Path | None = None, roll_path: Path | None = None, runout_path: Path | None = None, review_path: Path | None = None,
-            demand_path: Path | None = None) -> dict:
+            demand_path: Path | None = None, backtest_path: Path | None = None) -> dict:
     b = json.loads(baseline_path.read_text(encoding="utf-8"))
     with tempfile.TemporaryDirectory() as tmp:
         if deltas_path is None or not deltas_path.exists():
@@ -326,6 +326,10 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         pp = demand_path.with_name(demand_path.stem + "-plan.json")
         if pp.exists():
             c["demand"]["plan_from_demand"] = json.loads(pp.read_text(encoding="utf-8"))
+    if backtest_path and backtest_path.exists():
+        bt = json.loads(backtest_path.read_text(encoding="utf-8"))
+        bt["engine"]["versions"] = [{k: v[k] for k in ("version", "planned", "matched", "missed", "unplanned", "timing_mean", "timing_sd", "fy")} for v in bt["engine"]["versions"]]
+        c["backtest"] = bt
     if review_path and review_path.exists():
         rv = json.loads(review_path.read_text(encoding="utf-8"))
         c["review"] = {k: rv.get(k) for k in ("symptoms", "coverage", "review", "note", "framework")}
@@ -345,6 +349,7 @@ def main(argv=None) -> int:
     ap.add_argument("--runout-dir", type=Path, help="directory with <company>.json (runout.py output)")
     ap.add_argument("--review-dir", type=Path, help="directory with <company>.json (review.py output)")
     ap.add_argument("--demand-dir", type=Path, help="directory with <company>.json (demand.py output)")
+    ap.add_argument("--backtest-dir", type=Path, help="directory with <company>.json (backtest.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("report.html"))
     args = ap.parse_args(argv)
     data = []
@@ -356,7 +361,8 @@ def main(argv=None) -> int:
                             next(iter(sorted(args.roll_dir.glob(f"{cid}-roll-*.json"))), None) if args.roll_dir else None,
                             args.runout_dir / f"{cid}.json" if args.runout_dir else None,
                             args.review_dir / f"{cid}.json" if args.review_dir else None,
-                            args.demand_dir / f"{cid}.json" if args.demand_dir else None))
+                            args.demand_dir / f"{cid}.json" if args.demand_dir else None,
+                            args.backtest_dir / f"{cid}.json" if args.backtest_dir else None))
     html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
         "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
     args.html_out.write_text(html, encoding="utf-8")

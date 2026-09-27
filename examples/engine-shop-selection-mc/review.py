@@ -35,7 +35,7 @@ JP = {"Plan": "つくる", "Do": "回す", "Check": "確かめる", "Act": "直�
 
 
 # ------------------------------------------------------------------ 1. the fact pack
-def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None, plan_from_demand: dict | None = None) -> dict:
+def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None, plan_from_demand: dict | None = None, backtest: dict | None = None) -> dict:
     pr = b["plan_of_record"]
     labels = b["monthly"]["labels"]
     fy = {k: {"spend": v.get("spend", 0.0), "budget": b["budgets"].get(k)} for k, v in pr["by_fiscal_year"].items()}
@@ -83,6 +83,10 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
                        "heavy_late_engines": T["heavy_late_engines"], "plan_gaps": T["plan_gaps"], "plan_gap_max_months": T.get("plan_gap_max_months", 0), "policies": runout["policies"],
                        "without_runout": runout["without_runout"], "by_year": [{k: y[k] for k in ("year", "visits", "spend_k", "retired", "engines")} for y in runout["by_year"]]}
     F["framework"] = framework_status(b, plan_from_demand, track)
+    if backtest:
+        F["backtest"] = {"n_versions": backtest["engine"]["n_versions"], "n_fy": backtest["engine"]["n_fy"], "coverage": backtest["engine"]["coverage"],
+                         "timing_mean": backtest["engine"]["timing"]["mean"], "unsched_ratio": backtest["engine"]["unsched_ratio"],
+                         "verdict": backtest["engine"]["verdict"] + backtest["demand"]["verdict"]}
     if plan_from_demand:
         d = plan_from_demand["derived"]
         F["demand_growth"] = {"short": d["demand_growth_per_year"], "long": d["demand_growth_long_run"], "review": d["review"], "utilisation": d["utilisation_multiplier"]}
@@ -239,6 +243,10 @@ def symptoms(F: dict) -> list[dict]:
             add("OODA", "Orient", "warn", f"前提「{x['name']}」の引き金が引かれた", x["evidence"], f"{x['owner']}が年次を待たず月次会議へ（影響先 {'・'.join(x['affects'])}）")
         if not FW["overdue"] and not FW["fired"]:
             add("PDCA", "Act", "ok", f"前提 {FW['n']} 件はすべて周期内、引き金なし", "assumptions_review.json", "")
+    BT = F.get("backtest")
+    if BT:
+        for v in BT["verdict"]:
+            add("PDCA", "Check", v["status"] if v["status"] in ("ok", "warn", "info") else "info", "過去で検証：" + v["text"], f"{BT['n_versions']} 版・{BT['n_fy']} 年度のバックテスト", "" if v["status"] == "ok" else "決め方（幅・窓の下端・計画外の率）を次の版で直す")
     H = F.get("history")
     if H and H["fy_scored"]:
         r = H["fy_inside_range"] / H["fy_scored"]
@@ -309,10 +317,10 @@ def ai_review(F: dict, sym: list[dict]) -> dict:
 
 
 def build(cid: str, baseline_path: Path | None, track_path: Path | None, roll_path: Path | None, runout_path: Path | None,
-          history_path: Path | None = None, use_ai: bool = True, plan_path: Path | None = None) -> dict:
+          history_path: Path | None = None, use_ai: bool = True, plan_path: Path | None = None, backtest_path: Path | None = None) -> dict:
     load = lambda p: json.loads(p.read_text(encoding="utf-8")) if p and Path(p).exists() else None  # noqa: E731
     b = load(baseline_path or HERE / "baselines" / f"{cid}-2026-10.json")
-    F = facts(b, load(track_path), load(roll_path), load(runout_path), load(history_path), load(plan_path))
+    F = facts(b, load(track_path), load(roll_path), load(runout_path), load(history_path), load(plan_path), load(backtest_path))
     sym = symptoms(F)
     rev = ai_review(F, sym) if use_ai else {"mode": "rules", "reason": "--no-ai", "text": rules_text(F, sym)}
     return {"company": cid, "facts": F, "symptoms": sym, "coverage": coverage(sym), "review": rev, "framework": F.get("framework"),
@@ -329,10 +337,11 @@ def main(argv=None) -> int:
     ap.add_argument("--runout", type=Path)
     ap.add_argument("--history", type=Path)
     ap.add_argument("--plan-from-demand", type=Path, help="plan_from_demand.py output (growth review schedule)")
+    ap.add_argument("--backtest", type=Path, help="backtest.py output")
     ap.add_argument("--out", type=Path)
     ap.add_argument("--no-ai", action="store_true")
     a = ap.parse_args(argv)
-    out = build(a.company, a.baseline, a.track, a.roll, a.runout, a.history, use_ai=not a.no_ai, plan_path=a.plan_from_demand)
+    out = build(a.company, a.baseline, a.track, a.roll, a.runout, a.history, use_ai=not a.no_ai, plan_path=a.plan_from_demand, backtest_path=a.backtest)
     p = a.out or HERE / "review" / f"{a.company}.json"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")

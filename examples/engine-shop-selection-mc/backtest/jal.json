@@ -1,0 +1,651 @@
+{
+ "company": "jal",
+ "engine": {
+  "versions": [
+   {
+    "version": "2018-10",
+    "planned": 44,
+    "matched": 37,
+    "missed": 7,
+    "unplanned": 9,
+    "timing_mean": 1.3513513513513513,
+    "timing_sd": 2.8113305132855877,
+    "fy": [
+     {
+      "fy": "FY2018",
+      "months": 6,
+      "planned": 12,
+      "actual": 11,
+      "p10": 10,
+      "p90": 14,
+      "inside": true,
+      "planned_spend": 106121,
+      "actual_spend": 85500,
+      "unsched_expected": 1.896,
+      "unsched_actual": 2
+     },
+     {
+      "fy": "FY2019",
+      "months": 12,
+      "planned": 25,
+      "actual": 24,
+      "p10": 22,
+      "p90": 28,
+      "inside": true,
+      "planned_spend": 271766,
+      "actual_spend": 191800,
+      "unsched_expected": 3.792,
+      "unsched_actual": 8
+     },
+     {
+      "fy": "FY2020",
+      "months": 6,
+      "planned": 7,
+      "actual": 16,
+      "p10": 6,
+      "p90": 10,
+      "inside": false,
+      "planned_spend": 63185,
+      "actual_spend": 126200,
+      "unsched_expected": 1.896,
+      "unsched_actual": 6
+     }
+    ]
+   },
+   {
+    "version": "2019-10",
+    "planned": 45,
+    "matched": 39,
+    "missed": 6,
+    "unplanned": 16,
+    "timing_mean": 1.7179487179487178,
+    "timing_sd": 2.6789657203300465,
+    "fy": [
+     {
+      "fy": "FY2019",
+      "months": 6,
+      "planned": 16,
+      "actual": 13,
+      "p10": 13,
+      "p90": 18,
+      "inside": true,
+      "planned_spend": 157570,
+      "actual_spend": 96300,
+      "unsched_expected": 1.8719999999999999,
+      "unsched_actual": 4
+     },
+     {
+      "fy": "FY2020",
+      "months": 12,
+      "planned": 20,
+      "actual": 23,
+      "p10": 18,
+      "p90": 24,
+      "inside": true,
+      "planned_spend": 207046,
+      "actual_spend": 177700,
+      "unsched_expected": 3.7439999999999998,
+      "unsched_actual": 8
+     },
+     {
+      "fy": "FY2021",
+      "months": 6,
+      "planned": 9,
+      "actual": 21,
+      "p10": 7,
+      "p90": 12,
+      "inside": false,
+      "planned_spend": 103825,
+      "actual_spend": 181200,
+      "unsched_expected": 1.8719999999999999,
+      "unsched_actual": 7
+     }
+    ]
+   },
+   {
+    "version": "2020-10",
+    "planned": 40,
+    "matched": 32,
+    "missed": 8,
+    "unplanned": 14,
+    "timing_mean": 1.4375,
+    "timing_sd": 2.946793808531571,
+    "fy": [
+     {
+      "fy": "FY2020",
+      "months": 6,
+      "planned": 14,
+      "actual": 7,
+      "p10": 11,
+      "p90": 16,
+      "inside": false,
+      "planned_spend": 137896,
+      "actual_spend": 51500,
+      "unsched_expected": 1.992,
+      "unsched_actual": 2
+     },
+     {
+      "fy": "FY2021",
+      "months": 12,
+      "planned": 18,
+      "actual": 30,
+      "p10": 16,
+      "p90": 22,
+      "inside": false,
+      "planned_spend": 208535,
+      "actual_spend": 236600,
+      "unsched_expected": 3.984,
+      "unsched_actual": 11
+     },
+     {
+      "fy": "FY2022",
+      "months": 6,
+      "planned": 8,
+      "actual": 11,
+      "p10": 7,
+      "p90": 11,
+      "inside": true,
+      "planned_spend": 81412,
+      "actual_spend": 93600,
+      "unsched_expected": 1.992,
+      "unsched_actual": 4
+     }
+    ]
+   },
+   {
+    "version": "2021-10",
+    "planned": 34,
+    "matched": 29,
+    "missed": 5,
+    "unplanned": 11,
+    "timing_mean": 1.206896551724138,
+    "timing_sd": 3.2945023206886033,
+    "fy": [
+     {
+      "fy": "FY2021",
+      "months": 6,
+      "planned": 8,
+      "actual": 9,
+      "p10": 7,
+      "p90": 11,
+      "inside": true,
+      "planned_spend": 84388,
+      "actual_spend": 55400,
+      "unsched_expected": 2.136,
+      "unsched_actual": 4
+     },
+     {
+      "fy": "FY2022",
+      "months": 12,
+      "planned": 19,
+      "actual": 21,
+      "p10": 17,
+      "p90": 24,
+      "inside": true,
+      "planned_spend": 192277,
+      "actual_spend": 183100,
+      "unsched_expected": 4.272,
+      "unsched_actual": 5
+     },
+     {
+      "fy": "FY2023",
+      "months": 6,
+      "planned": 7,
+      "actual": 10,
+      "p10": 6,
+      "p90": 10,
+      "inside": true,
+      "planned_spend": 72844,
+      "actual_spend": 71400,
+      "unsched_expected": 2.136,
+      "unsched_actual": 5
+     }
+    ]
+   },
+   {
+    "version": "2022-10",
+    "planned": 34,
+    "matched": 25,
+    "missed": 9,
+    "unplanned": 7,
+    "timing_mean": 0.76,
+    "timing_sd": 2.565618833731932,
+    "fy": [
+     {
+      "fy": "FY2022",
+      "months": 6,
+      "planned": 12,
+      "actual": 10,
+      "p10": 10,
+      "p90": 15,
+      "inside": true,
+      "planned_spend": 126349,
+      "actual_spend": 89500,
+      "unsched_expected": 2.136,
+      "unsched_actual": 1
+     },
+     {
+      "fy": "FY2023",
+      "months": 12,
+      "planned": 15,
+      "actual": 16,
+      "p10": 14,
+      "p90": 20,
+      "inside": true,
+      "planned_spend": 149753,
+      "actual_spend": 129300,
+      "unsched_expected": 4.272,
+      "unsched_actual": 6
+     },
+     {
+      "fy": "FY2024",
+      "months": 6,
+      "planned": 7,
+      "actual": 7,
+      "p10": 6,
+      "p90": 10,
+      "inside": true,
+      "planned_spend": 78683,
+      "actual_spend": 60800,
+      "unsched_expected": 2.136,
+      "unsched_actual": 4
+     }
+    ]
+   },
+   {
+    "version": "2023-10",
+    "planned": 35,
+    "matched": 26,
+    "missed": 9,
+    "unplanned": 8,
+    "timing_mean": 2.6538461538461537,
+    "timing_sd": 2.129324697794832,
+    "fy": [
+     {
+      "fy": "FY2023",
+      "months": 6,
+      "planned": 6,
+      "actual": 6,
+      "p10": 5,
+      "p90": 9,
+      "inside": true,
+      "planned_spend": 72540,
+      "actual_spend": 57900,
+      "unsched_expected": 2.112,
+      "unsched_actual": 1
+     },
+     {
+      "fy": "FY2024",
+      "months": 12,
+      "planned": 21,
+      "actual": 20,
+      "p10": 19,
+      "p90": 25,
+      "inside": true,
+      "planned_spend": 236225,
+      "actual_spend": 175200,
+      "unsched_expected": 4.224,
+      "unsched_actual": 7
+     },
+     {
+      "fy": "FY2025",
+      "months": 6,
+      "planned": 8,
+      "actual": 9,
+      "p10": 7,
+      "p90": 11,
+      "inside": true,
+      "planned_spend": 94772,
+      "actual_spend": 81600,
+      "unsched_expected": 2.112,
+      "unsched_actual": 2
+     }
+    ]
+   },
+   {
+    "version": "2024-10",
+    "planned": 47,
+    "matched": 39,
+    "missed": 8,
+    "unplanned": 6,
+    "timing_mean": 1.8205128205128205,
+    "timing_sd": 1.919826312547168,
+    "fy": [
+     {
+      "fy": "FY2024",
+      "months": 6,
+      "planned": 14,
+      "actual": 13,
+      "p10": 11,
+      "p90": 16,
+      "inside": true,
+      "planned_spend": 151734,
+      "actual_spend": 114400,
+      "unsched_expected": 1.8239999999999998,
+      "unsched_actual": 3
+     },
+     {
+      "fy": "FY2025",
+      "months": 12,
+      "planned": 26,
+      "actual": 22,
+      "p10": 22,
+      "p90": 29,
+      "inside": true,
+      "planned_spend": 243325,
+      "actual_spend": 172900,
+      "unsched_expected": 3.6479999999999997,
+      "unsched_actual": 4
+     },
+     {
+      "fy": "FY2026",
+      "months": 6,
+      "planned": 7,
+      "actual": 11,
+      "p10": 6,
+      "p90": 10,
+      "inside": false,
+      "planned_spend": 65869,
+      "actual_spend": 104800,
+      "unsched_expected": 1.8239999999999998,
+      "unsched_actual": 2
+     }
+    ]
+   },
+   {
+    "version": "2025-10",
+    "planned": 43,
+    "matched": 21,
+    "missed": 5,
+    "unplanned": 2,
+    "timing_mean": 0.6190476190476191,
+    "timing_sd": 1.2526615655205626,
+    "fy": [
+     {
+      "fy": "FY2025",
+      "months": 6,
+      "planned": 16,
+      "actual": 13,
+      "p10": 13,
+      "p90": 18,
+      "inside": true,
+      "planned_spend": 145532,
+      "actual_spend": 91300,
+      "unsched_expected": 1.92,
+      "unsched_actual": 2
+     },
+     {
+      "fy": "FY2026",
+      "months": 6,
+      "planned": 11,
+      "actual": 11,
+      "p10": 9,
+      "p90": 14,
+      "inside": true,
+      "planned_spend": 112093,
+      "actual_spend": 104800,
+      "unsched_expected": 1.92,
+      "unsched_actual": 2
+     }
+    ]
+   }
+  ],
+  "n_versions": 8,
+  "n_fy": 23,
+  "coverage": 0.782608695652174,
+  "volume_ratio": 1.091503267973856,
+  "spend_ratio": 0.8637877954572752,
+  "unsched_ratio": 1.6747052518756698,
+  "timing": {
+   "n": 248,
+   "mean": 1.4919354838709677,
+   "sd": 2.616621706920584,
+   "within_1": 0.4717741935483871,
+   "early": 0.04838709677419355,
+   "late": 0.4798387096774194,
+   "unscheduled_share": 0.056451612903225805,
+   "hist_bins": [
+    -12,
+    -11,
+    -10,
+    -9,
+    -8,
+    -7,
+    -6,
+    -5,
+    -4,
+    -3,
+    -2,
+    -1,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "hist": [
+    1,
+    0,
+    2,
+    0,
+    0,
+    1,
+    0,
+    1,
+    3,
+    2,
+    1,
+    2,
+    63,
+    52,
+    38,
+    38,
+    22,
+    12,
+    6,
+    1,
+    2,
+    0,
+    0,
+    0
+   ]
+  },
+  "stability": [
+   {
+    "from": "2018-10",
+    "to": "2019-10",
+    "same": 9,
+    "moved": 5,
+    "moved_far": 1,
+    "dropped": 6,
+    "added": 9,
+    "kept_share": 0.42857142857142855
+   },
+   {
+    "from": "2019-10",
+    "to": "2020-10",
+    "same": 6,
+    "moved": 7,
+    "moved_far": 6,
+    "dropped": 2,
+    "added": 5,
+    "kept_share": 0.2857142857142857
+   },
+   {
+    "from": "2020-10",
+    "to": "2021-10",
+    "same": 4,
+    "moved": 4,
+    "moved_far": 4,
+    "dropped": 4,
+    "added": 5,
+    "kept_share": 0.25
+   },
+   {
+    "from": "2021-10",
+    "to": "2022-10",
+    "same": 3,
+    "moved": 9,
+    "moved_far": 3,
+    "dropped": 2,
+    "added": 5,
+    "kept_share": 0.17647058823529413
+   },
+   {
+    "from": "2022-10",
+    "to": "2023-10",
+    "same": 5,
+    "moved": 4,
+    "moved_far": 2,
+    "dropped": 3,
+    "added": 5,
+    "kept_share": 0.35714285714285715
+   },
+   {
+    "from": "2023-10",
+    "to": "2024-10",
+    "same": 5,
+    "moved": 5,
+    "moved_far": 5,
+    "dropped": 4,
+    "added": 9,
+    "kept_share": 0.2631578947368421
+   },
+   {
+    "from": "2024-10",
+    "to": "2025-10",
+    "same": 6,
+    "moved": 9,
+    "moved_far": 5,
+    "dropped": 3,
+    "added": 7,
+    "kept_share": 0.2608695652173913
+   },
+   {
+    "from": "2025-10",
+    "to": "2026-10",
+    "same": 3,
+    "moved": 7,
+    "moved_far": 6,
+    "dropped": 0,
+    "added": 7,
+    "kept_share": 0.1875
+   }
+  ],
+  "verdict": [
+   {
+    "status": "ok",
+    "text": "リスクの幅（10〜90%）に実績が入った年度 78%（18/23、目標 80%）"
+   },
+   {
+    "status": "warn",
+    "text": "期限の予測誤差 平均 +1.5 か月、±1 か月以内 47%、早すぎ 5%・遅すぎ 48%（n=248）：期限が実際より早い（保守的）。窓の下端を後ろへ"
+   },
+   {
+    "status": "ok",
+    "text": "入場の件数 実績 ÷ 計画 1.09、費用 0.86"
+   },
+   {
+    "status": "warn",
+    "text": "計画外取卸し 実績 ÷ 想定 1.67"
+   },
+   {
+    "status": "info",
+    "text": "前の版の 2 年目が次の版の 1 年目にそのまま残った割合 平均 28%（版の安定性）"
+   }
+  ],
+  "note": "真実は同じ 20 年シミュレーションの続き（合成）。各版はその時点までの履歴だけから同じ方法で作り、その後の 12〜24 か月と突き合わせる"
+ },
+ "demand": {
+  "rows": [
+   {
+    "fy": "FY2021",
+    "short": -0.4273,
+    "long": -0.4273,
+    "blend": -0.4273,
+    "realised": 0.4792,
+    "err_short": 0.9065,
+    "err_long": 0.9065,
+    "err_blend": 0.9065,
+    "trigger_fired": true,
+    "shock": true
+   },
+   {
+    "fy": "FY2022",
+    "short": -0.2973,
+    "long": -0.2142,
+    "blend": -0.2973,
+    "realised": 0.8514,
+    "err_short": 1.1487,
+    "err_long": 1.0656,
+    "err_blend": 1.1487,
+    "trigger_fired": true,
+    "shock": true
+   },
+   {
+    "fy": "FY2023",
+    "short": 0.6549,
+    "long": -0.0265,
+    "blend": 0.6549,
+    "realised": 0.1502,
+    "err_short": -0.5047,
+    "err_long": 0.1767,
+    "err_blend": -0.5047,
+    "trigger_fired": true,
+    "shock": true
+   },
+   {
+    "fy": "FY2024",
+    "short": 0.4592,
+    "long": 0.0065,
+    "blend": 0.4592,
+    "realised": 0.0406,
+    "err_short": -0.4187,
+    "err_long": 0.034,
+    "err_blend": -0.4187,
+    "trigger_fired": true,
+    "shock": false
+   },
+   {
+    "fy": "FY2025",
+    "short": 0.094,
+    "long": 0.0121,
+    "blend": 0.094,
+    "realised": 0.035,
+    "err_short": -0.059,
+    "err_long": 0.0229,
+    "err_blend": -0.059,
+    "trigger_fired": true,
+    "shock": false
+   }
+  ],
+  "mae": {
+   "short": 0.6075200000000001,
+   "long": 0.44114,
+   "blend": 0.6075200000000001,
+   "short_normal": 0.23885,
+   "long_normal": 0.028450000000000003,
+   "blend_normal": 0.23885
+  },
+  "verdict": [
+   {
+    "status": "info",
+    "text": "検証した年度 5、うち衝撃の年（前年比 ±15% 超）3：どの規則も外す。引き金（3pt）は 5 年度で引かれた"
+   },
+   {
+    "status": "ok",
+    "text": "平常の年の平均誤差：直近 23.9%、長期 2.8%、計画の混ぜ方 23.9% → 長期が最も近い"
+   }
+  ],
+  "note": "実データ（e-Stat 年度系列）。各年度は前年度までのデータだけで規則を当て、その年度の実績と比べる。直近＝前 2 年の年率、長期＝FY2018 からの年率、混ぜ方＝計画が 12 か月先に使う値"
+ },
+ "note": "過去を検証に当てる：同じ方法を過去の各時点で回し、その後に起きたことと比べる"
+}
