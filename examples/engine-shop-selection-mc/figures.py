@@ -422,7 +422,7 @@ def strategy_matrix(overlays: bool = True) -> str:
     # the recommended path: updated assumptions go from 技術 (row 4) straight to 整備計画 (row 2), past MRO
     yt2 = T0 + 1 * (RH + GY) + RH - 12; yb2 = T0 + 3 * (RH + GY) + 12; xg = X2 + CW[2] + 12; ym2 = T0 + 1 * (RH + GY) + RH + GY / 2 + 12
     poly(f"{X2 + CW[2] - 110},{yb2} {X2 + CW[2] - 110},{yb2 - 16} {xg},{yb2 - 16} {xg},{ym2} {X0 + CW[0] - 110},{ym2} {X0 + CW[0] - 110},{yt2}", True, 4.5)
-    T(X0 + CW[0] - 104, ym2 - 6, "上へ：統合した前提（技術 → 整備計画）", 10, LOOP, 'font-weight="700"')
+    T(X1 + 80, ym2 - 6, "上へ：統合した前提（技術 → 整備計画、MRO を越えて）", 10, LOOP, 'font-weight="700"')
     # the decision under the result column
     yd = T0 + NR * RH + (NR - 1) * GY + 12
     o.append(f'<rect x="{XR + 10}" y="{yd}" width="{RW - 20}" height="34" rx="8" fill="{COL["judge"][0]}" stroke="{COL["judge"][1]}" stroke-width="1.5"/>'); T(XR + RW / 2, yd + 22, "→ 意思決定：計画の承認・購入・便数・投資", 12, INK, 'font-weight="700"', "middle")
