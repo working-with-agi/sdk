@@ -565,7 +565,7 @@ def overview_hero() -> str:
 def outputs_cycle() -> str:
     """The six outputs on two loops: the yearly one (review, plan, report) and the monthly one
     (review, revision, report), joined by the plan, all bound into the integrated report."""
-    W, Hh = 1400, 250
+    W, Hh = 1400, 270
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>', f'<defs><marker id="oc" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{LINE}"/></marker></defs>']
     def box(x, y, w, h, t, sub, f, st):
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="9" fill="{f}" stroke="{st}" stroke-width="2"/><text x="{x + w / 2}" y="{y + 22}" font-size="13.5" font-weight="700" fill="{INK}" text-anchor="middle">{t}</text><text x="{x + w / 2}" y="{y + 40}" font-size="11" fill="{MUTE}" text-anchor="middle">{sub}</text>')
@@ -574,29 +574,29 @@ def outputs_cycle() -> str:
         if lab: o.append(f'<text x="{lx}" y="{ly}" font-size="10.5" fill="{MUTE}" text-anchor="middle">{lab}</text>')
     bw, bh = 176, 52
     # columns: yearly loop x 40..600 ; plan at 380 ; monthly loop 640..1180 ; integrated 1210..
-    o.append(f'<rect x="20" y="12" width="620" height="206" rx="12" fill="none" stroke="{PDCA}" stroke-dasharray="8 5"/><text x="34" y="32" font-size="12" font-weight="700" fill="{PDCA}">年に 1 回（PDCA）</text>')
-    o.append(f'<rect x="660" y="12" width="540" height="206" rx="12" fill="none" stroke="{OODA}" stroke-dasharray="8 5"/><text x="674" y="32" font-size="12" font-weight="700" fill="{OODA}">月ごと（OODA）</text>')
-    box(40, 48, bw, bh, "年間見直し", "過去での検証・補正・来年の手法", "#e0e7ff", "#4338ca")
-    box(40, 150, bw, bh, "年次レポート", "年度計画・退役までの列・購入計画", "#fef3c7", "#b45309")
-    box(430, 99, bw, bh, "計画", "基準計画と購入計画（版）", "#e0e7ff", "#4338ca")
-    box(690, 48, bw, bh, "月次見直し", "実績との差・確率・合図", "#e0e7ff", "#4338ca")
-    box(990, 48, bw, bh, "計画修正", "乗り換え・手当て・差分", "#e0e7ff", "#4338ca")
-    box(840, 150, bw, bh, "月次レポート", "判断期限・見張り・着地", "#fef3c7", "#b45309")
-    box(1220, 99, 160, 76, "統合レポート（A4）", "本文 1〜8 章＋付録", "#fee2e2", LOOP)
+    o.append(f'<rect x="20" y="36" width="620" height="200" rx="12" fill="none" stroke="{PDCA}" stroke-dasharray="8 5"/><text x="34" y="56" font-size="12" font-weight="700" fill="{PDCA}">年に 1 回（PDCA）</text>')
+    o.append(f'<rect x="660" y="36" width="540" height="200" rx="12" fill="none" stroke="{OODA}" stroke-dasharray="8 5"/><text x="674" y="56" font-size="12" font-weight="700" fill="{OODA}">月ごと（OODA）</text>')
+    box(40, 64, bw, bh, "年間見直し", "過去での検証・補正・来年の手法", "#e0e7ff", "#4338ca")
+    box(40, 166, bw, bh, "年次レポート", "年度計画・退役までの列・購入計画", "#fef3c7", "#b45309")
+    box(430, 115, bw, bh, "計画", "基準計画と購入計画（版）", "#e0e7ff", "#4338ca")
+    box(690, 64, bw, bh, "月次見直し", "実績との差・確率・合図", "#e0e7ff", "#4338ca")
+    box(990, 64, bw, bh, "計画修正", "乗り換え・手当て・差分", "#e0e7ff", "#4338ca")
+    box(840, 166, bw, bh, "月次レポート", "判断期限・見張り・着地", "#fef3c7", "#b45309")
+    box(1220, 115, 160, 76, "統合レポート（A4）", "本文 1〜8 章＋付録", "#fee2e2", LOOP)
     # yearly: review -> plan (down the middle), plan -> annual report
-    poly(f"{40 + bw},74 {300},74 {300},125 {430},125", "前提と補正を渡す", 300, 66)
-    poly(f"{430},125 {300},125 {300},176 {40 + bw},176", "計画を載せる", 300, 196)
+    poly(f"{40 + bw},90 {300},90 {300},141 {430},141", "前提と補正を渡す", 300, 82)
+    poly(f"{430},141 {300},141 {300},192 {40 + bw},192", "計画を載せる", 300, 212)
     # plan -> monthly review (right, then up)
-    poly(f"{430 + bw},125 {660 - 20},125 {660 - 20},74 {690},74", "月ごとに実績を当てる", 640, 66)
+    poly(f"{430 + bw},141 {660 - 20},141 {660 - 20},90 {690},90", "月ごとに実績を当てる", 640, 82)
     # monthly review -> revision -> monthly report
-    poly(f"{690 + bw},74 {990},74", "必要なら", 928, 66)
-    poly(f"{990 + bw / 2},{48 + bh} {990 + bw / 2},176 {840 + bw},176", "修正後の計画で", 1078, 196)
-    poly(f"{690 + bw / 2},{48 + bh} {690 + bw / 2},150", "", 0, 0)
+    poly(f"{690 + bw},90 {990},90", "必要なら", 928, 82)
+    poly(f"{990 + bw / 2},{64 + bh} {990 + bw / 2},192 {840 + bw},192", "修正後の計画で", 1078, 212)
+    poly(f"{690 + bw / 2},{64 + bh} {690 + bw / 2},166", "", 0, 0)
     # big revision back to the plan (dashed, along the top)
-    poly(f"{990 + bw / 2 + 40},48 {990 + bw / 2 + 40},20 {430 + bw / 2},20 {430 + bw / 2},99", "大きな修正は版に戻す", 760, 16, "6 4")
+    poly(f"{990 + bw / 2 + 40},64 {990 + bw / 2 + 40},20 {430 + bw / 2},20 {430 + bw / 2},115", "大きな修正は版に戻す（点線）", 760, 14, "6 4")
     # both reports -> integrated report
-    poly(f"{840 + bw},176 {1200},176 {1200},150 {1220},150", "月次分を綴じる", 1150, 196)
-    poly(f"{40 + bw},{150 + bh - 4} {230},{150 + bh - 4} {230},232 {1210},232 {1210},124 {1220},124", "年次分が本文", 720, 244, "3 3")
+    poly(f"{840 + bw},192 {1200},192 {1200},166 {1220},166", "月次分を綴じる", 1150, 212)
+    poly(f"{40 + bw},{166 + bh - 4} {230},{166 + bh - 4} {230},252 {1210},252 {1210},140 {1220},140", "年次分が本文", 720, 264, "3 3")
     body = "".join(o)
     body = re.sub(r"<text[^>]*>", lambda m: m.group(0)[:-1] + ' style="font-family:IBM Plex Sans JP,Noto Sans JP,sans-serif">', body)
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="成果物の輪" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
