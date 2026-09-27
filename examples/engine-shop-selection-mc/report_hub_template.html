@@ -344,7 +344,7 @@ const DATA = /*__DATA__*/null;
       card("invest", inv ? (inv.recommend.go ? "ok" : "warn") : "", "国内工場の新設（LEAP-1B）", inv ? esc(inv.headline) : "試算中", inv ? breakevenChart(inv.breakeven, 320, 170) : ""),
       c.history ? card("history", histCls(c), "過去の計画との整合", histLine(c), stabilityChart(c.history, 320, 90, true)) : "",
       c.roll ? card("roll", "ok", "次の版への引き継ぎ", rollLine(c.roll), bridgeChart(c.roll, 320, 120, true)) : "",
-      card("horizon", c.horizons.score >= 0.7 ? "ok" : "warn", "時間軸のつながり（メタ認知）", `長期から短期へのつながり ${Math.round(c.horizons.score * 100)}%`, horizonChart(c.horizons, 320, 150, true)),
+      card("horizon", c.horizons.score >= 0.7 ? "ok" : "warn", "時間軸のつながり", `長期から短期へのつながり ${Math.round(c.horizons.score * 100)}%`, horizonChart(c.horizons, 320, 150, true)),
       card("sources", c.unsourced.length ? "warn" : "ok", "前提と出典", `出典のない数字 ${c.unsourced.length} 件`, ""),
     ];
     const u = c.usecases;
