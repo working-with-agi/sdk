@@ -563,43 +563,53 @@ def overview_hero() -> str:
 
 
 def outputs_cycle() -> str:
-    """The six outputs on two loops: the yearly one (review, plan, report) and the monthly one
-    (review, revision, report), joined by the plan, all bound into the integrated report."""
-    W, Hh = 1400, 270
+    """One year on a timeline: the yearly outputs at the two ends, the monthly ones repeating in
+    between, everything stacking into the integrated report below."""
+    W, Hh = 1400, 330
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>', f'<defs><marker id="oc" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{LINE}"/></marker></defs>']
-    def box(x, y, w, h, t, sub, f, st):
-        o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="9" fill="{f}" stroke="{st}" stroke-width="2"/><text x="{x + w / 2}" y="{y + 22}" font-size="13.5" font-weight="700" fill="{INK}" text-anchor="middle">{t}</text><text x="{x + w / 2}" y="{y + 40}" font-size="11" fill="{MUTE}" text-anchor="middle">{sub}</text>')
-    def poly(pts, lab="", lx=None, ly=None, dash=""):
-        o.append(f'<polyline fill="none" points="{pts}" stroke="{LINE}" stroke-width="2" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#oc)"/>')
-        if lab: o.append(f'<text x="{lx}" y="{ly}" font-size="10.5" fill="{MUTE}" text-anchor="middle">{lab}</text>')
-    bw, bh = 176, 52
-    # columns: yearly loop x 40..600 ; plan at 380 ; monthly loop 640..1180 ; integrated 1210..
-    o.append(f'<rect x="20" y="36" width="620" height="200" rx="12" fill="none" stroke="{PDCA}" stroke-dasharray="8 5"/><text x="34" y="56" font-size="12" font-weight="700" fill="{PDCA}">年に 1 回（PDCA）</text>')
-    o.append(f'<rect x="660" y="36" width="540" height="200" rx="12" fill="none" stroke="{OODA}" stroke-dasharray="8 5"/><text x="674" y="56" font-size="12" font-weight="700" fill="{OODA}">月ごと（OODA）</text>')
-    box(40, 64, bw, bh, "年間見直し", "過去での検証・補正・来年の手法", "#e0e7ff", "#4338ca")
-    box(40, 166, bw, bh, "年次レポート", "年度計画・退役までの列・購入計画", "#fef3c7", "#b45309")
-    box(430, 115, bw, bh, "計画", "基準計画と購入計画（版）", "#e0e7ff", "#4338ca")
-    box(690, 64, bw, bh, "月次見直し", "実績との差・確率・合図", "#e0e7ff", "#4338ca")
-    box(990, 64, bw, bh, "計画修正", "乗り換え・手当て・差分", "#e0e7ff", "#4338ca")
-    box(840, 166, bw, bh, "月次レポート", "判断期限・見張り・着地", "#fef3c7", "#b45309")
-    box(1220, 115, 160, 76, "統合レポート（A4）", "本文 1〜8 章＋付録", "#fee2e2", LOOP)
-    # yearly: review -> plan (down the middle), plan -> annual report
-    poly(f"{40 + bw},90 {300},90 {300},141 {430},141", "前提と補正を渡す", 300, 82)
-    poly(f"{430},141 {300},141 {300},192 {40 + bw},192", "計画を載せる", 300, 212)
-    # plan -> monthly review (right, then up)
-    poly(f"{430 + bw},141 {660 - 20},141 {660 - 20},90 {690},90", "月ごとに実績を当てる", 660, 134)
-    # monthly review -> revision -> monthly report
-    poly(f"{690 + bw},90 {990},90", "必要なら", 928, 82)
-    poly(f"{990 + bw / 2},{64 + bh} {990 + bw / 2},192 {840 + bw},192", "修正後の計画で", 1078, 150)
-    poly(f"{690 + bw / 2},{64 + bh} {690 + bw / 2},166", "", 0, 0)
-    # big revision back to the plan (dashed, along the top)
-    poly(f"{990 + bw / 2 + 40},64 {990 + bw / 2 + 40},20 {430 + bw / 2},20 {430 + bw / 2},115", "大きな修正は版に戻す（点線）", 760, 14, "6 4")
-    # both reports -> integrated report
-    poly(f"{840 + bw},{166 + bh - 6} {1200},{166 + bh - 6} {1200},166 {1220},166", "月次分を綴じる", 1150, 232)
-    poly(f"{40 + bw},{166 + bh - 4} {230},{166 + bh - 4} {230},252 {1210},252 {1210},140 {1220},140", "年次分が本文", 720, 264, "3 3")
+    L, R = 40, 40; y_axis = 150; x0, x1 = L + 180, W - R - 200
+    # the timeline: 12 months
+    o.append(f'<line x1="{x0}" y1="{y_axis}" x2="{x1}" y2="{y_axis}" stroke="{LINE}" stroke-width="3" marker-end="url(#oc)"/>')
+    for m in range(13):
+        x = x0 + (x1 - x0) * m / 12
+        o.append(f'<line x1="{x}" y1="{y_axis - 6}" x2="{x}" y2="{y_axis + 6}" stroke="{LINE}" stroke-width="2"/>')
+        if m < 12: o.append(f'<text x="{x + (x1 - x0) / 24}" y="{y_axis + 20}" font-size="10.5" fill="{MUTE}" text-anchor="middle">{(m + 9) % 12 + 1} 月</text>')
+    def box(x, y, w, h, t, sub, f, st, size=13):
+        o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="9" fill="{f}" stroke="{st}" stroke-width="2"/><text x="{x + w / 2}" y="{y + 21}" font-size="{size}" font-weight="700" fill="{INK}" text-anchor="middle">{t}</text>')
+        if sub: o.append(f'<text x="{x + w / 2}" y="{y + 38}" font-size="10.5" fill="{MUTE}" text-anchor="middle">{sub}</text>')
+    # yearly, at the start: annual review -> plan -> annual report (stacked left of the axis)
+    box(L, 40, 170, 48, "① 年間見直し", "過去の検証・来年の手法", "#e0e7ff", "#4338ca")
+    box(L, 100, 170, 48, "② 計画（版）", "基準計画と購入計画", "#e0e7ff", "#4338ca")
+    box(L, 160, 170, 48, "③ 年次レポート", "年度計画・購入計画", "#fef3c7", "#b45309")
+    o.append(f'<line x1="{L + 85}" y1="88" x2="{L + 85}" y2="98" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/><line x1="{L + 85}" y1="148" x2="{L + 85}" y2="158" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/>')
+    o.append(f'<text x="{L + 85}" y="26" font-size="12" font-weight="700" fill="{PDCA}" text-anchor="middle">年に 1 回（10 月）</text>')
+    o.append(f'<line x1="{L + 170}" y1="124" x2="{x0}" y2="{y_axis}" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/>')
+    # monthly, repeating above the axis: review -> revision (if needed) -> report
+    o.append(f'<text x="{(x0 + x1) / 2}" y="26" font-size="12" font-weight="700" fill="{OODA}" text-anchor="middle">毎月（月次会議）</text>')
+    for m in range(12):
+        x = x0 + (x1 - x0) * m / 12; w = (x1 - x0) / 12 - 6
+        strong = m in (0, 4, 8)
+        o.append(f'<rect x="{x + 3}" y="40" width="{w}" height="22" rx="5" fill="#e0e7ff" stroke="#4338ca" stroke-width="1.2"/><text x="{x + 3 + w / 2}" y="55" font-size="9.5" fill="{INK}" text-anchor="middle">④ 見直し</text>')
+        da = "" if strong else 'stroke-dasharray="4 3"'
+        o.append(f'<rect x="{x + 3}" y="66" width="{w}" height="22" rx="5" fill="{"#e0e7ff" if strong else "#f8fafc"}" stroke="{"#4338ca" if strong else "#cbd5e1"}" stroke-width="1.2" {da}/><text x="{x + 3 + w / 2}" y="81" font-size="9.5" fill="{INK if strong else MUTE}" text-anchor="middle">⑤ 計画修正</text>')
+        o.append(f'<rect x="{x + 3}" y="92" width="{w}" height="22" rx="5" fill="#fef3c7" stroke="#b45309" stroke-width="1.2"/><text x="{x + 3 + w / 2}" y="107" font-size="9.5" fill="{INK}" text-anchor="middle">⑥ 月次レポート</text>')
+        o.append(f'<line x1="{x + 3 + w / 2}" y1="114" x2="{x + 3 + w / 2}" y2="{y_axis - 8}" stroke="{LINE}" stroke-width="1.2"/>')
+    o.append(f'<text x="{(x0 + x1) / 2}" y="130" font-size="10.5" fill="{MUTE}" text-anchor="middle">⑤ は必要な月だけ（実線の月が例）。大きな修正は次の版（②）に戻す</text>')
+    # next year's version at the end
+    box(x1 + 30, 100, 170, 48, "翌年の ② 計画（版）", "① で決めた手法で作り直す", "#e0e7ff", "#4338ca", 12)
+    o.append(f'<line x1="{x1 + 6}" y1="{y_axis}" x2="{x1 + 28}" y2="126" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/>')
+    # the integrated report below: yearly part + 12 monthly parts
+    yb = 232
+    o.append(f'<rect x="{L}" y="{yb}" width="{W - L - R}" height="76" rx="10" fill="#fee2e2" stroke="{LOOP}" stroke-width="2"/>')
+    o.append(f'<text x="{L + 14}" y="{yb + 24}" font-size="13.5" font-weight="700" fill="{INK}">統合レポート（A4）に綴じる</text>')
+    o.append(f'<text x="{L + 14}" y="{yb + 44}" font-size="11" fill="{INK}">本文 1〜8 章 ＝ ③ 年次レポート ＋ ② 計画 ＋ ① 年間見直し（年に 1 回）</text>')
+    o.append(f'<text x="{L + 14}" y="{yb + 62}" font-size="11" fill="{INK}">6 章 ＝ ④ 月次見直し ＋ ⑤ 計画修正 ＋ ⑥ 月次レポート（毎月、最新分を差し替え）。付録 ＝ 思考の枠組み・文献・出典・画面との対応</text>')
+    o.append(f'<line x1="{L + 85}" y1="210" x2="{L + 85}" y2="{yb - 2}" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/>')
+    o.append(f'<line x1="{(x0 + x1) / 2}" y1="{y_axis + 26}" x2="{(x0 + x1) / 2}" y2="{yb - 2}" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/>')
+    o.append(f'<text x="{W / 2}" y="{Hh - 6}" font-size="11" fill="{MUTE}" text-anchor="middle">読み方：左端が年に 1 回の版づくり、真ん中が毎月の補正、右端が翌年の版。全部を下の統合レポートに綴じ、判断材料は各画面（対話版レポート）に置く。</text>')
     body = "".join(o)
     body = re.sub(r"<text[^>]*>", lambda m: m.group(0)[:-1] + ' style="font-family:IBM Plex Sans JP,Noto Sans JP,sans-serif">', body)
-    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="成果物の輪" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="成果物と統合レポート" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
 
 
 def overview_details() -> list[dict]:
@@ -632,7 +642,9 @@ def concept_page() -> str:
         for x in sc.split("／"):
             f = x.split("（")[0]; parts.append(f'<a href="{f}">{x}</a>' if f.endswith(".html") else x)
         return "／".join(parts)
-    out_rows = "".join(f"<tr><td><b>{n}</b></td><td>{w}</td><td>{who}</td><td>{what}</td><td>{src}</td><td>{_link(sc)}</td><td>{sec}</td></tr>" for k, n, w, who, what, src, sc, sec in OUTPUTS)
+    ORDER = ["annual_review", "plan", "annual_report", "monthly_review", "plan_revision", "monthly_report"]; NUM = "①②③④⑤⑥"
+    by = {k: (k, n, w, who, what, src, sc, sec) for k, n, w, who, what, src, sc, sec in OUTPUTS}
+    out_rows = "".join((lambda k, n, w, who, what, src, sc, sec, i: f"<tr><td><b>{NUM[i]} {n}</b></td><td>{w}</td><td>{who}</td><td>{what}</td><td>{_link(sc)}</td><td>{sec}</td></tr>")(*by[key], i) for i, key in enumerate(ORDER))
     cycle_svg = outputs_cycle()
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画の全体像</title>
 <style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
@@ -661,9 +673,9 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 <li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul>
 <div class="hero anim">{overview_hero()}</div></header>
 <section class="outputs"><h2>成果物の一覧と、それを統合するレポート</h2>
-<p class="msg">この仕組みが出す成果物は 6 つ。年に 1 回の「年次レポート」「計画」「年間見直し」と、月ごとの「月次見直し」「月次レポート」「計画修正」。これらを 1 冊に束ねたものが <a href="report_a4.html">統合レポート（A4 版）</a> で、右の列がその章に対応する。判断材料は各画面（対話版レポート）に置く。</p>
-<table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>元になる分析</th><th>画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table>
-<div class="cycle">{cycle_svg}</div></section>
+<p class="msg">成果物は 6 つ。年に 1 回の ① 年間見直し → ② 計画 → ③ 年次レポート と、毎月の ④ 月次見直し → ⑤ 計画修正（必要な月だけ）→ ⑥ 月次レポート。全部を <a href="report_a4.html">統合レポート（A4 版）</a> に綴じる。</p>
+<div class="cycle">{cycle_svg}</div>
+<table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>判断材料の画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table></section>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
 <div class="zoombar">拡大中：<b id="zoomlabel"></b><button type="button" id="zoomout">全体に戻る</button><button type="button" id="prev">▲ 上の行</button><button type="button" id="next">▼ 下の行</button></div>
