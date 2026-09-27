@@ -45,6 +45,7 @@ import mx4
 
 HERE = Path(__file__).resolve().parent
 MAX_MONTHS = 15 * 12
+EXIT_RATE = 4          # engines that can leave (sale, part-out, lease-out) in one month after the window (assumption)
 POLICIES = ("next_due", "oldest", "random")
 
 
@@ -188,22 +189,52 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                     "fan": rng.uniform(ph.life["fan"] * 0.35, ph.life["fan"]) if ph.life["fan"] < 10 ** 8 else ph.life["fan"],
                     "allowed": ["PR", "CORE", "FULL"], "back": 0, "chain": [], "retired": None, "from_plan": False}
     n_ac = cfg["aircraft"]["total"]
+    req_w = fleet.get("required_positions") or []
+    buf_w = fleet.get("buffer_spares") or []
     spare_ratio = max(0.0, fleet["owned_engines"] - 2 * n_ac) / (2 * n_ac)   # spares per installed engine, kept constant as the fleet shrinks
     buffer_min = int(fleet["buffer_spares"][-1]) if fleet.get("buffer_spares") else 2
     exit_ptr = 0
     retire_order = []
     visits = []
 
+    def aircraft_left(t: int) -> int:
+        # inside the window the frozen plan's schedule holds (its required-positions series
+        # keeps the fleet flying; part-outs are its own decision), so exits count from the
+        # end of the window
+        return n_ac if t < W else n_ac - sum(1 for x in exits if x <= t)
+
     def positions_needed(t: int) -> int:
-        left = n_ac - sum(1 for x in exits if x <= t)
+        if t < W and t < len(req_w):
+            return int(req_w[t]) + (int(buf_w[t]) if t < len(buf_w) else buffer_min)
+        left = aircraft_left(t)
         return 2 * left + max(buffer_min, int(np.ceil(2 * left * spare_ratio)))
+
+    # the operations side, month by month: what the schedule needs to fly (flight index,
+    # airframe checks, the aircraft still in service) against what the engine plan leaves
+    # serviceable; inside the window the plan's own required/buffer series is used
+    idx = fleet.get("meta", {}).get("derivation", {}).get("flight_index") or lifecycle.FLIGHT_INDEX
+    checks = fleet.get("meta", {}).get("derivation", {}).get("airframe_checks") or lifecycle.AIRFRAME_CHECKS
+    base_needed = fleet.get("meta", {}).get("derivation", {}).get("base_aircraft_needed") or cfg["aircraft"].get("base_needed", n_ac)
+    y0, m0 = (int(x) for x in start.split("-"))
+
+    def required_flying(t: int) -> int:
+        if t < len(req_w):
+            return int(req_w[t])
+        m = (m0 - 1 + t) % 12 + 1
+        left = aircraft_left(t)
+        need = min(left - int(checks.get(str(m), checks.get(m, 0)) * left / n_ac), int(np.ceil(base_needed * left / n_ac * float(idx.get(str(m), idx.get(m, 1.0))))))
+        return 2 * max(0, need)
+
+    ops = []
 
     for t in range(end):
         # retirements this month: release positions, retire engines by policy
         while exit_ptr < len(exits) and exits[exit_ptr] <= t:
             exit_ptr += 1
         alive = [s for s in eng.values() if s["retired"] is None]
-        surplus = len(alive) - positions_needed(t)
+        # inside the window nothing leaves (the surplus is the plan's own spare inventory);
+        # after it, engines leave as the transition frees positions, at most EXIT_RATE a month
+        surplus = min(EXIT_RATE, len(alive) - positions_needed(t)) if t >= W else 0
         if surplus > 0:
             # a serviceable engine; inside the window an engine with a planned visit still to
             # come is committed (slot booked, kit ordered) and does not leave before it
@@ -218,6 +249,12 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                 s["retired"] = t
                 s["due_in_at_exit"] = round(ph.months_to_removal(s), 1)
                 retire_order.append(s["esn"])
+        alive = [s for s in eng.values() if s["retired"] is None]
+        in_shop = sum(1 for s in alive if s["back"] > t)
+        req = required_flying(t)
+        buf = int(buf_w[t]) if t < len(buf_w) else max(buffer_min, int(np.ceil(2 * aircraft_left(t) * spare_ratio)))
+        ops.append({"t": t, "label": month_label(start, t), "aircraft": aircraft_left(t), "required": req, "buffer": buf,
+                    "owned": len(alive), "in_shop": in_shop, "serviceable": len(alive) - in_shop, "margin": len(alive) - in_shop - req - buf})
         # fly the serviceable ones, remove the due ones
         for s in eng.values():
             if s["retired"] is not None or s["back"] > t:
@@ -313,10 +350,14 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                        "plan_gap_max_months": max((c["slack_months"] or 0 for r in rows for c in r["chain"] if c.get("gap")), default=0), "retired": sum(1 for r in rows if r["retire_t"] is not None)},
             "physics": {"cycles_per_month": ph.cpm, "run_cycles": ph.run_cycles, "restore": ph.restore, "llp_life": ph.life, "prices": price},
             "retire_order": retire_order,
+            "ops": ops,
+            "ops_summary": {"thin": min(ops, key=lambda o: o["margin"]) if ops else None, "months_short": sum(1 for o in ops if o["margin"] < 0),
+                            "note": "運航側：必要なエンジン数 = 2 × 飛ぶ機数（運航指数 × 必要機数、機体整備で止まる機を引く）。窓の中は計画の系列、窓の後は退役後の機数で按分。余力 = 稼働可能 − 必要 − 予備"},
             "state_source": state_source,
             "caveats": [(f"窓の外の {n_extra} 基の状態は 20 年シミュレーション（最初の 5 年は捨てる）の続きから。実機の EGT・LLP ではない"
                          if state_source == "simulation" else f"窓の外の {n_extra} 基は状態が非公表。翼上寿命の 5〜60% を飛んだと一様に仮定（限界が固まる）"),
                         "退役順「次に入場が近い機から」は、限界の近い機を入場させずに退役させる。空の年は退役が入場を吸収した年",
+                        f"窓の中は凍結した計画の運航系列（必要なエンジン数・予備）を守り、余った機も手放さない（部品取りは計画側の判断）。窓の後は移行で空いた分を月 {EXIT_RATE} 基まで手放す",
                         "劣化は機ごとの係数つきの平均（月ごとの乱れなし）。計画外の取卸しは入れていない"]}
 
 

@@ -679,6 +679,8 @@ const DATA = /*__DATA__*/null;
       fleetalloc: ["機種ごとに予算を ×0.9／×1.0／×1.1 で解き直した費用と欠航リスクの表と、会社の枠の中で最も良い組み合わせ", "予算を締めると費用は下がるが欠航リスクが上がる機種、締めても変わらない機種がある。変わらない機種の予算を締めて、変わる機種に回す", c.multi && c.multi.allocation ? `配分：${Object.entries(c.multi.allocation.levels).map(([k, v]) => `${k} ×${v}`).join("、")}` : "", "配分を予算要求に反映する。機種の入れ替え（退役・受領）がある年は再計算"],
       runoutYears: ["退役までの毎年の入場件数（整備範囲で色分け）と、その年に退役する基数（線）", "窓（最初の 2 年）は凍結した計画、その後は平均の劣化で退役まで飛ばした結果。退役が進むと、入場の代わりに退役で済む機が増える",
         c.runout ? runoutLine(c.runout) : "", "山の年は退役順を前後させて均す。谷の年に前倒しできる重整備があるか、機ごとの列で探す"],
+      runoutOps: ["退役までの毎月、運航が必要とするエンジン数と、計画が残す稼働可能なエンジン数", "黒い線が必要な数（運航指数 × 飛ぶ機数の 2 倍、機体整備で止まる機は引く）、灰色の帯が予備、緑の線が稼働可能（保有から工場にいる数を引いた数）。緑が帯の上端を割る月は赤",
+        c.runout && c.runout.ops_summary && c.runout.ops_summary.thin ? `余力が最も薄いのは ${c.runout.ops_summary.thin.label}（${c.runout.ops_summary.thin.margin} 基）` : "", "赤い月がある年は退役順を後ろへ（機を残す）か、入場を前後へ。緑と黒の間が広い年は退役を早められる"],
       runoutBoard: ["エンジン 1 基ごとの、今日から退役までの入場の列", "色の棒＝工場に入ってから戻るまで（工期＋輸送、整備範囲ごとの月数。計画ボードの棒と同じ意味）。白い菱形＝退役。赤い印＝平均の劣化では計画の入場より前に限界が来る。退役の直前に濃い棒（CORE/FULL）がある機は、寿命を買って捨てている",
         c.runout ? `重整備を退役の 2 年以内に買う機 ${c.runout.totals.heavy_late_engines} 基、寿命を残して退役する機 ${c.runout.totals.green_time_engines} 基` : "", "退役直前の重整備は退役順を前に。寿命を残す機は売却・グリーンタイムリースの候補"],
       runoutPolicy: ["退役順の方針ごとの生涯費用・入場件数・退役時の残存価値", "「次に入場が近い機から」が入場を最も減らす。「無作為」は寿命を買って捨てる回数が最大。最下行は窓の後の整備範囲を「退役まで持つ最軽」にしない場合",
@@ -934,6 +936,21 @@ const DATA = /*__DATA__*/null;
     if (!compact) { s += `<text class="tick" x="${L - 6}" y="${sy(top) + 4}" text-anchor="end">${top}</text><text class="tick" x="${L - 6}" y="${sy(0)}" text-anchor="end">0</text>`; s += `<text class="tick" x="${W - Rm + 6}" y="${sr(topR) + 4}">${topR} 基</text>`; }
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="退役までの毎年の入場件数">${s}</svg>`;
   }
+  function runoutOps(R, W = 1000, H = 150) {
+    const O = R.ops; if (!O || !O.length) return "";
+    const L = 64, T = 16, B = 22, N = R.end_t, x = (t) => L + t / N * (W - L - 10);
+    const top = Math.max(...O.map((o) => o.owned)) * 1.02, y = (v) => T + (H - T - B) * (1 - v / top);
+    const line = (key, col, w) => `<polyline fill="none" stroke="${col}" stroke-width="${w || 1.5}" points="${O.map((o) => `${x(o.t)},${y(o[key])}`).join(" ")}"/>`;
+    let s = `<rect x="${x(0)}" y="${T}" width="${x(R.window_months) - x(0)}" height="${H - T - B}" fill="var(--accent-soft)" opacity=".35"/>`;
+    O.forEach((o) => { if (o.margin < 0) s += `<rect x="${x(o.t)}" y="${T}" width="${x(o.t + 1) - x(o.t)}" height="${H - T - B}" fill="var(--crit)" opacity=".25"><title>${o.label} 余力 ${o.margin}</title></rect>`; });
+    s += `<polygon fill="var(--muted)" opacity=".25" points="${O.map((o) => `${x(o.t)},${y(o.required)}`).join(" ")} ${O.slice().reverse().map((o) => `${x(o.t)},${y(o.required + o.buffer)}`).join(" ")}"><title>予備の帯</title></polygon>`;
+    s += line("owned", "var(--rule)", 1) + line("serviceable", "var(--good)", 2.5) + line("required", "var(--ink)", 1.5);
+    const y0 = +R.start.slice(0, 4);
+    for (let yr = 0; yr * 12 <= N; yr++) s += `<text class="tick" x="${x(yr * 12) + 2}" y="${H - B + 14}">${y0 + yr}</text>`;
+    [0, Math.round(top / 2), Math.round(top)].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
+    O.forEach((o) => { s += `<rect x="${x(o.t)}" y="${T}" width="${x(o.t + 1) - x(o.t)}" height="${H - T - B}" fill="transparent"><title>${o.label}：機数 ${o.aircraft}、必要 ${o.required}、予備 ${o.buffer}、工場 ${o.in_shop}、稼働可能 ${o.serviceable}／保有 ${o.owned}、余力 ${o.margin >= 0 ? "+" : ""}${o.margin}</title></rect>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="運航側：必要なエンジン数と稼働可能なエンジン数">${s}</svg>`;
+  }
   function runoutBoard(R, W = 1000) {
     const E = R.engines.filter((e) => e.visits > 0 || e.in_window_plan).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9) || (a.chain[0] ? a.chain[0].t : 0) - (b.chain[0] ? b.chain[0].t : 0));
     const rowH = 14, L = 64, T = 22, H = T + E.length * rowH + 8, N = R.end_t, x = (t) => L + t / N * (W - L - 10);
@@ -965,7 +982,8 @@ const DATA = /*__DATA__*/null;
     const cav = (R.caveats || []).map((c) => `<li>${esc(c)}</li>`).join("");
     const eng = `<div class="scroll"><table><thead><tr><th>ESN</th><th>退役</th><th>入場</th><th>注釈</th></tr></thead><tbody>` + R.engines.filter((e) => e.visits > 0 || e.in_window_plan || e.due_in_at_exit != null).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9)).map((e) => `<tr><td>${esc(e.esn)}</td><td>${e.retire || "—"}</td><td>${e.visits}</td><td>${esc(e.note)}</td></tr>`).join("") + `</tbody></table></div>`;
     return panel("", `<p class="chart-note">${esc(runoutLine(R))}</p>` + runoutYears(R) + legend([["軽作業 PR", WS.PR], ["コア CORE", WS.CORE], ["全面 FULL", WS.FULL], ["退役する基数", "var(--ink)", 1]]) + G("runoutYears"), esc(R.note))
-      + panel("年ごとの注釈", notes + `<p class="hint">この結果の限界：</p><ul>${cav}</ul>`)
+      + panel("年ごとの注釈", notes + `<p><b>この結果の限界</b></p><ul>${cav}</ul>`)
+      + (R.ops ? panel("対になる運航側（必要なエンジン数と稼働可能な数）", `<p class="chart-note">${R.ops_summary.thin ? `余力が最も薄いのは ${R.ops_summary.thin.label}（${R.ops_summary.thin.margin >= 0 ? "+" : ""}${R.ops_summary.thin.margin} 基）、足りない月 ${R.ops_summary.months_short}` : ""}</p>` + runoutOps(R) + legend([["保有（退役で減る）", "var(--rule)", 1], ["稼働可能（保有 − 工場にいる数）", "var(--good)", 1], ["必要（2 × 飛ぶ機数）", "var(--ink)", 1], ["予備の帯", "var(--muted)"], ["足りない月", "var(--crit)"]]) + G("runoutOps"), esc(R.ops_summary.note)) : "")
       + panel("エンジンごとの列", runoutBoard(R) + G("runoutBoard"), `窓（薄い帯）は凍結した計画の入場、その後は退役まで持つ最軽の整備範囲。退役の間隔 ${R.exits.length ? `${R.exits[0]} から 1 機ずつ` : "—"}（no_source）`)
       + panel("退役順の方針", pol + G("runoutPolicy"))
       + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。")
