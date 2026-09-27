@@ -333,6 +333,16 @@ def strategy_stack() -> str:
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="あるべき分析ストラテジー" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
 
 
+OUTPUTS = [  # key, name, when, who, what, sources (analysis), screen (file or report view), section of the A4 integrated report
+    ("annual_report", "年次レポート", "年 1 回（10 月の版）", "整備計画 → 経営", "年度ごとの整備費と予算、欠航率、退役までの入場列、購入計画、次の版で直す決め方", "baseline・runout・purchase_loop・backtest", "annual.html／report.html（年間計画と予算）", "1・3・4・7・8"),
+    ("plan", "計画（基準計画と購入計画）", "年 1 回、見張りが警告したら随時", "整備計画", "エンジンごとの入場月・作業範囲・工場、判断期限、購入する手（予備・プール・中寿命機）", "baseline（MILP＋MC）・purchase_loop・playbook", "report.html（エンジン別の明細・購入計画の輪）", "3・4・5"),
+    ("monthly_review", "月次見直し", "月 1 回（月次会議）", "整備計画・技術・調達", "実績と計画の差、シナリオの確率、見直しの合図（ばらつき・変化点・引き金）、PDCA／OODA の症状表", "track・cpd・shortage・review（規則層＋AI 層）", "report.html（PDCA／OODA の見直し・計画の追跡）", "6"),
+    ("monthly_report", "月次レポート", "月 1 回", "整備計画 → 経営", "今月の判断期限、乗り換えの推奨、不足の見張り（3 か月先の欠航率）、年度の着地の更新", "track・shortage・landing", "monthly.html／track.html", "6"),
+    ("plan_revision", "計画修正", "月次の見直しで必要と判断したとき", "整備計画（承認は経営）", "乗り換え先の計画、短期リースの手当て、購入の輪の再実行結果、差分（何基が動くか）", "decide・shortage・purchase_loop（--from-shortage）", "report.html（計画の追跡 → 乗り換え、打ち手の効果）", "6"),
+    ("annual_review", "年間見直し", "年 1 回（次の版の前）", "技術・整備計画・経営企画", "過去での検証（8 版）、補正（入場時期・計画外率）、4 つの手法の成績と来年の手法、需要の伸びの見直し", "backtest・roll・plan_from_demand", "report.html（過去で検証・次の版への引き継ぎ・客席の需要）", "7・8・付録 B"),
+]
+
+
 OV_FLIGHT = [("便1", "必要エンジン数＝飛ぶ機数 × 2 − 整備中の機", 0, 2), ("便2", "稼働率 → 劣化の速さと整備までの期間", 3, 1), ("便3", "季節の波 → 整備入りを閑散期に置く", 1, 1),
              ("便4", "増便 → 予備エンジンの数", 0, 1), ("便5", "新機材の受領時期 → 退役の順番と速さ", 1, 0), ("便6", "路線の長さ → 劣化のしかた", 3, 0)]
 OV_STAGES = [["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Observe 観測", "Orient 状況判断", "Decide 決定", "Act 行動"], ["Observe 観測", "Observe 観測", "Observe 観測", "—"]]
@@ -552,6 +562,46 @@ def overview_hero() -> str:
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="航空計画から意思決定まで" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
 
 
+def outputs_cycle() -> str:
+    """The six outputs on two loops: the yearly one (review, plan, report) and the monthly one
+    (review, revision, report), joined by the plan, all bound into the integrated report."""
+    W, Hh = 1400, 250
+    o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>', f'<defs><marker id="oc" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{LINE}"/></marker></defs>']
+    def box(x, y, w, h, t, sub, f, st):
+        o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="9" fill="{f}" stroke="{st}" stroke-width="2"/><text x="{x + w / 2}" y="{y + 22}" font-size="13.5" font-weight="700" fill="{INK}" text-anchor="middle">{t}</text><text x="{x + w / 2}" y="{y + 40}" font-size="11" fill="{MUTE}" text-anchor="middle">{sub}</text>')
+    def poly(pts, lab="", lx=None, ly=None, dash=""):
+        o.append(f'<polyline fill="none" points="{pts}" stroke="{LINE}" stroke-width="2" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#oc)"/>')
+        if lab: o.append(f'<text x="{lx}" y="{ly}" font-size="10.5" fill="{MUTE}" text-anchor="middle">{lab}</text>')
+    bw, bh = 176, 52
+    # columns: yearly loop x 40..600 ; plan at 380 ; monthly loop 640..1180 ; integrated 1210..
+    o.append(f'<rect x="20" y="12" width="620" height="206" rx="12" fill="none" stroke="{PDCA}" stroke-dasharray="8 5"/><text x="34" y="32" font-size="12" font-weight="700" fill="{PDCA}">年に 1 回（PDCA）</text>')
+    o.append(f'<rect x="660" y="12" width="540" height="206" rx="12" fill="none" stroke="{OODA}" stroke-dasharray="8 5"/><text x="674" y="32" font-size="12" font-weight="700" fill="{OODA}">月ごと（OODA）</text>')
+    box(40, 48, bw, bh, "年間見直し", "過去での検証・補正・来年の手法", "#e0e7ff", "#4338ca")
+    box(40, 150, bw, bh, "年次レポート", "年度計画・退役までの列・購入計画", "#fef3c7", "#b45309")
+    box(430, 99, bw, bh, "計画", "基準計画と購入計画（版）", "#e0e7ff", "#4338ca")
+    box(690, 48, bw, bh, "月次見直し", "実績との差・確率・合図", "#e0e7ff", "#4338ca")
+    box(990, 48, bw, bh, "計画修正", "乗り換え・手当て・差分", "#e0e7ff", "#4338ca")
+    box(840, 150, bw, bh, "月次レポート", "判断期限・見張り・着地", "#fef3c7", "#b45309")
+    box(1220, 99, 160, 76, "統合レポート（A4）", "本文 1〜8 章＋付録", "#fee2e2", LOOP)
+    # yearly: review -> plan (down the middle), plan -> annual report
+    poly(f"{40 + bw},74 {300},74 {300},125 {430},125", "前提と補正を渡す", 300, 66)
+    poly(f"{430},125 {300},125 {300},176 {40 + bw},176", "計画を載せる", 300, 196)
+    # plan -> monthly review (right, then up)
+    poly(f"{430 + bw},125 {660 - 20},125 {660 - 20},74 {690},74", "月ごとに実績を当てる", 640, 66)
+    # monthly review -> revision -> monthly report
+    poly(f"{690 + bw},74 {990},74", "必要なら", 928, 66)
+    poly(f"{990 + bw / 2},{48 + bh} {990 + bw / 2},176 {840 + bw},176", "修正後の計画で", 1078, 196)
+    poly(f"{690 + bw / 2},{48 + bh} {690 + bw / 2},150", "", 0, 0)
+    # big revision back to the plan (dashed, along the top)
+    poly(f"{990 + bw / 2 + 40},48 {990 + bw / 2 + 40},20 {430 + bw / 2},20 {430 + bw / 2},99", "大きな修正は版に戻す", 760, 16, "6 4")
+    # both reports -> integrated report
+    poly(f"{840 + bw},176 {1200},176 {1200},150 {1220},150", "月次分を綴じる", 1150, 196)
+    poly(f"{40 + bw},{150 + bh - 4} {230},{150 + bh - 4} {230},232 {1210},232 {1210},124 {1220},124", "年次分が本文", 720, 244, "3 3")
+    body = "".join(o)
+    body = re.sub(r"<text[^>]*>", lambda m: m.group(0)[:-1] + ' style="font-family:IBM Plex Sans JP,Noto Sans JP,sans-serif">', body)
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="成果物の輪" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
+
+
 def overview_details() -> list[dict]:
     """Per-row detail for the concept page: full text, literature, KPIs, flight-plan items, links."""
     out = []
@@ -577,6 +627,13 @@ def concept_page() -> str:
     tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
     caps = "".join(f'<p class="cap" data-for="{g}" {"" if g == "none" else "hidden"}>{c}</p>' for g, _, c in TABS)
     details = _json.dumps(overview_details(), ensure_ascii=False)
+    def _link(sc):
+        parts = []
+        for x in sc.split("／"):
+            f = x.split("（")[0]; parts.append(f'<a href="{f}">{x}</a>' if f.endswith(".html") else x)
+        return "／".join(parts)
+    out_rows = "".join(f"<tr><td><b>{n}</b></td><td>{w}</td><td>{who}</td><td>{what}</td><td>{src}</td><td>{_link(sc)}</td><td>{sec}</td></tr>" for k, n, w, who, what, src, sc, sec in OUTPUTS)
+    cycle_svg = outputs_cycle()
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画の全体像</title>
 <style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
 .bar{{display:flex;gap:8px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:{BG};z-index:2}}
@@ -589,7 +646,8 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 @keyframes dash{{to{{stroke-dashoffset:-24}}}} @media (prefers-reduced-motion: reduce){{.anim .flow{{animation:none}} .anim .dot{{display:none}}}}
 .bar label{{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center}}
 .lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
-.lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
+.lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
+.outputs{{padding:10px 20px 6px;max-width:1400px}} .outputs h2{{font-size:17px;margin:8px 0 6px}} .outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs a{{color:{PORT}}} .cycle svg{{width:100%;height:auto;max-width:1400px}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
 #panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}} .stage.open #panel{{display:block}}
 #panel h2{{font-size:16px;margin:0 0 2px}} #panel .cad{{color:{MUTE};font-size:12px;margin-bottom:10px}} #panel h3{{font-size:12.5px;margin:12px 0 4px;color:{HEAD};border-bottom:1px solid #e2e8f0;padding-bottom:2px}}
 #panel ul{{margin:0;padding-left:16px}} #panel .lit{{color:{MUTE};font-size:11.5px}} #panel .chips span{{display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px}}
@@ -602,6 +660,10 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 <li><b>新しいのは技術の行（④）。</b>前提を一つの方法で決めず、4 つの学習手法で並行して学び、結果を統合してから整備計画が解く。前提が外れても壊れにくい計画になる。</li>
 <li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul>
 <div class="hero anim">{overview_hero()}</div></header>
+<section class="outputs"><h2>成果物の一覧と、それを統合するレポート</h2>
+<p class="msg">この仕組みが出す成果物は 6 つ。年に 1 回の「年次レポート」「計画」「年間見直し」と、月ごとの「月次見直し」「月次レポート」「計画修正」。これらを 1 冊に束ねたものが <a href="report_a4.html">統合レポート（A4 版）</a> で、右の列がその章に対応する。判断材料は各画面（対話版レポート）に置く。</p>
+<table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>元になる分析</th><th>画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table>
+<div class="cycle">{cycle_svg}</div></section>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
 <div class="zoombar">拡大中：<b id="zoomlabel"></b><button type="button" id="zoomout">全体に戻る</button><button type="button" id="prev">▲ 上の行</button><button type="button" id="next">▼ 下の行</button></div>
