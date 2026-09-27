@@ -146,7 +146,54 @@ def verdict(c: dict) -> list[dict]:
     return [money, service, decide]
 
 
-def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None) -> dict:
+def horizons(c: dict, b: dict) -> dict:
+    """Meta view: which time horizons the planning covers, and whether each long horizon is
+    carried down into the next shorter one (with a measure of how consistent they are)."""
+    plan_n = len(c["plan"])
+    out2 = sum(y["visits"] for y in b["outlook"]["stationary"] if y["year"] in (0, 1))
+    spend2, budget2 = sum(r["spend"] for r in c["fiscal_years"]), sum(r["budget"] for r in c["fiscal_years"])
+    h = c.get("history")
+    layers = [
+        {"id": "life", "label": "ライフサイクル（平年の姿）", "months": 240, "have": True},
+        {"id": "invest", "label": "設備投資（国内工場）", "months": 228, "have": bool(c.get("invest"))},
+        {"id": "outlook", "label": "10 年の見通し（入場の波）", "months": 120, "have": True},
+        {"id": "plan", "label": "2 年の基準計画と計画案", "months": 24, "have": True},
+        {"id": "budget", "label": "年度予算", "months": 12, "have": True},
+        {"id": "deadline", "label": "判断期限（3 か月先まで）", "months": 3, "have": True},
+        {"id": "track", "label": "月次の追跡", "months": 1, "have": bool(c.get("track"))},
+    ]
+    links = []
+
+    def link(a, b_, status, what, measure=None):
+        links.append({"from": a, "to": b_, "status": status, "what": what, "measure": measure})
+
+    link("life", "budget", "ok", "平年値を季節で按分して年度予算に", f"計画は予算の {spend2 / budget2 - 1:+.0%}")
+    gap = plan_n / out2 - 1 if out2 else 0
+    link("outlook", "plan", "ok" if abs(gap) < 0.15 else "warn", "見通しの最初の 2 年と基準計画の件数",
+         f"計画 {plan_n} 件 / 見通し {out2} 件（{gap:+.0%}）")
+    tr = c.get("transition_in_plan", False)
+    link("outlook", "plan", "warn", "737-8 の受領（機材更新）", "計画案の一つ（部品取りと組み合わせ）にしかなく、基準計画は受領を織り込まない")
+    if c.get("invest"):
+        link("invest", "deadline", "bad", "国内工場の判断ゲート（段階 1 は FY2027 開始、段階 2 は FY2028 に判断）",
+             "今月からの判断期限に載っていない（長期の判断が短期の行動に落ちていない）")
+    dl = sum(1 for r in c["plan"] if r["deadline_t"] >= 0)
+    link("plan", "deadline", "ok", "計画の入場ごとの判断期限", f"{plan_n} 件すべて（期限前の {plan_n - dl} 件は手配済みを前提）")
+    if c.get("track"):
+        link("track", "plan", "bad", "追跡の結果を次の版に返す", "未実装（乗り換えの判断は出るが、次の計画の前提は直さない）")
+    if h:
+        fys = [f for v in h["versions"] for f in v["fiscal_years"] if f["months"] >= 6]
+        inside = sum(f["inside"] for f in fys)
+        link("plan", "plan", "ok" if inside / max(1, len(fys)) >= 0.8 else "warn", "当時のリスクの幅に実績が入ったか",
+             f"{inside}/{len(fys)} 年度")
+        st = h["stability"]
+        kept = sum(x["same"] for x in st) / max(1, sum(x["same"] + x["moved"] + x["moved_far"] + x["dropped"] for x in st))
+        link("plan", "plan", "ok" if kept >= 0.6 else "warn", "前の版の 2 年目が今の版の 1 年目にそのまま残ったか", f"{kept:.0%}")
+    ok = sum(1 for x in links if x["status"] == "ok")
+    return {"layers": layers, "links": links, "score": ok / len(links)}
+
+
+def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None,
+            history_path: Path | None = None) -> dict:
     b = json.loads(baseline_path.read_text(encoding="utf-8"))
     with tempfile.TemporaryDirectory() as tmp:
         if deltas_path is None or not deltas_path.exists():
@@ -182,6 +229,12 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         c["invest"] = json.loads(invest_path.read_text(encoding="utf-8"))
         for p in c["invest"]["policies"]:
             p.pop("cum_mean", None)
+    if history_path and history_path.exists():
+        h = json.loads(history_path.read_text(encoding="utf-8"))
+        for v in h["versions"]:
+            v.pop("rows", None)
+        c["history"] = h
+    c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c
 
@@ -192,13 +245,15 @@ def main(argv=None) -> int:
     ap.add_argument("--deltas-dir", type=Path, help="directory with <company>-deltas.json (compare output); run if missing")
     ap.add_argument("--actuals", default="backlog", help="which synthetic actuals to track (data/<company>/actuals_<name>.json)")
     ap.add_argument("--invest", type=Path, help="invest.py output (optional)")
+    ap.add_argument("--history-dir", type=Path, help="directory with <company>-history.json (history.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("report.html"))
     args = ap.parse_args(argv)
     data = []
     for cid in args.companies:
         d = args.deltas_dir / f"{cid}-deltas.json" if args.deltas_dir else None
         data.append(company(HERE / "baselines" / f"{cid}-2026-10.json", d,
-                            HERE / "data" / cid / f"actuals_{args.actuals}.json", args.invest))
+                            HERE / "data" / cid / f"actuals_{args.actuals}.json", args.invest,
+                            args.history_dir / f"{cid}-history.json" if args.history_dir else None))
     html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
         "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
     args.html_out.write_text(html, encoding="utf-8")

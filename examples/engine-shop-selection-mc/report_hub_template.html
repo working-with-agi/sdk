@@ -163,6 +163,7 @@ const DATA = /*__DATA__*/null;
     track: { label: "計画の追跡", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
+    history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
   };
   DATA.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.role = "tab"; b.textContent = c.name; b.onclick = () => { co = i; render(); }; $("cos").append(b); });
   const go = (...p) => { path = p; render(); window.scrollTo(0, 0); };
@@ -175,7 +176,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon })[v]();
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
   const panel = (title, inner, note) => `<section class="panel">${title ? `<h2>${title}</h2>` : ""}${inner}${note ? `<p class="hint">${note}</p>` : ""}</section>`;
@@ -325,6 +326,8 @@ const DATA = /*__DATA__*/null;
       card("track", tr && !tr.world_is_base ? "warn" : "ok", "計画の追跡", tr ? (tr.recommend === "switch" ? `乗り換えを推奨：${esc(tr.switch_to)}` : "今の計画を続けてよい") : "実績なし", tr ? trackChart(tr, 320, 70, true) : ""),
       card("actions", "ok", "打ち手の効果", "左下ほど安くて安全", scatter(c, 320, 150, true)),
       card("invest", inv ? (inv.recommend.go ? "ok" : "warn") : "", "国内工場の新設（LEAP-1B）", inv ? esc(inv.headline) : "試算中", inv ? breakevenChart(inv.breakeven, 320, 170) : ""),
+      c.history ? card("history", histCls(c), "過去の計画との整合", histLine(c), stabilityChart(c.history, 320, 90, true)) : "",
+      card("horizon", c.horizons.score >= 0.7 ? "ok" : "warn", "時間軸のつながり（メタ認知）", `長期から短期へのつながり ${Math.round(c.horizons.score * 100)}%`, horizonChart(c.horizons, 320, 150, true)),
       card("sources", c.unsourced.length ? "warn" : "ok", "前提と出典", `出典のない数字 ${c.unsourced.length} 件`, ""),
     ];
     return `<section class="panel verdict" aria-label="結論">${lines}</section>`
@@ -414,6 +417,98 @@ const DATA = /*__DATA__*/null;
     [0, 1, 2, 3].forEach((t) => { s += `<text class="tick" x="${L - 4}" y="${y(t) + 3}" text-anchor="end">${t}</text>`; });
     Y.forEach((yr, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">FY${String(yr).slice(2)}</text>`; });
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="海外の入場待ち">${s}</svg>`;
+  }
+
+  /* ---------------- history & horizons ---------------- */
+  const histFys = (h) => h.versions.flatMap((v) => v.fiscal_years.filter((f) => f.months >= 6).map((f) => ({ ...f, version: v.version })));
+  const histCls = (c) => { const f = histFys(c.history); return f.every((x) => x.inside) ? "ok" : "warn"; };
+  function histLine(c) {
+    const f = histFys(c.history), inside = f.filter((x) => x.inside).length;
+    const err = c.history.versions.flatMap((v) => v.timing.filter((t) => t.actual != null).map((t) => t.actual - t.forecast));
+    const bias = err.reduce((a, b) => a + b, 0) / Math.max(1, err.length);
+    return `当時のリスクの幅に入った年度 ${inside}/${f.length}。取卸しは見込みより平均 ${bias >= 0 ? bias.toFixed(1) + " か月遅い" : (-bias).toFixed(1) + " か月早い"}`;
+  }
+  function fitChart(h, W = 560) {
+    const F = histFys(h), L = 150, R = 16, rowH = 30, H = F.length * rowH + 30;
+    const top = Math.max(...F.map((f) => Math.max(f.p90, f.actual, f.planned))) * 1.1, x = (v) => L + v / top * (W - L - R);
+    let s = "";
+    F.forEach((f, i) => {
+      const y = 10 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 8}" text-anchor="end">${f.version} 版 · ${f.fy}</text>`;
+      s += `<rect x="${x(f.p10)}" y="${y + 1}" width="${Math.max(2, x(f.p90) - x(f.p10))}" height="12" rx="6" fill="${f.inside ? "var(--good-soft)" : "var(--crit-soft)"}"><title>当時の見込みの幅 ${f.p10}〜${f.p90} 件</title></rect>`;
+      s += `<line x1="${x(f.planned)}" x2="${x(f.planned)}" y1="${y - 2}" y2="${y + 16}" stroke="var(--muted)" stroke-width="2"><title>計画 ${f.planned} 件</title></line>`;
+      s += `<circle cx="${x(f.actual)}" cy="${y + 7}" r="6" fill="${f.inside ? "var(--good)" : "var(--crit)"}"><title>実績 ${f.actual} 件（予定外 ${f.unsched_actual}、想定 ${f.unsched_expected.toFixed(1)}）</title></circle>`;
+    });
+    [0, 5, 10, 15, 20, 25, 30].forEach((v) => { if (v < top) s += `<text class="tick" x="${x(v)}" y="${H - 6}" text-anchor="middle">${v}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="当時のリスクの幅と実績">${s}</svg>`;
+  }
+  function timingChart(h, W = 560) {
+    const V = h.versions.filter((v) => v.timing.some((t) => t.actual != null)), L = 110, R = 12, rowH = 46, H = V.length * rowH + 30;
+    const x = (v) => L + (Math.max(-8, Math.min(8, v)) + 8) / 16 * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 24}" stroke="var(--ink)"/>`;
+    [-6, -3, 0, 3, 6].forEach((v) => { s += `<text class="tick" x="${x(v)}" y="${H - 8}" text-anchor="middle">${v > 0 ? "+" : ""}${v}</text>`; });
+    V.forEach((v, i) => {
+      const y = 12 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 16}" text-anchor="end">${v.version} 版</text>`;
+      v.timing.filter((t) => t.actual != null).forEach((t, k) => {
+        const d = t.actual - t.forecast, jy = y + 4 + ((k * 7) % 26);
+        s += `<circle cx="${x(d)}" cy="${jy}" r="4" fill="${t.unscheduled ? "var(--crit)" : "var(--accent)"}" opacity=".75"><title>${t.esn}：見込み ${t.forecast}、実際 ${t.actual} か月目（${d > 0 ? "+" : ""}${d}）${t.unscheduled ? "・予定外" : ""}</title></circle>`;
+      });
+    });
+    s += `<text class="tick" x="${(L + W - R) / 2}" y="${H + 0}" text-anchor="middle"></text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="取卸し時期の見込みとのずれ">${s}</svg>`;
+  }
+  function stabilityChart(h, W = 560, H0 = 0, compact = false) {
+    const S = h.stability, L = compact ? 6 : 150, R = 10, rowH = compact ? 28 : 36, H = S.length * rowH + (compact ? 6 : 26);
+    const cats = [["same", "そのまま（±1 か月）", "var(--good)"], ["moved", "2〜3 か月動いた", "var(--warn-soft)"], ["moved_far", "4 か月以上動いた", "var(--warn)"], ["dropped", "消えた", "var(--crit)"], ["added", "新たに入った", "var(--accent)"]];
+    const top = Math.max(...S.map((r) => cats.reduce((a, [k]) => a + r[k], 0))), x = (v) => v / top * (W - L - R);
+    let s = "";
+    S.forEach((r, i) => {
+      const y = 4 + i * rowH; let acc = L;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + 15}" text-anchor="end">${r.from} → ${r.to}</text>`;
+      cats.forEach(([k, lab, col]) => { const w = x(r[k]); if (w > 0) s += `<rect x="${acc}" y="${y}" width="${w}" height="${rowH - 12}" fill="${col}"><title>${r.from} 版の 2 年目 → ${r.to} 版の 1 年目：${lab} ${r[k]} 基</title></rect>`; acc += w; });
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="計画の安定度">${s}</svg>`;
+  }
+  const stabLegend = `<div class="legend"><span><span class="sw" style="background:var(--good)"></span>そのまま（±1 か月）</span><span><span class="sw" style="background:var(--warn-soft)"></span>2〜3 か月動いた</span><span><span class="sw" style="background:var(--warn)"></span>4 か月以上</span><span><span class="sw" style="background:var(--crit)"></span>消えた</span><span><span class="sw" style="background:var(--accent)"></span>新たに入った</span></div>`;
+
+  function history() {
+    const c = C(), h = c.history;
+    if (!h) return panel("過去の計画との整合", '<p class="hint">過去の版がありません。</p>');
+    return panel("", `<p class="chart-note">${histLine(c)}</p><p class="hint">2 年前・1 年前にも同じ方法で計画を立てていたとして、その後に実際に起きたことと比べています（合成データ）。</p>`)
+      + `<div class="vgrid">${panel("", `<p class="chart-note">当時考えたリスクの幅に、実績は入ったか（年度ごとの入場件数）</p>` + fitChart(h) + `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>当時の見込みの幅（10〜90%）</span><span><span class="sw" style="background:var(--muted);width:3px"></span>計画</span><span><span class="sw" style="background:var(--good);border-radius:50%"></span>実績（幅の外は赤）</span></div>`, "見込みの幅＝計画した入場（年度をまたいでずれる可能性）＋予定外の取卸し（想定した率）。")}`
+      + `${panel("", `<p class="chart-note">取卸しの時期は見込みとどれだけずれたか（実際 − 見込み、か月）</p>` + timingChart(h) + `<div class="legend"><span><span class="sw" style="background:var(--accent);border-radius:50%"></span>予定どおりの取卸し</span><span><span class="sw" style="background:var(--crit);border-radius:50%"></span>予定外（故障など）</span></div>`, "右にずれるほど、見込みより長く飛べた（予備として棚にいた期間がある）。")}</div>`
+      + panel("", `<p class="chart-note">前の版の 2 年目は、次の版の 1 年目にどれだけ残ったか（計画の積み上がり）</p>` + stabilityChart(h, 1100) + stabLegend, "残る割合が低いほど、毎年の計画が大きく作り直されている。どの変更が実績によるもので、どれが前提の変更によるものかを分けるのが次の段階。");
+  }
+
+  // horizons: log time axis from a month to 20 years; links from long to short
+  function horizonChart(hz, W = 900, H0 = 0, compact = false) {
+    const Ls = hz.layers, L = compact ? 6 : 210, R = compact ? 6 : 16, rowH = compact ? 18 : 30, laneW = compact ? 0 : 0, T = compact ? 4 : 24;
+    const H = T + Ls.length * rowH + (compact ? 4 : 30), lx = (m) => L + Math.log(m) / Math.log(240) * (W - L - R - (compact ? 0 : 0));
+    const yOf = (id) => T + Ls.findIndex((l) => l.id === id) * rowH + rowH / 2;
+    let s = "";
+    if (!compact) [[1, "1 か月"], [3, "3 か月"], [12, "1 年"], [24, "2 年"], [120, "10 年"], [240, "20 年"]].forEach(([m, t]) => { s += `<line x1="${lx(m)}" x2="${lx(m)}" y1="${T - 6}" y2="${H - 26}" stroke="var(--rule)" stroke-dasharray="2 4"/><text class="tick" x="${lx(m)}" y="${T - 10}" text-anchor="middle">${t}</text>`; });
+    Ls.forEach((l, i) => {
+      const y = T + i * rowH;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + rowH / 2 + 4}" text-anchor="end">${esc(l.label)}</text>`;
+      s += `<rect x="${L}" y="${y + 4}" width="${Math.max(4, lx(Math.max(1.05, l.months)) - L)}" height="${rowH - 8}" rx="4" fill="${l.have ? "var(--accent-soft)" : "var(--ground)"}" stroke="${l.have ? "var(--accent)" : "var(--muted)"}" stroke-dasharray="${l.have ? "" : "3 3"}"/>`;
+    });
+    const col = { ok: "var(--good)", warn: "var(--warn)", bad: "var(--crit)" };
+    hz.links.forEach((k, j) => {
+      const y1 = yOf(k.from), y2 = yOf(k.to), x = compact ? W - 12 - j * 7 : lx(240) - 10 - j * 16;
+      if (k.from === k.to) s += `<circle cx="${x}" cy="${y1}" r="${compact ? 3 : 6}" fill="none" stroke="${col[k.status]}" stroke-width="2"><title>${esc(k.what)}：${esc(k.measure || "")}</title></circle>`;
+      else s += `<path d="M${x} ${y1} L${x} ${y2 - 4}" stroke="${col[k.status]}" stroke-width="${compact ? 2 : 3}" stroke-dasharray="${k.status === "bad" ? "4 3" : ""}" marker-end="url(#ar-${k.status})"><title>${esc(k.what)}：${esc(k.measure || "")}</title></path>`;
+      if (!compact) s += `<text class="tick" x="${x}" y="${Math.min(y1, y2) - 3}" text-anchor="middle">${j + 1}</text>`;
+    });
+    const defs = Object.entries(col).map(([k, c]) => `<marker id="ar-${k}" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="${c}"/></marker>`).join("");
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="時間軸のつながり"><defs>${defs}</defs>${s}</svg>`;
+  }
+  function horizon() {
+    const hz = C().horizons, col = { ok: "var(--good)", warn: "var(--warn)", bad: "var(--crit)" };
+    const list = hz.links.map((k, j) => `<tr><td class="mono">${j + 1}</td><td><span class="sw" style="background:${col[k.status]};border-radius:50%"></span>${esc(k.what)}</td><td class="src">${esc(k.measure || "")}</td></tr>`).join("");
+    return panel("", `<p class="chart-note">長い時間軸の考えが、短い時間軸の行動まで落ちているか（つながり ${Math.round(hz.score * 100)}%）</p>` + horizonChart(hz)
+      + `<div class="legend"><span><span class="sw" style="background:var(--accent-soft);border:1px solid var(--accent)"></span>考えている時間の長さ（右ほど長期、目盛りは対数）</span><span><span class="sw" style="background:var(--good)"></span>つながっていて整合</span><span><span class="sw" style="background:var(--warn)"></span>つながっているがずれがある</span><span><span class="sw" style="background:var(--crit)"></span>つながっていない</span><span>丸＝同じ層の中での振り返り</span></div>`)
+      + panel("つながりの中身", `<div class="scroll"><table><tbody>${list}</tbody></table></div>`, "赤は、長期で考えたことが短期の行動（判断期限・次の計画の前提）に落ちていないところ。ここを埋めるのが次の作業の候補。");
   }
 
   /* ---------------- level 3 ---------------- */

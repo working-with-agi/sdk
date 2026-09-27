@@ -58,13 +58,18 @@ def shops_for(name: str, cfg: dict, common: dict) -> dict:
     }
 
 
-def fleet_for(name: str, cfg: dict, common: dict) -> tuple[dict, dict]:
+def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[dict, dict]:
+    """years_back > 0 rebuilds the input the company would have had that many years ago:
+    the same simulated history, cut earlier (the plan versions of history.py)."""
     lifecycle.configure({**cfg, "contract": {**cfg["contract"], "quotes": {w: q for w, q in common["quotes"].items() if w != "source"}}})
     seed = cfg["lifecycle_seed"]
-    visits, shelf, short, state, T = lifecycle.simulate(seed)
+    visits, shelf, short, state, T = lifecycle.simulate(seed, years=lifecycle.YEARS - years_back)
     n = lifecycle.norms(visits, shelf, short, T)
     rows = lifecycle.window(state, T)
     base = json.loads(TEMPLATE.read_text(encoding="utf-8"))
+    if years_back:
+        y, m = map(int, base["start"].split("-"))
+        base["start"] = f"{y - years_back}-{m:02d}"
     H = base["horizon_months"]
     required = [lifecycle.needed_positions(t) for t in range(H)]
     un = base["unscheduled_removals"]
