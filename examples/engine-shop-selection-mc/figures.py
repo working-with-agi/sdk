@@ -658,7 +658,8 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 .bar label{{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center}}
 .lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
 .lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
-.outputs{{padding:10px 20px 6px;max-width:1400px}} .outputs h2{{font-size:17px;margin:8px 0 6px}} .outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs a{{color:{PORT}}} .cycle svg{{width:100%;height:auto;max-width:1400px}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
+.outputs{{padding:10px 20px 6px;max-width:1400px}} .outputs h2{{font-size:17px;margin:8px 0 6px}} .explain{{font-size:13px;line-height:1.75;margin:6px 0 14px}} .explain h3{{font-size:13.5px;margin:12px 0 2px;color:{HEAD}}} .explain p{{margin:0 0 4px}}
+.outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs a{{color:{PORT}}} .cycle svg{{width:100%;height:auto;max-width:1400px}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
 #panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}} .stage.open #panel{{display:block}}
 #panel h2{{font-size:16px;margin:0 0 2px}} #panel .cad{{color:{MUTE};font-size:12px;margin-bottom:10px}} #panel h3{{font-size:12.5px;margin:12px 0 4px;color:{HEAD};border-bottom:1px solid #e2e8f0;padding-bottom:2px}}
 #panel ul{{margin:0;padding-left:16px}} #panel .lit{{color:{MUTE};font-size:11.5px}} #panel .chips span{{display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px}}
@@ -674,6 +675,22 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 <section class="outputs"><h2>成果物の一覧と、それを統合するレポート</h2>
 <p class="msg">成果物は 6 つ。年に 1 回の ① 年間見直し → ② 計画 → ③ 年次レポート と、毎月の ④ 月次見直し → ⑤ 計画修正（必要な月だけ）→ ⑥ 月次レポート。全部を <a href="report_a4.html">統合レポート（A4 版）</a> に綴じる。</p>
 <div class="cycle">{cycle_svg}</div>
+<div class="explain">
+<h3>上の帯：年に 1 回の版づくり（10 月）</h3>
+<p><b>① 年間見直し</b>で、過去 8 版を当時の情報で解き直し、予測の癖（入場時期が早すぎる、計画外の取卸しが多い）を補正値にする。4 つの学習手法の成績を採点し、来年どの手法で前提を作るかを決める。需要の伸びも長期と直近を見比べて置き直す。<br>
+<b>② 計画（版）</b>は、その前提で整備計画を最適化し（シナリオ 40 本）、800 通りの将来で検証して凍結したもの。エンジンごとの入場月・作業範囲・工場と、購入する手（予備・プール・中寿命機）を含む。<br>
+<b>③ 年次レポート</b>は、②を経営向けに要約したもの。年度ごとの整備費と予算、欠航率、退役までの入場列、購入計画、次の版で直す決め方。ここで承認される。</p>
+<h3>真ん中：12 か月の時間軸</h3>
+<p>②を 10 月に凍結し、1 年間はこの版を基準にして回す。基準があるから「実績とどれだけずれたか」が測れる。9 月末に翌年の①へ戻り、次の版を作る。</p>
+<h3>下の帯：毎月の補正（月次会議）</h3>
+<p><b>④ 月次見直し</b>：入った実績（入場・遅れ・追加作業・故障・納期回答）を基準計画に当て、どのシナリオが確からしいかの確率を更新し、見直しの合図（4 手法のばらつき・変化点・需要の引き金）を出す。PDCA／OODA の症状表で「どこがずれたか」を段階ごとに整理する。<br>
+<b>⑤ 計画修正</b>：必要な月だけ。3 か月先の欠航率が 5% を超えそう、または乗り換えの価値が 2 か月続けてしきい値を超えたときに、乗り換え先の計画や短期リースの手当てを出し、何基が動くかの差分を示す。動く基数が多い・購入に及ぶ修正は、月次では決めずに次の版（②）に戻す。<br>
+<b>⑥ 月次レポート</b>：今月の判断期限、乗り換えの推奨、3 か月先の見張り、年度の着地の更新。経営向けの 1 枚。</p>
+<h3>最下段：統合レポート（A4）に綴じる</h3>
+<p>年次の 3 つ（③②①）が本文 1〜8 章になり、月次の 3 つ（④⑤⑥）が 6 章に毎月差し替えで入る。付録に思考の枠組み（PDCA／OODA）・文献・出典・画面との対応表。文書は「何を決めるか」だけを書き、数字の根拠は各画面（対話版レポート）に置く。</p>
+<h3>誰が読むか</h3>
+<p>経営は③と⑥（決めることと理由）。整備計画は②と⑤（計画そのもの）。技術と調達は④（ずれと合図）。年間見直し①は技術・整備計画・経営企画が合同で行う。</p>
+</div>
 <table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>判断材料の画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table></section>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
