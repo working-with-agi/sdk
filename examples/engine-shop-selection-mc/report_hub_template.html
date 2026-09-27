@@ -1094,6 +1094,13 @@ const DATA = /*__DATA__*/null;
     });
     close(); return out.join("");
   }
+  function frameworkPanel(FW) {
+    const ST = { ok: ["var(--good)", "周期内"], overdue: ["var(--crit)", "期限切れ"], fired: ["var(--warn)", "引き金"] };
+    const rows = FW.layers.map((ly) => FW.table.filter((a) => a.layer === ly).map((a, i, arr) => `<tr>${i === 0 ? `<td rowspan="${arr.length}"><b>${ly}</b></td>` : ""}<td>${esc(a.name)}</td><td class="hint">${esc(a.source)}</td><td>${a.cadence_months} か月・${esc(a.loop)}</td><td>${esc(a.trigger)}</td><td>${a.affects.map(esc).join("・")}</td><td>${esc(a.owner)}</td><td>${a.last_derived}</td><td><span style="background:${ST[a.status][0]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${ST[a.status][1]}</td></tr>`).join("")).join("");
+    // the layers as a ladder: each layer sets the one below's "need", and reads back its headroom
+    const ladder = FW.layers.map((ly, i) => `<span style="display:inline-block;padding:4px 10px;border:1px solid var(--rule);border-radius:6px;margin:2px">${ly}<span class="hint"> ${FW.table.filter((a) => a.layer === ly).length}</span></span>${i < FW.layers.length - 1 ? " → " : ""}`).join("");
+    return panel("前提の見直しの枠組み（層 × 周期 × 引き金）", `<p class="chart-note">${FW.n} の前提。期限切れ ${FW.overdue.length}、引き金が引かれたもの ${FW.fired.length}（${FW.as_of} 時点）</p><p>${ladder}</p><p class="hint">上の層が下の層の「必要」を決め、下の層は上の層に「余力」と「限界」を返す。周期は遅い輪（年次の版・月次会議）、引き金は速い輪（変化点・閾値）。期限切れと引き金は症状表に自動で載る</p><div class="scroll"><table><thead><tr><th>層</th><th>前提</th><th>出所</th><th>周期</th><th>引き金（早める）</th><th>影響先</th><th>担当</th><th>最終導出</th><th>状態</th></tr></thead><tbody>${rows}</tbody></table></div>`, "data/assumptions_review.json。最終導出の月は今は手で持つ。各モジュールの出力（auto 列）から自動で取るのが次の作業。");
+  }
   function review() {
     const V = C().review;
     if (!V) return panel("PDCA／OODA の見直し", '<p class="hint">review.py の結果がありません。</p>');
@@ -1101,6 +1108,7 @@ const DATA = /*__DATA__*/null;
     const head = V.review.mode === "ai" ? `Claude（${esc(V.review.model)}）が事実パックと症状表から書いた見直し。入力 ${fmt(V.review.usage.input_tokens)}・出力 ${fmt(V.review.usage.output_tokens)} トークン` : `AI 未接続（${esc(V.review.reason)}）。規則層の症状表をそのまま示す`;
     return panel("", `<p class="chart-note">${esc(reviewLine(V))}</p>` + coverageGrid(V) + G("reviewCoverage"), esc(V.note))
       + panel("見直し", `<p class="hint">${head}</p><div class="review-text">${md(V.review.text)}</div>`)
+      + (V.framework ? frameworkPanel(V.framework) : "")
       + panel("症状表（規則層：毎回同じ判定）", `<div class="scroll"><table><thead><tr><th>輪</th><th>段</th><th>重さ</th><th>指摘</th><th>根拠</th><th>会議で聞くこと</th></tr></thead><tbody>${rows}</tbody></table></div>`, "crit＝今すぐ直す、warn＝会議で決める、info＝情報、ok＝問題なし。AI 層はこの表に根拠を添えて総評・問い・次の版で直す点を書く。");
   }
 

@@ -82,6 +82,7 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
                        "spend_k": T["spend_k"], "residual_value_k": T["residual_value_k"], "green_time_engines": T["green_time_engines"],
                        "heavy_late_engines": T["heavy_late_engines"], "plan_gaps": T["plan_gaps"], "plan_gap_max_months": T.get("plan_gap_max_months", 0), "policies": runout["policies"],
                        "without_runout": runout["without_runout"], "by_year": [{k: y[k] for k in ("year", "visits", "spend_k", "retired", "engines")} for y in runout["by_year"]]}
+    F["framework"] = framework_status(b, plan_from_demand, track)
     if plan_from_demand:
         d = plan_from_demand["derived"]
         F["demand_growth"] = {"short": d["demand_growth_per_year"], "long": d["demand_growth_long_run"], "review": d["review"], "utilisation": d["utilisation_multiplier"]}
@@ -89,6 +90,46 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
         fys = [f for v in history["versions"] for f in v["fiscal_years"] if f["months"] >= 6]
         F["history"] = {"fy_inside_range": sum(f["inside"] for f in fys), "fy_scored": len(fys), "stability": history.get("stability")}
     return F
+
+
+def framework_status(b: dict, plan_from_demand: dict | None, track: dict | None) -> dict | None:
+    """Which assumptions are overdue for review and which triggers have fired, from
+    data/assumptions_review.json plus the live signals the pipeline already computes."""
+    p = HERE / "data" / "assumptions_review.json"
+    if not p.exists():
+        return None
+    FW = json.loads(p.read_text(encoding="utf-8"))
+    as_of = b["version"][:7] if b.get("version") else FW["as_of"]
+    y, m = (int(v) for v in as_of.split("-"))
+    now = y * 12 + m - 1
+    overdue, fired = [], []
+    cpd = (track or {}).get("cpd") or {}
+    fb = ((track or {}).get("ooda") or {}).get("feedback") or {}
+    for a in FW["assumptions"]:
+        ly, lm = (int(v) for v in a["last_derived"].split("-"))
+        age = now - (ly * 12 + lm - 1)
+        if age > a["cadence_months"]:
+            overdue.append({**a, "months_over": age - a["cadence_months"]})
+        ev = None
+        if a["key"] == "demand_growth" and plan_from_demand and plan_from_demand["derived"]["review"].get("triggered"):
+            r = plan_from_demand["derived"]["review"]; ev = f"市場の前年比 {r['latest_yoy']['yoy']:+.1%}（{r['latest_yoy']['m']}）vs 仮定 {plan_from_demand['derived']['demand_growth_per_year']:+.1%}"
+        if a["key"] in ("tat_findings", "kit_lead") and cpd.get("cpd_month") and cpd.get("streams_alarmed", None) is None:
+            alarmed = [s["label"] for s in (cpd.get("streams") or {}).values() if s.get("week") is not None]
+            if alarmed and (a["key"] == "kit_lead") == any("キット" in x for x in alarmed):
+                ev = "変化点検知：" + "、".join(alarmed)
+        if a["key"] == "worlds" and fb.get("add_world"):
+            ev = f"どの世界にも当てはまらない月 {fb['no_world_fits_months']}"
+        if a["key"] == "rules" and fb.get("teardown_review", "").startswith("承認線") and fb.get("teardown_net_k", 0) > 0:
+            ev = f"分解の追加作業の純額 {fb['teardown_net_k'] / 1000:+.1f} 百万ドル"
+        if a["key"] == "spares" and (track or {}).get("timeline"):
+            late = sum(1 for x in track["timeline"] for e in x["exceptions"] if e["kind"] == "戻り遅れ")
+            if late >= 3:
+                ev = f"戻り遅れ {late} 件"
+        if ev:
+            fired.append({**a, "evidence": ev})
+    return {"as_of": as_of, "n": len(FW["assumptions"]), "overdue": overdue, "fired": fired, "layers": FW["layers"],
+            "table": [{k: a[k] for k in ("key", "layer", "name", "source", "cadence_months", "loop", "trigger", "affects", "owner", "last_derived", "auto")}
+                      | {"status": "overdue" if any(o["key"] == a["key"] for o in overdue) else "fired" if any(f["key"] == a["key"] for f in fired) else "ok"} for a in FW["assumptions"]]}
 
 
 # ------------------------------------------------------------------ 2. the rule layer
@@ -188,6 +229,16 @@ def symptoms(F: dict) -> list[dict]:
                 f"直近の前年比 {r['latest_yoy']['yoy']:+.1%}（{r['latest_yoy']['m']}）は仮定 {G['short']:+.1%} の範囲内" if r.get("latest_yoy") else "前年比なし", "")
         if abs(G["short"] - G["long"]) > 0.02:
             add("PDCA", "Plan", "info", f"直近の伸び {G['short']:+.1%} と長期の伸び {G['long']:+.1%} の差が大きい", "2 年先までは直近、5 年先からは長期に寄せる（growth_by_horizon）", "退役までの列と予備の数は長期の伸びで、窓の中は直近で見る")
+    # the assumptions-review framework: every assumption has a cadence; overdue ones and
+    # fired triggers become findings on the loop that owns them
+    FW = F.get("framework")
+    if FW:
+        for x in FW["overdue"]:
+            add("PDCA", "Act", "warn", f"前提「{x['name']}」の見直しが期限切れ（{x['months_over']} か月超過）", f"最終導出 {x['last_derived']}、周期 {x['cadence_months']} か月、影響先 {'・'.join(x['affects'])}", f"{x['owner']}が {x['loop']} で引き直す")
+        for x in FW["fired"]:
+            add("OODA", "Orient", "warn", f"前提「{x['name']}」の引き金が引かれた", x["evidence"], f"{x['owner']}が年次を待たず月次会議へ（影響先 {'・'.join(x['affects'])}）")
+        if not FW["overdue"] and not FW["fired"]:
+            add("PDCA", "Act", "ok", f"前提 {FW['n']} 件はすべて周期内、引き金なし", "assumptions_review.json", "")
     H = F.get("history")
     if H and H["fy_scored"]:
         r = H["fy_inside_range"] / H["fy_scored"]
@@ -264,7 +315,7 @@ def build(cid: str, baseline_path: Path | None, track_path: Path | None, roll_pa
     F = facts(b, load(track_path), load(roll_path), load(runout_path), load(history_path), load(plan_path))
     sym = symptoms(F)
     rev = ai_review(F, sym) if use_ai else {"mode": "rules", "reason": "--no-ai", "text": rules_text(F, sym)}
-    return {"company": cid, "facts": F, "symptoms": sym, "coverage": coverage(sym), "review": rev,
+    return {"company": cid, "facts": F, "symptoms": sym, "coverage": coverage(sym), "review": rev, "framework": F.get("framework"),
             "inputs": {"track": str(track_path) if track_path else None, "roll": str(roll_path) if roll_path else None, "runout": str(runout_path) if runout_path else None},
             "note": "合成データ。規則層は毎回同じ判定、AI 層は Claude が事実パックと症状表から書く（資格情報がなければ規則層のみ）"}
 

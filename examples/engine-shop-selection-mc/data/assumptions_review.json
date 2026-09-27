@@ -1,0 +1,282 @@
+{
+ "note": "前提の見直しの枠組み：層ごとに、前提・出所・周期・引き金・影響先・担当。周期は遅い輪（年次の版／月次会議）、引き金は速い輪（変化点・閾値）。last_derived は前提を最後に導いた月、review.py が期限切れと引き金を症状表に出す",
+ "as_of": "2026-10",
+ "layers": [
+  "需要",
+  "機材",
+  "運航",
+  "工場・供給",
+  "エンジン",
+  "お金",
+  "決め方"
+ ],
+ "assumptions": [
+  {
+   "key": "demand_growth",
+   "layer": "需要",
+   "name": "需要の伸び",
+   "source": "国交省 航空輸送統計速報（市場 RPK の年率）",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "市場の前年比が仮定から 3pt 以上外れた月",
+   "affects": [
+    "必要エンジン数",
+    "予備の数",
+    "退役のペース"
+   ],
+   "owner": "経営企画・整備計画",
+   "last_derived": "2026-10",
+   "auto": "plan_from_demand.review"
+  },
+  {
+   "key": "season_shape",
+   "layer": "需要",
+   "name": "季節の形（運航指数）",
+   "source": "市場の月次 RPK ÷ 平均",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "月の指数が仮定から 0.05 以上ずれる",
+   "affects": [
+    "繁忙期",
+    "月ごとの必要エンジン数",
+    "欠航リスクの重み"
+   ],
+   "owner": "運航・整備計画",
+   "last_derived": "2026-10",
+   "auto": "demand.seasonal"
+  },
+  {
+   "key": "utilisation",
+   "layer": "運航",
+   "name": "稼働（年間サイクル・飛行時間）",
+   "source": "供給計画（利用率を閾値に戻す供給の比）",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "実績サイクルが仮定から 5% 以上ずれる 3 か月",
+   "affects": [
+    "寿命部品の消費",
+    "EGT の劣化",
+    "入場の窓"
+   ],
+   "owner": "運航・技術",
+   "last_derived": "2026-10",
+   "auto": "plan_from_demand.utilisation"
+  },
+  {
+   "key": "delivery",
+   "layer": "機材",
+   "name": "新機の受領時期（退役のペース）",
+   "source": "メーカーの納期回答・受領計画",
+   "cadence_months": 6,
+   "loop": "年次の版＋半期",
+   "trigger": "納期回答が 3 か月以上動いた",
+   "affects": [
+    "退役までの入場列",
+    "退役まで持つ最軽の整備範囲",
+    "必要エンジン数"
+   ],
+   "owner": "機材計画・調達",
+   "last_derived": "2026-10",
+   "auto": "runout.delivery_delay"
+  },
+  {
+   "key": "lease_terms",
+   "layer": "機材",
+   "name": "リース返却条件・返却月",
+   "source": "リース契約",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "延長・早期返却の交渉",
+   "affects": [
+    "返却前入場",
+    "補償",
+    "積立金"
+   ],
+   "owner": "財務・機材計画",
+   "last_derived": "2026-10",
+   "auto": "lease"
+  },
+  {
+   "key": "tat_findings",
+   "layer": "工場・供給",
+   "name": "工期・所見・費用超過",
+   "source": "戻ったエンジンの実績（追跡）",
+   "cadence_months": 12,
+   "loop": "年次の版（roll）",
+   "trigger": "変化点検知（週次の見積もり工期・枠回答）",
+   "affects": [
+    "世界の確率",
+    "立て直し費",
+    "契約形態の価値"
+   ],
+   "owner": "整備計画・調達",
+   "last_derived": "2027-10",
+   "auto": "roll.learned + cpd"
+  },
+  {
+   "key": "kit_lead",
+   "layer": "工場・供給",
+   "name": "LLP キットの納期",
+   "source": "サプライヤーの回答ログ",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "変化点検知（週次のキット納期回答）",
+   "affects": [
+    "判断期限 R",
+    "先行発注",
+    "緊急キット"
+   ],
+   "owner": "調達",
+   "last_derived": "2027-10",
+   "auto": "cpd.streams"
+  },
+  {
+   "key": "shop_capacity",
+   "layer": "工場・供給",
+   "name": "工場の枠と容量反応",
+   "source": "契約・工場の回答",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "枠の回答が 2 か月以上遅れる",
+   "affects": [
+    "混雑の世界",
+    "工場の選び直し",
+    "投資ゲート"
+   ],
+   "owner": "調達・経営",
+   "last_derived": "2026-10",
+   "auto": "shop_response"
+  },
+  {
+   "key": "wear",
+   "layer": "エンジン",
+   "name": "劣化率（EGT）と寿命部品の寿命",
+   "source": "便ごとの EGT・サイクル実績",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "状態監視の警報（余裕が期限より早く尽きる）",
+   "affects": [
+    "入場の窓",
+    "整備範囲",
+    "退役までの列"
+   ],
+   "owner": "技術",
+   "last_derived": "2026-10",
+   "auto": "lifecycle + ooda.cm_alert"
+  },
+  {
+   "key": "unsched",
+   "layer": "エンジン",
+   "name": "計画外取卸しの率",
+   "source": "実績（追跡）",
+   "cadence_months": 12,
+   "loop": "年次の版（roll）",
+   "trigger": "3 か月移動平均が仮定の 1.5 倍",
+   "affects": [
+    "予備の数",
+    "緊急キット",
+    "欠航リスク"
+   ],
+   "owner": "技術・整備計画",
+   "last_derived": "2027-10",
+   "auto": "roll.learned.unsched + cpd.uer_arl"
+  },
+  {
+   "key": "spares",
+   "layer": "エンジン",
+   "name": "予備エンジンの数・短期リース上限",
+   "source": "保有・リース市場",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "余力がマイナスの月が出た",
+   "affects": [
+    "欠航リスク",
+    "立て直し費"
+   ],
+   "owner": "整備計画・財務",
+   "last_derived": "2026-10",
+   "auto": "runout.ops + ooda.tat_slip"
+  },
+  {
+   "key": "prices_fx",
+   "layer": "お金",
+   "name": "見積もり単価・値上げ・為替",
+   "source": "契約・市場",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "為替が 10% 動いた／見積もり改定",
+   "affects": [
+    "費用",
+    "着地の幅",
+    "契約形態"
+   ],
+   "owner": "財務・調達",
+   "last_derived": "2026-10",
+   "auto": "finance"
+  },
+  {
+   "key": "tax",
+   "layer": "お金",
+   "name": "税率・償却・区分",
+   "source": "税制・税理士",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "税制改正",
+   "affects": [
+    "税引後の比較",
+    "予備の購入／リース"
+   ],
+   "owner": "財務・税務",
+   "last_derived": "2026-10",
+   "auto": "tax"
+  },
+  {
+   "key": "worlds",
+   "layer": "決め方",
+   "name": "世界の集合と事前確率",
+   "source": "追跡の事後確率・変化点",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "どの世界にも当てはまらない月が 3 か月（安全スイッチ）",
+   "affects": [
+    "計画案の集合",
+    "乗り換え"
+   ],
+   "owner": "整備計画",
+   "last_derived": "2027-10",
+   "auto": "roll.learned.world + ooda.add_world"
+  },
+  {
+   "key": "rules",
+   "layer": "決め方",
+   "name": "暗黙のルールと承認線 v",
+   "source": "ルールの再生（OODA）",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "分解の追加作業の純額がプラス",
+   "affects": [
+    "当日の判断",
+    "会議に回す件数"
+   ],
+   "owner": "整備計画・技術",
+   "last_derived": "2027-10",
+   "auto": "ooda.feedback"
+  },
+  {
+   "key": "gamma_k",
+   "layer": "決め方",
+   "name": "γ（尤度の弱め）・K（ヒステリシス）",
+   "source": "採点（リスクの幅に入った年度）",
+   "cadence_months": 12,
+   "loop": "年次の版",
+   "trigger": "採点が 80% を割る",
+   "affects": [
+    "前提の更新の速さ",
+    "乗り換えの頻度"
+   ],
+   "owner": "整備計画",
+   "last_derived": "2027-10",
+   "auto": "history + roll.bridge"
+  }
+ ]
+}

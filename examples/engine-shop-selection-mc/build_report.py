@@ -328,7 +328,7 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
             c["demand"]["plan_from_demand"] = json.loads(pp.read_text(encoding="utf-8"))
     if review_path and review_path.exists():
         rv = json.loads(review_path.read_text(encoding="utf-8"))
-        c["review"] = {k: rv[k] for k in ("symptoms", "coverage", "review", "note")}
+        c["review"] = {k: rv.get(k) for k in ("symptoms", "coverage", "review", "note", "framework")}
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c
