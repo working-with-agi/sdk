@@ -333,8 +333,101 @@ def strategy_stack() -> str:
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="あるべき分析ストラテジー" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
 
 
+def strategy_matrix() -> str:
+    """One level more abstract: rows are the four layers of the first figure, columns are the
+    flow (what enters, what is run, what comes out), and the far right is the result the
+    decision-maker should receive. Observation rises, decisions descend."""
+    W, Hh = 1400, 860
+    o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
+         f'<defs><marker id="ma" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="{LINE}"/></marker>'
+         f'<marker id="mr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="{LOOP}"/></marker></defs>']
+    def T(x, y, t, size=12, fill=INK, w="", anchor="start"):
+        o.append(f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" text-anchor="{anchor}" {w}>{t}</text>')
+    def cell(x, y, w, h, title, lines, lit="", kind="det", strong=False):
+        f, st = COL[kind]
+        o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="{f}" stroke="{LOOP if strong else st}" stroke-width="{2.6 if strong else 1.5}"/>')
+        T(x + 10, y + 19, title, 12.5, INK, 'font-weight="700"')
+        for i, l in enumerate(lines): T(x + 10, y + 37 + i * 15, l, 10.5)
+        if lit: T(x + 10, y + h - 8, lit, 9.5, MUTE)
+    def poly(pts, red=False, w=1.6, dash=""):
+        o.append(f'<polyline fill="none" points="{pts}" stroke="{LOOP if red else LINE}" stroke-width="{w}" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#{"mr" if red else "ma"})"/>')
+    T(20, 30, "あるべき分析ストラテジー：層 × 流れ。右端が「あるべき結果」", 20, INK, 'font-weight="700"')
+    T(20, 52, "行＝層（下から観測が上がり、上から決定が下りる）。列＝入る → 回す → 出る。回すの箱の下の灰色＝文献の系統。深紅の枠＝新しく足す層と、推奨の経路。", 11, MUTE)
+    LX, T0 = 170, 100; CW = [240, 380, 230]; GX = 14; RH = 150; GY = 14
+    X0 = LX; X1 = X0 + CW[0] + GX; X2 = X1 + CW[1] + GX; XR = X2 + CW[2] + 26; RW = W - XR - 20
+    heads = [("入る", "その層が受け取るもの"), ("回す（方法）", "計算か人か・文献"), ("出る", "上の層／右へ渡すもの")]
+    for x, w, (h, sub) in zip((X0, X1, X2), CW, heads):
+        o.append(f'<rect x="{x}" y="{T0 - 44}" width="{w}" height="36" rx="8" fill="{HEAD}"/>'); T(x + w / 2, T0 - 28, h, 13, "#fff", 'font-weight="700"', "middle"); T(x + w / 2, T0 - 14, sub, 9.5, "#cbd5e1", "", "middle")
+    o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="{4 * RH + 3 * GY + 44}" rx="10" fill="rgba(190,18,60,0.05)" stroke="{LOOP}" stroke-width="2.5"/>')
+    o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="36" rx="8" fill="{LOOP}"/>'); T(XR + RW / 2, T0 - 28, "あるべき結果", 13, "#fff", 'font-weight="700"', "middle"); T(XR + RW / 2, T0 - 14, "決める人が受け取るもの", 9.5, "#fecdd3", "", "middle")
+    rows = [
+        ("① 上の層", "需要と機材｜年 1 回", ROWB,
+         ("需要と便の計画", ["e-Stat・各社月次の需要", "便の計画（航空計画）"], "", "det", False),
+         ("伸びを地平で混ぜ、便が「必要」を決める", ["直近 2 年／長期 5 年で混ぜる。3pt で随時", "需要の余地 × エンジンの余力 → 足す便"], "予測結合：Timmermann 2006／機材計画：Omega（B）", "det", False),
+         ("必要エンジン数・足す便", ["下の層の「必要」を決める", "受領遅れ → 退役ペース"], "", "det", False),
+         ("必要に合う計画", ["便の計画に合った必要エンジン数", "足せる便と足せない月"])),
+        ("② 機隊の計画", "確率計画と購入の輪｜年 1 回・随時", ROWA,
+         ("束ねた前提と上限", ["世界の確率・補正・伸び（③ から）", "工場の約束・中古市場・予備"], "", "det", False),
+         ("解いて叩く → 購入の輪（後悔最小）", ["MILP 40 本 → MC 800 本 × 24 か月", "どの型でも欠航 ≤ 5% の手だけ候補"], "SDDP：EJOR 2024／Savage 1951／RDM：Lempert 2003／METRIC・容量計画", "mc", True),
+         ("計画と幅", ["p10〜p90、欠航確率、手の軌跡", "見張り（月次）が引いたら随時"], "", "mc", False),
+         ("年度計画と購入計画", ["予算内、幅つきで 1 本", "4 つの型すべてで欠航 5% 以下、手は最小限"])),
+        ("③ 前提の学習", "ストラテジーを選ぶ・束ねる｜月 1 回・年 1 回", ROWB,
+         ("4 本の前提", ["同じ観測から、平均・新しさ優先", "・クラスタ・混成の 4 本"], "", "mc", True),
+         ("4 つを同時に回し、束ねる", ["① 等重み平均（既定）→ 束ねた前提", "② 採点重み（年 1 回、過去での検証で）", "③ 幅を信号に → 見直しの引き金"], "予測結合のパズル／DMA 2010／スタッキング 2018／BOCPD・DWM／spread–skill", "mc", True),
+         ("束ねた前提・引き金・採点", ["世界の確率・補正・伸びを 1 本で上へ", "幅が広い月は月次会議へ"], "", "mc", True),
+         ("引き金と採点表", ["いつ会議か（幅・変化点・伸び差）", "4 つの点数と、表紙に記す束ね方"])),
+        ("④ 観測", "部品の寿命と実績｜便ごと〜月次", ROWA,
+         ("便ごとの状態と実績", ["EGT・LLP、入場・遅れ・所見・故障", "回答ログ・便の実績・納期回答"], "", "det", False),
+         ("残り寿命の束ね、変化点の検知", ["RUL は複数モデルを束ねて誤差を下げる", "BOCPD・CUSUM で納期回答の段を見張る"], "RUL のアンサンブル：Sci. Rep. 2025／C-MAPSS／cpd.py", "det", False),
+         ("今日の状態・変化点", ["機ごとの残り時間と部品、計画との差", "段が変わった印"], "", "det", False),
+         ("見えている今", ["今日の機材状態と、段が変わった印", "（結果ではなく材料）"])),
+    ]
+    for r, (lab, cad, fill, cin, crun, cout, res) in enumerate(rows):
+        y = T0 + r * (RH + GY)
+        o.append(f'<rect x="20" y="{y}" width="{XR - 20 - 12}" height="{RH}" rx="10" fill="{fill}" stroke="#e2e8f0"/>')
+        T(30, y + 22, lab, 13, INK, 'font-weight="700"'); 
+        for i, part in enumerate(cad.split("｜")): T(30, y + 40 + i * 14, part, 10, MUTE)
+        if r == 2:
+            o.append(f'<rect x="{X0 - 6}" y="{y + 4}" width="{X2 + CW[2] - X0 + 12}" height="{RH - 8}" rx="9" fill="none" stroke="{LOOP}" stroke-width="2.5" stroke-dasharray="10 5"/>')
+            o.append(f'<rect x="{X0}" y="{y - 10}" width="150" height="19" rx="5" fill="{LOOP}"/>'); T(X0 + 8, y + 3, "新しく足す層（新規性）", 11, "#fff", 'font-weight="700"')
+        cell(X0, y + 12, CW[0], RH - 24, *cin)
+        cell(X1, y + 12, CW[1], RH - 24, *crun)
+        cell(X2, y + 12, CW[2], RH - 24, *cout)
+        strong = r in (1, 2)
+        cell(XR + 10, y + 12, RW - 20, RH - 24, res[0], res[1], "", "judge", strong)
+        red = r in (1, 2)
+        poly(f"{X0 + CW[0]},{y + RH / 2} {X1},{y + RH / 2}", red, 3 if red else 1.8)
+        poly(f"{X1 + CW[1]},{y + RH / 2} {X2},{y + RH / 2}", red, 3 if red else 1.8)
+        poly(f"{X2 + CW[2]},{y + RH / 2} {XR + 10},{y + RH / 2}", red, 3 if red else 1.8)
+    # vertical: observation rises (out of the lower row -> in of the upper row), decisions descend (dashed)
+    for r in (1, 2, 3):
+        yt = T0 + (r - 1) * (RH + GY) + RH - 12; yb = T0 + r * (RH + GY) + 12
+        red = r == 2   # bundled assumptions -> fleet planning is on the recommended path
+        poly(f"{X2 + CW[2] - 40},{yb} {X2 + CW[2] - 40},{yt + 4} {X0 + CW[0] / 2 + 60},{yt + 4} {X0 + CW[0] / 2 + 60},{yt}", red, 3 if red else 1.8)
+        poly(f"{X0 + 40},{yt} {X0 + 40},{yb}", False, 1.6, "6 4")
+    T(X0 + 46, T0 + RH + 2, "決定・必要が下りる", 9.5, MUTE); T(X2 + CW[2] - 36, T0 + RH + 2, "観測・前提が上がる", 9.5, MUTE)
+    # the decision under the result column
+    yd = T0 + 4 * RH + 3 * GY + 12
+    o.append(f'<rect x="{XR + 10}" y="{yd}" width="{RW - 20}" height="34" rx="8" fill="{COL["judge"][0]}" stroke="{COL["judge"][1]}" stroke-width="1.5"/>'); T(XR + RW / 2, yd + 22, "→ 決める：版の承認・購入・便・投資", 12, INK, 'font-weight="700"', "middle")
+    poly(f"{XR + RW / 2},{T0 + 4 * RH + 3 * GY - 8} {XR + RW / 2},{yd}", True, 3)
+    # feedback: next year's strategy back to the learning layer (dashed)
+    poly(f"{XR + 10},{T0 + 2 * (RH + GY) + RH - 40} {X2 + CW[2] + 12},{T0 + 2 * (RH + GY) + RH - 40}", False, 1.6, "6 4")
+    y0 = Hh - 36
+    T(20, y0, "推奨の経路（太い深紅）：観測 → 4 本の前提を束ねる（③）→ 束ねた前提で解いて叩き、購入の輪で後悔最小（②）→ 予算内の年度計画と壊れにくい購入計画 → 決める。② 採点重みは年 1 回だけ。すべて合成データの目安。", 11.5, INK, 'font-weight="700"')
+    T(20, y0 + 18, "元の図との対応：行 ①〜④ は最初の層の図、列「入る → 回す → 出る」と右端は 2 枚目の流れの図。P1 基本計画（PDCA）は行 ①②、P2 詳細計画（OODA）は行 ③④ にあたる。", 11, MUTE)
+    body = "".join(o)
+    def fix(m):
+        tag = m.group(0); st = []
+        for k in ("fill", "font-size", "font-weight"):
+            mm = re.search(rf' {k}="([^"]*)"', tag)
+            if mm: st.append(f"{k}:{mm.group(1)}{'px' if k == 'font-size' else ''}"); tag = tag.replace(mm.group(0), "")
+        return tag[:-1] + f' style="{";".join(st)};font-family:IBM Plex Sans JP,Noto Sans JP,sans-serif">' if st else tag
+    body = re.sub(r"<text[^>]*>", fix, body)
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="あるべき分析ストラテジー（層 × 流れ）" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
+
+
 def extra_svgs() -> dict[str, str]:
-    return {"strategy_stack": strategy_stack()}
+    return {"strategy_stack": strategy_stack(), "strategy_matrix": strategy_matrix()}
 
 
 def svgs() -> dict[str, str]:
@@ -351,7 +444,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     a.out_dir.mkdir(parents=True, exist_ok=True)
     for k, s in {**svgs(), **extra_svgs()}.items():
-        (a.out_dir / f"{k}.html").write_text(page(s, {"plan_basic": "基本計画（年次〜半期）", "plan_detail": "詳細計画（月次〜当日）", "strategy_stack": "あるべき分析ストラテジー"}[k]), encoding="utf-8")
+        (a.out_dir / f"{k}.html").write_text(page(s, {"plan_basic": "基本計画（年次〜半期）", "plan_detail": "詳細計画（月次〜当日）", "strategy_stack": "あるべき分析ストラテジー（流れ）", "strategy_matrix": "あるべき分析ストラテジー（層 × 流れ）"}[k]), encoding="utf-8")
         print(f"{k} -> {a.out_dir / f'{k}.html'} ({len(s) // 1024} KB)")
     return 0
 
