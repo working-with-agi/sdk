@@ -213,7 +213,9 @@
     "lasts_months": 67.4
    },
    "last_visit_to_exit_months": 65,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.4,
+   "note": "2028-02 FULL（計画）のあと退役まで 65 か月"
   },
   {
    "esn": "J-110",
@@ -249,7 +251,9 @@
     "lasts_months": 41.3
    },
    "last_visit_to_exit_months": 37,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.3,
+   "note": "2026-10 PR（計画）のあと退役まで 37 か月"
   },
   {
    "esn": "J-113",
@@ -285,7 +289,9 @@
     "lasts_months": 62.3
    },
    "last_visit_to_exit_months": 63,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 4.3,
+   "note": "2027-06 FULL（計画）のあと退役まで 63 か月"
   },
   {
    "esn": "J-114",
@@ -321,7 +327,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 75,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.6,
+   "note": "2028-04 FULL（計画）のあと退役まで 75 か月"
   },
   {
    "esn": "J-115",
@@ -357,7 +365,9 @@
     "lasts_months": 63.6
    },
    "last_visit_to_exit_months": 63,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 5.6,
+   "note": "2028-08 CORE（計画）のあと退役まで 63 か月"
   },
   {
    "esn": "J-116",
@@ -393,7 +403,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 78,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.6,
+   "note": "2027-09 FULL（計画）のあと退役まで 78 か月"
   },
   {
    "esn": "J-119",
@@ -429,7 +441,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 78,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.6,
+   "note": "2027-09 FULL（計画）のあと退役まで 78 か月"
   },
   {
    "esn": "J-122",
@@ -465,7 +479,9 @@
     "lasts_months": 62.4
    },
    "last_visit_to_exit_months": 65,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 2.4,
+   "note": "2027-06 FULL（計画）のあと退役まで 65 か月"
   },
   {
    "esn": "J-123",
@@ -501,7 +517,9 @@
     "lasts_months": 62.9
    },
    "last_visit_to_exit_months": 65,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 2.9,
+   "note": "2027-06 FULL（計画）のあと退役まで 65 か月"
   },
   {
    "esn": "J-125",
@@ -537,7 +555,9 @@
     "lasts_months": 41.8
    },
    "last_visit_to_exit_months": 43,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 1.8,
+   "note": "2027-04 PR（計画）のあと退役まで 43 か月"
   },
   {
    "esn": "J-132",
@@ -573,7 +593,9 @@
     "lasts_months": 67.5
    },
    "last_visit_to_exit_months": 65,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.5,
+   "note": "2028-06 CORE（計画）のあと退役まで 65 か月"
   },
   {
    "esn": "J-133",
@@ -609,7 +631,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 78,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.6,
+   "note": "2026-11 FULL（計画）のあと退役まで 78 か月"
   },
   {
    "esn": "J-139",
@@ -645,7 +669,9 @@
     "lasts_months": 68.3
    },
    "last_visit_to_exit_months": 64,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 9.3,
+   "note": "2027-11 CORE（計画）のあと退役まで 64 か月"
   },
   {
    "esn": "J-140",
@@ -681,7 +707,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 77,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.6,
+   "note": "2027-02 FULL（計画）のあと退役まで 77 か月"
   },
   {
    "esn": "J-141",
@@ -717,7 +745,9 @@
     "lasts_months": 48.9
    },
    "last_visit_to_exit_months": 52,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "2027-03 PR（計画）のあと退役まで 52 か月"
   },
   {
    "esn": "J-146",
@@ -753,7 +783,9 @@
     "lasts_months": 61.4
    },
    "last_visit_to_exit_months": 61,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 5.4,
+   "note": "2027-12 FULL（計画）のあと退役まで 61 か月"
   },
   {
    "esn": "J-158",
@@ -789,7 +821,9 @@
     "lasts_months": 39.6
    },
    "last_visit_to_exit_months": 43,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "2028-02 PR（計画）のあと退役まで 43 か月"
   },
   {
    "esn": "J-159",
@@ -825,7 +859,9 @@
     "lasts_months": 65.4
    },
    "last_visit_to_exit_months": 66,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 2.4,
+   "note": "2026-11 PR（計画）のあと退役まで 66 か月"
   },
   {
    "esn": "J-161",
@@ -861,7 +897,9 @@
     "lasts_months": 63.2
    },
    "last_visit_to_exit_months": 65,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 3.2,
+   "note": "2026-10 FULL（計画）のあと退役まで 65 か月"
   },
   {
    "esn": "J-173",
@@ -897,7 +935,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 77,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.6,
+   "note": "2027-12 FULL（計画）のあと退役まで 77 か月"
   },
   {
    "esn": "J-177",
@@ -952,7 +992,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 53,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 32.6,
+   "note": "2031-10 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 53）"
   },
   {
    "esn": "J-178",
@@ -988,7 +1030,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 79,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.6,
+   "note": "2027-06 FULL（計画）のあと退役まで 79 か月"
   },
   {
    "esn": "J-179",
@@ -1024,7 +1068,9 @@
     "lasts_months": 56.9
    },
    "last_visit_to_exit_months": 57,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 2.9,
+   "note": "2027-10 PR（計画）のあと退役まで 57 か月"
   },
   {
    "esn": "J-187",
@@ -1060,7 +1106,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 79,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.6,
+   "note": "2027-02 FULL（計画）のあと退役まで 79 か月"
   },
   {
    "esn": "J-188",
@@ -1096,7 +1144,9 @@
     "lasts_months": 59.0
    },
    "last_visit_to_exit_months": 61,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 3.0,
+   "note": "2027-12 CORE（計画）のあと退役まで 61 か月"
   },
   {
    "esn": "J-191",
@@ -1132,7 +1182,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 79,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.6,
+   "note": "2027-02 FULL（計画）のあと退役まで 79 か月"
   },
   {
    "esn": "J-195",
@@ -1168,7 +1220,9 @@
     "lasts_months": 61.9
    },
    "last_visit_to_exit_months": 58,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.9,
+   "note": "2028-05 FULL（計画）のあと退役まで 58 か月"
   },
   {
    "esn": "J-196",
@@ -1214,7 +1268,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": null,
+   "note": "最終退役より後まで残る（窓の後の状態は仮定）"
   },
   {
    "esn": "J-200",
@@ -1250,7 +1306,9 @@
     "lasts_months": 63.5
    },
    "last_visit_to_exit_months": 66,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 2.5,
+   "note": "2026-11 FULL（計画）のあと退役まで 66 か月"
   },
   {
    "esn": "J-201",
@@ -1295,7 +1353,9 @@
     "lasts_months": 50.7
    },
    "last_visit_to_exit_months": 52,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 3.7,
+   "note": "2027-11 CORE（計画）のあと退役まで 52 か月"
   },
   {
    "esn": "J-204",
@@ -1331,7 +1391,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 75,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.6,
+   "note": "2028-08 FULL（計画）のあと退役まで 75 か月"
   },
   {
    "esn": "J-205",
@@ -1367,7 +1429,9 @@
     "lasts_months": 41.3
    },
    "last_visit_to_exit_months": 40,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.3,
+   "note": "2027-01 CORE（計画）のあと退役まで 40 か月"
   },
   {
    "esn": "J-206",
@@ -1403,7 +1467,9 @@
     "lasts_months": 63.7
    },
    "last_visit_to_exit_months": 62,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 4.7,
+   "note": "2027-09 PR（計画）のあと退役まで 62 か月"
   },
   {
    "esn": "J-209",
@@ -1449,7 +1515,9 @@
     "lasts_months": 29.8
    },
    "last_visit_to_exit_months": 29,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 5.8,
+   "note": "2031-08 は退役まで持つ最軽の範囲 CORE（29.8 か月持つ、退役まで 29）"
   },
   {
    "esn": "J-211",
@@ -1495,7 +1563,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 49,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 36.6,
+   "note": "2031-02 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 49）"
   },
   {
    "esn": "J-212",
@@ -1541,7 +1611,9 @@
     "lasts_months": 29.7
    },
    "last_visit_to_exit_months": 27,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.7,
+   "note": "2031-02 は退役まで持つ最軽の範囲 CORE（29.7 か月持つ、退役まで 27）"
   },
   {
    "esn": "J-213",
@@ -1577,7 +1649,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 78,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.6,
+   "note": "2028-01 FULL（計画）のあと退役まで 78 か月"
   },
   {
    "esn": "J-215",
@@ -1613,7 +1687,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 74,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 11.6,
+   "note": "2028-07 FULL（計画）のあと退役まで 74 か月"
   },
   {
    "esn": "J-219",
@@ -1658,7 +1734,9 @@
     "lasts_months": 49.3
    },
    "last_visit_to_exit_months": 50,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 4.3,
+   "note": "2028-07 CORE（計画）のあと退役まで 50 か月"
   },
   {
    "esn": "J-220",
@@ -1694,7 +1772,9 @@
     "lasts_months": 67.0
    },
    "last_visit_to_exit_months": 69,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 3.0,
+   "note": "2026-10 FULL（計画）のあと退役まで 69 か月"
   },
   {
    "esn": "J-X001",
@@ -1710,7 +1790,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X002",
@@ -1746,7 +1828,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 49,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 36.6,
+   "note": "2031-02 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 49）"
   },
   {
    "esn": "J-X003",
@@ -1762,7 +1846,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 28.5,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 28 か月を残す"
   },
   {
    "esn": "J-X004",
@@ -1778,7 +1864,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.5,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 8.5 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X005",
@@ -1794,7 +1882,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.2,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 10.2 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X006",
@@ -1810,7 +1900,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 27.3,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 27 か月を残す"
   },
   {
    "esn": "J-X007",
@@ -1826,7 +1918,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X008",
@@ -1842,7 +1936,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 19.3,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 19 か月を残す"
   },
   {
    "esn": "J-X009",
@@ -1858,7 +1954,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.8,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.8 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X010",
@@ -1874,7 +1972,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.1,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 10.1 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X011",
@@ -1890,7 +1990,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 2.6,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 2.6 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X012",
@@ -1906,7 +2008,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 25.9,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 26 か月を残す"
   },
   {
    "esn": "J-X013",
@@ -1942,7 +2046,9 @@
     "lasts_months": 75.4
    },
    "last_visit_to_exit_months": 45,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 35.4,
+   "note": "2031-12 は退役まで持つ最軽の範囲 FULL（75.4 か月持つ、退役まで 45）"
   },
   {
    "esn": "J-X014",
@@ -1958,7 +2064,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 17.3,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 17 か月を残す"
   },
   {
    "esn": "J-X015",
@@ -1994,7 +2102,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 49,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 36.6,
+   "note": "2031-04 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 49）"
   },
   {
    "esn": "J-X016",
@@ -2030,7 +2140,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 50,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 35.6,
+   "note": "2031-09 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 50）"
   },
   {
    "esn": "J-X017",
@@ -2046,7 +2158,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 13.8,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 14 か月を残す"
   },
   {
    "esn": "J-X018",
@@ -2062,7 +2176,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 22.3,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 22 か月を残す"
   },
   {
    "esn": "J-X019",
@@ -2078,7 +2194,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 26.1,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 26 か月を残す"
   },
   {
    "esn": "J-X020",
@@ -2094,7 +2212,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 4.4,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 4.4 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X021",
@@ -2130,7 +2250,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 49,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 36.6,
+   "note": "2031-08 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 49）"
   },
   {
    "esn": "J-X022",
@@ -2166,7 +2288,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 51,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 34.6,
+   "note": "2031-02 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 51）"
   },
   {
    "esn": "J-X023",
@@ -2182,7 +2306,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X024",
@@ -2198,7 +2324,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 15.7,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 16 か月を残す"
   },
   {
    "esn": "J-X025",
@@ -2214,7 +2342,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 16.3,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 16 か月を残す"
   },
   {
    "esn": "J-X026",
@@ -2250,7 +2380,9 @@
     "lasts_months": 60.5
    },
    "last_visit_to_exit_months": 37,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 28.5,
+   "note": "2031-12 は退役まで持つ最軽の範囲 CORE（60.5 か月持つ、退役まで 37）"
   },
   {
    "esn": "J-X027",
@@ -2266,7 +2398,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 17.4,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 17 か月を残す"
   },
   {
    "esn": "J-X028",
@@ -2282,7 +2416,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 28.7,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 29 か月を残す"
   },
   {
    "esn": "J-X029",
@@ -2318,7 +2454,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": null,
+   "note": "最終退役より後まで残る（窓の後の状態は仮定）"
   },
   {
    "esn": "J-X030",
@@ -2334,7 +2472,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 14.9,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 15 か月を残す"
   },
   {
    "esn": "J-X031",
@@ -2350,7 +2490,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 11.8,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 11.8 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X032",
@@ -2386,7 +2528,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 49,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 36.6,
+   "note": "2031-06 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 49）"
   },
   {
    "esn": "J-X033",
@@ -2422,7 +2566,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 49,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 36.6,
+   "note": "2031-06 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 49）"
   },
   {
    "esn": "J-X034",
@@ -2438,7 +2584,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.7,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.7 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X035",
@@ -2454,7 +2602,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 17.9,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 18 か月を残す"
   },
   {
    "esn": "J-X036",
@@ -2470,7 +2620,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.2,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 6.2 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X037",
@@ -2486,7 +2638,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 12.5,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 13 か月を残す"
   },
   {
    "esn": "J-X038",
@@ -2502,7 +2656,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 16.0,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 16 か月を残す"
   },
   {
    "esn": "J-X039",
@@ -2518,7 +2674,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.3,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 6.3 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X040",
@@ -2554,7 +2712,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 50,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 35.6,
+   "note": "2031-09 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 50）"
   },
   {
    "esn": "J-X041",
@@ -2570,7 +2730,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X042",
@@ -2586,7 +2748,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.1,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 10.1 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X043",
@@ -2622,7 +2786,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 52,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 33.6,
+   "note": "2031-09 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 52）"
   },
   {
    "esn": "J-X044",
@@ -2658,7 +2824,9 @@
     "lasts_months": 35.2
    },
    "last_visit_to_exit_months": 29,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 9.2,
+   "note": "2031-12 は退役まで持つ最軽の範囲 PR（35.2 か月持つ、退役まで 29）"
   },
   {
    "esn": "J-X045",
@@ -2674,7 +2842,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 24.1,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 24 か月を残す"
   },
   {
    "esn": "J-X046",
@@ -2690,7 +2860,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X047",
@@ -2706,7 +2878,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 21.0,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 21 か月を残す"
   },
   {
    "esn": "J-X048",
@@ -2722,7 +2896,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 16.3,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 16 か月を残す"
   },
   {
    "esn": "J-X049",
@@ -2738,7 +2914,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.3,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 8.3 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X050",
@@ -2754,7 +2932,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 4.3,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 4.3 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X051",
@@ -2770,7 +2950,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 13.9,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 14 か月を残す"
   },
   {
    "esn": "J-X052",
@@ -2806,7 +2988,9 @@
     "lasts_months": 76.6
    },
    "last_visit_to_exit_months": 47,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 34.6,
+   "note": "2031-02 は退役まで持つ最軽の範囲 FULL（76.6 か月持つ、退役まで 47）"
   },
   {
    "esn": "J-X053",
@@ -2822,7 +3006,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X054",
@@ -2838,7 +3024,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.8,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 7.8 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X055",
@@ -2854,7 +3042,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X056",
@@ -2870,7 +3060,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 29.0,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 29 か月を残す"
   },
   {
    "esn": "J-X057",
@@ -2906,7 +3098,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 53,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 32.6,
+   "note": "2031-10 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 53）"
   },
   {
    "esn": "J-X058",
@@ -2942,7 +3136,9 @@
     "lasts_months": 44.5
    },
    "last_visit_to_exit_months": 37,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.5,
+   "note": "2031-08 は退役まで持つ最軽の範囲 PR（44.5 か月持つ、退役まで 37）"
   },
   {
    "esn": "J-X059",
@@ -2958,7 +3154,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X060",
@@ -2994,7 +3192,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": null,
+   "note": "最終退役より後まで残る（窓の後の状態は仮定）"
   },
   {
    "esn": "J-X061",
@@ -3010,7 +3210,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.1,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.1 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X062",
@@ -3026,7 +3228,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 21.0,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 21 か月を残す"
   },
   {
    "esn": "J-X063",
@@ -3042,7 +3246,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 19.0,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 19 か月を残す"
   },
   {
    "esn": "J-X064",
@@ -3058,7 +3264,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 27.1,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 27 か月を残す"
   },
   {
    "esn": "J-X065",
@@ -3074,7 +3282,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X066",
@@ -3090,7 +3300,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 17.4,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 17 か月を残す"
   },
   {
    "esn": "J-X067",
@@ -3106,7 +3318,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 24.1,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 24 か月を残す"
   },
   {
    "esn": "J-X068",
@@ -3122,7 +3336,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 12.1,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 12 か月を残す"
   },
   {
    "esn": "J-X069",
@@ -3138,7 +3354,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 12.5,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 12 か月を残す"
   },
   {
    "esn": "J-X070",
@@ -3154,7 +3372,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X071",
@@ -3190,7 +3410,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": null,
+   "note": "最終退役より後まで残る（窓の後の状態は仮定）"
   },
   {
    "esn": "J-X072",
@@ -3206,7 +3428,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 0.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 0.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X073",
@@ -3242,7 +3466,9 @@
     "lasts_months": 43.3
    },
    "last_visit_to_exit_months": 38,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 10.3,
+   "note": "2031-09 は退役まで持つ最軽の範囲 CORE（43.3 か月持つ、退役まで 38）"
   },
   {
    "esn": "J-X074",
@@ -3258,7 +3484,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 22.2,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 22 か月を残す"
   },
   {
    "esn": "J-X075",
@@ -3274,7 +3502,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 3.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 3.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X076",
@@ -3310,7 +3540,9 @@
     "lasts_months": 80.6
    },
    "last_visit_to_exit_months": 52,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 33.6,
+   "note": "2031-09 は退役まで持つ最軽の範囲 FULL（80.6 か月持つ、退役まで 52）"
   },
   {
    "esn": "J-X077",
@@ -3326,7 +3558,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 1.4,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 1.4 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X078",
@@ -3342,7 +3576,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.6,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 8.6 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X079",
@@ -3358,7 +3594,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 7.1,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 7.1 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X080",
@@ -3374,7 +3612,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 22.8,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 23 か月を残す"
   },
   {
    "esn": "J-X081",
@@ -3390,7 +3630,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 6.8,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 6.8 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X082",
@@ -3406,7 +3648,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 8.0,
+   "note": "窓の外の機（状態は非公表・仮定）。限界の 8.0 か月前に退役し、入場を 1 回避けた"
   },
   {
    "esn": "J-X083",
@@ -3422,7 +3666,9 @@
    "green_time": false,
    "last_visit": null,
    "last_visit_to_exit_months": null,
-   "heavy_late": false
+   "heavy_late": false,
+   "due_in_at_exit": 26.8,
+   "note": "窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 27 か月を残す"
   }
  ],
  "by_year": [
@@ -3436,7 +3682,10 @@
    },
    "spend_k": 71400,
    "retired": 0,
-   "engines": 123
+   "absorbed": 0,
+   "unknown_state_visits": 0,
+   "engines": 123,
+   "note": "入場 10"
   },
   {
    "year": "2027",
@@ -3448,7 +3697,10 @@
    },
    "spend_k": 164200,
    "retired": 13,
-   "engines": 110
+   "absorbed": 0,
+   "unknown_state_visits": 0,
+   "engines": 110,
+   "note": "入場 19"
   },
   {
    "year": "2028",
@@ -3460,7 +3712,10 @@
    },
    "spend_k": 100500,
    "retired": 13,
-   "engines": 97
+   "absorbed": 0,
+   "unknown_state_visits": 0,
+   "engines": 97,
+   "note": "入場 11"
   },
   {
    "year": "2029",
@@ -3472,7 +3727,10 @@
    },
    "spend_k": 0,
    "retired": 13,
-   "engines": 84
+   "absorbed": 8,
+   "unknown_state_visits": 0,
+   "engines": 84,
+   "note": "入場 0：限界が近い 8 基を退役で吸収（入場の代わりに退役）"
   },
   {
    "year": "2030",
@@ -3484,7 +3742,10 @@
    },
    "spend_k": 0,
    "retired": 13,
-   "engines": 71
+   "absorbed": 13,
+   "unknown_state_visits": 0,
+   "engines": 71,
+   "note": "入場 0：限界が近い 13 基を退役で吸収（入場の代わりに退役）"
   },
   {
    "year": "2031",
@@ -3496,7 +3757,10 @@
    },
    "spend_k": 246400,
    "retired": 13,
-   "engines": 58
+   "absorbed": 13,
+   "unknown_state_visits": 20,
+   "engines": 58,
+   "note": "入場 25：うち 20 基は窓の外の機（状態は非公表の仮定で、限界がこの年に固まる）。退役で 13 基を吸収"
   },
   {
    "year": "2032",
@@ -3508,7 +3772,10 @@
    },
    "spend_k": 0,
    "retired": 14,
-   "engines": 44
+   "absorbed": 14,
+   "unknown_state_visits": 0,
+   "engines": 44,
+   "note": "入場 0：限界が近い 14 基を退役で吸収（入場の代わりに退役）"
   },
   {
    "year": "2033",
@@ -3520,7 +3787,10 @@
    },
    "spend_k": 0,
    "retired": 12,
-   "engines": 32
+   "absorbed": 12,
+   "unknown_state_visits": 0,
+   "engines": 32,
+   "note": "入場 0：限界が近い 12 基を退役で吸収（入場の代わりに退役）"
   },
   {
    "year": "2034",
@@ -3532,7 +3802,10 @@
    },
    "spend_k": 0,
    "retired": 12,
-   "engines": 20
+   "absorbed": 12,
+   "unknown_state_visits": 0,
+   "engines": 20,
+   "note": "入場 0：限界が近い 12 基を退役で吸収（入場の代わりに退役）"
   },
   {
    "year": "2035",
@@ -3544,7 +3817,10 @@
    },
    "spend_k": 0,
    "retired": 12,
-   "engines": 8
+   "absorbed": 0,
+   "unknown_state_visits": 0,
+   "engines": 8,
+   "note": "入場 0：限界に達する機がない"
   },
   {
    "year": "2036",
@@ -3556,7 +3832,10 @@
    },
    "spend_k": 0,
    "retired": 4,
-   "engines": 4
+   "absorbed": 0,
+   "unknown_state_visits": 0,
+   "engines": 4,
+   "note": "入場 0：限界に達する機がない"
   }
  ],
  "totals": {
@@ -3711,6 +3990,11 @@
   "J-X076",
   "J-177",
   "J-X057"
+ ],
+ "caveats": [
+  "窓の外の 83 基は状態が非公表。1 回の翼上寿命の 5〜60% を飛んだと一様に仮定したため、限界が数年に固まる（実データでは散る）",
+  "退役順「次に入場が近い機から」は、限界の近い機を入場させずに退役させる。空の年は退役が入場を吸収した年",
+  "劣化は平均（分布なし）。計画外の取卸しは入れていない"
  ],
  "policies": {
   "next_due": {

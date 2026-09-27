@@ -205,6 +205,7 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                 rng.shuffle(cand)
             for s in cand[:surplus]:
                 s["retired"] = t
+                s["due_in_at_exit"] = round(ph.months_to_removal(s), 1)
                 retire_order.append(s["esn"])
         # fly the serviceable ones, remove the due ones
         for s in eng.values():
@@ -249,20 +250,46 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
         resid_k = max(0.0, llp_left - ph.min_llp) * P["llp_value_per_cycle_k"] + run_left * P["pr_value_per_month_k"]
         chain = [c for c in s["chain"] if not c.get("gap")]
         last = chain[-1] if chain else None
+        due_in = s.get("due_in_at_exit")
+        if rt is None:
+            note = "最終退役より後まで残る（窓の後の状態は仮定）"
+        elif not s["from_plan"] and not chain:
+            note = (f"窓の外の機（状態は非公表・仮定）。限界の {due_in} か月前に退役し、入場を 1 回避けた" if due_in is not None and due_in < 12
+                    else f"窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 {run_left:.0f} か月を残す")
+        elif last and last["reason"].startswith("計画") and rt - last["t"] < 30:
+            note = f"計画の入場（{last['label']} {last['ws']}）のあと退役まで {rt - last['t']} か月。買った寿命の一部を捨てる"
+        elif last and "最軽" in last["reason"]:
+            note = f"{last['label']} は退役まで持つ最軽の範囲 {last['ws']}（{last['lasts_months']} か月持つ、退役まで {rt - last['t']}）"
+        elif last:
+            note = f"{last['label']} {last['ws']}（{last['reason']}）のあと退役まで {rt - last['t']} か月"
+        else:
+            note = f"入場なしで退役（限界の {due_in} か月前）"
         rows.append({"esn": s["esn"], "in_window_plan": s["from_plan"], "retire_t": rt, "retire": month_label(start, rt) if rt is not None else None,
                      "visits": len(chain), "spend_k": sum(c["cost_k"] for c in chain), "chain": s["chain"],
                      "residual_llp_cycles": int(llp_left), "residual_run_months": round(run_left, 1), "residual_value_k": round(resid_k),
                      "green_time": bool(rt is not None and run_left > ph.run_cycles / ph.cpm * 0.5),
                      "last_visit": last, "last_visit_to_exit_months": (rt - last["t"]) if (last and rt is not None) else None,
-                     "heavy_late": bool(last and rt is not None and last["ws"] in ("CORE", "FULL") and rt - last["t"] < 24)})
+                     "heavy_late": bool(last and rt is not None and last["ws"] in ("CORE", "FULL") and rt - last["t"] < 24),
+                     "due_in_at_exit": due_in, "note": note})
     labels = [month_label(start, t) for t in range(end)]
     years = sorted({l[:4] for l in labels})
     by_year = []
     for y in years:
         vs = [v for v in visits if v["label"].startswith(y)]
+        ret = [r for r in rows if r["retire"] and r["retire"].startswith(y)]
+        absorbed = sum(1 for r in ret if r["due_in_at_exit"] is not None and r["due_in_at_exit"] < 12)
+        n_unknown = sum(1 for v in vs if not eng[v["esn"]]["from_plan"])
+        if len(vs) == 0 and absorbed:
+            note = f"入場 0：限界が近い {absorbed} 基を退役で吸収（入場の代わりに退役）"
+        elif len(vs) == 0:
+            note = "入場 0：限界に達する機がない" + ("" if y > labels[0][:4] else "")
+        elif n_unknown >= len(vs) * 0.6:
+            note = f"入場 {len(vs)}：うち {n_unknown} 基は窓の外の機（状態は非公表の仮定で、限界がこの年に固まる）" + (f"。退役で {absorbed} 基を吸収" if absorbed else "")
+        else:
+            note = f"入場 {len(vs)}" + (f"、退役で {absorbed} 基を吸収" if absorbed else "")
         by_year.append({"year": y, "visits": len(vs), "by_ws": {ws: sum(1 for v in vs if v["ws"] == ws) for ws in ("PR", "CORE", "FULL")},
-                        "spend_k": sum(v["cost_k"] for v in vs), "retired": sum(1 for r in rows if r["retire"] and r["retire"].startswith(y)),
-                        "engines": sum(1 for r in rows if r["retire_t"] is None or r["retire"] >= f"{y}-12")})
+                        "spend_k": sum(v["cost_k"] for v in vs), "retired": len(ret), "absorbed": absorbed, "unknown_state_visits": n_unknown,
+                        "engines": sum(1 for r in rows if r["retire_t"] is None or r["retire"] >= f"{y}-12"), "note": note})
     tot_spend = sum(r["spend_k"] for r in rows)
     tot_resid = sum(r["residual_value_k"] for r in rows if r["retire_t"] is not None)
     return {"policy": policy, "start": start, "end_t": end, "end": month_label(start, end - 1), "labels": labels,
@@ -273,7 +300,10 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                        "plan_gaps": sum(1 for r in rows for c in r["chain"] if c.get("gap")),
                        "plan_gap_max_months": max((c["slack_months"] or 0 for r in rows for c in r["chain"] if c.get("gap")), default=0), "retired": sum(1 for r in rows if r["retire_t"] is not None)},
             "physics": {"cycles_per_month": ph.cpm, "run_cycles": ph.run_cycles, "restore": ph.restore, "llp_life": ph.life, "prices": price},
-            "retire_order": retire_order}
+            "retire_order": retire_order,
+            "caveats": [f"窓の外の {n_extra} 基は状態が非公表。1 回の翼上寿命の 5〜60% を飛んだと一様に仮定したため、限界が数年に固まる（実データでは散る）",
+                        "退役順「次に入場が近い機から」は、限界の近い機を入場させずに退役させる。空の年は退役が入場を吸収した年",
+                        "劣化は平均（分布なし）。計画外の取卸しは入れていない"]}
 
 
 def build(cid: str, baseline_path: Path | None = None, seed: int = 11) -> dict:

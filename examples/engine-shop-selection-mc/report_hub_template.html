@@ -928,7 +928,7 @@ const DATA = /*__DATA__*/null;
     Y.forEach((y, i) => {
       const x = L + i * bw + bw * 0.15; let y0 = sy(0);
       ["PR", "CORE", "FULL"].forEach((ws) => { const n = y.by_ws[ws]; if (!n) return; const h = sy(0) - sy(n); s += `<rect x="${x}" y="${y0 - h}" width="${bw * 0.7}" height="${h}" fill="${WS[ws]}"><title>${y.year} ${ws} ${n} 件</title></rect>`; y0 -= h; });
-      if (!compact) s += `<text class="tick" x="${x + bw * 0.35}" y="${H - B + 14}" text-anchor="middle">${y.year}</text>`;
+      if (!compact) s += `<text class="tick" x="${x + bw * 0.35}" y="${H - B + 14}" text-anchor="middle">${y.year}</text><rect x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent"><title>${y.year}：${esc(y.note)}</title></rect>`;
     });
     s += `<polyline fill="none" stroke="var(--ink)" stroke-width="1.5" points="${Y.map((y, i) => `${L + i * bw + bw * 0.5},${sr(y.retired)}`).join(" ")}"/>`;
     if (!compact) { s += `<text class="tick" x="${L - 6}" y="${sy(top) + 4}" text-anchor="end">${top}</text><text class="tick" x="${L - 6}" y="${sy(0)}" text-anchor="end">0</text>`; s += `<text class="tick" x="${W - Rm + 6}" y="${sr(topR) + 4}">${topR} 基</text>`; }
@@ -948,7 +948,7 @@ const DATA = /*__DATA__*/null;
         if (c.gap) { s += `<circle cx="${x(c.t)}" cy="${y + 7}" r="3" fill="var(--crit)"><title>${esc(c.reason)}</title></circle>`; return; }
         s += `<rect x="${x(c.t)}" y="${y + 2}" width="${Math.max(3, x(c.t + 4) - x(c.t))}" height="10" fill="${WS[c.ws]}"><title>${c.label} ${c.ws} ${fmt(c.cost_k)} k$（${esc(c.reason)}、持つ ${c.lasts_months} か月）</title></rect>`;
       });
-      if (e.retire_t != null) s += `<path d="M${x(e.retire_t)},${y + 2} l5,5 l-5,5 l-5,-5 z" fill="#fff" stroke="var(--ink)"><title>${e.retire} 退役。残る寿命部品 ${fmt(e.residual_llp_cycles)} サイクル、翼上 ${e.residual_run_months} か月、残存価値 ${fmt(e.residual_value_k)} k$</title></path>`;
+      if (e.retire_t != null) s += `<path d="M${x(e.retire_t)},${y + 2} l5,5 l-5,5 l-5,-5 z" fill="#fff" stroke="var(--ink)"><title>${e.retire} 退役。${esc(e.note)}。残る寿命部品 ${fmt(e.residual_llp_cycles)} サイクル、翼上 ${e.residual_run_months} か月、残存価値 ${fmt(e.residual_value_k)} k$</title></path>`;
     });
     return `<div class="scroll"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="退役までの入場列">${s}</svg></div>`;
   }
@@ -961,10 +961,15 @@ const DATA = /*__DATA__*/null;
     const flag = R.engines.filter((e) => e.heavy_late || e.green_time).sort((a, b) => (b.residual_value_k - a.residual_value_k)).slice(0, 25);
     const tbl = `<table><thead><tr><th>ESN</th><th>退役</th><th>入場</th><th>最後の入場</th><th>退役まで</th><th>残る寿命部品（サイクル）</th><th>残存価値（k$）</th><th>印</th></tr></thead><tbody>`
       + flag.map((e) => { const l = e.chain.filter((c) => !c.gap).slice(-1)[0]; return `<tr><td>${esc(e.esn)}</td><td>${e.retire || "—"}</td><td>${e.visits}</td><td>${l ? `${l.label} ${l.ws}` : "—"}</td><td>${e.last_visit_to_exit_months ?? "—"} か月</td><td>${fmt(e.residual_llp_cycles)}</td><td>${fmt(e.residual_value_k)}</td><td>${e.heavy_late ? "<b>退役直前の重整備</b>" : ""}${e.green_time ? "寿命を残す" : ""}</td></tr>`; }).join("") + `</tbody></table>`;
+    const notes = `<table><thead><tr><th>年</th><th>入場</th><th>退役</th><th>注釈</th></tr></thead><tbody>` + R.by_year.map((y) => `<tr><td>${y.year}</td><td>${y.visits}</td><td>${y.retired}</td><td>${esc(y.note)}</td></tr>`).join("") + `</tbody></table>`;
+    const cav = (R.caveats || []).map((c) => `<li>${esc(c)}</li>`).join("");
+    const eng = `<div class="scroll"><table><thead><tr><th>ESN</th><th>退役</th><th>入場</th><th>注釈</th></tr></thead><tbody>` + R.engines.filter((e) => e.visits > 0 || e.in_window_plan || e.due_in_at_exit != null).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9)).map((e) => `<tr><td>${esc(e.esn)}</td><td>${e.retire || "—"}</td><td>${e.visits}</td><td>${esc(e.note)}</td></tr>`).join("") + `</tbody></table></div>`;
     return panel("", `<p class="chart-note">${esc(runoutLine(R))}</p>` + runoutYears(R) + legend([["軽作業 PR", WS.PR], ["コア CORE", WS.CORE], ["全面 FULL", WS.FULL], ["退役する基数", "var(--ink)", 1]]) + G("runoutYears"), esc(R.note))
+      + panel("年ごとの注釈", notes + `<p class="hint">この結果の限界：</p><ul>${cav}</ul>`)
       + panel("エンジンごとの列", runoutBoard(R) + G("runoutBoard"), `窓（薄い帯）は凍結した計画の入場、その後は退役まで持つ最軽の整備範囲。退役の間隔 ${R.exits.length ? `${R.exits[0]} から 1 機ずつ` : "—"}（no_source）`)
       + panel("退役順の方針", pol + G("runoutPolicy"))
-      + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。");
+      + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。")
+      + panel("エンジンごとの注釈", eng, "なぜその整備範囲か、なぜ入場せずに退役か、を 1 行ずつ。");
   }
 
   /* ---------------- the AI review (PDCA / OODA) ---------------- */

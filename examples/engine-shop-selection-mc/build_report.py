@@ -315,9 +315,9 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     if runout_path and runout_path.exists():
         ro = json.loads(runout_path.read_text(encoding="utf-8"))
         # the board keeps every engine's chain but not the month labels of the full life
-        c["runout"] = {k: ro[k] for k in ("start", "end", "end_t", "window_months", "exits", "by_year", "totals", "policies", "without_runout", "physics", "note")}
+        c["runout"] = {k: ro[k] for k in ("start", "end", "end_t", "window_months", "exits", "by_year", "totals", "policies", "without_runout", "physics", "note", "caveats")}
         c["runout"]["engines"] = [{k: e[k] for k in ("esn", "in_window_plan", "retire_t", "retire", "visits", "spend_k", "residual_llp_cycles", "residual_run_months",
-                                                   "residual_value_k", "green_time", "heavy_late", "last_visit_to_exit_months")}
+                                                   "residual_value_k", "green_time", "heavy_late", "last_visit_to_exit_months", "due_in_at_exit", "note")}
                                   | {"chain": [{k: v for k, v in x.items() if k in ("t", "label", "ws", "cost_k", "reason", "lasts_months", "gap", "slack_months")} for x in e["chain"]]}
                                   for e in ro["engines"]]
     if review_path and review_path.exists():
