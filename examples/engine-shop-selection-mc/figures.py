@@ -517,6 +517,30 @@ def svgs() -> dict[str, str]:
     return {"plan_basic": plan_basic(), "plan_detail": plan_detail()}
 
 
+def overview_hero() -> str:
+    """The title, drawn: one line from the flight plan to the decision, five boxes."""
+    W, Hh = 1400, 200
+    steps = [("航空計画", "便数から\n必要エンジン数", "#d1fae5", "#047857"), ("現場のデータ", "センサーと実績で\n前提を更新", "#d1fae5", "#047857"),
+             ("整備計画", "最適化と\nシミュレーション", "#e0e7ff", "#4338ca"), ("MRO と調達", "工場の枠・部品・\n契約で裏づけ", "#e0e7ff", "#4338ca"),
+             ("意思決定", "年度計画・購入計画・\n見直しの合図", "#fef3c7", "#b45309")]
+    n = len(steps); bw, bh = 220, 110; gap = (W - 40 - n * bw) / (n - 1); y = 14
+    o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
+         f'<defs><marker id="hh" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 z" fill="{LOOP}"/></marker></defs>',
+         f'<line class="flow red" x1="{20 + bw}" y1="{y + bh / 2}" x2="{20 + (n - 1) * (bw + gap)}" y2="{y + bh / 2}" stroke="{LOOP}" stroke-width="5" marker-end="url(#hh)"/>']
+    for i, (t, sub, f, st) in enumerate(steps):
+        x = 20 + i * (bw + gap)
+        o.append(f'<rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="12" fill="{f}" stroke="{st}" stroke-width="2.5"/>')
+        o.append(f'<circle cx="{x + 22}" cy="{y + 24}" r="12" fill="{st}"/><text x="{x + 22}" y="{y + 28}" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">{i + 1}</text>')
+        o.append(f'<text x="{x + 42}" y="{y + 29}" font-size="17" font-weight="700" fill="{INK}">{t}</text>')
+        for k, l in enumerate(sub.split("\n")): o.append(f'<text x="{x + 16}" y="{y + 58 + k * 20}" font-size="13" fill="{INK}">{l}</text>')
+    o.append(f'<circle class="dot" r="6" fill="#fff" stroke="{LOOP}" stroke-width="3"><animateMotion dur="4s" repeatCount="indefinite" path="M {20 + bw} {y + bh / 2} L {20 + (n - 1) * (bw + gap) - 8} {y + bh / 2}"/></circle>')
+    o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">上流の便数が下流の必要量を決め、現場のデータが前提を毎月更新する。計算が計画を作り、人が決める。</text>')
+    o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この 5 つを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの。</text>')
+    body = "".join(o)
+    body = re.sub(r"<text[^>]*>", lambda m: m.group(0)[:-1] + ' style="font-family:IBM Plex Sans JP,Noto Sans JP,sans-serif">', body)
+    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="航空計画から意思決定まで" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
+
+
 def overview_details() -> list[dict]:
     """Per-row detail for the concept page: full text, literature, KPIs, flight-plan items, links."""
     out = []
@@ -549,12 +573,12 @@ def concept_page() -> str:
 .cap{{margin:0 20px;padding:8px 12px;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}}
 .stage{{display:grid;grid-template-columns:1fr;gap:0}} .stage.open{{grid-template-columns:minmax(0,1fr) 420px}} .stage.open > div{{overflow-x:auto;padding:8px 0 8px 20px}} .stage.open svg{{height:300px;width:auto;max-width:none}}
 svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:none}} g.row{{cursor:pointer}} g.row:hover rect:first-child{{stroke:{HEAD};stroke-width:2}}
-.anim .flow{{stroke-dasharray:14 10;animation:dash 1.1s linear infinite}} .anim .flow.red{{stroke-dasharray:18 10;animation-duration:.6s;filter:drop-shadow(0 0 3px rgba(190,18,60,.6))}}
+.anim .flow{{stroke-dasharray:14 10;animation:dash 1.1s linear infinite}} .hero .flow{{stroke-dasharray:22 12}} .anim .flow.red{{stroke-dasharray:18 10;animation-duration:.6s;filter:drop-shadow(0 0 3px rgba(190,18,60,.6))}}
 .anim .flow.dashed{{stroke-dasharray:7 5;animation-duration:1.6s}} .dot{{display:none}} .anim .dot{{display:inline}}
 @keyframes dash{{to{{stroke-dashoffset:-24}}}} @media (prefers-reduced-motion: reduce){{.anim .flow{{animation:none}} .anim .dot{{display:none}}}}
 .bar label{{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center}}
 .lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
-.lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
+.lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
 #panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}} .stage.open #panel{{display:block}}
 #panel h2{{font-size:16px;margin:0 0 2px}} #panel .cad{{color:{MUTE};font-size:12px;margin-bottom:10px}} #panel h3{{font-size:12.5px;margin:12px 0 4px;color:{HEAD};border-bottom:1px solid #e2e8f0;padding-bottom:2px}}
 #panel ul{{margin:0;padding-left:16px}} #panel .lit{{color:{MUTE};font-size:11.5px}} #panel .chips span{{display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px}}
@@ -565,7 +589,8 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 <p class="msg">便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。その流れを、航空計画・エンジン整備計画・MRO と調達・技術・データという 5 つの部門で示した図です。</p>
 <ul class="keys"><li><b>目標は上から下へ。</b>便数が必要エンジン数を決め、エンジン計画はそれに合わせる。</li>
 <li><b>新しいのは技術の行（④）。</b>前提を一つの方法で決めず、4 つの学習手法で並行して学び、結果を統合してから整備計画が解く。前提が外れても壊れにくい計画になる。</li>
-<li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul></header>
+<li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul>
+<div class="hero anim">{overview_hero()}</div></header>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
 <div class="zoombar">拡大中：<b id="zoomlabel"></b><button type="button" id="zoomout">全体に戻る</button><button type="button" id="prev">▲ 上の行</button><button type="button" id="next">▼ 下の行</button></div>
@@ -576,7 +601,7 @@ const DET={details}; const G=["ov-flight","ov-stage","ov-output","ov-ai"];
 const show=(g)=>{{G.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==g)); document.querySelectorAll(".bar button").forEach(b=>b.classList.toggle("on",b.dataset.g===g)); document.querySelectorAll(".cap").forEach(c=>c.hidden=c.dataset.for!==g);}};
 document.querySelectorAll(".bar button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.g))); show("none");
 const svgEl=document.querySelector("svg"); const VB=svgEl.getAttribute("viewBox"); const W=+VB.split(" ")[2];
-const setAnim=()=>svgEl.classList.toggle("anim",document.getElementById("anim").checked); document.getElementById("anim").addEventListener("change",setAnim); setAnim();
+const setAnim=()=>{{svgEl.classList.toggle("anim",document.getElementById("anim").checked); document.querySelector(".hero").classList.toggle("anim",document.getElementById("anim").checked);}}; document.getElementById("anim").addEventListener("change",setAnim); setAnim();
 const esc=(s)=>String(s).replace(/[&<>]/g,(c)=>({{"&":"&amp;","<":"&lt;",">":"&gt;"}}[c]));
 let cur=-1;
 function zoom(r){{ const g=document.querySelector(`g.row[data-row="${{r}}"]`); if(!g) return; cur=r; const y0=+g.dataset.y0, y1=+g.dataset.y1;
