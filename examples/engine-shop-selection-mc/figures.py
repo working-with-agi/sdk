@@ -487,18 +487,31 @@ def svgs() -> dict[str, str]:
 
 
 def concept_page() -> str:
-    """The strategy matrix as an HTML page with the three overlays switchable."""
+    """The strategy matrix as an HTML page: the plain figure first, then one overlay at a
+    time (tabs), each with a one-line explanation."""
     svg = strategy_matrix(True)
+    TABS = [("none", "基本の図", "行＝層、列＝入る → 回す → 出る、右端＝あるべき結果。太い深紅が推奨の経路。まずこれだけを見る。"),
+            ("ov-flight", "① 航空計画から導く", "便の計画が「必要」を決める。便 1〜6 の札が、航空計画から導いた量を使う箱。"),
+            ("ov-stage", "② PDCA と OODA", "上 2 行が PDCA（年次〜半期）、下 2 行が OODA（月次〜当日）。列がそのまま段階（入る＝Plan／Observe … 右端＝Act）。"),
+            ("ov-output", "③ 成果指標", "右端の各結果に目標つきの指標。欠航確率 ≤ 5%、予算差 ±5%、被覆率 ≥ 80% など（目安）。"),
+            ("ov-ai", "④ 何が働くか", "解くのは数理最適化（OR）、学ぶのは統計、部品の寿命は ML、文章と振り分けは AI（LLM）、決めるのは人。")]
+    tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
+    caps = "".join(f'<p class="cap" data-for="{g}" {"" if g == "none" else "hidden"}>{c}</p>' for g, _, c in TABS)
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>あるべき分析ストラテジー（層 × 流れ）</title>
 <style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
-.bar{{display:flex;gap:18px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;font-size:13px;position:sticky;top:0;background:{BG}}}
-.bar label{{display:flex;gap:6px;align-items:center;cursor:pointer}} svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
+.bar{{display:flex;gap:8px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:{BG};z-index:2}}
+.bar button{{font:inherit;font-size:13px;padding:6px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer}} .bar button.on{{background:{HEAD};color:#fff;border-color:{HEAD}}}
+.cap{{margin:0 20px;padding:8px 12px;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}}
+svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
 .note{{padding:10px 20px 24px;font-size:12px;color:{MUTE};max-width:1400px}}</style></head><body>
-<div class="bar"><b>重ねる：</b><label><input type="checkbox" data-g="ov-flight" checked> 航空計画から導くもの（便 1〜6）</label><label><input type="checkbox" data-g="ov-stage" checked> PDCA／OODA の段階</label><label><input type="checkbox" data-g="ov-output" checked> アウトプット（成果指標）</label><label><input type="checkbox" data-g="ov-ai" checked> 何が働くか（OR／統計／ML／AI／人）</label></div>
+<div class="bar"><b style="font-size:13px;margin-right:6px">一つずつ重ねる：</b>{tabs}</div>
+<div style="padding-top:10px">{caps}</div>
 {svg}
-<p class="note">行＝層、列＝入る → 回す → 出る、右端＝あるべき結果。上 2 行が PDCA（年次〜半期）、下 2 行が OODA（月次〜当日）。便の札は航空計画から導く量が使われる箱。成果指標の目標値は合成データの目安で、実運用では会社の値に置き換える。「何が働くか」：解くのは数理最適化（OR）とモンテカルロ、学ぶのは統計学習、部品の寿命は ML、文章と振り分けは AI（LLM）、決めるのは人。</p>
-<script>document.querySelectorAll("input[data-g]").forEach(c=>c.addEventListener("change",()=>document.getElementById(c.dataset.g).classList.toggle("hide",!c.checked)));</script>
-</body></html>'''
+<p class="note">一度に見るのは 1 つの重ねだけ。上の層と機隊の計画は年に 1 回の版（PDCA）、前提の学習と観測は月ごと（OODA）。すべて合成データの目安。</p>
+<script>
+const G=["ov-flight","ov-stage","ov-output","ov-ai"]; const show=(g)=>{{G.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==g)); document.querySelectorAll(".bar button").forEach(b=>b.classList.toggle("on",b.dataset.g===g)); document.querySelectorAll(".cap").forEach(c=>c.hidden=c.dataset.for!==g);}};
+document.querySelectorAll(".bar button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.g))); show("none");
+</script></body></html>'''
 
 
 def page(svg: str, title: str) -> str:

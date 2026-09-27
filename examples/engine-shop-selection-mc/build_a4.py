@@ -248,7 +248,7 @@ def appendix_md() -> str:
         h = bd.md_to_html("## " + t, "")
         h = h.split("<main>")[1].split("</main>")[0]
         return h.replace('<p class="top"><a href="index.html">← ダッシュボード</a></p>', "", 1).replace("<h2>", "<h2>付録 ", 1).replace("<h3>", "<h3>", 1)
-    figb = ('<figure style="margin:6pt 0"><div style="border:1px solid #d3dbe3;border-radius:6px;background:#fbfbfd">' + figures.strategy_matrix() + '</div><figcaption class="cap">図 B-1　あるべき分析ストラテジー：層 × 流れ。行＝層（観測が上がり、決定が下りる）、列＝入る → 回す → 出る、右端＝あるべき結果。深紅の枠＝新しく足す層、太い深紅＝推奨の経路。</figcaption></figure>'
+    figb = ('<figure style="margin:6pt 0"><div style="border:1px solid #d3dbe3;border-radius:6px;background:#fbfbfd">' + figures.strategy_matrix(False) + '</div><figcaption class="cap">図 B-1　あるべき分析ストラテジー：層 × 流れ。行＝層（観測が上がり、決定が下りる）、列＝入る → 回す → 出る、右端＝あるべき結果。深紅の枠＝新しく足す層、太い深紅＝推奨の経路。重ね（航空計画から導くもの・PDCA／OODA の段階・成果指標・何が働くか）は HTML 版 strategy_concept.html で一つずつ見る。</figcaption></figure>'
             '<figure style="margin:6pt 0"><div style="border:1px solid #d3dbe3;border-radius:6px;background:#fbfbfd">' + figures.strategy_stack() + '</div><figcaption class="cap">図 B-2　同じ内容を流れだけで：観測 → 4 つのストラテジー → 束ねる → 計画を解く → あるべき結果。</figcaption></figure>')
     hb = inner("B. " + b)
     k = hb.find("<h3>")  # the figure goes right after the section's opening paragraph, before B-1
