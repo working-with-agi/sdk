@@ -1,0 +1,185 @@
+{
+ "note": "話題（トピック）の定義。各モジュールの出力（前提の枠組み・見直しの症状表・打ち手の順番・追跡の例外・画面）を、ここに書いた鍵と語で話題に振り分ける。Secretary.io の共通機能（話題スレッド）に出す形",
+ "topics": [
+  {
+   "id": "demand",
+   "name": "需要と運航",
+   "what": "客席の需要、季節の形、稼働、必要エンジン数",
+   "framework_keys": [
+    "demand_growth",
+    "season_shape",
+    "utilisation"
+   ],
+   "words": [
+    "需要",
+    "運航",
+    "季節",
+    "稼働",
+    "利用率",
+    "伸び"
+   ],
+   "views": [
+    "demand",
+    "runout"
+   ],
+   "owner": "経営企画・運航",
+   "playbook": []
+  },
+  {
+   "id": "fleet",
+   "name": "機材と退役",
+   "what": "新機の受領、退役の順番、退役までの入場列、型式の時計、リース返却",
+   "framework_keys": [
+    "delivery",
+    "lease_terms"
+   ],
+   "words": [
+    "退役",
+    "受領",
+    "リース",
+    "型式",
+    "移行",
+    "残存価値",
+    "入場列"
+   ],
+   "views": [
+    "runout",
+    "lease",
+    "mx4"
+   ],
+   "owner": "機材計画・調達",
+   "playbook": []
+  },
+  {
+   "id": "supply",
+   "name": "部品と工場",
+   "what": "LLP キットの納期、工場の枠と工期、所見と費用超過、第二工場",
+   "framework_keys": [
+    "tat_findings",
+    "kit_lead",
+    "shop_capacity"
+   ],
+   "words": [
+    "キット",
+    "工場",
+    "工期",
+    "所見",
+    "枠",
+    "納期",
+    "費用超過",
+    "戻り遅れ",
+    "混雑",
+    "逼迫",
+    "請求",
+    "見込み"
+   ],
+   "views": [
+    "cpd",
+    "playbook",
+    "actions",
+    "invest"
+   ],
+   "owner": "調達・整備計画",
+   "playbook": [
+    "kits",
+    "second"
+   ]
+  },
+  {
+   "id": "contract",
+   "name": "契約とお金",
+   "what": "契約形態、前払い・ティア・プール、為替、税引後、積立金",
+   "framework_keys": [
+    "prices_fx",
+    "tax"
+   ],
+   "words": [
+    "契約",
+    "折半",
+    "固定価格",
+    "前払い",
+    "為替",
+    "税",
+    "積立金",
+    "予算",
+    "立て直し"
+   ],
+   "views": [
+    "finance",
+    "tax",
+    "resilience",
+    "budget"
+   ],
+   "owner": "財務・調達",
+   "playbook": [
+    "contract"
+   ]
+  },
+  {
+   "id": "engine",
+   "name": "エンジンの状態",
+   "what": "劣化率と寿命部品、計画外取卸し、予備の数、状態監視",
+   "framework_keys": [
+    "wear",
+    "unsched",
+    "spares"
+   ],
+   "words": [
+    "劣化",
+    "寿命部品",
+    "EGT",
+    "計画外",
+    "取卸し",
+    "予備",
+    "警報",
+    "限界",
+    "余力",
+    "故障",
+    "前倒し",
+    "整備範囲",
+    "窓"
+   ],
+   "views": [
+    "engines",
+    "trend",
+    "spares",
+    "reliability"
+   ],
+   "owner": "技術・整備計画",
+   "playbook": []
+  },
+  {
+   "id": "method",
+   "name": "決め方",
+   "what": "世界の集合、暗黙のルールと承認線、γ・K、バックテストの補正、見直しの周期",
+   "framework_keys": [
+    "worlds",
+    "rules",
+    "gamma_k"
+   ],
+   "words": [
+    "世界",
+    "承認線",
+    "ルール",
+    "γ",
+    "ヒステリシス",
+    "バックテスト",
+    "学ぶ",
+    "決め方",
+    "見直し",
+    "版",
+    "安全スイッチ",
+    "変化点"
+   ],
+   "views": [
+    "review",
+    "backtest",
+    "loops",
+    "roll",
+    "history"
+   ],
+   "owner": "整備計画",
+   "playbook": []
+  }
+ ]
+}

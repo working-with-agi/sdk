@@ -1,0 +1,625 @@
+{
+ "company": "ana",
+ "threads": [
+  {
+   "id": "contract",
+   "name": "契約とお金",
+   "what": "契約形態、前払い・ティア・プール、為替、税引後、積立金",
+   "owner": "財務・調達",
+   "views": [
+    "finance",
+    "tax",
+    "resilience",
+    "budget"
+   ],
+   "assumptions": [
+    {
+     "key": "prices_fx",
+     "name": "見積もり単価・値上げ・為替",
+     "cadence_months": 12,
+     "trigger": "為替が 10% 動いた／見積もり改定",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "財務・調達"
+    },
+    {
+     "key": "tax",
+     "name": "税率・償却・区分",
+     "cadence_months": 12,
+     "trigger": "税制改正",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "財務・税務"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "crit",
+     "finding": "制約を緩めないと解けない計画",
+     "ask": "緩めた制約はだれの前提か。計画の外で（予備・契約）解くのか"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "warn",
+     "finding": "FY2026 の予算前提が計画と合わない（+124%）",
+     "ask": "予算を直すのか、入場を前後の年度へ動かすのか。どちらも決めないまま回す年にしない"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "warn",
+     "finding": "立て直し費が全体の 20%",
+     "ask": "契約形態（固定価格・上限）で先に買うか、予備で受けるか"
+    }
+   ],
+   "actions": [
+    {
+     "key": "contract",
+     "label": "② 契約形態を所見折半へ（費用超過に効く）",
+     "who": "調達・財務",
+     "when": "次の契約更新（2026 年、未確認）",
+     "deadline": "更新の 6 か月前",
+     "trigger": "追跡の例外のうち費用超過が過半（今回 17／24）",
+     "expected_delta_k": -3495.0456861154235,
+     "aog_delta_pt": -0.025000000000000022
+    }
+   ],
+   "exceptions": [],
+   "triggers": [],
+   "status": "crit",
+   "counts": {
+    "assumptions": 2,
+    "findings": 3,
+    "actions": 1,
+    "exceptions": 0,
+    "triggers": 0
+   }
+  },
+  {
+   "id": "method",
+   "name": "決め方",
+   "what": "世界の集合、暗黙のルールと承認線、γ・K、バックテストの補正、見直しの周期",
+   "owner": "整備計画",
+   "views": [
+    "review",
+    "backtest",
+    "loops",
+    "roll",
+    "history"
+   ],
+   "assumptions": [
+    {
+     "key": "worlds",
+     "name": "世界の集合と事前確率",
+     "cadence_months": 12,
+     "trigger": "どの世界にも当てはまらない月が 3 か月（安全スイッチ）",
+     "last_derived": "2027-10",
+     "status": "ok",
+     "owner": "整備計画"
+    },
+    {
+     "key": "rules",
+     "name": "暗黙のルールと承認線 v",
+     "cadence_months": 12,
+     "trigger": "分解の追加作業の純額がプラス",
+     "last_derived": "2027-10",
+     "status": "fired",
+     "owner": "整備計画・技術"
+    },
+    {
+     "key": "gamma_k",
+     "name": "γ（尤度の弱め）・K（ヒステリシス）",
+     "cadence_months": 12,
+     "trigger": "採点が 80% を割る",
+     "last_derived": "2027-10",
+     "status": "ok",
+     "owner": "整備計画"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "OODA",
+     "stage": "Orient",
+     "severity": "warn",
+     "finding": "前提「暗黙のルールと承認線 v」の引き金が引かれた",
+     "ask": "整備計画・技術が年次を待たず月次会議へ（影響先 当日の判断・会議に回す件数）"
+    },
+    {
+     "loop": "OODA",
+     "stage": "Decide",
+     "severity": "warn",
+     "finding": "分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +1.0 百万ドル",
+     "ask": "承認線 v を年次で見直す（追加作業の延びる月数の実績で）"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "warn",
+     "finding": "学ぶ・確かめる：学ぶ期間（2012-10〜2020-10 版）で導いた補正を、確かめる期間（2021-10〜2025-10 版）に当てると 3 指標中 1 が改善：改善しない指標の補正は過学習の疑い、使う期間には持ち込まない",
+     "ask": "改善した補正だけを次の版の決め方に持ち込む（期限のずらし・計画外の率・幅）"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "warn",
+     "finding": "過去で検証：リスクの幅（10〜90%）に実績が入った年度 68%（28/41、目標 80%）：幅が狭い（前提の分散を広げる）",
+     "ask": "決め方（幅・窓の下端・計画外の率）を次の版で直す"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "warn",
+     "finding": "過去で検証：期限の予測誤差 平均 +1.6 か月、±1 か月以内 47%、早すぎ 2%・遅すぎ 51%（n=204）：期限が実際より早い（保守的）。窓の下端を後ろへ",
+     "ask": "決め方（幅・窓の下端・計画外の率）を次の版で直す"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Act",
+     "severity": "warn",
+     "finding": "次の版で「決め方」を変えていない（Δ決め方 = 0）",
+     "ask": "確かめるで出た 3 つのずれのうち、決め方（γ・K・世界の集合・承認線）に返したものは何か"
+    },
+    {
+     "loop": "OODA",
+     "stage": "Decide",
+     "severity": "info",
+     "finding": "暗黙のルールで決めた 6 件、会議へ 12 件",
+     "ask": "会議に回した件は、ルールにできないか"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "info",
+     "finding": "過去で検証：前の版の 2 年目が次の版の 1 年目にそのまま残った割合 平均 32%（版の安定性）",
+     "ask": "決め方（幅・窓の下端・計画外の率）を次の版で直す"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "info",
+     "finding": "過去で検証：検証した年度 5、うち衝撃の年（前年比 ±15% 超）3：どの規則も外す。引き金（3pt）は 5 年度で引かれた",
+     "ask": "決め方（幅・窓の下端・計画外の率）を次の版で直す"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Act",
+     "severity": "info",
+     "finding": "delay の学習は 5 件の実績（重み 29%）",
+     "ask": "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Act",
+     "severity": "info",
+     "finding": "findings の学習は 5 件の実績（重み 29%）",
+     "ask": "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない"
+    },
+    {
+     "loop": "OODA",
+     "stage": "Orient",
+     "severity": "ok",
+     "finding": "変化点と前提の更新が一致",
+     "ask": ""
+    },
+    {
+     "loop": "OODA",
+     "stage": "Act",
+     "severity": "ok",
+     "finding": "D + A = 3.0 か月 ≤ R = 8（判断期限までのリード）",
+     "ask": ""
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Do",
+     "severity": "ok",
+     "finding": "計画との一致 100%",
+     "ask": ""
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "ok",
+     "finding": "前提のずれ：いちばん確からしい世界は「base」（32%）",
+     "ask": "その世界の計画案（乗り換え）は会議に出ているか"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "ok",
+     "finding": "過去で検証：入場の件数 実績 ÷ 計画 1.12、費用 0.91",
+     "ask": ""
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "ok",
+     "finding": "過去で検証：平常の年の平均誤差：直近 23.9%、長期 2.8%、計画の混ぜ方 23.9% → 長期が最も近い",
+     "ask": ""
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "ok",
+     "finding": "当時のリスクの幅に実績が入った年度 4/5",
+     "ask": ""
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Act",
+     "severity": "ok",
+     "finding": "変化点で学習をリセット（4 件を落とした）",
+     "ask": ""
+    }
+   ],
+   "actions": [],
+   "exceptions": [],
+   "triggers": [
+    {
+     "name": "暗黙のルールと承認線 v",
+     "evidence": "分解の追加作業の純額 +1.0 百万ドル"
+    }
+   ],
+   "status": "warn",
+   "counts": {
+    "assumptions": 3,
+    "findings": 19,
+    "actions": 0,
+    "exceptions": 0,
+    "triggers": 1
+   }
+  },
+  {
+   "id": "demand",
+   "name": "需要と運航",
+   "what": "客席の需要、季節の形、稼働、必要エンジン数",
+   "owner": "経営企画・運航",
+   "views": [
+    "demand",
+    "runout"
+   ],
+   "assumptions": [
+    {
+     "key": "demand_growth",
+     "name": "需要の伸び",
+     "cadence_months": 12,
+     "trigger": "市場の前年比が仮定から 3pt 以上外れた月",
+     "last_derived": "2026-10",
+     "status": "fired",
+     "owner": "経営企画・整備計画"
+    },
+    {
+     "key": "season_shape",
+     "name": "季節の形（運航指数）",
+     "cadence_months": 12,
+     "trigger": "月の指数が仮定から 0.05 以上ずれる",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "運航・整備計画"
+    },
+    {
+     "key": "utilisation",
+     "name": "稼働（年間サイクル・飛行時間）",
+     "cadence_months": 12,
+     "trigger": "実績サイクルが仮定から 5% 以上ずれる 3 か月",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "運航・技術"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "OODA",
+     "stage": "Orient",
+     "severity": "warn",
+     "finding": "前提「需要の伸び」の引き金が引かれた",
+     "ask": "経営企画・整備計画が年次を待たず月次会議へ（影響先 必要エンジン数・予備の数・退役のペース）"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Act",
+     "severity": "warn",
+     "finding": "需要の伸びの仮定（+3.8%/年）から市場の前年比（2026-06 -3.1%）が 3% 以上外れた",
+     "ask": "年次を待たず、需要の伸びを月次会議で引き直す（必要エンジン数と退役ペースに効く）"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "info",
+     "finding": "直近の伸び +3.8% と長期の伸び +1.5% の差が大きい",
+     "ask": "退役までの列と予備の数は長期の伸びで、窓の中は直近で見る"
+    }
+   ],
+   "actions": [],
+   "exceptions": [],
+   "triggers": [
+    {
+     "name": "需要の伸び",
+     "evidence": "市場の前年比 -3.1%（2026-06）vs 仮定 +3.8%"
+    }
+   ],
+   "status": "warn",
+   "counts": {
+    "assumptions": 3,
+    "findings": 3,
+    "actions": 0,
+    "exceptions": 0,
+    "triggers": 1
+   }
+  },
+  {
+   "id": "supply",
+   "name": "部品と工場",
+   "what": "LLP キットの納期、工場の枠と工期、所見と費用超過、第二工場",
+   "owner": "調達・整備計画",
+   "views": [
+    "cpd",
+    "playbook",
+    "actions",
+    "invest"
+   ],
+   "assumptions": [
+    {
+     "key": "tat_findings",
+     "name": "工期・所見・費用超過",
+     "cadence_months": 12,
+     "trigger": "変化点検知（週次の見積もり工期・枠回答）",
+     "last_derived": "2027-10",
+     "status": "ok",
+     "owner": "整備計画・調達"
+    },
+    {
+     "key": "kit_lead",
+     "name": "LLP キットの納期",
+     "cadence_months": 12,
+     "trigger": "変化点検知（週次のキット納期回答）",
+     "last_derived": "2027-10",
+     "status": "fired",
+     "owner": "調達"
+    },
+    {
+     "key": "shop_capacity",
+     "name": "工場の枠と容量反応",
+     "cadence_months": 12,
+     "trigger": "枠の回答が 2 か月以上遅れる",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "調達・経営"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "OODA",
+     "stage": "Orient",
+     "severity": "warn",
+     "finding": "前提「LLP キットの納期」の引き金が引かれた",
+     "ask": "調達が年次を待たず月次会議へ（影響先 判断期限 R・先行発注・緊急キット）"
+    },
+    {
+     "loop": "OODA",
+     "stage": "Observe",
+     "severity": "info",
+     "finding": "警報の出た先行指標",
+     "ask": "その指標の出所（工場・サプライヤーの回答ログ）を実データでつなぐ"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "info",
+     "finding": "計画開始前に手配済みを前提にした判断 9 件",
+     "ask": "手配済みの前提（枠・キット）が本当に済んでいるか、月次の最初に確認する"
+    }
+   ],
+   "actions": [
+    {
+     "key": "kits",
+     "label": "① キットの先行発注・プール（変化点検知に連動）",
+     "who": "調達",
+     "when": "変化点検知がキット納期で警報を出した月（今回は 2 か月目）",
+     "deadline": "判断期限 R = キット納期 8 か月の前",
+     "trigger": "先行指標『LLP キット納期回答（週）』の変化点",
+     "expected_delta_k": -43.12155491637532,
+     "aog_delta_pt": 0
+    },
+    {
+     "key": "second",
+     "label": "③ 第二工場の枠組み契約（選択権、新設しない）",
+     "who": "調達・経営",
+     "when": "年次の版（型式の晩年に入っているので早めに）",
+     "deadline": "工場の枠が 9／10 を超える前",
+     "trigger": "枠の回答が 2 か月以上遅れる／混雑の世界の確率が 30% を超える",
+     "expected_delta_k": -499.74935504759196,
+     "aog_delta_pt": 1.35
+    }
+   ],
+   "exceptions": [
+    {
+     "as_of": "2027-03",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-04",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-05",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-06",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-07",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-08",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    },
+    {
+     "as_of": "2027-09",
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "LLP キットの納期",
+     "evidence": "変化点検知：LLP キット納期回答（週）"
+    }
+   ],
+   "status": "warn",
+   "counts": {
+    "assumptions": 3,
+    "findings": 3,
+    "actions": 2,
+    "exceptions": 7,
+    "triggers": 1
+   }
+  },
+  {
+   "id": "engine",
+   "name": "エンジンの状態",
+   "what": "劣化率と寿命部品、計画外取卸し、予備の数、状態監視",
+   "owner": "技術・整備計画",
+   "views": [
+    "engines",
+    "trend",
+    "spares",
+    "reliability"
+   ],
+   "assumptions": [
+    {
+     "key": "wear",
+     "name": "劣化率（EGT）と寿命部品の寿命",
+     "cadence_months": 12,
+     "trigger": "状態監視の警報（余裕が期限より早く尽きる）",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "技術"
+    },
+    {
+     "key": "unsched",
+     "name": "計画外取卸しの率",
+     "cadence_months": 12,
+     "trigger": "3 か月移動平均が仮定の 1.5 倍",
+     "last_derived": "2027-10",
+     "status": "ok",
+     "owner": "技術・整備計画"
+    },
+    {
+     "key": "spares",
+     "name": "予備エンジンの数・短期リース上限",
+     "cadence_months": 12,
+     "trigger": "余力がマイナスの月が出た",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "整備計画・財務"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "warn",
+     "finding": "平均の劣化では計画の入場より前に限界が来る機 1 基（最大 1 か月）",
+     "ask": "その機は状態監視（EGT・LLP）を月次の最初に見る。窓の定義（earliest/limit）と劣化前提のどちらが違うか"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Check",
+     "severity": "ok",
+     "finding": "過去で検証：計画外取卸し 実績 ÷ 想定 0.87",
+     "ask": ""
+    }
+   ],
+   "actions": [],
+   "exceptions": [],
+   "triggers": [],
+   "status": "warn",
+   "counts": {
+    "assumptions": 3,
+    "findings": 2,
+    "actions": 0,
+    "exceptions": 0,
+    "triggers": 0
+   }
+  },
+  {
+   "id": "fleet",
+   "name": "機材と退役",
+   "what": "新機の受領、退役の順番、退役までの入場列、型式の時計、リース返却",
+   "owner": "機材計画・調達",
+   "views": [
+    "runout",
+    "lease",
+    "mx4"
+   ],
+   "assumptions": [
+    {
+     "key": "delivery",
+     "name": "新機の受領時期（退役のペース）",
+     "cadence_months": 6,
+     "trigger": "納期回答が 3 か月以上動いた",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "機材計画・調達"
+    },
+    {
+     "key": "lease_terms",
+     "name": "リース返却条件・返却月",
+     "cadence_months": 12,
+     "trigger": "延長・早期返却の交渉",
+     "last_derived": "2026-10",
+     "status": "ok",
+     "owner": "財務・機材計画"
+    }
+   ],
+   "findings": [
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "info",
+     "finding": "寿命を残して退役する機 8 基（残存価値 181 百万ドル）",
+     "ask": "売却・グリーンタイムリース・他機種への融通を年次で決める。残存価値は税引後の資産側にも載る"
+    },
+    {
+     "loop": "PDCA",
+     "stage": "Plan",
+     "severity": "info",
+     "finding": "型式 CFM56-7B は就航 30 年目、生産終了から 7 年（晩年）",
+     "ask": "退役機の処分は型式の晩年に入る前に決める。晩年の部品値上がりと工期の延びを世界（前提）に入れる"
+    }
+   ],
+   "actions": [],
+   "exceptions": [],
+   "triggers": [],
+   "status": "info",
+   "counts": {
+    "assumptions": 2,
+    "findings": 2,
+    "actions": 0,
+    "exceptions": 0,
+    "triggers": 0
+   }
+  }
+ ],
+ "note": "話題（トピック）の定義。各モジュールの出力（前提の枠組み・見直しの症状表・打ち手の順番・追跡の例外・画面）を、ここに書いた鍵と語で話題に振り分ける。Secretary.io の共通機能（話題スレッド）に出す形",
+ "unrouted": 0
+}

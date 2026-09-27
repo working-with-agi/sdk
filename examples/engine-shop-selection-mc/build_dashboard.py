@@ -158,6 +158,9 @@ td.peak{{background:#f3ede2}}td.fy1{{background:#eef2f7}}.bar{{display:inline-bl
 <div class="kpi" id="kpi"></div>
 <h2>年次計画と月次計画のマッピング</h2>
 <div class="panel"><div class="scroll" id="cal"></div><div class="legend">帯＝年次の版が覆う期間（濃い＝今の版、淡い＝次の版）。●＝月次会議の実績（灰は予定）。数字＝その月の判断期限の件数（濃い赤は 3 件以上）、入場＝その月に工場に入る件数。◇＝リース返却、▲＝新機の受領（1 機退役）。背景の色は繁忙期と年度の切れ目。</div></div>
+<h2>話題ごと</h2>
+<div class="sub">前提・指摘・打ち手・例外・引き金を話題に振り分けたもの。会議はこの単位で進める。色は最悪の状態（赤＝今すぐ、黄＝会議で決める、灰＝情報、緑＝問題なし）。</div>
+<div class="grid3" id="topics"></div>
 <h2>二つの輪と画面</h2>
 <div class="grid3" id="loops"></div>
 <h2>リンク集</h2>
@@ -199,6 +202,18 @@ function render() {{
     <tr><th class="row">入場（件）</th>${{rowVis}}</tr>
     <tr><th class="row">返却・受領</th>${{rowEv}}</tr>
     <tr><th class="row">その月の画面</th>${{rowLink}}</tr></tbody></table>`;
+  const SEVC = {{ crit: "var(--crit)", warn: "var(--warn)", info: "var(--muted)", ok: "var(--good)" }};
+  $("topics").innerHTML = (c.topics || []).map((t) => {{
+    const ov = t.assumptions.filter((a) => a.status !== "ok");
+    const top = t.findings.filter((f) => f.severity !== "ok").slice(0, 3).map((f) => `<li><span style="background:${{SEVC[f.severity]}};display:inline-block;width:8px;height:8px;border-radius:2px"></span> ${{esc(f.finding)}}</li>`).join("");
+    const acts = t.actions.map((x) => `<li>${{esc(x.label)}}（${{esc(x.who)}}、${{x.expected_delta_k != null ? (x.expected_delta_k / 1000).toFixed(1) + " 百万ドル" : "—"}}）</li>`).join("");
+    const trig = t.triggers.map((x) => `<li>引き金：${{esc(x.name)}} — ${{esc(x.evidence)}}</li>`).join("");
+    const ex = t.exceptions.length ? `<li>追跡の例外 ${{t.exceptions.length}} 件（直近 ${{esc(t.exceptions[t.exceptions.length - 1].as_of)}} ${{esc(t.exceptions[t.exceptions.length - 1].kind)}}）</li>` : "";
+    return `<div class="panel loop" style="border-left:4px solid ${{SEVC[t.status]}}"><h3>${{esc(t.name)}} <span class="hint">${{esc(t.owner)}}</span></h3><p>${{esc(t.what)}}</p>
+      <div class="hint" style="margin-bottom:6px">前提 ${{t.counts.assumptions}}${{ov.length ? `（要見直し ${{ov.length}}）` : ""}}・指摘 ${{t.counts.findings}}・打ち手 ${{t.counts.actions}}・例外 ${{t.counts.exceptions}}</div>
+      <ul>${{trig}}${{top}}${{acts}}${{ex}}</ul>
+      <div class="hint" style="margin-top:6px">画面：${{t.views.map((v) => `<a href="report.html#co=${{co}}&v=${{v}}">${{v}}</a>`).join(" · ")}}</div></div>`;
+  }}).join("");
   $("loops").innerHTML = LOOPS.map(([title, what, items]) => `<div class="panel loop"><h3>${{esc(title)}}</h3><p>${{esc(what)}}</p><ul>${{items.map(([k, label, kind]) => `<li><a href="${{link(k, kind)}}">${{esc(label)}}</a></li>`).join("")}}</ul></div>`).join("");
   $("pages").innerHTML = [["report.html#co=" + co, "エンジン整備レポート（4 段：結論 → ユースケース → 明細 → 前提と出典）"], ["annual.html", "年間計画レポート"], ["monthly.html", "月次レポート"], ["track.html", "計画の追跡"]].map(([h, t]) => `<li><a href="${{h}}">${{esc(t)}}</a></li>`).join("");
 }}
@@ -211,10 +226,14 @@ def main(argv=None) -> int:
     ap.add_argument("--companies", nargs="+", default=["jal", "ana"])
     ap.add_argument("--track-dir", type=Path)
     ap.add_argument("--roll-dir", type=Path)
+    ap.add_argument("--topics-dir", type=Path, help="directory with <company>.json (topics.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("index.html"))
     ap.add_argument("--docs-out", type=Path, help="directory to write the document HTML pages into")
     a = ap.parse_args(argv)
     cos = [company_calendar(c, a.track_dir, a.roll_dir) for c in a.companies]
+    for c in cos:
+        tp = a.topics_dir / f"{c['id']}.json" if a.topics_dir else None
+        c["topics"] = json.loads(tp.read_text(encoding="utf-8"))["threads"] if tp and tp.exists() else []
     a.html_out.write_text(build_html(cos, date.today().isoformat()), encoding="utf-8")
     n = 0
     if a.docs_out:
