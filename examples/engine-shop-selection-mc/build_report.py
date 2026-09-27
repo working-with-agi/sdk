@@ -179,7 +179,11 @@ def horizons(c: dict, b: dict) -> dict:
              "今月からの判断期限に載っていない（長期の判断が短期の行動に落ちていない）")
     dl = sum(1 for r in c["plan"] if r["deadline_t"] >= 0)
     link("plan", "deadline", "ok", "計画の入場ごとの判断期限", f"{plan_n} 件すべて（期限前の {plan_n - dl} 件は手配済みを前提）")
-    if c.get("track"):
+    if c.get("roll"):
+        r = c["roll"]
+        link("track", "plan", "ok", "追跡の結果を次の版に返す",
+             f"{r['to_version']} 版：工期・所見・故障率・前提の確率を実績で更新（重み {min(e['weight'] for e in r['learned'].values() if 'weight' in e):.0%}〜）、手配済み {len(r['carried']['fixed'])} 基を固定")
+    elif c.get("track"):
         link("track", "plan", "bad", "追跡の結果を次の版に返す", "未実装（乗り換えの判断は出るが、次の計画の前提は直さない）")
     if h:
         fys = [f for v in h["versions"] for f in v["fiscal_years"] if f["months"] >= 6]
@@ -194,7 +198,7 @@ def horizons(c: dict, b: dict) -> dict:
 
 
 def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None,
-            history_path: Path | None = None) -> dict:
+            history_path: Path | None = None, roll_path: Path | None = None) -> dict:
     b = json.loads(baseline_path.read_text(encoding="utf-8"))
     with tempfile.TemporaryDirectory() as tmp:
         if deltas_path is None or not deltas_path.exists():
@@ -235,6 +239,8 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         for v in h["versions"]:
             v.pop("rows", None)
         c["history"] = h
+    if roll_path and roll_path.exists():
+        c["roll"] = json.loads(roll_path.read_text(encoding="utf-8"))
     c["usecases"] = usecases.build(b)
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
@@ -248,6 +254,7 @@ def main(argv=None) -> int:
     ap.add_argument("--actuals", default="backlog", help="which synthetic actuals to track (data/<company>/actuals_<name>.json)")
     ap.add_argument("--invest", type=Path, help="invest.py output (optional)")
     ap.add_argument("--history-dir", type=Path, help="directory with <company>-history.json (history.py output)")
+    ap.add_argument("--roll-dir", type=Path, help="directory with <company>-roll-<version>.json (roll.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("report.html"))
     args = ap.parse_args(argv)
     data = []
@@ -255,7 +262,8 @@ def main(argv=None) -> int:
         d = args.deltas_dir / f"{cid}-deltas.json" if args.deltas_dir else None
         data.append(company(HERE / "baselines" / f"{cid}-2026-10.json", d,
                             HERE / "data" / cid / f"actuals_{args.actuals}.json", args.invest,
-                            args.history_dir / f"{cid}-history.json" if args.history_dir else None))
+                            args.history_dir / f"{cid}-history.json" if args.history_dir else None,
+                            next(iter(sorted(args.roll_dir.glob(f"{cid}-roll-*.json"))), None) if args.roll_dir else None))
     html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
         "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
     args.html_out.write_text(html, encoding="utf-8")

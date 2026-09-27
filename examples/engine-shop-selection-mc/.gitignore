@@ -18,3 +18,5 @@ deltas.md
 whatif.html
 annual.html
 track.html
+data/*/fleet_next.json
+data/*/shops_next.json

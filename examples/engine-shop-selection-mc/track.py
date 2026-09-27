@@ -218,6 +218,11 @@ def status(args) -> int:
     lik_idx = {w: rows_to_indices(base_rows, option_index(lik_sc[w])) for w in WORLDS}
     ev_idx = {w: option_index(eval_sc[w]) for w in WORLDS}
     prior = {w: CASES[w][1] for w in WORLDS}
+    wp = json.loads(Path(args.fleet).read_text(encoding="utf-8")).get("meta", {}).get("world_prior")
+    if wp:  # a rolled version starts from where last year's tracking ended
+        prior = {w: float(wp.get(w, prior[w])) for w in WORLDS}
+        tot = sum(prior.values()); prior = {w: max(0.02, v / tot) for w, v in prior.items()}
+        tot = sum(prior.values()); prior = {w: v / tot for w, v in prior.items()}
     cand_long = {c: (C[c]["summary"] or {}).get("long_spares", 0) for c in C}
 
     # expected cost of each base row in each world (for the spend forecast)
