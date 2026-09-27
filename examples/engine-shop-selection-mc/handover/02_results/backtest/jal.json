@@ -3,6 +3,306 @@
  "engine": {
   "versions": [
    {
+    "version": "2012-10",
+    "planned": 36,
+    "matched": 29,
+    "missed": 7,
+    "unplanned": 9,
+    "timing_mean": 2.1724137931034484,
+    "timing_sd": 1.5771857415212789,
+    "fy": [
+     {
+      "fy": "FY2012",
+      "months": 6,
+      "planned": 12,
+      "actual": 11,
+      "p10": 10,
+      "p90": 15,
+      "inside": true,
+      "planned_spend": 126915,
+      "actual_spend": 93600,
+      "unsched_expected": 2.088,
+      "unsched_actual": 4
+     },
+     {
+      "fy": "FY2013",
+      "months": 12,
+      "planned": 20,
+      "actual": 15,
+      "p10": 18,
+      "p90": 25,
+      "inside": false,
+      "planned_spend": 224288,
+      "actual_spend": 148800,
+      "unsched_expected": 4.176,
+      "unsched_actual": 1
+     },
+     {
+      "fy": "FY2014",
+      "months": 6,
+      "planned": 4,
+      "actual": 13,
+      "p10": 4,
+      "p90": 8,
+      "inside": false,
+      "planned_spend": 39600,
+      "actual_spend": 102500,
+      "unsched_expected": 2.088,
+      "unsched_actual": 5
+     }
+    ]
+   },
+   {
+    "version": "2013-10",
+    "planned": 46,
+    "matched": 38,
+    "missed": 8,
+    "unplanned": 6,
+    "timing_mean": 1.7105263157894737,
+    "timing_sd": 2.9010696279389063,
+    "fy": [
+     {
+      "fy": "FY2013",
+      "months": 6,
+      "planned": 12,
+      "actual": 8,
+      "p10": 10,
+      "p90": 14,
+      "inside": false,
+      "planned_spend": 144183,
+      "actual_spend": 88000,
+      "unsched_expected": 1.8479999999999999,
+      "unsched_actual": 0
+     },
+     {
+      "fy": "FY2014",
+      "months": 12,
+      "planned": 26,
+      "actual": 23,
+      "p10": 22,
+      "p90": 29,
+      "inside": true,
+      "planned_spend": 241572,
+      "actual_spend": 180100,
+      "unsched_expected": 3.6959999999999997,
+      "unsched_actual": 6
+     },
+     {
+      "fy": "FY2015",
+      "months": 6,
+      "planned": 8,
+      "actual": 15,
+      "p10": 7,
+      "p90": 11,
+      "inside": false,
+      "planned_spend": 83621,
+      "actual_spend": 110200,
+      "unsched_expected": 1.8479999999999999,
+      "unsched_actual": 3
+     }
+    ]
+   },
+   {
+    "version": "2014-10",
+    "planned": 42,
+    "matched": 35,
+    "missed": 7,
+    "unplanned": 9,
+    "timing_mean": 1.7714285714285714,
+    "timing_sd": 1.354056641265461,
+    "fy": [
+     {
+      "fy": "FY2014",
+      "months": 6,
+      "planned": 14,
+      "actual": 10,
+      "p10": 11,
+      "p90": 16,
+      "inside": false,
+      "planned_spend": 122030,
+      "actual_spend": 77600,
+      "unsched_expected": 1.944,
+      "unsched_actual": 1
+     },
+     {
+      "fy": "FY2015",
+      "months": 12,
+      "planned": 21,
+      "actual": 28,
+      "p10": 19,
+      "p90": 25,
+      "inside": false,
+      "planned_spend": 190587,
+      "actual_spend": 210300,
+      "unsched_expected": 3.888,
+      "unsched_actual": 8
+     },
+     {
+      "fy": "FY2016",
+      "months": 6,
+      "planned": 7,
+      "actual": 7,
+      "p10": 6,
+      "p90": 10,
+      "inside": true,
+      "planned_spend": 78394,
+      "actual_spend": 46500,
+      "unsched_expected": 1.944,
+      "unsched_actual": 1
+     }
+    ]
+   },
+   {
+    "version": "2015-10",
+    "planned": 31,
+    "matched": 28,
+    "missed": 3,
+    "unplanned": 10,
+    "timing_mean": 1.8928571428571428,
+    "timing_sd": 1.676290243243048,
+    "fy": [
+     {
+      "fy": "FY2015",
+      "months": 6,
+      "planned": 12,
+      "actual": 13,
+      "p10": 10,
+      "p90": 15,
+      "inside": true,
+      "planned_spend": 108864,
+      "actual_spend": 100100,
+      "unsched_expected": 2.208,
+      "unsched_actual": 5
+     },
+     {
+      "fy": "FY2016",
+      "months": 12,
+      "planned": 15,
+      "actual": 16,
+      "p10": 14,
+      "p90": 20,
+      "inside": true,
+      "planned_spend": 139781,
+      "actual_spend": 120000,
+      "unsched_expected": 4.416,
+      "unsched_actual": 3
+     },
+     {
+      "fy": "FY2017",
+      "months": 6,
+      "planned": 4,
+      "actual": 10,
+      "p10": 4,
+      "p90": 8,
+      "inside": false,
+      "planned_spend": 38551,
+      "actual_spend": 60200,
+      "unsched_expected": 2.208,
+      "unsched_actual": 3
+     }
+    ]
+   },
+   {
+    "version": "2016-10",
+    "planned": 33,
+    "matched": 26,
+    "missed": 7,
+    "unplanned": 9,
+    "timing_mean": 2.3461538461538463,
+    "timing_sd": 2.200389960059662,
+    "fy": [
+     {
+      "fy": "FY2016",
+      "months": 6,
+      "planned": 9,
+      "actual": 9,
+      "p10": 8,
+      "p90": 12,
+      "inside": true,
+      "planned_spend": 75887,
+      "actual_spend": 73500,
+      "unsched_expected": 2.16,
+      "unsched_actual": 2
+     },
+     {
+      "fy": "FY2017",
+      "months": 12,
+      "planned": 17,
+      "actual": 16,
+      "p10": 16,
+      "p90": 22,
+      "inside": true,
+      "planned_spend": 175521,
+      "actual_spend": 111900,
+      "unsched_expected": 4.32,
+      "unsched_actual": 4
+     },
+     {
+      "fy": "FY2018",
+      "months": 6,
+      "planned": 7,
+      "actual": 10,
+      "p10": 6,
+      "p90": 10,
+      "inside": true,
+      "planned_spend": 76875,
+      "actual_spend": 74500,
+      "unsched_expected": 2.16,
+      "unsched_actual": 3
+     }
+    ]
+   },
+   {
+    "version": "2017-10",
+    "planned": 39,
+    "matched": 29,
+    "missed": 10,
+    "unplanned": 8,
+    "timing_mean": 2.1724137931034484,
+    "timing_sd": 2.1020345729831957,
+    "fy": [
+     {
+      "fy": "FY2017",
+      "months": 6,
+      "planned": 8,
+      "actual": 6,
+      "p10": 7,
+      "p90": 11,
+      "inside": false,
+      "planned_spend": 82235,
+      "actual_spend": 51700,
+      "unsched_expected": 2.016,
+      "unsched_actual": 1
+     },
+     {
+      "fy": "FY2018",
+      "months": 12,
+      "planned": 22,
+      "actual": 21,
+      "p10": 19,
+      "p90": 26,
+      "inside": true,
+      "planned_spend": 226247,
+      "actual_spend": 160000,
+      "unsched_expected": 4.032,
+      "unsched_actual": 5
+     },
+     {
+      "fy": "FY2019",
+      "months": 6,
+      "planned": 9,
+      "actual": 11,
+      "p10": 7,
+      "p90": 12,
+      "inside": true,
+      "planned_spend": 83874,
+      "actual_spend": 95500,
+      "unsched_expected": 2.016,
+      "unsched_actual": 4
+     }
+    ]
+   },
+   {
     "version": "2018-10",
     "planned": 44,
     "matched": 37,
@@ -116,7 +416,7 @@
       "months": 6,
       "planned": 14,
       "actual": 7,
-      "p10": 11,
+      "p10": 12,
       "p90": 16,
       "inside": false,
       "planned_spend": 137896,
@@ -390,20 +690,20 @@
     ]
    }
   ],
-  "n_versions": 8,
-  "n_fy": 23,
-  "coverage": 0.782608695652174,
-  "volume_ratio": 1.091503267973856,
-  "spend_ratio": 0.8637877954572752,
-  "unsched_ratio": 1.6747052518756698,
+  "n_versions": 14,
+  "n_fy": 41,
+  "coverage": 0.6829268292682927,
+  "volume_ratio": 1.0806754221388368,
+  "spend_ratio": 0.8552463549499194,
+  "unsched_ratio": 1.4618270079435127,
   "timing": {
-   "n": 248,
-   "mean": 1.4919354838709677,
-   "sd": 2.616621706920584,
-   "within_1": 0.4717741935483871,
-   "early": 0.04838709677419355,
-   "late": 0.4798387096774194,
-   "unscheduled_share": 0.056451612903225805,
+   "n": 433,
+   "mean": 1.702078521939954,
+   "sd": 2.413667840961178,
+   "within_1": 0.45265588914549654,
+   "early": 0.03233256351039261,
+   "late": 0.5150115473441108,
+   "unscheduled_share": 0.03695150115473441,
    "hist_bins": [
     -12,
     -11,
@@ -441,24 +741,84 @@
     0,
     1,
     3,
-    2,
+    3,
     1,
     2,
-    63,
-    52,
+    103,
+    91,
+    71,
+    73,
     38,
-    38,
-    22,
-    12,
-    6,
-    1,
+    26,
+    10,
     2,
+    3,
     0,
     0,
     0
    ]
   },
   "stability": [
+   {
+    "from": "2012-10",
+    "to": "2013-10",
+    "same": 2,
+    "moved": 6,
+    "moved_far": 5,
+    "dropped": 1,
+    "added": 9,
+    "kept_share": 0.14285714285714285
+   },
+   {
+    "from": "2013-10",
+    "to": "2014-10",
+    "same": 8,
+    "moved": 6,
+    "moved_far": 6,
+    "dropped": 4,
+    "added": 6,
+    "kept_share": 0.3333333333333333
+   },
+   {
+    "from": "2014-10",
+    "to": "2015-10",
+    "same": 3,
+    "moved": 6,
+    "moved_far": 6,
+    "dropped": 1,
+    "added": 5,
+    "kept_share": 0.1875
+   },
+   {
+    "from": "2015-10",
+    "to": "2016-10",
+    "same": 4,
+    "moved": 3,
+    "moved_far": 3,
+    "dropped": 1,
+    "added": 9,
+    "kept_share": 0.36363636363636365
+   },
+   {
+    "from": "2016-10",
+    "to": "2017-10",
+    "same": 2,
+    "moved": 7,
+    "moved_far": 2,
+    "dropped": 3,
+    "added": 6,
+    "kept_share": 0.14285714285714285
+   },
+   {
+    "from": "2017-10",
+    "to": "2018-10",
+    "same": 9,
+    "moved": 2,
+    "moved_far": 7,
+    "dropped": 4,
+    "added": 5,
+    "kept_share": 0.4090909090909091
+   },
    {
     "from": "2018-10",
     "to": "2019-10",
@@ -542,26 +902,126 @@
   ],
   "verdict": [
    {
-    "status": "ok",
-    "text": "リスクの幅（10〜90%）に実績が入った年度 78%（18/23、目標 80%）"
+    "status": "warn",
+    "text": "リスクの幅（10〜90%）に実績が入った年度 68%（28/41、目標 80%）：幅が狭い（前提の分散を広げる）"
    },
    {
     "status": "warn",
-    "text": "期限の予測誤差 平均 +1.5 か月、±1 か月以内 47%、早すぎ 5%・遅すぎ 48%（n=248）：期限が実際より早い（保守的）。窓の下端を後ろへ"
+    "text": "期限の予測誤差 平均 +1.7 か月、±1 か月以内 45%、早すぎ 3%・遅すぎ 52%（n=433）：期限が実際より早い（保守的）。窓の下端を後ろへ"
    },
    {
     "status": "ok",
-    "text": "入場の件数 実績 ÷ 計画 1.09、費用 0.86"
+    "text": "入場の件数 実績 ÷ 計画 1.08、費用 0.86"
    },
    {
     "status": "warn",
-    "text": "計画外取卸し 実績 ÷ 想定 1.67"
+    "text": "計画外取卸し 実績 ÷ 想定 1.46"
    },
    {
     "status": "info",
-    "text": "前の版の 2 年目が次の版の 1 年目にそのまま残った割合 平均 28%（版の安定性）"
+    "text": "前の版の 2 年目が次の版の 1 年目にそのまま残った割合 平均 27%（版の安定性）"
    }
   ],
+  "split": {
+   "learn_backs": [
+    14,
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    7,
+    6
+   ],
+   "test_backs": [
+    5,
+    4,
+    3,
+    2,
+    1
+   ],
+   "learn_versions": [
+    "2012-10",
+    "2013-10",
+    "2014-10",
+    "2015-10",
+    "2016-10",
+    "2017-10",
+    "2018-10",
+    "2019-10",
+    "2020-10"
+   ],
+   "test_versions": [
+    "2021-10",
+    "2022-10",
+    "2023-10",
+    "2024-10",
+    "2025-10"
+   ],
+   "corrections": {
+    "timing_shift": 2,
+    "unsched_ratio": 1.54,
+    "p_keep": 0.806,
+    "how": {
+     "timing_shift": "学ぶ期間の予測誤差（実際 − 予測）の平均を、期限の予測に足す（か月、整数）",
+     "unsched_ratio": "学ぶ期間の計画外取卸し 実績 ÷ 想定 を、想定率に掛ける",
+     "p_keep": "学ぶ期間で、計画した入場がその年度に実際に起きた割合（幅の計算の二項確率。既定 0.85）"
+    }
+   },
+   "learn": {
+    "versions": 9,
+    "n_fy": 27,
+    "coverage": 0.5555555555555556,
+    "timing_mean": 1.8088737201365188,
+    "timing_within_1": 0.4334470989761092,
+    "n_timing": 293,
+    "volume_ratio": 1.1179775280898876,
+    "predicted_ratio": 1.0621944189422894,
+    "unsched_ratio": 1.5396138482023964
+   },
+   "test_raw": {
+    "versions": 5,
+    "n_fy": 14,
+    "coverage": 0.9285714285714286,
+    "timing_mean": 1.4785714285714286,
+    "timing_within_1": 0.4928571428571429,
+    "n_timing": 140,
+    "volume_ratio": 1.0056497175141244,
+    "predicted_ratio": 0.951251055461143,
+    "unsched_ratio": 1.3089005235602094
+   },
+   "test_corrected": {
+    "versions": 5,
+    "n_fy": 14,
+    "coverage": 0.9285714285714286,
+    "timing_mean": -0.5214285714285715,
+    "timing_within_1": 0.4785714285714286,
+    "n_timing": 140,
+    "volume_ratio": 1.0056497175141244,
+    "predicted_ratio": 0.8938575315632142,
+    "unsched_ratio": 0.8499354049092268
+   },
+   "verdict": [
+    {
+     "status": "ok",
+     "text": "期限の誤差 平均 +1.5 → -0.5 か月、±1 か月以内 49% → 48%"
+    },
+    {
+     "status": "warn",
+     "text": "幅に入った年度 93% → 93%（目標 80%）"
+    },
+    {
+     "status": "warn",
+     "text": "年度の件数 実績 ÷ 予測 0.95 → 0.89"
+    }
+   ],
+   "summary": {
+    "better": 1,
+    "of": 3,
+    "text": "学ぶ期間（2012-10〜2020-10 版）で導いた補正を、確かめる期間（2021-10〜2025-10 版）に当てると 3 指標中 1 が改善：改善しない指標の補正は過学習の疑い、使う期間には持ち込まない"
+   }
+  },
   "note": "真実は同じ 20 年シミュレーションの続き（合成）。各版はその時点までの履歴だけから同じ方法で作り、その後の 12〜24 か月と突き合わせる"
  },
  "demand": {

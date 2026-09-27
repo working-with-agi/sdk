@@ -86,7 +86,7 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
     if backtest:
         F["backtest"] = {"n_versions": backtest["engine"]["n_versions"], "n_fy": backtest["engine"]["n_fy"], "coverage": backtest["engine"]["coverage"],
                          "timing_mean": backtest["engine"]["timing"]["mean"], "unsched_ratio": backtest["engine"]["unsched_ratio"],
-                         "verdict": backtest["engine"]["verdict"] + backtest["demand"]["verdict"]}
+                         "verdict": backtest["engine"]["verdict"] + backtest["demand"]["verdict"], "split": backtest["engine"].get("split")}
     if plan_from_demand:
         d = plan_from_demand["derived"]
         F["demand_growth"] = {"short": d["demand_growth_per_year"], "long": d["demand_growth_long_run"], "review": d["review"], "utilisation": d["utilisation_multiplier"]}
@@ -245,6 +245,10 @@ def symptoms(F: dict) -> list[dict]:
             add("PDCA", "Act", "ok", f"前提 {FW['n']} 件はすべて周期内、引き金なし", "assumptions_review.json", "")
     BT = F.get("backtest")
     if BT:
+        sp = BT.get("split")
+        if sp:
+            add("PDCA", "Check", "ok" if sp["summary"]["better"] == sp["summary"]["of"] else "warn", "学ぶ・確かめる：" + sp["summary"]["text"],
+                "、".join(v["text"] for v in sp["verdict"]), "改善した補正だけを次の版の決め方に持ち込む（期限のずらし・計画外の率・幅）")
         for v in BT["verdict"]:
             add("PDCA", "Check", v["status"] if v["status"] in ("ok", "warn", "info") else "info", "過去で検証：" + v["text"], f"{BT['n_versions']} 版・{BT['n_fy']} 年度のバックテスト", "" if v["status"] == "ok" else "決め方（幅・窓の下端・計画外の率）を次の版で直す")
     H = F.get("history")

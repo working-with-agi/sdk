@@ -16,7 +16,13 @@ Two backtests:
                 is applied with only the data then available and compared with what the
                 next year actually did; the early-review trigger is checked too.
 
-  python backtest.py jal --years 8 --out backtest/jal.json
+  python backtest.py jal --out backtest/jal.json
+
+Learn / check / use: the versions at years 6-14 of the history are the learning period
+(the corrections -- timing shift, unscheduled ratio, share of planned visits kept -- are
+derived there), the versions at years 15-19 are the checking period (the raw and the
+corrected method are scored there, out of sample), and from today on the corrected
+method is used only if it scored better.
 """
 from __future__ import annotations
 
@@ -34,9 +40,75 @@ import plan_from_demand as pfd
 HERE = Path(__file__).resolve().parent
 
 
+LEARN_BACKS = tuple(range(14, 5, -1))     # versions at years 6..14 of the 20-year history: learn the corrections here
+TEST_BACKS = tuple(range(5, 0, -1))       # versions at years 15..19: score the corrected method out of sample
+DRAWS = 4000
+
+
+def _metrics(vs: list[dict], corr: dict | None, rng) -> dict:
+    """Score a set of versions, optionally with the learned corrections applied to the
+    forecasts (timing shift), the unscheduled rate (ratio) and the share of planned visits
+    that happen in their fiscal year (p_keep)."""
+    shift = corr["timing_shift"] if corr else 0
+    u = corr["unsched_ratio"] if corr else 1.0
+    pk = corr["p_keep"] if corr else 0.85
+    errs, inside, n_fy, planned, actual, uns_e, uns_a, pred = [], 0, 0, 0, 0, 0.0, 0, 0.0
+    for v in vs:
+        errs += [t["actual"] - (t["forecast"] + shift) for t in v["timing"] if t["actual"] is not None]
+        for f in v["fiscal_years"]:
+            if f["months"] < 6:
+                continue
+            n_fy += 1
+            lam = f["unsched_expected"] * u
+            sims = rng.binomial(f["planned"], pk, DRAWS) + rng.poisson(lam, DRAWS)
+            lo, hi = np.percentile(sims, 10), np.percentile(sims, 90)
+            inside += int(lo <= f["actual"] <= hi)
+            planned += f["planned"]; actual += f["actual"]; uns_e += lam; uns_a += f["unsched_actual"]
+            pred += f["planned"] * pk + lam
+    n = len(errs)
+    return {"versions": len(vs), "n_fy": n_fy, "coverage": inside / max(1, n_fy), "timing_mean": float(np.mean(errs)) if errs else None,
+            "timing_within_1": (sum(1 for e in errs if abs(e) <= 1) / n) if n else None, "n_timing": n,
+            "volume_ratio": actual / max(1, planned), "predicted_ratio": actual / max(1e-9, pred), "unsched_ratio": uns_a / max(1e-9, uns_e)}
+
+
+def learn_corrections(vs: list[dict]) -> dict:
+    errs = [t["actual"] - t["forecast"] for v in vs for t in v["timing"] if t["actual"] is not None]
+    fys = [f for v in vs for f in v["fiscal_years"] if f["months"] >= 6]
+    uns_ratio = sum(f["unsched_actual"] for f in fys) / max(1e-9, sum(f["unsched_expected"] for f in fys))
+    p_keep = sum(f["actual"] - f["unsched_actual"] for f in fys) / max(1, sum(f["planned"] for f in fys))
+    return {"timing_shift": int(round(float(np.mean(errs)))) if errs else 0, "unsched_ratio": round(uns_ratio, 3), "p_keep": round(min(1.0, max(0.3, p_keep)), 3),
+            "how": {"timing_shift": "学ぶ期間の予測誤差（実際 − 予測）の平均を、期限の予測に足す（か月、整数）",
+                    "unsched_ratio": "学ぶ期間の計画外取卸し 実績 ÷ 想定 を、想定率に掛ける",
+                    "p_keep": "学ぶ期間で、計画した入場がその年度に実際に起きた割合（幅の計算の二項確率。既定 0.85）"}}
+
+
+def split_backtest(h: dict, rng) -> dict:
+    """Learn on the early versions, score raw and corrected on the late ones."""
+    by = {v["back"]: v for v in h["versions"] if v["realised_months"] >= 12}
+    learn = [by[b] for b in LEARN_BACKS if b in by]
+    test = [by[b] for b in TEST_BACKS if b in by]
+    corr = learn_corrections(learn)
+    out = {"learn_backs": [v["back"] for v in learn], "test_backs": [v["back"] for v in test], "learn_versions": [v["version"] for v in learn], "test_versions": [v["version"] for v in test],
+           "corrections": corr, "learn": _metrics(learn, None, rng), "test_raw": _metrics(test, None, rng), "test_corrected": _metrics(test, corr, rng)}
+    a, b = out["test_raw"], out["test_corrected"]
+    better = []
+    if a["timing_mean"] is not None:
+        better.append(("timing", abs(b["timing_mean"]) < abs(a["timing_mean"]), f"期限の誤差 平均 {a['timing_mean']:+.1f} → {b['timing_mean']:+.1f} か月、±1 か月以内 {a['timing_within_1']:.0%} → {b['timing_within_1']:.0%}"))
+    better.append(("coverage", abs(b["coverage"] - 0.8) < abs(a["coverage"] - 0.8), f"幅に入った年度 {a['coverage']:.0%} → {b['coverage']:.0%}（目標 80%）"))
+    better.append(("volume", abs(b["predicted_ratio"] - 1) < abs(a["predicted_ratio"] - 1), f"年度の件数 実績 ÷ 予測 {a['predicted_ratio']:.2f} → {b['predicted_ratio']:.2f}"))
+    n_better = sum(1 for _, ok, _ in better if ok)
+    out["verdict"] = [{"status": "ok" if ok else "warn", "text": t} for _, ok, t in better]
+    out["summary"] = {"better": n_better, "of": len(better),
+                      "text": (f"学ぶ期間（{out['learn_versions'][0]}〜{out['learn_versions'][-1]} 版）で導いた補正を、確かめる期間（{out['test_versions'][0]}〜{out['test_versions'][-1]} 版）に当てると "
+                               f"{len(better)} 指標中 {n_better} が改善" + ("：補正は使う期間に持ち込める" if n_better == len(better) else "：改善しない指標の補正は過学習の疑い、使う期間には持ち込まない")) if learn and test else "版が足りない"}
+    return out
+
+
 def engine_backtest(cid: str, years: int, scenarios: int = 30) -> dict:
+    years = max(years, max(LEARN_BACKS))
     history.VERSIONS = tuple(range(years, -1, -1))
     h = history.build(cid, scenarios=scenarios)
+    split = split_backtest(h, np.random.default_rng(7))
     vs = [v for v in h["versions"] if v["realised_months"] >= 12]
     errs, matched, early, late, within1, unsched = [], 0, 0, 0, 0, 0
     per = []
@@ -75,7 +147,7 @@ def engine_backtest(cid: str, years: int, scenarios: int = 30) -> dict:
             "unsched_ratio": uns_ratio, "timing": {"n": matched, "mean": float(np.mean(errs)) if errs else None, "sd": float(np.std(errs)) if errs else None,
                                                    "within_1": within1 / max(1, matched), "early": early / max(1, matched), "late": late / max(1, matched),
                                                    "unscheduled_share": unsched / max(1, matched), "hist_bins": list(range(-12, 13)), "hist": hist},
-            "stability": h["stability"], "verdict": [{"status": s, "text": t} for s, t in verdict],
+            "stability": h["stability"], "verdict": [{"status": s, "text": t} for s, t in verdict], "split": split,
             "note": "真実は同じ 20 年シミュレーションの続き（合成）。各版はその時点までの履歴だけから同じ方法で作り、その後の 12〜24 か月と突き合わせる"}
 
 
@@ -117,7 +189,7 @@ def build(cid: str, years: int, scenarios: int) -> dict:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("company")
-    ap.add_argument("--years", type=int, default=8)
+    ap.add_argument("--years", type=int, default=14, help="how many past October versions (at least the learn period)")
     ap.add_argument("--scenarios", type=int, default=30)
     ap.add_argument("--out", type=Path)
     a = ap.parse_args(argv)
@@ -130,6 +202,10 @@ def main(argv=None) -> int:
           f"unsched x{e['unsched_ratio']:.2f}, timing mean {e['timing']['mean']:+.1f} sd {e['timing']['sd']:.1f} (n={e['timing']['n']}, within ±1: {e['timing']['within_1']:.0%})")
     for v in e["verdict"] + out["demand"]["verdict"]:
         print(f"  [{v['status']}] {v['text']}")
+    sp = e["split"]
+    print(f"  split: corrections {sp['corrections']['timing_shift']:+d} mo, unsched x{sp['corrections']['unsched_ratio']}, p_keep {sp['corrections']['p_keep']} | {sp['summary']['text']}")
+    for v in sp["verdict"]:
+        print(f"    [{v['status']}] {v['text']}")
     return 0
 
 

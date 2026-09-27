@@ -1092,6 +1092,18 @@ const DATA = /*__DATA__*/null;
     [0, Math.round(top / 2), Math.round(top)].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度ごとの計画と実績と幅">${s}</svg>`;
   }
+  function splitPanel(S_) {
+    const c = S_.corrections, f = (v, d = 2) => (v == null ? "—" : Number(v).toFixed(d));
+    const row = (label, k, fmt) => `<tr><td>${label}</td><td>${fmt(S_.learn[k])}</td><td>${fmt(S_.test_raw[k])}</td><td><b>${fmt(S_.test_corrected[k])}</b></td></tr>`;
+    const P = (v) => (v == null ? "—" : (v * 100).toFixed(0) + "%"), M = (v) => (v == null ? "—" : (v >= 0 ? "+" : "") + Number(v).toFixed(1) + " か月");
+    const tbl = `<table><thead><tr><th>指標</th><th>学ぶ期間（補正前）</th><th>確かめる期間（補正前）</th><th>確かめる期間（補正後）</th></tr></thead><tbody>`
+      + row("期限の誤差 平均", "timing_mean", M) + row("±1 か月以内", "timing_within_1", P) + row("幅に入った年度（目標 80%）", "coverage", P) + row("年度の件数 実績 ÷ 予測", "predicted_ratio", (v) => f(v)) + row("計画外 実績 ÷ 想定", "unsched_ratio", (v) => f(v))
+      + `<tr><td class="hint">版</td><td class="hint">${S_.learn_versions[0]}〜${S_.learn_versions.slice(-1)[0]}（${S_.learn.versions}）</td><td class="hint" colspan="2">${S_.test_versions[0]}〜${S_.test_versions.slice(-1)[0]}（${S_.test_raw.versions}）</td></tr></tbody></table>`;
+    const vd = `<ul>${S_.verdict.map((v) => `<li><span style="background:${SEV[v.status]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${esc(v.text)}</li>`).join("")}</ul>`;
+    const ladder = ["ならし 0〜5 年（捨てる）", `学ぶ 6〜14 年（${S_.learn.versions} 版）`, `確かめる 15〜19 年（${S_.test_raw.versions} 版）`, "使う 20 年〜（今日からの計画）"].map((t, i) => `<span style="display:inline-block;padding:4px 10px;border:1px solid var(--rule);border-radius:6px;margin:2px;${i === 1 ? "background:var(--accent-soft)" : i === 2 ? "background:var(--good-soft)" : ""}">${t}</span>${i < 3 ? " → " : ""}`).join("");
+    return panel("学ぶ・確かめる・使う（補正を学んだ区間の外で採点する）", `<p>${ladder}</p><p class="chart-note">${esc(S_.summary.text)}</p><p>学んだ補正：期限を ${c.timing_shift >= 0 ? "+" : ""}${c.timing_shift} か月、計画外の率 ×${c.unsched_ratio}、計画した入場がその年度に起きる割合 ${c.p_keep}</p>` + tbl + vd,
+      "学ぶ期間で導いた補正を、学んでいない確かめる期間の版に当てる。改善した指標の補正だけを、今日からの計画（使う期間）に持ち込む。改善しない補正は過学習の疑い。");
+  }
   function backtest() {
     const B = C().backtest;
     if (!B) return panel("過去で検証", '<p class="hint">backtest.py の結果がありません。</p>');
@@ -1102,6 +1114,7 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">${esc(backtestLine(B))}</p>` + vd(E.verdict) + G("backtestTiming").replace("</div>", "</div>"), esc(E.note))
       + panel("期限の予測誤差（実際 − 予測、か月）", timingHist(E) + legend([["的中（±0）", "var(--good)"], ["実際が早い", "var(--warn)"], ["実際が遅い", "var(--accent)"]]))
       + panel("年度ごとの計画・実際・リスクの幅", fyCalibration(E) + legend([["当時の幅 10〜90%", "var(--muted)"], ["計画", "var(--ink)", 1], ["実際（幅の中）", "var(--good)"], ["実際（幅の外）", "var(--crit)"]]) + G("backtestFy"))
+      + (E.split ? splitPanel(E.split) : "")
       + panel("版ごと", `<div class="scroll"><table><thead><tr><th>版</th><th>計画した機</th><th>突き合わせ</th><th>未取卸し</th><th>計画外</th><th>誤差平均</th><th>年度（計画→実際 [幅]）</th></tr></thead><tbody>${vers}</tbody></table></div>`)
       + panel("需要の伸びの規則を過去に当てる（実データ）", vd(Dd.verdict) + `<div class="scroll"><table><thead><tr><th>年度</th><th>直近の規則</th><th>長期の規則</th><th>計画の混ぜ方</th><th>実績</th><th>誤差（直近）</th><th>誤差（長期）</th><th>引き金</th></tr></thead><tbody>${dem}</tbody></table></div>` + G("backtestDemand"), esc(Dd.note));
   }

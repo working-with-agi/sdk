@@ -23,6 +23,19 @@ class BacktestTest(unittest.TestCase):
             self.assertAlmostEqual(r["realised"], rpk[f"FY{y}"] / rpk[f"FY{y - 1}"] - 1, places=3)
             self.assertAlmostEqual(r["err_short"], r["realised"] - r["short"], places=3)
 
+    def test_split_learns_only_on_learn_versions(self):
+        rng = __import__("numpy").random.default_rng(1)
+        vs = []
+        for back in (14, 10, 6, 5, 3, 1):
+            vs.append({"back": back, "version": f"{2026 - back}-10", "realised_months": 24,
+                       "timing": [{"actual": 5 + (2 if back > 5 else 0), "forecast": 4, "unscheduled": False}],
+                       "fiscal_years": [{"months": 12, "planned": 10, "actual": 9, "unsched_expected": 1.0, "unsched_actual": 2 if back > 5 else 1}]})
+        out = backtest.split_backtest({"versions": vs}, rng)
+        self.assertEqual(out["learn_backs"], [14, 10, 6]); self.assertEqual(out["test_backs"], [5, 3, 1])
+        self.assertEqual(out["corrections"]["timing_shift"], 3)          # learned from the learn versions only (error 3 there, 1 in test)
+        self.assertAlmostEqual(out["corrections"]["unsched_ratio"], 2.0)
+        self.assertAlmostEqual(out["test_corrected"]["timing_mean"], 1 - 3)
+
     def test_engine_backtest_shape(self):
         e = backtest.engine_backtest("jal", years=2, scenarios=10)
         self.assertGreaterEqual(e["n_versions"], 1)
