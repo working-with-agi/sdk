@@ -1,0 +1,118 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>概念設計：分析ストラテジーを選ぶ・束ねる（文献つき）</title><style>body{margin:0;background:#f6f4ee;color:#141413;font-family:'IBM Plex Sans JP',system-ui,sans-serif;line-height:1.7}main{max-width:880px;margin:0 auto;padding:40px 24px 80px}h1{font-size:28px}h2{font-size:20px;margin-top:36px;border-bottom:1px solid #cfcbc0;padding-bottom:6px}h3{font-size:16px;margin-top:24px}table{border-collapse:collapse;font-size:13px;margin:8px 0}th,td{border:1px solid #cfcbc0;padding:4px 8px;text-align:left}pre{background:#ffffff;border:1px solid #cfcbc0;padding:12px;overflow-x:auto;font-size:12px}code{background:#efece4;padding:0 4px}blockquote{border-left:3px solid #1f3d63;margin:8px 0;padding:4px 12px;color:#5b5a55}a{color:#1f3d63}.top{font-size:12px;color:#5b5a55}</style></head><body><main><p class="top"><a href="index.html">← ダッシュボード</a></p><h1>概念設計：分析ストラテジーを選べるようにする</h1>
+<h2>一言で</h2>
+<p><b>ストラテジー＝「新しい情報をどう重みづけるか」の設定を、名前つきで一束にしたもの。</b> 計算の中身は変えず、4 つのつまみだけを束ねて差し替える。</p>
+<h2>ストラテジー（4 つ）</h2>
+<table><thead><tr><th>名前</th><th>考え方</th><th>つまみの値</th></tr></thead><tbody>
+<tr><td>平均（既定）</td><td>全期間を等しく見る。レジームは一つ</td><td>忘却なし、K 大きめ、変化点で切らない、伸びは長期</td></tr>
+<tr><td>新しさ優先</td><td>直近を重く、古い月を薄める</td><td>忘却の半減期 6〜12 か月、K 小さめ、伸びは直近</td></tr>
+<tr><td>クラスタ</td><td>段が変わったら切り替える</td><td>変化点で n をリセット、世界を足す、古い世界に下限</td></tr>
+<tr><td>混成（推奨）</td><td>平均を既定に、ゆっくり忘れ、検知で切る</td><td>半減期 12 か月、K 中、変化点で切る、伸びは地平で混ぜる</td></tr>
+</tbody></table>
+<h2>つまみ（4 つ）と差し込み口（3 か所）</h2>
+<table><thead><tr><th>つまみ</th><th>何を決めるか</th><th>差し込み口</th></tr></thead><tbody>
+<tr><td>忘却 λ（半減期）</td><td>世界の確率で、古い月をどれだけ薄めるか</td><td>追跡（<code>track.py</code>）</td></tr>
+<tr><td>K（事前の重さ）</td><td>実績 n 件で前提をどれだけ動かすか n/(n+K)</td><td>次の版への学習（<code>roll.py</code>）</td></tr>
+<tr><td>変化点で切るか</td><td>検知後に古い実績を捨てる／世界を足す／古い世界の下限</td><td>追跡・学習（<code>cpd.py</code> の結果を使う）</td></tr>
+<tr><td>伸びの混ぜ方</td><td>直近か長期か、地平でどう混ぜるか</td><td>需要の前提（<code>plan_from_demand.py</code>）</td></tr>
+</tbody></table>
+<p>ストラテジーは <code>data/strategies.json</code> に置く。各モジュールは <code>--strategy &lt;名前&gt;</code> で受け取り、つまみを読むだけ。</p>
+<h2>選び方（人が選ぶ・採点が助ける）</h2>
+<pre>
+ストラテジー 4 つ ──→ 過去で検証（学ぶ 5 版／確かめる 5 版）──→ 採点表 ──→ 人が 1 つ選ぶ ──→ 年次の版で使う
+                                                               （被覆率・入場時期のずれ・需要の誤差）
+</pre>
+<ul>
+<li>採点は年 1 回（バックテスト）。表で見て人が選ぶ。自動では切り替えない。</li>
+<li>選んだ名前は版に記録され、レポートの表紙と「前提と出典」に出る。</li>
+<li>月次では変えない。変えるのは年次の版か、変化点が出て「クラスタ」に切り替える判断をしたとき。</li>
+</ul>
+<h2>画面</h2>
+<ul>
+<li>対話版レポート「過去で検証」に <b>採点表（4 行）</b> と、今の版が使うストラテジーの印。</li>
+<li>A4 版 付録 B の末尾に同じ表。</li>
+<li>ダッシュボードの見出しに「ストラテジー：混成」。</li>
+</ul>
+<h2>やらないこと</h2>
+<ul>
+<li>つまみを個別に細かく動かす UI は作らない（4 つの名前から選ぶだけ）。</li>
+<li>自動で最良を選ぶ仕組みは入れない（採点はするが、選ぶのは人）。</li>
+</ul>
+<h2>アンサンブル（複数ストラテジーをまとめて使う）</h2>
+<p>1 つを選ぶだけでなく、4 つを同時に走らせて束ねる。使い方は 3 つ。</p>
+<table><thead><tr><th>使い方</th><th>何をするか</th><th>出るもの</th><th>根拠</th></tr></thead><tbody>
+<tr><td>① 等重み平均</td><td>4 つの世界の確率・補正・伸びを等しく平均する</td><td>1 本の「束ねた前提」</td><td>予測結合のパズル：重みを推定するより等重みが堅い</td></tr>
+<tr><td>② 採点重み</td><td>過去での検証の点数で重みを付けて平均する</td><td>点の高いものに寄せた前提</td><td>動的モデル平均（DMA）。重みは年 1 回だけ更新</td></tr>
+<tr><td>③ ばらつきを信号に</td><td>4 つの答えの幅（世界の確率の差、入場時期の差、必要エンジン数の差）を測る</td><td>「今はレジームが定まらない」の警報</td><td>幅が広い＝どの型でも説明できない。見直しの引き金にする</td></tr>
+</tbody></table>
+<p>決め方への使い方：<b>打ち手は「どのストラテジーでも悪くない手」を選ぶ（後悔最小）。</b> 4 つで解いた結果を並べ、全部で目標（欠航 5%）を満たす手だけを候補にする。</p>
+<pre>
+                 ┌ 平均      ┐
+実績 ──→ 4 つを走らせる ┤ 新しさ優先 ├──→ ① 平均 ／ ② 採点重み ──→ 束ねた前提 ──→ 基本計画を解く
+                 │ クラスタ  │
+                 └ 混成      ┘──→ ③ 幅 ──→ 広ければ「見直し」へ（月次会議）
+</pre>
+<p>計算量：追跡と学習は軽い（数十秒 × 4）。基本計画を 4 回解くのは約 4 分 × 4。年次の版なら許容、月次は追跡と学習だけを 4 本回す。</p>
+<p>画面：「過去で検証」に 4 行の採点表と、③ の幅を 1 本の帯で。レポートの表紙には「束ね方：等重み／採点重み／単独（名前）」を記す。</p>
+<h2>実装の順番（案）</h2>
+<ol>
+<li><code>data/strategies.json</code> と <code>strategy.py</code>（読むだけ）。</li>
+<li><code>--strategy</code> を追跡・学習・需要の前提に差し込む。</li>
+<li>バックテストで 4 つを採点し、採点表を出す。</li>
+<li>アンサンブル：①②③ を <code>ensemble.py</code> に。打ち手の後悔最小は購入の輪に 1 行足すだけ。</li>
+<li>レポート・A4・ダッシュボードに表示。</li>
+</ol>
+<h2>文献：複数の方法を束ねる・選ぶ・ばらつきを使う</h2>
+<p>4 つの系統に分けて整理する。著者・年・掲載誌は確認済み（A）、細部の主張は再確認が要る（B）。</p>
+<h3>1. 予測の結合（どう平均するか）</h3>
+<table><thead><tr><th>方法</th><th>要点</th><th>文献</th><th>この設計での位置</th></tr></thead><tbody>
+<tr><td>等重み平均</td><td>重みを推定するほど誤差が増えるので、等重みが堅い（予測結合のパズル）</td><td>Bates &amp; Granger (1969)；Timmermann (2006, *Handbook of Economic Forecasting*)；Smith &amp; Wallis (2009)；Claeskens ほか (2016, *Int. J. Forecasting*)</td><td>① 等重み平均</td></tr>
+<tr><td>ベイズモデル平均（BMA）</td><td>事後確率で重みづけ。真のモデルが候補にある（M-closed）前提で最良</td><td>Hoeting, Madigan, Raftery &amp; Volinsky (1999, *Statistical Science*)</td><td>世界の確率（今の追跡）</td></tr>
+<tr><td>動的モデル平均（DMA／DMS）</td><td>正しいモデルが時間で変わることを忘却で表す。重みが動く</td><td>Raftery, Kárný &amp; Ettler (2010, *Technometrics*)；Koop &amp; Korobilis (2012, *Int. Economic Review*)</td><td>② 採点重み（年 1 回更新の簡略版）</td></tr>
+<tr><td>スタッキング（ベイズ版）</td><td>モデルが全部間違っている（M-open）前提で、予測分布の重みを交差検証で決める。BMA が一つに寄りすぎる欠点を直す</td><td>Wolpert (1992)；Breiman (1996)；Yao, Vehtari, Simpson &amp; Gelman (2018, *Bayesian Analysis* 13(3))</td><td>② の重みを「過去での検証」で決める根拠</td></tr>
+<tr><td>ベイズ予測合成（BPS）</td><td>複数の予測分布を、意思決定者のモデルで合成し、偏りも同時に補正する</td><td>McAlinn &amp; West (2019, *J. Econometrics* 210)；McAlinn ほか (2020, *JASA*)</td><td>将来：世界の確率と補正を一体で合成する形</td></tr>
+<tr><td>専門家助言のオンライン学習</td><td>指数重み（Hedge）で専門家を束ね、最良の専門家との差（後悔）に上界がある</td><td>Freund &amp; Schapire (1997)；Cesa-Bianchi &amp; Lugosi (2006, *Prediction, Learning, and Games*)</td><td>月次で重みを動かすならこの理論</td></tr>
+</tbody></table>
+<h3>2. ドリフト下のアンサンブル（段が変わるとき）</h3>
+<table><thead><tr><th>方法</th><th>要点</th><th>文献</th><th>この設計での位置</th></tr></thead><tbody>
+<tr><td>動的重みづけ多数決（DWM）</td><td>成績で専門家の重みを下げ、悪ければ外し、全体が悪ければ新しい専門家を足す</td><td>Kolter &amp; Maloof (2007, *JMLR* 8)</td><td>クラスタ：世界を足す・外す規則</td></tr>
+<tr><td>ストリーミング・アンサンブル、Learn++.NSE</td><td>時間の窓ごとに学習器を作り、直近の成績で重みづけ</td><td>Street &amp; Kim (2001, SEA)；Elwell &amp; Polikar (2011, Learn++.NSE)</td><td>新しさ優先の派生</td></tr>
+<tr><td>概念ドリフト適応の総覧</td><td>窓型・検知型・アンサンブル型に整理。検知型は変化点で古い分を捨てる</td><td>Gama ほか (2014, *ACM Computing Surveys* 46(4))；Bifet &amp; Gavaldà (2007, ADWIN)</td><td>変化点で切る（cpd.py）</td></tr>
+</tbody></table>
+<h3>3. ばらつきを不確実性の信号に使う</h3>
+<table><thead><tr><th>方法</th><th>要点</th><th>文献</th><th>この設計での位置</th></tr></thead><tbody>
+<tr><td>アンサンブル予報の spread–skill</td><td>気象のアンサンブルでは、メンバーの散らばりが予報誤差の目安になる（関係は完全ではない）</td><td>Leutbecher &amp; Palmer (2008, *J. Computational Physics*)；Whitaker &amp; Loughe (1998)</td><td>③ 幅を警報に</td></tr>
+<tr><td>予測者の不一致 ＝ 不確実性の代理</td><td>経済予測では、予測者間のばらつきを不確実性の指標に使う。不一致と不確実性は同じではない、という注意も</td><td>Lahiri &amp; Sheng (2010, *J. Applied Econometrics*)；Zarnowitz &amp; Lambros (1987)</td><td>③ の限界（幅が狭くても外すことはある）</td></tr>
+</tbody></table>
+<h3>4. 不確実性の下での意思決定（どの手を選ぶか）</h3>
+<table><thead><tr><th>方法</th><th>要点</th><th>文献</th><th>この設計での位置</th></tr></thead><tbody>
+<tr><td>後悔最小（minimax regret）</td><td>各状態での最良との差の最大を最小にする</td><td>Savage (1951)；Loulou &amp; Kanudia (1999, エネルギー計画への適用)</td><td>打ち手の候補を「どのストラテジーでも悪くない」で絞る</td></tr>
+<tr><td>頑健な意思決定（RDM）・深い不確実性</td><td>予測を当てるのでなく、多数の未来で「壊れにくい」戦略を探す。壊れる条件をシナリオ発見で見つける</td><td>Lempert, Popper &amp; Bankes (2003, RAND MR-1626)；Marchau ほか編 (2019, *Decision Making under Deep Uncertainty*)</td><td>4 ストラテジー × 世界 5 で壊れる条件を見つける</td></tr>
+<tr><td>分布に頑健な最適化（DRO）</td><td>確率分布そのものが不確かなとき、分布の集合の最悪で最適化</td><td>Delage &amp; Ye (2010, *Operations Research*)；Ben-Tal ほか (2013)</td><td>将来：世界の確率の幅を制約に入れる</td></tr>
+<tr><td>実物オプション・適応経路</td><td>決めるのを遅らせる価値、条件で切り替える経路</td><td>Dixit &amp; Pindyck (1994)；Haasnoot ほか (2013, 適応経路)</td><td>投資（invest.py）と第二工場の選択権</td></tr>
+</tbody></table>
+<h3>この設計への当てはめ（短く）</h3>
+<ul>
+<li>① 等重み平均：予測結合のパズルが根拠。既定にする。</li>
+<li>② 採点重み：DMA の考えを年 1 回の更新に簡略化。重みの決め方はスタッキング（過去での検証の点数）。</li>
+<li>③ 幅を信号に：spread–skill と予測者不一致。幅が広い月は見直しへ。ただし「幅が狭い＝安全」ではない。</li>
+<li>打ち手：後悔最小と RDM。4 ストラテジー × 世界 5 で壊れない手を候補にし、壊れる条件（シナリオ発見）を版に書く。</li>
+<li>月次で重みを動かすなら指数重み（Hedge）の理論に乗る。ただし本設計では年 1 回に留める（推定誤差を避ける）。</li>
+</ul>
+<h2>MRO に限った文献（エンジンの入場計画・予備・工場）</h2>
+<p>ウェブ検索で当たった範囲（系統的な文献調査ではない。A＝掲載誌と要旨を確認、B＝記憶による、要再確認）。</p>
+<table><thead><tr><th>系統</th><th>文献</th><th>要点</th><th>この設計との距離</th></tr></thead><tbody>
+<tr><td>機隊のエンジン整備計画（確率計画）</td><td>Approximate dynamic programming（SDDP）による機隊エンジン整備問題、*European Journal of Operational Research* (2024)、中国南方航空の事例（A）</td><td>翼上のエンジンを足りるように保ちながら入場を組む多段の確率整数計画。不確実性は内生的（決定が不確実性を変える）</td><td>いちばん近い。本設計の「内側（MILP＋MC）」に相当。ストラテジーの束ね方は扱っていない</td></tr>
+<tr><td>入場時期の最適化（信頼性）</td><td>比例ハザードモデルによるエンジン入場の最適化、*J. Aerospace Information Systems*（A）</td><td>監視データで残り寿命を推定し、JIT の考えで入場時期を決める</td><td>1 基ごとの入場時期。本設計の「窓」と「劣化率」の前提に相当</td></tr>
+<tr><td>予知保全と入場計画の統合</td><td>Mitici, de Pater ほか、*Reliability Engineering &amp; System Safety* (2023 頃)：データ駆動の確率的 RUL 予測を使う多部品の動的整備計画（ターボファン）（B）</td><td>RUL の分布を入場計画に流し込む。予測の不確実性を計画に持ち込む形</td><td>詳細計画（月次）の「状態監視 → 追跡」に相当</td></tr>
+<tr><td>RUL のアンサンブル</td><td>C-MAPSS でのスタッキング（LSTM・CNN 等を XGBoost で束ねる、arXiv 2026）、解釈可能なアンサンブル RUL と動的整備スケジューリング（*Scientific Reports* 2025）（A）</td><td>複数モデルの束ねで RUL の誤差を 10〜20% 下げ、それをスケジューリングにつなぐ</td><td>アンサンブルは「部品の寿命予測」の層で使われている。本設計は「機隊の計画の前提」の層で束ねる。層が違う</td></tr>
+<tr><td>予備部品・予備エンジンの在庫</td><td>METRIC／VARI-METRIC（Sherbrooke 1968、1986）（A）；修理部品と整備の統合在庫モデルの総覧（*IMA J. Management Mathematics* 2024）（A）；航空の予備部品の在庫制御（負の二項分布が最良、*Procedia* 2021）（A）</td><td>修理可能部品の在庫と充足率。需要分布の当てはめ</td><td>予備エンジンの数（spares）と購入の輪の「予備」に相当</td></tr>
+<tr><td>機材計画（需要の確率）</td><td>ポートフォリオ型の機材計画（*Omega* 2019 頃）（B）</td><td>需要の不確実性の下で機材の組み合わせを選ぶ</td><td>上の層（需要 → 機材 → 必要エンジン数）</td></tr>
+<tr><td>容量計画（工場）</td><td>Robust capacity planning under uncertainty（*Management Science* 1991）（A）</td><td>需要不確実性下の容量投資</td><td>国内工場の新設・段階投資（invest）</td></tr>
+</tbody></table>
+<h3>見えたこと</h3>
+<ol>
+<li><b>機隊レベルの入場計画は確率計画（SDDP など）で扱われている。</b> 本設計の内側と同じ問題。ただし「前提の重みづけをどう選ぶか」「複数の分析ストラテジーを束ねる」は扱われていない。</li>
+<li><b>アンサンブルは RUL（部品の寿命予測）の層に集中している。</b> 機隊計画の層で、忘却・平均・クラスタといった「学習の型」を束ねる論文は、当たった範囲では見当たらない。</li>
+<li><b>予備エンジンは在庫理論（METRIC 系）で、工場は容量計画で、別々に論じられている。</b> 購入の輪のように、入場計画・予備・工場の約束・中古市場を一つの輪で回す形は実務寄りで、論文としては薄い。</li>
+<li>よって本設計の「分析ストラテジーの束ね」は、<b>RUL のアンサンブル（部品層）と確率計画（機隊層）の間を埋める位置</b>にある。主張するなら、ここを新規性として書ける。系統的な調査（Scopus・Google Scholar で &quot;engine shop visit planning&quot; &quot;model averaging&quot; &quot;regime&quot; の組み合わせ）は別途要る。</li>
+</ol></main></body></html>

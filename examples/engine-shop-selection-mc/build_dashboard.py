@@ -39,8 +39,9 @@ LOOPS = [
         ("structure", "計画の構造（基本計画と詳細計画・輪と段階）", "report"), ("loops", "PDCA と OODA（二つの輪）", "report"),
         ("a4", "A4 版レポート（印刷用、付録つき）", "a4")]),
 ]
-FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）")]
+FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）"), ("strategy_stack.html", "図：あるべき分析ストラテジー（層と束ね方、文献の位置）")]
 DOCS = [("story.html", "ストーリー：需要から検証まで", "handover/04_docs/story_需要から検証まで.md"),
+        ("design_strategy.html", "概念設計：分析ストラテジーを選ぶ・束ねる（文献つき）", "handover/04_docs/design_分析ストラテジー.md"),
         ("appendix.html", "付録：思考の枠組み・新しい情報の重みづけ・シミュレーションの範囲", "handover/04_docs/appendix_思考の枠組み.md"),
         ("requirements.html", "要件と対応の記録（#1〜）", "REQUIREMENTS.md"),
         ("readme.html", "モデルの説明（README）", "README.md"),
@@ -261,7 +262,7 @@ def main(argv=None) -> int:
             if p.exists():
                 (a.docs_out / f).write_text(md_to_html(p.read_text(encoding="utf-8"), t), encoding="utf-8"); n += 1
         import figures
-        for (f, t), (k, svg) in zip(FIGS, figures.svgs().items()):
+        for (f, t), (k, svg) in zip(FIGS, {**figures.svgs(), **figures.extra_svgs()}.items()):
             (a.docs_out / f).write_text(figures.page(svg, t), encoding="utf-8"); n += 1
     print(f"dashboard -> {a.html_out} ({a.html_out.stat().st_size // 1024} KB), {n} document pages")
     return 0

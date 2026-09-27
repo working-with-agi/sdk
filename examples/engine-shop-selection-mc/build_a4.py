@@ -248,7 +248,10 @@ def appendix_md() -> str:
         h = bd.md_to_html("## " + t, "")
         h = h.split("<main>")[1].split("</main>")[0]
         return h.replace('<p class="top"><a href="index.html">← ダッシュボード</a></p>', "", 1).replace("<h2>", "<h2>付録 ", 1).replace("<h3>", "<h3>", 1)
-    return inner("B. " + b) + inner("C. " + c)
+    figb = '<figure style="margin:6pt 0"><div style="border:1px solid #d3dbe3;border-radius:6px;background:#fbfbfd">' + figures.strategy_stack() + '</div><figcaption class="cap">図 B-1　あるべき分析ストラテジー：層ごとの方法と束ね方（文献の位置つき）。深紅の枠＝新しく足す層、太い深紅の矢印＝推奨する経路。</figcaption></figure>'
+    hb = inner("B. " + b)
+    k = hb.find("<h3>")  # the figure goes right after the section's opening paragraph, before B-1
+    return (hb[:k] + figb + hb[k:] if k > 0 else hb + figb) + inner("C. " + c)
 
 
 def appendix_e() -> str:
