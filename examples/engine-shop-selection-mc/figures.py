@@ -520,10 +520,10 @@ def svgs() -> dict[str, str]:
 def overview_hero() -> str:
     """The title, drawn: one line from the flight plan to the decision, five boxes."""
     W, Hh = 1400, 200
-    steps = [("航空計画", "便数から\n必要エンジン数", "#d1fae5", "#047857"), ("現場のデータ", "センサーと実績で\n前提を更新", "#d1fae5", "#047857"),
+    steps = [("航空需要", "市場と各社の\n乗客の伸び", "#d1fae5", "#047857"), ("航空計画", "便数から\n必要エンジン数", "#d1fae5", "#047857"), ("現場のデータ", "センサーと実績で\n前提を更新", "#d1fae5", "#047857"),
              ("整備計画", "最適化と\nシミュレーション", "#e0e7ff", "#4338ca"), ("MRO と調達", "工場の枠・部品・\n契約で裏づけ", "#e0e7ff", "#4338ca"),
              ("意思決定", "年度計画・購入計画・\n見直しの合図", "#fef3c7", "#b45309")]
-    n = len(steps); bw, bh = 220, 110; gap = (W - 40 - n * bw) / (n - 1); y = 14
+    n = len(steps); bw, bh = 196, 110; gap = (W - 40 - n * bw) / (n - 1); y = 14
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
          f'<defs><marker id="hh" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 z" fill="{LOOP}"/></marker></defs>',
          f'<line class="flow red" x1="{20 + bw}" y1="{y + bh / 2}" x2="{20 + (n - 1) * (bw + gap)}" y2="{y + bh / 2}" stroke="{LOOP}" stroke-width="5" marker-end="url(#hh)"/>',
@@ -532,7 +532,7 @@ def overview_hero() -> str:
         x = 20 + i * (bw + gap)
         o.append(f'<rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="12" fill="{f}" stroke="{st}" stroke-width="2.5"/>')
         o.append(f'<circle cx="{x + 22}" cy="{y + 24}" r="12" fill="{st}"/><text x="{x + 22}" y="{y + 28}" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">{i + 1}</text>')
-        o.append(f'<text x="{x + 42}" y="{y + 29}" font-size="17" font-weight="700" fill="{INK}">{t}</text>')
+        o.append(f'<text x="{x + 40}" y="{y + 29}" font-size="16" font-weight="700" fill="{INK}">{t}</text>')
         for k, l in enumerate(sub.split("\n")): o.append(f'<text x="{x + 16}" y="{y + 58 + k * 20}" font-size="13" fill="{INK}">{l}</text>')
 
     o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">上流の便数が下流の必要量を決め、現場のデータが前提を毎月更新する。計算が計画を作り、人が決める。</text>')
@@ -586,9 +586,9 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 #panel a{{color:{PORT}}} #panel .close{{float:right;font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer}}
 .zoombar{{display:none;padding:6px 20px;font-size:12.5px;color:{MUTE}}} .stage.open .zoombar{{display:block}} .zoombar button{{font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:8px}}
 .note{{padding:10px 20px 24px;font-size:12px;color:{MUTE};max-width:1400px}}</style></head><body>
-<header class="lead"><h1>エンジン整備計画を、航空計画から意思決定まで一本でつなぐ</h1>
-<p class="msg">便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。その流れを、航空計画・エンジン整備計画・MRO と調達・技術・データという 5 つの部門で示した図です。</p>
-<ul class="keys"><li><b>目標は上から下へ。</b>便数が必要エンジン数を決め、エンジン計画はそれに合わせる。</li>
+<header class="lead"><h1>エンジン整備計画を、航空需要から意思決定まで一本でつなぐ</h1>
+<p class="msg">航空需要から便の計画を立て、便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。その流れを、航空計画・エンジン整備計画・MRO と調達・技術・データという 5 つの部門で示した図です。</p>
+<ul class="keys"><li><b>目標は上から下へ。</b>需要が便数を決め、便数が必要エンジン数を決め、エンジン計画はそれに合わせる。</li>
 <li><b>新しいのは技術の行（④）。</b>前提を一つの方法で決めず、4 つの学習手法で並行して学び、結果を統合してから整備計画が解く。前提が外れても壊れにくい計画になる。</li>
 <li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul>
 <div class="hero anim">{overview_hero()}</div></header>
