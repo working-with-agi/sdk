@@ -957,7 +957,7 @@ const DATA = /*__DATA__*/null;
     I.forEach((i, j) => {
       const y = (compact ? 4 : 10) + j * rowH, v = -i.effect_k, w = Math.abs(v) * sc;
       s += `<rect x="${v >= 0 ? x0 : x0 - w}" y="${y}" width="${w}" height="${rowH - 6}" fill="${KIND_COL[i.kind]}" opacity="${i.needs_tax_review ? .45 : .9}"><title>${esc(i.name)}：${(v / 1000).toFixed(1)} 百万ドル</title></rect>`;
-      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + rowH - 12}" text-anchor="end">${esc(i.name)}${i.large_only ? " ★" : ""}</text><text class="tick" x="${v >= 0 ? x0 + w + 6 : x0 - w - 6}" y="${y + rowH - 12}" text-anchor="${v >= 0 ? "start" : "end"}">${(v / 1000).toFixed(1)}</text>`;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + rowH - 12}" text-anchor="end">${esc(i.name)}${i.large_only ? " ★" : ""}</text><text class="tick" x="${v >= 0 ? x0 + w + 6 : x0 + 6}" y="${y + rowH - 12}" text-anchor="start">${(v / 1000).toFixed(1)}</text>`;
     });
     return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="お金の仕組みの効果">${s}</svg>`;
   }
