@@ -361,6 +361,7 @@ const DATA = /*__DATA__*/null;
     const roleBar = `<div class="tabs" role="tablist" aria-label="見方">${Object.entries(ROLES).map(([k, l]) => `<button type="button" role="tab" data-role="${k}" aria-selected="${k === role}">${l}</button>`).join("")}</div>`;
     const rl = roleLine(c);
     return roleBar + `<section class="panel verdict" aria-label="結論">${rl ? `<div class="line"><span class="q">${ROLES[role]}の視点</span><span class="a">${esc(rl)}</span></div>` : ""}${lines}</section>`
+      + panel("エンジンごとの計画ボード", `<p class="chart-note">${c.plan.length} 基の予定（先頭 3 か月に判断が集中）。この板が計画そのもの：ほかの画面はこの板をどう動かすかの判断材料</p>` + gantt(c) + ganttLegend + G("gantt"), "バーにマウスを載せると、工場・費用・判断期限の理由が出ます。")
       + (role === "all" || role === "ops" || role === "plan" || role === "exec" ? panel("この 24 か月の地図", monthMap(c) + legendMap + G("monthmap"), "マスにマウスを載せると数字が出ます。") : "")
       + `<div class="cards">${all.join("")}</div>`;
   }
