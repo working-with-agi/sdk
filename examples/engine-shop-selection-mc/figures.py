@@ -540,7 +540,9 @@ def overview_hero() -> str:
     lx = 20; ly = y + bh + 78
     for kind, c1, c2, lab in items:
         if kind == "box": o.append(f'<rect x="{lx}" y="{ly - 11}" width="16" height="14" rx="3" fill="{c1}" stroke="{c2}" stroke-width="1.5"/>')
-        else: o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 22}" y2="{ly - 4}" stroke="{c1}" stroke-width="{c2}" {"stroke-dasharray=\"7 5\"" if kind == "dash" else ""}/>')
+        else:
+            da = 'stroke-dasharray="7 5"' if kind == "dash" else ""
+            o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 22}" y2="{ly - 4}" stroke="{c1}" stroke-width="{c2}" {da}/>')
         o.append(f'<text x="{lx + 28}" y="{ly}" font-size="12" fill="{INK}">{lab}</text>'); lx += 28 + tw(lab, 12) + 26
     o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">需要が便数を決め、便数が必要エンジン数を決める。現場のデータが前提を毎月更新し、計算が計画を作り、人が決める。</text>')
     o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この流れを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの（① 航空需要と ② 航空計画は行 ①、③ は行 ⑤④、④ は行 ②、⑤ は行 ③、⑥ は右端）。</text>')
