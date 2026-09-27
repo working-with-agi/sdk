@@ -250,6 +250,95 @@ def consortium(cfg: dict, draws: int, seed: int) -> dict:
             "note": "連合の価値＝その連合だけで段階 1〜3 を建てたときの正味現在価値（百万ドル）。取り分がその社単独より大きければ参加が得、0 未満なら海外に出し続けるより損（補助や受託で埋める必要がある）。"}
 
 
+def booking_game(cfg: dict, res: dict) -> dict:
+    """Race for scarce overseas slots, year by year. Each airline books early (pays a
+    premium per visit, gets priority) or waits. Early vs late halves your queue and adds the
+    same to the other's; both early cancel out. Booking early is dominant when the queue
+    months saved are worth more than the premium: gain x queue x lease > premium. Then both
+    book early and both pay the premium for nothing -- a prisoner's dilemma. Solved with and
+    without a domestic shop (fewer visits abroad)."""
+    g = cfg["booking_game"]
+    Y = res["years"]
+    lease = cfg["overseas"]["lease_per_month"]
+    prem = float(np.mean(g["premium_per_sv"]))
+    kappa = float(np.mean(cfg["bargaining"]["domestic_share"]))
+    start_shop = next(st["start_fy"] for st in cfg["stages"] if st["id"] == "shop")
+    threshold = prem / (g["early_gain"] * lease)
+    k = len(g["players"])
+    cur = g.get("current_fleet", {})
+    rows = []
+    for i, y in enumerate(Y):
+        q, sv = res["queue_months"][i], res["own_sv"]["50"][i]
+        race = q > threshold
+        row = {"year": y, "queue": q, "race": race}
+        # today's CFM56 fleet races for the same scarce slots until it retires
+        phase = max(0.0, 1 - (y - Y[0]) / max(1, cur.get("retired_by", Y[0]) - Y[0])) if cur else 0.0
+        row["cfm56"] = sum(prem * cur[p] * phase for p in g["players"] if p in cur) if race else 0.0
+        for key, share in (("without", 1.0), ("with", 1 - kappa if y >= start_shop else 1.0)):
+            n_i = sv / k * share
+            row[key] = k * prem * n_i if race else 0.0   # premiums paid for no relative gain
+        rows.append(row)
+
+    def matrix(q: float, na: float, nb: float) -> list[dict]:
+        def pay(me: bool, other: bool, n_i: float) -> float:
+            qq = q * (1 - g["early_gain"]) if me and not other else q * (1 + g["early_gain"]) if other and not me else q
+            return -(qq * n_i * lease) - (prem * n_i if me else 0.0)
+        return [{"a_early": a, "b_early": b, "a": pay(a, b, na), "b": pay(b, a, nb)} for a in (False, True) for b in (False, True)]
+    # the matrix for today's fleet in the first year (asymmetric: JAL has more visits)
+    peak = rows[0]
+    na, nb = (cur.get(p, 0.0) for p in g["players"])
+    disc = [1 / (1 + cfg["meta"]["discount_rate"]) ** (y - Y[0]) for y in Y]
+    return {"threshold_months": threshold, "premium": prem, "timeline": rows, "peak_year": peak["year"],
+            "matrix": matrix(peak["queue"], na, nb), "players": g["players"],
+            "pv_cfm56": sum(r["cfm56"] * d for r, d in zip(rows, disc)),
+            "pv_without": sum(r["without"] * d for r, d in zip(rows, disc)),
+            "pv_with": sum(r["with"] * d for r, d in zip(rows, disc)),
+            "race_years": [r["year"] for r in rows if r["race"]]}
+
+
+def third_party_market(cfg: dict) -> dict:
+    """Capacity game for third-party LEAP work in the region (Cournot, discrete). Margin per
+    visit falls as total capacity grows; each player pays for the capacity it builds.
+    Simultaneous equilibrium by best response; Japan-first (Stackelberg) by searching
+    Japan's choice against the followers' equilibrium."""
+    mk = cfg["third_party_market"]
+    price = float(np.mean(cfg["engine"]["sv_price"]))
+    D = float(np.mean(mk["regional_demand_sv"]))
+    names = list(mk["players"])
+    ch = mk["choices"]
+
+    def payoff(i: int, q: list[int]) -> float:
+        Q = sum(q)
+        margin = max(0.0, mk["margin_at_zero"] - mk["margin_slope"] * Q / D)
+        sold = q[i] * min(1.0, D / Q) if Q else 0.0
+        return sold * price * margin - q[i] * mk["capacity_cost_per_sv"] * mk["players"][names[i]]["cost"]
+
+    def equilibrium(fixed: dict[int, int]) -> list[int]:
+        q = [fixed.get(i, 40) for i in range(len(names))]
+        for _ in range(200):
+            changed = False
+            for i in range(len(names)):
+                if i in fixed:
+                    continue
+                best = max(ch, key=lambda c: payoff(i, q[:i] + [c] + q[i + 1:]))
+                if best != q[i]:
+                    q[i], changed = best, True
+            if not changed:
+                break
+        return q
+
+    sim = equilibrium({})
+    lead = max(ch, key=lambda c: payoff(0, equilibrium({0: c})))
+    stk = equilibrium({0: lead})
+
+    def describe(q):
+        Q = sum(q)
+        margin = max(0.0, mk["margin_at_zero"] - mk["margin_slope"] * Q / D)
+        return {"capacity": dict(zip(names, q)), "total": Q, "margin": margin,
+                "profit": {n: round(payoff(i, q), 1) for i, n in enumerate(names)}}
+    return {"demand": D, "simultaneous": describe(sim), "japan_first": describe(stk), "players": names}
+
+
 def summarise(res: dict) -> dict:
     P = {p["id"]: p for p in res["policies"]}
     cand = [p for p in res["policies"] if p["id"] != "outsource"]
@@ -272,10 +361,40 @@ def main(argv=None) -> int:
     ap.add_argument("--json-out", type=Path, default=Path("invest.json"))
     args = ap.parse_args(argv)
     cfg = json.loads(args.config.read_text(encoding="utf-8"))
+    # the third-party market is a game: take Japan's volume and margin from its equilibrium
+    mkt = third_party_market(cfg)
+    eqj = mkt["simultaneous"]
+    for st_ in cfg["stages"]:
+        if st_["id"] == "third":
+            v = eqj["capacity"][mkt["players"][0]] * min(1.0, eqj["total"] and mkt["demand"] / eqj["total"])
+            st_["third_party_sv"] = [0.8 * v, 1.2 * v]
+            st_["margin"] = [max(0.0, eqj["margin"] - 0.03), eqj["margin"] + 0.03]
     res = simulate(cfg, args.draws, args.seed)
+    res["market"] = mkt
+    # strategic commitment: if Japan commits first it takes a bigger share of the market,
+    # but committing first gives up the option to wait (the staged policy)
+    first = json.loads(json.dumps(cfg))
+    jf = mkt["japan_first"]
+    for st_ in first["stages"]:
+        if st_["id"] == "third":
+            v = jf["capacity"][mkt["players"][0]] * min(1.0, mkt["demand"] / jf["total"])
+            st_["third_party_sv"] = [0.8 * v, 1.2 * v]
+            st_["margin"] = [max(0.0, jf["margin"] - 0.03), jf["margin"] + 0.03]
+    rf = simulate(first, max(500, args.draws // 2), args.seed)
+    mkt["npv_if_first"] = {p["id"]: p["npv"] for p in rf["policies"]}
+    mkt["npv_simultaneous"] = {p["id"]: p["npv"] for p in res["policies"]}
     res |= summarise(res)
     res["breakeven"] = be = breakeven(cfg, max(500, args.draws // 4), args.seed)
     res["consortium"] = consortium(cfg, max(500, args.draws // 4), args.seed)
+    res["booking"] = booking_game(cfg, res)
+    bk, mk_ = res["booking"], res["market"]
+    race = (f" 海外の枠の取り合いは、入場待ちが {bk['threshold_months']:.1f} か月を超える間（FY{bk['race_years'][0]}〜FY{bk['race_years'][-1]}）だけ"
+            f"囚人のジレンマになる（両社とも割増を払って早めに押さえる）。今の 737-800 のエンジンでは今の価値で {bk['pv_cfm56']:.1f} 百万ドルの割増を互いに払い合う形だが、"
+            f"LEAP の入場が本格化する頃には待ちが縮み、取り合いはほぼ起きない。"
+            if bk["race_years"] else " 海外の枠の取り合いは起きない（待ちが短く、早めに押さえる割増に見合わない）。")
+    res["why"] += race + (f"受託の市場は 3 者が同時に決めると各 {mk_['simultaneous']['capacity'][mk_['players'][0]]} 件で利益率 {mk_['simultaneous']['margin']:.0%}、"
+                          f"日本が先に決めると {mk_['japan_first']['capacity'][mk_['players'][0]]} 件を取れ、段階 1〜3 の価値は "
+                          f"{mk_['npv_simultaneous']['commit123']:+.0f} → {mk_['npv_if_first']['commit123']:+.0f} 百万ドル。")
     con = res["consortium"]
     c12 = next(p for p in res["policies"] if p["id"] == "commit12")
     res["why"] += (f" 国内に能力を持つと海外に残る入場の価格が下がり（交渉）、段階 1・2 で {c12['parts']['bargain']:+.0f} 百万ドル、"

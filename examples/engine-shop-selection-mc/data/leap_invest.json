@@ -197,5 +197,59 @@
    "gap_shift": 0.05
   },
   "source": "B/C: 試運転設備は JAL・ANA・IHI の 3 社（報道）。JAL・ANA は 737-8 確定各 38 機、残りはスカイマーク等（連合の外）。IHI が加わると部品修理の技術と既存設備で費用 5% 減・投資 15% 減・受託の営業力 1.3 倍、いないと費用 5% 増と仮定（公開値なし）"
+ },
+ "booking_game": {
+  "players": [
+   "JAL",
+   "ANA"
+  ],
+  "window": [
+   2031,
+   2036
+  ],
+  "early_gain": 0.5,
+  "premium_per_sv": [
+   0.03,
+   0.08
+  ],
+  "source": "C: 海外工場の枠を割増（予約料・前払い・最低量の約束）で早めに押さえると、自分の待ちが半分に減り、相手の待ちが同じだけ増えると仮定。割増は 1 入場あたり 3〜8 万ドル（公開値なし）",
+  "current_fleet": {
+   "JAL": 20.5,
+   "ANA": 9.9,
+   "retired_by": 2031,
+   "source": "合成データの平年値（JAL グループ・ANA の 737-800、baselines/*-2026-10.json の norms）。737-8 の受領に合わせて 2031 年までに直線で減ると仮定"
+  }
+ },
+ "third_party_market": {
+  "regional_demand_sv": [
+   150,
+   300
+  ],
+  "margin_at_zero": 0.18,
+  "margin_slope": 0.1,
+  "capacity_cost_per_sv": 0.12,
+  "players": {
+   "日本 3 社": {
+    "cost": 1.0
+   },
+   "大韓航空": {
+    "cost": 0.95
+   },
+   "ターキッシュ": {
+    "cost": 0.9
+   }
+  },
+  "choices": [
+   0,
+   20,
+   40,
+   60,
+   80,
+   100,
+   120,
+   140,
+   160
+  ],
+  "source": "A/C: 経産省の資料は外需獲得の競合として大韓航空とターキッシュを挙げる https://www.meti.go.jp/shingikai/sankoshin/seizo_sangyo/kokuki_uchu/pdf/2025_001_03_00.pdf 。地域の受託需要（年 150〜300 件）、利益率が参入量で下がる傾き、各社の費用差は仮定（公開値なし）"
  }
 }

@@ -370,6 +370,8 @@ const DATA = /*__DATA__*/null;
       + `${panel("", `<p class="chart-note">案ごとの損得の幅（正味現在価値、百万ドル）</p>` + npvChart(v), "線は 10〜90% の幅、点は平均。0 より右なら海外に出し続けるより得。")}</div>`
       + `<div class="vgrid">${panel("", `<p class="chart-note">損得の内訳：交渉で下がる海外の価格（ゲーム理論）が、どれだけ効くか</p>` + partsChart(v) + partsLegend, "交渉＝国内に能力を持つことで、海外に残る入場の価格が下がる分（ナッシュ交渉）。足元＝建てた後にメーカーが部品・認可の条件を厳しくする分。")}`
       + `${v.consortium ? panel("", `<p class="chart-note">3 社で組むと：単独よりずっと損が小さく、IHI の技術が価値を生む</p>` + consortiumChart(v.consortium), esc(v.consortium.note)) : ""}</div>`
+      + (v.market ? `<div class="vgrid">${panel("", `<p class="chart-note">受託の取り合い：日本が先に決めると多く取れる（先手の価値）</p>` + marketChart(v.market), `3 者が同時に決めた場合と日本が先に決めた場合の能力（年間の受託件数）。段階 1〜3 の価値は ${Math.round(v.market.npv_simultaneous.commit123)} → ${Math.round(v.market.npv_if_first.commit123)} 百万ドル。先に決めることは「待って様子を見る」選択を捨てることでもある。`)}`
+      + `${v.booking ? panel("", `<p class="chart-note">海外の枠の取り合い：入場待ちが長い間は囚人のジレンマ</p>` + bookingMatrix(v.booking) + bookingTimeline(v.booking), `割増を払って早めに押さえると自分の待ちが減り、相手の待ちが増える。待ちが ${v.booking.threshold_months.toFixed(1)} か月を超える間は、両社とも早めに押さえるのが自分にとって最善（赤枠）だが、両社とも待つほうが両社とも得（緑の点線）。今の 737-800 のエンジンで、互いに払い合う割増は今の価値で約 ${v.booking.pv_cfm56.toFixed(1)} 百万ドル。共同で枠を押さえる（プール）ことの価値でもある。`) : ""}</div>` : "")
       + `<div class="vgrid">${panel("", `<p class="chart-note">国内の自社の入場（年）：737-8 の受領に遅れて立ち上がる</p>` + demandChart(v), "帯は 10〜90%、線は中央値。短期入場（破線）は機数に比例。")}`
       + `${panel("", `<p class="chart-note">海外の入場待ち（か月）：世界の整備能力が追いつくと縮む</p>` + queueChart(v), "国内化の価値の大半は、往復の輸送（2 か月）と入場待ちの分だけ予備エンジンを借りずに済むこと。")}</div>`
       + `<details class="panel"><summary>前提と出典</summary><div class="scroll"><table><tbody>${Object.entries(v.sources).map(([k, t]) => `<tr><td class="mono">${esc(k)}</td><td class="src">${esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</td></tr>`).join("")}</tbody></table></div><p class="hint">${esc(v.note)}</p></details>`;
@@ -409,6 +411,49 @@ const DATA = /*__DATA__*/null;
     });
     const defs = `<defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="var(--muted)"/></marker></defs>`;
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="3 社の取り分">${defs}${s}</svg><div class="legend"><span><span class="sw" style="background:var(--surface);border:2px solid var(--crit);border-radius:50%"></span>単独で建てた場合</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>3 社で組んだときの取り分（シャープレイ値）</span><span>3 社合計 ${Math.round(c.grand)} 百万ドル</span></div>`;
+  }
+  function marketChart(m, W = 520) {
+    const P = m.players, L = 90, R = 16, rowH = 34, H = P.length * rowH + 44;
+    const top = Math.max(...P.map((p) => Math.max(m.simultaneous.capacity[p], m.japan_first.capacity[p]))) * 1.15, x = (v) => L + v / top * (W - L - R);
+    let s = "";
+    P.forEach((p, i) => {
+      const y = 8 + i * rowH, a = m.simultaneous.capacity[p], b = m.japan_first.capacity[p];
+      s += `<text class="lbl" x="${L - 8}" y="${y + 14}" text-anchor="end">${esc(p)}</text>`;
+      s += `<rect x="${L}" y="${y}" width="${x(a) - L}" height="11" fill="var(--muted)" opacity=".55"><title>同時に決めた場合 ${a} 件・利益 ${m.simultaneous.profit[p]} 百万ドル/年</title></rect>`;
+      s += `<rect x="${L}" y="${y + 13}" width="${x(b) - L}" height="11" fill="${i === 0 ? "var(--accent)" : "var(--warn)"}"><title>日本が先に決めた場合 ${b} 件・利益 ${m.japan_first.profit[p]} 百万ドル/年</title></rect>`;
+      s += `<text class="tick" x="${x(Math.max(a, b)) + 6}" y="${y + 16}">${a} → ${b}</text>`;
+    });
+    s += `<text class="tick" x="${L}" y="${H - 18}">利益率：同時 ${(m.simultaneous.margin * 100).toFixed(0)}%・日本が先手 ${(m.japan_first.margin * 100).toFixed(0)}%（地域の受託需要 年 ${Math.round(m.demand)} 件）</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="受託市場の均衡">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--muted);opacity:.55"></span>3 者が同時に決めた場合</span><span><span class="sw" style="background:var(--accent)"></span>日本が先に決めた場合</span></div>`;
+  }
+  function bookingMatrix(b, W = 520) {
+    const M = b.matrix, [pa, pb] = b.players, L = 110, T = 34, cw = (W - L - 10) / 2, ch = 58, H = T + 2 * ch + 8;
+    const get = (a, bb) => M.find((m) => m.a_early === a && m.b_early === bb);
+    const isEq = (a, bb) => { const m = get(a, bb); return m.a >= get(!a, bb).a - 1e-9 && m.b >= get(a, !bb).b - 1e-9; };
+    // the cell where both do better than in the equilibrium (the dilemma's way out)
+    const eqm = M.find((m) => isEq(m.a_early, m.b_early));
+    const better = M.filter((m) => eqm && m !== eqm && m.a > eqm.a && m.b > eqm.b);
+    const best = better.length ? better.reduce((x, y) => (y.a + y.b > x.a + x.b ? y : x)) : null;
+    let s = `<text class="lbl" x="${L + cw / 2}" y="14" text-anchor="middle">${pb}：待つ</text><text class="lbl" x="${L + cw * 1.5}" y="14" text-anchor="middle">${pb}：早めに押さえる</text>`;
+    [false, true].forEach((a, r) => {
+      s += `<text class="lbl" x="${L - 8}" y="${T + r * ch + ch / 2 + 4}" text-anchor="end">${pa}：${a ? "早めに" : "待つ"}</text>`;
+      [false, true].forEach((bb, c) => {
+        const m = get(a, bb), x0 = L + c * cw, y0 = T + r * ch, eq = isEq(a, bb), co = m === best;
+        s += `<rect x="${x0 + 2}" y="${y0 + 2}" width="${cw - 4}" height="${ch - 4}" rx="6" fill="var(--ground)" stroke="${eq ? "var(--crit)" : co ? "var(--good)" : "var(--rule)"}" stroke-width="${eq || co ? 3 : 1}" stroke-dasharray="${co && !eq ? "5 4" : ""}"/>`;
+        s += `<text class="lbl" x="${x0 + cw / 2}" y="${y0 + ch / 2 - 2}" text-anchor="middle">${pa} ${m.a.toFixed(1)}</text><text class="lbl" x="${x0 + cw / 2}" y="${y0 + ch / 2 + 14}" text-anchor="middle">${pb} ${m.b.toFixed(1)}</text>`;
+      });
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="枠の取り合いの利得表">${s}</svg><p class="hint">FY${b.timeline[0].year} の年間の損（百万ドル、待ちの分の予備リース＋割増）。赤枠＝均衡（互いに相手の手を前提に最善）、緑の点線＝均衡より両社とも得な組み合わせ。</p>`;
+  }
+  function bookingTimeline(b, W = 520, H = 150) {
+    const T0 = b.timeline.filter((r) => r.year <= 2036), n = T0.length, L = 34, R = 8, T = 10, B = 22;
+    const top = Math.max(b.threshold_months * 1.4, ...T0.map((r) => r.queue)), x = (i) => L + i / (n - 1) * (W - L - R), y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    T0.forEach((r, i) => { if (r.race) s += `<rect x="${x(i) - (W - L - R) / (n - 1) / 2}" y="${T}" width="${(W - L - R) / (n - 1)}" height="${H - T - B}" fill="var(--crit-soft)"/>`; });
+    s += `<line x1="${L}" x2="${W - R}" y1="${y(b.threshold_months)}" y2="${y(b.threshold_months)}" stroke="var(--crit)" stroke-dasharray="4 3"/><text class="tick" x="${W - R}" y="${y(b.threshold_months) - 4}" text-anchor="end">取り合いになる待ち ${b.threshold_months.toFixed(1)} か月</text>`;
+    s += `<polyline fill="none" stroke="var(--warn)" stroke-width="2" points="${T0.map((r, i) => `${x(i)},${y(r.queue)}`).join(" ")}"/>`;
+    T0.forEach((r, i) => { if (i % 2 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 6}" text-anchor="middle">FY${String(r.year).slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="取り合いになる期間">${s}</svg>`;
   }
   function breakevenChart(b, W = 520, H = 260) {
     const L = 70, T = 16, R = 10, B = 40, nx = b.third_party_sv.length, ny = b.subsidy.length, cw = (W - L - R) / nx, ch = (H - T - B) / ny;
