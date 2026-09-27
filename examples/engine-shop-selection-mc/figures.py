@@ -505,7 +505,7 @@ def concept_page() -> str:
             ("ov-flight", "① 航空計画から導かれるもの", "便数が必要エンジン数を決める。便 1〜6 の札は、航空計画から導いた値を使う箱。"),
             ("ov-stage", "② PDCA と OODA", "上 2 行が PDCA（年次の計画）、下 3 行が OODA（月次〜便ごとの対応、データの収集まで）。列がそのまま段階（入力＝計画／観測、右端＝改善／行動）。"),
             ("ov-output", "③ 成果指標", "右端の各成果に目標を付ける。欠航率 5% 以下、予算との差 ±5% 以内、予測の的中率 80% 以上など（目安）。"),
-            ("ov-ai", "④ 何が働くか", "計画を解くのは数理最適化とシミュレーション、前提を学ぶのは統計、残り寿命は機械学習、文章の生成と振り分けは AI、決めるのは人。")]
+            ("ov-ai", "④ 何が働くか", "AI 支援ソルバー（AI-assisted solver）：計画を解くのは数理最適化とシミュレーション、前提を学ぶのは統計、残り寿命は機械学習、候補づくり・説明・振り分けは AI、決めるのは人。")]
     tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
     caps = "".join(f'<p class="cap" data-for="{g}" {"" if g == "none" else "hidden"}>{c}</p>' for g, _, c in TABS)
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>あるべき分析ストラテジー（層 × 流れ）</title>
