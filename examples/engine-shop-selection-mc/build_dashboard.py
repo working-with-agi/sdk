@@ -156,6 +156,7 @@ td.peak{{background:#f3ede2}}td.fy1{{background:#eef2f7}}.bar{{display:inline-bl
 <div class="sub">年次の版と月次の判断を暦の上に重ね、どの問いをどの画面で見るかをまとめた入口。{today} 時点。数値は合成データ（実データと明記したものを除く）。</div>
 <div class="tabs" id="tabs" style="margin:14px 0"></div>
 <div class="kpi" id="kpi"></div>
+<div class="panel" id="watch" style="margin-top:10px"></div>
 <h2>年次計画と月次計画のマッピング</h2>
 <div class="panel"><div class="scroll" id="cal"></div><div class="legend">帯＝年次の版が覆う期間（濃い＝今の版、淡い＝次の版）。●＝月次会議の実績（灰は予定）。数字＝その月の判断期限の件数（濃い赤は 3 件以上）、入場＝その月に工場に入る件数。◇＝リース返却、▲＝新機の受領（1 機退役）。背景の色は繁忙期と年度の切れ目。</div></div>
 <h2>話題ごと</h2>
@@ -182,6 +183,8 @@ function render() {{
   $("tabs").querySelectorAll("button").forEach((b) => (b.onclick = () => {{ co = +b.dataset.i; render(); }}));
   const due3 = c.deadlines.slice(0, 3).reduce((a, b) => a + b, 0), fys = Object.keys(c.budgets);
   $("kpi").innerHTML = `<div>今の版<b>${{esc(c.version)}}</b>窓 ${{c.labels[0]}}〜${{c.labels[c.labels.length - 1]}}</div><div>月次会議の実績<b>${{c.tracked}} か月</b>${{c.as_of ? "最新 " + c.as_of : "—"}}</div><div>3 か月以内の判断期限<b>${{due3}} 件</b>計画の入場 ${{c.visits.reduce((a, b) => a + b, 0)}} 件</div><div>次の版<b>${{esc(c.next_version || "—")}}</b>${{fys.map((f) => `${{f}} ${{(c.spend[f] / 1000).toFixed(0)}}/${{(c.budgets[f] / 1000).toFixed(0)}}`).join("、")}} 百万ドル（見込み/予算）</div>`;
+  const sh = c.shortage;
+  $("watch").innerHTML = sh ? `<div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap"><div style="flex:none;padding:6px 12px;border-radius:6px;color:#fff;background:${{sh.triggered ? "var(--crit)" : "var(--good)"}};font-weight:700">エンジン不足の見張り</div><div style="font-size:13px"><b>${{esc(sh.verdict)}}</b><div class="hint">${{esc(sh.as_of)}} 時点：工場に ${{sh.in_shop_now}} 基、これから入場 ${{sh.planned_to_come}} 基。6 か月先まで：${{sh.months.map((x) => `${{x.label.slice(2)}} ${{(x.p_aog * 100).toFixed(0)}}%（余力 ${{x.margin_mean >= 0 ? "+" : ""}}${{x.margin_mean.toFixed(0)}}）`).join("、")}}。${{esc(sh.rule)}}</div><div class="hint">必要エンジン数の出所：${{esc(c.schedule_source)}}</div></div></div>` : "";
   const H = c.labels.length, y0 = +c.labels[0].slice(0, 4), m0 = +c.labels[0].slice(5);
   const nextT = c.next_version ? ((+c.next_version.slice(0, 4)) * 12 + (+c.next_version.slice(5)) - 1) - (y0 * 12 + m0 - 1) : null;
   const th = c.labels.map((l, t) => `<th class="${{c.peak[t] ? "peak" : ""}} ${{c.fy[t] !== c.fy[0] && c.fy[t] === c.fy[Math.min(H - 1, t)] && c.fy[t] !== c.fy[t - 1] ? "fy1" : ""}}">${{l.slice(2)}}</th>`).join("");
@@ -227,6 +230,7 @@ def main(argv=None) -> int:
     ap.add_argument("--track-dir", type=Path)
     ap.add_argument("--roll-dir", type=Path)
     ap.add_argument("--topics-dir", type=Path, help="directory with <company>.json (topics.py output)")
+    ap.add_argument("--shortage-dir", type=Path, help="directory with <company>.json (shortage.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("index.html"))
     ap.add_argument("--docs-out", type=Path, help="directory to write the document HTML pages into")
     a = ap.parse_args(argv)
@@ -234,6 +238,10 @@ def main(argv=None) -> int:
     for c in cos:
         tp = a.topics_dir / f"{c['id']}.json" if a.topics_dir else None
         c["topics"] = json.loads(tp.read_text(encoding="utf-8"))["threads"] if tp and tp.exists() else []
+        sp = a.shortage_dir / f"{c['id']}.json" if a.shortage_dir else None
+        c["shortage"] = json.loads(sp.read_text(encoding="utf-8")) if sp and sp.exists() else None
+        fleet = json.loads((HERE / "data" / c["id"] / "fleet.json").read_text(encoding="utf-8"))
+        c["schedule_source"] = fleet.get("schedule_source", "")
     a.html_out.write_text(build_html(cos, date.today().isoformat()), encoding="utf-8")
     n = 0
     if a.docs_out:

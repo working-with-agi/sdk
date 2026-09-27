@@ -74,6 +74,25 @@ def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[
     g = float(cfg.get("demand_growth_per_year", 0.0))     # from the demand layer: positions the schedule needs grow with demand
     cap = 2 * cfg["aircraft"]["total"]
     required = [min(cap, int(math.ceil(lifecycle.needed_positions(t) * (1 + g) ** (t / 12)))) for t in range(H)]
+    # the flight schedule, when the company has one, is the authority for how many
+    # aircraft (and so engines) the month needs: data/<company>/flights_plan.json
+    # {"YYYY-MM": flights per day for this fleet}; the index above is only the fallback
+    schedule_source = "運航指数 × 必要機数 − 機体整備（代理指標、便の計画なし）"
+    fp = HERE / "data" / name / ("flights_plan.json" if not cfg.get("fleet_key") or cfg.get("fleet_key") == "737" else f"{cfg['fleet_key']}/flights_plan.json")
+    if fp.exists() and not years_back:
+        sched = json.loads(fp.read_text(encoding="utf-8"))
+        fl = sched.get("flights_per_day", sched)
+        subs = cfg.get("subfleets") or []
+        ac_n = sum(x["aircraft"] for x in subs) or cfg["aircraft"]["total"]
+        sectors = (sum(x["aircraft"] * x["cycles_per_year"] for x in subs) / ac_n / 365) if subs else 5.3
+        y0, m0 = map(int, base["start"].split("-"))
+        got = 0
+        for t in range(H):
+            y, mth = y0 + (m0 - 1 + t) // 12, (m0 - 1 + t) % 12 + 1
+            v = fl.get(f"{y}-{mth:02d}")
+            if v is not None:
+                required[t] = min(cap, 2 * int(math.ceil(float(v) / sectors * (1 + g) ** (t / 12)))); got += 1
+        schedule_source = f"便の計画 {fp.name}（{got}/{H} か月、1 機 1 日 {sectors:.2f} 便で機数に換算）" + ("；" + sched["note"] if isinstance(sched, dict) and sched.get("note") else "")
     un = base["unscheduled_removals"]
     mean_tat = sum(d * p for d, p in zip(un["tat_months"], un["tat_probs"]))
     buffer = poisson_quantile(un["rate_per_engine_month"] * cfg["engines"]["owned"] * mean_tat, 0.95)
@@ -104,7 +123,7 @@ def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[
                            "buffer_quantile": 0.95},
         },
         "start": base["start"], "horizon_months": H,
-        "required_positions": required,
+        "required_positions": required, "schedule_source": schedule_source,
         "buffer_spares": [buffer] * H,
         "owned_engines": cfg["engines"]["owned"],
         "short_term_lease": {"cost_per_month": common["short_term_lease"]["cost_per_month"],

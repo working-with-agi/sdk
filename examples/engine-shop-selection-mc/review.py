@@ -36,7 +36,7 @@ JP = {"Plan": "つくる", "Do": "回す", "Check": "確かめる", "Act": "直�
 
 # ------------------------------------------------------------------ 1. the fact pack
 def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None, plan_from_demand: dict | None = None, backtest: dict | None = None,
-          typelife_out: dict | None = None) -> dict:
+          typelife_out: dict | None = None, shortage: dict | None = None) -> dict:
     pr = b["plan_of_record"]
     labels = b["monthly"]["labels"]
     fy = {k: {"spend": v.get("spend", 0.0), "budget": b["budgets"].get(k)} for k, v in pr["by_fiscal_year"].items()}
@@ -84,6 +84,8 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
                        "heavy_late_engines": T["heavy_late_engines"], "plan_gaps": T["plan_gaps"], "plan_gap_max_months": T.get("plan_gap_max_months", 0), "policies": runout["policies"],
                        "without_runout": runout["without_runout"], "by_year": [{k: y[k] for k in ("year", "visits", "spend_k", "retired", "engines")} for y in runout["by_year"]]}
     F["framework"] = framework_status(b, plan_from_demand, track)
+    if shortage:
+        F["shortage"] = {k: shortage[k] for k in ("as_of", "triggered", "verdict", "in_shop_now", "planned_to_come", "worst", "fix")}
     if typelife_out:
         F["typelife"] = {"type": typelife_out["type"], "age_at_start": typelife_out["age_at_start"], "years_since_production_end": typelife_out["years_since_production_end"],
                          "stage_now": typelife_out["stage_now"], "residual_raw_k": typelife_out.get("residual", {}).get("raw_k", 0), "residual_adj_k": typelife_out.get("residual", {}).get("adjusted_k", 0),
@@ -256,6 +258,10 @@ def symptoms(F: dict) -> list[dict]:
                 "、".join(v["text"] for v in sp["verdict"]), "改善した補正だけを次の版の決め方に持ち込む（期限のずらし・計画外の率・幅）")
         for v in BT["verdict"]:
             add("PDCA", "Check", v["status"] if v["status"] in ("ok", "warn", "info") else "info", "過去で検証：" + v["text"], f"{BT['n_versions']} 版・{BT['n_fy']} 年度のバックテスト", "" if v["status"] == "ok" else "決め方（幅・窓の下端・計画外の率）を次の版で直す")
+    SH = F.get("shortage")
+    if SH:
+        add("OODA", "Decide", "crit" if SH["triggered"] else "ok", "エンジン不足の見張り：" + SH["verdict"],
+            f"{SH['as_of']} 時点、工場に {SH['in_shop_now']} 基、これから入場 {SH['planned_to_come']} 基", "月次会議を待たず、短期リース → 予備・プール・代替運航の順で手当てする" if SH["triggered"] else "")
     TL = F.get("typelife")
     if TL:
         add("PDCA", "Plan", "info" if TL["stage_now"] == "late" else "warn" if TL["stage_now"] == "fading" else "ok",
@@ -332,7 +338,8 @@ def ai_review(F: dict, sym: list[dict]) -> dict:
 
 
 def build(cid: str, baseline_path: Path | None, track_path: Path | None, roll_path: Path | None, runout_path: Path | None,
-          history_path: Path | None = None, use_ai: bool = True, plan_path: Path | None = None, backtest_path: Path | None = None) -> dict:
+          history_path: Path | None = None, use_ai: bool = True, plan_path: Path | None = None, backtest_path: Path | None = None,
+          shortage_path: Path | None = None) -> dict:
     load = lambda p: json.loads(p.read_text(encoding="utf-8")) if p and Path(p).exists() else None  # noqa: E731
     b = load(baseline_path or HERE / "baselines" / f"{cid}-2026-10.json")
     ro = load(runout_path)
@@ -343,7 +350,7 @@ def build(cid: str, baseline_path: Path | None, track_path: Path | None, roll_pa
         et = fleet.get("meta", {}).get("engine_type", "CFM56-7B")
         if et in typelife.load()["types"]:
             tl = typelife.build(et, ro["start"], ro)
-    F = facts(b, load(track_path), load(roll_path), ro, load(history_path), load(plan_path), load(backtest_path), tl)
+    F = facts(b, load(track_path), load(roll_path), ro, load(history_path), load(plan_path), load(backtest_path), tl, load(shortage_path))
     sym = symptoms(F)
     rev = ai_review(F, sym) if use_ai else {"mode": "rules", "reason": "--no-ai", "text": rules_text(F, sym)}
     return {"company": cid, "facts": F, "symptoms": sym, "coverage": coverage(sym), "review": rev, "framework": F.get("framework"),
@@ -361,10 +368,11 @@ def main(argv=None) -> int:
     ap.add_argument("--history", type=Path)
     ap.add_argument("--plan-from-demand", type=Path, help="plan_from_demand.py output (growth review schedule)")
     ap.add_argument("--backtest", type=Path, help="backtest.py output")
+    ap.add_argument("--shortage", type=Path, help="shortage.py output (the shortage watch)")
     ap.add_argument("--out", type=Path)
     ap.add_argument("--no-ai", action="store_true")
     a = ap.parse_args(argv)
-    out = build(a.company, a.baseline, a.track, a.roll, a.runout, a.history, use_ai=not a.no_ai, plan_path=a.plan_from_demand, backtest_path=a.backtest)
+    out = build(a.company, a.baseline, a.track, a.roll, a.runout, a.history, use_ai=not a.no_ai, plan_path=a.plan_from_demand, backtest_path=a.backtest, shortage_path=a.shortage)
     p = a.out or HERE / "review" / f"{a.company}.json"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
