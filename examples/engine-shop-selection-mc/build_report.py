@@ -1,0 +1,203 @@
+#!/usr/bin/env python3
+"""Build the layered report: one page that starts from the conclusions and drills down.
+
+  level 1  executive summary per company: three lines (money, service, what to decide)
+  level 2  one card per use case: annual plan and budget, this month's decisions, plan
+           tracking, actions and their effect, new domestic shop, assumptions
+  level 3  the detail behind each card: fiscal years, months, engines, actions
+  level 4  assumptions and sources, including every value without a source
+
+Inputs per company: the frozen baseline, the deltas of baseline.py compare (run here if
+missing), the tracking status of one set of actuals, and optionally invest.py's result.
+
+  python build_report.py --html-out report.html
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+import tempfile
+from pathlib import Path
+
+import baseline
+import track
+
+HERE = Path(__file__).resolve().parent
+MATERIAL = 300  # k$: below this a switch or an action is not worth the disruption
+
+
+def fy_rows(b: dict) -> list[dict]:
+    M = b["monthly"]
+    out = []
+    for fy, budget in b["budgets"].items():
+        ts = [t for t, f in enumerate(M["fy"]) if f == fy]
+        plan = b["plan_of_record"]["by_fiscal_year"].get(fy, {"visits": 0, "spend": 0.0})
+        norm = sum(M["norm_spend"][t] for t in ts)
+        out.append({"fy": fy, "months": len(ts), "first": M["labels"][ts[0]], "last": M["labels"][ts[-1]],
+                    "visits": plan["visits"], "spend": plan["spend"], "budget": budget, "norm": norm,
+                    "norm_visits": sum(M["norm_visits"][t] for t in ts),
+                    "over": plan["spend"] / budget - 1 if budget else 0.0,
+                    "ws": {w: plan.get(w, 0) for w in ("PR", "CORE", "FULL")}})
+    return out
+
+
+def months(b: dict) -> list[dict]:
+    M, P = b["monthly"], b["plan"]
+    out = []
+    for t, label in enumerate(M["labels"]):
+        out.append({"t": t, "label": label, "fy": M["fy"][t], "peak": M["peak"][t],
+                    "margin": M["serviceable"][t] - M["required"][t] - M["buffer"][t],
+                    "load": M.get("shop_load", [0] * len(M["labels"]))[t], "slots": M.get("shop_slots", 0),
+                    "inductions": M["plan_visits"][t], "spend": M["plan_spend"][t],
+                    "norm_visits": M["norm_visits"][t],
+                    "due": sum(1 for r in P if r["deadline_t"] == t)})
+    return out
+
+
+def actions_of(deltas: dict) -> list[dict]:
+    out = []
+    for a in deltas["answers"]:
+        if not a["feasible"]:
+            continue
+        d = a["delta"]
+        out.append({"use_case": a["use_case"], "question": a["question"], "cost": d["total_cost"],
+                    "aog": d["aog_prob"], "visits": d["shop_visits"],
+                    "fy": {fy: v["spend"] for fy, v in d["by_fiscal_year"].items()}})
+    return out
+
+
+def track_summary(t: dict) -> dict:
+    T = t["timeline"][-1]
+    C, W = t["candidates"], t["worlds"]
+    top = max(T["posterior"], key=T["posterior"].get)
+    sw = sorted(T["switch"].items(), key=lambda x: -x[1]["saving"])
+    best = sw[0] if sw else None
+    rec = ("switch", best[0]) if best and best[1]["saving"] > MATERIAL else ("keep", None)
+    return {"as_of": T["as_of"], "executed": C[T["executed"]]["label"], "follow": T["follow"][T["executed"]],
+            "world": W[top]["label"], "world_p": T["posterior"][top], "world_is_base": top == "base",
+            "exceptions": len(T["exceptions"]), "planned": T["planned_by_now"], "inducted": T["inducted"],
+            "recommend": rec[0], "switch_to": C[rec[1]]["label"] if rec[1] else None,
+            "switch_saving": best[1]["saving"] if best else 0, "switch_decide_by": best[1]["decide_by"] if best else None,
+            "posterior": {W[w]["label"]: p for w, p in T["posterior"].items()},
+            "switch": [{"to": C[c]["label"], "saving": s["saving"], "aog": s["aog_delta"], "changes": len(s["changes"]),
+                        "decide_by": s["decide_by"], "overdue": s["overdue"]} for c, s in sw],
+            "demo": t["actuals"]["meta"].get("synthetic", False)}
+
+
+def unsourced(company_id: str) -> list[dict]:
+    """Every value in data/companies.json marked no_source, for this company and common."""
+    conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))
+    out = []
+
+    def walk(node, path):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if isinstance(v, str) and "no_source" in v:
+                    out.append({"where": ".".join(path), "what": v.replace("no_source: ", "").replace("no_source", "出典なし")})
+                else:
+                    walk(v, path + [k])
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk(v, path + [str(i)])
+
+    walk(conf["companies"].get(company_id, {}), [company_id])
+    walk(conf["common"], ["common"])
+    return out
+
+
+def verdict(c: dict) -> list[dict]:
+    fys = c["fiscal_years"]
+    worst = max(fys, key=lambda r: r["over"])
+    full = [r for r in fys if r["months"] == 12] or fys
+    main = full[0]
+    money = {"q": "お金", "a": f"{main['fy']} の整備費は {main['spend'] / 1000:.1f} 百万ドル（予算 {main['budget'] / 1000:.1f}、{main['over']:+.0%}）",
+             "why": (f"{worst['fy']}（{worst['first']}〜{worst['last']}）は予算を {worst['over']:.0%} 超える見込み。"
+                     f"平年並みの予算では、この期間に期限が来るエンジンを回しきれない" if worst["over"] > 0.05 else "どの年度も予算内に収まる見込み")}
+    m = c["months"]
+    thin = min(m, key=lambda r: r["margin"])
+    load = max(m, key=lambda r: r["load"])
+    service = {"q": "運航", "a": f"エンジンが足りなくなる確率 {c['aog_prob']:.1%}（2 年で 1 か月でも）",
+               "why": f"余力が最も薄いのは {thin['label']}（{thin['margin']:+d} 基）。工場の混み具合は最大 {load['load']}/{load['slots']}（{load['label']}）"}
+    acts = c["actions"]
+    save = [a for a in acts if a["aog"] <= 0.005 and "部品取り" not in a["question"]]
+    best = min(save, key=lambda a: a["cost"]) if save else None
+    safer = min([a for a in acts if a["cost"] <= 5000], key=lambda a: a["aog"], default=None)
+    # decisions whose deadline fell before the plan starts are assumed already arranged
+    # (slots booked, kits ordered): the plan inherits them
+    due = sum(1 for r in c["plan"] if r["deadline_t"] == 0)
+    pre = sum(1 for r in c["plan"] if r["deadline_t"] < 0)
+    parts = [f"今月の判断期限 {due} 件" + (f"（ほかに計画開始前に手配が必要だった {pre} 件は手配済みを前提）" if pre else "")]
+    if best and best["cost"] < -MATERIAL:
+        parts.append(f"費用を最も下げる打ち手は「{best['question']}」（{best['cost'] / 1000:+.1f} 百万ドル）")
+    if safer and safer["aog"] < -0.002:
+        parts.append(f"欠航リスクを最も下げるのは「{safer['question']}」（{safer['aog'] * 100:+.1f}pt、{safer['cost'] / 1000:+.1f} 百万ドル）")
+    tr = c.get("track")
+    if tr:
+        parts.append(f"実績（{'デモ' if tr['demo'] else ''}{tr['as_of']} まで）では" +
+                     (f"前提は{tr['world']}に近く（{tr['world_p']:.0%}）、" if not tr["world_is_base"] else "前提どおり、") +
+                     (f"{tr['switch_to']}への乗り換えを推奨（{tr['switch_saving'] / 1000:+.1f} 百万ドル）" if tr["recommend"] == "switch" else "今の計画を続けてよい"))
+    decide = {"q": "決めること", "a": parts[0], "why": "。".join(parts[1:])}
+    return [money, service, decide]
+
+
+def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None) -> dict:
+    b = json.loads(baseline_path.read_text(encoding="utf-8"))
+    with tempfile.TemporaryDirectory() as tmp:
+        if deltas_path is None or not deltas_path.exists():
+            out = Path(tmp) / "deltas.json"
+            baseline.main(["compare", "--baseline", str(baseline_path), "--json-out", str(out)])
+            deltas_path = out
+        deltas = json.loads(deltas_path.read_text(encoding="utf-8"))
+        tr = None
+        if actuals_path and actuals_path.exists():
+            out = Path(tmp) / "track.json"
+            track.main(["status", "--baseline", str(baseline_path), "--actuals", str(actuals_path), "--json-out", str(out)])
+            tr = track_summary(json.loads(out.read_text(encoding="utf-8")))
+    shops = json.loads((HERE / b["paths"]["shops"]).read_text(encoding="utf-8"))
+    names = {k["id"]: k["name"] for k in shops["shops"]}
+    c = {
+        "id": b["company"]["id"], "name": b["company"]["name"], "version": b["version"],
+        "contract": b["company"]["contract"], "sources": b["company"]["sources"],
+        "norms": {k: b["norms"][k] for k in ("visits_per_year", "spend_per_year_k", "usd_per_efh", "visits_per_year_by_workscope")}
+                 | {"by_subfleet": b["norms"].get("by_subfleet", {})},
+        "aog_prob": b["plan_of_record"]["aog_prob"], "total_cost": b["plan_of_record"]["total_cost"],
+        "relaxed": b["plan_of_record"].get("relaxed", []),
+        "fiscal_years": fy_rows(b), "months": months(b),
+        "plan": [{k: r[k] for k in ("esn", "month", "t", "fy", "workscope", "shop", "exp_cost", "limit", "watch", "deadline_t", "deadline_reason")}
+                 | {"shop_name": names.get(r["shop"], r["shop"]),
+                    "decide_by": b["monthly"]["labels"][r["deadline_t"]] if r["deadline_t"] >= 0 else "手配済み（前提）"}
+                 for r in b["plan"]],
+        "actions": actions_of(deltas), "track": tr,
+        "outlook": b["outlook"]["stationary"],
+        "unsourced": unsourced(b["company"]["id"] or ""),
+    }
+    if invest_path and invest_path.exists():
+        c["invest"] = json.loads(invest_path.read_text(encoding="utf-8"))
+    c["verdict"] = verdict(c)
+    return c
+
+
+def main(argv=None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--companies", nargs="+", default=["jal", "ana"])
+    ap.add_argument("--deltas-dir", type=Path, help="directory with <company>-deltas.json (compare output); run if missing")
+    ap.add_argument("--actuals", default="backlog", help="which synthetic actuals to track (data/<company>/actuals_<name>.json)")
+    ap.add_argument("--invest", type=Path, help="invest.py output (optional)")
+    ap.add_argument("--html-out", type=Path, default=Path("report.html"))
+    args = ap.parse_args(argv)
+    data = []
+    for cid in args.companies:
+        d = args.deltas_dir / f"{cid}-deltas.json" if args.deltas_dir else None
+        data.append(company(HERE / "baselines" / f"{cid}-2026-10.json", d,
+                            HERE / "data" / cid / f"actuals_{args.actuals}.json", args.invest))
+    html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
+        "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
+    args.html_out.write_text(html, encoding="utf-8")
+    print(f"{len(data)} companies -> {args.html_out} ({len(html) // 1024} KB)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

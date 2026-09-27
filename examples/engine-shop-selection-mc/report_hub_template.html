@@ -1,0 +1,276 @@
+<title>エンジン整備レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --ws-pr: #3d8fb8; --ws-core: #d08a2e; --ws-full: #7a5aa8;
+  --peak: rgba(168, 103, 26, .10);
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+    --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+  --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); }
+.kpi .value { font-size: 22px; font-weight: 500; }
+.kpi .sub { font-size: 11px; color: var(--muted); }
+.meter { height: 6px; border-radius: 3px; background: var(--accent-soft); overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); } .meter > span.over { background: var(--crit); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 18px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .pr { fill: var(--ws-pr); } svg .core { fill: var(--ws-core); } svg .full { fill: var(--ws-full); }
+svg .spend { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+svg .spend-dot { fill: var(--ink); }
+svg .req { fill: var(--accent-soft); } svg .buf { fill: var(--warn-soft); }
+svg .have { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .aging { fill: none; stroke: var(--crit); stroke-width: 1.5; stroke-dasharray: 4 3; }
+svg .win { fill: var(--accent-soft); }
+svg .band { fill: var(--muted); opacity: .16; }
+svg .norm { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+svg .plan { fill: var(--accent); }
+svg .plan.sel { fill: var(--ink); }
+svg .fi { font-size: 9px; fill: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+tr.best td { background: var(--accent-soft); }
+.ws { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 4px; color: #fff; }
+.ws.PR { background: var(--ws-pr); } .ws.CORE { background: var(--ws-core); } .ws.FULL { background: var(--ws-full); }
+.btn { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+.ai-out { white-space: pre-wrap; font-size: 13px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-height: 44px; }
+.controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.controls label { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+select { font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); }
+input[type=range] { width: min(420px, 60vw); accent-color: var(--accent); }
+.asof { font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; color: var(--ink); }
+.verdict { display: grid; gap: 10px; }
+.line { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.line:last-child { border-bottom: 0; padding-bottom: 0; }
+.line .q { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.line .a { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.line .why { font-size: 12px; color: var(--muted); font-weight: 400; display: block; margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 9px; margin-right: 6px; vertical-align: 2px; }
+.pill.go { background: var(--good-soft); color: var(--good); } .pill.act { background: var(--crit-soft); color: var(--crit); } .pill.mid { background: var(--warn-soft); color: var(--warn); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.sev { font-size: 11px; font-weight: 600; } .sev.crit { color: var(--crit); } .sev.warn { color: var(--warn); }
+.pos { color: var(--good); } .neg { color: var(--crit); }
+details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.close { color: var(--good); font-weight: 600; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+<style>
+.crumb { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
+.crumb button { font: inherit; border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0; }
+.crumb span.cur { color: var(--ink); font-weight: 600; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.card { font: inherit; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; cursor: pointer; box-shadow: var(--shadow); }
+.card:hover { border-color: var(--accent); }
+.card .lv { font-size: 10px; letter-spacing: .1em; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.card h3 { margin: 0; font-size: 15px; }
+.card .c { font-size: 13px; line-height: 1.55; }
+.card .nums { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.card .nums b { font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink); font-weight: 500; margin-right: 3px; }
+.card .more { font-size: 12px; color: var(--accent); }
+.card.flag { border-left: 4px solid var(--crit); } .card.warn { border-left: 4px solid var(--warn); } .card.ok { border-left: 4px solid var(--good); }
+.levels { display: flex; gap: 6px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+.levels span { border: 1px solid var(--rule); border-radius: 999px; padding: 1px 8px; }
+.levels span.on { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.bar { height: 8px; background: var(--accent-soft); border-radius: 4px; position: relative; min-width: 80px; }
+.bar > i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 4px; }
+.bar > i.over { background: var(--crit); } .bar > i.hot { background: var(--warn); }
+.src { font-size: 12px; word-break: break-all; }
+</style>
+
+<main class="wrap">
+  <header style="display:grid;gap:8px">
+    <span class="eyebrow">737-800 engine plan · report</span>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <h1 id="title">エンジン整備レポート</h1>
+      <div class="tabs" role="tablist" id="cos" aria-label="会社" style="border:0"></div>
+    </div>
+    <nav class="crumb" id="crumb" aria-label="現在の位置"></nav>
+    <div class="levels" id="levels"></div>
+  </header>
+  <div id="view" style="display:grid;gap:18px"></div>
+  <p class="hint">数字は公開情報からの推定による合成データです。出典のない数字は「前提と出典」に一覧があります。</p>
+</main>
+<script>
+const DATA = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const musd = (k) => (k / 1000).toFixed(1);
+  const pct = (v, d = 0) => (v * 100).toFixed(d) + "%";
+  const sg = (v, f = (x) => x) => (v > 0 ? "+" : v < 0 ? "−" : "±") + f(Math.abs(v));
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  let co = 0, path = ["summary"];
+  const VIEWS = {
+    summary: { label: "経営サマリー", level: 1 },
+    budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
+    engines: { label: "エンジン別の明細", level: 3 }, months: { label: "月別の明細", level: 3 },
+  };
+  DATA.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.role = "tab"; b.textContent = c.name; b.onclick = () => { co = i; render(); }; $("cos").append(b); });
+  const go = (...p) => { path = p; render(); window.scrollTo(0, 0); };
+  const C = () => DATA[co];
+
+  function render() {
+    [...$("cos").children].forEach((b, i) => b.setAttribute("aria-selected", String(i === co)));
+    const v = path[path.length - 1];
+    $("crumb").innerHTML = path.map((p, i) => i === path.length - 1 ? `<span class="cur">${VIEWS[p].label}</span>` : `<button type="button" data-i="${i}">${VIEWS[p].label}</button> ›`).join(" ");
+    $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
+    $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
+    $("title").textContent = `エンジン整備レポート：${C().name}`;
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, months })[v]();
+    $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
+  }
+
+  function panel(title, inner, hint) { return `<section class="panel"><h2>${title}</h2>${inner}${hint ? `<p class="hint">${hint}</p>` : ""}</section>`; }
+  function card(key, cls, title, concl, nums) {
+    return `<button type="button" class="card ${cls}" data-go="${key}"><span class="lv">LEVEL ${VIEWS[key].level}</span><h3>${title}</h3><span class="c">${concl}</span><span class="nums">${nums.map(([v, l]) => `<span><b>${v}</b>${l}</span>`).join("")}</span><span class="more">詳しく →</span></button>`;
+  }
+
+  /* ---------- level 1 ---------- */
+  function summary() {
+    const c = C();
+    const lines = c.verdict.map((l) => `<div class="line"><span class="q">${l.q}</span><span class="a">${esc(l.a)}<span class="why">${esc(l.why)}</span></span></div>`).join("");
+    const fy = c.fiscal_years, worst = fy.reduce((a, b) => (b.over > a.over ? b : a), fy[0]);
+    const m = c.months, due3 = m.slice(0, 3).reduce((a, r) => a + r.due, 0), pre = c.plan.filter((r) => r.deadline_t < 0).length;
+    const load = m.reduce((a, b) => (b.load > a.load ? b : a), m[0]);
+    const acts = c.actions, best = acts.filter((a) => a.aog <= 0.005 && !a.question.includes("部品取り")).sort((a, b) => a.cost - b.cost)[0];
+    const tr = c.track, inv = c.invest;
+    const cards = [
+      card("budget", worst.over > 0.05 ? "flag" : "ok", "年間計画と予算",
+        worst.over > 0.05 ? `${worst.fy} は予算を ${pct(worst.over)} 超える。平年並みの予算では期限の来るエンジンを回しきれない` : "どの年度も予算内",
+        [[c.fiscal_years.reduce((a, r) => a + r.visits, 0), "件（2 年）"], [musd(c.fiscal_years.reduce((a, r) => a + r.spend, 0)), "百万ドル"], [fmt(c.norms.usd_per_efh), "$/EFH（平年）"]]),
+      card("month", due3 ? "warn" : "ok", "今月からの判断",
+        `今後 3 か月の判断期限 ${due3} 件${pre ? `（計画開始前の手配 ${pre} 件は済みを前提）` : ""}。工場の混み具合は最大 ${load.load}/${load.slots}（${load.label}）`,
+        [[m[0].due, "件（今月）"], [pct(c.aog_prob, 1), "足りなくなる確率"]]),
+      card("track", tr && !tr.world_is_base ? "warn" : "ok", "計画の追跡",
+        tr ? `${tr.executed}に沿って進行（一致 ${pct(tr.follow)}）。前提は${tr.world_is_base ? "基準どおり" : tr.world + "に近い"}（${pct(tr.world_p)}）。${tr.recommend === "switch" ? tr.switch_to + "へ乗り換えを推奨" : "今の計画を続けてよい"}` : "実績がまだない",
+        tr ? [[tr.inducted + "/" + tr.planned, "入場（実績/予定）"], [tr.exceptions, "件の外れ"]] : []),
+      card("actions", "ok", "打ち手の効果",
+        best ? `費用を最も下げるのは「${best.question}」（${sg(best.cost / 1000, (x) => x.toFixed(1))} 百万ドル）` : "費用を下げる打ち手なし",
+        [[acts.length, "件を試算"]]),
+      card("invest", inv ? (inv.recommend && inv.recommend.go ? "warn" : "ok") : "", "国内工場の新設（LEAP-1B）",
+        inv ? esc(inv.headline) : "試算中（LEAP-1B の数字を調査中）", inv ? [[musd(inv.best.npv), "百万ドル（正味現在価値）"]] : []),
+      card("sources", c.unsourced.length ? "warn" : "ok", "前提と出典", `出典のない数字 ${c.unsourced.length} 件。感度分析の対象`, [[Object.keys(c.sources).length, "種類の出典"]]),
+    ];
+    return `<section class="panel verdict" aria-label="結論"><div class="hint">LEVEL 1 · ${esc(c.contract.description || "")}（基準 ${c.version} 版）</div>${lines}</section><div class="cards">${cards.join("")}</div>`;
+  }
+
+  /* ---------- level 2 ---------- */
+  function budget() {
+    const c = C(), fy = c.fiscal_years, top = Math.max(...fy.map((r) => Math.max(r.spend, r.budget)));
+    const rows = fy.map((r) => `<tr><td>${r.fy}<br><span class="hint">${r.first}〜${r.last}</span></td><td class="n num">${r.visits}<br><span class="hint">平年 ${r.norm_visits.toFixed(1)}</span></td><td class="n num">${r.ws.PR}/${r.ws.CORE}/${r.ws.FULL}</td><td class="n num">${musd(r.spend)}</td><td class="n num">${musd(r.budget)}</td><td class="n num ${r.over > 0.05 ? "neg" : ""}">${sg(r.over * 100, (x) => x.toFixed(0))}%</td><td><div class="bar"><i class="${r.spend > r.budget * 1.05 ? "over" : r.spend > r.budget ? "hot" : ""}" style="width:${(r.spend / top) * 100}%"></i></div></td></tr>`).join("");
+    const n = c.norms, subs = Object.entries(n.by_subfleet || {});
+    return panel("年度ごとの計画と予算", `<div class="scroll"><table><thead><tr><th>年度</th><th class="n">入場</th><th class="n">PR/CORE/FULL</th><th class="n">整備費（百万ドル）</th><th class="n">予算</th><th class="n">予算差</th><th>予算に対する大きさ</th></tr></thead><tbody>${rows}</tbody></table></div>`,
+      c.relaxed.includes("budget") ? "平年並みの予算（季節で按分）ではこの期間に期限が来るエンジンを回しきれないため、予算の条件を外して解き、超過額を示しています。実務では取卸し予測から積み上げた予算要求の根拠になります。" : "")
+      + panel("平年の姿（20 年のライフサイクル・シミュレーション）", `<div class="kpis"><div class="kpi"><span class="label">入場</span><span class="value num">${n.visits_per_year.toFixed(1)}</span><span class="sub">件/年</span></div><div class="kpi"><span class="label">整備費</span><span class="value num">${musd(n.spend_per_year_k)}</span><span class="sub">百万ドル/年</span></div><div class="kpi"><span class="label">1 飛行時間あたり</span><span class="value num">${fmt(n.usd_per_efh)}</span><span class="sub">$/EFH</span></div>${subs.map(([k, s]) => `<div class="kpi"><span class="label">${esc(k)}</span><span class="value num">${s.visits_per_year.toFixed(1)}</span><span class="sub">件/年・${s.cycles_per_year} 回/年・${s.fh_per_cycle} h/回</span></div>`).join("")}</div>`)
+      + `<div class="cards">${card("engines", "", "エンジン別の明細", "入場月・整備範囲・工場・判断期限を 1 基ずつ", [[c.plan.length, "基"]])}${card("months", "", "月別の明細", "入場・整備費・平年値・余力・工場の混み具合", [[c.months.length, "か月"]])}</div>`;
+  }
+
+  function month() {
+    const c = C(), m = c.months;
+    const soon = c.plan.filter((r) => r.deadline_t >= 0 && r.deadline_t <= 2).sort((a, b) => a.deadline_t - b.deadline_t), pre = c.plan.filter((r) => r.deadline_t < 0).length;
+    const rows = soon.map((r) => `<tr><td class="mono">${r.decide_by}</td><td class="mono">${r.esn}</td><td class="mono">${r.month}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${esc(r.deadline_reason)}</td><td>${r.watch ? '<span class="sev warn">要監視</span>' : ""}</td></tr>`).join("");
+    const strip = m.map((r) => `<td class="n num" title="${r.label}" style="background:${r.load / r.slots > 0.9 ? "var(--crit-soft)" : r.load / r.slots < 0.5 ? "var(--ground)" : "var(--accent-soft)"}">${r.load}</td>`).join("");
+    return panel(`今後 3 か月に決めること（${soon.length} 件）`, soon.length ? `<div class="scroll"><table><thead><tr><th>判断期限</th><th>ESN</th><th>入場予定</th><th>整備範囲</th><th>理由</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="hint">ありません。</p>', `このほか ${pre} 件は、入場が計画の最初の数か月にあり、枠の予約や部品キットの発注が計画開始前に必要だったもの。手配済みを前提にしています（済んでいなければ、特急や緊急手配が要る）。`)
+      + panel("工場の混み具合（同時に入っている基数、月ごと）", `<div class="scroll"><table style="min-width:900px"><thead><tr>${m.map((r) => `<th class="n">${r.label.slice(2)}</th>`).join("")}</tr></thead><tbody><tr>${strip}</tr></tbody></table></div>`, `枠は ${m[0].slots} 基。赤は 9 割超（詰まり気味）、灰は 5 割未満（空きが多い）。込むと工期が延びる効果はまだモデルにありません。`)
+      + `<div class="cards">${card("months", "", "月別の明細", "入場・整備費・平年値・余力・工場の混み具合", [[m.length, "か月"]])}${card("engines", "", "エンジン別の明細", "入場月・整備範囲・工場・判断期限", [[c.plan.length, "基"]])}</div>`;
+  }
+
+  function track() {
+    const t = C().track;
+    if (!t) return panel("計画の追跡", '<p class="hint">実績がまだありません。</p>');
+    const post = Object.entries(t.posterior).map(([k, p]) => `<tr><td>${esc(k)}</td><td class="n num">${pct(p)}</td><td><div class="bar"><i style="width:${p * 100}%"></i></div></td></tr>`).join("");
+    const sw = t.switch.map((s) => `<tr><td>${esc(s.to)}</td><td class="n num ${s.saving > 0 ? "pos" : "neg"}">${s.saving > 0 ? "得 " : "損 "}${fmt(Math.abs(s.saving))}</td><td class="n num">${sg(s.aog * 100, (x) => x.toFixed(1))}pt</td><td class="n num">${s.changes}</td><td class="mono">${s.decide_by || "—"}${s.overdue ? ` <span class="sev crit">期限切れ ${s.overdue}</span>` : ""}</td></tr>`).join("");
+    return panel(`${t.as_of} 末時点${t.demo ? "（デモ用の合成実績）" : ""}`, `<div class="kpis"><div class="kpi"><span class="label">沿っている計画</span><span class="value" style="font-size:16px">${esc(t.executed)}</span><span class="sub">入場の一致 ${pct(t.follow)}</span></div><div class="kpi"><span class="label">入場（実績/予定）</span><span class="value num">${t.inducted}/${t.planned}</span><span class="sub">外れ ${t.exceptions} 件</span></div><div class="kpi"><span class="label">判断</span><span class="value" style="font-size:16px">${t.recommend === "switch" ? "乗り換え" : "継続"}</span><span class="sub">${t.recommend === "switch" ? esc(t.switch_to) : "乗り換えても得にならない"}</span></div></div>`)
+      + `<div class="grid2">${panel("前提はどの世界に近いか", `<table style="min-width:0"><tbody>${post}</tbody></table>`)}${panel("今から乗り換えたら（千ドル）", `<div class="scroll"><table><thead><tr><th>乗り換え先</th><th class="n">期待コスト差</th><th class="n">欠航確率</th><th class="n">変わる基数</th><th>判断期限</th></tr></thead><tbody>${sw}</tbody></table></div>`)}</div>`
+      + panel("月ごとの推移", '<p class="hint">時点を動かして判断の変化を見る画面は「計画の追跡」ページにあります。</p>');
+  }
+
+  function actions() {
+    const a = [...C().actions].sort((x, y) => x.cost - y.cost);
+    const rows = a.map((r) => `<tr><td>${esc(r.use_case)}</td><td>${esc(r.question)}</td><td class="n num ${r.cost < 0 ? "pos" : "neg"}">${sg(r.cost / 1000, (x) => x.toFixed(1))}</td><td class="n num ${r.aog > 0.005 ? "neg" : r.aog < -0.002 ? "pos" : ""}">${sg(r.aog * 100, (x) => x.toFixed(1))}pt</td><td class="n num">${sg(r.visits, (x) => x)}</td></tr>`).join("");
+    return panel("基準の計画からの増減（2 年、打ち手・状況ごとに計画し直した結果）", `<div class="scroll"><table><thead><tr><th>ユースケース</th><th>問い</th><th class="n">総コスト（百万ドル）</th><th class="n">欠航確率</th><th class="n">入場件数</th></tr></thead><tbody>${rows}</tbody></table></div>`, "費用の安い順。部品取りは欠航確率が大きく上がる（機体の減る 737-8 受領の場合を除く）。グリーンタイム・エンジンの入手数（最大 8 基）は楽観的な仮定。");
+  }
+
+  function invest() {
+    const v = C().invest;
+    if (!v) return panel("国内工場の新設（LEAP-1B）", '<p class="hint">試算中です。LEAP-1B の整備間隔・費用と工場投資の数字を調べています。</p>');
+    const rows = v.options.map((o) => `<tr class="${o.id === v.best.id ? "best" : ""}"><td>${esc(o.label)}</td><td class="n num">${musd(o.capex)}</td><td class="n num ${o.npv > 0 ? "pos" : "neg"}">${musd(o.npv)}</td><td class="n num">${o.payback ?? "—"}</td><td class="n num">${pct(o.p_positive)}</td></tr>`).join("");
+    return panel("結論", `<p style="font-size:15px;font-weight:600">${esc(v.headline)}</p><p class="hint">${esc(v.why || "")}</p>`)
+      + panel("段階ごとの比較（百万ドル、正味現在価値）", `<div class="scroll"><table><thead><tr><th>案</th><th class="n">投資</th><th class="n">正味現在価値</th><th class="n">回収年</th><th class="n">得になる確率</th></tr></thead><tbody>${rows}</tbody></table></div>`, esc(v.note || ""));
+  }
+
+  /* ---------- level 3 ---------- */
+  function engines() {
+    const c = C();
+    const rows = c.plan.map((r) => `<tr><td class="mono">${r.esn}</td><td class="mono">${r.month}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${esc(r.shop_name)}</td><td class="n num">${fmt(r.exp_cost)}</td><td class="mono">${r.limit}</td><td class="mono">${r.decide_by}</td><td>${esc(r.deadline_reason)}</td><td>${r.watch ? '<span class="sev warn">要監視</span>' : ""}</td></tr>`).join("");
+    return panel(`エンジン別（${c.plan.length} 基）`, `<div class="scroll"><table><thead><tr><th>ESN</th><th>入場月</th><th>整備範囲</th><th>工場</th><th class="n">期待費用（千ドル）</th><th>取卸し期限</th><th>判断期限</th><th>理由</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`);
+  }
+  function months() {
+    const rows = C().months.map((r) => `<tr style="${r.peak ? "background:var(--peak)" : ""}"><td class="mono">${r.label}</td><td class="n num">${r.inductions}</td><td class="n num">${r.norm_visits.toFixed(1)}</td><td class="n num">${musd(r.spend)}</td><td class="n num ${r.margin < 0 ? "neg" : ""}">${sg(r.margin, (x) => x)}</td><td class="n num">${r.load}/${r.slots}</td><td class="n num">${r.due}</td></tr>`).join("");
+    return panel("月別", `<div class="scroll"><table><thead><tr><th>月</th><th class="n">入場</th><th class="n">平年</th><th class="n">整備費（百万ドル）</th><th class="n">余力（基）</th><th class="n">工場</th><th class="n">判断期限</th></tr></thead><tbody>${rows}</tbody></table></div>`, "色付きの行は繁忙期。余力＝使えるエンジン −（必要装着数＋棚の予備）。");
+  }
+
+  /* ---------- level 4 ---------- */
+  function sources() {
+    const c = C();
+    const flat = [];
+    const walk = (k, v) => { if (v && typeof v === "object") Object.entries(v).forEach(([kk, vv]) => walk(`${k} / ${kk}`, vv)); else if (v) flat.push([k, v]); };
+    Object.entries(c.sources).forEach(([k, v]) => walk(k, v));
+    const link = (s) => esc(s).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return panel("出典", `<div class="scroll"><table><tbody>${flat.map(([k, v]) => `<tr><td class="mono" style="white-space:nowrap">${esc(k)}</td><td class="src">${link(v)}</td></tr>`).join("")}</tbody></table></div>`)
+      + panel(`出典のない数字（${c.unsourced.length} 件）`, `<div class="scroll"><table><tbody>${c.unsourced.map((u) => `<tr><td class="mono" style="white-space:nowrap">${esc(u.where)}</td><td class="src">${esc(u.what)}</td></tr>`).join("")}</tbody></table></div>`, "これらは実データか社内の合意値で置き換えるか、感度分析で幅を見るべき数字です。");
+  }
+
+  render();
+})();
+</script>
