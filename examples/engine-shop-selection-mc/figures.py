@@ -337,10 +337,11 @@ def strategy_matrix() -> str:
     """One level more abstract: rows are the four layers of the first figure, columns are the
     flow (what enters, what is run, what comes out), and the far right is the result the
     decision-maker should receive. Observation rises, decisions descend."""
-    W, Hh = 1400, 860
+    W, Hh = 1400, 960
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
-         f'<defs><marker id="ma" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="{LINE}"/></marker>'
-         f'<marker id="mr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="{LOOP}"/></marker></defs>']
+         f'<defs><marker id="ma" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{LINE}"/></marker>'
+         f'<marker id="mr" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 z" fill="{LOOP}"/></marker>'
+         f'<marker id="mg" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{PORT}"/></marker></defs>']
     def T(x, y, t, size=12, fill=INK, w="", anchor="start"):
         o.append(f'<text x="{x}" y="{y}" font-size="{size}" fill="{fill}" text-anchor="{anchor}" {w}>{t}</text>')
     def cell(x, y, w, h, title, lines, lit="", kind="det", strong=False):
@@ -349,11 +350,12 @@ def strategy_matrix() -> str:
         T(x + 10, y + 19, title, 12.5, INK, 'font-weight="700"')
         for i, l in enumerate(lines): T(x + 10, y + 37 + i * 15, l, 10.5)
         if lit: T(x + 10, y + h - 8, lit, 9.5, MUTE)
-    def poly(pts, red=False, w=1.6, dash=""):
-        o.append(f'<polyline fill="none" points="{pts}" stroke="{LOOP if red else LINE}" stroke-width="{w}" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#{"mr" if red else "ma"})"/>')
+    def poly(pts, red=False, w=2.4, dash="", teal=False):
+        col_, mk = (LOOP, "mr") if red else (PORT, "mg") if teal else (LINE, "ma")
+        o.append(f'<polyline fill="none" points="{pts}" stroke="{col_}" stroke-width="{w}" stroke-linejoin="round" {f"stroke-dasharray={chr(34)}{dash}{chr(34)}" if dash else ""} marker-end="url(#{mk})"/>')
     T(20, 30, "あるべき分析ストラテジー：層 × 流れ。右端が「あるべき結果」", 20, INK, 'font-weight="700"')
-    T(20, 52, "行＝層（下から観測が上がり、上から決定が下りる）。列＝入る → 回す → 出る。回すの箱の下の灰色＝文献の系統。深紅の枠＝新しく足す層と、推奨の経路。", 11, MUTE)
-    LX, T0 = 170, 100; CW = [240, 380, 230]; GX = 14; RH = 150; GY = 14
+    T(20, 52, "行＝層、列＝入る → 回す → 出る。線の色：深紅（太）＝推奨の経路、青緑＝観測・前提が上の層へ上がる、灰の点線＝決定・必要が下の層へ下りる。回すの箱の下の灰色＝文献の系統。", 11, MUTE)
+    LX, T0 = 170, 100; CW = [240, 380, 230]; GX = 22; RH = 150; GY = 40
     X0 = LX; X1 = X0 + CW[0] + GX; X2 = X1 + CW[1] + GX; XR = X2 + CW[2] + 26; RW = W - XR - 20
     heads = [("入る", "その層が受け取るもの"), ("回す（方法）", "計算か人か・文献"), ("出る", "上の層／右へ渡すもの")]
     for x, w, (h, sub) in zip((X0, X1, X2), CW, heads):
@@ -396,22 +398,25 @@ def strategy_matrix() -> str:
         strong = r in (1, 2)
         cell(XR + 10, y + 12, RW - 20, RH - 24, res[0], res[1], "", "judge", strong)
         red = r in (1, 2)
-        poly(f"{X0 + CW[0]},{y + RH / 2} {X1},{y + RH / 2}", red, 3 if red else 1.8)
-        poly(f"{X1 + CW[1]},{y + RH / 2} {X2},{y + RH / 2}", red, 3 if red else 1.8)
-        poly(f"{X2 + CW[2]},{y + RH / 2} {XR + 10},{y + RH / 2}", red, 3 if red else 1.8)
+        poly(f"{X0 + CW[0] + 2},{y + RH / 2} {X1 - 2},{y + RH / 2}", red, 4.5 if red else 2.4)
+        poly(f"{X1 + CW[1] + 2},{y + RH / 2} {X2 - 2},{y + RH / 2}", red, 4.5 if red else 2.4)
+        poly(f"{X2 + CW[2] + 2},{y + RH / 2} {XR + 8},{y + RH / 2}", red, 4.5 if red else 2.4)
     # vertical: observation rises (out of the lower row -> in of the upper row), decisions descend (dashed)
     for r in (1, 2, 3):
-        yt = T0 + (r - 1) * (RH + GY) + RH - 12; yb = T0 + r * (RH + GY) + 12
+        yt = T0 + (r - 1) * (RH + GY) + RH - 12; yb = T0 + r * (RH + GY) + 12; ym = (yt + yb) / 2
         red = r == 2   # bundled assumptions -> fleet planning is on the recommended path
-        poly(f"{X2 + CW[2] - 40},{yb} {X2 + CW[2] - 40},{yt + 4} {X0 + CW[0] / 2 + 60},{yt + 4} {X0 + CW[0] / 2 + 60},{yt}", red, 3 if red else 1.8)
-        poly(f"{X0 + 40},{yt} {X0 + 40},{yb}", False, 1.6, "6 4")
-    T(X0 + 46, T0 + RH + 2, "決定・必要が下りる", 9.5, MUTE); T(X2 + CW[2] - 36, T0 + RH + 2, "観測・前提が上がる", 9.5, MUTE)
+        poly(f"{X2 + CW[2] - 50},{yb} {X2 + CW[2] - 50},{ym} {X0 + CW[0] - 50},{ym} {X0 + CW[0] - 50},{yt}", red, 4.5 if red else 3, "", teal=not red)
+        poly(f"{X0 + 36},{yt} {X0 + 36},{yb}", False, 2.2, "7 5")
+        T(X0 + CW[0] - 44, ym - 5, "上がる：" + ("束ねた前提" if r == 2 else "観測・状態" if r == 3 else "計画と幅"), 10, LOOP if red else PORT, 'font-weight="700"')
+        T(X0 + 42, ym + 4, "下りる：" + ("必要エンジン数" if r == 1 else "上限・世界" if r == 2 else "計画（何を見るか）"), 10, MUTE)
     # the decision under the result column
     yd = T0 + 4 * RH + 3 * GY + 12
     o.append(f'<rect x="{XR + 10}" y="{yd}" width="{RW - 20}" height="34" rx="8" fill="{COL["judge"][0]}" stroke="{COL["judge"][1]}" stroke-width="1.5"/>'); T(XR + RW / 2, yd + 22, "→ 決める：版の承認・購入・便・投資", 12, INK, 'font-weight="700"', "middle")
-    poly(f"{XR + RW / 2},{T0 + 4 * RH + 3 * GY - 8} {XR + RW / 2},{yd}", True, 3)
+    poly(f"{XR + RW / 2},{T0 + 4 * RH + 3 * GY - 8} {XR + RW / 2},{yd - 2}", True, 4.5)
     # feedback: next year's strategy back to the learning layer (dashed)
-    poly(f"{XR + 10},{T0 + 2 * (RH + GY) + RH - 40} {X2 + CW[2] + 12},{T0 + 2 * (RH + GY) + RH - 40}", False, 1.6, "6 4")
+    yf = T0 + 2 * (RH + GY) + RH + 6
+    poly(f"{XR + 60},{T0 + 2 * (RH + GY) + RH - 12} {XR + 60},{yf} {X2 + CW[2] - 110},{yf} {X2 + CW[2] - 110},{T0 + 2 * (RH + GY) + RH - 12}", False, 2.2, "7 5")
+    T(XR + 54, yf + 14, "年 1 回：採点 → 来年の型と重みを戻す", 10, MUTE, "", "end")
     y0 = Hh - 36
     T(20, y0, "推奨の経路（太い深紅）：観測 → 4 本の前提を束ねる（③）→ 束ねた前提で解いて叩き、購入の輪で後悔最小（②）→ 予算内の年度計画と壊れにくい購入計画 → 決める。② 採点重みは年 1 回だけ。すべて合成データの目安。", 11.5, INK, 'font-weight="700"')
     T(20, y0 + 18, "元の図との対応：行 ①〜④ は最初の層の図、列「入る → 回す → 出る」と右端は 2 枚目の流れの図。P1 基本計画（PDCA）は行 ①②、P2 詳細計画（OODA）は行 ③④ にあたる。", 11, MUTE)
