@@ -333,11 +333,11 @@ def strategy_stack() -> str:
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="あるべき分析ストラテジー" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
 
 
-def strategy_matrix() -> str:
+def strategy_matrix(overlays: bool = True) -> str:
     """One level more abstract: rows are the four layers of the first figure, columns are the
     flow (what enters, what is run, what comes out), and the far right is the result the
     decision-maker should receive. Observation rises, decisions descend."""
-    W, Hh = 1400, 960
+    W, Hh = 1400, 1000
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
          f'<defs><marker id="ma" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{LINE}"/></marker>'
          f'<marker id="mr" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 z" fill="{LOOP}"/></marker>'
@@ -391,7 +391,7 @@ def strategy_matrix() -> str:
         for i, part in enumerate(cad.split("｜")): T(30, y + 40 + i * 14, part, 10, MUTE)
         if r == 2:
             o.append(f'<rect x="{X0 - 6}" y="{y + 4}" width="{X2 + CW[2] - X0 + 12}" height="{RH - 8}" rx="9" fill="none" stroke="{LOOP}" stroke-width="2.5" stroke-dasharray="10 5"/>')
-            o.append(f'<rect x="{X0}" y="{y - 10}" width="150" height="19" rx="5" fill="{LOOP}"/>'); T(X0 + 8, y + 3, "新しく足す層（新規性）", 11, "#fff", 'font-weight="700"')
+            o.append(f'<rect x="{X2 + CW[2] - 150}" y="{y - 10}" width="150" height="19" rx="5" fill="{LOOP}"/>'); T(X2 + CW[2] - 142, y + 3, "新しく足す層（新規性）", 11, "#fff", 'font-weight="700"')
         cell(X0, y + 12, CW[0], RH - 24, *cin)
         cell(X1, y + 12, CW[1], RH - 24, *crun)
         cell(X2, y + 12, CW[2], RH - 24, *cout)
@@ -417,6 +417,53 @@ def strategy_matrix() -> str:
     yf = T0 + 2 * (RH + GY) + RH + 6
     poly(f"{XR + 60},{T0 + 2 * (RH + GY) + RH - 12} {XR + 60},{yf} {X2 + CW[2] - 110},{yf} {X2 + CW[2] - 110},{T0 + 2 * (RH + GY) + RH - 12}", False, 2.2, "7 5")
     T(XR + 54, yf + 14, "年 1 回：採点 → 来年の型と重みを戻す", 10, MUTE, "", "end")
+    if overlays:
+        FL = "#0e7490"
+        def chip(x, y, t, col, fill="#fff", size=10):
+            bw = tw(t, size) + 12
+            o.append(f'<rect x="{x}" y="{y}" width="{bw}" height="17" rx="8" fill="{fill}" stroke="{col}" stroke-width="1.4"/>'); T(x + bw / 2, y + 12, t, size, col, 'font-weight="700"', "middle"); return bw
+        # 1. what the flight plan (航空計画) derives — numbered teal badges in the cells they land in
+        o.append('<g id="ov-flight">')
+        FLIGHT = [("便1", "必要エンジン数＝2 × 飛ぶ機数 − 整備で止まる機", 0, 2), ("便2", "稼働率 → 劣化率と窓（入場までの回数）", 3, 1), ("便3", "季節指数 → 入場を谷の月に置く", 1, 1),
+                  ("便4", "便の追加 → 予備の数と足す計画", 0, 1), ("便5", "置き換え機の受領 → 退役ペース・退役順", 1, 0), ("便6", "区間長・サイクル比 → 劣化の型（leg factor）", 3, 0)]
+        cols_x = [X0, X1, X2]
+        for k, (tag, what, r, c) in enumerate(FLIGHT):
+            y = T0 + r * (RH + GY) + 12; x = cols_x[c] + CW[c] - 46 - (k % 2) * 40
+            o.append(f'<circle cx="{x}" cy="{y + 14}" r="12" fill="{FL}"/>'); T(x, y + 18, tag, 9.5, "#fff", 'font-weight="700"', "middle")
+        ys = Hh - 118
+        o.append(f'<rect x="20" y="{ys}" width="{W - 40}" height="44" rx="8" fill="rgba(14,116,144,0.07)" stroke="{FL}" stroke-width="1.4"/>')
+        T(30, ys + 17, "航空計画（便の計画）から導くもの（私たちの理論：便が「必要」を決め、下の層へ下りる）", 11, FL, 'font-weight="700"')
+        T(30, ys + 34, "　".join(f"{t} {w}" for t, w, _, _ in FLIGHT), 10, INK)
+        o.append('</g>')
+        # 2. PDCA (rows ①②) and OODA (rows ③④) stage chips, one per cell
+        o.append('<g id="ov-stage">')
+        STAGES = [["Plan", "Plan → Do", "Check", "Act"], ["Plan", "Plan → Do", "Check", "Act"], ["Observe", "Orient", "Decide", "Act"], ["Observe", "Orient", "Decide", "Act"]]
+        for r in range(4):
+            y = T0 + r * (RH + GY) + 12 + 4; col_ = PDCA if r < 2 else OODA
+            for c, x in enumerate([X0, X1, X2, XR + 10]):
+                chip(x + 6, y - 14, ("PDCA " if r < 2 else "OODA ") + STAGES[r][c], col_, "#fff", 9.5)
+        o.append(f'<rect x="4" y="{T0}" width="10" height="{2 * RH + GY}" rx="3" fill="{PDCA}"/><rect x="4" y="{T0 + 2 * (RH + GY)}" width="10" height="{2 * RH + GY}" rx="3" fill="{OODA}"/>')
+        T(-(T0 + RH + GY / 2), 12, "PDCA（年次〜半期）", 10, "#fff", 'font-weight="700" transform="rotate(-90)"', "middle")
+        T(-(T0 + 2 * (RH + GY) + RH + GY / 2), 12, "OODA（月次〜当日）", 10, "#fff", 'font-weight="700" transform="rotate(-90)"', "middle")
+        o.append('</g>')
+        # 3. output-based: a KPI with a target under each result box
+        o.append('<g id="ov-output">')
+        KPI = [["便の達成率 100%", "足せる便 > 0"], ["欠航確率 ≤ 5%", "予算差 ±5%・p90 の幅"], ["被覆率 ≥ 80%", "幅の警報 ≤ 2 回／年"], ["データ鮮度：月次 100%", "変化点の検知遅れ ≤ 2 か月"]]
+        for r in range(4):
+            y = T0 + r * (RH + GY) + 12 + RH - 24 - 40; x = XR + 16
+            T(x, y - 4, "アウトプット（成果指標）", 9.5, "#7c2d12", 'font-weight="700"')
+            for k_, t in enumerate(KPI[r]):
+                x += chip(x, y, t, "#7c2d12", "#fff7ed", 9.5) + 6
+        o.append('</g>')
+        # 4. what kind of intelligence does the work in each box
+        o.append('<g id="ov-ai">')
+        AI = {(0, 1): ("式", "#475569"), (1, 1): ("OR：MILP＋MC", "#4338ca"), (2, 1): ("統計学習：ベイズ・忘却・変化点", "#4338ca"), (3, 1): ("ML：RUL アンサンブル／統計：BOCPD", "#4338ca"),
+              (2, 2): ("AI（LLM）：見直しの文章と振り分け", "#9333ea"), (0, 3): ("人", "#b45309"), (1, 3): ("人", "#b45309"), (2, 3): ("人＋AI（LLM）：症状表", "#9333ea"), (3, 3): ("データ", "#0e7490")}
+        for (r, c), (t, col_) in AI.items():
+            x = [X0, X1, X2, XR + 10][c]; w = [CW[0], CW[1], CW[2], RW - 20][c]; y = T0 + r * (RH + GY) + 12 + RH - 24
+            bw = tw(t, 9.5) + 12
+            o.append(f'<rect x="{x + w - bw - 6}" y="{y - 9}" width="{bw}" height="17" rx="4" fill="{col_}"/>'); T(x + w - 6 - bw / 2, y + 3, t, 9.5, "#fff", 'font-weight="700"', "middle")
+        o.append('</g>')
     y0 = Hh - 36
     T(20, y0, "推奨の経路（太い深紅）：観測 → 4 本の前提を束ねる（③）→ 束ねた前提で解いて叩き、購入の輪で後悔最小（②）→ 予算内の年度計画と壊れにくい購入計画 → 決める。② 採点重みは年 1 回だけ。すべて合成データの目安。", 11.5, INK, 'font-weight="700"')
     T(20, y0 + 18, "元の図との対応：行 ①〜④ は最初の層の図、列「入る → 回す → 出る」と右端は 2 枚目の流れの図。P1 基本計画（PDCA）は行 ①②、P2 詳細計画（OODA）は行 ③④ にあたる。", 11, MUTE)
@@ -439,6 +486,21 @@ def svgs() -> dict[str, str]:
     return {"plan_basic": plan_basic(), "plan_detail": plan_detail()}
 
 
+def concept_page() -> str:
+    """The strategy matrix as an HTML page with the three overlays switchable."""
+    svg = strategy_matrix(True)
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>あるべき分析ストラテジー（層 × 流れ）</title>
+<style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
+.bar{{display:flex;gap:18px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;font-size:13px;position:sticky;top:0;background:{BG}}}
+.bar label{{display:flex;gap:6px;align-items:center;cursor:pointer}} svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
+.note{{padding:10px 20px 24px;font-size:12px;color:{MUTE};max-width:1400px}}</style></head><body>
+<div class="bar"><b>重ねる：</b><label><input type="checkbox" data-g="ov-flight" checked> 航空計画から導くもの（便 1〜6）</label><label><input type="checkbox" data-g="ov-stage" checked> PDCA／OODA の段階</label><label><input type="checkbox" data-g="ov-output" checked> アウトプット（成果指標）</label><label><input type="checkbox" data-g="ov-ai" checked> 何が働くか（OR／統計／ML／AI／人）</label></div>
+{svg}
+<p class="note">行＝層、列＝入る → 回す → 出る、右端＝あるべき結果。上 2 行が PDCA（年次〜半期）、下 2 行が OODA（月次〜当日）。便の札は航空計画から導く量が使われる箱。成果指標の目標値は合成データの目安で、実運用では会社の値に置き換える。「何が働くか」：解くのは数理最適化（OR）とモンテカルロ、学ぶのは統計学習、部品の寿命は ML、文章と振り分けは AI（LLM）、決めるのは人。</p>
+<script>document.querySelectorAll("input[data-g]").forEach(c=>c.addEventListener("change",()=>document.getElementById(c.dataset.g).classList.toggle("hide",!c.checked)));</script>
+</body></html>'''
+
+
 def page(svg: str, title: str) -> str:
     return f'<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>{title}</title><style>body{{margin:0;background:{BG}}}svg{{display:block;max-width:100%;height:auto}}</style></head><body>{svg}</body></html>'
 
@@ -448,6 +510,7 @@ def main(argv=None) -> int:
     ap.add_argument("--out-dir", type=Path, default=Path("out"))
     a = ap.parse_args(argv)
     a.out_dir.mkdir(parents=True, exist_ok=True)
+    (a.out_dir / "strategy_concept.html").write_text(concept_page(), encoding="utf-8")
     for k, s in {**svgs(), **extra_svgs()}.items():
         (a.out_dir / f"{k}.html").write_text(page(s, {"plan_basic": "基本計画（年次〜半期）", "plan_detail": "詳細計画（月次〜当日）", "strategy_stack": "あるべき分析ストラテジー（流れ）", "strategy_matrix": "あるべき分析ストラテジー（層 × 流れ）"}[k]), encoding="utf-8")
         print(f"{k} -> {a.out_dir / f'{k}.html'} ({len(s) // 1024} KB)")
