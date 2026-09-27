@@ -3300,6 +3300,43 @@
   "residual_value_k": 158076,
   "heavy_late_engines": 0
  },
+ "delivery_delay": {
+  "6": {
+   "months": 6,
+   "end": "2033-08",
+   "visits": 22,
+   "spend_k": 242000,
+   "extra_visits": 0,
+   "extra_spend_k": 0,
+   "engines_with_extra_visit": [],
+   "months_short": 0,
+   "residual_value_k": 138556,
+   "known": {
+    "visits": 22,
+    "extra_visits": 0,
+    "extra_spend_k": 0,
+    "months_short": 0
+   }
+  },
+  "12": {
+   "months": 12,
+   "end": "2034-02",
+   "visits": 22,
+   "spend_k": 242000,
+   "extra_visits": 0,
+   "extra_spend_k": 0,
+   "engines_with_extra_visit": [],
+   "months_short": 0,
+   "residual_value_k": 115516,
+   "known": {
+    "visits": 22,
+    "extra_visits": 0,
+    "extra_spend_k": 0,
+    "months_short": 0
+   }
+  },
+  "note": "受領遅れ：新機の受領が遅れると退役も遅れ、退役まで持つ最軽の範囲で済ませた機が飛び続けて追加の入場が要る。「不意打ち」は整備範囲を当初の退役日で決めたまま、「分かってから直す」は遅れを知って整備範囲を決め直した場合。差が、受領の見通しを早く知る価値"
+ },
  "company": "ana",
  "note": "合成データ。平均の劣化物理（companies.json の wear）で退役まで決定論的に飛ばす。退役の間隔は no_source。窓の中は凍結した計画の入場、窓の後は退役まで持つ最軽の整備範囲。価値は mx4_params のハーフライフ換算"
 }

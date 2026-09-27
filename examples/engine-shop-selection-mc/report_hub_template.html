@@ -986,6 +986,8 @@ const DATA = /*__DATA__*/null;
       + (R.ops ? panel("対になる運航側（必要なエンジン数と稼働可能な数）", `<p class="chart-note">${R.ops_summary.thin ? `余力が最も薄いのは ${R.ops_summary.thin.label}（${R.ops_summary.thin.margin >= 0 ? "+" : ""}${R.ops_summary.thin.margin} 基）、足りない月 ${R.ops_summary.months_short}` : ""}</p>` + runoutOps(R) + legend([["保有（退役で減る）", "var(--rule)", 1], ["稼働可能（保有 − 工場にいる数）", "var(--good)", 1], ["必要（2 × 飛ぶ機数）", "var(--ink)", 1], ["予備の帯", "var(--muted)"], ["足りない月", "var(--crit)"]]) + G("runoutOps"), esc(R.ops_summary.note)) : "")
       + panel("エンジンごとの列", runoutBoard(R) + G("runoutBoard"), `窓（薄い帯）は凍結した計画の入場、その後は退役まで持つ最軽の整備範囲。退役の間隔 ${R.exits.length ? `${R.exits[0]} から 1 機ずつ` : "—"}（no_source）`)
       + panel("退役順の方針", pol + G("runoutPolicy"))
+      + (R.delivery_delay ? panel("新機の受領が遅れたら（全体の運航は新機が引き継ぐ前提の、その前提が崩れる側）", `<table><thead><tr><th>受領の遅れ</th><th>最終退役</th><th>不意打ち：追加の入場</th><th>追加の費用（百万ドル）</th><th>足りない月</th><th>分かってから直す：追加の入場</th><th>追加の費用</th><th>足りない月</th><th>早く知る価値</th></tr></thead><tbody>`
+          + Object.values(R.delivery_delay).filter((d) => typeof d === "object").map((d) => `<tr><td>${d.months} か月</td><td>${d.end}</td><td>+${d.extra_visits}</td><td>${(d.extra_spend_k / 1000).toFixed(1)}</td><td>${d.months_short}</td><td>+${d.known.extra_visits}</td><td>${(d.known.extra_spend_k / 1000).toFixed(1)}</td><td>${d.known.months_short}</td><td><b>${((d.extra_spend_k - d.known.extra_spend_k) / 1000).toFixed(1)} 百万ドル</b></td></tr>`).join("") + `</tbody></table>`, esc(R.delivery_delay.note)) : "")
       + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。")
       + panel("エンジンごとの注釈", eng, "なぜその整備範囲か、なぜ入場せずに退役か、を 1 行ずつ。");
   }

@@ -151,7 +151,11 @@ def retirement_schedule(cfg: dict, fleet: dict, start: str) -> list[int]:
     return [t0 + i * every for i in range(n_ac)]
 
 
-def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_due", seed: int = 11, exit_hint: dict | None = None) -> dict:
+DELIVERY_DELAYS = (6, 12)   # months the new type's deliveries slip in the scenarios (assumption)
+
+
+def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_due", seed: int = 11, exit_hint: dict | None = None,
+             delivery_delay: int = 0) -> dict:
     ph = Physics(cfg, fleet)
     P = mx4.load_params()
     price = {ws: q["price"] for ws, q in shops["shops"][0]["quotes"].items()}
@@ -159,7 +163,7 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
     start, W = fleet["start"], fleet["horizon_months"]
     plan = {r["esn"]: r for r in b["plan"]}
     rng = np.random.default_rng(seed)
-    exits = retirement_schedule(cfg, fleet, start)
+    exits = [x + delivery_delay for x in retirement_schedule(cfg, fleet, start)]
     end = (max(exits) + 1) if exits else MAX_MONTHS
     end = min(end, MAX_MONTHS)
     # engines: the fleet's due list carries the state; the rest of the owned engines are
@@ -377,6 +381,23 @@ def build(cid: str, baseline_path: Path | None = None, seed: int = 11) -> dict:
     naive = simulate(cfg, b, fleet, shops, "next_due", seed)     # no run-out sizing: stub rule after the window
     main["policies"] = {"next_due": {k: main["totals"][k] for k in ("visits", "spend_k", "residual_value_k", "green_time_engines", "heavy_late_engines", "after_window_visits")}, **alt}
     main["without_runout"] = {k: naive["totals"][k] for k in ("visits", "spend_k", "residual_value_k", "heavy_late_engines")}
+    # the new type's deliveries slip: the 737-800s fly longer than the run-out sized for, so
+    # engines planned to leave need one more visit; the run-out workscopes are NOT re-sized
+    # (the plan was made against the original exits), which is the cost of the surprise
+    main["delivery_delay"] = {}
+    for d in DELIVERY_DELAYS:
+        sd = simulate(cfg, b, fleet, shops, "next_due", seed, exit_hint=hint, delivery_delay=d)           # surprise: sized for the old exits
+        hint_d = {k: v + d for k, v in hint.items()}
+        sk = simulate(cfg, b, fleet, shops, "next_due", seed, exit_hint=hint_d, delivery_delay=d)         # known in time: re-sized
+        newly = [e["esn"] for e in sd["engines"] if e["visits"] > next((m["visits"] for m in main["engines"] if m["esn"] == e["esn"]), 0)]
+        main["delivery_delay"][str(d)] = {"months": d, "end": sd["end"], "visits": sd["totals"]["visits"], "spend_k": sd["totals"]["spend_k"],
+                                          "extra_visits": sd["totals"]["visits"] - main["totals"]["visits"], "extra_spend_k": sd["totals"]["spend_k"] - main["totals"]["spend_k"],
+                                          "engines_with_extra_visit": newly[:30], "months_short": sd["ops_summary"]["months_short"],
+                                          "residual_value_k": sd["totals"]["residual_value_k"],
+                                          "known": {"visits": sk["totals"]["visits"], "extra_visits": sk["totals"]["visits"] - main["totals"]["visits"],
+                                                    "extra_spend_k": sk["totals"]["spend_k"] - main["totals"]["spend_k"], "months_short": sk["ops_summary"]["months_short"]}}
+    main["delivery_delay"]["note"] = ("受領遅れ：新機の受領が遅れると退役も遅れ、退役まで持つ最軽の範囲で済ませた機が飛び続けて追加の入場が要る。"
+                                      "「不意打ち」は整備範囲を当初の退役日で決めたまま、「分かってから直す」は遅れを知って整備範囲を決め直した場合。差が、受領の見通しを早く知る価値")
     main["company"] = cid
     main["note"] = ("合成データ。平均の劣化物理（companies.json の wear）で退役まで決定論的に飛ばす。退役の間隔は no_source。"
                     "窓の中は凍結した計画の入場、窓の後は退役まで持つ最軽の整備範囲。価値は mx4_params のハーフライフ換算")
