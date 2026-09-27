@@ -212,7 +212,8 @@ def horizons(c: dict, b: dict) -> dict:
     def link(a, b_, status, what, measure=None):
         links.append({"from": a, "to": b_, "status": status, "what": what, "measure": measure})
 
-    link("life", "budget", "ok", "平年値を季節で按分して年度予算に", f"計画は予算の {spend2 / budget2 - 1:+.0%}")
+    link("life", "budget", "ok" if spend2 / budget2 - 1 <= 0.05 else "warn", "平年値を季節で按分して年度予算に",
+         f"窓の 2 年の見込み費用 {spend2 / 1000:,.0f} 百万ドルは予算合計 {budget2 / 1000:,.0f} の {spend2 / budget2 - 1:+.0%}。予算は平年の入場件数で置いた額で、この窓は期限の来る機が平年より多い（計画は予算の制約を外して解いている）")
     gap = plan_n / out2 - 1 if out2 else 0
     link("outlook", "plan", "ok" if abs(gap) < 0.15 else "warn", "見通しの最初の 2 年と基準計画の件数",
          f"計画 {plan_n} 件 / 見通し {out2} 件（{gap:+.0%}）")
