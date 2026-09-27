@@ -71,6 +71,8 @@ svg .fi { font-size: 9px; fill: var(--muted); }
 .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
 .sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
 .scroll { overflow-x: auto; }
+.review-text h2, .review-text h3, .review-text h4 { margin: 12px 0 4px; font-size: 1em; }
+.review-text ul, .review-text ol { margin: 4px 0 8px 1.4em; }
 table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
 th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
 td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
@@ -169,12 +171,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -192,7 +194,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4 })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -339,6 +341,8 @@ const DATA = /*__DATA__*/null;
     const tr = c.track, inv = c.invest;
     const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
     const cards = [
+      c.runout ? card("runout", runoutCls(c.runout), "退役までの入場列", runoutLine(c.runout), runoutYears(c.runout, 320, 110, true)) : "",
+      c.review ? card("review", reviewCls(c.review), "PDCA／OODA の見直し（AI）", reviewLine(c.review), coverageGrid(c.review, true)) : "",
       c.mx4 ? card("mx4", "ok", "積立金と機体価値（資産側）", mx4Line(c.mx4), mx4Chart(c.mx4, 320, 110, true)) : "",
       c.lease ? card("lease", c.lease.total_as_is_k - c.lease.total_best_k > 300 ? "warn" : "ok", "リース返却", leaseLine(c.lease), "") : "",
       c.finance ? card("finance", "ok", "お金の仕組み（税・資金・規模）", finLine(c.finance), finChart(c.finance, 320, 150, true)) : "",
@@ -369,8 +373,8 @@ const DATA = /*__DATA__*/null;
     const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
     const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
     // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
-    const GROUPS = [["つくる：計画と予算", ["budget", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
-      ["確かめる：決め方の採点", ["history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
+    const GROUPS = [["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
+      ["確かめる：決め方の採点", ["review", "history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
       ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
     const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
       + (() => { const rest = all.filter((h) => !GROUPS.some(([, keys]) => keys.includes(keyOf(h)))); return rest.length ? `<div class="cards">${rest.join("")}</div>` : ""; })();
@@ -673,6 +677,14 @@ const DATA = /*__DATA__*/null;
       fleetspend: ["機種ごとの 2 年の支出を年度別に積み、会社の予算（黒線）と比べた図", "棒の高さが機種の合計、黒線が会社の枠。線を超える年度は機種横断で予算が足りない", c.multi ? fleetsLine(c.multi) : "", "超える年度は、右の配分表で機種ごとの予算を ×0.9〜×1.1 に動かした損得を見る"],
       fleetdeadlines: ["全機種の判断期限を月ごとに積んだ図", "色が機種。赤い点線は会議で扱える目安（月 5 件）", c.multi ? `最も多い月 ${Math.max(...c.multi.deadlines_total)} 件` : "", "点線を超える月は、機種ごとの会議を分けるか、暗黙のルールで担当決裁に降ろす"],
       fleetalloc: ["機種ごとに予算を ×0.9／×1.0／×1.1 で解き直した費用と欠航リスクの表と、会社の枠の中で最も良い組み合わせ", "予算を締めると費用は下がるが欠航リスクが上がる機種、締めても変わらない機種がある。変わらない機種の予算を締めて、変わる機種に回す", c.multi && c.multi.allocation ? `配分：${Object.entries(c.multi.allocation.levels).map(([k, v]) => `${k} ×${v}`).join("、")}` : "", "配分を予算要求に反映する。機種の入れ替え（退役・受領）がある年は再計算"],
+      runoutYears: ["退役までの毎年の入場件数（整備範囲で色分け）と、その年に退役する基数（線）", "窓（最初の 2 年）は凍結した計画、その後は平均の劣化で退役まで飛ばした結果。退役が進むと、入場の代わりに退役で済む機が増える",
+        c.runout ? runoutLine(c.runout) : "", "山の年は退役順を前後させて均す。谷の年に前倒しできる重整備があるか、機ごとの列で探す"],
+      runoutBoard: ["エンジン 1 基ごとの、今日から退役までの入場の列", "色の棒＝入場（整備範囲）。白い菱形＝退役。赤い印＝平均の劣化では計画の入場より前に限界が来る。退役の直前に濃い棒（CORE/FULL）がある機は、寿命を買って捨てている",
+        c.runout ? `重整備を退役の 2 年以内に買う機 ${c.runout.totals.heavy_late_engines} 基、寿命を残して退役する機 ${c.runout.totals.green_time_engines} 基` : "", "退役直前の重整備は退役順を前に。寿命を残す機は売却・グリーンタイムリースの候補"],
+      runoutPolicy: ["退役順の方針ごとの生涯費用・入場件数・退役時の残存価値", "「次に入場が近い機から」が入場を最も減らす。「無作為」は寿命を買って捨てる回数が最大。最下行は窓の後の整備範囲を「退役まで持つ最軽」にしない場合",
+        "", "退役順は計画の変数。年次の版で方針を決め、月次で機を指名する"],
+      reviewCoverage: ["PDCA の 4 段と OODA の 4 段それぞれに、規則層が見つけた指摘の最悪度", "赤＝今すぐ直す、黄＝会議で決める、灰＝情報、緑＝問題なし。空欄はその段を見る材料がない",
+        c.review ? reviewLine(c.review) : "", "赤の段から順に「会議で聞く問い」へ。AI の総評は規則層の症状表に根拠を添えて書いている"],
       loops: ["計画の 2 つの輪（PDCA と OODA）の関係", "遅い輪が決め方を直し、速い輪が目の前を動かす。速い輪の結果は年 1 回、遅い輪に戻る", t && t.ooda ? loopsLine(t.ooda) : "", "安全スイッチが続く年は、前提（世界）の定義を見直す"],
       rules: ["月次会議を待たずに動くための暗黙のルール一覧", "きっかけ・条件・行動・誰が・速さ。条件の単位価値 v は年間整備費 ÷ 取付エンジン ÷ 12", t && t.ooda ? `v = ${t.ooda.unit_value_k.toFixed(0)} 千ドル／基・月` : "", "件数と結果を年 1 回見直し、承認線と閾値を直す"],
       looptime: ["気づいてから動くまでの時間 T を、検知（D）・状況判断（O）・判断（A）・実行（E）に分けた表", "今の値と、それぞれを縮めるてこ。D + A が判断期限までのリード R を超えると手遅れ", t && t.ooda ? `T ${t.ooda.loop_time.T_now.toFixed(1)} → ${t.ooda.loop_time.T_target.toFixed(1)} か月` : "", "E（キットの納期）が最も長い。先行発注とプール契約で縮める"],
@@ -903,6 +915,95 @@ const DATA = /*__DATA__*/null;
       + panel("ループの時間 T = D + O + A + E", lt + G("looptime"))
       + panel("速い輪から遅い輪へ（年 1 回、次の版の前提に）", feed + G("feedback"))
       + panel("今回の案件", cases, "太字は会議に回した案件。");
+  }
+
+  /* ---------------- run-out to the fleet's exit ---------------- */
+  const runoutCls = (R) => (R.totals.heavy_late_engines > 3 || R.totals.plan_gaps > 5 ? "warn" : "ok");
+  const runoutLine = (R) => `${R.end} の最終退役まで ${R.totals.engines} 基で入場 ${R.totals.visits} 件（窓の後 ${R.totals.after_window_visits}）、費用 ${(R.totals.spend_k / 1000).toFixed(0)} 百万ドル。退役で処分する残存価値 ${(R.totals.residual_value_k / 1000).toFixed(0)} 百万ドル、寿命を残して退役 ${R.totals.green_time_engines} 基、退役直前の重整備 ${R.totals.heavy_late_engines} 基`;
+  function runoutYears(R, W = 900, H = 240, compact = false) {
+    const Y = R.by_year, L = compact ? 6 : 44, B = compact ? 6 : 26, T = compact ? 6 : 10, Rm = compact ? 6 : 44;
+    const top = Math.max(1, ...Y.map((y) => y.visits)), topR = Math.max(1, ...Y.map((y) => y.retired));
+    const bw = (W - L - Rm) / Y.length, sy = (v) => T + (H - T - B) * (1 - v / top), sr = (v) => T + (H - T - B) * (1 - v / topR);
+    let s = "";
+    Y.forEach((y, i) => {
+      const x = L + i * bw + bw * 0.15; let y0 = sy(0);
+      ["PR", "CORE", "FULL"].forEach((ws) => { const n = y.by_ws[ws]; if (!n) return; const h = sy(0) - sy(n); s += `<rect x="${x}" y="${y0 - h}" width="${bw * 0.7}" height="${h}" fill="${WS[ws]}"><title>${y.year} ${ws} ${n} 件</title></rect>`; y0 -= h; });
+      if (!compact) s += `<text class="tick" x="${x + bw * 0.35}" y="${H - B + 14}" text-anchor="middle">${y.year}</text>`;
+    });
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="1.5" points="${Y.map((y, i) => `${L + i * bw + bw * 0.5},${sr(y.retired)}`).join(" ")}"/>`;
+    if (!compact) { s += `<text class="tick" x="${L - 6}" y="${sy(top) + 4}" text-anchor="end">${top}</text><text class="tick" x="${L - 6}" y="${sy(0)}" text-anchor="end">0</text>`; s += `<text class="tick" x="${W - Rm + 6}" y="${sr(topR) + 4}">${topR} 基</text>`; }
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="退役までの毎年の入場件数">${s}</svg>`;
+  }
+  function runoutBoard(R, W = 1000) {
+    const E = R.engines.filter((e) => e.visits > 0 || e.in_window_plan).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9) || (a.chain[0] ? a.chain[0].t : 0) - (b.chain[0] ? b.chain[0].t : 0));
+    const rowH = 14, L = 64, T = 22, H = T + E.length * rowH + 8, N = R.end_t, x = (t) => L + t / N * (W - L - 10);
+    let s = `<rect x="${x(0)}" y="${T - 4}" width="${x(R.window_months) - x(0)}" height="${H - T}" fill="var(--accent-soft)" opacity=".35"><title>凍結した計画の窓</title></rect>`;
+    const y0 = +R.start.slice(0, 4);
+    for (let yr = 0; yr * 12 <= N; yr++) { s += `<line x1="${x(yr * 12)}" x2="${x(yr * 12)}" y1="${T - 4}" y2="${H}" stroke="var(--rule)"/><text class="tick" x="${x(yr * 12) + 2}" y="${T - 8}">${y0 + yr}</text>`; }
+    E.forEach((e, i) => {
+      const y = T + i * rowH;
+      s += `<text class="lbl" x="${L - 6}" y="${y + 10}" text-anchor="end" font-size="9">${esc(e.esn)}</text>`;
+      if (e.retire_t != null) s += `<line x1="${x(0)}" x2="${x(e.retire_t)}" y1="${y + 7}" y2="${y + 7}" stroke="var(--rule)" stroke-dasharray="1 3"/>`;
+      e.chain.forEach((c) => {
+        if (c.gap) { s += `<circle cx="${x(c.t)}" cy="${y + 7}" r="3" fill="var(--crit)"><title>${esc(c.reason)}</title></circle>`; return; }
+        s += `<rect x="${x(c.t)}" y="${y + 2}" width="${Math.max(3, x(c.t + 4) - x(c.t))}" height="10" fill="${WS[c.ws]}"><title>${c.label} ${c.ws} ${fmt(c.cost_k)} k$（${esc(c.reason)}、持つ ${c.lasts_months} か月）</title></rect>`;
+      });
+      if (e.retire_t != null) s += `<path d="M${x(e.retire_t)},${y + 2} l5,5 l-5,5 l-5,-5 z" fill="#fff" stroke="var(--ink)"><title>${e.retire} 退役。残る寿命部品 ${fmt(e.residual_llp_cycles)} サイクル、翼上 ${e.residual_run_months} か月、残存価値 ${fmt(e.residual_value_k)} k$</title></path>`;
+    });
+    return `<div class="scroll"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="退役までの入場列">${s}</svg></div>`;
+  }
+  function runout() {
+    const R = C().runout;
+    if (!R) return panel("退役までの入場列", '<p class="hint">runout.py の結果がありません。</p>');
+    const P = { "次に入場が近い機から（採用）": R.policies.next_due, "寿命部品の少ない機から": R.policies.oldest, "無作為": R.policies.random, "退役まで持つ最軽の範囲にしない": R.without_runout };
+    const pol = `<table><thead><tr><th>退役順の方針</th><th>入場</th><th>生涯費用（百万ドル）</th><th>退役時の残存価値</th><th>寿命を残す機</th><th>退役直前の重整備</th></tr></thead><tbody>`
+      + Object.entries(P).map(([k, v]) => `<tr><td>${k}</td><td>${v.visits}</td><td>${(v.spend_k / 1000).toFixed(0)}</td><td>${(v.residual_value_k / 1000).toFixed(0)}</td><td>${v.green_time_engines ?? "—"}</td><td>${v.heavy_late_engines}</td></tr>`).join("") + `</tbody></table>`;
+    const flag = R.engines.filter((e) => e.heavy_late || e.green_time).sort((a, b) => (b.residual_value_k - a.residual_value_k)).slice(0, 25);
+    const tbl = `<table><thead><tr><th>ESN</th><th>退役</th><th>入場</th><th>最後の入場</th><th>退役まで</th><th>残る寿命部品（サイクル）</th><th>残存価値（k$）</th><th>印</th></tr></thead><tbody>`
+      + flag.map((e) => { const l = e.chain.filter((c) => !c.gap).slice(-1)[0]; return `<tr><td>${esc(e.esn)}</td><td>${e.retire || "—"}</td><td>${e.visits}</td><td>${l ? `${l.label} ${l.ws}` : "—"}</td><td>${e.last_visit_to_exit_months ?? "—"} か月</td><td>${fmt(e.residual_llp_cycles)}</td><td>${fmt(e.residual_value_k)}</td><td>${e.heavy_late ? "<b>退役直前の重整備</b>" : ""}${e.green_time ? "寿命を残す" : ""}</td></tr>`; }).join("") + `</tbody></table>`;
+    return panel("", `<p class="chart-note">${esc(runoutLine(R))}</p>` + runoutYears(R) + legend([["軽作業 PR", WS.PR], ["コア CORE", WS.CORE], ["全面 FULL", WS.FULL], ["退役する基数", "var(--ink)", 1]]) + G("runoutYears"), esc(R.note))
+      + panel("エンジンごとの列", runoutBoard(R) + G("runoutBoard"), `窓（薄い帯）は凍結した計画の入場、その後は退役まで持つ最軽の整備範囲。退役の間隔 ${R.exits.length ? `${R.exits[0]} から 1 機ずつ` : "—"}（no_source）`)
+      + panel("退役順の方針", pol + G("runoutPolicy"))
+      + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。");
+  }
+
+  /* ---------------- the AI review (PDCA / OODA) ---------------- */
+  const SEV = { crit: "var(--crit)", warn: "var(--warn)", info: "var(--muted)", ok: "var(--good)" };
+  const reviewCls = (V) => (Object.values(V.coverage).some((c) => c.worst === "crit") ? "flag" : Object.values(V.coverage).some((c) => c.worst === "warn") ? "warn" : "ok");
+  const reviewLine = (V) => { const n = { crit: 0, warn: 0, info: 0, ok: 0 }; V.symptoms.forEach((s) => n[s.severity]++); return `${V.review.mode === "ai" ? `AI（${V.review.model}）の総評つき` : "規則層のみ（AI 未接続）"}：今すぐ直す ${n.crit}、会議で決める ${n.warn}、情報 ${n.info}、問題なし ${n.ok}`; };
+  function coverageGrid(V, compact = false) {
+    const loops = [["PDCA", ["Plan", "Do", "Check", "Act"]], ["OODA", ["Observe", "Orient", "Decide", "Act"]]];
+    const JPN = { Plan: "つくる", Do: "回す", Check: "確かめる", Act: "直す／動く", Observe: "見る", Orient: "状況判断", Decide: "決める" };
+    const W = compact ? 320 : 900, cw = (W - 60) / 4, ch = compact ? 40 : 64;
+    let s = "";
+    loops.forEach(([lp, st], r) => {
+      s += `<text class="lbl" x="0" y="${r * ch + ch / 2 + 4}">${lp}</text>`;
+      st.forEach((k, i) => { const c = V.coverage[`${lp}.${k}`]; const col = c && c.worst ? SEV[c.worst] : "var(--rule)"; s += `<rect x="${60 + i * cw + 2}" y="${r * ch + 2}" width="${cw - 4}" height="${ch - 4}" rx="4" fill="${col}" opacity="${c && c.worst ? 0.85 : 0.25}"><title>${lp} ${k}: ${c ? c.n : 0} 件${c && c.worst ? `（最悪 ${c.worst}）` : ""}</title></rect><text class="tick" x="${60 + i * cw + cw / 2}" y="${r * ch + ch / 2 + 4}" text-anchor="middle" style="fill:#fff;font-weight:600">${k}${compact ? "" : `　${JPN[k]}`}${c && c.n ? ` ${c.n}` : ""}</text>`; });
+    });
+    return `<svg viewBox="0 0 ${W} ${loops.length * ch}" role="img" aria-label="PDCA と OODA の段ごとの指摘">${s}</svg>`;
+  }
+  function md(text) {
+    const inl = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+    const out = []; let list = null;
+    const close = () => { if (list) { out.push(`</${list}>`); list = null; } };
+    String(text || "").split("\n").forEach((ln) => {
+      let m;
+      if ((m = ln.match(/^(#{1,3})\s+(.*)/))) { close(); out.push(`<h${m[1].length + 1}>${inl(m[2])}</h${m[1].length + 1}>`); }
+      else if ((m = ln.match(/^\s*[-*]\s+(.*)/))) { if (list !== "ul") { close(); out.push("<ul>"); list = "ul"; } out.push(`<li>${inl(m[1])}</li>`); }
+      else if ((m = ln.match(/^\s*\d+[.)]\s+(.*)/))) { if (list !== "ol") { close(); out.push("<ol>"); list = "ol"; } out.push(`<li>${inl(m[1])}</li>`); }
+      else if (ln.trim() === "") close();
+      else { close(); out.push(`<p>${inl(ln)}</p>`); }
+    });
+    close(); return out.join("");
+  }
+  function review() {
+    const V = C().review;
+    if (!V) return panel("PDCA／OODA の見直し", '<p class="hint">review.py の結果がありません。</p>');
+    const rows = V.symptoms.map((s) => `<tr><td>${s.loop}</td><td>${s.stage}</td><td><span style="background:${SEV[s.severity]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${s.severity}</td><td>${esc(s.finding)}</td><td class="hint">${esc(s.evidence)}</td><td>${esc(s.ask)}</td></tr>`).join("");
+    const head = V.review.mode === "ai" ? `Claude（${esc(V.review.model)}）が事実パックと症状表から書いた見直し。入力 ${fmt(V.review.usage.input_tokens)}・出力 ${fmt(V.review.usage.output_tokens)} トークン` : `AI 未接続（${esc(V.review.reason)}）。規則層の症状表をそのまま示す`;
+    return panel("", `<p class="chart-note">${esc(reviewLine(V))}</p>` + coverageGrid(V) + G("reviewCoverage"), esc(V.note))
+      + panel("見直し", `<p class="hint">${head}</p><div class="review-text">${md(V.review.text)}</div>`)
+      + panel("症状表（規則層：毎回同じ判定）", `<div class="scroll"><table><thead><tr><th>輪</th><th>段</th><th>重さ</th><th>指摘</th><th>根拠</th><th>会議で聞くこと</th></tr></thead><tbody>${rows}</tbody></table></div>`, "crit＝今すぐ直す、warn＝会議で決める、info＝情報、ok＝問題なし。AI 層はこの表に根拠を添えて総評・問い・次の版で直す点を書く。");
   }
 
   /* ---------------- how cheap recovery is ---------------- */

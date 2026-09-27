@@ -241,7 +241,7 @@ def horizons(c: dict, b: dict) -> dict:
 
 
 def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None,
-            history_path: Path | None = None, roll_path: Path | None = None) -> dict:
+            history_path: Path | None = None, roll_path: Path | None = None, runout_path: Path | None = None, review_path: Path | None = None) -> dict:
     b = json.loads(baseline_path.read_text(encoding="utf-8"))
     with tempfile.TemporaryDirectory() as tmp:
         if deltas_path is None or not deltas_path.exists():
@@ -312,6 +312,17 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
             if row["esn"] in by:
                 row["lease_return_t"] = by[row["esn"]]["return_t"]
                 row["lease_recommend"] = by[row["esn"]]["recommend"]
+    if runout_path and runout_path.exists():
+        ro = json.loads(runout_path.read_text(encoding="utf-8"))
+        # the board keeps every engine's chain but not the month labels of the full life
+        c["runout"] = {k: ro[k] for k in ("start", "end", "end_t", "window_months", "exits", "by_year", "totals", "policies", "without_runout", "physics", "note")}
+        c["runout"]["engines"] = [{k: e[k] for k in ("esn", "in_window_plan", "retire_t", "retire", "visits", "spend_k", "residual_llp_cycles", "residual_run_months",
+                                                   "residual_value_k", "green_time", "heavy_late", "last_visit_to_exit_months")}
+                                  | {"chain": [{k: v for k, v in x.items() if k in ("t", "label", "ws", "cost_k", "reason", "lasts_months", "gap", "slack_months")} for x in e["chain"]]}
+                                  for e in ro["engines"]]
+    if review_path and review_path.exists():
+        rv = json.loads(review_path.read_text(encoding="utf-8"))
+        c["review"] = {k: rv[k] for k in ("symptoms", "coverage", "review", "note")}
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c
@@ -325,6 +336,8 @@ def main(argv=None) -> int:
     ap.add_argument("--invest", type=Path, help="invest.py output (optional)")
     ap.add_argument("--history-dir", type=Path, help="directory with <company>-history.json (history.py output)")
     ap.add_argument("--roll-dir", type=Path, help="directory with <company>-roll-<version>.json (roll.py output)")
+    ap.add_argument("--runout-dir", type=Path, help="directory with <company>.json (runout.py output)")
+    ap.add_argument("--review-dir", type=Path, help="directory with <company>.json (review.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("report.html"))
     args = ap.parse_args(argv)
     data = []
@@ -333,7 +346,9 @@ def main(argv=None) -> int:
         data.append(company(HERE / "baselines" / f"{cid}-2026-10.json", d,
                             HERE / "data" / cid / f"actuals_{args.actuals}.json", args.invest,
                             args.history_dir / f"{cid}-history.json" if args.history_dir else None,
-                            next(iter(sorted(args.roll_dir.glob(f"{cid}-roll-*.json"))), None) if args.roll_dir else None))
+                            next(iter(sorted(args.roll_dir.glob(f"{cid}-roll-*.json"))), None) if args.roll_dir else None,
+                            args.runout_dir / f"{cid}.json" if args.runout_dir else None,
+                            args.review_dir / f"{cid}.json" if args.review_dir else None))
     html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
         "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
     args.html_out.write_text(html, encoding="utf-8")
