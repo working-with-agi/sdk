@@ -22,7 +22,7 @@ HERE = Path(__file__).resolve().parent
 # which report view answers what, by loop
 LOOPS = [
     ("年次の版（つくる・直す）", "年 1 回。前提を実績で引き直し、計画を凍結し、決め方を採点する", [
-        ("budget", "年間計画と予算", "report"), ("runout", "退役までの入場列", "report"), ("demand", "客席の需要（一つ上の層）・足す計画", "report"),
+        ("structure", "計画の構造（基本計画と詳細計画・輪と段階）", "report"), ("budget", "年間計画と予算", "report"), ("runout", "退役までの入場列", "report"), ("demand", "客席の需要（一つ上の層）・足す計画", "report"),
         ("fleets", "機種横断（会社全体）", "report"), ("backtest", "過去で検証（バックテスト）", "report"), ("review", "PDCA／OODA の見直し", "report"),
         ("roll", "次の版への引き継ぎ", "report"), ("history", "過去の計画との整合", "report"), ("invest", "国内工場の新設", "report"),
         ("tax", "税引後で比べる", "report"), ("finance", "お金の仕組み", "report"), ("mx4", "積立金と機体価値", "report"), ("annual", "年間計画レポート（別画面）", "annual")]),
@@ -34,6 +34,7 @@ LOOPS = [
         ("quote", "見積もりの承認", "report"), ("trend", "状態監視の警報", "report"), ("spares", "予備エンジンの数", "report"), ("offer", "エンジンの打診", "report"),
         ("cash", "支払いと為替", "report"), ("reliability", "信頼性管理", "report"), ("engines", "エンジン別の明細", "report"), ("sources", "前提と出典", "report")]),
 ]
+FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）")]
 DOCS = [("story.html", "ストーリー：需要から検証まで", "handover/04_docs/story_需要から検証まで.md"),
         ("requirements.html", "要件と対応の記録（#1〜）", "REQUIREMENTS.md"),
         ("readme.html", "モデルの説明（README）", "README.md"),
@@ -133,7 +134,7 @@ def company_calendar(cid: str, track_dir: Path | None, roll_dir: Path | None) ->
 def build_html(cos: list[dict], today: str) -> str:
     data = json.dumps(cos, ensure_ascii=False, separators=(",", ":"))
     loops = json.dumps(LOOPS, ensure_ascii=False)
-    docs = "".join(f'<li><a href="{f}">{html.escape(t)}</a></li>' for f, t, _ in DOCS)
+    docs = "".join(f'<li><a href="{f}">{html.escape(t)}</a></li>' for f, t, _ in DOCS) + "".join(f'<li><a href="{f}">{html.escape(t)}</a></li>' for f, t in FIGS)
     arts = "".join(f'<li><a href="{u}">{html.escape(t)}</a> <span class="hint">非公開リンク：共有された人だけ開ける</span></li>' for u, t in ARTIFACTS)
     return f'''<!doctype html>
 <html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -250,6 +251,9 @@ def main(argv=None) -> int:
             p = HERE / src
             if p.exists():
                 (a.docs_out / f).write_text(md_to_html(p.read_text(encoding="utf-8"), t), encoding="utf-8"); n += 1
+        import figures
+        for (f, t), (k, svg) in zip(FIGS, figures.svgs().items()):
+            (a.docs_out / f).write_text(figures.page(svg, t), encoding="utf-8"); n += 1
     print(f"dashboard -> {a.html_out} ({a.html_out.stat().st_size // 1024} KB), {n} document pages")
     return 0
 

@@ -343,3 +343,8 @@
 - 追記（「pdcaとoodaは？」）：列見出しと各枠のタブに段階札を付けた。P1＝PDCA（①〜③ Plan、③ 承認で Do、④ Check → Act、F＝PDCA の本体、G＝Check → Act、D＝Check → Plan、A＝Plan の中の小さな輪）。P2＝OODA（① Observe、② Orient → Decide、③ Observe → Orient、④ Decide → Act、B＝Orient → Decide、C＝Orient → PDCA の Act へ）。E 月次の輪は PDCA の Check → Act と OODA の Decide を一つの板でつなぐ。見直し（review）が症状をこの段階に振り分ける。
 - 追記（「pdcaのinputにoodaははいらないの？」）：入る。OODA の Observe（実績・回答ログ・便の実績・劣化率・計画外率）は次の版の ① 前提に、Orient（事後確率・変化点・補正）は ② 世界と重みに入る。P1 の ①② の箱に「← P2 …」の札、P2 の観測の箱に「→ P1 …」の札を付け、凡例に「OODA の出力が PDCA の入力、PDCA の Plan（基準計画）が OODA の Orient の入力。二つの輪は互いの入力」を追加。
 - 残り：本番のレポート（report.html）の配色を同じパレットに揃えるか、図だけに留めるかは未決。
+
+### 103. 全体レポートに「計画の構造」を組み込む ✅
+- 竹内さん：「上記を含めた全体レポートを仕上げてください」
+- 対応：図の生成を `figures.py` として例に取り込み（SVG を直接生成、テキストの色と大きさはインラインスタイルで固定）。`build_report.py` が 2 頁の図と輪の一覧（`figures.LOOPS`）・受け渡し（`figures.HANDOVER`）をレポートに埋め込み、画面「計画の構造（基本計画と詳細計画）」を追加（経営サマリーの先頭グループ「回し方：輪と段階」、輪の一覧から各画面へリンク、回数の目安、頁をまたぐ受け渡し）。`build_dashboard.py` のリンク集に画面と図のページ（`plan_basic.html`・`plan_detail.html`）を追加。`run_all.sh` に `figures.py` を組み込み。物語に第 10 章「計画の構造」。`tests/test_figures.py`。
+- 注意：この版の再生成は既存の出力（`out/`）からレポートとダッシュボードだけを組み直した。`ANTHROPIC_API_KEY` がない環境では review.py の AI 層は規則層に落ちるため、見直しの本文は前回の生成物を保持している。

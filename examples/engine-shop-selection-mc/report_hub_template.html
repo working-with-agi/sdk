@@ -38,6 +38,7 @@ h2 { font-size: 15px; margin: 0; }
 p { margin: 0; }
 .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
 .hint { color: var(--muted); font-size: 12px; }
+button.link { background: none; border: 0; padding: 0; color: var(--accent); text-decoration: underline; cursor: pointer; font: inherit; font-size: 12px; }
 .panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
 .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
 .tabs button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
@@ -157,7 +158,7 @@ svg .tick { font-size: 9px; }
   <p class="hint">数字は公開情報からの推定による合成データです。出典のない数字は「前提と出典」に一覧があります。</p>
 </main>
 <script>
-const DATA = /*__DATA__*/null;
+const DATA = /*__DATA__*/null; const FIG = /*__FIGURES__*/null;
 (function () {
   const $ = (id) => document.getElementById(id);
   const fmt = (v) => Math.round(v).toLocaleString("en-US");
@@ -172,12 +173,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"], demand: ["exec", "ops", "fin"], backtest: ["exec", "plan", "tech"], playbook: ["exec", "proc", "plan"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], structure: ["exec", "plan", "tech", "proc"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"], demand: ["exec", "ops", "fin"], backtest: ["exec", "plan", "tech"], playbook: ["exec", "proc", "plan"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番と購入計画の輪", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番と購入計画の輪", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, structure: { label: "計画の構造（基本計画と詳細計画）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -195,7 +196,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review, demand, backtest, playbook })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review, demand, backtest, playbook, structure })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -353,6 +354,7 @@ const DATA = /*__DATA__*/null;
       c.tax ? card("tax", "ok", "税引後で比べる", taxLine(c.tax), taxChart(c.tax, 320, 150, true)) : "",
       c.resilience ? card("resilience", resCls(c.resilience), "立て直しの安さ", resLine(c.resilience), premiumChart(c.resilience, 320, 150, true)) : "",
       c.multi ? card("fleets", fleetsCls(c.multi), "機種横断（会社全体）", fleetsLine(c.multi), fleetsChart(c.multi, 320, 120, true)) : "",
+      FIG ? card("structure", "ok", "計画の構造（基本計画と詳細計画）", "年次〜半期は PDCA、月次〜当日は OODA。輪は 10、内側 1 回は約 1.5 秒", "") : "",
       tr && tr.ooda ? card("loops", tr.ooda.feedback.no_world_fits_months >= 3 ? "warn" : "ok", "PDCA と OODA（二つの輪）", loopsLine(tr.ooda), "") : "",
       card("budget", worst.over > 0.05 ? "flag" : "ok", "年間計画と予算", worst.over > 0.05 ? `${worst.fy} は予算を超える` : "予算内", fyBars(c, 320, true)),
       card("month", due3 ? "warn" : "ok", "今月からの判断", `3 か月以内に ${due3} 件の判断`, ""),
@@ -377,7 +379,7 @@ const DATA = /*__DATA__*/null;
     const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
     const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
     // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
-    const GROUPS = [["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["playbook", "track", "cpd", "actions", "lease", "loops"]],
+    const GROUPS = [["回し方：輪と段階", ["structure", "loops"]], ["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["playbook", "track", "cpd", "actions", "lease"]],
       ["確かめる：決め方の採点", ["review", "backtest", "history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
       ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
     const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
@@ -706,6 +708,7 @@ const DATA = /*__DATA__*/null;
         c.backtest && c.backtest.demand.verdict.length > 1 ? c.backtest.demand.verdict[1].text : "", "平常の年で誤差が小さい規則を計画の既定にする。衝撃の年は引き金で拾う"],
       reviewCoverage: ["PDCA の 4 段と OODA の 4 段それぞれに、規則層が見つけた指摘の最悪度", "赤＝今すぐ直す、黄＝会議で決める、灰＝情報、緑＝問題なし。空欄はその段を見る材料がない",
         c.review ? reviewLine(c.review) : "", "赤の段から順に「会議で聞く問い」へ。AI の総評は規則層の症状表に根拠を添えて書いている"],
+      structure: ["計画の構造を 2 頁に分けた図：基本計画（年次〜半期）と詳細計画（月次〜当日）", "行が業務プロセス、列が段階（P1 は Plan → Do → Check → Act、P2 は Observe → Orient → Decide → Act）。深紅の枠が繰り返しの範囲で、タブに回数と条件。青緑の札が頁をまたぐ受け渡し", "基本計画は F 年次の版の輪の中に A 購入の輪と D 需要の見直し、その中に「解いて叩く 1 回」（約 1.5 秒）。詳細計画の B 見張りが引いたら年次を待たずに A を回す", "輪の一覧の「画面」から、その輪の結果を見る画面へ。前提を変えるときは、どの輪が再び回るかをこの図で確かめる"],
       loops: ["計画の 2 つの輪（PDCA と OODA）の関係", "遅い輪が決め方を直し、速い輪が目の前を動かす。速い輪の結果は年 1 回、遅い輪に戻る", t && t.ooda ? loopsLine(t.ooda) : "", "安全スイッチが続く年は、前提（世界）の定義を見直す"],
       rules: ["月次会議を待たずに動くための暗黙のルール一覧", "きっかけ・条件・行動・誰が・速さ。条件の単位価値 v は年間整備費 ÷ 取付エンジン ÷ 12", t && t.ooda ? `v = ${t.ooda.unit_value_k.toFixed(0)} 千ドル／基・月` : "", "件数と結果を年 1 回見直し、承認線と閾値を直す"],
       looptime: ["気づいてから動くまでの時間 T を、検知（D）・状況判断（O）・判断（A）・実行（E）に分けた表", "今の値と、それぞれを縮めるてこ。D + A が判断期限までのリード R を超えると手遅れ", t && t.ooda ? `T ${t.ooda.loop_time.T_now.toFixed(1)} → ${t.ooda.loop_time.T_target.toFixed(1)} か月` : "", "E（キットの納期）が最も長い。先行発注とプール契約で縮める"],
@@ -936,6 +939,30 @@ const DATA = /*__DATA__*/null;
       + panel("ループの時間 T = D + O + A + E", lt + G("looptime"))
       + panel("速い輪から遅い輪へ（年 1 回、次の版の前提に）", feed + G("feedback"))
       + panel("今回の案件", cases, "太字は会議に回した案件。");
+  }
+
+  /* ---------------- the planning structure: two pages ---------------- */
+  function structure() {
+    if (!FIG) return panel("計画の構造", '<p class="hint">figures.py の図がありません。</p>');
+    const stageCls = (st) => (/OODA|Observe|Orient|Decide/.test(st) && !/PDCA の本体|Plan の/.test(st) ? "var(--good)" : "var(--accent)");
+    const loops = `<table><thead><tr><th>輪</th><th>何を</th><th>回数</th><th>回す条件</th><th>段階</th><th>頁</th><th>画面</th></tr></thead><tbody>`
+      + FIG.loops.map(([k, what, n, cond, st, pg, view]) => `<tr><td><b>${esc(k)}</b></td><td>${esc(what)}</td><td>${esc(n)}</td><td>${esc(cond)}</td><td><span style="color:${stageCls(st)};font-weight:600">${esc(st)}</span></td><td>${pg}</td><td>${VIEWS[view] ? `<button type="button" class="link" data-go="${view}">${VIEWS[view].label}</button>` : ""}</td></tr>`).join("") + `</tbody></table>`;
+    const hand = `<table><thead><tr><th>向き</th><th>何が</th><th>どこへ</th></tr></thead><tbody>` + FIG.handover.map(([d, w, t]) => `<tr><td>${esc(d)}</td><td>${esc(w)}</td><td>${esc(t)}</td></tr>`).join("") + `</tbody></table>`;
+    const counts = `<table><thead><tr><th>単位</th><th>中身</th><th>回数（JAL の 1 回分）</th><th>時間</th></tr></thead><tbody>
+      <tr><td>内側 1 回</td><td>MILP 40 本を同時に解く → その計画を MC 800 本 × 24 か月で叩く → 世界 2 つ分を確率で混ぜる</td><td>解く 1、本 800、月ループ 19,200</td><td>約 1.5 秒</td></tr>
+      <tr><td>購入の輪 A</td><td>候補 4 × 4 手</td><td>解く 32、本 25,600、月ループ 約 61 万</td><td>約 50 秒</td></tr>
+      <tr><td>年次の版 F</td><td>世界 5 × 内側</td><td>解く 5、本 4,000</td><td>約 4 分（機種 3 つ分）</td></tr>
+      <tr><td>見張り B</td><td>在庫機の遅れ・予定入場・故障を 6 か月先まで</td><td>本 4,000 × 6 か月</td><td>数秒</td></tr>
+      <tr><td>乱数の種</td><td>1 つ（42）。5 つに変えると</td><td>AOG ±1pt</td><td>—</td></tr></tbody></table>`;
+    const fig = (svg, cap) => `<figure style="margin:0"><div style="overflow:auto;border:1px solid var(--rule);border-radius:8px;background:#fbfbfd">${svg}</div><figcaption class="hint">${cap}</figcaption></figure>`;
+    return panel("二つの頁：基本計画と詳細計画", `<p class="chart-note">基本計画（年次〜半期）は PDCA で回り、詳細計画（月次〜当日）は OODA で回る。OODA の出力（実績・事後確率・変化点）が次の版の Plan の入力になり、Plan の出力（基準計画）が Orient の入力になる。二つの輪は互いの入力</p>`
+        + `<ul><li><b>P1 基本計画</b>：前提を作る → 基本計画を解く → 打ち手と購入 → 半期で確かめる。F 年次の版の輪（PDCA の本体）の中に A 購入の輪と D 需要の見直し、その中に「解いて叩く 1 回」。</li>`
+        + `<li><b>P2 詳細計画</b>：実績を入れる → 見張りと追跡 → 週次 → 当日。E 月次の輪が PDCA の Check → Act と OODA の Decide をつなぐ。B 見張りが引いたら年次を待たず P1 の購入の輪へ。</li></ul>` + G("structure"))
+      + panel("P1 基本計画（年次〜半期、PDCA）", fig(FIG.plan_basic, "深紅の枠＝繰り返し（タブに名前・回数・条件）、藍の点線枠＝内側の 1 回、赤バッジ＝箱 1 回の中で回す数、青緑の札＝P2 との接続。図は横に広いので必要なら横スクロール。"))
+      + panel("P2 詳細計画（月次〜当日、OODA）", fig(FIG.plan_detail, "列＝Observe → Orient → Decide → Act の順。→ P1 の札が、OODA の出力が PDCA の入力になる口。"))
+      + panel("輪の一覧（回数・条件・段階）", loops, "段階の色：藍＝PDCA、緑＝OODA。画面の列から該当する画面へ移れます。")
+      + panel("頁をまたぐ受け渡し", hand)
+      + panel("回数の目安", counts, "すべて合成データによる目安。時間はこの環境での実測（HiGHS、1 コア）。");
   }
 
   /* ---------------- the layer above: seat demand ---------------- */

@@ -42,6 +42,7 @@ python3 build_report.py --deltas-dir "$OUT/deltas" --invest "$OUT/invest.json" -
 python3 build_monthly.py --html-out "$OUT/monthly.html"
 python3 build_annual.py --html-out "$OUT/annual.html"
 python3 build_track.py --html-out "$OUT/track.html"
+python3 figures.py --out-dir "$OUT"
 python3 build_dashboard.py --track-dir "$OUT/track" --roll-dir "$OUT/roll" --topics-dir "$OUT/topics" --shortage-dir "$OUT/shortage" --html-out "$OUT/index.html" --docs-out "$OUT"
 log "tests"; python3 -m unittest discover -s tests 2>&1 | tail -3 || true
 log "done -> $OUT"

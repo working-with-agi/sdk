@@ -29,6 +29,7 @@ import lease
 import mx4
 import typelife
 import tax
+import figures
 
 HERE = Path(__file__).resolve().parent
 MATERIAL = 300  # k$: below this a switch or an action is not worth the disruption
@@ -378,8 +379,10 @@ def main(argv=None) -> int:
                             args.review_dir / f"{cid}.json" if args.review_dir else None,
                             args.demand_dir / f"{cid}.json" if args.demand_dir else None,
                             args.backtest_dir / f"{cid}.json" if args.backtest_dir else None))
+    fig = {**figures.svgs(), "loops": figures.LOOPS, "handover": figures.HANDOVER}
     html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
-        "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
+        "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float)).replace(
+        "/*__FIGURES__*/null", json.dumps(fig, ensure_ascii=False, separators=(",", ":")))
     args.html_out.write_text(html, encoding="utf-8")
     print(f"{len(data)} companies -> {args.html_out} ({len(html) // 1024} KB)")
     return 0
