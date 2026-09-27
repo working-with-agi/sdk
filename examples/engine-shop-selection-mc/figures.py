@@ -519,7 +519,7 @@ def svgs() -> dict[str, str]:
 
 def overview_hero() -> str:
     """The title, drawn: one line from the flight plan to the decision, five boxes."""
-    W, Hh = 1400, 225
+    W, Hh = 1400, 245
     steps = [("航空需要", "市場と各社の\n乗客の伸び", "#d1fae5", "#047857"), ("航空計画", "便数から\n必要エンジン数", "#d1fae5", "#047857"), ("現場のデータ", "センサーと実績で\n前提を更新", "#d1fae5", "#047857"),
              ("整備計画", "最適化と\nシミュレーション", "#e0e7ff", "#4338ca"), ("MRO と調達", "工場の枠・部品・\n契約で裏づけ", "#e0e7ff", "#4338ca"),
              ("意思決定", "年度計画・購入計画・\n見直しの合図", "#fef3c7", "#b45309")]
@@ -544,6 +544,7 @@ def overview_hero() -> str:
             da = 'stroke-dasharray="7 5"' if kind == "dash" else ""
             o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 22}" y2="{ly - 4}" stroke="{c1}" stroke-width="{c2}" {da}/>')
         o.append(f'<text x="{lx + 28}" y="{ly}" font-size="12" fill="{INK}">{lab}</text>'); lx += 28 + tw(lab, 12) + 26
+        if kind == "box" and lab.startswith("黄"): lx = 20; ly += 20
     o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">需要が便数を決め、便数が必要エンジン数を決める。現場のデータが前提を毎月更新し、計算が計画を作り、人が決める。</text>')
     o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この流れを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの（① 航空需要と ② 航空計画は行 ①、③ は行 ⑤④、④ は行 ②、⑤ は行 ③、⑥ は右端）。</text>')
     body = "".join(o)
