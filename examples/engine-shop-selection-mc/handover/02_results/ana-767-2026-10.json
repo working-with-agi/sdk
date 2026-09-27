@@ -1,0 +1,2550 @@
+{
+ "version": "2026-09-27",
+ "company": {
+  "id": "ana",
+  "name": "ANA（ANA ウイングス運航） 767-300ER（ANA）",
+  "contract": {
+   "description": "ANA（ANA ウイングス運航） 767-300ER（ANA） の契約工場のみ（工場の選び直しは契約更新時の入札ユースケース）",
+   "contract_type": "tm",
+   "renewal": "不明",
+   "source": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定"
+  },
+  "sources": {
+   "aircraft": "ANA 767-300ER 約 20 機（概数、退役進行中）",
+   "engines": "no_source",
+   "subfleets": {
+    "767-300ER": "no_source: 機種の典型的な運航（国際線は 1 日 1〜2 便、長い区間）からの仮定"
+   },
+   "wear": "no_source",
+   "severity": "区間の長さによる劣化の係数（1 回あたり ≒ (0.65 + 0.2 × 飛行時間) ÷ 1.05）。Ackert の飛行時間あたりの係数表から換算した近似 https://www.aircraftmonitor.com/uploads/1/5/9/9/15993320/engine_mx_concepts_for_financiers___v2.pdf",
+   "contract": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定",
+   "transition": "この機種の更新は 2 年の窓の外（仮定）",
+   "quotes": "no_source",
+   "leases": "no_source",
+   "llp_kits": "no_source（公開の根拠なし）",
+   "spares": "no_source"
+  }
+ },
+ "paths": {
+  "fleet": "data/ana/767/fleet.json",
+  "shops": "data/ana/767/shops.json"
+ },
+ "created": "2026-09-27T08:11:43+00:00",
+ "inputs": {
+  "fleet.json": "2ff4e54a79718ad5",
+  "shops.json": "46579ccfb3d49a98"
+ },
+ "settings": {
+  "scenarios": 40,
+  "eval_scenarios": 2000,
+  "seed": 42,
+  "requirements": {
+   "budget": true,
+   "buffer": true,
+   "volume": true,
+   "kits_on_hand_only": false,
+   "no_new_spares": false,
+   "service": false
+  },
+  "solver": "HiGHS via PuLP 3.3.2"
+ },
+ "norms": {
+  "visits_per_year": 6.666666666666666,
+  "visits_per_year_by_workscope": {
+   "PR": 2.8,
+   "CORE": 1.5333333333333334,
+   "FULL": 2.3333333333333335
+  },
+  "visits_per_year_min_max": [
+   2,
+   11
+  ],
+  "unscheduled_share": 0.25,
+  "spend_per_year_k": 38200.0,
+  "usd_per_efh": 314.35154707044114,
+  "mean_run_months": 86.4,
+  "shelf_mean": 10.216666666666667,
+  "shelf_p5": 7.0,
+  "short_month_share": 0.0,
+  "by_subfleet": {
+   "767-300ER": {
+    "visits_per_year": 6.666666666666667,
+    "cycles_per_year": 1200,
+    "fh_per_cycle": 2.8,
+    "severity": 1.152
+   }
+  },
+  "removal_causes": {
+   "unscheduled": 0.25
+  },
+  "seasonal": {
+   "1": {
+    "flight_index": 0.9,
+    "airframe_checks": 2,
+    "positions": 34,
+    "visits": 0.5067567567567569,
+    "spend_k": 2903.7162162162167,
+    "sim_visits": 0.4,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.2,
+    "shelf_mean": 12.666666666666666,
+    "shelf_p5": 11.0
+   },
+   "2": {
+    "flight_index": 0.88,
+    "airframe_checks": 2,
+    "positions": 32,
+    "visits": 0.49549549549549565,
+    "spend_k": 2839.18918918919,
+    "sim_visits": 0.4,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.0,
+    "shelf_mean": 14.533333333333333,
+    "shelf_p5": 12.7
+   },
+   "3": {
+    "flight_index": 1.06,
+    "airframe_checks": 1,
+    "positions": 38,
+    "visits": 0.596846846846847,
+    "spend_k": 3419.932432432433,
+    "sim_visits": 0.6666666666666666,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.5999999999999996
+    ],
+    "sim_unscheduled": 0.13333333333333333,
+    "shelf_mean": 8.733333333333333,
+    "shelf_p5": 6.7
+   },
+   "4": {
+    "flight_index": 0.97,
+    "airframe_checks": 1,
+    "positions": 36,
+    "visits": 0.5461711711711713,
+    "spend_k": 3129.5608108108113,
+    "sim_visits": 0.26666666666666666,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.06666666666666667,
+    "shelf_mean": 10.533333333333333,
+    "shelf_p5": 9.0
+   },
+   "5": {
+    "flight_index": 1.02,
+    "airframe_checks": 1,
+    "positions": 38,
+    "visits": 0.5743243243243245,
+    "spend_k": 3290.8783783783792,
+    "sim_visits": 0.6666666666666666,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.2,
+    "shelf_mean": 8.733333333333333,
+    "shelf_p5": 7.7
+   },
+   "6": {
+    "flight_index": 0.9,
+    "airframe_checks": 2,
+    "positions": 34,
+    "visits": 0.5067567567567569,
+    "spend_k": 2903.7162162162167,
+    "sim_visits": 0.6,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.2,
+    "shelf_mean": 12.466666666666667,
+    "shelf_p5": 11.0
+   },
+   "7": {
+    "flight_index": 1.02,
+    "airframe_checks": 1,
+    "positions": 38,
+    "visits": 0.5743243243243245,
+    "spend_k": 3290.8783783783792,
+    "sim_visits": 1.0,
+    "sim_visits_p10_p90": [
+     0.0,
+     2.5999999999999996
+    ],
+    "sim_unscheduled": 0.4666666666666667,
+    "shelf_mean": 8.2,
+    "shelf_p5": 6.7
+   },
+   "8": {
+    "flight_index": 1.12,
+    "airframe_checks": 1,
+    "positions": 38,
+    "visits": 0.6306306306306307,
+    "spend_k": 3613.513513513514,
+    "sim_visits": 0.8,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.06666666666666667,
+    "shelf_mean": 7.933333333333334,
+    "shelf_p5": 6.0
+   },
+   "9": {
+    "flight_index": 0.98,
+    "airframe_checks": 1,
+    "positions": 36,
+    "visits": 0.5518018018018019,
+    "spend_k": 3161.824324324325,
+    "sim_visits": 0.5333333333333333,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.06666666666666667,
+    "shelf_mean": 9.6,
+    "shelf_p5": 7.0
+   },
+   "10": {
+    "flight_index": 1.0,
+    "airframe_checks": 1,
+    "positions": 36,
+    "visits": 0.5630630630630632,
+    "spend_k": 3226.3513513513517,
+    "sim_visits": 0.5333333333333333,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.5999999999999996
+    ],
+    "sim_unscheduled": 0.13333333333333333,
+    "shelf_mean": 10.066666666666666,
+    "shelf_p5": 7.7
+   },
+   "11": {
+    "flight_index": 0.96,
+    "airframe_checks": 2,
+    "positions": 36,
+    "visits": 0.5405405405405406,
+    "spend_k": 3097.2972972972975,
+    "sim_visits": 0.26666666666666666,
+    "sim_visits_p10_p90": [
+     0.0,
+     1.0
+    ],
+    "sim_unscheduled": 0.0,
+    "shelf_mean": 10.466666666666667,
+    "shelf_p5": 8.0
+   },
+   "12": {
+    "flight_index": 1.03,
+    "airframe_checks": 1,
+    "positions": 38,
+    "visits": 0.5799549549549551,
+    "spend_k": 3323.1418918918926,
+    "sim_visits": 0.5333333333333333,
+    "sim_visits_p10_p90": [
+     0.0,
+     2.0
+    ],
+    "sim_unscheduled": 0.13333333333333333,
+    "shelf_mean": 8.666666666666666,
+    "shelf_p5": 6.7
+   }
+  }
+ },
+ "plan_of_record": {
+  "total_cost": 48078.937611465575,
+  "p90": 66063.47968081638,
+  "committed": 36085.0,
+  "recourse": 11993.93761146557,
+  "recourse_p90": 29978.479680816377,
+  "recourse_parts": {
+   "overrun": 11993.93761146557,
+   "lease": 0.0,
+   "substitute": 0.0,
+   "aog": 0.0,
+   "emergency_kits": 0.0
+  },
+  "aog_prob": 0.0,
+  "by_fiscal_year": {
+   "FY2026": {
+    "visits": 2,
+    "spend": 12755.712136687023,
+    "PR": 1,
+    "CORE": 0,
+    "FULL": 1,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2027": {
+    "visits": 10,
+    "spend": 94879.0972562647,
+    "PR": 0,
+    "CORE": 0,
+    "FULL": 10,
+    "GT": 0,
+    "PO": 0
+   },
+   "FY2028": {
+    "visits": 2,
+    "spend": 18979.12821851394,
+    "PR": 0,
+    "CORE": 0,
+    "FULL": 2,
+    "GT": 0,
+    "PO": 0
+   }
+  },
+  "shop_visits": 14,
+  "midlife_swaps": 0,
+  "partouts": 0,
+  "long_spares": 0,
+  "emergency_kits": 0,
+  "early_months": 17,
+  "rush": 0,
+  "shops": {
+   "GE-CF6": 14
+  },
+  "relaxed": [
+   "budget"
+  ]
+ },
+ "plan": [
+  {
+   "esn": "AS-122",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2026-11",
+   "t": 1,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2026-11",
+   "earliest": "2026-10",
+   "exp_cost": 9380,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": -3,
+   "deadline_reason": "工場の枠予約 4 か月前"
+  },
+  {
+   "esn": "AS-105",
+   "shop": "GE-CF6",
+   "workscope": "PR",
+   "month": "2026-12",
+   "t": 2,
+   "fy": "FY2026",
+   "rush": false,
+   "watch": false,
+   "limit": "2026-12",
+   "earliest": "2026-10",
+   "exp_cost": 3375,
+   "off_wing": 5.2,
+   "quoted_off_wing": 4,
+   "deadline_t": -2,
+   "deadline_reason": "工場の枠予約 4 か月前"
+  },
+  {
+   "esn": "AS-146",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-04",
+   "t": 6,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-04",
+   "earliest": "2026-11",
+   "exp_cost": 9556,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 2,
+   "deadline_reason": "工場の枠予約 4 か月前"
+  },
+  {
+   "esn": "AS-143",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-06",
+   "t": 8,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-06",
+   "earliest": "2027-01",
+   "exp_cost": 9575,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 0,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-148",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-06",
+   "t": 8,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2027-11",
+   "earliest": "2027-06",
+   "exp_cost": 9393,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 0,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-115",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-09",
+   "t": 11,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-09",
+   "earliest": "2027-04",
+   "exp_cost": 9532,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 3,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-120",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-09",
+   "t": 11,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2027-09",
+   "earliest": "2027-04",
+   "exp_cost": 9494,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 3,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-101",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-11",
+   "t": 13,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-01",
+   "earliest": "2027-08",
+   "exp_cost": 9431,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 5,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-137",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2027-11",
+   "t": 13,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-03",
+   "earliest": "2027-10",
+   "exp_cost": 9393,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 5,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-117",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2028-01",
+   "t": 15,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-01",
+   "earliest": "2027-08",
+   "exp_cost": 9517,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 7,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-103",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2028-02",
+   "t": 16,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-02",
+   "earliest": "2027-09",
+   "exp_cost": 9568,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 8,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-111",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2028-03",
+   "t": 17,
+   "fy": "FY2027",
+   "rush": false,
+   "watch": true,
+   "limit": "2028-08",
+   "earliest": "2028-03",
+   "exp_cost": 9419,
+   "off_wing": 6.1,
+   "quoted_off_wing": 5,
+   "deadline_t": 9,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-145",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2028-04",
+   "t": 18,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-04",
+   "earliest": "2027-11",
+   "exp_cost": 9513,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 10,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  },
+  {
+   "esn": "AS-102",
+   "shop": "GE-CF6",
+   "workscope": "FULL",
+   "month": "2028-08",
+   "t": 22,
+   "fy": "FY2028",
+   "rush": false,
+   "watch": false,
+   "limit": "2028-09",
+   "earliest": "2028-04",
+   "exp_cost": 9467,
+   "off_wing": 6.2,
+   "quoted_off_wing": 5,
+   "deadline_t": 14,
+   "deadline_reason": "LLP キット発注 8 か月前"
+  }
+ ],
+ "monthly": {
+  "labels": [
+   "2026-10",
+   "2026-11",
+   "2026-12",
+   "2027-01",
+   "2027-02",
+   "2027-03",
+   "2027-04",
+   "2027-05",
+   "2027-06",
+   "2027-07",
+   "2027-08",
+   "2027-09",
+   "2027-10",
+   "2027-11",
+   "2027-12",
+   "2028-01",
+   "2028-02",
+   "2028-03",
+   "2028-04",
+   "2028-05",
+   "2028-06",
+   "2028-07",
+   "2028-08",
+   "2028-09"
+  ],
+  "fy": [
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2026",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2027",
+   "FY2028",
+   "FY2028",
+   "FY2028",
+   "FY2028",
+   "FY2028",
+   "FY2028"
+  ],
+  "peak": [
+   false,
+   false,
+   true,
+   true,
+   false,
+   true,
+   false,
+   true,
+   false,
+   true,
+   true,
+   false,
+   false,
+   false,
+   true,
+   true,
+   false,
+   true,
+   false,
+   true,
+   false,
+   true,
+   true,
+   false
+  ],
+  "required": [
+   36,
+   36,
+   38,
+   34,
+   32,
+   38,
+   36,
+   38,
+   34,
+   38,
+   38,
+   36,
+   36,
+   36,
+   38,
+   34,
+   32,
+   38,
+   36,
+   38,
+   34,
+   38,
+   38,
+   36
+  ],
+  "buffer": [
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2,
+   2
+  ],
+  "serviceable": [
+   48,
+   47,
+   46,
+   46,
+   46,
+   46,
+   47,
+   47,
+   45,
+   45,
+   45,
+   44,
+   44,
+   44,
+   44,
+   43,
+   44,
+   43,
+   44,
+   44,
+   45,
+   46,
+   46,
+   47
+  ],
+  "flight_index": [
+   1.0,
+   0.96,
+   1.03,
+   0.9,
+   0.88,
+   1.06,
+   0.97,
+   1.02,
+   0.9,
+   1.02,
+   1.12,
+   0.98,
+   1.0,
+   0.96,
+   1.03,
+   0.9,
+   0.88,
+   1.06,
+   0.97,
+   1.02,
+   0.9,
+   1.02,
+   1.12,
+   0.98
+  ],
+  "aog_multiplier": [
+   1.0,
+   1.0,
+   1.4,
+   1.4,
+   1.0,
+   1.2,
+   1.0,
+   1.3,
+   1.0,
+   1.6,
+   1.8,
+   1.0,
+   1.0,
+   1.0,
+   1.4,
+   1.4,
+   1.0,
+   1.2,
+   1.0,
+   1.3,
+   1.0,
+   1.6,
+   1.8,
+   1.0
+  ],
+  "lease_cap": [
+   2,
+   2,
+   1,
+   1,
+   2,
+   1,
+   2,
+   1,
+   2,
+   1,
+   1,
+   2,
+   2,
+   2,
+   1,
+   1,
+   2,
+   1,
+   2,
+   1,
+   2,
+   1,
+   1,
+   2
+  ],
+  "norm_visits": [
+   0.56,
+   0.54,
+   0.58,
+   0.51,
+   0.5,
+   0.6,
+   0.55,
+   0.57,
+   0.51,
+   0.57,
+   0.63,
+   0.55,
+   0.56,
+   0.54,
+   0.58,
+   0.51,
+   0.5,
+   0.6,
+   0.55,
+   0.57,
+   0.51,
+   0.57,
+   0.63,
+   0.55
+  ],
+  "norm_visits_range": [
+   [
+    0.0,
+    1.5999999999999996
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    2.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.5999999999999996
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    2.5999999999999996
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.5999999999999996
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    2.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.5999999999999996
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    2.5999999999999996
+   ],
+   [
+    0.0,
+    1.0
+   ],
+   [
+    0.0,
+    1.0
+   ]
+  ],
+  "norm_spend": [
+   3226,
+   3097,
+   3323,
+   2904,
+   2839,
+   3420,
+   3130,
+   3291,
+   2904,
+   3291,
+   3614,
+   3162,
+   3226,
+   3097,
+   3323,
+   2904,
+   2839,
+   3420,
+   3130,
+   3291,
+   2904,
+   3291,
+   3614,
+   3162
+  ],
+  "plan_visits": [
+   0,
+   1,
+   1,
+   0,
+   0,
+   0,
+   1,
+   0,
+   2,
+   0,
+   0,
+   2,
+   0,
+   2,
+   0,
+   1,
+   1,
+   1,
+   1,
+   0,
+   0,
+   0,
+   1,
+   0
+  ],
+  "plan_spend": [
+   0,
+   9380,
+   3375,
+   0,
+   0,
+   0,
+   9556,
+   0,
+   18968,
+   0,
+   0,
+   19026,
+   0,
+   18824,
+   0,
+   9517,
+   9568,
+   9419,
+   9513,
+   0,
+   0,
+   0,
+   9467,
+   0
+  ],
+  "shop_load": [
+   0,
+   0,
+   1,
+   2,
+   2,
+   2,
+   0,
+   1,
+   1,
+   3,
+   3,
+   2,
+   4,
+   2,
+   4,
+   4,
+   3,
+   4,
+   3,
+   4,
+   3,
+   2,
+   1,
+   1
+  ],
+  "shop_slots": 4
+ },
+ "budgets": {
+  "FY2026": 18800.0,
+  "FY2027": 38200.0,
+  "FY2028": 19400.0
+ },
+ "outlook": {
+  "stationary": [
+   {
+    "year": -5,
+    "visits": 10,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 3,
+     "FULL": 4
+    },
+    "spend": 62500
+   },
+   {
+    "year": -4,
+    "visits": 11,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 3,
+     "FULL": 5
+    },
+    "spend": 71000
+   },
+   {
+    "year": -3,
+    "visits": 4,
+    "by_ws": {
+     "PR": 0,
+     "CORE": 3,
+     "FULL": 1
+    },
+    "spend": 28000
+   },
+   {
+    "year": -2,
+    "visits": 6,
+    "by_ws": {
+     "PR": 4,
+     "CORE": 1,
+     "FULL": 1
+    },
+    "spend": 27000
+   },
+   {
+    "year": -1,
+    "visits": 6,
+    "by_ws": {
+     "PR": 2,
+     "CORE": 1,
+     "FULL": 3
+    },
+    "spend": 38000
+   },
+   {
+    "year": 0,
+    "visits": 7,
+    "by_ws": {
+     "PR": 2,
+     "CORE": 1,
+     "FULL": 4
+    },
+    "spend": 46500
+   },
+   {
+    "year": 1,
+    "visits": 6,
+    "by_ws": {
+     "PR": 0,
+     "CORE": 0,
+     "FULL": 6
+    },
+    "spend": 51000
+   },
+   {
+    "year": 2,
+    "visits": 8,
+    "by_ws": {
+     "PR": 1,
+     "CORE": 1,
+     "FULL": 6
+    },
+    "spend": 60500
+   },
+   {
+    "year": 3,
+    "visits": 8,
+    "by_ws": {
+     "PR": 2,
+     "CORE": 1,
+     "FULL": 5
+    },
+    "spend": 55000
+   },
+   {
+    "year": 4,
+    "visits": 8,
+    "by_ws": {
+     "PR": 2,
+     "CORE": 5,
+     "FULL": 1
+    },
+    "spend": 47000
+   },
+   {
+    "year": 5,
+    "visits": 5,
+    "by_ws": {
+     "PR": 0,
+     "CORE": 2,
+     "FULL": 3
+    },
+    "spend": 38500
+   },
+   {
+    "year": 6,
+    "visits": 3,
+    "by_ws": {
+     "PR": 0,
+     "CORE": 2,
+     "FULL": 1
+    },
+    "spend": 21500
+   },
+   {
+    "year": 7,
+    "visits": 6,
+    "by_ws": {
+     "PR": 2,
+     "CORE": 0,
+     "FULL": 4
+    },
+    "spend": 40000
+   },
+   {
+    "year": 8,
+    "visits": 7,
+    "by_ws": {
+     "PR": 4,
+     "CORE": 2,
+     "FULL": 1
+    },
+    "spend": 33500
+   },
+   {
+    "year": 9,
+    "visits": 7,
+    "by_ws": {
+     "PR": 4,
+     "CORE": 0,
+     "FULL": 3
+    },
+    "spend": 37500
+   }
+  ],
+  "aging_2pct": [
+   {
+    "year": -5,
+    "visits": 12,
+    "by_ws": {
+     "PR": 5,
+     "CORE": 4,
+     "FULL": 3
+    },
+    "spend": 66500
+   },
+   {
+    "year": -4,
+    "visits": 5,
+    "by_ws": {
+     "PR": 1,
+     "CORE": 3,
+     "FULL": 1
+    },
+    "spend": 31000
+   },
+   {
+    "year": -3,
+    "visits": 3,
+    "by_ws": {
+     "PR": 1,
+     "CORE": 2,
+     "FULL": 0
+    },
+    "spend": 16000
+   },
+   {
+    "year": -2,
+    "visits": 10,
+    "by_ws": {
+     "PR": 4,
+     "CORE": 2,
+     "FULL": 4
+    },
+    "spend": 59000
+   },
+   {
+    "year": -1,
+    "visits": 11,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 3,
+     "FULL": 5
+    },
+    "spend": 71000
+   },
+   {
+    "year": 0,
+    "visits": 12,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 3,
+     "FULL": 6
+    },
+    "spend": 79500
+   },
+   {
+    "year": 1,
+    "visits": 11,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 2,
+     "FULL": 6
+    },
+    "spend": 73000
+   },
+   {
+    "year": 2,
+    "visits": 6,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 1,
+     "FULL": 2
+    },
+    "spend": 32500
+   },
+   {
+    "year": 3,
+    "visits": 12,
+    "by_ws": {
+     "PR": 4,
+     "CORE": 2,
+     "FULL": 6
+    },
+    "spend": 76000
+   },
+   {
+    "year": 4,
+    "visits": 5,
+    "by_ws": {
+     "PR": 1,
+     "CORE": 1,
+     "FULL": 3
+    },
+    "spend": 35000
+   },
+   {
+    "year": 5,
+    "visits": 7,
+    "by_ws": {
+     "PR": 3,
+     "CORE": 0,
+     "FULL": 4
+    },
+    "spend": 43000
+   },
+   {
+    "year": 6,
+    "visits": 8,
+    "by_ws": {
+     "PR": 4,
+     "CORE": 0,
+     "FULL": 4
+    },
+    "spend": 46000
+   },
+   {
+    "year": 7,
+    "visits": 14,
+    "by_ws": {
+     "PR": 9,
+     "CORE": 2,
+     "FULL": 3
+    },
+    "spend": 65500
+   },
+   {
+    "year": 8,
+    "visits": 12,
+    "by_ws": {
+     "PR": 9,
+     "CORE": 1,
+     "FULL": 2
+    },
+    "spend": 50500
+   },
+   {
+    "year": 9,
+    "visits": 12,
+    "by_ws": {
+     "PR": 8,
+     "CORE": 0,
+     "FULL": 4
+    },
+    "spend": 58000
+   }
+  ]
+ },
+ "candidates": {
+  "base": {
+   "label": "基準計画",
+   "world": "base",
+   "what": "入力どおりの前提で立てた計画（これが基準）",
+   "feasible": true,
+   "summary": {
+    "total_cost": 48078.937611465575,
+    "p90": 66063.47968081638,
+    "committed": 36085.0,
+    "recourse": 11993.93761146557,
+    "recourse_p90": 29978.479680816377,
+    "recourse_parts": {
+     "overrun": 11993.93761146557,
+     "lease": 0.0,
+     "substitute": 0.0,
+     "aog": 0.0,
+     "emergency_kits": 0.0
+    },
+    "aog_prob": 0.0,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 2,
+      "spend": 12755.712136687023,
+      "PR": 1,
+      "CORE": 0,
+      "FULL": 1,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 94879.0972562647,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 2,
+      "spend": 18979.12821851394,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 2,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 14,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 17,
+    "rush": 0,
+    "shops": {
+     "GE-CF6": 14
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "AS-122",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-11",
+     "earliest": "2026-10",
+     "exp_cost": 9380,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-105",
+     "shop": "GE-CF6",
+     "workscope": "PR",
+     "month": "2026-12",
+     "t": 2,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 3375,
+     "off_wing": 5.2,
+     "quoted_off_wing": 4,
+     "deadline_t": -2,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-146",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 9556,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 2,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-143",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-06",
+     "earliest": "2027-01",
+     "exp_cost": 9575,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-148",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-11",
+     "earliest": "2027-06",
+     "exp_cost": 9393,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-115",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-09",
+     "t": 11,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9532,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-120",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-09",
+     "t": 11,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9494,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-101",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9431,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-137",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-03",
+     "earliest": "2027-10",
+     "exp_cost": 9393,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-117",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-01",
+     "t": 15,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9517,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 7,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-103",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 9568,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 8,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-111",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 9419,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 9,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-145",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 9513,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 10,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-102",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-08",
+     "t": 22,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-09",
+     "earliest": "2028-04",
+     "exp_cost": 9467,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 14,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    }
+   ]
+  },
+  "backlog": {
+   "label": "混雑対応計画",
+   "world": "backlog",
+   "what": "外部工場の TAT が 1 か月延びる前提で立てた計画",
+   "feasible": true,
+   "summary": {
+    "total_cost": 48278.07623482055,
+    "p90": 66242.32969733798,
+    "committed": 36175.0,
+    "recourse": 12103.076234820555,
+    "recourse_p90": 30067.329697337984,
+    "recourse_parts": {
+     "overrun": 12103.001234820556,
+     "lease": 0.075,
+     "substitute": 0.0,
+     "aog": 0.0,
+     "emergency_kits": 0.0
+    },
+    "aog_prob": 0.0,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 2,
+      "spend": 12755.712136687023,
+      "PR": 1,
+      "CORE": 0,
+      "FULL": 1,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 9,
+      "spend": 85403.20197130385,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 9,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 3,
+      "spend": 28564.08712682976,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 3,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 14,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 19,
+    "rush": 0,
+    "shops": {
+     "GE-CF6": 14
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "AS-122",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-11",
+     "earliest": "2026-10",
+     "exp_cost": 9380,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-105",
+     "shop": "GE-CF6",
+     "workscope": "PR",
+     "month": "2026-12",
+     "t": 2,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 3375,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -2,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-146",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 9556,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 2,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-120",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9437,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-143",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-06",
+     "earliest": "2027-01",
+     "exp_cost": 9575,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-148",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-11",
+     "earliest": "2027-06",
+     "exp_cost": 9393,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-115",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-09",
+     "t": 11,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9532,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-101",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9431,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-137",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-03",
+     "earliest": "2027-10",
+     "exp_cost": 9393,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-117",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-01",
+     "t": 15,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9517,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 7,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-103",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 9568,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 8,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-111",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 9585,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 10,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-145",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 9513,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 10,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "AS-102",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-08",
+     "t": 22,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-09",
+     "earliest": "2028-04",
+     "exp_cost": 9467,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 14,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    }
+   ]
+  },
+  "crunch": {
+   "label": "逼迫対応計画",
+   "world": "crunch",
+   "what": "LLP キットの納期 12 か月・手持ち半減の前提で立てた計画",
+   "feasible": true,
+   "summary": {
+    "total_cost": 52261.61531925595,
+    "p90": 70166.65586057829,
+    "committed": 36130.0,
+    "recourse": 16131.615319255949,
+    "recourse_p90": 34036.655860578285,
+    "recourse_parts": {
+     "overrun": 12531.540319255946,
+     "lease": 0.075,
+     "substitute": 0.0,
+     "aog": 0.0,
+     "emergency_kits": 3600.0
+    },
+    "aog_prob": 0.0,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 2,
+      "spend": 12755.712136687023,
+      "PR": 1,
+      "CORE": 0,
+      "FULL": 1,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 95416.6999640551,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 2,
+      "spend": 18979.12821851394,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 2,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 14,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 4,
+    "early_months": 18,
+    "rush": 0,
+    "shops": {
+     "GE-CF6": 14
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "AS-122",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-11",
+     "earliest": "2026-10",
+     "exp_cost": 9380,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-105",
+     "shop": "GE-CF6",
+     "workscope": "PR",
+     "month": "2026-12",
+     "t": 2,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 3375,
+     "off_wing": 5.2,
+     "quoted_off_wing": 4,
+     "deadline_t": -2,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-120",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9385,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-146",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 9556,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-143",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-06",
+     "earliest": "2027-01",
+     "exp_cost": 9575,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -4,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-115",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-09",
+     "t": 11,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9532,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -1,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-148",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-11",
+     "earliest": "2027-06",
+     "exp_cost": 10039,
+     "off_wing": 6.4,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-101",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9431,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 1,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-137",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-03",
+     "earliest": "2027-10",
+     "exp_cost": 9393,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 1,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-117",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-01",
+     "t": 15,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9517,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-103",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 9568,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 4,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-111",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 9419,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-145",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 9513,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-102",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-08",
+     "t": 22,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-09",
+     "earliest": "2028-04",
+     "exp_cost": 9467,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 10,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    }
+   ]
+  },
+  "stress": {
+   "label": "複合ストレス対応計画",
+   "world": "stress",
+   "what": "混雑＋逼迫＋故障率 1.5 倍の前提で立てた計画",
+   "feasible": true,
+   "summary": {
+    "total_cost": 53062.51892955087,
+    "p90": 71350.03828938717,
+    "committed": 36850.0,
+    "recourse": 16212.518929550874,
+    "recourse_p90": 34500.038289387165,
+    "recourse_parts": {
+     "overrun": 12611.088929550873,
+     "lease": 0.975,
+     "substitute": 0.0,
+     "aog": 0.455,
+     "emergency_kits": 3600.0
+    },
+    "aog_prob": 0.0005,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 3,
+      "spend": 22180.70595564549,
+      "PR": 1,
+      "CORE": 0,
+      "FULL": 2,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 9,
+      "spend": 86116.65350734626,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 9,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 2,
+      "spend": 18933.729466559213,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 2,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 14,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 4,
+    "early_months": 34,
+    "rush": 0,
+    "shops": {
+     "GE-CF6": 14
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "AS-122",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-11",
+     "earliest": "2026-10",
+     "exp_cost": 9356,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -4,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-105",
+     "shop": "GE-CF6",
+     "workscope": "PR",
+     "month": "2026-12",
+     "t": 2,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 3386,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -2,
+     "deadline_reason": "工場の枠予約 4 か月前"
+    },
+    {
+     "esn": "AS-146",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2026-12",
+     "t": 2,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 9439,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -10,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-120",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9385,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-115",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-05",
+     "t": 7,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 9457,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-143",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-06",
+     "earliest": "2027-01",
+     "exp_cost": 9632,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -4,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-101",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9419,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-103",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 9444,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-148",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-11",
+     "earliest": "2027-06",
+     "exp_cost": 10272,
+     "off_wing": 7.5,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-117",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-01",
+     "earliest": "2027-08",
+     "exp_cost": 9487,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 1,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-111",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 9419,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-137",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-03",
+     "earliest": "2027-10",
+     "exp_cost": 9600,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-102",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-09",
+     "earliest": "2028-04",
+     "exp_cost": 9357,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": 6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "AS-145",
+     "shop": "GE-CF6",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 9576,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    }
+   ]
+  }
+ }
+}

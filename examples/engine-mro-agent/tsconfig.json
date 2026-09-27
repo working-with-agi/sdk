@@ -1,0 +1,20 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["node"],
+    "noEmit": true,
+    "declaration": false,
+    "declarationMap": false,
+    "baseUrl": ".",
+    "paths": {
+      // The SDK is consumed from source so the example works without building
+      // packages/core or adding this folder to pnpm-workspace.yaml.
+      // tsc, tsx and esbuild all honour these mappings.
+      "@work-with-ai/sdk": ["../../packages/core/src/index.ts"],
+      // packages/core/src imports xterm; resolve it from this example's node_modules.
+      "@xterm/*": ["./node_modules/@xterm/*"]
+    }
+  },
+  "include": ["src"]
+}

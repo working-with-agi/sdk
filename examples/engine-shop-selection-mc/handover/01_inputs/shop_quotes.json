@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "description": "Five CFM56-7B shop archetypes an operator in Japan would realistically tender to. Illustrative quotes, not any real shop's prices. price = quoted price incl. labour, material and LLP kits [k$ at today's FX]; tat = quoted turn-around [months].",
+    "archetypes": "group line/module shop in Japan (performance restoration only); OEM-branded network shop in Asia (fixed price); large independent MRO in Asia (capped T&M); large independent MRO in Europe (T&M); independent MRO in North America (T&M, long logistics)"
+  },
+  "shops": [
+    {
+      "id": "GRP-JP",
+      "name": "国内グループ工場（PR のみ）",
+      "slots": 3,
+      "transport_cost": 0,
+      "transport_months": 0,
+      "overrun_share": 1.0,
+      "currency": "HOME",
+      "booking_lead_months": 1,
+      "expedite": {"fee": 350, "tat_reduction": 1},
+      "quotes": {"PR": {"price": 2450, "tat": 2}},
+      "findings": {"prob": 0.40, "overrun_mean": 0.20, "overrun_cv": 0.6},
+      "delay": {"shop_months": [0, 1], "shop_probs": [0.75, 0.25], "engine_months": [0, 1], "engine_probs": [0.85, 0.15]}
+    },
+    {
+      "id": "OEM-ASIA",
+      "name": "OEM 系ネットワーク（アジア・固定価格）",
+      "slots": 5,
+      "transport_cost": 80,
+      "transport_months": 1,
+      "overrun_share": 0.0,
+      "currency": "USD",
+      "booking_lead_months": 4,
+      "expedite": {"fee": 600, "tat_reduction": 1},
+      "volume_commitment": {"min_visits": 14, "shortfall_penalty": 900},
+      "quotes": {"PR": {"price": 2750, "tat": 2}, "CORE": {"price": 6200, "tat": 3}, "FULL": {"price": 10100, "tat": 3}},
+      "findings": {"prob": 0.40, "overrun_mean": 0.20, "overrun_cv": 0.6},
+      "delay": {"shop_months": [0, 1], "shop_probs": [0.9, 0.1], "engine_months": [0, 1], "engine_probs": [0.95, 0.05]}
+    },
+    {
+      "id": "IND-ASIA",
+      "name": "独立系大手（アジア・上限付き T&M）",
+      "slots": 6,
+      "transport_cost": 60,
+      "transport_months": 1,
+      "overrun_share": 0.5,
+      "currency": "USD",
+      "booking_lead_months": 2,
+      "quotes": {"PR": {"price": 2300, "tat": 3}, "CORE": {"price": 5400, "tat": 4}, "FULL": {"price": 9100, "tat": 4}},
+      "findings": {"prob": 0.50, "overrun_mean": 0.30, "overrun_cv": 1.0},
+      "delay": {"shop_months": [0, 1, 2, 3], "shop_probs": [0.45, 0.3, 0.15, 0.1], "engine_months": [0, 1], "engine_probs": [0.8, 0.2]}
+    },
+    {
+      "id": "IND-EU",
+      "name": "独立系大手（欧州・T&M）",
+      "slots": 4,
+      "transport_cost": 130,
+      "transport_months": 1,
+      "overrun_share": 1.0,
+      "currency": "USD",
+      "booking_lead_months": 3,
+      "quotes": {"PR": {"price": 2500, "tat": 3}, "CORE": {"price": 5700, "tat": 3}, "FULL": {"price": 9500, "tat": 4}},
+      "findings": {"prob": 0.40, "overrun_mean": 0.18, "overrun_cv": 0.6},
+      "delay": {"shop_months": [0, 1], "shop_probs": [0.8, 0.2], "engine_months": [0, 1], "engine_probs": [0.9, 0.1]}
+    },
+    {
+      "id": "IND-NA",
+      "name": "独立系（北米・T&M）",
+      "slots": 3,
+      "transport_cost": 120,
+      "transport_months": 2,
+      "overrun_share": 1.0,
+      "currency": "USD",
+      "booking_lead_months": 2,
+      "quotes": {"PR": {"price": 2150, "tat": 3}, "CORE": {"price": 5200, "tat": 4}, "FULL": {"price": 8900, "tat": 5}},
+      "findings": {"prob": 0.45, "overrun_mean": 0.22, "overrun_cv": 0.8},
+      "delay": {"shop_months": [0, 1, 2], "shop_probs": [0.6, 0.25, 0.15], "engine_months": [0, 1], "engine_probs": [0.85, 0.15]}
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "engine-mro-agent-example",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "WorkWithAI SDK example: engine shop-visit planning (engine-shop-selection-mc) run as an AI-agent workflow",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "npm run build:node && npm run build:ui",
+    "build:node": "esbuild src/ingest.ts src/run-monthly.ts --bundle --platform=node --format=esm --target=node20 --log-level=warning --outdir=dist/node --alias:@work-with-ai/sdk=../../packages/core/src/index.ts --alias:@xterm/xterm=./node_modules/@xterm/xterm --alias:@xterm/addon-fit=./node_modules/@xterm/addon-fit --alias:@xterm/addon-webgl=./node_modules/@xterm/addon-webgl",
+    "build:ui": "esbuild src/ui.ts --bundle --format=esm --target=es2022 --outfile=dist/ui.js --alias:@work-with-ai/sdk=../../packages/core/src/index.ts --alias:@xterm/xterm=./node_modules/@xterm/xterm --alias:@xterm/addon-fit=./node_modules/@xterm/addon-fit --alias:@xterm/addon-webgl=./node_modules/@xterm/addon-webgl",
+    "ingest": "npm run -s build:node && node dist/node/ingest.js",
+    "run-monthly": "npm run -s build:node && node dist/node/run-monthly.js",
+    "serve": "npm run -s build:ui && python3 -m http.server 5173"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/addon-webgl": "^0.19.0",
+    "@xterm/xterm": "^6.0.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.9.3"
+  }
+}

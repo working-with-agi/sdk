@@ -1,0 +1,46 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>進め方（PROCESS）</title><style>body{margin:0;background:#f6f4ee;color:#141413;font-family:'IBM Plex Sans JP',system-ui,sans-serif;line-height:1.7}main{max-width:880px;margin:0 auto;padding:40px 24px 80px}h1{font-size:28px}h2{font-size:20px;margin-top:36px;border-bottom:1px solid #cfcbc0;padding-bottom:6px}h3{font-size:16px;margin-top:24px}table{border-collapse:collapse;font-size:13px;margin:8px 0}th,td{border:1px solid #cfcbc0;padding:4px 8px;text-align:left}pre{background:#ffffff;border:1px solid #cfcbc0;padding:12px;overflow-x:auto;font-size:12px}code{background:#efece4;padding:0 4px}blockquote{border-left:3px solid #1f3d63;margin:8px 0;padding:4px 12px;color:#5b5a55}a{color:#1f3d63}.top{font-size:12px;color:#5b5a55}</style></head><body><main><p class="top"><a href="index.html">← ダッシュボード</a></p><h1>業務プロセスに合わせた作り（設計案）</h1>
+<p>エンジン管理の業務を、周期と担当と「どこで何を決めるか」で並べ、道具（最適化・追跡・画面）をその流れの中に置き直すための設計です。業務の中身は公開情報（<code>PRACTICE.md</code>）と各社の採用ページの記述から組み立てた一般形で、個社の実際の手順ではありません。</p>
+<h2>1. 業務プロセスの全体</h2>
+<table><thead><tr><th>#</th><th>プロセス</th><th>周期</th><th>主な担当（各社の呼び方は異なる）</th><th>決めること</th><th>今の道具</th></tr></thead><tbody>
+<tr><td>P1</td><td>長期計画と年間予算</td><td>年 1 回（＋半期見直し）</td><td>エンジン計画、財務、経営</td><td>年間の取卸し計画、整備費予算、予備エンジン方針、機材更新との整合</td><td>基準の計画、10 年の見通し、季節の平年値</td></tr>
+<tr><td>P2</td><td>工場との年間入場計画の合意</td><td>年 1 回・四半期</td><td>エンジン計画、調達</td><td>契約工場への入場枠、寿命部品キットの発注計画</td><td>一部（枠と判断期限）</td></tr>
+<tr><td>P3</td><td>月次の計画会議</td><td>毎月</td><td>エンジン計画、技術、運用</td><td>入場の確定・前倒し・据え置き、予備の配置、前提が外れたときの乗り換え</td><td>月次計画、追跡</td></tr>
+<tr><td>P4</td><td>取卸し判断</td><td>随時（監視は毎日）</td><td>パワープラント技術</td><td>警報やボアスコープ所見への処置、取卸すか様子を見るか、エンジン交換の段取り</td><td>なし</td></tr>
+<tr><td>P5</td><td>入場から出場まで（1 回ごと）</td><td>入場ごと（4〜6 か月）</td><td>エンジン計画、技術、工場</td><td>整備範囲の依頼、見積もりの承認、追加作業、部品待ちの対応、受領</td><td>なし</td></tr>
+<tr><td>P6</td><td>予定外の事態</td><td>随時</td><td>運用、エンジン計画</td><td>予備不足の埋め方（リース、プール、代替機材、欠航）、鳥の衝突などの修理範囲と保険</td><td>一部（モデルの中の埋め方）</td></tr>
+<tr><td>P7</td><td>信頼性管理</td><td>毎月・四半期</td><td>信頼性管理、技術、委員会</td><td>警戒値の超過の調査、是正処置、整備プログラムの変更、当局報告</td><td>なし</td></tr>
+<tr><td>P8</td><td>技術管理</td><td>随時</td><td>技術</td><td>耐空性改善通報・技術通報の評価（期限あり）、改修をどの入場で入れるか</td><td>なし</td></tr>
+<tr><td>P9</td><td>契約・調達</td><td>四半期・契約更新時</td><td>調達、エンジン計画</td><td>工場の成績評価、契約更新の入札、寿命部品・中古部品の調達、保証請求</td><td>5 工場の比較（入札）</td></tr>
+<tr><td>P10</td><td>財務・会計</td><td>毎月・決算</td><td>財務</td><td>予実、請求の照合、積立・引当、リース返却の精算</td><td>一部（年度の着地見込み）</td></tr>
+<tr><td>P11</td><td>予定にない打診・交渉</td><td>随時</td><td>エンジン計画、調達、経営</td><td>エンジン売買・リース、工場からの提案を受けるか、上限価格</td><td>一部（打ち手の効果）</td></tr>
+</tbody></table>
+<h2>2. プロセスのつながり</h2>
+<pre>
+P1 年間計画・予算 ──▶ P2 工場と入場枠 ──▶ P3 月次会議 ──▶ P5 入場〜出場 ──▶ P10 請求・予実
+       ▲                                 ▲   │               │
+       │                                 │   ▼               ▼
+  P7 信頼性管理 ◀── P4 取卸し判断 ◀── 状態監視        P9 工場の成績・契約更新
+       │                                 ▲
+       └──────── P8 技術管理（改修） ─────┘      P6 予定外・P11 打診はどこからでも割り込む
+</pre>
+<ul>
+<li>実績は P5・P4・P6 で生まれ、P3（追跡）・P7（信頼性）・P10（予実）に集まり、次の P1（版の積み上がり）に返る。</li>
+<li>判断には期限がある（工場の枠予約、キット発注、通報の評価期限、打診の回答期限）。期限は P3 で一覧にする。</li>
+</ul>
+<h2>3. 作りの原則</h2>
+<ol>
+<li><b>業務の対象を記録として持つ</b>：エンジン、取卸し、入場（工場整備 1 回）、見積もり、判断、承認、計画の版。画面はその記録の見方の一つにする。</li>
+<li><b>入場は状態を持つ</b>：計画 → 枠予約 → 取卸し → 輸送 → 受入・分解 → 見積もり提示 → 承認 → 修理（部品待ち）→ 組立・試運転 → 出場 → 受領 → 請求照合 → 完了。どの状態に何日いるかが、工期の実績になる。</li>
+<li><b>判断の場面で計算を呼ぶ</b>：最適化や追跡は「判断の場面」で呼ばれ、案と根拠を出す。決めるのは人で、承認の記録が残る。</li>
+<li><b>期限を主役にする</b>：各プロセスの判断期限を集め、「今週・今月決めること」を担当ごとに出す。</li>
+<li><b>実績は次の計画に返す</b>：工期・費用の上振れ・故障の実績は、次の版の前提を直す（信頼性理論で業界値と混ぜる）。</li>
+</ol>
+<h2>4. workwithai の部品との対応</h2>
+<table><thead><tr><th>必要なもの</th><th>部品</th></tr></thead><tbody>
+<tr><td>入場・見積もり・承認の記録を複数人で共有</td><td>画面の共有データベース</td></tr>
+<tr><td>月次会議の資料を毎月自動で作る</td><td>定期実行</td></tr>
+<tr><td>期限の近い判断、警報、承認依頼を知らせる</td><td>通知（Slack など、送り先は利用者が決める）</td></tr>
+<tr><td>見積書・所見報告書（PDF）の取り込み</td><td>ファイル保存、文書の取り込み</td></tr>
+<tr><td>既存の整備管理システム・状態監視データとの接続</td><td>MCP</td></tr>
+<tr><td>資料の下書き、所見の要約</td><td>画面の中の AI</td></tr>
+</tbody></table></main></body></html>

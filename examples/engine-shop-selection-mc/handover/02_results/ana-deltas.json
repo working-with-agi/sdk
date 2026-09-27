@@ -1,0 +1,2368 @@
+{
+ "baseline": {
+  "version": "2026-09-27",
+  "inputs": {
+   "fleet.json": "2045156ac96b013d",
+   "shops.json": "6b48bcf3d5bc87f0"
+  },
+  "plan_of_record": {
+   "total_cost": 151986.97877188044,
+   "p90": 189323.3766846415,
+   "committed": 120895.0,
+   "recourse": 31091.97877188043,
+   "recourse_p90": 68428.37668464148,
+   "recourse_parts": {
+    "overrun": 26306.10377188043,
+    "lease": 84.24,
+    "substitute": 0.0,
+    "aog": 201.635,
+    "emergency_kits": 4500.0
+   },
+   "aog_prob": 0.158,
+   "by_fiscal_year": {
+    "FY2026": {
+     "visits": 8,
+     "spend": 93345.81738626977,
+     "PR": 0,
+     "CORE": 1,
+     "FULL": 7,
+     "GT": 0,
+     "PO": 0
+    },
+    "FY2027": {
+     "visits": 11,
+     "spend": 134662.9720452879,
+     "PR": 0,
+     "CORE": 0,
+     "FULL": 11,
+     "GT": 0,
+     "PO": 0
+    },
+    "FY2028": {
+     "visits": 5,
+     "spend": 61117.314340322824,
+     "PR": 0,
+     "CORE": 0,
+     "FULL": 5,
+     "GT": 0,
+     "PO": 0
+    }
+   },
+   "shop_visits": 24,
+   "midlife_swaps": 0,
+   "partouts": 0,
+   "long_spares": 0,
+   "emergency_kits": 5,
+   "early_months": 35,
+   "rush": 0,
+   "shops": {
+    "MTU-ZH": 24
+   },
+   "relaxed": [
+    "budget"
+   ]
+  }
+ },
+ "inputs_changed": [],
+ "wall_seconds": 6.7,
+ "answers": [
+  {
+   "use_case": "② 月次の入場判断",
+   "question": "外部工場の TAT が 1 か月延びたら（再計画）",
+   "actions": [],
+   "case": "backlog",
+   "feasible": true,
+   "summary": {
+    "total_cost": 154245.79618263454,
+    "p90": 191731.0044886874,
+    "committed": 122755.0,
+    "recourse": 31490.79618263453,
+    "recourse_p90": 68976.0044886874,
+    "recourse_parts": {
+     "overrun": 26850.646182634533,
+     "lease": 73.58,
+     "substitute": 0.0,
+     "aog": 66.57,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.059,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 6,
+      "spend": 68967.2668571212,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 12,
+      "spend": 147340.41959901943,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 12,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 6,
+      "spend": 73362.95972649394,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 6,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 1,
+    "emergency_kits": 5,
+    "early_months": 31,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 2258.817410754098,
+    "p90": 2407.6278040459147,
+    "aog_prob": -0.099,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 1,
+    "emergency_kits": 0,
+    "early_months": -4,
+    "rush": 0,
+    "committed": 1860.0,
+    "recourse": 398.81741075410173,
+    "recourse_p90": 547.6278040459147,
+    "premium": 1860.0,
+    "payout": -398.81741075410173,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -2,
+      "spend": -24378.550529148575
+     },
+     "FY2027": {
+      "visits": 1,
+      "spend": 12677.44755373153
+     },
+     "FY2028": {
+      "visits": 1,
+      "spend": 12245.645386171112
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "③ 工場・契約",
+   "question": "工場の枠を 2 つ事前確保したら",
+   "actions": [
+    "slots"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 152793.1895326438,
+    "p90": 190284.58165861544,
+    "committed": 121920.0,
+    "recourse": 30873.189532643795,
+    "recourse_p90": 68364.58165861544,
+    "recourse_parts": {
+     "overrun": 26102.669532643795,
+     "lease": 75.465,
+     "substitute": 0.0,
+     "aog": 195.055,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.1535,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93142.38314703314,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 134662.9720452879,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 40,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 806.2107607633516,
+    "p90": 961.204973973945,
+    "aog_prob": -0.004500000000000004,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 5,
+    "rush": 0,
+    "committed": 1025.0,
+    "recourse": -218.78923923663388,
+    "recourse_p90": -63.79502602604043,
+    "premium": 1025.0,
+    "payout": 218.78923923663388,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -203.43423923663795
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "③ 工場・契約",
+   "question": "エンジン・プール契約を結んだら",
+   "actions": [
+    "pool"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 152700.71581557734,
+    "p90": 190075.72676065614,
+    "committed": 121820.0,
+    "recourse": 30880.715815577307,
+    "recourse_p90": 68255.72676065615,
+    "recourse_parts": {
+     "overrun": 26163.090815577307,
+     "lease": 185.705,
+     "substitute": 0.0,
+     "aog": 31.92,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.0245,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 9,
+      "spend": 105441.76709307783,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 8,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 122424.00938217671,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 40,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 713.7370436968922,
+    "p90": 752.3500760146417,
+    "aog_prob": -0.1335,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 5,
+    "rush": 0,
+    "committed": 925.0,
+    "recourse": -211.26295630312234,
+    "recourse_p90": -172.64992398532922,
+    "premium": 925.0,
+    "payout": 211.26295630312234,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 1,
+      "spend": 12095.949706808053
+     },
+     "FY2027": {
+      "visits": -1,
+      "spend": -12238.96266311119
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "③' 契約形態（更新時）",
+   "question": "固定価格契約に切り替えたら（超過 0、+8%）",
+   "actions": [
+    "contract_fixed"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 149569.3449543577,
+    "p90": 186572.91620394238,
+    "committed": 141812.0,
+    "recourse": 7757.344954357672,
+    "recourse_p90": 44760.91620394238,
+    "recourse_parts": {
+     "overrun": 2973.0649543576715,
+     "lease": 82.68,
+     "substitute": 0.0,
+     "aog": 201.6,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.157,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 92551.31988640894,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 133594.18805294286,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60519.55701500595,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -2417.6338175227575,
+    "p90": -2750.460480699112,
+    "aog_prob": -0.0010000000000000009,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 1,
+    "rush": 0,
+    "committed": 20917.0,
+    "recourse": -23334.633817522757,
+    "recourse_p90": -23667.460480699097,
+    "premium": 20917.0,
+    "payout": 23334.633817522757,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -794.4974998608377
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -1068.7839923450374
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -597.7573253168739
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "③' 契約形態（更新時）",
+   "question": "超過を折半する契約なら（分担 50%、+3%）",
+   "actions": [
+    "contract_share50"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 148512.15147698805,
+    "p90": 184706.45525988878,
+    "committed": 128767.0,
+    "recourse": 19745.15147698805,
+    "recourse_p90": 55939.45525988877,
+    "recourse_parts": {
+     "overrun": 14960.871476988048,
+     "lease": 82.68,
+     "substitute": 0.0,
+     "aog": 201.6,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.157,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 92211.59381235548,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 133058.69761758135,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60337.58004705156,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -3474.8272948923986,
+    "p90": -4616.9214247527125,
+    "aog_prob": -0.0010000000000000009,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 1,
+    "rush": 0,
+    "committed": 7872.0,
+    "recourse": -11346.82729489238,
+    "recourse_p90": -12488.921424752712,
+    "premium": 7872.0,
+    "payout": 11346.82729489238,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -1134.2235739142925
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -1604.2744277065503
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -779.7342932712636
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "③' 契約形態（更新時）",
+   "question": "時間課金（PBH 型）なら（所見込み期待費用で固定、+5%）",
+   "actions": [
+    "contract_pbh"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 166573.70241690957,
+    "p90": 205703.2931220628,
+    "committed": 158640.05,
+    "recourse": 7933.652416909597,
+    "recourse_p90": 47063.24312206283,
+    "recourse_parts": {
+     "overrun": 3149.3724169095967,
+     "lease": 82.68,
+     "substitute": 0.0,
+     "aog": 201.6,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.157,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 98040.35994073609,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 141519.33291721574,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 64109.729558957624,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 14586.723645029124,
+    "p90": 16379.916437421314,
+    "aog_prob": -0.0010000000000000009,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 1,
+    "rush": 0,
+    "committed": 37745.04999999999,
+    "recourse": -23158.32635497083,
+    "recourse_p90": -21365.133562578652,
+    "premium": 37745.04999999999,
+    "payout": 23158.32635497083,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 4694.542554466316
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 6856.360871927842
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 2992.4152186348
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "前払いで 3% 引きなら（4 か月早払い）",
+   "actions": [
+    "fin_prepay"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 150072.41157340122,
+    "p90": 187157.9981734105,
+    "committed": 119155.6666666666,
+    "recourse": 30916.744906734617,
+    "recourse_p90": 68002.33150674393,
+    "recourse_parts": {
+     "overrun": 26130.869906734617,
+     "lease": 84.24,
+     "substitute": 0.0,
+     "aog": 201.635,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.158,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 92727.79068369456,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 133771.1800449859,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60712.56584472065,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -1914.567198479228,
+    "p90": -2165.378511230985,
+    "aog_prob": 0.0,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 0,
+    "rush": 0,
+    "committed": -1739.3333333334012,
+    "recourse": -175.23386514581216,
+    "recourse_p90": -426.0451778975548,
+    "premium": -1739.3333333334012,
+    "payout": 175.23386514581216,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -618.026702575211
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -891.7920003019972
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -404.7484956021726
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "複数年契約で値上げ上限を取れたら",
+   "actions": [
+    "fin_escalation"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 149115.12797416162,
+    "p90": 186075.3089177952,
+    "committed": 118286.0,
+    "recourse": 30829.127974161627,
+    "recourse_p90": 67789.3089177952,
+    "recourse_parts": {
+     "overrun": 26043.252974161627,
+     "lease": 84.24,
+     "substitute": 0.0,
+     "aog": 201.635,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.158,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 92418.77733240712,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 133325.28404483496,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60510.19159691957,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -2871.8507977188274,
+    "p90": -3248.067766846303,
+    "aog_prob": 0.0,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 0,
+    "rush": 0,
+    "committed": -2609.0,
+    "recourse": -262.8507977188019,
+    "recourse_p90": -639.067766846274,
+    "premium": -2609.0,
+    "payout": 262.8507977188019,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -927.0400538626564
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -1337.6880004529376
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -607.1227434032553
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "アライアンスで予備を共同プールしたら",
+   "actions": [
+    "fin_pool_alliance"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 151716.09562820167,
+    "p90": 189181.65756795462,
+    "committed": 121075.0,
+    "recourse": 30641.095628201656,
+    "recourse_p90": 68106.65756795464,
+    "recourse_parts": {
+     "overrun": 25805.800628201658,
+     "lease": 110.63,
+     "substitute": 0.0,
+     "aog": 224.665,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.171,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93313.56488846178,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 121949.27601324601,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 6,
+      "spend": 73362.95972649394,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 6,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 39,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -270.8831436787732,
+    "p90": -141.71911668687244,
+    "aog_prob": 0.013000000000000012,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 4,
+    "rush": 0,
+    "committed": 180.0,
+    "recourse": -450.8831436787732,
+    "recourse_p90": -321.71911668684334,
+    "premium": 180.0,
+    "payout": 450.8831436787732,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -32.25249780798913
+     },
+     "FY2027": {
+      "visits": -1,
+      "spend": -12713.696032041888
+     },
+     "FY2028": {
+      "visits": 1,
+      "spend": 12245.645386171112
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "グループ整備会社に軽作業を内製したら",
+   "actions": [
+    "fin_group_mro"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 152575.99463966742,
+    "p90": 192665.5198879464,
+    "committed": 120895.0,
+    "recourse": 31680.994639667428,
+    "recourse_p90": 71770.5198879464,
+    "recourse_parts": {
+     "overrun": 27025.38463966743,
+     "lease": 65.52,
+     "substitute": 0.0,
+     "aog": 90.09,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.072,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 7,
+      "spend": 81455.57826357332,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 6,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 12,
+      "spend": 147021.92775501477,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 12,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61367.8786210796,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 589.0158677869767,
+    "p90": 3342.143203304906,
+    "aog_prob": -0.08600000000000001,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 0,
+    "rush": 0,
+    "committed": 0.0,
+    "recourse": 589.0158677869986,
+    "recourse_p90": 3342.1432033049205,
+    "premium": 0.0,
+    "payout": -589.0158677869986,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -1,
+      "spend": -11890.239122696454
+     },
+     "FY2027": {
+      "visits": 1,
+      "spend": 12358.95570972687
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 250.56428075677832
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "為替を先物で固定したら",
+   "actions": [
+    "fin_fx_hedge"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 152135.20224269255,
+    "p90": 162897.1827768218,
+    "committed": 121210.0,
+    "recourse": 30925.202242692554,
+    "recourse_p90": 41687.182776821806,
+    "recourse_parts": {
+     "overrun": 26169.217242692554,
+     "lease": 73.32,
+     "substitute": 0.0,
+     "aog": 182.665,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.1445,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93284.29171138289,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 134594.79370650643,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61110.13182480323,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 42,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 148.22347081211046,
+    "p90": -26426.19390781969,
+    "aog_prob": -0.013500000000000012,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 7,
+    "rush": 0,
+    "committed": 315.0,
+    "recourse": -166.77652918787498,
+    "recourse_p90": -26741.193907819674,
+    "premium": 315.0,
+    "payout": 166.77652918787498,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -61.5256748868851
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -68.17833878146484
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -7.182515519591107
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "予備をセール＆リースバックしたら",
+   "actions": [
+    "fin_slb"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 156018.71778838843,
+    "p90": 193355.11570114948,
+    "committed": 124926.73901650799,
+    "recourse": 31091.97877188043,
+    "recourse_p90": 68428.37668464148,
+    "recourse_parts": {
+     "overrun": 26306.10377188043,
+     "lease": 84.24,
+     "substitute": 0.0,
+     "aog": 201.635,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.158,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93345.81738626977,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 134662.9720452879,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 4031.739016507985,
+    "p90": 4031.739016507985,
+    "aog_prob": 0.0,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 0,
+    "rush": 0,
+    "committed": 4031.739016507985,
+    "recourse": 0.0,
+    "recourse_p90": 0.0,
+    "premium": 4031.739016507985,
+    "payout": -0.0,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "大手パッケージ（ティア＋上限＋共同プール＋内製＋為替固定＋積立金なし）",
+   "actions": [
+    "fin_package"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 148284.37784375422,
+    "p90": 158349.77470904277,
+    "committed": 117902.42000000001,
+    "recourse": 30381.9578437542,
+    "recourse_p90": 40447.35470904275,
+    "recourse_parts": {
+     "overrun": 25667.2678437542,
+     "lease": 90.545,
+     "substitute": 0.0,
+     "aog": 124.145,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.1,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 7,
+      "spend": 80309.1028235962,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 6,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 12,
+      "spend": 144828.7552458176,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 12,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60740.409774340354,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 40,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -3702.600928126223,
+    "p90": -30973.60197559872,
+    "aog_prob": -0.057999999999999996,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 5,
+    "rush": 0,
+    "committed": -2992.579999999987,
+    "recourse": -710.0209281262287,
+    "recourse_p90": -27981.021975598727,
+    "premium": -2992.579999999987,
+    "payout": 710.0209281262287,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -1,
+      "spend": -13036.714562673573
+     },
+     "FY2027": {
+      "visits": 1,
+      "spend": 10165.783200529695
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -376.90456598246965
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑥ お金の仕組み",
+   "question": "大手パッケージを混雑の世界で",
+   "actions": [
+    "fin_package"
+   ],
+   "case": "backlog",
+   "feasible": true,
+   "summary": {
+    "total_cost": 149261.22728393233,
+    "p90": 159873.53625947042,
+    "committed": 117722.42000000001,
+    "recourse": 31538.8072839323,
+    "recourse_p90": 42151.11625947039,
+    "recourse_parts": {
+     "overrun": 26573.9272839323,
+     "lease": 195.975,
+     "substitute": 0.0,
+     "aog": 268.905,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.201,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 6,
+      "spend": 68325.39172237155,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 13,
+      "spend": 157719.12578722037,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 13,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 60740.409774340354,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -2725.751487948117,
+    "p90": -29449.840425171074,
+    "aog_prob": 0.04300000000000001,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 1,
+    "rush": 0,
+    "committed": -3172.579999999987,
+    "recourse": 446.82851205187035,
+    "recourse_p90": -26277.260425171087,
+    "premium": -3172.579999999987,
+    "payout": -446.82851205187035,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -2,
+      "spend": -25020.42566389822
+     },
+     "FY2027": {
+      "visits": 2,
+      "spend": 23056.153741932474
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -376.90456598246965
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑦ リース返却",
+   "question": "リース返却前に入場して条件を満たしたら",
+   "actions": [
+    "lease_visits"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 157029.59901851043,
+    "p90": 194801.09223743313,
+    "committed": 122935.0,
+    "recourse": 34094.599018510424,
+    "recourse_p90": 71866.09223743311,
+    "recourse_parts": {
+     "overrun": 27297.254018510423,
+     "lease": 103.61,
+     "substitute": 0.0,
+     "aog": 393.735,
+     "emergency_kits": 6300.0
+    },
+    "aog_prob": 0.253,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 9,
+      "spend": 105273.73892117664,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 8,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 14,
+      "spend": 172597.86971116273,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 14,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 1,
+      "spend": 12245.645386171107,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 1,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 1,
+    "emergency_kits": 7,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 5042.620246629987,
+    "p90": 5477.715552791633,
+    "aog_prob": 0.095,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 1,
+    "emergency_kits": 2,
+    "early_months": 0,
+    "rush": 0,
+    "committed": 2040.0,
+    "recourse": 3002.6202466299947,
+    "recourse_p90": 3437.715552791633,
+    "premium": 2040.0,
+    "payout": -3002.6202466299947,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 1,
+      "spend": 11927.921534906869
+     },
+     "FY2027": {
+      "visits": 3,
+      "spend": 37934.89766587483
+     },
+     "FY2028": {
+      "visits": -4,
+      "spend": -48871.66895415172
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑦ リース返却",
+   "question": "返却を 6 か月延長したら",
+   "actions": [
+    "lease_extend"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 165666.97877188044,
+    "p90": 203003.3766846415,
+    "committed": 134575.0,
+    "recourse": 31091.97877188043,
+    "recourse_p90": 68428.37668464148,
+    "recourse_parts": {
+     "overrun": 26306.10377188043,
+     "lease": 84.24,
+     "substitute": 0.0,
+     "aog": 201.635,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.158,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93345.81738626977,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 134662.9720452879,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 35,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 13680.0,
+    "p90": 13680.0,
+    "aog_prob": 0.0,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 0,
+    "rush": 0,
+    "committed": 13680.0,
+    "recourse": 0.0,
+    "recourse_p90": 0.0,
+    "premium": 13680.0,
+    "payout": -0.0,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "④ 資産戦略",
+   "question": "グリーンタイム・エンジンを最大 8 基使えたら",
+   "actions": [
+    "midlife"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 113694.72485988066,
+    "p90": 146021.18089072185,
+    "committed": 95815.0,
+    "recourse": 17879.72485988066,
+    "recourse_p90": 50206.180890721844,
+    "recourse_parts": {
+     "overrun": 17865.46485988066,
+     "lease": 4.81,
+     "substitute": 0.0,
+     "aog": 9.45,
+     "emergency_kits": 0.0
+    },
+    "aog_prob": 0.0065,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 65187.68303600303,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 3,
+      "GT": 4,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 12,
+      "spend": 117749.40029595839,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 8,
+      "GT": 4,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 4,
+      "spend": 49108.381527919475,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 4,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 16,
+    "midlife_swaps": 8,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 43,
+    "rush": 0,
+    "shops": {
+     "MIDLIFE": 8,
+     "MTU-ZH": 16
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -38292.25391199978,
+    "p90": -43302.19579391964,
+    "aog_prob": -0.1515,
+    "shop_visits": -8,
+    "midlife_swaps": 8,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": -5,
+    "early_months": 8,
+    "rush": 0,
+    "committed": -25080.0,
+    "recourse": -13212.253911999771,
+    "recourse_p90": -18222.195793919636,
+    "premium": -25080.0,
+    "payout": 13212.253911999771,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -28158.134350266744
+     },
+     "FY2027": {
+      "visits": 1,
+      "spend": -16913.57174932951
+     },
+     "FY2028": {
+      "visits": -1,
+      "spend": -12008.932812403349
+     }
+    },
+    "shops": {
+     "MIDLIFE": 8,
+     "MTU-ZH": -8
+    }
+   }
+  },
+  {
+   "use_case": "④ 資産戦略",
+   "question": "予備エンジンを 2 基増やしたら",
+   "actions": [
+    "spares"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 155544.26423179242,
+    "p90": 193018.75142376704,
+    "committed": 125335.0,
+    "recourse": 30209.264231792404,
+    "recourse_p90": 67683.75142376704,
+    "recourse_parts": {
+     "overrun": 25659.274231792406,
+     "lease": 18.07,
+     "substitute": 0.0,
+     "aog": 31.92,
+     "emergency_kits": 4500.0
+    },
+    "aog_prob": 0.0245,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 9,
+      "spend": 105441.76709307783,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 8,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 121920.19279839183,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 43,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 3557.2854599119746,
+    "p90": 3695.3747391255456,
+    "aog_prob": -0.1335,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 8,
+    "rush": 0,
+    "committed": 4440.0,
+    "recourse": -882.7145400880254,
+    "recourse_p90": -744.6252608744398,
+    "premium": 4440.0,
+    "payout": 882.7145400880254,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 1,
+      "spend": 12095.949706808053
+     },
+     "FY2027": {
+      "visits": -1,
+      "spend": -12742.779246896069
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "④ 資産戦略",
+   "question": "整備せず部品取りで打ち切れるなら",
+   "actions": [
+    "partout"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 113107.18762741706,
+    "p90": 144536.95354044336,
+    "committed": 87490.0,
+    "recourse": 25617.18762741705,
+    "recourse_p90": 57046.95354044335,
+    "recourse_parts": {
+     "overrun": 19890.497627417048,
+     "lease": 104.195,
+     "substitute": 0.0,
+     "aog": 222.495,
+     "emergency_kits": 5400.0
+    },
+    "aog_prob": 0.1615,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93494.77049010564,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 132122.1071373116,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 1
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -7306.38,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 0,
+      "GT": 0,
+      "PO": 4
+     }
+    },
+    "shop_visits": 19,
+    "midlife_swaps": 0,
+    "partouts": 5,
+    "long_spares": 0,
+    "emergency_kits": 6,
+    "early_months": 46,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 19,
+     "PARTOUT": 5
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -38879.79114446338,
+    "p90": -44786.42314419814,
+    "aog_prob": 0.003500000000000003,
+    "shop_visits": -5,
+    "midlife_swaps": 0,
+    "partouts": 5,
+    "long_spares": 0,
+    "emergency_kits": 1,
+    "early_months": 11,
+    "rush": 0,
+    "committed": -33405.0,
+    "recourse": -5474.791144463379,
+    "recourse_p90": -11381.423144198132,
+    "premium": -33405.0,
+    "payout": 5474.791144463379,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 148.95310383586911
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -2540.864907976298
+     },
+     "FY2028": {
+      "visits": -5,
+      "spend": -68423.69434032282
+     }
+    },
+    "shops": {
+     "MTU-ZH": -5,
+     "PARTOUT": 5
+    }
+   }
+  },
+  {
+   "use_case": "④ 資産戦略",
+   "question": "737-8 の受領が進む中で部品取りを使うなら",
+   "actions": [
+    "partout"
+   ],
+   "case": "transition",
+   "feasible": true,
+   "summary": {
+    "total_cost": 42782.73749159839,
+    "p90": 61426.89874394312,
+    "committed": 31990.0,
+    "recourse": 10792.737491598396,
+    "recourse_p90": 29436.898743943126,
+    "recourse_parts": {
+     "overrun": 10792.737491598396,
+     "lease": 0.0,
+     "substitute": 0.0,
+     "aog": 0.0,
+     "emergency_kits": 0.0
+    },
+    "aog_prob": 0.0,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 4,
+      "spend": 41207.48759052238,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 3,
+      "GT": 0,
+      "PO": 2
+     },
+     "FY2027": {
+      "visits": 4,
+      "spend": 31816.689294596956,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 4,
+      "GT": 0,
+      "PO": 9
+     },
+     "FY2028": {
+      "visits": 3,
+      "spend": 33148.560606479165,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 3,
+      "GT": 0,
+      "PO": 2
+     }
+    },
+    "shop_visits": 11,
+    "midlife_swaps": 0,
+    "partouts": 13,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 18,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 11,
+     "PARTOUT": 13
+    },
+    "relaxed": []
+   },
+   "delta": {
+    "total_cost": -109204.24128028206,
+    "p90": -127896.47794069837,
+    "aog_prob": -0.158,
+    "shop_visits": -13,
+    "midlife_swaps": 0,
+    "partouts": 13,
+    "long_spares": 0,
+    "emergency_kits": -5,
+    "early_months": -17,
+    "rush": 0,
+    "committed": -88905.0,
+    "recourse": -20299.241280282033,
+    "recourse_p90": -38991.47794069836,
+    "premium": -88905.0,
+    "payout": 20299.241280282033,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -4,
+      "spend": -52138.32979574739
+     },
+     "FY2027": {
+      "visits": -7,
+      "spend": -102846.28275069094
+     },
+     "FY2028": {
+      "visits": -2,
+      "spend": -27968.75373384366
+     }
+    },
+    "shops": {
+     "MTU-ZH": -13,
+     "PARTOUT": 13
+    }
+   }
+  },
+  {
+   "use_case": "⑤ リスク対応",
+   "question": "LLP キットが逼迫したら",
+   "actions": [],
+   "case": "crunch",
+   "feasible": true,
+   "summary": {
+    "total_cost": 156948.67390889043,
+    "p90": 194226.6274734066,
+    "committed": 120940.0,
+    "recourse": 36008.67390889043,
+    "recourse_p90": 73286.6274734066,
+    "recourse_parts": {
+     "overrun": 26667.478908890425,
+     "lease": 100.36,
+     "substitute": 0.0,
+     "aog": 240.835,
+     "emergency_kits": 9000.0
+    },
+    "aog_prob": 0.1795,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93345.81738626977,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 135024.3471822979,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 10,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 4961.695137009985,
+    "p90": 4903.250788765115,
+    "aog_prob": 0.02149999999999999,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 1,
+    "rush": 0,
+    "committed": 45.0,
+    "recourse": 4916.69513701,
+    "recourse_p90": 4858.250788765115,
+    "premium": 45.0,
+    "payout": -4916.69513701,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 361.37513701000717
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑤ リスク対応",
+   "question": "LLP 逼迫にキット先行発注で備えたら",
+   "actions": [
+    "kits_ahead"
+   ],
+   "case": "crunch",
+   "feasible": true,
+   "summary": {
+    "total_cost": 156828.67390889043,
+    "p90": 194106.6274734066,
+    "committed": 122620.0,
+    "recourse": 34208.67390889043,
+    "recourse_p90": 71486.6274734066,
+    "recourse_parts": {
+     "overrun": 26667.478908890425,
+     "lease": 100.36,
+     "substitute": 0.0,
+     "aog": 240.835,
+     "emergency_kits": 7200.0
+    },
+    "aog_prob": 0.1795,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 8,
+      "spend": 93345.81738626977,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 11,
+      "spend": 135024.3471822979,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 11,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 8,
+    "early_months": 36,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 4841.695137009985,
+    "p90": 4783.250788765115,
+    "aog_prob": 0.02149999999999999,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 3,
+    "early_months": 1,
+    "rush": 0,
+    "committed": 1725.0,
+    "recourse": 3116.6951370099996,
+    "recourse_p90": 3058.2507887651154,
+    "premium": 1725.0,
+    "payout": -3116.6951370099996,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 0.0
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 361.37513701000717
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 0.0
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  },
+  {
+   "use_case": "⑤ リスク対応",
+   "question": "複合ストレス（混雑＋逼迫＋故障増）",
+   "actions": [],
+   "case": "stress",
+   "feasible": true,
+   "summary": {
+    "total_cost": 161675.64078559203,
+    "p90": 199229.50689688855,
+    "committed": 122890.0,
+    "recourse": 38785.64078559199,
+    "recourse_p90": 76339.50689688855,
+    "recourse_parts": {
+     "overrun": 28510.745785591993,
+     "lease": 120.9,
+     "substitute": 0.0,
+     "aog": 253.995,
+     "emergency_kits": 9900.0
+    },
+    "aog_prob": 0.165,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 6,
+      "spend": 69147.40081729922,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 13,
+      "spend": 160790.8540759453,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 13,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61392.49089234751,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 1,
+    "emergency_kits": 11,
+    "early_months": 34,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 9688.662013711582,
+    "p90": 9906.130212247052,
+    "aog_prob": 0.007000000000000006,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 1,
+    "emergency_kits": 6,
+    "early_months": -1,
+    "rush": 0,
+    "committed": 1995.0,
+    "recourse": 7693.662013711561,
+    "recourse_p90": 7911.130212247066,
+    "premium": 1995.0,
+    "payout": -7693.662013711561,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": -2,
+      "spend": -24198.416568970555
+     },
+     "FY2027": {
+      "visits": 2,
+      "spend": 26127.882030657405
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 275.1765520246845
+     }
+    },
+    "shops": {
+     "MTU-ZH": 0
+    }
+   }
+  }
+ ]
+}

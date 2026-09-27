@@ -1,0 +1,62 @@
+{
+ "meta": {
+  "company": "jal",
+  "description": "JAL グループ（JAL・JTA） の契約工場のみ（工場の選び直しは契約更新時の入札ユースケース）",
+  "contract_type": "tm",
+  "renewal": "2026（未確認）",
+  "source": "JAL と GE の 5 年契約（2021-08、737-800 48 機・100 基超、TrueChoice Overhaul） https://www.geaerospace.com/news/press-releases/services/japan-airlines-signs-cfm56-7b-services-agreement-ge 。満了は 2026 年頃のはずで、更新の有無と工場の所在は非公表（ここでは更新されたと仮定）"
+ },
+ "shops": [
+  {
+   "id": "GE-TC",
+   "name": "GE 系の契約工場（TrueChoice Overhaul）",
+   "slots": 10,
+   "transport_cost": 80,
+   "transport_months": 1,
+   "overrun_share": 1.0,
+   "currency": "USD",
+   "booking_lead_months": 3,
+   "quotes": {
+    "PR": {
+     "price": 2900,
+     "tat": 2
+    },
+    "CORE": {
+     "price": 7900,
+     "tat": 4
+    },
+    "FULL": {
+     "price": 11000,
+     "tat": 4
+    }
+   },
+   "findings": {
+    "prob": 0.45,
+    "overrun_mean": 0.2,
+    "overrun_cv": 0.7
+   },
+   "delay": {
+    "shop_months": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "shop_probs": [
+     0.4,
+     0.3,
+     0.2,
+     0.1
+    ],
+    "engine_months": [
+     0,
+     1
+    ],
+    "engine_probs": [
+     0.85,
+     0.15
+    ]
+   }
+  }
+ ]
+}

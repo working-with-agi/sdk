@@ -1,0 +1,4 @@
+node_modules/
+dist/
+.ingest-manifest.json
+last-session.json

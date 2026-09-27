@@ -1,0 +1,418 @@
+<meta charset="utf-8">
+<title>計画の追跡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --ws-pr: #3d8fb8; --ws-core: #d08a2e; --ws-full: #7a5aa8;
+  --peak: rgba(168, 103, 26, .10);
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+    --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+  --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); }
+.kpi .value { font-size: 22px; font-weight: 500; }
+.kpi .sub { font-size: 11px; color: var(--muted); }
+.meter { height: 6px; border-radius: 3px; background: var(--accent-soft); overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); } .meter > span.over { background: var(--crit); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 18px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .pr { fill: var(--ws-pr); } svg .core { fill: var(--ws-core); } svg .full { fill: var(--ws-full); }
+svg .spend { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+svg .spend-dot { fill: var(--ink); }
+svg .req { fill: var(--accent-soft); } svg .buf { fill: var(--warn-soft); }
+svg .have { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .aging { fill: none; stroke: var(--crit); stroke-width: 1.5; stroke-dasharray: 4 3; }
+svg .win { fill: var(--accent-soft); }
+svg .band { fill: var(--muted); opacity: .16; }
+svg .norm { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+svg .plan { fill: var(--accent); }
+svg .plan.sel { fill: var(--ink); }
+svg .fi { font-size: 9px; fill: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+tr.best td { background: var(--accent-soft); }
+.ws { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 4px; color: #fff; }
+.ws.PR { background: var(--ws-pr); } .ws.CORE { background: var(--ws-core); } .ws.FULL { background: var(--ws-full); }
+.btn { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+.ai-out { white-space: pre-wrap; font-size: 13px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-height: 44px; }
+.controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.controls label { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+select { font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); }
+input[type=range] { width: min(420px, 60vw); accent-color: var(--accent); }
+.asof { font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; color: var(--ink); }
+.verdict { display: grid; gap: 10px; }
+.line { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.line:last-child { border-bottom: 0; padding-bottom: 0; }
+.line .q { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.line .a { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.line .why { font-size: 12px; color: var(--muted); font-weight: 400; display: block; margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 9px; margin-right: 6px; vertical-align: 2px; }
+.pill.go { background: var(--good-soft); color: var(--good); } .pill.act { background: var(--crit-soft); color: var(--crit); } .pill.mid { background: var(--warn-soft); color: var(--warn); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.sev { font-size: 11px; font-weight: 600; } .sev.crit { color: var(--crit); } .sev.warn { color: var(--warn); }
+.pos { color: var(--good); } .neg { color: var(--crit); }
+details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.close { color: var(--good); font-weight: 600; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+
+<main class="wrap">
+  <header style="display:grid;gap:6px">
+    <span class="eyebrow">737-800 engine plan · tracking</span>
+    <h1>計画の追跡：いまどの計画に沿って、どの前提の世界にいるか</h1>
+    <p class="hint" id="sub"></p>
+  </header>
+
+  <section class="panel" aria-label="時点">
+    <div class="controls">
+      <label>実績 <select id="run"></select></label>
+      <label>時点 <input type="range" id="k" min="1" step="1"> <span class="asof" id="asof"></span></label>
+    </div>
+    <p class="hint">スライダーを動かすと、その月末までの実績だけで判断し直します。月が進むほど証拠が増え、乗り換えられる余地は減ります。</p>
+  </section>
+
+  <section class="panel verdict" aria-label="結論">
+    <div class="line"><span class="q">どの計画に沿っているか</span><span class="a" id="v-follow"></span></div>
+    <div class="line"><span class="q">前提はどの世界に近いか</span><span class="a" id="v-world"></span></div>
+    <div class="line"><span class="q">決めること</span><span class="a" id="v-decide"></span></div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel" aria-label="世界の確率">
+      <h2>前提はどの世界に近いか（確率の推移）</h2>
+      <div class="legend" id="world-legend"></div>
+      <svg id="post" viewBox="0 0 560 220" role="img" aria-label="各世界の確率の推移"></svg>
+      <p class="hint">最初は計画時の重み。毎月の実績（戻りの遅れ、故障、予定外取卸し、キット納期回答）が、どの世界のモンテカルロと似ているかで更新します。</p>
+    </section>
+    <section class="panel" aria-label="根拠">
+      <h2>根拠：実績と、各世界で起こるはずだったこと</h2>
+      <div class="scroll"><table id="ind"></table></div>
+      <p class="hint">緑は実績に最も近い世界。「—」はまだ判断材料がない（戻ったエンジンがない等）。</p>
+    </section>
+  </div>
+
+  <div class="grid2">
+    <section class="panel" aria-label="計画との一致">
+      <h2>どの計画案に沿って動いているか</h2>
+      <div class="legend" id="cand-legend"></div>
+      <svg id="cum" viewBox="0 0 560 230" role="img" aria-label="入場件数の累計：実績と計画案"></svg>
+      <div class="scroll"><table id="follow"></table></div>
+    </section>
+    <section class="panel" aria-label="乗り換え">
+      <h2>今から乗り換えたら（残りの期間の期待コスト）</h2>
+      <div class="scroll"><table id="switch"></table></div>
+      <svg id="value" viewBox="0 0 560 170" role="img" aria-label="乗り換えの価値の推移"></svg>
+      <p class="hint">入場済みのエンジンはそのまま、未入場のものだけ計画案に従うとした比較。各世界の確率で重み付け。判断期限を過ぎた変更は緊急手配が前提です。</p>
+    </section>
+  </div>
+
+  <section class="panel" aria-label="変更の中身" id="changes-panel">
+    <h2 id="changes-title"></h2>
+    <div class="scroll"><table id="changes"></table></div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel" aria-label="例外">
+      <h2 id="exc-title">計画からの外れ</h2>
+      <div class="scroll"><table id="exc"></table></div>
+    </section>
+    <section class="panel" aria-label="年度の着地">
+      <h2>年度の着地見込み（百万ドル）</h2>
+      <div class="legend"><span><span class="sw" style="background:var(--accent)"></span>請求済み</span><span><span class="sw" style="background:var(--ws-pr)"></span>工場で作業中</span><span><span class="sw" style="background:var(--accent-soft)"></span>これから</span><span><span class="sw" style="background:var(--crit);height:2px"></span>予算</span></div>
+      <svg id="fy" viewBox="0 0 560 190" role="img" aria-label="年度別の支出見込みと予算"></svg>
+    </section>
+  </div>
+
+  <section class="panel" aria-label="計画案と世界の表">
+    <h2>計画案 × 世界：最後までその計画を続けたときの期待コスト（千ドル）と欠航確率</h2>
+    <div class="scroll"><table id="matrix"></table></div>
+    <p class="hint">基準の年間計画を立てるときに一緒に固めておく表。どの計画がどの世界に強いか、外れたときにいくら損をするかを示します。</p>
+  </section>
+
+  <section class="panel" aria-label="AI の説明" id="ai-panel" hidden>
+    <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h2>AI：経営会議向けの 3 行</h2>
+      <span style="display:flex;gap:6px"><button type="button" class="btn ghost" id="ai-stop" hidden>止める</button><button type="button" class="btn" id="ai-go">書く</button></span></div>
+    <div class="ai-out" id="ai-out">この時点の結論を、経営会議向けに 3 行で書きます（数字はこの画面の計算結果だけを使います）。</div>
+  </section>
+
+  <details><summary>答え合わせ（合成データの正解）</summary><p class="hint" id="truth" style="margin-top:6px"></p></details>
+  <p class="hint">データは公開情報からの推定による合成値です。実績も合成（ある世界の 1 シナリオで基準計画を実行したもの）。</p>
+</main>
+<script>
+const RUNS = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const musd = (k) => (k / 1000).toFixed(1);
+  const sgn = (v, f = fmt) => (v > 0 ? "+" : v < 0 ? "−" : "±") + f(Math.abs(v));
+  const COLOR = { base: "var(--accent)", backlog: "var(--warn)", crunch: "var(--crit)", stress: "var(--ws-full)" };
+  const MATERIAL = 300; // k$: below this a switch is not worth the disruption
+  let run = 0, k = 0;
+  RUNS.forEach((r, i) => { const o = document.createElement("option"); o.value = i; o.textContent = r.title; $("run").append(o); });
+  $("run").onchange = () => { run = +$("run").value; k = D().timeline.length - 1; $("k").max = D().timeline.length; $("k").value = k + 1; render(); };
+  $("k").oninput = () => { k = +$("k").value - 1; render(); };
+  const D = () => RUNS[run].data;
+
+  function recommend(T) {
+    const C = D().candidates, sw = Object.entries(T.switch);
+    const best = sw.reduce((a, b) => (b[1].saving > a[1].saving ? b : a), sw[0]);
+    const safer = sw.filter(([, s]) => s.aog_delta <= -0.002 && s.saving > -2 * MATERIAL).sort((a, b) => a[1].aog_delta - b[1].aog_delta)[0];
+    if (best && best[1].saving > MATERIAL) return { kind: "switch", c: best[0], s: best[1], label: C[best[0]].label };
+    return { kind: "keep", safer: safer ? { c: safer[0], s: safer[1], label: C[safer[0]].label } : null, best: best ? { c: best[0], s: best[1] } : null };
+  }
+
+  function evidence(T, top) {
+    const W = D().worlds, I = D().indicators;
+    let pick = null, score = -1e9;
+    for (const [n, x] of Object.entries(T.observed)) {
+      if (n.startsWith("_") || x == null) continue;
+      const mt = T.expected[top]?.[n], mb = T.expected.base?.[n];
+      if (mt == null || mb == null) continue;
+      const sc = Math.abs(x - mb) - Math.abs(x - mt);
+      if (sc > score) { score = sc; pick = n; }
+    }
+    if (!pick) return "";
+    const f = (v) => (Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2));
+    return `根拠：${I[pick].label}が ${f(T.observed[pick])}（${W[top].label}なら ${f(T.expected[top][pick])}、${W.base.label}なら ${f(T.expected.base[pick])}）`;
+  }
+
+  function render() {
+    const d = D(), T = d.timeline[k], C = d.candidates, W = d.worlds;
+    $("asof").textContent = `${T.as_of} 末（${T.k} か月経過）`;
+    $("sub").textContent = `基準 ${d.baseline_version} 版で、年間計画と一緒に 4 つの計画案（前提の世界ごとに最適なもの）を固めておき、毎月の実績でどれに沿っているか・どの世界にいるかを判定します。`;
+    $("truth").textContent = `この実績は「${W[d.actuals.meta.truth_world].label}」の世界で基準計画を実行した合成データです（追跡の計算には使っていません）。`;
+
+    // 1. following
+    const ex = C[T.executed], f = T.follow[T.executed];
+    const crit = T.exceptions.filter((e) => e.severity === "crit").length;
+    $("v-follow").innerHTML = `${ex.label}（入場の一致 ${Math.round(f * 100)}%）<span class="why">予定 ${T.planned_by_now} 件に対し入場 ${T.inducted} 件・戻り ${T.returned} 件。計画からの外れ ${T.exceptions.length} 件${crit ? `（うち要対応 ${crit} 件）` : ""}。</span>`;
+
+    // 2. world
+    const post = Object.entries(T.posterior).sort((a, b) => b[1] - a[1]);
+    const [top, pt] = post[0];
+    const same = top === "base";
+    $("v-world").innerHTML = (same ? `<span class="pill go">前提どおり</span>` : `<span class="pill ${pt > 0.7 ? "act" : "mid"}">前提から外れ</span>`) +
+      `${W[top].label}の世界に近い（確率 ${Math.round(pt * 100)}%${post[1] ? `、次点 ${W[post[1][0]].label} ${Math.round(post[1][1] * 100)}%` : ""}）` +
+      `<span class="why">${evidence(T, top)}</span>`;
+
+    // 3. decision
+    const r = recommend(T);
+    if (r.kind === "switch") {
+      const s = r.s;
+      $("v-decide").innerHTML = `<span class="pill act">乗り換えを推奨</span>${r.label}へ。期待 ${musd(s.saving)} 百万ドル得、欠航確率 ${sgn(s.aog_delta * 100, (v) => v.toFixed(1))}pt` +
+        `<span class="why">変わるのは ${s.changes.length} 基。${s.decide_by ? `最初の判断期限は ${s.decide_by}。` : ""}${s.overdue ? `うち ${s.overdue} 基は判断期限を過ぎており緊急手配が前提。` : ""}</span>`;
+    } else {
+      const sf = r.safer;
+      $("v-decide").innerHTML = `<span class="pill go">このまま継続</span>${ex.label}を続ける（乗り換えても ${fmt(MATERIAL)} 千ドル以上の得はない）` +
+        `<span class="why">${sf ? `欠航確率を ${(-sf.s.aog_delta * 100).toFixed(1)}pt 下げたいなら ${sf.label}（${sf.s.saving >= 0 ? "得 " + musd(sf.s.saving) : "費用 " + musd(-sf.s.saving)} 百万ドル、変わるのは ${sf.s.changes.length} 基${sf.s.decide_by ? `、判断期限 ${sf.s.decide_by}` : ""}）。` : "欠航確率を大きく下げる案もありません。"}</span>`;
+    }
+
+    postChart(); indicators(T, top); cumChart(T); followTable(T); switchTable(T, r); valueChart(); changes(T, r); exceptions(T); fyChart(T); matrix(top);
+  }
+
+  function postChart() {
+    const d = D(), W = d.worlds, TL = d.timeline, keys = Object.keys(W);
+    const w = 560, h = 220, L = 34, R = 10, T = 10, B = 28, n = TL.length, x = (i) => L + (i + 0.5) * (w - L - R) / n, y = (v) => h - B - v * (h - T - B);
+    $("world-legend").innerHTML = keys.map((c) => `<span><span class="sw" style="background:${COLOR[c]}"></span>${W[c].label}</span>`).join("");
+    let s = "";
+    [0, 0.5, 1].forEach((v) => { s += `<line class="grid" x1="${L}" x2="${w - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v * 100}%</text>`; });
+    const pts = [{ post: Object.fromEntries(keys.map((c) => [c, W[c].prior])) }, ...TL.slice(0, k + 1).map((t) => ({ post: t.posterior }))];
+    const xs = (i) => (i === 0 ? L : x(i - 1));
+    let lo = pts.map(() => 0);
+    keys.forEach((c) => {
+      const hi = pts.map((p, i) => lo[i] + p.post[c]);
+      s += `<polygon fill="${COLOR[c]}" opacity=".78" points="${hi.map((v, i) => `${xs(i)},${y(v)}`).join(" ")} ${lo.map((v, i) => `${xs(i)},${y(v)}`).reverse().join(" ")}"><title>${W[c].label}</title></polygon>`;
+      lo = hi;
+    });
+    TL.forEach((t, i) => { if (i % 2 === 0 || i === TL.length - 1) s += `<text x="${x(i)}" y="${h - B + 14}" text-anchor="middle">${t.as_of.slice(2)}</text>`; });
+    s += `<text x="${L}" y="${h - 4}">計画時</text><line class="axis" x1="${L}" x2="${w - R}" y1="${y(0)}" y2="${y(0)}"/>`;
+    $("post").innerHTML = s;
+  }
+
+  function indicators(T, top) {
+    const d = D(), W = d.worlds, keys = Object.keys(W);
+    const f = (v) => (v == null ? "—" : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(2));
+    $("ind").innerHTML = `<thead><tr><th>指標</th><th class="n">実績</th>${keys.map((c) => `<th class="n">${W[c].label}</th>`).join("")}</tr></thead><tbody>` +
+      Object.entries(d.indicators).map(([n, m]) => {
+        const x = T.observed[n];
+        const exp = keys.map((c) => T.expected[c]?.[n]);
+        const near = x == null ? -1 : exp.reduce((bi, v, i) => (v != null && (bi < 0 || Math.abs(v - x) < Math.abs(exp[bi] - x)) ? i : bi), -1);
+        return `<tr><td>${m.label}<br><span class="hint">${m.what}</span></td><td class="n num">${f(x)}</td>${exp.map((v, i) => `<td class="n num${i === near ? " close" : ""}">${f(v)}</td>`).join("")}</tr>`;
+      }).join("") + "</tbody>";
+  }
+
+  function cumChart(T) {
+    const d = D(), C = d.candidates, M = d.months, n = M.length;
+    const w = 560, h = 230, L = 34, R = 10, Tp = 10, B = 28, x = (i) => L + i * (w - L - R) / (n - 1);
+    const cum = (rows) => M.map((_, t) => rows.filter((r) => r.t <= t).length);
+    const lines = Object.entries(C).filter(([, v]) => v.feasible).map(([c, v]) => [c, cum(v.rows)]);
+    const act = M.map((_, t) => d.actuals.inductions.filter((a) => a.t <= t).length).slice(0, T.k);
+    const top = Math.max(...lines.map(([, v]) => v[n - 1])) + 2, y = (v) => h - B - v / top * (h - Tp - B);
+    $("cand-legend").innerHTML = lines.map(([c]) => `<span><span class="sw" style="background:${COLOR[c]};height:2px"></span>${C[c].label}</span>`).join("") + `<span><span class="sw" style="background:var(--ink);height:4px"></span>実績</span>`;
+    let s = "";
+    for (let v = 0; v <= top; v += 10) s += `<line class="grid" x1="${L}" x2="${w - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`;
+    s += `<rect x="${x(0)}" y="${Tp}" width="${x(T.k - 1) - x(0)}" height="${h - Tp - B}" fill="var(--accent-soft)" opacity=".6"/>`;
+    lines.forEach(([c, v]) => { s += `<polyline fill="none" stroke="${COLOR[c]}" stroke-width="1.5" ${c === T.executed ? "" : 'stroke-dasharray="4 3"'} points="${v.map((q, i) => `${x(i)},${y(q)}`).join(" ")}"><title>${C[c].label}</title></polyline>`; });
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="3" points="${act.map((q, i) => `${x(i)},${y(q)}`).join(" ")}"/>`;
+    M.forEach((m, i) => { if (i % 6 === 0) s += `<text x="${x(i)}" y="${h - B + 14}" text-anchor="middle">${m.slice(2)}</text>`; });
+    s += `<line class="axis" x1="${L}" x2="${w - R}" y1="${y(0)}" y2="${y(0)}"/><text x="${x(T.k - 1)}" y="${Tp + 10}" text-anchor="end">今</text>`;
+    $("cum").innerHTML = s;
+  }
+
+  function followTable(T) {
+    const C = D().candidates;
+    $("follow").innerHTML = `<thead><tr><th>計画案</th><th>前提</th><th class="n">入場の一致</th></tr></thead><tbody>` +
+      Object.entries(T.follow).sort((a, b) => b[1] - a[1]).map(([c, v]) => `<tr class="${c === T.executed ? "best" : ""}"><td><span class="sw" style="background:${COLOR[c]}"></span>${C[c].label}</td><td class="hint">${C[c].what}</td><td class="n num">${Math.round(v * 100)}%</td></tr>`).join("") + "</tbody>";
+  }
+
+  function switchTable(T, r) {
+    const C = D().candidates;
+    const rows = Object.entries(T.switch).sort((a, b) => b[1].saving - a[1].saving);
+    $("switch").innerHTML = `<thead><tr><th>乗り換え先</th><th class="n">期待コスト差（千ドル）</th><th class="n">欠航確率</th><th class="n">変わる基数</th><th>判断期限</th></tr></thead><tbody>` +
+      `<tr><td>${C[T.executed].label}を続ける</td><td class="n num">基準</td><td class="n num">${(T.keep.aog_prob * 100).toFixed(1)}%</td><td class="n num">0</td><td></td></tr>` +
+      rows.map(([c, s]) => `<tr class="${r.kind === "switch" && r.c === c ? "best" : ""}"><td><span class="sw" style="background:${COLOR[c]}"></span>${C[c].label}</td>` +
+        `<td class="n num ${s.saving > 0 ? "pos" : "neg"}">${s.saving > 0 ? "得 " : "損 "}${fmt(Math.abs(s.saving))}</td>` +
+        `<td class="n num">${sgn(s.aog_delta * 100, (v) => v.toFixed(1))}pt</td><td class="n num">${s.changes.length}</td>` +
+        `<td class="mono">${s.decide_by || "—"}${s.overdue ? ` <span class="sev crit">期限切れ ${s.overdue}</span>` : ""}</td></tr>`).join("") + "</tbody>";
+  }
+
+  function valueChart() {
+    const d = D(), C = d.candidates, TL = d.timeline, keys = Object.keys(TL[0].switch).length ? Object.keys(C).filter((c) => TL.every((t) => t.switch[c])) : [];
+    const w = 560, h = 170, L = 44, R = 10, T = 24, B = 26, n = TL.length, x = (i) => L + (i + 0.5) * (w - L - R) / n;
+    const vals = keys.flatMap((c) => TL.map((t) => t.switch[c].saving));
+    const hi = Math.max(MATERIAL * 1.5, ...vals), lo = Math.max(-3000, Math.min(-MATERIAL, ...vals)), y = (v) => T + (hi - Math.max(lo, Math.min(hi, v))) / (hi - lo) * (h - T - B);
+    let s = `<text x="${L}" y="12">乗り換えの価値の推移（千ドル、正 = 得、−3,000 以下は下端に表示）</text>`;
+    s += `<rect x="${L}" y="${y(MATERIAL)}" width="${w - L - R}" height="${y(0) - y(MATERIAL)}" fill="var(--warn-soft)" opacity=".6"><title>この幅は得でも乗り換える価値が小さい</title></rect>`;
+    s += `<line class="axis" x1="${L}" x2="${w - R}" y1="${y(0)}" y2="${y(0)}"/><text x="${L - 4}" y="${y(0) + 3}" text-anchor="end">0</text><text x="${L - 4}" y="${y(MATERIAL) + 3}" text-anchor="end">${MATERIAL}</text>`;
+    keys.forEach((c) => { s += `<polyline fill="none" stroke="${COLOR[c]}" stroke-width="1.8" points="${TL.map((t, i) => `${x(i)},${y(t.switch[c].saving)}`).join(" ")}"><title>${C[c].label}</title></polyline>`; });
+    s += `<line x1="${x(k)}" x2="${x(k)}" y1="${T}" y2="${h - B}" stroke="var(--ink)" stroke-dasharray="2 3"/>`;
+    TL.forEach((t, i) => { if (i % 3 === 0) s += `<text x="${x(i)}" y="${h - B + 14}" text-anchor="middle">${t.as_of.slice(2)}</text>`; });
+    $("value").innerHTML = s;
+  }
+
+  function changes(T, r) {
+    const C = D().candidates, shops = D().shops;
+    const pick = r.kind === "switch" ? r.c : r.safer ? r.safer.c : null;
+    $("changes-panel").hidden = !pick;
+    if (!pick) return;
+    const s = T.switch[pick];
+    $("changes-title").textContent = `${C[pick].label}に乗り換えると変わるエンジン（${s.changes.length} 基）`;
+    $("changes").innerHTML = `<thead><tr><th>ESN</th><th>いまの計画</th><th>乗り換え後</th><th>判断期限</th><th>理由</th></tr></thead><tbody>` +
+      s.changes.map((x) => `<tr><td class="mono">${x.esn}</td><td>${x.from.month}・${shops[x.from.shop] || x.from.shop}・<span class="ws ${x.from.workscope}">${x.from.workscope}</span></td><td>${x.to.month}・${shops[x.to.shop] || x.to.shop}・<span class="ws ${x.to.workscope}">${x.to.workscope}</span></td><td class="mono">${x.decide_by}${x.overdue ? ' <span class="sev crit">期限切れ</span>' : ""}</td><td class="hint">${x.reason}</td></tr>`).join("") + "</tbody>";
+  }
+
+  function exceptions(T) {
+    $("exc-title").textContent = `計画からの外れ（${T.exceptions.length} 件）`;
+    const order = { crit: 0, warn: 1 };
+    const xs = [...T.exceptions].sort((a, b) => order[a.severity] - order[b.severity]);
+    $("exc").innerHTML = xs.length ? `<thead><tr><th>ESN</th><th>内容</th><th>詳細</th></tr></thead><tbody>` +
+      xs.map((e) => `<tr><td class="mono">${e.esn}</td><td><span class="sev ${e.severity}">${e.kind}</span></td><td>${e.detail}</td></tr>`).join("") + "</tbody>"
+      : `<tbody><tr><td class="hint">計画どおりです。</td></tr></tbody>`;
+  }
+
+  function fyChart(T) {
+    const F = Object.entries(T.forecast).sort();
+    const w = 560, h = 190, L = 80, R = 60, Tp = 8, rowH = (h - Tp - 8) / F.length;
+    const top = Math.max(...F.map(([, v]) => Math.max(v.total, v.budget))) * 1.05, x = (v) => L + v / top * (w - L - R);
+    let s = "";
+    F.forEach(([fy, v], i) => {
+      const y0 = Tp + i * rowH + 6, bh = rowH - 18;
+      let acc = 0;
+      [["invoiced", "var(--accent)"], ["committed", "var(--ws-pr)"], ["to_come", "var(--accent-soft)"]].forEach(([kk, col]) => {
+        s += `<rect x="${x(acc)}" y="${y0}" width="${x(acc + v[kk]) - x(acc)}" height="${bh}" fill="${col}"><title>${fy} ${kk} ${musd(v[kk])}</title></rect>`; acc += v[kk];
+      });
+      s += `<line x1="${x(v.budget)}" x2="${x(v.budget)}" y1="${y0 - 3}" y2="${y0 + bh + 3}" stroke="var(--crit)" stroke-width="2"/>`;
+      s += `<text x="${L - 8}" y="${y0 + bh / 2 + 3}" text-anchor="end">${fy}</text><text x="${x(v.total) + 6}" y="${y0 + bh / 2 + 3}">${musd(v.total)} / ${musd(v.budget)}</text>`;
+    });
+    $("fy").innerHTML = s;
+  }
+
+  function matrix(top) {
+    const d = D(), W = d.worlds, M = d.matrix, keys = Object.keys(W), C = d.candidates;
+    $("matrix").innerHTML = `<thead><tr><th>計画案 ＼ 世界</th>${keys.map((c) => `<th class="n">${W[c].label}${c === top ? "（いまの見立て）" : ""}</th>`).join("")}</tr></thead><tbody>` +
+      Object.entries(M).map(([c, row]) => {
+        return `<tr><td><span class="sw" style="background:${COLOR[c]}"></span>${C[c].label}</td>${keys.map((w) => {
+          const best = Math.min(...Object.values(M).map((r) => r[w].mean));
+          const v = row[w];
+          return `<td class="n num${v.mean === best ? " close" : ""}">${fmt(v.mean)}<br><span class="hint">${v.mean === best ? "最安" : "+" + fmt(v.mean - best)}・欠航 ${(v.aog_prob * 100).toFixed(1)}%</span></td>`;
+        }).join("")}</tr>`;
+      }).join("") + "</tbody>";
+  }
+
+  $("run").value = 0; k = D().timeline.length - 1; $("k").max = D().timeline.length; $("k").value = k + 1;
+  render();
+
+  /* ---------- AI ---------- */
+  let sample = null, ctl = null;
+  (async () => { try { sample = await claude.use("sample"); } catch (e) { sample = null; } if (sample) $("ai-panel").hidden = false; })();
+  $("ai-go").onclick = async () => {
+    if (!sample || ctl) return;
+    const d = D(), T = d.timeline[k], C = d.candidates, W = d.worlds;
+    const payload = {
+      as_of: T.as_of, following: { plan: C[T.executed].label, match: T.follow[T.executed], planned_by_now: T.planned_by_now, inducted: T.inducted, returned: T.returned },
+      exceptions: T.exceptions.map((e) => ({ esn: e.esn, kind: e.kind, detail: e.detail })),
+      world_probability: Object.fromEntries(Object.entries(T.posterior).map(([w, p]) => [W[w].label, Math.round(p * 100) / 100])),
+      indicators: Object.fromEntries(Object.entries(d.indicators).map(([n, m]) => [m.label, { observed: T.observed[n], expected_by_world: Object.fromEntries(Object.keys(W).map((w) => [W[w].label, T.expected[w]?.[n] ?? null])) }])),
+      switch_options_k_usd: Object.fromEntries(Object.entries(T.switch).map(([c, s]) => [C[c].label, { expected_saving: Math.round(s.saving), aog_delta_pt: Math.round(s.aog_delta * 1000) / 10, engines_changed: s.changes.length, decide_by: s.decide_by, overdue: s.overdue }])),
+      fiscal_year_forecast_k_usd: T.forecast, materiality_k_usd: MATERIAL,
+    };
+    const prompt = "航空会社の経営会議向けに、737-800 エンジン整備計画の進捗を日本語で 3 行にまとめてください。1 行目：いまどの計画に沿って進んでいるか。2 行目：前提はどの世界に近いか、その根拠となる実績 1 つ。3 行目：決めてほしいこと（乗り換えるか続けるか、金額と期限）。データだけを根拠にし、数字を作らないこと。各行 60 字以内。\n\nデータ(JSON)：\n" + JSON.stringify(payload);
+    ctl = new AbortController(); $("ai-go").disabled = true; $("ai-stop").hidden = false; $("ai-out").textContent = "考えています…";
+    try { await sample(prompt, { signal: ctl.signal, onText: ({ text }) => { $("ai-out").textContent = text; } }); }
+    catch (e) {
+      const msg = { cancelled: "", not_granted: "AI の利用が許可されていません。", sampling_disabled: "このアカウントでは AI を使えません。", rate_limited: "混み合っています。少し待ってからもう一度押してください。" }[e && e.code] ?? "受け取れませんでした。もう一度押してください。";
+      $("ai-out").textContent = ((e && e.text) || "") + (msg ? (e && e.text ? "\n\n" : "") + msg : "");
+      if (e && (e.code === "not_granted" || e.code === "sampling_disabled")) $("ai-panel").hidden = true;
+    } finally { ctl = null; $("ai-go").disabled = false; $("ai-stop").hidden = true; }
+  };
+  $("ai-stop").onclick = () => ctl && ctl.abort();
+})();
+</script>

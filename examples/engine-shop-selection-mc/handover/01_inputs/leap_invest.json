@@ -1,0 +1,255 @@
+{
+ "meta": {
+  "description": "Staged domestic LEAP-1B engine MRO investment (Japan). Values with confidence A (primary source), B (press / trade), C (secondary or our estimate). Money in M$ unless noted; fiscal years start in April.",
+  "as_of": "2026-09",
+  "discount_rate": 0.07,
+  "discount_source": "C: 事業投資の割引率として仮定",
+  "years": [
+   2026,
+   2045
+  ]
+ },
+ "fleet": {
+  "aircraft_by_fy": {
+   "2026": 14,
+   "2027": 26,
+   "2028": 40,
+   "2029": 52,
+   "2030": 62,
+   "2031": 72,
+   "2032": 84,
+   "2033": 96
+  },
+  "source": "C: JAL 737-8 確定 38 機（FY2026 後半から）、ANA 確定 38 機（2026 年 10 月以降に延期）、スカイマーク 737-8 13 機・737-10 7 機からの推定。FY2028 約 40 機、FY2030 約 60〜65 機、FY2033 約 96 機 https://www.aviationwire.jp/archives/328247 https://www.aviationwire.jp/archives/335952",
+  "delay_years": [
+   0,
+   2
+  ],
+  "delay_source": "B: 受領遅れが続いている（ANA で約 4 か月）。0〜2 年の一様分布で遅れを置く",
+  "engines_per_aircraft": 2.18,
+  "engines_source": "C: 2 基＋予備 8〜10%"
+ },
+ "engine": {
+  "cycles_per_year": 2000,
+  "interval_cycles": [
+   7000,
+   12000
+  ],
+  "interval_source": "A/B: 1B の高圧タービン系の寿命部品 7,200〜12,400 サイクル（2022 年版） https://downloads.regulations.gov/FAA-2022-0094-0007/attachment_2.pdf 。耐久キット（1B は 2026-07 認証、量産切替 2027 年初め）で延びる見込み https://simpleflying.com/cfm-leap1b-turbine-redesign-time-on-wing/",
+  "quick_turn_per_engine_year": [
+   0.04,
+   0.12
+  ],
+  "quick_turn_source": "C: 燃料ノズルのコーキング等による短期入場の頻度。公開値なし",
+  "sv_price": [
+   4.0,
+   6.5
+  ],
+  "sv_price_source": "C: 性能回復 2〜4.5 百万ドル超＋寿命部品・タービン翼（1A の二次情報） https://safefly.aero/engine-shop-visit-costs-2026/"
+ },
+ "overseas": {
+  "transport_months_round_trip": 2,
+  "transport_cost": 0.16,
+  "queue_months_now": [
+   2,
+   3
+  ],
+  "queue_source": "B: 新世代エンジンは入場待ち +2〜3 か月（最大 +6） https://www.bain.com/insights/get-a-step-ahead-of-the-engine-maintenance-capacity-crunch/",
+  "queue_normalises_by": [
+   2028,
+   2032
+  ],
+  "normalise_source": "B: LEAP の性能回復の工期が 120 日を切るのは 2028 年頃との見方、世界の LEAP 整備能力は急増（サフランは 2028 年に年 1,200 件） https://suite.ishkaairfinance.com/News/Article/7880/Briefing-MRO-turnaround-times-are-improving-slowly https://www.safran-group.com/pressroom/safran-invests-over-eu1-billion-develop-global-mro-network-its-leap-engine-2024-10-29",
+  "lease_per_month": 0.12,
+  "lease_source": "B: 予備エンジンのリース（CFM56-7B で中長期 80〜90k$/月、LEAP はより高い）。国内化で翼を離れる期間が短くなる分、予備・リースが減る",
+  "long_run_queue_months": [
+   0.0,
+   1.5
+  ],
+  "long_run_source": "C: 世界の整備能力が追いついた後も残る入場待ち。需要超過は累計 17% との分析（Bain）から、ゼロに戻らない可能性を置く https://www.bain.com/insights/get-a-step-ahead-of-the-engine-maintenance-capacity-crunch/"
+ },
+ "stages": [
+  {
+   "id": "qt",
+   "label": "段階 1：短期入場・部品修理",
+   "start_fy": 2027,
+   "capex": [
+    20,
+    40
+   ],
+   "fixed_per_year": [
+    4,
+    8
+   ],
+   "handles": "quick_turn",
+   "source": "C: 規模は経産省の段階（部品修理・短期入場から）に合わせた推定。金額は公開値なし"
+  },
+  {
+   "id": "shop",
+   "label": "段階 2：国内で性能回復まで（試運転設備を共同で）",
+   "start_fy": 2030,
+   "decide_fy": 2028,
+   "capex": [
+    90,
+    140
+   ],
+   "fixed_per_year": [
+    12,
+    20
+   ],
+   "handles": "sv",
+   "cost_vs_overseas": [
+    0.95,
+    1.12
+   ],
+   "source": "A/B/C: 試運転設備は総額 200 億円規模（JAL・ANA・IHI の 3 社） https://www.nikkei.com/article/DGXZQOCC3113O0R30C26A7000000/ 。工場は年 1 件あたり 40〜70 万ドルの投資（サフランのケレタロ 1.4 億ドル・年 350 件、ハイデラバード 2 億ユーロ・年 300 件） https://www.safran-group.com/pressroom/safran-opens-new-maintenance-shop-queretaro-mexico-strengthening-its-mro-hub-americas-2026-06-30 。国内の費用が海外より高いか安いかは不明（C）"
+  },
+  {
+   "id": "third",
+   "label": "段階 3：受託（他社の入場を受ける）",
+   "start_fy": 2031,
+   "decide_fy": 2029,
+   "capex": [
+    30,
+    60
+   ],
+   "fixed_per_year": [
+    5,
+    10
+   ],
+   "handles": "third_party",
+   "third_party_sv": [
+    20,
+    90
+   ],
+   "margin": [
+    0.06,
+    0.14
+   ],
+   "license_prob": 0.6,
+   "source": "A/B/C: 経産省の計画では受託は FY2030 から。メーカー（CFM）の認可条件は非公開で、得られない可能性を 4 割と置く（C）。受託件数と利益率は推定"
+  }
+ ],
+ "policy": {
+  "staged_trigger": {
+   "min_aircraft_at_decide": 36,
+   "min_queue_months": 1.0
+  },
+  "trigger_source": "C: 段階 2 は FY2028 時点で受領が 36 機以上、かつ海外の入場待ちが 1 か月以上残っている場合に進める"
+ },
+ "subsidy": {
+  "share": [
+   0.0,
+   0.5
+  ],
+  "stages": [
+   "qt",
+   "shop"
+  ],
+  "source": "A/C: 国内エンジン MRO 拠点強化支援（試運転設備・部品修理設備の補助、2026 年 4 月採択）は実在 https://www.meti.go.jp/information/publicoffer/saitaku/2026/s260407001.html 。補助率・金額は非公開のため 0〜50% の一様分布"
+ },
+ "bargaining": {
+  "seller_margin": [
+   0.1,
+   0.2
+  ],
+  "seller_power": [
+   0.4,
+   0.6
+  ],
+  "domestic_share": [
+   0.5,
+   0.8
+  ],
+  "staged_credibility": 0.5,
+  "source": "C: ナッシュ交渉。整備会社の利益率 10〜20%、交渉力は五分前後、国内で受けられるのは自社入場の 5〜8 割（部品修理の一部は海外に残る）と仮定。条件付きで段階的に進める場合、判断前の 1 年は脅しの信頼度を半分とする。いずれも公開値なし"
+ },
+ "holdup": {
+  "prob": [
+   0.2,
+   0.4
+  ],
+  "cost_up": [
+   0.05,
+   0.1
+  ],
+  "source": "B/C: 経産省の取りまとめは、メーカーとの原契約が自社整備の範囲を限定していることを阻害要因に挙げる。投資後に部品・認可の条件が厳しくなる確率と費用増は仮定 https://www.meti.go.jp/shingikai/sankoshin/seizo_sangyo/kokuki_uchu/pdf/2023_001_07_00.pdf"
+ },
+ "consortium": {
+  "members": {
+   "JAL": {
+    "aircraft": 38
+   },
+   "ANA": {
+    "aircraft": 38
+   },
+   "IHI": {
+    "aircraft": 0
+   }
+  },
+  "domestic_aircraft": 96,
+  "ihi_effect": {
+   "gap_shift": -0.05,
+   "capex": 0.85,
+   "third": 1.3
+  },
+  "without_ihi": {
+   "gap_shift": 0.05
+  },
+  "source": "B/C: 試運転設備は JAL・ANA・IHI の 3 社（報道）。JAL・ANA は 737-8 確定各 38 機、残りはスカイマーク等（連合の外）。IHI が加わると部品修理の技術と既存設備で費用 5% 減・投資 15% 減・受託の営業力 1.3 倍、いないと費用 5% 増と仮定（公開値なし）"
+ },
+ "booking_game": {
+  "players": [
+   "JAL",
+   "ANA"
+  ],
+  "window": [
+   2031,
+   2036
+  ],
+  "early_gain": 0.5,
+  "premium_per_sv": [
+   0.03,
+   0.08
+  ],
+  "source": "C: 海外工場の枠を割増（予約料・前払い・最低量の約束）で早めに押さえると、自分の待ちが半分に減り、相手の待ちが同じだけ増えると仮定。割増は 1 入場あたり 3〜8 万ドル（公開値なし）",
+  "current_fleet": {
+   "JAL": 20.5,
+   "ANA": 9.9,
+   "retired_by": 2031,
+   "source": "合成データの平年値（JAL グループ・ANA の 737-800、baselines/*-2026-10.json の norms）。737-8 の受領に合わせて 2031 年までに直線で減ると仮定"
+  }
+ },
+ "third_party_market": {
+  "regional_demand_sv": [
+   150,
+   300
+  ],
+  "margin_at_zero": 0.18,
+  "margin_slope": 0.1,
+  "capacity_cost_per_sv": 0.12,
+  "players": {
+   "日本 3 社": {
+    "cost": 1.0
+   },
+   "大韓航空": {
+    "cost": 0.95
+   },
+   "ターキッシュ": {
+    "cost": 0.9
+   }
+  },
+  "choices": [
+   0,
+   20,
+   40,
+   60,
+   80,
+   100,
+   120,
+   140,
+   160
+  ],
+  "source": "A/C: 経産省の資料は外需獲得の競合として大韓航空とターキッシュを挙げる https://www.meti.go.jp/shingikai/sankoshin/seizo_sangyo/kokuki_uchu/pdf/2025_001_03_00.pdf 。地域の受託需要（年 150〜300 件）、利益率が参入量で下がる傾き、各社の費用差は仮定（公開値なし）"
+ }
+}

@@ -1,0 +1,17 @@
+{
+ "note": "合成データ。税・会計の項目は税理士・会計士の確認が要る前提で、損得ではなく期ズレ（繰延）として扱う。",
+ "discount_rate": 0.07,
+ "discount_rate_source": "no_source: 資本コストの仮定（invest.py と同じ 7%）",
+ "tax_rate": 0.306,
+ "tax_rate_source": "法定実効税率 約 30.6%（東京都・大法人、2024 年度） https://www.pwc.com/jp/ja/knowledge/news/tax-news/2023/assets/pdf/tax-news-20231222.pdf",
+ "prepay": {"discount": 0.03, "months_ahead": 4, "source": "no_source: 前払いに対する工場の割引 2〜5% の相場感、入場の 4 か月前払いの仮定"},
+ "tax_timing": {"months_earlier": 6, "source": "no_source: 時間課金型は飛行のたびに損金、都度払いは入場時。損金の平均 6 か月前倒しの仮定。短期前払費用の特例はオーバーホールには使えない（継続役務でない）"},
+ "subsidy": {"asset_life_years": 10, "source": "no_source: 工場設備の償却年数の仮定。圧縮記帳（法人税法 42 条）"},
+ "engine_value_k": 5500,
+ "engine_value_source": "no_source: CFM56-7B 中寿命エンジンの市場価値 5.5〜6.5 M$（PRACTICE.md の見立て）",
+ "alliance_pool": {"partners": 3, "source": "no_source: 同型機を持つアライアンス 3 社で予備を共有する仮定。需要が独立なら必要予備は √n で増える（プーリング）"},
+ "volume_tier": {"discount_100_engines": 0.03, "source": "no_source: OEM の大口ティアの仮定"},
+ "group_mro": {"insource_share": 0.3, "internal_price_discount": 0.10, "pr_price_k": 2900, "transport_k": 120, "source": "no_source: JAL エンジニアリング／MRO Japan のような グループ整備会社に軽作業の 3 割を出す仮定"},
+ "reserves": {"avg_balance_k": 300, "source": "no_source: リース機のエンジン整備積立金の平均残高（1 基 300 k$）の仮定。大手は信用状で積立金なしを取る慣行"},
+ "escalation": {"market": 0.05, "cap": 0.03, "source": "no_source: 部品・工賃の値上げ 5%/年に対し契約上限 3%/年の仮定"}
+}

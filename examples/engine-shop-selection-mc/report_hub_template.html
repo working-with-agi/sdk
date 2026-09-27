@@ -1,0 +1,1568 @@
+<meta charset="utf-8">
+<title>エンジン整備レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --ws-pr: #3d8fb8; --ws-core: #d08a2e; --ws-full: #7a5aa8;
+  --peak: rgba(168, 103, 26, .10);
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+    --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+  --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); }
+.kpi .value { font-size: 22px; font-weight: 500; }
+.kpi .sub { font-size: 11px; color: var(--muted); }
+.meter { height: 6px; border-radius: 3px; background: var(--accent-soft); overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); } .meter > span.over { background: var(--crit); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 18px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .pr { fill: var(--ws-pr); } svg .core { fill: var(--ws-core); } svg .full { fill: var(--ws-full); }
+svg .spend { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+svg .spend-dot { fill: var(--ink); }
+svg .req { fill: var(--accent-soft); } svg .buf { fill: var(--warn-soft); }
+svg .have { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .aging { fill: none; stroke: var(--crit); stroke-width: 1.5; stroke-dasharray: 4 3; }
+svg .win { fill: var(--accent-soft); }
+svg .band { fill: var(--muted); opacity: .16; }
+svg .norm { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+svg .plan { fill: var(--accent); }
+svg .plan.sel { fill: var(--ink); }
+svg .fi { font-size: 9px; fill: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.scroll { overflow-x: auto; }
+.review-text h2, .review-text h3, .review-text h4 { margin: 12px 0 4px; font-size: 1em; }
+.review-text ul, .review-text ol { margin: 4px 0 8px 1.4em; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+tr.best td { background: var(--accent-soft); }
+.ws { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 4px; color: #fff; }
+.ws.PR { background: var(--ws-pr); } .ws.CORE { background: var(--ws-core); } .ws.FULL { background: var(--ws-full); }
+.btn { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+.ai-out { white-space: pre-wrap; font-size: 13px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-height: 44px; }
+.controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.controls label { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+select { font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); }
+input[type=range] { width: min(420px, 60vw); accent-color: var(--accent); }
+.asof { font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; color: var(--ink); }
+.verdict { display: grid; gap: 10px; }
+.line { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.line:last-child { border-bottom: 0; padding-bottom: 0; }
+.line .q { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.line .a { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.line .why { font-size: 12px; color: var(--muted); font-weight: 400; display: block; margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 9px; margin-right: 6px; vertical-align: 2px; }
+.pill.go { background: var(--good-soft); color: var(--good); } .pill.act { background: var(--crit-soft); color: var(--crit); } .pill.mid { background: var(--warn-soft); color: var(--warn); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.sev { font-size: 11px; font-weight: 600; } .sev.crit { color: var(--crit); } .sev.warn { color: var(--warn); }
+.pos { color: var(--good); } .neg { color: var(--crit); }
+details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.close { color: var(--good); font-weight: 600; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; gap: 2px; } }
+h2.group { font-size: 15px; color: var(--muted); margin: 22px 0 8px; letter-spacing: .04em; }
+</style>
+<style>
+.crumb { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
+.crumb button { font: inherit; border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0; }
+.crumb span.cur { color: var(--ink); font-weight: 600; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.card { font: inherit; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; cursor: pointer; box-shadow: var(--shadow); }
+.card:hover { border-color: var(--accent); }
+.card .lv { font-size: 10px; letter-spacing: .1em; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.card h3 { margin: 0; font-size: 15px; }
+.card .c { font-size: 13px; line-height: 1.55; }
+.card .nums { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.card .nums b { font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink); font-weight: 500; margin-right: 3px; }
+.card .more { font-size: 12px; color: var(--accent); }
+.card.flag { border-left: 4px solid var(--crit); } .card.warn { border-left: 4px solid var(--warn); } .card.ok { border-left: 4px solid var(--good); }
+.levels { display: flex; gap: 6px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+.levels span { border: 1px solid var(--rule); border-radius: 999px; padding: 1px 8px; }
+.levels span.on { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.bar { height: 8px; background: var(--accent-soft); border-radius: 4px; position: relative; min-width: 80px; }
+.bar > i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 4px; }
+.bar > i.over { background: var(--crit); } .bar > i.hot { background: var(--warn); }
+.src { font-size: 12px; word-break: break-all; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips span { font-size: 12px; border: 1px solid var(--rule); border-radius: 6px; padding: 1px 8px; font-family: "IBM Plex Mono", monospace; }
+.panel > .guide { order: 9; } .panel > p.hint { order: 10; }
+.guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 16px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; line-height: 1.6; }
+.guide b { display: block; font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; margin-bottom: 1px; }
+.guide .say { color: var(--ink); font-weight: 600; }
+</style>
+<style>
+.chart-note { font-size: 13px; font-weight: 600; margin: 0; }
+svg .lbl { font-size: 11px; fill: var(--ink); font-family: "IBM Plex Sans JP", system-ui, sans-serif; }
+svg .tick { font-size: 9px; }
+.vgrid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 900px) { .vgrid { grid-template-columns: 1fr; } }
+.card svg { margin-top: 2px; }
+</style>
+
+<main class="wrap">
+  <header style="display:grid;gap:8px">
+    <span class="eyebrow">737-800 engine plan · report</span>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <h1 id="title">エンジン整備レポート</h1>
+      <div class="tabs" role="tablist" id="cos" aria-label="会社" style="border:0"></div>
+    </div>
+    <nav class="crumb" id="crumb" aria-label="現在の位置"></nav>
+    <div class="levels" id="levels"></div>
+  </header>
+  <div id="view" style="display:grid;gap:18px"></div>
+  <p class="hint">数字は公開情報からの推定による合成データです。出典のない数字は「前提と出典」に一覧があります。</p>
+</main>
+<script>
+const DATA = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const musd = (k) => (k / 1000).toFixed(1);
+  const pct = (v, d = 0) => (v * 100).toFixed(d) + "%";
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const WS = { PR: "var(--ws-pr)", CORE: "var(--ws-core)", FULL: "var(--ws-full)" };
+  const WORLD = ["var(--accent)", "var(--warn)", "var(--crit)", "var(--ws-full)", "var(--good)"];
+  let co = 0, path = ["summary"], role = "all";
+  const ROLES = { all: "すべて", exec: "経営", fin: "財務", ops: "運航", plan: "整備計画", proc: "調達・契約", tech: "技術・品質" };
+  const CARD_ROLES = {
+    budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
+    invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
+    quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"], demand: ["exec", "ops", "fin"], backtest: ["exec", "plan", "tech"], playbook: ["exec", "proc", "plan"],
+  };
+  const VIEWS = {
+    summary: { label: "経営サマリー", level: 1 },
+    budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番と購入計画の輪", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
+    engines: { label: "エンジン別の明細", level: 3 },
+    history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
+    roll: { label: "次の版への引き継ぎ", level: 2 }, quote: { label: "見積もりの承認", level: 2 }, trend: { label: "状態監視の警報", level: 2 }, spares: { label: "予備エンジンの数", level: 2 },
+    offer: { label: "エンジンの打診", level: 2 }, cash: { label: "支払いと為替", level: 2 }, reliability: { label: "信頼性管理", level: 2 },
+  };
+  DATA.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.role = "tab"; b.textContent = c.name; b.onclick = () => { co = i; render(); }; $("cos").append(b); });
+  const go = (...p) => { path = p; render(); window.scrollTo(0, 0); try { history.replaceState(null, "", `#co=${co}&v=${p[p.length - 1]}`); } catch (e) { /* file: URLs */ } };
+  const C = () => DATA[co];
+
+  function render() {
+    [...$("cos").children].forEach((b, i) => b.setAttribute("aria-selected", String(i === co)));
+    const v = path[path.length - 1];
+    $("crumb").innerHTML = path.map((p, i) => i === path.length - 1 ? `<span class="cur">${VIEWS[p].label}</span>` : `<button type="button" data-i="${i}">${VIEWS[p].label}</button> ›`).join(" ");
+    $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
+    $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
+    $("title").textContent = `エンジン整備レポート：${C().name}`;
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review, demand, backtest, playbook })[v]();
+    $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
+    $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
+  }
+  const panel = (title, inner, note) => `<section class="panel">${title ? `<h2>${title}</h2>` : ""}${inner}${note ? `<p class="hint">${note}</p>` : ""}</section>`;
+  const card = (key, cls, title, concl, svg) => `<button type="button" class="card ${cls}" data-go="${key}"><span class="lv">LEVEL ${VIEWS[key].level}</span><h3>${title}</h3><span class="c">${concl}</span>${svg || ""}<span class="more">詳しく →</span></button>`;
+
+  /* ---------------- charts ---------------- */
+  // the month map: one row per question, one cell per month, colour = how it looks
+  function monthMap(c, W = 900) {
+    const m = c.months, n = m.length, L = 96, R = 8, T = 18, rowH = 22, rows = 4, H = T + rows * rowH + 20, cw = (W - L - R) / n;
+    const x = (i) => L + i * cw;
+    const colour = {
+      margin: (r) => (r.margin < 0 ? "var(--crit)" : r.margin <= 2 ? "var(--warn)" : r.margin <= 5 ? "var(--accent-soft)" : "var(--good-soft)"),
+      load: (r) => { const u = r.load / r.slots; return u > 0.9 ? "var(--crit)" : u > 0.7 ? "var(--warn)" : u < 0.5 ? "var(--ground)" : "var(--accent-soft)"; },
+      ind: (r) => (r.inductions > r.norm_visits * 1.8 ? "var(--ws-full)" : r.inductions > r.norm_visits * 1.2 ? "var(--ws-core)" : r.inductions ? "var(--ws-pr)" : "var(--ground)"),
+    };
+    const rowsDef = [["余力", "margin", (r) => `余力 ${r.margin >= 0 ? "+" : ""}${r.margin} 基`], ["工場の混み具合", "load", (r) => `工場 ${r.load}/${r.slots}`], ["入場（平年比）", "ind", (r) => `入場 ${r.inductions} 件・平年 ${r.norm_visits.toFixed(1)}`]];
+    let s = "";
+    m.forEach((r, i) => { if (r.peak) s += `<rect x="${x(i)}" y="${T - 4}" width="${cw}" height="${rows * rowH + 4}" fill="var(--peak)"/>`; });
+    rowsDef.forEach(([label, key, tip], j) => {
+      const y = T + j * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + rowH / 2 + 4}" text-anchor="end">${label}</text>`;
+      m.forEach((r, i) => { s += `<rect x="${x(i) + 1}" y="${y + 2}" width="${cw - 2}" height="${rowH - 4}" rx="3" fill="${colour[key](r)}"><title>${r.label} ${tip(r)}</title></rect>`; });
+    });
+    const y = T + 3 * rowH;
+    s += `<text class="lbl" x="${L - 8}" y="${y + rowH / 2 + 4}" text-anchor="end">判断期限</text>`;
+    m.forEach((r, i) => { if (r.due) s += `<circle cx="${x(i) + cw / 2}" cy="${y + rowH / 2}" r="${Math.min(9, 3 + r.due * 1.5)}" fill="var(--crit)" opacity=".8"><title>${r.label} 判断期限 ${r.due} 件</title></circle>`; });
+    m.forEach((r, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i) + cw / 2}" y="${H - 4}" text-anchor="middle">${r.label.slice(2)}</text>`; });
+    s += `<text class="tick" x="${L}" y="10">色付きの列＝繁忙期</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="24 か月の地図">${s}</svg>`;
+  }
+  const legendMap = `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>余裕あり</span><span><span class="sw" style="background:var(--warn)"></span>薄い／込み気味</span><span><span class="sw" style="background:var(--crit)"></span>足りない／詰まり</span><span><span class="sw" style="background:var(--ws-full)"></span>入場が平年の倍近い</span><span><span class="sw" style="background:var(--crit);border-radius:50%"></span>判断期限（大きいほど件数が多い）</span></div>`;
+
+  // fiscal years: bar = plan, red tick = budget, grey tick = normal year
+  function fyBars(c, W = 560, compact = false) {
+    const f = c.fiscal_years, L = 70, R = 14, rowH = compact ? 22 : 34, H = f.length * rowH + 8;
+    const top = Math.max(...f.map((r) => Math.max(r.spend, r.budget, r.norm))) * 1.05, x = (v) => L + v / top * (W - L - R);
+    let s = "";
+    f.forEach((r, i) => {
+      const y = 4 + i * rowH, h = rowH - (compact ? 8 : 14);
+      s += `<text class="lbl" x="${L - 8}" y="${y + h / 2 + 4}" text-anchor="end">${r.fy}</text>`;
+      s += `<rect x="${L}" y="${y}" width="${x(r.spend) - L}" height="${h}" rx="3" fill="${r.spend > r.budget * 1.05 ? "var(--crit)" : r.spend > r.budget ? "var(--warn)" : "var(--accent)"}"><title>${r.fy} 計画 ${musd(r.spend)} 百万ドル・予算 ${musd(r.budget)}（${r.months} か月）</title></rect>`;
+      s += `<line x1="${x(r.budget)}" x2="${x(r.budget)}" y1="${y - 3}" y2="${y + h + 3}" stroke="var(--ink)" stroke-width="2"/>`;
+      if (!compact) s += `<text class="tick" x="${x(Math.max(r.spend, r.budget)) + 6}" y="${y + h / 2 + 3}">${r.over > 0 ? "+" : ""}${Math.round(r.over * 100)}%</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度ごとの整備費と予算">${s}</svg>`;
+  }
+
+  // actions: x = change in cost, y = change in risk; lower-left is good. Both axes are
+  // compressed at the ends (asinh) so a -170 M$ part-out does not flatten everything else.
+  function scatter(c, W = 560, H = 300, compact = false) {
+    const a = c.actions, L = compact ? 8 : 48, R = compact ? 8 : 150, T = 14, B = compact ? 8 : 34;
+    const fx = (v) => Math.asinh(v / 3), fy = (v) => Math.asinh(v / 0.5);   // 3 M$ and 0.5 pt are "linear" below
+    const xs = a.map((r) => fx(r.cost / 1000)), ys = a.map((r) => fy(r.aog * 100));
+    const x0 = Math.min(fx(-10), ...xs) * 1.08, x1 = Math.max(fx(10), ...xs) * 1.08, y0 = Math.min(fy(-2), ...ys) * 1.1, y1 = Math.max(fy(2), ...ys) * 1.1;
+    const X = (v) => L + (fx(v) - x0) / (x1 - x0) * (W - L - R), Y = (v) => T + (y1 - fy(v)) / (y1 - y0) * (H - T - B);
+    let s = `<rect x="${L}" y="${Y(0)}" width="${X(0) - L}" height="${H - B - Y(0)}" fill="var(--good-soft)"/><rect x="${X(0)}" y="${T}" width="${W - R - X(0)}" height="${Y(0) - T}" fill="var(--crit-soft)"/>`;
+    s += `<line x1="${X(0)}" x2="${X(0)}" y1="${T}" y2="${H - B}" stroke="var(--muted)"/><line x1="${L}" x2="${W - R}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--muted)"/>`;
+    if (!compact) {
+      [-100, -30, -10, -3, 3, 10].forEach((v) => { if (fx(v) > x0 && fx(v) < x1) s += `<line x1="${X(v)}" x2="${X(v)}" y1="${H - B}" y2="${H - B + 4}" stroke="var(--muted)"/><text class="tick" x="${X(v)}" y="${H - B + 14}" text-anchor="middle">${v > 0 ? "+" : ""}${v}</text>`; });
+      [-2, -1, 1, 5, 15].forEach((v) => { if (fy(v) > y0 && fy(v) < y1) s += `<text class="tick" x="${L - 6}" y="${Y(v) + 3}" text-anchor="end">${v > 0 ? "+" : ""}${v}</text>`; });
+      s += `<text class="tick" x="${L + 6}" y="${H - B - 6}">安くて安全</text><text class="tick" x="${W - R - 6}" y="${T + 12}" text-anchor="end">高くて危ない</text>`;
+      s += `<text class="tick" x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle">費用の増減（百万ドル、両端は圧縮）</text><text class="tick" x="12" y="${(T + H - B) / 2}" transform="rotate(-90 12 ${(T + H - B) / 2})" text-anchor="middle">欠航リスク（pt）</text>`;
+    }
+    const placed = [];
+    [...a].sort((p, q) => p.aog - q.aog).forEach((r, k) => {
+      const cx = X(r.cost / 1000), cy = Y(r.aog * 100);
+      s += `<circle cx="${cx}" cy="${cy}" r="${compact ? 3.5 : 5.5}" fill="${r.cost < 0 && r.aog <= 0.001 ? "var(--good)" : r.aog > 0.01 ? "var(--crit)" : "var(--accent)"}"><title>${esc(r.question)}：${r.cost > 0 ? "+" : ""}${musd(r.cost)} 百万ドル、欠航 ${r.aog > 0 ? "+" : ""}${(r.aog * 100).toFixed(1)}pt</title></circle>`;
+      if (compact) return;
+      let ly = cy + 4;
+      while (placed.some((p) => Math.abs(p.y - ly) < 12 && Math.abs(p.x - cx) < 170)) ly += 12;
+      placed.push({ x: cx, y: ly });
+      const short = r.question.replace(/（.*?）/g, "").replace(/したら$|たら$|なら$/, "");
+      s += `${Math.abs(ly - cy - 4) > 1 ? `<line x1="${cx + 5}" y1="${cy}" x2="${cx + 10}" y2="${ly - 4}" stroke="var(--muted)"/>` : ""}<text class="tick" x="${cx + 10}" y="${ly}">${esc(short)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="打ち手の費用とリスク">${s}</svg>`;
+  }
+
+  // tracking: world probability over time (stacked) and the value of switching
+  function trackChart(t, W = 560, H = 190, compact = false) {
+    const S = t.series, n = S.length, L = compact ? 6 : 34, R = 6, T = 8, B = compact ? 6 : 24, labels = t.world_labels;
+    const x = (i) => L + i / Math.max(1, n - 1) * (W - L - R), y = (v) => T + (1 - v) * (H - T - B);
+    let s = "", lo = S.map(() => 0);
+    labels.forEach((w, j) => {
+      const hi = S.map((p, i) => lo[i] + (p.posterior[w] || 0));
+      s += `<polygon fill="${WORLD[j]}" opacity=".8" points="${hi.map((v, i) => `${x(i)},${y(v)}`).join(" ")} ${lo.map((v, i) => `${x(i)},${y(v)}`).reverse().join(" ")}"><title>${esc(w)}</title></polygon>`;
+      lo = hi;
+    });
+    if (!compact) S.forEach((p, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 6}" text-anchor="middle">${p.as_of.slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="前提の確率の推移">${s}</svg>`;
+  }
+  const worldLegend = (t) => `<div class="legend">${t.world_labels.map((w, j) => `<span><span class="sw" style="background:${WORLD[j]}"></span>${esc(w)}</span>`).join("")}</div>`;
+
+  function switchChart(t, W = 560, H = 170) {
+    const S = t.series, n = S.length, L = 44, R = 8, T = 12, B = 24, vals = S.map((p) => p.best_saving);
+    const hi = Math.max(600, ...vals), lo = Math.max(-3000, Math.min(-300, ...vals));
+    const x = (i) => L + i / Math.max(1, n - 1) * (W - L - R), y = (v) => T + (hi - Math.max(lo, Math.min(hi, v))) / (hi - lo) * (H - T - B);
+    let s = `<rect x="${L}" y="${y(300)}" width="${W - L - R}" height="${y(0) - y(300)}" fill="var(--warn-soft)"/><line x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}" stroke="var(--rule)"/>`;
+    s += `<text class="tick" x="${L - 4}" y="${y(300) + 3}" text-anchor="end">+0.3</text><text class="tick" x="${L - 4}" y="${y(0) + 3}" text-anchor="end">0</text>`;
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${vals.map((v, i) => `${x(i)},${y(v)}`).join(" ")}"/>`;
+    S.forEach((p, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 6}" text-anchor="middle">${p.as_of.slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="乗り換えの価値の推移">${s}</svg>`;
+  }
+
+  // outlook: visits per year, stacked by workscope
+  function outlookChart(c, W = 560, H = 200) {
+    const O = c.outlook.filter((y) => y.year >= 0), n = O.length, L = 30, R = 8, T = 10, B = 24, bw = (W - L - R) / n;
+    const top = Math.max(...O.map((y) => y.visits)) * 1.1, y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    O.forEach((yr, i) => {
+      let acc = 0;
+      ["PR", "CORE", "FULL"].forEach((w) => { const v = yr.by_ws[w] || 0; if (!v) return; s += `<rect x="${L + i * bw + 4}" y="${y(acc + v)}" width="${bw - 8}" height="${y(acc) - y(acc + v)}" fill="${WS[w]}"><title>${yr.year === 0 ? "今年" : "+" + yr.year + " 年"} ${w} ${v} 件</title></rect>`; acc += v; });
+      s += `<text class="tick" x="${L + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${yr.year === 0 ? "今年" : "+" + yr.year}</text>`;
+    });
+    s += `<line x1="${L}" x2="${W - R}" y1="${y(c.norms.visits_per_year)}" y2="${y(c.norms.visits_per_year)}" stroke="var(--ink)" stroke-dasharray="4 3"><title>平年 ${c.norms.visits_per_year.toFixed(1)} 件</title></line>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="10 年の入場件数">${s}</svg>`;
+  }
+  const wsLegend = `<div class="legend"><span><span class="sw" style="background:var(--ws-pr)"></span>性能回復（PR）</span><span><span class="sw" style="background:var(--ws-core)"></span>コア＋寿命部品（CORE）</span><span><span class="sw" style="background:var(--ws-full)"></span>全面（FULL）</span></div>`;
+
+  // engines: one row each -- window to remove, time off wing, decision marker
+  function gantt(c, W = 1100) {
+    const P = [...c.plan].sort((a, b) => a.t - b.t || a.limit_t - b.limit_t), n = c.months.length;
+    const L = 64, R = 10, T = 22, rowH = 14, H = T + P.length * rowH + 20, cw = (W - L - R) / n, x = (t) => L + Math.max(0, Math.min(n, t)) * cw;
+    let s = "";
+    c.months.forEach((m, i) => { if (m.peak) s += `<rect x="${x(i)}" y="${T - 4}" width="${cw}" height="${P.length * rowH + 4}" fill="var(--peak)"/>`; if (i % 3 === 0) s += `<text class="tick" x="${x(i) + 2}" y="${T - 8}">${m.label.slice(2)}</text>`; });
+    P.forEach((r, j) => {
+      const y = T + j * rowH;
+      s += `<text class="tick" x="${L - 6}" y="${y + 10}" text-anchor="end">${r.esn}</text>`;
+      s += `<rect x="${x(r.earliest_t)}" y="${y + 3}" width="${x(r.limit_t + 1) - x(r.earliest_t)}" height="${rowH - 6}" rx="2" fill="var(--accent-soft)"><title>取卸しできる期間 ${c.months[r.earliest_t].label}〜${r.limit}</title></rect>`;
+      s += `<rect x="${x(r.t)}" y="${y + 1}" width="${x(r.t + r.quoted_off_wing) - x(r.t)}" height="${rowH - 2}" rx="2" fill="${WS[r.workscope] || "var(--muted)"}" opacity=".9"><title>${r.esn} ${r.month} 入場（${r.workscope}、${esc(r.shop_name)}）→ ${r.quoted_off_wing} か月で戻る。${fmt(r.exp_cost)} 千ドル</title></rect>`;
+      if (r.deadline_t >= 0) s += `<path d="M${x(r.deadline_t) + cw / 2} ${y + 1} l4 6 l-4 6 l-4 -6z" fill="var(--crit)"><title>判断期限 ${r.decide_by}（${esc(r.deadline_reason)}）</title></path>`;
+      else s += `<path d="M${L + 2} ${y + 7} l6 -4 v8z" fill="var(--muted)"><title>計画開始前に手配済み（前提）</title></path>`;
+      if (r.watch) s += `<circle cx="${x(r.t + r.quoted_off_wing) + 5}" cy="${y + 7}" r="3" fill="var(--warn)"><title>要監視</title></circle>`;
+      if (r.lease_return_t != null) s += `<path d="M${x(r.lease_return_t) + cw / 2} ${y + 1} l4 6 l-4 6 l-4 -6z" fill="none" stroke="var(--ink)" stroke-width="1.5"><title>リース返却 ${c.months[r.lease_return_t].label}（${{ as_is: "そのまま返す", visit: "返却前に入場", extend: "延長" }[r.lease_recommend]}）</title></path>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="エンジンごとの計画">${s}</svg>`;
+  }
+
+  /* ---------------- level 1 ---------------- */
+  function summary() {
+    const c = C();
+    const lines = c.verdict.map((l) => `<div class="line"><span class="q">${l.q}</span><span class="a">${esc(l.a)}</span></div>`).join("");
+    const f = c.fiscal_years, worst = f.reduce((a, b) => (b.over > a.over ? b : a), f[0]);
+    const tr = c.track, inv = c.invest;
+    const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
+    const cards = [
+      c.demand ? card("demand", demandCls(c.demand), "客席の需要（一つ上の層）", demandLine(c.demand), seatDemandChart(c.demand, 320, 110, true)) : "",
+      c.runout ? card("runout", runoutCls(c.runout), "退役までの入場列", runoutLine(c.runout), runoutYears(c.runout, 320, 110, true)) : "",
+      c.playbook ? card("playbook", c.playbook.verdict.some((v) => v.status === "warn") ? "warn" : "ok", "打ち手の順番（実行計画）", playbookLine(c.playbook), "") : "",
+      c.backtest ? card("backtest", backtestCls(c.backtest), "過去で検証（バックテスト）", backtestLine(c.backtest), timingHist(c.backtest.engine, 320, 110, true)) : "",
+      c.review ? card("review", reviewCls(c.review), "PDCA／OODA の見直し（AI）", reviewLine(c.review), coverageGrid(c.review, true)) : "",
+      c.mx4 ? card("mx4", "ok", "積立金と機体価値（資産側）", mx4Line(c.mx4), mx4Chart(c.mx4, 320, 110, true)) : "",
+      c.lease ? card("lease", c.lease.total_as_is_k - c.lease.total_best_k > 300 ? "warn" : "ok", "リース返却", leaseLine(c.lease), "") : "",
+      c.finance ? card("finance", "ok", "お金の仕組み（税・資金・規模）", finLine(c.finance), finChart(c.finance, 320, 150, true)) : "",
+      c.tax ? card("tax", "ok", "税引後で比べる", taxLine(c.tax), taxChart(c.tax, 320, 150, true)) : "",
+      c.resilience ? card("resilience", resCls(c.resilience), "立て直しの安さ", resLine(c.resilience), premiumChart(c.resilience, 320, 150, true)) : "",
+      c.multi ? card("fleets", fleetsCls(c.multi), "機種横断（会社全体）", fleetsLine(c.multi), fleetsChart(c.multi, 320, 120, true)) : "",
+      tr && tr.ooda ? card("loops", tr.ooda.feedback.no_world_fits_months >= 3 ? "warn" : "ok", "PDCA と OODA（二つの輪）", loopsLine(tr.ooda), "") : "",
+      card("budget", worst.over > 0.05 ? "flag" : "ok", "年間計画と予算", worst.over > 0.05 ? `${worst.fy} は予算を超える` : "予算内", fyBars(c, 320, true)),
+      card("month", due3 ? "warn" : "ok", "今月からの判断", `3 か月以内に ${due3} 件の判断`, ""),
+      card("track", tr && !tr.world_is_base ? "warn" : "ok", "計画の追跡", tr ? (tr.recommend === "switch" ? `乗り換えを推奨：${esc(tr.switch_to)}` : "今の計画を続けてよい") : "実績なし", tr ? trackChart(tr, 320, 70, true) : ""),
+      tr && tr.cpd ? card("cpd", { both: "ok", cpd_only: "warn", bayes_only: "warn", none: "ok" }[tr.cpd.state], "変化点と前提の整合", cpdLine(tr.cpd), cpdChart(tr.cpd, 0, 320, 90, true)) : "",
+      card("actions", "ok", "打ち手の効果", "左下ほど安くて安全", scatter(c, 320, 150, true)),
+      card("invest", inv ? (inv.recommend.go ? "ok" : "warn") : "", "国内工場の新設（LEAP-1B）", inv ? esc(inv.headline) : "試算中", inv ? breakevenChart(inv.breakeven, 320, 170) : ""),
+      c.history ? card("history", histCls(c), "過去の計画との整合", histLine(c), stabilityChart(c.history, 320, 90, true)) : "",
+      c.roll ? card("roll", "ok", "次の版への引き継ぎ", rollLine(c.roll), bridgeChart(c.roll, 320, 120, true)) : "",
+      card("horizon", c.horizons.score >= 0.7 ? "ok" : "warn", "時間軸のつながり", `長期から短期へのつながり ${Math.round(c.horizons.score * 100)}%`, horizonChart(c.horizons, 320, 150, true)),
+      card("sources", c.unsourced.length ? "warn" : "ok", "前提と出典", `出典のない数字 ${c.unsourced.length} 件`, ""),
+    ];
+    const u = c.usecases;
+    const extra = [
+      card("quote", "", "見積もりの承認", `追加作業は、延びる 1 か月あたり ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドルまでなら承認が得`, quoteChart(u, 320, 130, true)),
+      card("trend", "", "状態監視の警報", trendLine(u), trendChart(u, 320, 130, true)),
+      card("spares", sparesCls(u), "予備エンジンの数", sparesCostLine(u), sparesChart(u, 320, 130, true)),
+      card("offer", "", "エンジンの打診", offerLine(u), offerChart(u, 320, 130, true)),
+      card("cash", "", "支払いと為替", cashLine(u), cashChart(u, 320, 130, true)),
+      card("reliability", u.reliability.above ? "flag" : "ok", "信頼性管理", relLine(u), relChart(u, 320, 130, true)),
+    ];
+    const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
+    const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
+    // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
+    const GROUPS = [["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["playbook", "track", "cpd", "actions", "lease", "loops"]],
+      ["確かめる：決め方の採点", ["review", "backtest", "history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
+      ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
+    const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
+      + (() => { const rest = all.filter((h) => !GROUPS.some(([, keys]) => keys.includes(keyOf(h)))); return rest.length ? `<div class="cards">${rest.join("")}</div>` : ""; })();
+    const roleBar = `<div class="tabs" role="tablist" aria-label="見方">${Object.entries(ROLES).map(([k, l]) => `<button type="button" role="tab" data-role="${k}" aria-selected="${k === role}">${l}</button>`).join("")}</div>`;
+    const rl = roleLine(c);
+    return roleBar + `<section class="panel verdict" aria-label="結論">${rl ? `<div class="line"><span class="q">${ROLES[role]}の視点</span><span class="a">${esc(rl)}</span></div>` : ""}${lines}</section>`
+      + panel("エンジンごとの計画ボード", `<p class="chart-note">${c.plan.length} 基の予定（先頭 3 か月に判断が集中）。この板が計画そのもの：ほかの画面はこの板をどう動かすかの判断材料</p>` + gantt(c) + ganttLegend + G("gantt"), "バーにマウスを載せると、工場・費用・判断期限の理由が出ます。")
+      + (role === "all" || role === "ops" || role === "plan" || role === "exec" ? panel("この 24 か月の地図", monthMap(c) + legendMap + G("monthmap"), "マスにマウスを載せると数字が出ます。") : "")
+      + grouped;
+  }
+
+  /* ---------------- level 2 ---------------- */
+  function budget() {
+    const c = C(), f = c.fiscal_years, worst = f.reduce((a, b) => (b.over > a.over ? b : a), f[0]);
+    return `<div class="vgrid">${panel("", `<p class="chart-note">${worst.over > 0.05 ? `${worst.fy} は予算を ${Math.round(worst.over * 100)}% 超える` : "どの年度も予算内"}</p>` + fyBars(c) + G("fybars") + `<div class="legend"><span><span class="sw" style="background:var(--accent)"></span>計画の整備費</span><span><span class="sw" style="background:var(--ink);width:3px"></span>予算（平年並み）</span><span><span class="sw" style="background:var(--crit)"></span>予算超過</span></div>`, c.relaxed.includes("budget") ? "平年並みの予算ではこの期間に期限の来るエンジンを回しきれないため、予算の条件を外して解いています。" : "")}`
+      + `${panel("", `<p class="chart-note">10 年先まで：入場は年によって大きく波打つ（点線＝平年）</p>` + outlookChart(c) + wsLegend + G("outlook"))}</div>`
+      + `<div class="cards">${card("engines", "", "エンジン別の明細", "取卸しできる期間・入場・戻り・判断期限を 1 基ずつ", "")}</div>`;
+  }
+
+  function month() {
+    const c = C();
+    return panel("", `<p class="chart-note">いつ詰まり、いつ判断が要るか</p>` + monthMap(c) + legendMap + G("monthmap"))
+      + panel("", `<p class="chart-note">エンジンごとの予定（先頭 3 か月に判断が集中）</p>` + gantt(c) + ganttLegend + G("gantt"), "");
+  }
+  const ganttLegend = `<div class="legend"><span><span class="sw" style="background:var(--accent-soft)"></span>取卸しできる期間</span><span><span class="sw" style="border:1.5px solid var(--ink);background:none"></span>リース返却</span><span><span class="sw" style="background:var(--ws-pr)"></span><span class="sw" style="background:var(--ws-core)"></span><span class="sw" style="background:var(--ws-full)"></span>入場から戻りまで（整備範囲の色）</span><span><span class="sw" style="background:var(--crit)"></span>判断期限</span><span><span class="sw" style="background:var(--muted)"></span>手配済み（前提）</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>要監視</span></div>`;
+
+  function track() {
+    const t = C().track;
+    if (!t) return panel("計画の追跡", '<p class="hint">実績がまだありません。</p>');
+    return `<div class="vgrid">${panel("", `<p class="chart-note">前提は${t.world_is_base ? "基準どおり" : esc(t.world) + "に近づいている"}（${t.as_of} 時点 ${pct(t.world_p)}）${t.demo ? "・デモ用の合成実績" : ""}</p>` + trackChart(t) + worldLegend(t) + G("posterior"))}`
+      + `${panel("", `<p class="chart-note">${t.recommend === "switch" ? "乗り換えると得（黄色の帯を超えた）" : "乗り換えても得にならない（黄色の帯より下）"}</p>` + switchChart(t) + G("switch"), "線：最も得な乗り換え先の期待差額（百万ドル）。黄色の帯は得でも小さい範囲（0.3 百万ドル未満）。")}</div>`;
+  }
+
+  function actions() {
+    const c = C();
+    return panel("", `<p class="chart-note">打ち手・状況ごとの、費用とリスクの動き（基準の計画からの差、2 年）</p>` + scatter(c, 1000, 460) + G("scatter"), "点にマウスを載せると数字が出ます。部品取りは機体が減る 737-8 受領の場合を除き、欠航リスクが大きく上がります。グリーンタイム・エンジンの入手数は楽観的な仮定です。");
+  }
+
+  function invest() {
+    const v = C().invest;
+    if (!v) return panel("国内工場の新設（LEAP-1B）", '<p class="hint">試算中です。</p>');
+    return panel("", `<p class="chart-note">${esc(v.headline)}</p><p class="hint">${esc(v.why)}</p>`)
+      + `<div class="vgrid">${panel("", `<p class="chart-note">何があれば得になるか：受託の件数が決め手、補助は効きが小さい</p>` + breakevenChart(v.breakeven) + G("breakeven"), esc(v.breakeven.note))}`
+      + `${panel("", `<p class="chart-note">案ごとの損得の幅（正味現在価値、百万ドル）</p>` + npvChart(v) + G("npv"), "線は 10〜90% の幅、点は平均。0 より右なら海外に出し続けるより得。")}</div>`
+      + `<div class="vgrid">${panel("", `<p class="chart-note">損得の内訳：交渉で下がる海外の価格（ゲーム理論）が、どれだけ効くか</p>` + partsChart(v) + partsLegend + G("parts"), "交渉＝国内に能力を持つことで、海外に残る入場の価格が下がる分（ナッシュ交渉）。足元＝建てた後にメーカーが部品・認可の条件を厳しくする分。")}`
+      + `${v.consortium ? panel("", `<p class="chart-note">3 社で組むと：単独よりずっと損が小さく、IHI の技術が価値を生む</p>` + consortiumChart(v.consortium) + G("consortium"), esc(v.consortium.note)) : ""}</div>`
+      + (v.market ? `<div class="vgrid">${panel("", `<p class="chart-note">受託の取り合い：日本が先に決めると多く取れる（先手の価値）</p>` + marketChart(v.market) + G("market"), `3 者が同時に決めた場合と日本が先に決めた場合の能力（年間の受託件数）。段階 1〜3 の価値は ${Math.round(v.market.npv_simultaneous.commit123)} → ${Math.round(v.market.npv_if_first.commit123)} 百万ドル。先に決めることは「待って様子を見る」選択を捨てることでもある。`)}`
+      + `${v.booking ? panel("", `<p class="chart-note">海外の枠の取り合い：入場待ちが長い間は囚人のジレンマ</p>` + bookingMatrix(v.booking) + bookingTimeline(v.booking) + G("booking"), `割増を払って早めに押さえると自分の待ちが減り、相手の待ちが増える。待ちが ${v.booking.threshold_months.toFixed(1)} か月を超える間は、両社とも早めに押さえるのが自分にとって最善（赤枠）だが、両社とも待つほうが両社とも得（緑の点線）。今の 737-800 のエンジンで、互いに払い合う割増は今の価値で約 ${v.booking.pv_cfm56.toFixed(1)} 百万ドル。共同で枠を押さえる（プール）ことの価値でもある。`) : ""}</div>` : "")
+      + `<div class="vgrid">${panel("", `<p class="chart-note">国内の自社の入場（年）：737-8 の受領に遅れて立ち上がる</p>` + demandChart(v) + G("demand"), "帯は 10〜90%、線は中央値。短期入場（破線）は機数に比例。")}`
+      + `${panel("", `<p class="chart-note">海外の入場待ち（か月）：世界の整備能力が追いつくと縮む</p>` + queueChart(v) + G("queue"), "国内化の価値の大半は、往復の輸送（2 か月）と入場待ちの分だけ予備エンジンを借りずに済むこと。")}</div>`
+      + `<details class="panel"><summary>前提と出典</summary><div class="scroll"><table><tbody>${Object.entries(v.sources).map(([k, t]) => `<tr><td class="mono">${esc(k)}</td><td class="src">${esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</td></tr>`).join("")}</tbody></table></div><p class="hint">${esc(v.note)}</p></details>`;
+  }
+  const PARTS = [["ops", "運用の節約（輸送・待ち・予備）", "var(--good)"], ["third", "受託の利益", "var(--accent)"], ["bargain", "交渉で下がる価格", "var(--ws-full)"], ["holdup", "足元を見られる", "var(--warn)"], ["fixed", "固定費", "var(--crit-soft)"], ["capex", "投資", "var(--crit)"]];
+  const partsLegend = `<div class="legend">${PARTS.map(([, l, c]) => `<span><span class="sw" style="background:${c}"></span>${l}</span>`).join("")}<span><span class="sw" style="background:var(--ink);border-radius:50%"></span>合計</span></div>`;
+  function partsChart(v, W = 520) {
+    const P = v.policies.filter((p) => ["stage1", "commit12", "commit123", "staged"].includes(p.id)), L = 180, R = 12, rowH = 40, H = P.length * rowH + 26;
+    const pos = (p) => PARTS.reduce((a, [k]) => a + Math.max(0, p.parts[k] || 0), 0), neg = (p) => PARTS.reduce((a, [k]) => a + Math.min(0, p.parts[k] || 0), 0);
+    const lo = Math.min(...P.map(neg)) * 1.05, hi = Math.max(...P.map(pos)) * 1.05, x = (t) => L + (t - lo) / (hi - lo) * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 22}" stroke="var(--ink)"/>`;
+    [-300, -200, -100, 100, 200].forEach((t) => { if (t > lo && t < hi) s += `<text class="tick" x="${x(t)}" y="${H - 6}" text-anchor="middle">${t > 0 ? "+" : ""}${t}</text>`; });
+    P.forEach((p, i) => {
+      const y = 8 + i * rowH; let up = 0, dn = 0;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 13}" text-anchor="end">${esc(p.label)}</text>`;
+      PARTS.forEach(([k, l, c]) => {
+        const v_ = p.parts[k] || 0; if (Math.abs(v_) < 0.5) return;
+        const a = v_ > 0 ? up : dn, b = a + v_;
+        s += `<rect x="${x(Math.min(a, b))}" y="${y}" width="${Math.abs(x(b) - x(a))}" height="18" fill="${c}"><title>${esc(p.label)}：${l} ${v_ > 0 ? "+" : ""}${Math.round(v_)} 百万ドル</title></rect>`;
+        if (v_ > 0) up = b; else dn = b;
+      });
+      s += `<circle cx="${x(p.npv)}" cy="${y + 9}" r="5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"><title>合計 ${Math.round(p.npv)} 百万ドル</title></circle>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="損得の内訳">${s}</svg>`;
+  }
+  function consortiumChart(c, W = 520) {
+    const M = c.members, L = 60, R = 16, rowH = 38, H = M.length * rowH + 40;
+    const vals = M.flatMap((m) => [c.shapley[m], c.standalone[m]]), lo = Math.min(0, ...vals) * 1.1, hi = Math.max(40, ...vals) * 1.4, x = (t) => L + (t - lo) / (hi - lo) * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 26}" stroke="var(--ink)"/><text class="tick" x="${x(0)}" y="${H - 10}" text-anchor="middle">0（海外に出し続ける）</text>`;
+    M.forEach((m, i) => {
+      const y = 10 + i * rowH, a = c.standalone[m], b = c.shapley[m];
+      s += `<text class="lbl" x="${L - 8}" y="${y + 12}" text-anchor="end">${m}</text>`;
+      s += `<line x1="${x(a)}" x2="${x(b)}" y1="${y + 8}" y2="${y + 8}" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>`;
+      s += `<circle cx="${x(a)}" cy="${y + 8}" r="5" fill="var(--surface)" stroke="var(--crit)" stroke-width="2"><title>${m} が単独で建てた場合 ${Math.round(a)} 百万ドル</title></circle>`;
+      s += `<circle cx="${x(b)}" cy="${y + 8}" r="6" fill="${b >= 0 ? "var(--good)" : "var(--warn)"}"><title>${m} の取り分（シャープレイ値） ${Math.round(b)} 百万ドル</title></circle>`;
+      s += `<text class="tick" x="${x(b) + 10}" y="${y + 12}">${b > 0 ? "+" : ""}${Math.round(b)}</text>`;
+    });
+    const defs = `<defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="var(--muted)"/></marker></defs>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="3 社の取り分">${defs}${s}</svg><div class="legend"><span><span class="sw" style="background:var(--surface);border:2px solid var(--crit);border-radius:50%"></span>単独で建てた場合</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>3 社で組んだときの取り分（シャープレイ値）</span><span>3 社合計 ${Math.round(c.grand)} 百万ドル</span></div>`;
+  }
+  function marketChart(m, W = 520) {
+    const P = m.players, L = 90, R = 16, rowH = 34, H = P.length * rowH + 44;
+    const top = Math.max(...P.map((p) => Math.max(m.simultaneous.capacity[p], m.japan_first.capacity[p]))) * 1.15, x = (v) => L + v / top * (W - L - R);
+    let s = "";
+    P.forEach((p, i) => {
+      const y = 8 + i * rowH, a = m.simultaneous.capacity[p], b = m.japan_first.capacity[p];
+      s += `<text class="lbl" x="${L - 8}" y="${y + 14}" text-anchor="end">${esc(p)}</text>`;
+      s += `<rect x="${L}" y="${y}" width="${x(a) - L}" height="11" fill="var(--muted)" opacity=".55"><title>同時に決めた場合 ${a} 件・利益 ${m.simultaneous.profit[p]} 百万ドル/年</title></rect>`;
+      s += `<rect x="${L}" y="${y + 13}" width="${x(b) - L}" height="11" fill="${i === 0 ? "var(--accent)" : "var(--warn)"}"><title>日本が先に決めた場合 ${b} 件・利益 ${m.japan_first.profit[p]} 百万ドル/年</title></rect>`;
+      s += `<text class="tick" x="${x(Math.max(a, b)) + 6}" y="${y + 16}">${a} → ${b}</text>`;
+    });
+    s += `<text class="tick" x="${L}" y="${H - 18}">利益率：同時 ${(m.simultaneous.margin * 100).toFixed(0)}%・日本が先手 ${(m.japan_first.margin * 100).toFixed(0)}%（地域の受託需要 年 ${Math.round(m.demand)} 件）</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="受託市場の均衡">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--muted);opacity:.55"></span>3 者が同時に決めた場合</span><span><span class="sw" style="background:var(--accent)"></span>日本が先に決めた場合</span></div>`;
+  }
+  function bookingMatrix(b, W = 520) {
+    const M = b.matrix, [pa, pb] = b.players, L = 110, T = 34, cw = (W - L - 10) / 2, ch = 58, H = T + 2 * ch + 8;
+    const get = (a, bb) => M.find((m) => m.a_early === a && m.b_early === bb);
+    const isEq = (a, bb) => { const m = get(a, bb); return m.a >= get(!a, bb).a - 1e-9 && m.b >= get(a, !bb).b - 1e-9; };
+    // the cell where both do better than in the equilibrium (the dilemma's way out)
+    const eqm = M.find((m) => isEq(m.a_early, m.b_early));
+    const better = M.filter((m) => eqm && m !== eqm && m.a > eqm.a && m.b > eqm.b);
+    const best = better.length ? better.reduce((x, y) => (y.a + y.b > x.a + x.b ? y : x)) : null;
+    let s = `<text class="lbl" x="${L + cw / 2}" y="14" text-anchor="middle">${pb}：待つ</text><text class="lbl" x="${L + cw * 1.5}" y="14" text-anchor="middle">${pb}：早めに押さえる</text>`;
+    [false, true].forEach((a, r) => {
+      s += `<text class="lbl" x="${L - 8}" y="${T + r * ch + ch / 2 + 4}" text-anchor="end">${pa}：${a ? "早めに" : "待つ"}</text>`;
+      [false, true].forEach((bb, c) => {
+        const m = get(a, bb), x0 = L + c * cw, y0 = T + r * ch, eq = isEq(a, bb), co = m === best;
+        s += `<rect x="${x0 + 2}" y="${y0 + 2}" width="${cw - 4}" height="${ch - 4}" rx="6" fill="var(--ground)" stroke="${eq ? "var(--crit)" : co ? "var(--good)" : "var(--rule)"}" stroke-width="${eq || co ? 3 : 1}" stroke-dasharray="${co && !eq ? "5 4" : ""}"/>`;
+        s += `<text class="lbl" x="${x0 + cw / 2}" y="${y0 + ch / 2 - 2}" text-anchor="middle">${pa} ${m.a.toFixed(1)}</text><text class="lbl" x="${x0 + cw / 2}" y="${y0 + ch / 2 + 14}" text-anchor="middle">${pb} ${m.b.toFixed(1)}</text>`;
+      });
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="枠の取り合いの利得表">${s}</svg><p class="hint">FY${b.timeline[0].year} の年間の損（百万ドル、待ちの分の予備リース＋割増）。赤枠＝均衡（互いに相手の手を前提に最善）、緑の点線＝均衡より両社とも得な組み合わせ。</p>`;
+  }
+  function bookingTimeline(b, W = 520, H = 150) {
+    const T0 = b.timeline.filter((r) => r.year <= 2036), n = T0.length, L = 34, R = 8, T = 10, B = 22;
+    const top = Math.max(b.threshold_months * 1.4, ...T0.map((r) => r.queue)), x = (i) => L + i / (n - 1) * (W - L - R), y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    T0.forEach((r, i) => { if (r.race) s += `<rect x="${x(i) - (W - L - R) / (n - 1) / 2}" y="${T}" width="${(W - L - R) / (n - 1)}" height="${H - T - B}" fill="var(--crit-soft)"/>`; });
+    s += `<line x1="${L}" x2="${W - R}" y1="${y(b.threshold_months)}" y2="${y(b.threshold_months)}" stroke="var(--crit)" stroke-dasharray="4 3"/><text class="tick" x="${W - R}" y="${y(b.threshold_months) - 4}" text-anchor="end">取り合いになる待ち ${b.threshold_months.toFixed(1)} か月</text>`;
+    s += `<polyline fill="none" stroke="var(--warn)" stroke-width="2" points="${T0.map((r, i) => `${x(i)},${y(r.queue)}`).join(" ")}"/>`;
+    T0.forEach((r, i) => { if (i % 2 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 6}" text-anchor="middle">FY${String(r.year).slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="取り合いになる期間">${s}</svg>`;
+  }
+  function breakevenChart(b, W = 520, H = 260) {
+    const L = 70, T = 16, R = 10, B = 40, nx = b.third_party_sv.length, ny = b.subsidy.length, cw = (W - L - R) / nx, ch = (H - T - B) / ny;
+    const mx = Math.max(...b.npv.flat().map(Math.abs));
+    let s = "";
+    b.npv.forEach((row, j) => row.forEach((v, i) => {
+      const a = Math.min(1, Math.abs(v) / mx) * 0.85 + 0.1;
+      s += `<rect x="${L + i * cw + 1}" y="${T + (ny - 1 - j) * ch + 1}" width="${cw - 2}" height="${ch - 2}" rx="3" fill="${v >= 0 ? "var(--good)" : "var(--crit)"}" opacity="${a}"><title>補助 ${Math.round(b.subsidy[j] * 100)}%・受託 ${b.third_party_sv[i]} 件/年：${v > 0 ? "+" : ""}${Math.round(v)} 百万ドル</title></rect>`;
+      s += `<text class="tick" x="${L + i * cw + cw / 2}" y="${T + (ny - 1 - j) * ch + ch / 2 + 3}" text-anchor="middle" style="fill:${a > 0.5 ? "var(--surface)" : "var(--ink)"}">${v > 0 ? "+" : ""}${Math.round(v)}</text>`;
+    }));
+    b.third_party_sv.forEach((v, i) => { s += `<text class="tick" x="${L + i * cw + cw / 2}" y="${H - B + 14}" text-anchor="middle">${v}</text>`; });
+    b.subsidy.forEach((v, j) => { s += `<text class="tick" x="${L - 6}" y="${T + (ny - 1 - j) * ch + ch / 2 + 3}" text-anchor="end">補助 ${Math.round(v * 100)}%</text>`; });
+    s += `<text class="tick" x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">受託の件数（年）</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="損益分岐の地図">${s}</svg>`;
+  }
+  function npvChart(v, W = 520) {
+    const P = v.policies.filter((p) => p.id !== "outsource"), L = 170, R = 16, rowH = 34, H = P.length * rowH + 30;
+    const lo = Math.min(0, ...P.map((p) => p.p10)) * 1.08, hi = Math.max(10, ...P.map((p) => p.p90)) * 1.08, x = (t) => L + (t - lo) / (hi - lo) * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 24}" stroke="var(--ink)"/><text class="tick" x="${x(0)}" y="${H - 8}" text-anchor="middle">0</text>`;
+    [-200, -100, 100].forEach((t) => { if (t > lo && t < hi) s += `<text class="tick" x="${x(t)}" y="${H - 8}" text-anchor="middle">${t > 0 ? "+" : ""}${t}</text>`; });
+    P.forEach((p, i) => {
+      const y = 12 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 4}" text-anchor="end">${esc(p.label)}</text>`;
+      s += `<line x1="${x(p.p10)}" x2="${x(p.p90)}" y1="${y}" y2="${y}" stroke="${p.npv >= 0 ? "var(--good)" : "var(--crit)"}" stroke-width="6" stroke-linecap="round" opacity=".45"/>`;
+      s += `<circle cx="${x(p.npv)}" cy="${y}" r="6" fill="${p.npv >= 0 ? "var(--good)" : "var(--crit)"}"><title>${esc(p.label)}：平均 ${Math.round(p.npv)}、10〜90% ${Math.round(p.p10)}〜${Math.round(p.p90)}、得になる確率 ${Math.round(p.p_positive * 100)}%、投資 ${Math.round(p.capex)}</title></circle>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="案ごとの正味現在価値">${s}</svg>`;
+  }
+  function demandChart(v, W = 520, H = 220) {
+    const Y = v.years, n = Y.length, L = 34, R = 8, T = 10, B = 24, top = Math.max(...v.own_sv["90"], ...v.quick_turns) * 1.1;
+    const x = (i) => L + i / (n - 1) * (W - L - R), y = (t) => H - B - t / top * (H - T - B);
+    let s = `<polygon fill="var(--accent-soft)" points="${v.own_sv["90"].map((t, i) => `${x(i)},${y(t)}`).join(" ")} ${v.own_sv["10"].map((t, i) => `${x(i)},${y(t)}`).reverse().join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${v.own_sv["50"].map((t, i) => `${x(i)},${y(t)}`).join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--muted)" stroke-dasharray="4 3" points="${v.quick_turns.map((t, i) => `${x(i)},${y(t)}`).join(" ")}"/>`;
+    [0, 20, 40, 60].forEach((t) => { if (t < top) s += `<text class="tick" x="${L - 4}" y="${y(t) + 3}" text-anchor="end">${t}</text>`; });
+    Y.forEach((yr, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">FY${String(yr).slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="国内の入場件数">${s}</svg>`;
+  }
+  function queueChart(v, W = 520, H = 220) {
+    const Y = v.years, n = Y.length, L = 34, R = 8, T = 10, B = 24, top = Math.max(3, ...v.queue_months);
+    const x = (i) => L + i / (n - 1) * (W - L - R), y = (t) => H - B - t / top * (H - T - B);
+    let s = `<polygon fill="var(--warn-soft)" points="${x(0)},${y(0)} ${v.queue_months.map((t, i) => `${x(i)},${y(t)}`).join(" ")} ${x(n - 1)},${y(0)}"/>`;
+    s += `<polyline fill="none" stroke="var(--warn)" stroke-width="2" points="${v.queue_months.map((t, i) => `${x(i)},${y(t)}`).join(" ")}"/>`;
+    [0, 1, 2, 3].forEach((t) => { s += `<text class="tick" x="${L - 4}" y="${y(t) + 3}" text-anchor="end">${t}</text>`; });
+    Y.forEach((yr, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">FY${String(yr).slice(2)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="海外の入場待ち">${s}</svg>`;
+  }
+
+  /* ---------------- history & horizons ---------------- */
+  const histFys = (h) => h.versions.flatMap((v) => v.fiscal_years.filter((f) => f.months >= 6).map((f) => ({ ...f, version: v.version })));
+  const histCls = (c) => { const f = histFys(c.history); return f.every((x) => x.inside) ? "ok" : "warn"; };
+  function histLine(c) {
+    const f = histFys(c.history), inside = f.filter((x) => x.inside).length;
+    const err = c.history.versions.flatMap((v) => v.timing.filter((t) => t.actual != null).map((t) => t.actual - t.forecast));
+    const bias = err.reduce((a, b) => a + b, 0) / Math.max(1, err.length);
+    return `当時のリスクの幅に入った年度 ${inside}/${f.length}。取卸しは見込みより平均 ${bias >= 0 ? bias.toFixed(1) + " か月遅い" : (-bias).toFixed(1) + " か月早い"}`;
+  }
+  function fitChart(h, W = 560) {
+    const F = histFys(h), L = 150, R = 16, rowH = 30, H = F.length * rowH + 30;
+    const top = Math.max(...F.map((f) => Math.max(f.p90, f.actual, f.planned))) * 1.1, x = (v) => L + v / top * (W - L - R);
+    let s = "";
+    F.forEach((f, i) => {
+      const y = 10 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 8}" text-anchor="end">${f.version} 版 · ${f.fy}</text>`;
+      s += `<rect x="${x(f.p10)}" y="${y + 1}" width="${Math.max(2, x(f.p90) - x(f.p10))}" height="12" rx="6" fill="${f.inside ? "var(--good-soft)" : "var(--crit-soft)"}"><title>当時の見込みの幅 ${f.p10}〜${f.p90} 件</title></rect>`;
+      s += `<line x1="${x(f.planned)}" x2="${x(f.planned)}" y1="${y - 2}" y2="${y + 16}" stroke="var(--muted)" stroke-width="2"><title>計画 ${f.planned} 件</title></line>`;
+      s += `<circle cx="${x(f.actual)}" cy="${y + 7}" r="6" fill="${f.inside ? "var(--good)" : "var(--crit)"}"><title>実績 ${f.actual} 件（予定外 ${f.unsched_actual}、想定 ${f.unsched_expected.toFixed(1)}）</title></circle>`;
+    });
+    [0, 5, 10, 15, 20, 25, 30].forEach((v) => { if (v < top) s += `<text class="tick" x="${x(v)}" y="${H - 6}" text-anchor="middle">${v}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="当時のリスクの幅と実績">${s}</svg>`;
+  }
+  function timingChart(h, W = 560) {
+    const V = h.versions.filter((v) => v.timing.some((t) => t.actual != null)), L = 110, R = 12, rowH = 46, H = V.length * rowH + 30;
+    const x = (v) => L + (Math.max(-8, Math.min(8, v)) + 8) / 16 * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 24}" stroke="var(--ink)"/>`;
+    [-6, -3, 0, 3, 6].forEach((v) => { s += `<text class="tick" x="${x(v)}" y="${H - 8}" text-anchor="middle">${v > 0 ? "+" : ""}${v}</text>`; });
+    V.forEach((v, i) => {
+      const y = 12 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 16}" text-anchor="end">${v.version} 版</text>`;
+      v.timing.filter((t) => t.actual != null).forEach((t, k) => {
+        const d = t.actual - t.forecast, jy = y + 4 + ((k * 7) % 26);
+        s += `<circle cx="${x(d)}" cy="${jy}" r="4" fill="${t.unscheduled ? "var(--crit)" : "var(--accent)"}" opacity=".75"><title>${t.esn}：見込み ${t.forecast}、実際 ${t.actual} か月目（${d > 0 ? "+" : ""}${d}）${t.unscheduled ? "・予定外" : ""}</title></circle>`;
+      });
+    });
+    s += `<text class="tick" x="${(L + W - R) / 2}" y="${H + 0}" text-anchor="middle"></text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="取卸し時期の見込みとのずれ">${s}</svg>`;
+  }
+  function stabilityChart(h, W = 560, H0 = 0, compact = false) {
+    const S = h.stability, L = compact ? 6 : 150, R = 10, rowH = compact ? 28 : 36, H = S.length * rowH + (compact ? 6 : 26);
+    const cats = [["same", "そのまま（±1 か月）", "var(--good)"], ["moved", "2〜3 か月動いた", "var(--warn-soft)"], ["moved_far", "4 か月以上動いた", "var(--warn)"], ["dropped", "消えた", "var(--crit)"], ["added", "新たに入った", "var(--accent)"]];
+    const top = Math.max(...S.map((r) => cats.reduce((a, [k]) => a + r[k], 0))), x = (v) => v / top * (W - L - R);
+    let s = "";
+    S.forEach((r, i) => {
+      const y = 4 + i * rowH; let acc = L;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + 15}" text-anchor="end">${r.from} → ${r.to}</text>`;
+      cats.forEach(([k, lab, col]) => { const w = x(r[k]); if (w > 0) s += `<rect x="${acc}" y="${y}" width="${w}" height="${rowH - 12}" fill="${col}"><title>${r.from} 版の 2 年目 → ${r.to} 版の 1 年目：${lab} ${r[k]} 基</title></rect>`; acc += w; });
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="計画の安定度">${s}</svg>`;
+  }
+  const stabLegend = `<div class="legend"><span><span class="sw" style="background:var(--good)"></span>そのまま（±1 か月）</span><span><span class="sw" style="background:var(--warn-soft)"></span>2〜3 か月動いた</span><span><span class="sw" style="background:var(--warn)"></span>4 か月以上</span><span><span class="sw" style="background:var(--crit)"></span>消えた</span><span><span class="sw" style="background:var(--accent)"></span>新たに入った</span></div>`;
+
+  function history() {
+    const c = C(), h = c.history;
+    if (!h) return panel("過去の計画との整合", '<p class="hint">過去の版がありません。</p>');
+    return panel("", `<p class="chart-note">${histLine(c)}</p><p class="hint">2 年前・1 年前にも同じ方法で計画を立てていたとして、その後に実際に起きたことと比べています（合成データ）。</p>`)
+      + `<div class="vgrid">${panel("", `<p class="chart-note">当時考えたリスクの幅に、実績は入ったか（年度ごとの入場件数）</p>` + fitChart(h) + G("fit") + `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>当時の見込みの幅（10〜90%）</span><span><span class="sw" style="background:var(--muted);width:3px"></span>計画</span><span><span class="sw" style="background:var(--good);border-radius:50%"></span>実績（幅の外は赤）</span></div>`, "見込みの幅＝計画した入場（年度をまたいでずれる可能性）＋予定外の取卸し（想定した率）。")}`
+      + `${panel("", `<p class="chart-note">取卸しの時期は見込みとどれだけずれたか（実際 − 見込み、か月）</p>` + timingChart(h) + G("timing") + `<div class="legend"><span><span class="sw" style="background:var(--accent);border-radius:50%"></span>予定どおりの取卸し</span><span><span class="sw" style="background:var(--crit);border-radius:50%"></span>予定外（故障など）</span></div>`, "右にずれるほど、見込みより長く飛べた（予備として棚にいた期間がある）。")}</div>`
+      + panel("", `<p class="chart-note">前の版の 2 年目は、次の版の 1 年目にどれだけ残ったか（計画の積み上がり）</p>` + stabilityChart(h, 1100) + stabLegend + G("stability"), "残る割合が低いほど、毎年の計画が大きく作り直されている。どの変更が実績によるもので、どれが前提の変更によるものかを分けるのが次の段階。");
+  }
+
+  // horizons: log time axis from a month to 20 years; links from long to short
+  function horizonChart(hz, W = 900, H0 = 0, compact = false) {
+    const Ls = hz.layers, L = compact ? 6 : 210, R = compact ? 6 : 16, rowH = compact ? 18 : 30, laneW = compact ? 0 : 0, T = compact ? 4 : 24;
+    const H = T + Ls.length * rowH + (compact ? 4 : 30), lx = (m) => L + Math.log(m) / Math.log(240) * (W - L - R - (compact ? 0 : 0));
+    const yOf = (id) => T + Ls.findIndex((l) => l.id === id) * rowH + rowH / 2;
+    let s = "";
+    if (!compact) [[1, "1 か月"], [3, "3 か月"], [12, "1 年"], [24, "2 年"], [120, "10 年"], [240, "20 年"]].forEach(([m, t]) => { s += `<line x1="${lx(m)}" x2="${lx(m)}" y1="${T - 6}" y2="${H - 26}" stroke="var(--rule)" stroke-dasharray="2 4"/><text class="tick" x="${lx(m)}" y="${T - 10}" text-anchor="middle">${t}</text>`; });
+    Ls.forEach((l, i) => {
+      const y = T + i * rowH;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + rowH / 2 + 4}" text-anchor="end">${esc(l.label)}</text>`;
+      s += `<rect x="${L}" y="${y + 4}" width="${Math.max(4, lx(Math.max(1.05, l.months)) - L)}" height="${rowH - 8}" rx="4" fill="${l.have ? "var(--accent-soft)" : "var(--ground)"}" stroke="${l.have ? "var(--accent)" : "var(--muted)"}" stroke-dasharray="${l.have ? "" : "3 3"}"/>`;
+    });
+    const col = { ok: "var(--good)", warn: "var(--warn)", bad: "var(--crit)" };
+    hz.links.forEach((k, j) => {
+      const y1 = yOf(k.from), y2 = yOf(k.to), x = compact ? W - 12 - j * 7 : lx(240) - 10 - j * 16;
+      if (k.from === k.to) s += `<circle cx="${x}" cy="${y1}" r="${compact ? 3 : 6}" fill="none" stroke="${col[k.status]}" stroke-width="2"><title>${esc(k.what)}：${esc(k.measure || "")}</title></circle>`;
+      else s += `<path d="M${x} ${y1} L${x} ${y2 - 4}" stroke="${col[k.status]}" stroke-width="${compact ? 2 : 3}" stroke-dasharray="${k.status === "bad" ? "4 3" : ""}" marker-end="url(#ar-${k.status})"><title>${esc(k.what)}：${esc(k.measure || "")}</title></path>`;
+      if (!compact) s += `<text class="tick" x="${x}" y="${Math.min(y1, y2) - 3}" text-anchor="middle">${j + 1}</text>`;
+    });
+    const defs = Object.entries(col).map(([k, c]) => `<marker id="ar-${k}" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="${c}"/></marker>`).join("");
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="時間軸のつながり"><defs>${defs}</defs>${s}</svg>`;
+  }
+  function horizon() {
+    const hz = C().horizons, col = { ok: "var(--good)", warn: "var(--warn)", bad: "var(--crit)" };
+    const list = hz.links.map((k, j) => `<tr><td class="mono">${j + 1}</td><td><span class="sw" style="background:${col[k.status]};border-radius:50%"></span>${esc(k.what)}</td><td class="src">${esc(k.measure || "")}</td></tr>`).join("");
+    return panel("", `<p class="chart-note">長い時間軸の考えが、短い時間軸の行動まで落ちているか（つながり ${Math.round(hz.score * 100)}%）</p>` + horizonChart(hz) + G("horizon")
+      + `<div class="legend"><span><span class="sw" style="background:var(--accent-soft);border:1px solid var(--accent)"></span>考えている時間の長さ（右ほど長期、目盛りは対数）</span><span><span class="sw" style="background:var(--good)"></span>つながっていて整合</span><span><span class="sw" style="background:var(--warn)"></span>つながっているがずれがある</span><span><span class="sw" style="background:var(--crit)"></span>つながっていない</span><span>丸＝同じ層の中での振り返り</span></div>`)
+      + panel("つながりの中身", `<div class="scroll"><table><tbody>${list}</tbody></table></div>`, "赤は、長期で考えたことが短期の行動（判断期限・次の計画の前提）に落ちていないところ。ここを埋めるのが次の作業の候補。");
+  }
+
+  /* ---------------- how to read each chart ---------------- */
+  // [何の図か, どう読むか, ここから言えること, 次にすること]
+  function G(key) {
+    const c = C(), u = c.usecases, m = c.months, f = c.fiscal_years;
+    const thin = m.reduce((a, b) => (b.margin < a.margin ? b : a), m[0]), load = m.reduce((a, b) => (b.load > a.load ? b : a), m[0]);
+    const dueMax = m.reduce((a, b) => (b.due > a.due ? b : a), m[0]), worst = f.reduce((a, b) => (b.over > a.over ? b : a), f[0]);
+    const ol = c.outlook.filter((y) => y.year >= 0), peak = ol.reduce((a, b) => (b.visits > a.visits ? b : a), ol[0]);
+    const soon = c.plan.filter((r) => r.deadline_t >= 0 && r.deadline_t <= 2).length;
+    const t = c.track, v = c.invest, h = c.history, hz = c.horizons;
+    const T = {
+      monthmap: ["今後 24 か月を横に並べ、月ごとに 4 つの問いの答えを色で塗った地図", "行が問い（余力・工場の混み具合・入場の多さ・判断期限）、列が月。淡い色は安心、黄・赤は要注意。赤い丸はその月に決めることがある印で、大きいほど件数が多い。背景に色の付いた列は繁忙期",
+        `余力が最も薄いのは ${thin.label}（${thin.margin >= 0 ? "+" : ""}${thin.margin} 基）、工場が最も込むのは ${load.label}（${load.load}/${load.slots}）、判断が最も多いのは ${dueMax.label}（${dueMax.due} 件）`, "赤い丸の月より前に、工場の枠予約と部品の発注を済ませる。黄・赤が重なる月は、入場を前後にずらせないか「エンジン別の明細」で確かめる"],
+      fybars: ["年度ごとの整備費の見込み（棒）と予算（黒い縦線）", "棒が縦線を超えていれば予算超過（赤）。右の % は予算との差", worst.over > 0.05 ? `${worst.fy} は予算を ${Math.round(worst.over * 100)}% 超える。平年並みの予算では、この期間に期限の来るエンジンを回しきれない` : "どの年度も予算内", "超過する年度は、予算要求の根拠としてこの見込みを出す。入場を前後の年度に動かせるかは「打ち手の効果」で確かめる"],
+      outlook: ["今後 10 年、毎年何件のエンジンが工場に入るか（整備範囲で色分け）", "棒が点線（平年）より高い年は入場の山。紫（全面オーバーホール）が多い年は 1 件あたりが高く、整備費も山になる",
+        `山は ${peak.year === 0 ? "今年" : "+" + peak.year + " 年目"}（${peak.visits} 件）。年によって ${Math.min(...ol.map((y) => y.visits))}〜${Math.max(...ol.map((y) => y.visits))} 件と大きく波打つ`, "山の年は 2〜3 年前から工場の枠と予算を押さえる。谷の年に前倒しできる入場がないか探す"],
+      gantt: ["エンジン 1 基ごとの予定を 1 行ずつ並べた図", "薄い帯＝下ろしてよい期間（この中ならいつでもよい）。色の棒＝工場に入ってから戻るまで（色は整備範囲）。赤い菱形＝その入場のための判断期限（枠の予約、部品の発注）。灰色の三角＝計画開始前に手配済みという前提",
+        `3 か月以内に判断期限が来るのは ${soon} 基。部品キットは入場の 8 か月前に発注が要るので、菱形は棒よりかなり左にある`, "菱形が今月・来月にあるエンジンから手配する。棒が帯の右端（期限）ぎりぎりのものは、遅れると飛べなくなるので優先して見る"],
+      scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
+        (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
+      posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      mx4reserves: ["リース機のエンジンの整備積立金：毎月の積立て（流入）と入場時の請求（流出）、残高の推移", "線が残高の合計、棒が請求。残高が積み上がるだけで請求が来ない機は、返却時に貸し手に残る", c.mx4 ? mx4Line(c.mx4) : "", "返却前の入場で積立金を使い切れるか「リース返却」で確かめる"],
+      mx4value: ["エンジンの整備状態で調整した価値（ハーフライフ基準）が、計画の入場でどう増えるか", "上が今、下が窓の終わり。増えた分が計画の作る整備価値。費用との比が 1 に近いほど、払った金が資産に残る", "", "比が低い計画案は、所見・輸送・工期に金が消えている。契約形態と工場の選び直しで比を上げる"],
+      mx4settle: ["リース返却時の精算：不足の補償、超過の払い戻し、残る積立金", "差し引きが負なら借り手の持ち出し。残る積立金は返却時に貸し手のもの", "", "残高の大きい機は返却前入場で使い切る。返却条件の交渉材料にもなる"],
+      lease: ["リース機のエンジンごとに、返却時の条件不足と 3 つの出口（そのまま返して補償／返却前に入場／延長）の費用を並べた図", "行がエンジン、3 本の棒が出口の費用。濃い棒が推奨。右に判断期限（返却の 6 か月前の通知）", c.lease ? leaseLine(c.lease) : "", "判断期限が今月・来月のものから、リース会社に通知する。返却前入場はボードの白い菱形と棒の位置で確認"],
+      tax: ["同じ計画の費用を税引後の物差しで見た図。年度ごとに、税引後の費用（濃い）と税の盾（薄い＝損金・償却で戻る分）を積む", "棒の高さが税引前の費用。薄い部分が大きい年度ほど当期の損金が多い（修繕費の割合が高い）。資本的支出の盾は 10 年の償却で後の年度にずれる", C().tax ? taxLine(C().tax) : "", "税引後の順位は税引前とほぼ同じ。工場や時期を税のために選ばない。税率・防衛特別法人税・耐用年数の改正は「見張る指標」に載せて年 1 回見直す"],
+      finance: ["計画を変えずに、同じ計画の「お金」を動かす仕組みの一覧と効果", "右に伸びるほど得。色は種類（税・会計／資金／規模／グループ）。★ は大手だけが使える仕組み。薄い棒は税の期ズレで、税額は減らない", "", "★ の仕組みは契約更新と年度の資金計画に載せる。税の項目は税理士に確認してから前提に入れる"],
+      split: ["計画案ごとに、費用を「計画どおり」と「立て直し」に分けた図", "灰＝入場・予備・固定費など先に決まる分。黄＝シナリオ次第で後から要る分（リース・代替機材・欠航・緊急キット）の期待値。赤＝悪い 1 割のときの立て直し費。右端が合計と欠航リスク", c.resilience && c.resilience.base ? resLine(c.resilience) : "", "黄と赤が大きい計画案は、平時は安くても事後に高くつく。予備・プール契約・先行発注で黄を灰に移せるか「打ち手」で見る"],
+      premium: ["打ち手ごとに、先に払う費用（保険料）と、立て直し費の減り（払い戻し）を置いた図", "横が保険料、縦が払い戻し。点線より上（緑）は払い戻しが保険料を上回る。負の保険料＝先に減る打ち手。目盛りは両端を圧縮", c.resilience ? (() => { const g = c.resilience.actions.filter((a) => a.payout > a.premium); return g.length ? `払い戻しが保険料を上回る打ち手：${g.map((a) => a.question.length > 14 ? a.question.slice(0, 14) + "…" : a.question).join("、")}` : "基準の世界では、予備やプール契約の払い戻しはほぼ 0（保険料だけ）"; })() : "", "緑の打ち手は立て直しを安くする投資。赤は平時の節約で事後に高くつくか、保険料が高すぎる"],
+      delay: ["前提の変化に気づいてから動くまでの遅れが、いくら費用になるかの曲線", "横が遅れ（か月）、縦が費用（百万ドル）。変化点の月に動いた場合との差", "", "曲線が急なら、判断を会議待ちにせず暗黙のルールに降ろす価値がある"],
+      fleetspend: ["機種ごとの 2 年の支出を年度別に積み、会社の予算（黒線）と比べた図", "棒の高さが機種の合計、黒線が会社の枠。線を超える年度は機種横断で予算が足りない", c.multi ? fleetsLine(c.multi) : "", "超える年度は、右の配分表で機種ごとの予算を ×0.9〜×1.1 に動かした損得を見る"],
+      fleetdeadlines: ["全機種の判断期限を月ごとに積んだ図", "色が機種。赤い点線は会議で扱える目安（月 5 件）", c.multi ? `最も多い月 ${Math.max(...c.multi.deadlines_total)} 件` : "", "点線を超える月は、機種ごとの会議を分けるか、暗黙のルールで担当決裁に降ろす"],
+      fleetalloc: ["機種ごとに予算を ×0.9／×1.0／×1.1 で解き直した費用と欠航リスクの表と、会社の枠の中で最も良い組み合わせ", "予算を締めると費用は下がるが欠航リスクが上がる機種、締めても変わらない機種がある。変わらない機種の予算を締めて、変わる機種に回す", c.multi && c.multi.allocation ? `配分：${Object.entries(c.multi.allocation.levels).map(([k, v]) => `${k} ×${v}`).join("、")}` : "", "配分を予算要求に反映する。機種の入れ替え（退役・受領）がある年は再計算"],
+      demandMarket: ["国内線の市場全体：月ごとの需要（旅客キロ）と供給（座席キロ）、利用率", "棒が供給、濃い部分が需要。上の折れ線が利用率で、点線は「席が足りている」と見なす閾値。閾値を超える月は乗せられなかった客がいる",
+        c.demand ? `市場の利用率は FY2019 の ${c.demand.market.recovery.lf_2019}% から FY2025 の ${c.demand.market.recovery.lf_2025}% へ。需要は ${((c.demand.market.recovery.ratio - 1) * 100).toFixed(0)}% 増、供給は ${((c.demand.market.recovery.ask_ratio - 1) * 100).toFixed(0)}%` : "", "供給が需要に追いついていない月は、機材とエンジンの余力が売上になる月"],
+      demandCarrier: ["この会社の国内線：月ごとの旅客数・供給・需要・利用率と、市場に占める割合", "利用率が閾値を超えた月に「満たせなかった需要」の下限を出す（供給 × 超過分）。割合は市場の旅客キロに対する比",
+        c.demand ? demandLine(c.demand) : "", "満たせなかった月が毎年同じなら、その月に機材を足す価値がある。エンジン側の余力と重ねて見る"],
+      demandSeason: ["需要の季節の形（市場の旅客キロ ÷ 平均）と、エンジンの計画が仮定している運航指数", "二つの線がずれている月は、計画の「必要なエンジン数」が実需とずれている月",
+        c.demand ? c.demand.market.seasonal_note : "", "ずれの大きい月は運航指数を実績で置き換える（companies.json の flight_index）"],
+      demandEngines: ["エンジンの余力を客席に換算：月ごとに上乗せできる座席キロ（緑）と、足りない月に失う売上（赤）", "余力 ÷ 2 が飛ばせる機数、× 便数 × 座席 × 区間距離が上乗せできる供給。需要が逼迫する月（利用率 ≥ 閾値）に余力があれば「伸ばせる月」",
+        c.demand && c.demand.engines ? `窓の中で伸ばせる月 ${c.demand.engines.window.growth_months}、平均の余力は 737-800 供給の ${(c.demand.engines.window.ask_headroom_share_avg * 100).toFixed(0)}%` : "", "伸ばせる月が続くなら退役を遅らせる（受領遅れと同じ計算）か、その月に向けて入場を前後へ動かす"],
+      runoutYears: ["退役までの毎年の入場件数（整備範囲で色分け）と、その年に退役する基数（線）", "窓（最初の 2 年）は凍結した計画、その後は平均の劣化で退役まで飛ばした結果。退役が進むと、入場の代わりに退役で済む機が増える",
+        c.runout ? runoutLine(c.runout) : "", "山の年は退役順を前後させて均す。谷の年に前倒しできる重整備があるか、機ごとの列で探す"],
+      runoutOps: ["退役までの毎月、運航が必要とするエンジン数と、計画が残す稼働可能なエンジン数", "黒い線が必要な数（運航指数 × 飛ぶ機数の 2 倍、機体整備で止まる機は引く）、灰色の帯が予備、緑の線が稼働可能（保有から工場にいる数を引いた数）。緑が帯の上端を割る月は赤",
+        c.runout && c.runout.ops_summary && c.runout.ops_summary.thin ? `余力が最も薄いのは ${c.runout.ops_summary.thin.label}（${c.runout.ops_summary.thin.margin} 基）` : "", "赤い月がある年は退役順を後ろへ（機を残す）か、入場を前後へ。緑と黒の間が広い年は退役を早められる"],
+      typeClock: ["型式の世代の時計と、退役年ごとの残存価値の倍率", "生産終了の年に 1.0、型式が世界から消える年に床値へ下がる。当社の最終退役が世界より早いほど、退役機の売り先がある", c.typelife ? c.typelife.fleet_vs_world : "", "退役機の処分（売却・グリーンタイムリース・部品取り）は型式の晩年に入る前に決める"],
+      runoutBoard: ["エンジン 1 基ごとの、今日から退役までの入場の列", "色の棒＝工場に入ってから戻るまで（工期＋輸送、整備範囲ごとの月数。計画ボードの棒と同じ意味）。白い菱形＝退役。赤い印＝平均の劣化では計画の入場より前に限界が来る。退役の直前に濃い棒（CORE/FULL）がある機は、寿命を買って捨てている",
+        c.runout ? `重整備を退役の 2 年以内に買う機 ${c.runout.totals.heavy_late_engines} 基、寿命を残して退役する機 ${c.runout.totals.green_time_engines} 基` : "", "退役直前の重整備は退役順を前に。寿命を残す機は売却・グリーンタイムリースの候補"],
+      runoutPolicy: ["退役順の方針ごとの生涯費用・入場件数・退役時の残存価値", "「次に入場が近い機から」が入場を最も減らす。「無作為」は寿命を買って捨てる回数が最大。最下行は窓の後の整備範囲を「退役まで持つ最軽」にしない場合",
+        "", "退役順は計画の変数。年次の版で方針を決め、月次で機を指名する"],
+      backtestTiming: ["過去の各版で予測した期限と、実際の取卸し月の差（か月）の分布", "0 が的中。右（プラス）は実際が予測より遅い＝期限が保守的。左は実際が早い＝劣化の前提が甘い",
+        c.backtest && c.backtest.engine.timing.mean != null ? `平均 ${c.backtest.engine.timing.mean.toFixed(1)} か月、±1 か月以内 ${(c.backtest.engine.timing.within_1 * 100).toFixed(0)}%` : "", "分布の中心が 0 からずれていれば、窓の下端（earliest）と劣化率の前提を直す。裾が広ければ幅（分散）を広げる"],
+      backtestFy: ["年度ごとに、計画した入場件数と実際の件数、当時のリスクの幅（10〜90%）", "点が帯の中なら幅は妥当。外れが 2 割を大きく超えるなら幅が狭い、ほぼ全部入るなら広すぎ",
+        c.backtest ? `幅に入った年度 ${(c.backtest.engine.coverage * 100).toFixed(0)}%（目標 80%）` : "", "外れた年度の理由（計画外取卸しの想定不足か、時期のずれか）を版ごとの表で見る"],
+      backtestDemand: ["需要の伸びの規則を過去の年度に当てた結果", "各年度は前年度までのデータだけで規則を当て、その年度の実績と比べる。衝撃の年（±15% 超）はどの規則も外す",
+        c.backtest && c.backtest.demand.verdict.length > 1 ? c.backtest.demand.verdict[1].text : "", "平常の年で誤差が小さい規則を計画の既定にする。衝撃の年は引き金で拾う"],
+      reviewCoverage: ["PDCA の 4 段と OODA の 4 段それぞれに、規則層が見つけた指摘の最悪度", "赤＝今すぐ直す、黄＝会議で決める、灰＝情報、緑＝問題なし。空欄はその段を見る材料がない",
+        c.review ? reviewLine(c.review) : "", "赤の段から順に「会議で聞く問い」へ。AI の総評は規則層の症状表に根拠を添えて書いている"],
+      loops: ["計画の 2 つの輪（PDCA と OODA）の関係", "遅い輪が決め方を直し、速い輪が目の前を動かす。速い輪の結果は年 1 回、遅い輪に戻る", t && t.ooda ? loopsLine(t.ooda) : "", "安全スイッチが続く年は、前提（世界）の定義を見直す"],
+      rules: ["月次会議を待たずに動くための暗黙のルール一覧", "きっかけ・条件・行動・誰が・速さ。条件の単位価値 v は年間整備費 ÷ 取付エンジン ÷ 12", t && t.ooda ? `v = ${t.ooda.unit_value_k.toFixed(0)} 千ドル／基・月` : "", "件数と結果を年 1 回見直し、承認線と閾値を直す"],
+      looptime: ["気づいてから動くまでの時間 T を、検知（D）・状況判断（O）・判断（A）・実行（E）に分けた表", "今の値と、それぞれを縮めるてこ。D + A が判断期限までのリード R を超えると手遅れ", t && t.ooda ? `T ${t.ooda.loop_time.T_now.toFixed(1)} → ${t.ooda.loop_time.T_target.toFixed(1)} か月` : "", "E（キットの納期）が最も長い。先行発注とプール契約で縮める"],
+      feedback: ["速い輪の結果を、年 1 回、遅い輪（次の版）にどう返すか", "ルールの件数と損得 → 承認線の見直し。当てはまる世界がない月 → 前提の追加。検知の遅れ → 見る指標の選び直し。安全スイッチの件数 → 会議の処理能力", "", "roll.py の学習（learned.ooda）に入る"],
+      cpdstreams: ["工場とサプライヤーの週次の回答（見積もり工期・枠の回答・キット納期）に、変化点検知（BOCPD と CUSUM）をかけた図", "横が月、線が回答値（週）。赤い縦線＝検知した週。灰色の点線＝合成データに仕込んだ実際の変化（検証用）", t && t.cpd ? cpdLine(t.cpd) : "", "検知した週から、その世界の計画案（混雑対応・逼迫対応）への乗り換えの損得を「計画の追跡」で見る"],
+      cpdagree: ["月ごとに、変化点検知と前提（世界）の確率更新が一致しているか", "緑＝両方が動いた（一致）。黄＝片方だけ：変化点だけなら 4 つの前提のどれにも当てはまらない（前提の追加）、前提だけなら尤度が強すぎる。灰＝どちらも動かず", t && t.cpd ? t.cpd.verdict : "", "黄が続いたら前提の定義（世界の 4 つ）と尤度の重み（TEMPER）を見直す"],
+      cpduer: ["予定外取卸しの率の変化を、CUSUM と今の警報（3 か月平均＋3σ）で検出したときの遅れと誤警報", "小さな持続的な上振れ（+20%）を仕込んで 300 回試したときの成績", "月 1 件前後の水準では 1 年で検出できる確率は低く、CUSUM の方が高いが誤警報も増える", "率の警報は件数ではなく、飛行時間あたりの率と EGT の傾向（密な系列）に載せ替える"],
+      switch: ["今から別の計画案に乗り換えたら、どれだけ得か（最も得な乗り換え先）の推移", "線が黄色の帯（0.3 百万ドル）より上に出たら乗り換えが得。帯の中は得でも小さく、乗り換える手間に見合わない", t ? (t.recommend === "switch" ? `${t.switch_to}への乗り換えが得` : "乗り換えても得にならない") : "", "帯を超えたら、変わるエンジンと判断期限を「計画の追跡」ページで確かめる"],
+      breakeven: ["補助率（縦）と受託件数（横）の組み合わせごとに、国内工場が得か損か", "緑は得、赤は損。数字は今の価値に直した損得（百万ドル）。横に進むと色が大きく変わり、縦に進んでもあまり変わらない",
+        v ? `受託が年 ${Math.round(v.breakeven.breakeven_sv_no_subsidy || 0)} 件を超えると得。補助より受託の件数が決め手` : "", "補助の交渉より先に、どこの受託を取れるか（相手・件数）の見込みを固める"],
+      npv: ["投資の案ごとの損得の幅", "点が平均、線が 10〜90% の幅。0（縦線）より右なら、海外に出し続けるより得", v ? `平均で得になる案はない。損が最も小さいのは「${v.policies.filter((p) => p.id !== "outsource").sort((a, b) => b.npv - a.npv)[0].label}」` : "", "線が 0 をまたぐ案は、条件次第で得になる。その条件（受託・補助）を左の図で見る"],
+      parts: ["案ごとの損得の中身。得の要因は右へ、損の要因は左へ積み上げ、黒い点が合計", "緑＝輸送・待ち・予備の節約、紺＝受託の利益、紫＝交渉で下がる海外の価格、茶＝メーカーに足元を見られる分、淡い赤＝固定費、赤＝投資",
+        v ? `交渉の効き（紫）は ${Math.round(v.policies.find((p) => p.id === "commit12").parts.bargain)} 百万ドル。一番大きい損は固定費` : "", "固定費を下げる（既存設備の共用、IHI の設備）か、受託で埋めるかが焦点"],
+      consortium: ["JAL・ANA・IHI が単独で建てた場合（白丸）と、3 社で組んだときの取り分（塗った丸）", "矢印が右に長いほど、組むことで得をする。0 より右なら、海外に出し続けるより得",
+        v && v.consortium ? `どの社も組むほうが得。取り分は ${Object.entries(v.consortium.shapley).map(([k, x]) => `${k} ${x > 0 ? "+" : ""}${Math.round(x)}`).join("、")}` : "", "取り分がマイナスの社には、補助や受託で埋める仕組みが要る。費用分担の交渉の出発点に使う"],
+      market: ["アジアの受託市場で、3 者がそれぞれ年何件分の能力を出すか", "灰色の棒＝3 者が同時に決めた場合、色の棒＝日本が先に決めた場合",
+        v && v.market ? `日本が先に決めると ${v.market.japan_first.capacity[v.market.players[0]]} 件取れ、損が ${Math.round(v.market.npv_simultaneous.commit123)} → ${Math.round(v.market.npv_if_first.commit123)} 百万ドルに縮む` : "", "先に決める価値と、待って様子を見る価値を比べ、判断の期限を決める"],
+      booking: ["海外の工場の枠を早めに押さえるかどうかを、JAL と ANA の 2 社で表にしたもの。各マスは両社の年間の損（百万ドル、0 に近いほどよい）", "行が JAL の手、列が ANA の手。赤枠＝お互いに相手の手を前提にすると動けない組み合わせ（ここに落ち着く）。緑の点線＝それより両社とも得な組み合わせ。下の線は、入場待ちが閾値を超えて取り合いになる期間（赤い帯）",
+        v && v.booking ? `待ちが長い FY${v.booking.race_years[0]}〜${v.booking.race_years.at(-1)} は、両社とも割増を払って早く押さえ合い、互いに損をする（約 ${v.booking.pv_cfm56.toFixed(1)} 百万ドル）` : "", "共同で枠を押さえる（プール契約）か、業界の場で予約のルールを決めると、この損を避けられる"],
+      demand: ["国内で LEAP エンジンが毎年何件工場に入るかの見込み", "線が中央の見込み、帯が 10〜90% の幅、破線が短期の入場", "737-8 の受領から数年遅れて 2031 年頃から立ち上がり、落ち着くと年 46 件前後", "工場の立ち上げの時期を、この線の立ち上がりに合わせる"],
+      queue: ["海外の工場の入場待ちが何か月あるかの見込み", "高いほど待ちが長く、国内に工場を持つ価値が高い", "世界の整備能力が追いつく 2030 年頃に縮み、その後は少し残る想定", "待ちが縮むほど国内化の価値は目減りする。投資の判断はこの線の見通しに敏感"],
+      fit: ["過去の各版が「この年度は何件くらい」と見込んだ幅（帯）と、実際の件数（丸）", "丸が帯の中なら当時のリスクの見積もりは適切、外なら甘かった（または厳しすぎた）。縦線は計画した件数", h ? histLine(c) : "", "外れた年度は原因（予定外の取卸し、前提の違い）を調べ、次の版の幅を直す"],
+      timing: ["取卸しの時期が見込みからどれだけずれたか（エンジン 1 基が 1 点）", "0 より右＝見込みより遅く取卸し（長く飛べた）、左＝早く取卸し。赤は予定外（故障など）", h ? "ずれは右（遅い側）に偏っている：予備として棚にいた期間の分、見込みより長く持った" : "", "偏りが続くなら、使われ方や劣化の前提を直す"],
+      stability: ["前の版で 2 年目にあった入場が、次の版の 1 年目でどうなったか", "緑＝ほぼそのまま、黄＝時期が動いた、赤＝消えた、青＝新たに入った", h ? `そのまま残ったのは約 ${Math.round(h.stability.reduce((a, x) => a + x.same, 0) / Math.max(1, h.stability.reduce((a, x) => a + x.same + x.moved + x.moved_far + x.dropped, 0)) * 100)}%。毎年かなり作り直している` : "", "動いた・消えた理由を「実績による」と「前提の変更による」に分け、無駄な作り直しを減らす"],
+      horizon: ["計画がどれだけ先まで考えているか（横棒、右ほど長期、目盛りは対数）と、長い層から短い層へのつながり（矢印）", "矢印の色：緑＝つながっていて整合、黄＝ずれがある、赤の点線＝つながっていない。番号は下の表と対応。丸は同じ層の中での振り返り",
+        `つながりは ${Math.round(hz.score * 100)}%。赤は ${hz.links.filter((k) => k.status === "bad").map((k) => k.what.split("（")[0]).join("、")}`, "赤の矢印を埋める：長期の判断に必要な準備を、今月からの判断期限に載せる"],
+      bridge: ["前の版が 2 年目に見込んでいた整備費が、次の版の 1 年目でいくらになったか。その差を 2 つの理由に分けた図", "左端が前の版の見込み、右端が次の版。間の赤（増）・緑（減）が理由ごとの差：機材の状態が動いた分（新たに期限が来た、済んだ、時期が動いた）と、前提を実績で直した分",
+        c.roll ? rollLine(c.roll) : "", "「前提を直した分」が大きいなら、前の版の前提が甘かった（または厳しすぎた）。次の予算要求では、この橋渡しをそのまま説明に使う"],
+      learned: ["1 年の実績で、次の版の前提をどこまで動かしたか", "白丸＝前の版の前提、黄＝実績、黒＝次の版の前提。黒が黄に近いほど実績を信じている（観測が多い）、白に近いほど前の値を残している（観測が少ない）",
+        c.roll ? Object.entries(c.roll.learned).filter(([k, e]) => "weight" in e).map(([k, e]) => `${{ delay: "工期", findings: "所見", unsched: "予定外", hazard: "故障" }[k]} 重み ${Math.round(e.weight * 100)}%`).join("、") : "", "重みの根拠（何件で半々とするか）は仮の値。実データが数年分たまれば、業界値との混ぜ方を実績で決められる"],
+      quote: ["見積もりで追加作業を示されたとき、いくらまでなら承認してよいか", `横が「その作業で次の入場が何か月先に延びるか」、縦が作業の費用。線より下（緑）なら承認が得。1 か月延びる価値は ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル（1 基が 1 か月飛ぶごとに積もる整備費）`,
+        "例：タービン翼の追加交換 0.45 百万ドルで 6 か月延びるなら承認、寿命部品の早め交換 1.2 百万ドルで 14 か月なら承認", "工場から見積もりが来たら、延びる月数を技術担当に見積もってもらい、この線と比べて即答する"],
+      trend: ["状態監視で警報が出たエンジンを、今下ろすか様子を見るか", "横が「あと何か月飛ばすか」、縦が見込みの損。青＝今下ろすと失う飛べる寿命、それ以外＝待って故障した場合の損（通常・要監視・繁忙期）。青より上の線は「待つほうが損」", trendLine(u), "要監視のエンジンで残りが短い、または繁忙期にかかるなら、次の枠で下ろす手配をする"],
+      sparescost: ["予備を 1 基増やすごとに、持つ費用（右上がり）と足りない損（右下がり）がどう動くか。合計が最も低いところが、ちょうどよい数", "黒い太線が今の工期での合計。U 字の底がちょうどよい数で、そこより右は持ちすぎ（持つ費用が得を上回る）、左は不足。緑・赤の点線は、工期が平常に戻った場合と、さらに延びた場合の合計",
+        sparesCostLine(u), "工期が縮む見通しに合わせて、余る予備の出口（他社への貸し出し、売却、残り寿命の使い切り、ANA と JAL の共同プール）を先に決めておく。逆に延びる見通しなら短期リースの枠を押さえる"],
+      spares: ["予備エンジンを何基持てば、工場に出ている分を埋められるか", `横が予備の数、縦が足りる確率。曲線は工場の工期ごと（工期が長いほど右にずれ、多くの予備が要る）。黒い縦線が今の予備（${u.spares.have} 基）、点線が業界の目安（取付の 10%）`, sparesLine(u), "工期が延びる見通しなら、リースかプール契約で数基の余裕を確保する"],
+      offer: ["エンジンの売り込みが来たとき、いくらまでなら買ってよいか", "横が残りの飛行回数、縦が払ってよい上限。青の線より安ければ買いが得。茶色の帯が市場の相場（ハーフライフ）", offerLine(u), "相手の言い値が線より上なら、線の値を上限に交渉する。記録の欠けや推力の型はさらに差し引く"],
+      cash: ["月ごとの支払い（棒）と、その累計（黒線）、予算の累計（赤い点線）", "黒線が赤い点線より上なら、予算より早く・多くお金が出ている。支払いは工場から戻った月に集中する", cashLine(u), "支払いの山の月に合わせて資金を手当てする。ドル建てなので、円安に振れると円の支払いが増える"],
+      reliability: ["予定外の取卸し（故障などで計画外に下ろした数）の率の推移。当局向けの信頼性管理と同じ形", "線が 3 か月の平均、赤い点線が警戒値（過去の平均＋3 標準偏差）。線が警戒値を超えたら原因の調査が要る", relLine(u), "超えた月が出たら、原因を調べて信頼性管理の会議にかける"],
+      sources: ["数字の種類ごとに、出典のあるもの（緑）とないもの（黄）の数", "黄が多い種類ほど、仮定に頼っている", `出典のない数字は ${c.unsourced.length} 件`, "黄の多い種類から、実データか社内の合意値に置き換える"],
+    };
+    const g = T[key];
+    if (!g) return "";
+    return `<div class="guide"><div><b>何の図か</b>${esc(g[0])}</div><div><b>どう読むか</b>${esc(g[1])}</div><div class="say"><b>ここから言えること</b>${esc(g[2])}</div><div><b>次にすること</b>${esc(g[3])}</div></div>`;
+  }
+
+  /* ---------------- roll to the next version ---------------- */
+  const rollLine = (r) => { const st = r.bridge.steps, last = st[st.length - 1], m = st.find((x) => x.label.startsWith("決め方")); return `${r.to_version} 版の 1 年目は ${musd(last.value)} 百万ドル：前の版の 2 年目 ${musd(st[0].value)} に、機材の状態の動き ${st[1].value >= 0 ? "+" : "−"}${musd(Math.abs(st[1].value))}、前提の修正 ${st[2].value >= 0 ? "+" : "−"}${musd(Math.abs(st[2].value))}${m ? `、決め方の変更 ${musd(m.value)}` : ""}`; };
+  function bridgeChart(r, W = 900, H = 260, compact = false) {
+    const st = r.bridge.steps, L = compact ? 6 : 60, R = compact ? 6 : 16, T = compact ? 6 : 14, B = compact ? 6 : 60, n = st.length, bw = (W - L - R) / n;
+    const top = Math.max(...st.map((x) => x.kind === "level" ? x.value : 0)) * 1.15, y = (v) => H - B - v / top * (H - T - B);
+    let s = "", acc = 0;
+    st.forEach((x, i) => {
+      const x0 = L + i * bw + bw * 0.18, w = bw * 0.64;
+      if (x.kind === "level") { s += `<rect x="${x0}" y="${y(x.value)}" width="${w}" height="${y(0) - y(x.value)}" fill="${i === 0 ? "var(--muted)" : "var(--ink)"}"><title>${esc(x.label)} ${musd(x.value)} 百万ドル</title></rect>`; acc = x.value; }
+      else { const a = acc, b2 = acc + x.value; s += `<rect x="${x0}" y="${y(Math.max(a, b2))}" width="${w}" height="${Math.abs(y(a) - y(b2))}" fill="${x.value >= 0 ? "var(--crit)" : "var(--good)"}"><title>${esc(x.label)} ${x.value >= 0 ? "+" : ""}${musd(x.value)} 百万ドル</title></rect><line x1="${x0 - bw * 0.18}" x2="${x0 + w}" y1="${y(a)}" y2="${y(a)}" stroke="var(--rule)"/>`; acc = b2; }
+      if (!compact) { const lab = x.label.replace(/（.*?）/g, ""); s += `<text class="tick" x="${x0 + w / 2}" y="${H - B + 14}" text-anchor="middle">${esc(lab.length > 18 ? lab.slice(0, 18) + "…" : lab)}</text><text class="tick" x="${x0 + w / 2}" y="${y(x.kind === "level" ? x.value : Math.max(acc, acc - x.value)) - 4}" text-anchor="middle">${x.kind === "delta" ? (x.value >= 0 ? "+" : "") : ""}${musd(x.value)}</text>`; }
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="版の橋渡し">${s}</svg>`;
+  }
+  function learnedChart(r, W = 900) {
+    const E = Object.entries(r.learned).filter(([k, e]) => "weight" in e && e.prior != null && e.observed != null), rowH = 44, L = 170, H = E.length * rowH + 10;
+    let s = "";
+    E.forEach(([k, e], i) => {
+      const y = 8 + i * rowH, lo = Math.min(e.prior, e.observed, e.updated), hi = Math.max(e.prior, e.observed, e.updated), span = (hi - lo) || 1;
+      const x = (v) => L + 40 + (v - lo) / span * (W - L - 330);
+      const name = { delay: "工期の遅れ（か月）", findings: "請求 ÷ 見込み", unsched: "予定外の率（1 基 1 か月）", hazard: "故障で前倒し（基）" }[k] || k;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 14}" text-anchor="end">${name}</text>`;
+      s += `<line x1="${x(e.prior)}" x2="${x(e.observed)}" y1="${y + 10}" y2="${y + 10}" stroke="var(--rule)" stroke-width="2"/>`;
+      s += `<circle cx="${x(e.prior)}" cy="${y + 10}" r="5" fill="var(--surface)" stroke="var(--muted)" stroke-width="2"><title>前の版の前提 ${e.prior}</title></circle>`;
+      s += `<circle cx="${x(e.observed)}" cy="${y + 10}" r="5" fill="var(--warn)"><title>実績 ${e.observed}（n=${e.n}）</title></circle>`;
+      s += `<circle cx="${x(e.updated)}" cy="${y + 10}" r="6" fill="var(--ink)"><title>次の版の前提 ${e.updated}</title></circle>`;
+      s += `<text class="tick" x="${W - 280}" y="${y + 14}">${Number(e.prior).toPrecision(3)} → ${Number(e.updated).toPrecision(3)}（実績の重み ${Math.round(e.weight * 100)}%、n=${e.n}）</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="実績で直した前提">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--surface);border:2px solid var(--muted);border-radius:50%"></span>前の版の前提</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>実績</span><span><span class="sw" style="background:var(--ink);border-radius:50%"></span>次の版の前提（実績の重みで混ぜた値）</span></div>`;
+  }
+  function roll() {
+    const r = C().roll;
+    if (!r) return panel("次の版への引き継ぎ", '<p class="hint">まだ版を更新していません。</p>');
+    const ca = r.carried, wp = Object.entries(r.learned.world.posterior).sort((a, b) => b[1] - a[1]);
+    return panel("", `<p class="chart-note">${rollLine(r)}</p>` + bridgeChart(r) + G("bridge"))
+      + panel("", `<p class="chart-note">1 年の実績で直した前提：観測が少ないものは前の値寄り、多いものは実績寄り</p>` + learnedChart(r) + G("learned"), "重み＝観測数 ÷（観測数＋12）。前提の確率も引き継ぐ：" + wp.map(([w, p]) => `${w} ${Math.round(p * 100)}%`).join("、"))
+      + panel("引き継いだもの", `<p>前の版で手配済み（枠の予約・部品の発注）の入場 <b>${ca.fixed.length} 基</b> を、次の版でも同じ月・同じ整備範囲に固定。寿命部品キットは手持ち ${ca.kits.old_on_hand} → 使用 ${ca.kits.used}、発注済み ${ca.kits.ordered} → 次の版の手持ち ${ca.kits.new_on_hand}。</p>` + (ca.fixed.length ? `<div class="chips">${ca.fixed.map((f) => `<span title="${esc(f.reason)}">${f.esn} ${f.month} ${f.workscope}</span>`).join("")}</div>` : ""), "固定した入場は次の版の最適化では動かせない。動かすと違約や緊急手配になるため");
+  }
+
+  /* ---------------- everyday decisions ---------------- */
+  // one line chart for all of them: series of {ys, color, dash, label}, optional bands / verticals / points
+  function lineChart(o, W, H, compact) {
+    const L = compact ? 6 : 52, R = compact ? 6 : 16, T = compact ? 6 : 16, B = compact ? 6 : 34;
+    const xs = o.xs, allY = o.series.flatMap((s_) => s_.ys).concat((o.points || []).map((p) => p.y)).concat(o.ymin != null ? [o.ymin] : [0]);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...allY), y1 = Math.max(...allY, o.ymax || 0) * 1.08;
+    const X = (v) => L + (v - x0) / (x1 - x0) * (W - L - R), Y = (v) => T + (y1 - v) / (y1 - y0 || 1) * (H - T - B);
+    let s = "";
+    (o.bands || []).forEach((b) => { s += `<rect x="${X(b.x0)}" y="${Y(b.y1)}" width="${X(b.x1) - X(b.x0)}" height="${Y(b.y0) - Y(b.y1)}" fill="${b.color}" opacity="${b.opacity || 0.5}"><title>${esc(b.label || "")}</title></rect>`; });
+    if (o.fillUnder) s += `<polygon fill="var(--good-soft)" points="${X(x0)},${Y(y0)} ${o.series[0].ys.map((v, i) => `${X(xs[i])},${Y(v)}`).join(" ")} ${X(x1)},${Y(y0)}"/>`;
+    if (!compact) {
+      (o.yticks || []).forEach((v) => { s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${L - 6}" y="${Y(v) + 3}" text-anchor="end">${o.yfmt ? o.yfmt(v) : v}</text>`; });
+      (o.xticks || []).forEach((v) => { s += `<text class="tick" x="${X(v)}" y="${H - B + 14}" text-anchor="middle">${o.xfmt ? o.xfmt(v) : v}</text>`; });
+      if (o.xlabel) s += `<text class="tick" x="${(L + W - R) / 2}" y="${H - 4}" text-anchor="middle">${o.xlabel}</text>`;
+      if (o.ylabel) s += `<text class="tick" x="12" y="${(T + H - B) / 2}" transform="rotate(-90 12 ${(T + H - B) / 2})" text-anchor="middle">${o.ylabel}</text>`;
+    }
+    (o.vlines || []).forEach((v) => { s += `<line x1="${X(v.x)}" x2="${X(v.x)}" y1="${T}" y2="${H - B}" stroke="${v.color}" stroke-width="2" stroke-dasharray="${v.dash || ""}"><title>${esc(v.label)}</title></line>${compact ? "" : `<text class="tick" x="${X(v.x) + 4}" y="${T + 10 + (v.dy || 0)}">${esc(v.label)}</text>`}`; });
+    (o.hlines || []).forEach((v) => { s += `<line x1="${L}" x2="${W - R}" y1="${Y(v.y)}" y2="${Y(v.y)}" stroke="${v.color}" stroke-width="2" stroke-dasharray="${v.dash || ""}"><title>${esc(v.label)}</title></line>${compact ? "" : `<text class="tick" x="${W - R}" y="${Y(v.y) - 4}" text-anchor="end">${esc(v.label)}</text>`}`; });
+    (o.bars || []).forEach((bb) => { s += `<rect x="${X(bb.x) - bb.w / 2}" y="${Y(bb.y)}" width="${bb.w}" height="${Y(0) - Y(bb.y)}" fill="${bb.color}" opacity=".7"><title>${esc(bb.label)}</title></rect>`; });
+    o.series.forEach((sr) => { s += `<polyline fill="none" stroke="${sr.color}" stroke-width="${compact ? 1.8 : 2.4}" stroke-dasharray="${sr.dash || ""}" points="${sr.ys.map((v, i) => `${X(xs[i])},${Y(v)}`).join(" ")}"><title>${esc(sr.label)}</title></polyline>`; });
+    (o.points || []).forEach((p) => { s += `<circle cx="${X(p.x)}" cy="${Y(p.y)}" r="${compact ? 3 : 5.5}" fill="${p.color}"><title>${esc(p.label)}</title></circle>${compact ? "" : `<text class="tick" x="${X(p.x) + 8}" y="${Y(p.y) + 4}">${esc(p.label)}</text>`}`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.aria || "")}">${s}</svg>`;
+  }
+  const legend = (items) => `<div class="legend">${items.map(([l, c, d]) => `<span><span class="sw" style="background:${c};${d ? "height:2px" : ""}"></span>${l}</span>`).join("")}</div>`;
+
+  function quoteChart(u, W = 900, H = 320, compact = false) {
+    const q = u.quote, lim = (m) => m * u.value_per_engine_month;
+    return lineChart({ xs: q.months, series: [{ ys: q.max_extra_cost, color: "var(--good)", label: "承認してよい上限額" }], fillUnder: true,
+      points: q.examples.map((e) => ({ x: e.months, y: e.cost, color: e.cost <= lim(e.months) ? "var(--good)" : "var(--crit)", label: `${e.what}：${e.cost} 百万ドルで +${e.months} か月（${e.cost <= lim(e.months) ? "承認" : "見送り"}）` })),
+      yticks: [0, 1, 2, 3], xticks: [0, 6, 12, 18, 24], yfmt: (v) => v + " M$", xlabel: "次の入場が先に延びる月数", ylabel: "追加作業の費用（百万ドル）", aria: "見積もり承認の上限" }, W, H, compact);
+  }
+  /* ---------------- change points vs the Bayes update ---------------- */
+  const CPD_STATE = { both: "一致", cpd_only: "変化点のみ", bayes_only: "前提のみ", none: "平常" };
+  const cpdLine = (p) => p.cpd_month
+    ? `先行指標の変化点 ${p.cpd_as_of}（${p.bayes_never_moved ? "前提の確率は 12 か月で動かず" : `前提の更新 ${p.bayes_as_of}`}）`
+    : "変化点なし";
+  function cpdChart(p, j, W = 900, H = 180, compact = false) {
+    const s = p.streams[j], w = p.weeks_per_month, xs = s.ys.map((_, i) => i / w);
+    const vl = [];
+    if (s.week != null) vl.push({ x: s.week / w, color: "var(--crit)", label: `検知 ${s.week + 1} 週目` });
+    if (p.truth_week != null) vl.push({ x: p.truth_week / w, color: "var(--muted)", dash: "4 3", label: "実際の変化（検証用）" });
+    return lineChart({ xs, series: [{ ys: s.ys, color: "var(--accent)" }], vlines: compact ? [] : vl,
+      yticks: compact ? [] : [Math.floor(Math.min(...s.ys)), Math.ceil(Math.max(...s.ys))], xticks: compact ? [] : xs.filter((_, i) => i % (3 * w) === 0),
+      xfmt: (v) => `${Math.round(v)} か月`, ylabel: compact ? "" : "週", aria: s.label }, W, H, compact);
+  }
+  function cpdStrip(p) {
+    const col = { both: "var(--good-soft)", cpd_only: "var(--warn)", bayes_only: "var(--warn)", none: "var(--ground)" };
+    return `<div style="display:flex;gap:3px;margin:8px 0">${p.agreement.map((a, i) => `<div title="${p.as_of[i]}：${CPD_STATE[a]}" style="flex:1;height:22px;border-radius:4px;background:${col[a]}"></div>`).join("")}</div>`
+      + `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>一致</span><span><span class="sw" style="background:var(--warn)"></span>片方だけ</span><span><span class="sw" style="background:var(--ground)"></span>平常</span></div>`;
+  }
+  function cpd() {
+    const t = C().track, p = t && t.cpd;
+    if (!p) return panel("変化点と前提の整合", '<p class="hint">先行指標の系列がありません。</p>');
+    const a = p.uer_arl, f = (v) => (v == null ? "—" : (v * 100).toFixed(0) + "%");
+    const worth = p.worth == null ? "" : `。早く気づいた価値：${(p.worth / 1000).toFixed(1)} 百万ドル${p.first_profitable ? `（乗り換えが得になるのは ${p.first_profitable} から）` : "（乗り換えは得にならないので 0）"}`;
+    const head = `<p class="chart-note">${esc(cpdLine(p))}${p.months_earlier != null ? `：先行指標は前提の更新より ${p.months_earlier} か月早い` : ""}${worth}</p>`;
+    const streams = p.streams.map((s, j) => `<div><p class="chart-note">${esc(s.label)}${s.week != null ? `：${s.week + 1} 週目に検知（${s.before.toFixed(1)} → ${s.after.toFixed(1)} 週）` : "：変化なし"}</p>${cpdChart(p, j)}<p class="hint">${esc(s.what)}。BOCPD ${s.bocpd_week != null ? s.bocpd_week + 1 + " 週目" : "なし"}、CUSUM ${s.cusum_week != null ? s.cusum_week + 1 + " 週目" : "なし"}</p></div>`).join("");
+    return panel("", head + `<div class="vgrid">${streams}</div>` + G("cpdstreams"), esc(p.note))
+      + panel("", `<p class="chart-note">${esc(p.verdict)}</p>` + cpdStrip(p) + G("cpdagree"))
+      + panel("", `<p class="chart-note">予定外取卸しの率：CUSUM と「3 か月平均＋3σ」の比較（+20% の持続的な上振れ、月 ${a.setup.lam0_per_month.toFixed(1)} 件の水準、${a.setup.runs} 回試行）</p>`
+        + `<table><thead><tr><th>検出法</th><th>平均の検出遅れ（か月）</th><th>12 か月以内に検出</th><th>誤警報</th><th>見逃し（18 か月）</th></tr></thead><tbody>`
+        + [["CUSUM", a.cusum], ["3 か月平均＋3σ（今の警報）", a.ma3]].map(([n, r]) => `<tr><td>${n}</td><td>${r.mean_delay == null ? "—" : r.mean_delay.toFixed(1)}</td><td>${f(r.p_detect_12m)}</td><td>${f(r.false_alarm_rate)}</td><td>${f(r.missed)}</td></tr>`).join("")
+        + `</tbody></table>` + G("cpduer"), "取卸しは月 1 件前後しかないので、+20% は 1 年ではどちらの方法でもほぼ見えない。CUSUM は検出率が上がるぶん誤警報も増える。");
+  }
+
+  /* ---------------- fleets together ---------------- */
+  const FLEET_COL = ["var(--accent)", "var(--ws-core)", "var(--ws-full)", "var(--good)"];
+  const fleetsCls = (m) => { const w = Math.max(...Object.values(m.landing).map((l) => l.p_over)); return w > 0.5 ? "flag" : w > 0.2 ? "warn" : "ok"; };
+  const fleetsLine = (m) => { const fy = m.fiscal_years[1] || m.fiscal_years[0], l = m.landing[fy]; return `${Object.keys(m.fleets).length} 機種で ${fy} は ${(l.p50 / 1000).toFixed(0)} 百万ドル（予算 ${(l.budget / 1000).toFixed(0)}、超える確率 ${pct(l.p_over)}）`; };
+  function fleetsChart(m, W = 900, H = 260, compact = false) {
+    const keys = Object.keys(m.fleets), fys = m.fiscal_years, L = compact ? 6 : 60, R = compact ? 6 : 16, T = compact ? 6 : 14, B = compact ? 6 : 30;
+    const tot = fys.map((fy) => Math.max(m.pot[fy], keys.reduce((a, k) => a + (m.fleets[k].by_fy[fy].spend || 0), 0)));
+    const top = Math.max(...tot) * 1.1, bw = (W - L - R) / fys.length, y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    fys.forEach((fy, i) => {
+      let acc = 0; const x0 = L + i * bw + bw * 0.2, w = bw * 0.6;
+      keys.forEach((k, j) => { const v = m.fleets[k].by_fy[fy].spend || 0; s += `<rect x="${x0}" y="${y(acc + v)}" width="${w}" height="${y(acc) - y(acc + v)}" fill="${FLEET_COL[j]}"><title>${esc(m.fleets[k].type)} ${fy}：${(v / 1000).toFixed(1)} 百万ドル</title></rect>`; acc += v; });
+      s += `<line x1="${x0 - 6}" x2="${x0 + w + 6}" y1="${y(m.pot[fy])}" y2="${y(m.pot[fy])}" stroke="var(--ink)" stroke-width="2"><title>会社の予算 ${fy}：${(m.pot[fy] / 1000).toFixed(1)} 百万ドル</title></line>`;
+      if (!compact) s += `<text class="tick" x="${x0 + w / 2}" y="${H - B + 14}" text-anchor="middle">${fy}</text><text class="tick" x="${x0 + w / 2}" y="${y(acc) - 4}" text-anchor="middle">${(acc / 1000).toFixed(0)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="機種ごとの支出と会社の予算">${s}</svg>`;
+  }
+  function fleetDeadlines(m, W = 900, H = 200) {
+    const keys = Object.keys(m.fleets), n = m.labels.length, L = 40, R = 8, T = 10, B = 26, cw = (W - L - R) / n;
+    const top = Math.max(1, ...m.deadlines_total) * 1.15, y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    m.labels.forEach((lab, t) => {
+      let acc = 0;
+      keys.forEach((k, j) => { const v = m.deadlines_by_fleet[k][t]; if (!v) return; s += `<rect x="${L + t * cw + 2}" y="${y(acc + v)}" width="${cw - 4}" height="${y(acc) - y(acc + v)}" fill="${FLEET_COL[j]}"><title>${esc(m.fleets[k].type)} ${lab}：判断期限 ${v} 件</title></rect>`; acc += v; });
+      if (t % 3 === 0) s += `<text class="tick" x="${L + t * cw + cw / 2}" y="${H - 6}" text-anchor="middle">${lab.slice(2)}</text>`;
+    });
+    s += `<line x1="${L}" x2="${W - R}" y1="${y(5)}" y2="${y(5)}" stroke="var(--crit)" stroke-dasharray="4 3"><title>会議で扱える目安 5 件/月</title></line>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="機種横断の判断期限">${s}</svg>`;
+  }
+  function fleets() {
+    const m = C().multi;
+    if (!m) return panel("機種横断", '<p class="hint">multi.py の結果がありません。</p>');
+    const keys = Object.keys(m.fleets);
+    const rows = keys.map((k, j) => { const f = m.fleets[k]; return `<tr><td><span class="sw" style="background:${FLEET_COL[j]}"></span>${esc(f.type)}（${esc(f.engine)}）</td><td>${f.visits}</td><td>${(f.total_cost / 1000).toFixed(1)}</td><td>${pct(f.aog_prob)}</td><td>${f.norms.visits_per_year.toFixed(1)} 件・${(f.norms.spend_per_year_k / 1000).toFixed(0)} 百万ドル</td><td>${f.relaxed.length ? "予算超過" : "予算内"}</td></tr>`; }).join("");
+    const land = m.fiscal_years.map((fy) => { const l = m.landing[fy]; return `<tr><td>${fy}</td><td>${(l.budget / 1000).toFixed(1)}</td><td>${(l.p10 / 1000).toFixed(0)}〜${(l.p50 / 1000).toFixed(0)}〜${(l.p90 / 1000).toFixed(0)}</td><td>${pct(l.p_over)}</td><td>${(l.contingency_p80 / 1000).toFixed(1)}</td></tr>`; }).join("");
+    let alloc = "";
+    if (m.allocation) {
+      const a = m.allocation;
+      alloc = panel("", `<p class="chart-note">予算の配分：${keys.map((k) => `${esc(m.fleets[k].type)} ×${a.levels[k]}`).join("、")}（費用 ${(a.cost / 1000).toFixed(1)} 百万ドル、枠超過 ${(a.over_pot / 1000).toFixed(1)}）</p>`
+        + `<table><thead><tr><th>機種</th>${m.settings.levels.map((l) => `<th>予算 ×${l}</th>`).join("")}</tr></thead><tbody>`
+        + keys.map((k) => `<tr><td>${esc(m.fleets[k].type)}</td>${m.curves[k].map((c_) => `<td>${c_ ? `${(c_.cost / 1000).toFixed(1)} 百万ドル／AOG ${pct(c_.aog_prob)}${c_.relaxed.length ? "（予算超過）" : ""}` : "—"}</td>`).join("")}</tr>`).join("")
+        + `</tbody></table>` + G("fleetalloc"), "機種ごとに予算を ×0.9／×1.0／×1.1 で解き直し、会社の枠の中で期待費用＋欠航費用が最小の組み合わせを選ぶ。");
+    }
+    return panel("", `<p class="chart-note">${esc(fleetsLine(m))}</p>` + fleetsChart(m) + `<div class="legend">${keys.map((k, j) => `<span><span class="sw" style="background:${FLEET_COL[j]}"></span>${esc(m.fleets[k].type)}</span>`).join("")}<span><span class="sw" style="background:var(--ink);height:2px"></span>会社の予算</span></div>` + G("fleetspend"))
+      + panel("", `<table><thead><tr><th>機種</th><th>2 年の入場</th><th>2 年の費用（百万ドル）</th><th>欠航リスク</th><th>平年</th><th>予算</th></tr></thead><tbody>${rows}</tbody></table>`
+        + `<table style="margin-top:12px"><thead><tr><th>年度</th><th>会社の予算（百万ドル）</th><th>着地 p10〜p50〜p90</th><th>超える確率</th><th>8 割で収める予備費</th></tr></thead><tbody>${land}</tbody></table>`, esc(m.note))
+      + panel("", `<p class="chart-note">判断期限を機種横断で見ると、会議の負荷が分かる</p>` + fleetDeadlines(m) + G("fleetdeadlines"), "赤い点線は会議で扱える目安（月 5 件）。")
+      + alloc;
+  }
+
+  /* ---------------- the two loops ---------------- */
+  const loopsLine = (o) => `暗黙のルールで決めた ${o.feedback.rule_cases} 件、会議へ ${o.cases.filter((c_) => c_.to_meeting).length} 件（安全スイッチ ${o.feedback.no_world_fits_months} か月）、ループ ${o.loop_time.T_now.toFixed(1)} → ${o.loop_time.T_target.toFixed(1)} か月`;
+  function loops() {
+    const t = C().track, o = t && t.ooda, c = C();
+    if (!o) return panel("PDCA と OODA", '<p class="hint">追跡の結果がありません。</p>');
+    const box = (title, body, cls) => `<div class="panel" style="margin:0;${cls || ""}"><h3 style="margin:0 0 6px">${title}</h3>${body}</div>`;
+    const checks = `<div class="vgrid">`
+      + box("① 実行のずれ（計画 vs 実績）", `<p>例外 ${t.exceptions} 件（時期・整備範囲・戻り遅れ・費用超過）。計画との一致 ${pct(t.follow)}</p><p class="hint">「計画の追跡」の例外一覧</p>`)
+      + box("② 前提のずれ（確率の更新と変化点）", `<p>${esc(t.world)} ${pct(t.world_p)}${t.cpd ? `。${esc(cpdLine(t.cpd))}` : ""}</p><p class="hint">尤度は γ=0.5 で弱めてある。乗り換えは ΔV が 0.3 百万ドルを 2 か月続けて超えたときだけ（履歴）</p>`)
+      + box("③ 決め方のずれ（採点）", `<p>${c.history ? `リスクの幅に入った年度、時期の癖、積み上がり` : "履歴なし"}${c.horizons ? `。時間軸のつながり ${pct(c.horizons.score)}` : ""}</p><p class="hint">「過去の計画との整合」「時間軸のつながり」「前提と出典」</p>`)
+      + `</div>`;
+    const rules = `<table><thead><tr><th>きっかけ</th><th>条件</th><th>行動</th><th>誰が</th><th>速さ</th><th>今回の件数</th></tr></thead><tbody>`
+      + o.rules.map((r) => `<tr><td>${esc(r.trigger)}</td><td>${esc(r.condition)}</td><td>${esc(r.action)}</td><td>${esc(r.who)}</td><td>${{ same_day: "当日", days: "数日", monthly: "月次", yearly: "年次" }[r.cadence]}</td><td>${o.cases.filter((c_) => c_.rule === r.id).length}</td></tr>`).join("") + `</tbody></table>`;
+    const lt = `<table><thead><tr><th>部分</th><th>今</th><th>これまで</th><th>てこ</th></tr></thead><tbody>`
+      + o.loop_time.parts.map((p) => `<tr><td>${esc(p.part)}</td><td>${p.now} ${p.unit}${p.target != null ? ` → ${p.target}` : ""}</td><td>${esc(String(p.was))}</td><td>${esc(p.lever)}</td></tr>`).join("")
+      + `</tbody></table><p class="hint">${esc(o.loop_time.timing_rule)}。R（キットの納期）= ${o.loop_time.R_months} か月</p>`;
+    const fb = o.feedback;
+    const feed = `<ul><li>ルールで決めた件数 ${fb.rule_cases}（分解の追加作業の純額 ${(fb.teardown_net_k / 1000).toFixed(1)} 百万ドル → ${esc(fb.teardown_review)}）</li>`
+      + `<li>どの世界にも当てはまらない月 ${fb.no_world_fits_months} → ${fb.add_world ? "前提（世界）を 1 つ追加する" : "追加は不要"}</li>`
+      + `<li>検知の遅れ D：先行指標 ${fb.detection_delay_months ?? "—"} か月、前提の確率 ${fb.bayes_delay_months ?? "12+"} か月 → 見る指標：${(fb.streams_to_watch || []).map(esc).join("、") || "—"}</li>`
+      + `<li>安全スイッチで会議へ ${fb.to_meeting_by_safety} 件</li></ul>`;
+    const cases = `<table><thead><tr><th>月</th><th>ルール</th><th>対象</th><th>中身</th><th>判断</th></tr></thead><tbody>`
+      + o.cases.slice(0, 40).map((c_) => `<tr><td>${c_.as_of}</td><td>${esc(c_.rule)}</td><td>${esc(c_.esn)}</td><td>${esc(c_.detail)}</td><td>${c_.to_meeting ? `<b>${esc(c_.decision)}</b>` : esc(c_.decision)}</td></tr>`).join("") + `</tbody></table>`;
+    return panel("二つの輪", `<p class="chart-note">遅い輪（PDCA：年 1 回の版と月次会議）が決め方を直し、速い輪（OODA：日〜週）が目の前を動かす。OODA は PDCA の「回す」の中で回る</p>`
+        + `<div class="vgrid">${box("PDCA：つくる → 回す → 確かめる → 直す", `<p>つくる＝前提ごとの計画案から期待費用最小を選ぶ。確かめる＝下の 3 つのずれ。直す＝月次は乗り換え（履歴つき）、年次は前提の重み更新（変化点でリセット）と橋渡し（状態 → 前提 → 決め方の順）</p>`)}${box("OODA：見る → 状況判断 → 決める → 動く", `<p>見る＝先行指標（週）・エンジン状態（便ごと）・結果（月に数件）。状況判断＝今の前提のまま／別の前提へ／どれにも当てはまらない。決める＝暗黙のルール（単位価値 v = ${o.unit_value_k.toFixed(0)} 千ドル／基・月）。動く＝当日〜数日</p>`)}</div>` + G("loops"))
+      + panel("確かめる：3 つのずれを分けて見る", checks)
+      + panel("暗黙のルール（会議を待たない判断）", rules + G("rules"), esc(o.note))
+      + panel("ループの時間 T = D + O + A + E", lt + G("looptime"))
+      + panel("速い輪から遅い輪へ（年 1 回、次の版の前提に）", feed + G("feedback"))
+      + panel("今回の案件", cases, "太字は会議に回した案件。");
+  }
+
+  /* ---------------- the layer above: seat demand ---------------- */
+  const demandCls = (Dm) => (Dm.engines && Dm.engines.window.short_months > 0 ? "warn" : "ok");
+  const demandLine = (Dm) => { const c_ = Dm.carrier, e = Dm.engines; return `国内線の利用率 ${c_.lf_avg != null ? (c_.lf_avg * 100).toFixed(1) : "—"}%、需要が逼迫した月 ${c_.tight_months.length}（満たせなかった需要の下限 ${(c_.spilled_rpk_total / 100).toFixed(1)} 億人キロ ≈ ${(c_.spilled_pax_est / 10000).toFixed(0)} 万人）` + (e ? `。エンジンの余力は窓の平均で 737-800 供給の ${(e.window.ask_headroom_share_avg * 100).toFixed(0)}%、足りない月 ${e.window.short_months}` : ""); };
+  function seatDemandChart(Dm, W = 900, H = 240, compact = false) {
+    const M = Dm.market.months, L = compact ? 6 : 44, B = compact ? 6 : 26, T = compact ? 6 : 10, R_ = compact ? 6 : 40;
+    const top = Math.max(...M.map((x) => x.ask)) * 1.05, bw = (W - L - R_) / M.length, y = (v) => T + (H - T - B) * (1 - v / top), yl = (v) => T + (H - T - B) * (1 - (v - 40) / 60);
+    let s = "";
+    M.forEach((x, i) => { const X = L + i * bw + bw * 0.15; s += `<rect x="${X}" y="${y(x.ask)}" width="${bw * 0.7}" height="${y(0) - y(x.ask)}" fill="var(--accent-soft)"><title>${x.m} 供給 ${fmt(x.ask)} 百万座席キロ</title></rect><rect x="${X}" y="${y(x.rpk)}" width="${bw * 0.7}" height="${y(0) - y(x.rpk)}" fill="var(--accent)"><title>${x.m} 需要 ${fmt(x.rpk)} 百万人キロ、利用率 ${x.lf}%</title></rect>`; if (!compact && i % 2 === 0) s += `<text class="tick" x="${X + bw * 0.35}" y="${H - B + 14}" text-anchor="middle">${x.m.slice(2)}</text>`; });
+    const th = Dm.assumptions.lf_capacity_threshold * 100;
+    s += `<line x1="${L}" x2="${W - R_}" y1="${yl(th)}" y2="${yl(th)}" stroke="var(--crit)" stroke-dasharray="4 3"/>`;
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${M.map((x, i) => `${L + i * bw + bw * 0.5},${yl(x.lf)}`).join(" ")}"/>`;
+    if (!compact) { s += `<text class="tick" x="${L - 6}" y="${y(top / 1.05) + 4}" text-anchor="end">${fmt(top / 1.05)}</text><text class="tick" x="${W - R_ + 4}" y="${yl(100) + 4}">100%</text><text class="tick" x="${W - R_ + 4}" y="${yl(th) + 4}">${th}%</text><text class="tick" x="${W - R_ + 4}" y="${yl(40) + 4}">40%</text>`; }
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="国内線の需要と供給">${s}</svg>`;
+  }
+  function seasonChart(Dm, W = 900, H = 180) {
+    const S_ = Dm.market.seasonal, L = 44, B = 26, T = 10, bw = (W - L - 20) / 12, y = (v) => T + (H - T - B) * (1 - (v - 0.8) / 0.4);
+    let s = `<line x1="${L}" x2="${W - 20}" y1="${y(1)}" y2="${y(1)}" stroke="var(--rule)"/>`;
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${S_.map((c_) => `${L + (c_.month - 0.5) * bw},${y(c_.demand_index)}`).join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--warn)" stroke-width="2" stroke-dasharray="5 3" points="${S_.map((c_) => `${L + (c_.month - 0.5) * bw},${y(c_.model_flight_index)}`).join(" ")}"/>`;
+    S_.forEach((c_) => { s += `<text class="tick" x="${L + (c_.month - 0.5) * bw}" y="${H - B + 14}" text-anchor="middle">${c_.month}月</text><rect x="${L + (c_.month - 1) * bw}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent"><title>${c_.month}月 需要 ${c_.demand_index}、モデル ${c_.model_flight_index}（差 ${c_.gap >= 0 ? "+" : ""}${c_.gap}）</title></rect>`; });
+    [0.8, 1.0, 1.2].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v.toFixed(1)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="需要の季節指数と運航指数">${s}</svg>`;
+  }
+  function engineSeatsChart(Dm, W = 1000, H = 180) {
+    const E = Dm.engines.months, L = 44, B = 22, T = 10, N = E.length, x = (t) => L + t / N * (W - L - 40);
+    const top = Math.max(1, ...E.map((m) => m.ask_headroom)), topL = Math.max(0.1, ...E.map((m) => m.revenue_lost_oku_yen));
+    const y = (v) => T + (H - T - B) * (1 - v / top), yl = (v) => T + (H - T - B) * (1 - v / topL);
+    let s = `<rect x="${x(0)}" y="${T}" width="${x(Dm.engines.window.months) - x(0)}" height="${H - T - B}" fill="var(--accent-soft)" opacity=".35"/>`;
+    E.forEach((m) => { const w = x(m.t + 1) - x(m.t); if (m.ask_headroom > 0) s += `<rect x="${x(m.t)}" y="${y(m.ask_headroom)}" width="${w}" height="${y(0) - y(m.ask_headroom)}" fill="${m.growth_month ? "var(--good)" : "var(--good-soft)"}"><title>${m.label} 余力 ${m.margin} 基 → ${m.extra_aircraft} 機、+${m.ask_headroom} 百万座席キロ${m.growth_month ? "（伸ばせる月）" : ""}</title></rect>`; if (m.revenue_lost_oku_yen > 0) s += `<rect x="${x(m.t)}" y="${yl(m.revenue_lost_oku_yen)}" width="${w}" height="${yl(0) - yl(m.revenue_lost_oku_yen)}" fill="var(--crit)" opacity=".7"><title>${m.label} 足りない ${m.short_aircraft} 機、失う売上 ${m.revenue_lost_oku_yen} 億円</title></rect>`; });
+    const y0 = +E[0].label.slice(0, 4);
+    for (let yr = 0; yr * 12 < N; yr++) s += `<text class="tick" x="${x(yr * 12) + 2}" y="${H - B + 14}">${y0 + yr}</text>`;
+    s += `<text class="tick" x="${L - 6}" y="${y(top) + 4}" text-anchor="end">${fmt(top)}</text><text class="tick" x="${W - 36}" y="${yl(topL) + 4}">${topL.toFixed(1)} 億</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="エンジンの余力を客席に換算">${s}</svg>`;
+  }
+  function demand() {
+    const Dm = C().demand;
+    if (!Dm) return panel("客席の需要", '<p class="hint">demand.py の結果がありません。</p>');
+    const c_ = Dm.carrier, e = Dm.engines;
+    const rows = c_.months.map((r) => `<tr><td>${r.m}</td><td>${r.pax != null ? fmt(r.pax) : "—"}</td><td>${r.ask != null ? fmt(r.ask) : "—"}</td><td>${r.rpk != null ? fmt(r.rpk) : "—"}</td><td>${r.lf != null ? r.lf + "%" : "—"}${r.tight ? " <b>逼迫</b>" : ""}</td><td>${r.share_rpk != null ? pct(r.share_rpk) : "—"}</td><td>${r.spilled_rpk ? fmt(r.spilled_rpk) : "—"}</td><td class="hint">${r.rounded ? "報道の丸め値" : ""}</td></tr>`).join("");
+    const fy = Dm.market.fiscal_years.map((f) => `<tr><td>${f.fy}</td><td>${fmt(f.pax_k)} 千人</td><td>${fmt(f.ask)}</td><td>${fmt(f.rpk)}</td><td>${f.lf}%</td></tr>`).join("");
+    const cav = Dm.caveats.map((x) => `<li>${esc(x)}</li>`).join("");
+    return panel("", `<p class="chart-note">${esc(demandLine(Dm))}</p>` + seatDemandChart(Dm) + legend([["供給（座席キロ）", "var(--accent-soft)"], ["需要（人キロ）", "var(--accent)"], ["利用率", "var(--ink)", 1], ["席が足りている目安", "var(--crit)", 1]]) + G("demandMarket"), esc(Dm.market.source))
+      + panel("年度の推移（市場全体）", `<table><thead><tr><th>年度</th><th>旅客数</th><th>供給（百万座席キロ）</th><th>需要（百万人キロ）</th><th>利用率</th></tr></thead><tbody>${fy}</tbody></table>`, "供給は 2019 年度の水準に戻っていないのに需要は上回り、利用率が 10 ポイント上がった。席が足りない側に振れている。")
+      + panel(`この会社：${esc(c_.name)}`, `<div class="scroll"><table><thead><tr><th>月</th><th>旅客数</th><th>供給（百万座席キロ）</th><th>需要（百万人キロ）</th><th>利用率</th><th>市場に占める割合</th><th>満たせなかった需要（下限）</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` + G("demandCarrier"), esc(c_.source))
+      + panel("需要の季節の形と、計画の運航指数", seasonChart(Dm) + legend([["需要の季節指数（市場）", "var(--ink)", 1], ["計画の運航指数", "var(--warn)", 1]]) + G("demandSeason"))
+      + (e ? panel("エンジンの余力を客席に換算（伸ばせるか）", `<p class="chart-note">窓の中：伸ばせる月 ${e.window.growth_months}、余力の平均 ${e.window.ask_headroom_avg} 百万座席キロ（737-800 供給の ${(e.window.ask_headroom_share_avg * 100).toFixed(0)}%）、足りない月 ${e.window.short_months}（失う売上 ${e.window.revenue_lost_oku_yen} 億円）。退役まで：足りない月 ${e.life.short_months}、失う売上 ${e.life.revenue_lost_oku_yen} 億円</p>` + engineSeatsChart(Dm) + legend([["上乗せできる供給", "var(--good-soft)"], ["伸ばせる月（需要が逼迫 かつ 余力あり）", "var(--good)"], ["失う売上（足りない月）", "var(--crit)"]]) + G("demandEngines"), `${esc(e.note)}。座席 ${e.params.seats}、737-800 の割合 ${(e.params.share_737_800 * 100).toFixed(0)}%（仮定）、単価 ${e.params.yield_yen_per_rpk} 円/人キロ（仮定）、1 機 1 か月 ${e.params.ask_per_aircraft_month} 百万座席キロ`) : "")
+      + (Dm.growth ? growthPanel(Dm.growth) : "")
+      + (Dm.plan_from_demand ? planFromDemand(Dm.plan_from_demand) : "")
+      + panel("前提と限界", `<ul>${cav}</ul>`);
+  }
+  function growthPanel(Gp) {
+    const T = Gp.totals, E = Gp.engine_side;
+    const rows = Gp.months.map((r) => `<tr><td>${r.label}</td><td>${r.flights_per_day}</td><td>${r.lf_month != null ? (r.lf_month * 100).toFixed(0) + "%" : "—"}</td><td>${r.demand_headroom_ac}</td><td>${r.engine_headroom_ac}</td><td>${r.add_aircraft ? `<b>${r.add_aircraft}</b>` : ""}</td><td>${r.add_aircraft ? "+" + r.add_flights_per_day : ""}</td><td>${r.add_aircraft ? r.add_ask : ""}</td><td>${r.add_aircraft ? r.revenue_oku_yen : ""}</td><td class="hint">${r.add_aircraft ? r.binding + "が上限" : (r.lf_month == null ? "需要の月次なし" : "")}</td></tr>`).join("");
+    const sh = E.shifts.length ? `<p class="hint">期限が動く機：${E.shifts.map((x) => `${esc(x.esn)} ${x.limit_shift != null ? (x.limit_shift > 0 ? "+" : "") + x.limit_shift + " か月" : "新たに期限"}`).join("、")}</p>` : "";
+    return panel("足す計画（便の計画に基づく増便と、エンジン側の要求）", `<p class="chart-note">窓の 2 年で足せるのは ${T.months_with_adds} か月・のべ ${T.aircraft_months} 機月（+${T.add_ask} 百万座席キロ、売上 ${T.revenue_oku_yen} 億円）。上限は需要 ${T.binding_months["需要"]} か月・エンジン ${T.binding_months["エンジン"]} か月。エンジン側：サイクル +${fmt(T.extra_cycles)}、入場 +${T.extra_visits} 件（${T.extra_maintenance_oku_yen} 億円）、稼働 ×${E.utilisation_multiplier}、期限が早まる機 ${E.earlier}・新たに期限 ${E.newly_due}。正味 ${T.net_oku_yen} 億円（整備費のみ差し引き）</p>`
+      + `<div class="scroll"><table><thead><tr><th>月</th><th>便/日（計画）</th><th>利用率</th><th>需要の余地（機）</th><th>エンジンの余力（機）</th><th>足す機</th><th>便/日</th><th>+座席キロ（百万）</th><th>売上（億円）</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` + sh,
+      `便の計画：${esc(Gp.schedule_source)}。${esc(Gp.note)}。${esc(E.note)}`);
+  }
+  function planFromDemand(P) {
+    const d = P.derived, i = P.inputs, n = P.norms, pl = P.plan;
+    const idx = Object.keys(P.current.flight_index).map((m) => `<tr><td>${m}月</td><td>${P.current.flight_index[m]}</td><td>${d.flight_index[m]}</td><td>${(d.flight_index[m] - P.current.flight_index[m]) >= 0 ? "+" : ""}${(d.flight_index[m] - P.current.flight_index[m]).toFixed(2)}</td></tr>`).join("");
+    const req = `<table><thead><tr><th>月</th>${i.required_now.map((_, t) => t % 3 === 0 ? `<th>${t}</th>` : "").join("")}</tr></thead><tbody><tr><td>今の必要エンジン数</td>${i.required_now.map((v, t) => t % 3 === 0 ? `<td>${v}</td>` : "").join("")}</tr><tr><td>需要から</td>${i.required_new.map((v, t) => t % 3 === 0 ? `<td>${v}</td>` : "").join("")}</tr><tr><td>差</td>${i.required_diff.map((v, t) => t % 3 === 0 ? `<td>${v >= 0 ? "+" : ""}${v}</td>` : "").join("")}</tr></tbody></table>`;
+    const sh = i.shifts.slice(0, 30).map((s_) => `<tr><td>${esc(s_.esn)}</td><td>${s_.window_now ? s_.window_now.join("〜") : "—"}</td><td>${s_.window_new ? s_.window_new.join("〜") : "—"}</td><td>${s_.limit_shift != null ? (s_.limit_shift > 0 ? "+" : "") + s_.limit_shift + " か月" : s_.newly_due ? "<b>新たに期限</b>" : "期限が窓の外へ"}</td><td>${s_.ws_now || "—"} → ${s_.ws_new || "—"}</td></tr>`).join("");
+    const plan = pl.new ? `<table><thead><tr><th></th><th>今の前提</th><th>需要から直した前提</th><th>差</th></tr></thead><tbody><tr><td>2 年の費用（百万ドル）</td><td>${(pl.now.total_cost / 1000).toFixed(1)}</td><td>${(pl.new.total_cost / 1000).toFixed(1)}</td><td>${(pl.delta.total_cost / 1000) >= 0 ? "+" : ""}${(pl.delta.total_cost / 1000).toFixed(1)}</td></tr><tr><td>入場</td><td>${pl.now.visits}</td><td>${pl.new.visits}</td><td>${pl.delta.visits >= 0 ? "+" : ""}${pl.delta.visits}</td></tr><tr><td>欠航リスク</td><td>${pct(pl.now.aog_prob, 1)}</td><td>${pct(pl.new.aog_prob, 1)}</td><td>${(pl.delta.aog_prob * 100) >= 0 ? "+" : ""}${(pl.delta.aog_prob * 100).toFixed(1)}pt</td></tr><tr><td>緩めた制約</td><td>—</td><td>${(pl.new.relaxed || []).join("、") || "なし"}</td><td></td></tr></tbody></table>` : `<p class="hint">再計算なし</p>`;
+    const rv = d.review, curve = (d.growth_by_horizon || []).map((c_) => `<tr><td>${c_.months_ahead} か月先</td><td>${(c_.growth * 100).toFixed(1)}%</td></tr>`).join("");
+    const reviewBox = rv ? `<div class="panel" style="margin:8px 0;${rv.triggered ? "border-color:var(--warn)" : ""}"><h3 style="margin:0 0 6px">伸びの見直し</h3><p>${rv.every_months} か月ごと（年次の版）。導出 ${rv.derived_at}、データは ${rv.data_through} まで、次の見直し <b>${rv.next_review}</b>。${rv.latest_yoy ? `直近の市場の前年比 ${(rv.latest_yoy.yoy * 100).toFixed(1)}%（${rv.latest_yoy.m}）` : ""}${rv.triggered ? ` → <b>仮定から ${(rv.trigger_pt * 100).toFixed(0)}pt 以上外れた。年次を待たず月次会議で引き直す</b>` : " → 仮定の範囲内"}</p><p class="hint">${esc(rv.rule)}</p><table><thead><tr><th>時間軸</th><th>使う伸び</th></tr></thead><tbody>${curve}</tbody></table><p class="hint">近い 2 年は直近の傾向、5 年先からは長期（コロナをまたぐ年率 ${(d.demand_growth_long_run * 100).toFixed(1)}%）に寄せる。窓の中は直近、退役までの列と予備は長期で見る</p></div>` : "";
+    return panel("過去の需要から計画の前提に直すと", reviewBox + `<p class="chart-note">需要の伸び ${(d.demand_growth_per_year * 100).toFixed(1)}%/年、稼働 ×${d.utilisation_multiplier}、季節の形は市場の実績。期限が来る機 ${i.due_now} → ${i.due_new} 基（早まる ${i.earlier}、遅くなる ${i.later}、新たに ${i.newly_due}、外れる ${i.no_longer_due}、平均 ${i.mean_shift_months >= 0 ? "+" : ""}${i.mean_shift_months} か月）。平年 ${n.now.visits_per_year.toFixed(1)} → ${n.new.visits_per_year.toFixed(1)} 件/年、${(n.now.spend_per_year_k / 1000).toFixed(0)} → ${(n.new.spend_per_year_k / 1000).toFixed(0)} 百万ドル/年</p>`
+      + `<div class="vgrid"><div><h3 style="margin:0 0 6px">導き方</h3><ul><li>季節の形：${esc(d.how.flight_index)}</li><li>伸び：${esc(d.how.growth)}</li><li>稼働：${esc(d.how.utilisation)}</li></ul></div><div><h3 style="margin:0 0 6px">計画への影響（再計算）</h3>${plan}</div></div>`
+      + `<h3>必要なエンジン数（月）</h3><div class="scroll">${req}</div>`
+      + `<h3>運航指数</h3><div class="scroll"><table><thead><tr><th>月</th><th>今</th><th>需要から</th><th>差</th></tr></thead><tbody>${idx}</tbody></table></div>`
+      + `<h3>期限が動く機</h3><div class="scroll"><table><thead><tr><th>ESN</th><th>今の窓</th><th>需要からの窓</th><th>動き</th><th>整備範囲</th></tr></thead><tbody>${sh || "<tr><td colspan=5>動く機なし</td></tr>"}</tbody></table></div>`, esc(P.note) + (n.note ? "。" + esc(n.note) : ""));
+  }
+
+  /* ---------------- run-out to the fleet's exit ---------------- */
+  const runoutCls = (R) => (R.totals.heavy_late_engines > 3 || R.totals.plan_gaps > 5 ? "warn" : "ok");
+  const runoutLine = (R) => `${R.end} の最終退役まで ${R.totals.engines} 基で入場 ${R.totals.visits} 件（窓の後 ${R.totals.after_window_visits}）、費用 ${(R.totals.spend_k / 1000).toFixed(0)} 百万ドル。退役で処分する残存価値 ${(R.totals.residual_value_k / 1000).toFixed(0)} 百万ドル、寿命を残して退役 ${R.totals.green_time_engines} 基、退役直前の重整備 ${R.totals.heavy_late_engines} 基`;
+  function runoutYears(R, W = 900, H = 240, compact = false) {
+    const Y = R.by_year, L = compact ? 6 : 44, B = compact ? 6 : 26, T = compact ? 6 : 10, Rm = compact ? 6 : 44;
+    const top = Math.max(1, ...Y.map((y) => y.visits)), topR = Math.max(1, ...Y.map((y) => y.retired));
+    const bw = (W - L - Rm) / Y.length, sy = (v) => T + (H - T - B) * (1 - v / top), sr = (v) => T + (H - T - B) * (1 - v / topR);
+    let s = "";
+    Y.forEach((y, i) => {
+      const x = L + i * bw + bw * 0.15; let y0 = sy(0);
+      ["PR", "CORE", "FULL"].forEach((ws) => { const n = y.by_ws[ws]; if (!n) return; const h = sy(0) - sy(n); s += `<rect x="${x}" y="${y0 - h}" width="${bw * 0.7}" height="${h}" fill="${WS[ws]}"><title>${y.year} ${ws} ${n} 件</title></rect>`; y0 -= h; });
+      if (!compact) s += `<text class="tick" x="${x + bw * 0.35}" y="${H - B + 14}" text-anchor="middle">${y.year}</text><rect x="${L + i * bw}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent"><title>${y.year}：${esc(y.note)}</title></rect>`;
+    });
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="1.5" points="${Y.map((y, i) => `${L + i * bw + bw * 0.5},${sr(y.retired)}`).join(" ")}"/>`;
+    if (!compact) { s += `<text class="tick" x="${L - 6}" y="${sy(top) + 4}" text-anchor="end">${top}</text><text class="tick" x="${L - 6}" y="${sy(0)}" text-anchor="end">0</text>`; s += `<text class="tick" x="${W - Rm + 6}" y="${sr(topR) + 4}">${topR} 基</text>`; }
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="退役までの毎年の入場件数">${s}</svg>`;
+  }
+  function runoutOps(R, W = 1000, H = 150) {
+    const O = R.ops; if (!O || !O.length) return "";
+    const L = 64, T = 16, B = 22, N = R.end_t, x = (t) => L + t / N * (W - L - 10);
+    const top = Math.max(...O.map((o) => o.owned)) * 1.02, y = (v) => T + (H - T - B) * (1 - v / top);
+    const line = (key, col, w) => `<polyline fill="none" stroke="${col}" stroke-width="${w || 1.5}" points="${O.map((o) => `${x(o.t)},${y(o[key])}`).join(" ")}"/>`;
+    let s = `<rect x="${x(0)}" y="${T}" width="${x(R.window_months) - x(0)}" height="${H - T - B}" fill="var(--accent-soft)" opacity=".35"/>`;
+    O.forEach((o) => { if (o.margin < 0) s += `<rect x="${x(o.t)}" y="${T}" width="${x(o.t + 1) - x(o.t)}" height="${H - T - B}" fill="var(--crit)" opacity=".25"><title>${o.label} 余力 ${o.margin}</title></rect>`; });
+    s += `<polygon fill="var(--muted)" opacity=".25" points="${O.map((o) => `${x(o.t)},${y(o.required)}`).join(" ")} ${O.slice().reverse().map((o) => `${x(o.t)},${y(o.required + o.buffer)}`).join(" ")}"><title>予備の帯</title></polygon>`;
+    s += line("owned", "var(--rule)", 1) + line("serviceable", "var(--good)", 2.5) + line("required", "var(--ink)", 1.5);
+    const y0 = +R.start.slice(0, 4);
+    for (let yr = 0; yr * 12 <= N; yr++) s += `<text class="tick" x="${x(yr * 12) + 2}" y="${H - B + 14}">${y0 + yr}</text>`;
+    [0, Math.round(top / 2), Math.round(top)].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
+    O.forEach((o) => { s += `<rect x="${x(o.t)}" y="${T}" width="${x(o.t + 1) - x(o.t)}" height="${H - T - B}" fill="transparent"><title>${o.label}：機数 ${o.aircraft}、必要 ${o.required}、予備 ${o.buffer}、工場 ${o.in_shop}、稼働可能 ${o.serviceable}／保有 ${o.owned}、余力 ${o.margin >= 0 ? "+" : ""}${o.margin}</title></rect>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="運航側：必要なエンジン数と稼働可能なエンジン数">${s}</svg>`;
+  }
+  function typeClockPanel(TL) {
+    const W = 900, H = 150, L = 44, B = 26, T = 10, ys = TL.curve, y0 = ys[0].year, y1 = ys[ys.length - 1].year, x = (y) => L + (y - y0) / (y1 - y0) * (W - L - 20), y = (v) => T + (H - T - B) * (1 - v);
+    let s = `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${ys.map((c) => `${x(c.year)},${y(c.multiplier)}`).join(" ")}"/>`;
+    const marks = [[TL.production_end, "生産終了", "var(--warn)"], [TL.fleet_exit_year, "当社の最終退役", "var(--accent)"], [TL.successor_next_eis, `次々世代 ${TL.successor_next || ""}`, "var(--muted)"], [TL.retirement_wave_end, "型式が消える", "var(--crit)"]];
+    marks.forEach(([yr, lab, col], i) => { if (yr && yr >= y0 && yr <= y1) { const right = x(yr) > W - 140; s += `<line x1="${x(yr)}" x2="${x(yr)}" y1="${T}" y2="${H - B}" stroke="${col}" stroke-dasharray="4 3"/><text class="tick" x="${x(yr) + (right ? -3 : 3)}" y="${T + 10 + (i % 2) * 12}" text-anchor="${right ? "end" : "start"}" style="fill:${col}">${lab} ${yr}</text>`; } });
+    for (let yr = y0; yr <= y1; yr += 3) s += `<text class="tick" x="${x(yr)}" y="${H - B + 14}" text-anchor="middle">${yr}</text>`;
+    [0, 0.5, 1].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v.toFixed(1)}</text>`; });
+    const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="型式の年齢による残存価値の倍率">${s}</svg>`;
+    const r = TL.residual, ll = TL.late_life;
+    const stageJ = { young: "若い（生産中）", late: "晩年（生産終了後）", fading: "終盤（退役の波の後半）" }[TL.stage_now];
+    const clock = `<p class="chart-note">${esc(TL.type)}：就航 ${TL.eis} → 生産終了 ${TL.production_end} → 型式が消える ${TL.retirement_wave_end}（推定）。今は就航 ${TL.age_at_start} 年目・生産終了から ${TL.years_since_production_end} 年＝${stageJ}。次世代 ${esc(TL.successor || "")} は ${TL.successor_eis} 就航、次々世代 ${esc(TL.successor_next || "")} は ${TL.successor_next_eis} 目標（世代の間隔 約 ${TL.generation_interval} 年）</p>`;
+    const eff = `<div class="vgrid"><div><h3 style="margin:0 0 6px">残存価値（型式の年齢で割り引く）</h3><p>退役で処分する残存価値 ${(r.raw_k / 1000).toFixed(0)} → <b>${(r.adjusted_k / 1000).toFixed(0)} 百万ドル</b>（型式の晩年に売る分の値下がり ${(r.lost_to_type_age_k / 1000).toFixed(0)}）</p><p class="hint">${esc(r.note)}</p></div><div><h3 style="margin:0 0 6px">晩年の費用（仮定）</h3><p>当社の最終退役までに生産終了から ${ll.years_late_by_fleet_exit} 年。寿命部品の値上がり ×${ll.parts_factor_by_fleet_exit}（年 ${(ll.parts_escalation_per_year * 100).toFixed(0)}%）、工期の延び +${ll.tat_extra_by_fleet_exit} か月</p><p class="hint">受領遅れの確率の目安：次世代の年齢から ${(TL.successor_delay_prob_now * 100).toFixed(0)}%（仮定）</p></div></div>`;
+    return panel("型式の時計（エンジン 1 基の時計の上にある世代の時計）", clock + svg + legend([["残存価値の倍率（ハーフライフ価値に掛ける）", "var(--ink)", 1]]) + eff + `<p><b>${esc(TL.fleet_vs_world)}</b></p>`,
+      `出典：就航・生産終了・次世代の目標は公表（A）。残存価値の低下曲線・晩年の値上がりと工期・受領遅れの確率は仮定（C）。${esc(TL.sources.market || "")}`);
+  }
+  function runoutBoard(R, W = 1000) {
+    const E = R.engines.filter((e) => e.visits > 0 || e.in_window_plan).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9) || (a.chain[0] ? a.chain[0].t : 0) - (b.chain[0] ? b.chain[0].t : 0));
+    const rowH = 14, L = 64, T = 22, H = T + E.length * rowH + 8, N = R.end_t, x = (t) => L + t / N * (W - L - 10);
+    let s = `<rect x="${x(0)}" y="${T - 4}" width="${x(R.window_months) - x(0)}" height="${H - T}" fill="var(--accent-soft)" opacity=".35"><title>凍結した計画の窓</title></rect>`;
+    const y0 = +R.start.slice(0, 4);
+    for (let yr = 0; yr * 12 <= N; yr++) { s += `<line x1="${x(yr * 12)}" x2="${x(yr * 12)}" y1="${T - 4}" y2="${H}" stroke="var(--rule)"/><text class="tick" x="${x(yr * 12) + 2}" y="${T - 8}">${y0 + yr}</text>`; }
+    E.forEach((e, i) => {
+      const y = T + i * rowH;
+      s += `<text class="lbl" x="${L - 6}" y="${y + 10}" text-anchor="end" font-size="9">${esc(e.esn)}</text>`;
+      if (e.retire_t != null) s += `<line x1="${x(0)}" x2="${x(e.retire_t)}" y1="${y + 7}" y2="${y + 7}" stroke="var(--rule)" stroke-dasharray="1 3"/>`;
+      e.chain.forEach((c) => {
+        if (c.gap) { s += `<circle cx="${x(c.t)}" cy="${y + 7}" r="3" fill="var(--crit)"><title>${esc(c.reason)}</title></circle>`; return; }
+        s += `<rect x="${x(c.t)}" y="${y + 2}" width="${Math.max(3, x(c.t + (c.off_wing || 4)) - x(c.t))}" height="10" fill="${WS[c.ws]}"><title>${c.label} ${c.ws} ${fmt(c.cost_k)} k$、翼を離れる ${c.off_wing || 4} か月（工期＋輸送）。${esc(c.reason)}、戻ってから ${c.lasts_months} か月持つ</title></rect>`;
+      });
+      if (e.retire_t != null) s += `<path d="M${x(e.retire_t)},${y + 2} l5,5 l-5,5 l-5,-5 z" fill="#fff" stroke="var(--ink)"><title>${e.retire} 退役。${esc(e.note)}。残る寿命部品 ${fmt(e.residual_llp_cycles)} サイクル、翼上 ${e.residual_run_months} か月、残存価値 ${fmt(e.residual_value_k)} k$</title></path>`;
+    });
+    return `<div class="scroll"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="退役までの入場列">${s}</svg></div>`;
+  }
+  function runout() {
+    const R = C().runout;
+    if (!R) return panel("退役までの入場列", '<p class="hint">runout.py の結果がありません。</p>');
+    const P = { "次に入場が近い機から（採用）": R.policies.next_due, "寿命部品の少ない機から": R.policies.oldest, "無作為": R.policies.random, "退役まで持つ最軽の範囲にしない": R.without_runout };
+    const pol = `<table><thead><tr><th>退役順の方針</th><th>入場</th><th>生涯費用（百万ドル）</th><th>退役時の残存価値</th><th>寿命を残す機</th><th>退役直前の重整備</th></tr></thead><tbody>`
+      + Object.entries(P).map(([k, v]) => `<tr><td>${k}</td><td>${v.visits}</td><td>${(v.spend_k / 1000).toFixed(0)}</td><td>${(v.residual_value_k / 1000).toFixed(0)}</td><td>${v.green_time_engines ?? "—"}</td><td>${v.heavy_late_engines}</td></tr>`).join("") + `</tbody></table>`;
+    const flag = R.engines.filter((e) => e.heavy_late || e.green_time).sort((a, b) => (b.residual_value_k - a.residual_value_k)).slice(0, 25);
+    const tbl = `<table><thead><tr><th>ESN</th><th>退役</th><th>入場</th><th>最後の入場</th><th>退役まで</th><th>残る寿命部品（サイクル）</th><th>残存価値（k$）</th><th>印</th></tr></thead><tbody>`
+      + flag.map((e) => { const l = e.chain.filter((c) => !c.gap).slice(-1)[0]; return `<tr><td>${esc(e.esn)}</td><td>${e.retire || "—"}</td><td>${e.visits}</td><td>${l ? `${l.label} ${l.ws}` : "—"}</td><td>${e.last_visit_to_exit_months ?? "—"} か月</td><td>${fmt(e.residual_llp_cycles)}</td><td>${fmt(e.residual_value_k)}</td><td>${e.heavy_late ? "<b>退役直前の重整備</b>" : ""}${e.green_time ? "寿命を残す" : ""}</td></tr>`; }).join("") + `</tbody></table>`;
+    const notes = `<table><thead><tr><th>年</th><th>入場</th><th>退役</th><th>注釈</th></tr></thead><tbody>` + R.by_year.map((y) => `<tr><td>${y.year}</td><td>${y.visits}</td><td>${y.retired}</td><td>${esc(y.note)}</td></tr>`).join("") + `</tbody></table>`;
+    const cav = (R.caveats || []).map((c) => `<li>${esc(c)}</li>`).join("");
+    const eng = `<div class="scroll"><table><thead><tr><th>ESN</th><th>退役</th><th>入場</th><th>注釈</th></tr></thead><tbody>` + R.engines.filter((e) => e.visits > 0 || e.in_window_plan || e.due_in_at_exit != null).sort((a, b) => (a.retire_t ?? 1e9) - (b.retire_t ?? 1e9)).map((e) => `<tr><td>${esc(e.esn)}</td><td>${e.retire || "—"}</td><td>${e.visits}</td><td>${esc(e.note)}</td></tr>`).join("") + `</tbody></table></div>`;
+    return panel("", `<p class="chart-note">${esc(runoutLine(R))}</p>` + runoutYears(R) + legend([["軽作業 PR", WS.PR], ["コア CORE", WS.CORE], ["全面 FULL", WS.FULL], ["退役する基数", "var(--ink)", 1]]) + G("runoutYears"), esc(R.note))
+      + panel("年ごとの注釈", notes + `<p><b>この結果の限界</b></p><ul>${cav}</ul>`)
+      + (R.ops ? panel("対になる運航側（必要なエンジン数と稼働可能な数）", `<p class="chart-note">${R.ops_summary.thin ? `余力が最も薄いのは ${R.ops_summary.thin.label}（${R.ops_summary.thin.margin >= 0 ? "+" : ""}${R.ops_summary.thin.margin} 基）、足りない月 ${R.ops_summary.months_short}` : ""}</p>` + runoutOps(R) + legend([["保有（退役で減る）", "var(--rule)", 1], ["稼働可能（保有 − 工場にいる数）", "var(--good)", 1], ["必要（2 × 飛ぶ機数）", "var(--ink)", 1], ["予備の帯", "var(--muted)"], ["足りない月", "var(--crit)"]]) + G("runoutOps"), esc(R.ops_summary.note)) : "")
+      + (C().typelife ? typeClockPanel(C().typelife) : "")
+      + panel("エンジンごとの列", runoutBoard(R) + G("runoutBoard"), `窓（薄い帯）は凍結した計画の入場、その後は退役まで持つ最軽の整備範囲。退役の間隔 ${R.exits.length ? `${R.exits[0]} から 1 機ずつ` : "—"}（no_source）`)
+      + panel("退役順の方針", pol + G("runoutPolicy"))
+      + (R.delivery_delay ? panel("新機の受領が遅れたら（全体の運航は新機が引き継ぐ前提の、その前提が崩れる側）", `<table><thead><tr><th>受領の遅れ</th><th>最終退役</th><th>不意打ち：追加の入場</th><th>追加の費用（百万ドル）</th><th>足りない月</th><th>分かってから直す：追加の入場</th><th>追加の費用</th><th>足りない月</th><th>早く知る価値</th></tr></thead><tbody>`
+          + Object.values(R.delivery_delay).filter((d) => typeof d === "object").map((d) => `<tr><td>${d.months} か月</td><td>${d.end}</td><td>+${d.extra_visits}</td><td>${(d.extra_spend_k / 1000).toFixed(1)}</td><td>${d.months_short}</td><td>+${d.known.extra_visits}</td><td>${(d.known.extra_spend_k / 1000).toFixed(1)}</td><td>${d.known.months_short}</td><td><b>${((d.extra_spend_k - d.known.extra_spend_k) / 1000).toFixed(1)} 百万ドル</b></td></tr>`).join("") + `</tbody></table>`, esc(R.delivery_delay.note)) : "")
+      + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。")
+      + panel("エンジンごとの注釈", eng, "なぜその整備範囲か、なぜ入場せずに退役か、を 1 行ずつ。");
+  }
+
+  /* ---------------- the playbook ---------------- */
+  const playbookLine = (P) => { const f = P.steps[P.steps.length - 1]; return `3 段で期待値 ${(-f.delta_vs_base.total_cost / 1000).toFixed(1)} 百万ドル、立て直し費 ${(-f.delta_vs_base.recourse / 1000).toFixed(1)} 百万ドル減、ループ ${P.loop_time.before} → ${P.loop_time.after} か月。欠航リスク ${(f.delta_vs_base.aog_prob * 100) >= 0 ? "+" : ""}${(f.delta_vs_base.aog_prob * 100).toFixed(1)}pt`; };
+  function purchasePanel(PU) {
+    const S_ = PU.summary, tr = PU.trajectory;
+    const W = 900, H = 200, L = 44, B = 26, T = 10, n = tr.length, x = (i) => L + (n > 1 ? i / (n - 1) : 0) * (W - L - 60), top = Math.max(PU.target * 1.2, ...tr.map((s) => s.expected ? s.expected.aog_prob : 0)) * 1.1, y = (v) => T + (H - T - B) * (1 - v / top);
+    let s = `<line x1="${L}" x2="${W - 60}" y1="${y(PU.target)}" y2="${y(PU.target)}" stroke="var(--crit)" stroke-dasharray="4 3"/><text class="tick" x="${W - 56}" y="${y(PU.target) + 4}">目標 ${pct(PU.target)}</text>`;
+    s += `<polyline fill="none" stroke="var(--accent)" stroke-width="2" points="${tr.map((st, i) => `${x(i)},${y(st.expected.aog_prob)}`).join(" ")}"/>`;
+    tr.forEach((st, i) => { s += `<circle cx="${x(i)}" cy="${y(st.expected.aog_prob)}" r="4" fill="var(--accent)"><title>手 ${st.step}：欠航 ${pct(st.expected.aog_prob, 1)}、費用 ${(st.expected.total_cost / 1000).toFixed(1)} 百万ドル${st.added ? "。" + st.added.label : ""}</title></circle><text class="tick" x="${x(i)}" y="${H - B + 14}" text-anchor="middle">${st.added ? st.added.name + "+" + st.added.inc : "今"}</text>`; });
+    const steps = tr.slice(1).map((st) => `<tr><td>${st.step}</td><td>${esc(st.added.label)}</td><td>${(st.added.d_aog * 100).toFixed(1)}pt</td><td>${(st.added.d_cost / 1000).toFixed(1)}</td><td>${pct(st.expected.aog_prob, 1)}</td><td>${(st.expected.total_cost / 1000).toFixed(1)}</td></tr>`).join("");
+    const plan = PU.purchase_plan.map((p) => `<tr><td><b>${esc(p.what)}</b></td><td>${p.count}</td><td>${p.order_by}</td><td>${p.in_service}</td><td class="hint">${esc(p.note)}</td></tr>`).join("");
+    const cp = PU.couplings.map((c_) => `<li><b>${esc(c_.kind)}</b>：${esc(c_.text)}</li>`).join("");
+    const caps = Object.entries(PU.caps).map(([k, v]) => `${k} ≤ ${v.cap}（${esc(v.note)}）`).join("、");
+    return panel("購入計画の輪（置く → 便の計画で解く → 欠航確率と費用 → 最も安い 1 手 → 目標まで繰り返す）", `<p class="chart-note">${S_.steps} 手で欠航確率 ${pct(S_.aog_before, 1)} → ${pct(S_.aog_after, 1)}（目標 ${pct(PU.target)}）、費用 ${(S_.cost_before / 1000).toFixed(1)} → ${(S_.cost_after / 1000).toFixed(1)} 百万ドル。${esc(PU.stop)}${PU.seed_from ? "。" + esc(PU.seed_from.why) : ""}</p>` + `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="購入計画の輪の軌跡">${s}</svg>`
+      + `<div class="vgrid"><div><h3 style="margin:0 0 6px">購入計画</h3><table><thead><tr><th>何を</th><th>基数</th><th>発注</th><th>使える月</th><th></th></tr></thead><tbody>${plan || "<tr><td colspan=5>追加不要</td></tr>"}</tbody></table></div><div><h3 style="margin:0 0 6px">手順</h3><table><thead><tr><th>手</th><th>足したもの</th><th>欠航</th><th>費用（百万ドル）</th><th>欠航（後）</th><th>費用（後）</th></tr></thead><tbody>${steps}</tbody></table></div></div>`
+      + `<h3 style="margin:10px 0 4px">絡み合い（この輪が触る他の問題）</h3><ul>${cp}</ul><p class="hint">上限：${caps}</p>`
+      + `<h3 style="margin:10px 0 4px">戻りの輪</h3><ul><li>月次：${esc(PU.feedback.monthly)}</li><li>年次：${esc(PU.feedback.yearly)}</li></ul>`, esc(PU.note));
+  }
+  function playbook() {
+    const P = C().playbook;
+    if (!P) return panel("打ち手の順番", '<p class="hint">playbook.py の結果がありません。</p>');
+    const W_ = Object.keys(P.worlds);
+    const head = `<tr><th>段</th>${W_.map((w) => `<th>${esc(P.worlds[w])}<br><span class="hint">重み ${(P.posterior[w] * 100).toFixed(0)}%</span></th>`).join("")}<th>期待値（百万ドル）</th><th>基準との差</th><th>欠航リスク</th><th>立て直し費</th></tr>`;
+    const rows = P.steps.map((st) => `<tr><td><b>${esc(st.label)}</b></td>${W_.map((w) => st.by_world[w] ? `<td>${(st.by_world[w].total_cost / 1000).toFixed(1)}<br><span class="hint">AOG ${pct(st.by_world[w].aog_prob, 1)}${st.actions[w].length ? "・" + st.actions[w].join("+") : ""}</span></td>` : "<td>—</td>").join("")}<td>${(st.expected.total_cost / 1000).toFixed(1)}</td><td>${st.delta_vs_base ? ((st.delta_vs_base.total_cost / 1000) >= 0 ? "+" : "") + (st.delta_vs_base.total_cost / 1000).toFixed(1) : "—"}</td><td>${pct(st.expected.aog_prob, 1)}</td><td>${(st.expected.recourse / 1000).toFixed(1)}</td></tr>`).join("");
+    const plan = P.steps.slice(1).map((st) => `<tr><td><b>${esc(st.label)}</b></td><td>${esc(st.who)}</td><td>${esc(st.when)}</td><td>${esc(st.deadline)}</td><td>${esc(st.trigger)}</td></tr>`).join("");
+    const vd = `<ul>${P.verdict.map((v) => `<li><span style="background:${SEV[v.status]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${esc(v.text)}</li>`).join("")}</ul>`;
+    const PU = C().purchase;
+    const purchase = PU ? purchasePanel(PU) : "";
+    return purchase + panel("", `<p class="chart-note">${esc(playbookLine(P))}</p><p>診断：遅いのは工場の数ではなく、部品（LLP キット）の納期と判断のリード。費用を膨らませるのは所見。だから順番は「キット → 契約 → 第二工場の選択権」。新設はしない。</p>` + vd, esc(P.note))
+      + panel("段ごとの効果（前の段の上に重ねる）", `<div class="scroll"><table><thead>${head}</thead><tbody>${rows}</tbody></table></div>`, `ループの時間：${esc(P.loop_time.rule)}`)
+      + panel("誰が・いつ・何を引き金に", `<table><thead><tr><th>段</th><th>誰が</th><th>いつ</th><th>期限</th><th>引き金</th></tr></thead><tbody>${plan}</tbody></table>`, "引き金は「前提の見直しの枠組み」と同じ信号（変化点検知・追跡の例外・枠の回答）。");
+  }
+
+  /* ---------------- backtest ---------------- */
+  const btSev = (B) => B.engine.verdict.concat(B.demand.verdict).some((v) => v.status === "warn") ? "warn" : "ok";
+  const backtestCls = (B) => btSev(B);
+  const backtestLine = (B) => { const e = B.engine; return `${e.n_versions} 版・${e.n_fy} 年度で検証：リスクの幅に入った年度 ${(e.coverage * 100).toFixed(0)}%、期限の誤差 平均 ${e.timing.mean != null ? e.timing.mean.toFixed(1) : "—"} か月、件数 ×${e.volume_ratio.toFixed(2)}、計画外 ×${e.unsched_ratio.toFixed(2)}`; };
+  function timingHist(E, W = 900, H = 200, compact = false) {
+    const T = E.timing; if (!T.hist || !T.hist.length) return "";
+    const L = compact ? 6 : 40, B = compact ? 6 : 24, Tp = compact ? 6 : 10, n = T.hist.length, bw = (W - L - 10) / n, top = Math.max(1, ...T.hist);
+    let s = "";
+    T.hist.forEach((v, i) => { const b = T.hist_bins[i]; const h = (H - Tp - B) * v / top; s += `<rect x="${L + i * bw + 1}" y="${H - B - h}" width="${bw - 2}" height="${h}" fill="${b === 0 ? "var(--good)" : b < 0 ? "var(--warn)" : "var(--accent)"}"><title>${b >= 0 ? "+" : ""}${b} か月：${v} 基</title></rect>`; if (!compact && (b % 3 === 0)) s += `<text class="tick" x="${L + i * bw + bw / 2}" y="${H - B + 14}" text-anchor="middle">${b >= 0 ? "+" : ""}${b}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="期限の予測誤差の分布">${s}</svg>`;
+  }
+  function fyCalibration(E, W = 900, H = 220) {
+    const rows = E.versions.flatMap((v) => v.fy.map((f) => ({ ...f, version: v.version })));
+    if (!rows.length) return "";
+    const L = 40, B = 40, Tp = 10, bw = (W - L - 10) / rows.length, top = Math.max(1, ...rows.map((f) => Math.max(f.p90, f.actual, f.planned))) * 1.1, y = (v) => Tp + (H - Tp - B) * (1 - v / top);
+    let s = "";
+    rows.forEach((f, i) => { const x = L + i * bw; s += `<rect x="${x + bw * 0.2}" y="${y(f.p90)}" width="${bw * 0.6}" height="${Math.max(1, y(f.p10) - y(f.p90))}" fill="var(--muted)" opacity=".4"><title>${f.version} 版 ${f.fy}：幅 ${f.p10}〜${f.p90}</title></rect><line x1="${x + bw * 0.2}" x2="${x + bw * 0.8}" y1="${y(f.planned)}" y2="${y(f.planned)}" stroke="var(--ink)" stroke-dasharray="3 2"/><circle cx="${x + bw / 2}" cy="${y(f.actual)}" r="4" fill="${f.inside ? "var(--good)" : "var(--crit)"}"><title>${f.version} 版 ${f.fy}：計画 ${f.planned}、実際 ${f.actual}${f.inside ? "" : "（幅の外）"}</title></circle>`; if (i % 2 === 0) s += `<text class="tick" x="${x + bw / 2}" y="${H - B + 12}" text-anchor="middle">${f.fy.slice(2)}</text><text class="tick" x="${x + bw / 2}" y="${H - B + 24}" text-anchor="middle" style="font-size:8px">${f.version.slice(2, 4)}版</text>`; });
+    [0, Math.round(top / 2), Math.round(top)].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度ごとの計画と実績と幅">${s}</svg>`;
+  }
+  function splitPanel(S_) {
+    const c = S_.corrections, f = (v, d = 2) => (v == null ? "—" : Number(v).toFixed(d));
+    const row = (label, k, fmt) => `<tr><td>${label}</td><td>${fmt(S_.learn[k])}</td><td>${fmt(S_.test_raw[k])}</td><td><b>${fmt(S_.test_corrected[k])}</b></td></tr>`;
+    const P = (v) => (v == null ? "—" : (v * 100).toFixed(0) + "%"), M = (v) => (v == null ? "—" : (v >= 0 ? "+" : "") + Number(v).toFixed(1) + " か月");
+    const tbl = `<table><thead><tr><th>指標</th><th>学ぶ期間（補正前）</th><th>確かめる期間（補正前）</th><th>確かめる期間（補正後）</th></tr></thead><tbody>`
+      + row("期限の誤差 平均", "timing_mean", M) + row("±1 か月以内", "timing_within_1", P) + row("幅に入った年度（目標 80%）", "coverage", P) + row("年度の件数 実績 ÷ 予測", "predicted_ratio", (v) => f(v)) + row("計画外 実績 ÷ 想定", "unsched_ratio", (v) => f(v))
+      + `<tr><td class="hint">版</td><td class="hint">${S_.learn_versions[0]}〜${S_.learn_versions.slice(-1)[0]}（${S_.learn.versions}）</td><td class="hint" colspan="2">${S_.test_versions[0]}〜${S_.test_versions.slice(-1)[0]}（${S_.test_raw.versions}）</td></tr></tbody></table>`;
+    const vd = `<ul>${S_.verdict.map((v) => `<li><span style="background:${SEV[v.status]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${esc(v.text)}</li>`).join("")}</ul>`;
+    const ladder = ["ならし 0〜5 年（捨てる）", `学ぶ 6〜14 年（${S_.learn.versions} 版）`, `確かめる 15〜19 年（${S_.test_raw.versions} 版）`, "使う 20 年〜（今日からの計画）"].map((t, i) => `<span style="display:inline-block;padding:4px 10px;border:1px solid var(--rule);border-radius:6px;margin:2px;${i === 1 ? "background:var(--accent-soft)" : i === 2 ? "background:var(--good-soft)" : ""}">${t}</span>${i < 3 ? " → " : ""}`).join("");
+    return panel("学ぶ・確かめる・使う（補正を学んだ区間の外で採点する）", `<p>${ladder}</p><p class="chart-note">${esc(S_.summary.text)}</p><p>学んだ補正：期限を ${c.timing_shift >= 0 ? "+" : ""}${c.timing_shift} か月、計画外の率 ×${c.unsched_ratio}、計画した入場がその年度に起きる割合 ${c.p_keep}</p>` + tbl + vd,
+      "学ぶ期間で導いた補正を、学んでいない確かめる期間の版に当てる。改善した指標の補正だけを、今日からの計画（使う期間）に持ち込む。改善しない補正は過学習の疑い。");
+  }
+  function backtest() {
+    const B = C().backtest;
+    if (!B) return panel("過去で検証", '<p class="hint">backtest.py の結果がありません。</p>');
+    const E = B.engine, Dd = B.demand;
+    const vd = (vs) => `<ul>${vs.map((v) => `<li><span style="background:${SEV[v.status]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${esc(v.text)}</li>`).join("")}</ul>`;
+    const vers = E.versions.map((v) => `<tr><td>${v.version}</td><td>${v.planned}</td><td>${v.matched}</td><td>${v.missed}</td><td>${v.unplanned}</td><td>${v.timing_mean != null ? (v.timing_mean >= 0 ? "+" : "") + v.timing_mean.toFixed(1) : "—"}</td><td>${v.fy.map((f) => `${f.fy.slice(2)} ${f.planned}→${f.actual} [${f.p10}–${f.p90}]${f.inside ? "" : " ✗"}`).join("、")}</td></tr>`).join("");
+    const dem = Dd.rows.map((r) => `<tr><td>${r.fy}${r.shock ? " <span class=\"hint\">衝撃</span>" : ""}</td><td>${(r.short * 100).toFixed(1)}%</td><td>${(r.long * 100).toFixed(1)}%</td><td>${(r.blend * 100).toFixed(1)}%</td><td><b>${(r.realised * 100).toFixed(1)}%</b></td><td>${(r.err_short * 100).toFixed(1)}</td><td>${(r.err_long * 100).toFixed(1)}</td><td>${r.trigger_fired ? "引かれた" : "—"}</td></tr>`).join("");
+    return panel("", `<p class="chart-note">${esc(backtestLine(B))}</p>` + vd(E.verdict) + G("backtestTiming").replace("</div>", "</div>"), esc(E.note))
+      + panel("期限の予測誤差（実際 − 予測、か月）", timingHist(E) + legend([["的中（±0）", "var(--good)"], ["実際が早い", "var(--warn)"], ["実際が遅い", "var(--accent)"]]))
+      + panel("年度ごとの計画・実際・リスクの幅", fyCalibration(E) + legend([["当時の幅 10〜90%", "var(--muted)"], ["計画", "var(--ink)", 1], ["実際（幅の中）", "var(--good)"], ["実際（幅の外）", "var(--crit)"]]) + G("backtestFy"))
+      + (E.split ? splitPanel(E.split) : "")
+      + panel("版ごと", `<div class="scroll"><table><thead><tr><th>版</th><th>計画した機</th><th>突き合わせ</th><th>未取卸し</th><th>計画外</th><th>誤差平均</th><th>年度（計画→実際 [幅]）</th></tr></thead><tbody>${vers}</tbody></table></div>`)
+      + panel("需要の伸びの規則を過去に当てる（実データ）", vd(Dd.verdict) + `<div class="scroll"><table><thead><tr><th>年度</th><th>直近の規則</th><th>長期の規則</th><th>計画の混ぜ方</th><th>実績</th><th>誤差（直近）</th><th>誤差（長期）</th><th>引き金</th></tr></thead><tbody>${dem}</tbody></table></div>` + G("backtestDemand"), esc(Dd.note));
+  }
+
+  /* ---------------- the AI review (PDCA / OODA) ---------------- */
+  const SEV = { crit: "var(--crit)", warn: "var(--warn)", info: "var(--muted)", ok: "var(--good)" };
+  const reviewCls = (V) => (Object.values(V.coverage).some((c) => c.worst === "crit") ? "flag" : Object.values(V.coverage).some((c) => c.worst === "warn") ? "warn" : "ok");
+  const reviewLine = (V) => { const n = { crit: 0, warn: 0, info: 0, ok: 0 }; V.symptoms.forEach((s) => n[s.severity]++); return `${V.review.mode === "ai" ? `AI（${V.review.model}）の総評つき` : "規則層のみ（AI 未接続）"}：今すぐ直す ${n.crit}、会議で決める ${n.warn}、情報 ${n.info}、問題なし ${n.ok}`; };
+  function coverageGrid(V, compact = false) {
+    const loops = [["PDCA", ["Plan", "Do", "Check", "Act"]], ["OODA", ["Observe", "Orient", "Decide", "Act"]]];
+    const JPN = { Plan: "つくる", Do: "回す", Check: "確かめる", Act: "直す／動く", Observe: "見る", Orient: "状況判断", Decide: "決める" };
+    const W = compact ? 320 : 900, cw = (W - 60) / 4, ch = compact ? 40 : 64;
+    let s = "";
+    loops.forEach(([lp, st], r) => {
+      s += `<text class="lbl" x="0" y="${r * ch + ch / 2 + 4}">${lp}</text>`;
+      st.forEach((k, i) => { const c = V.coverage[`${lp}.${k}`]; const col = c && c.worst ? SEV[c.worst] : "var(--rule)"; s += `<rect x="${60 + i * cw + 2}" y="${r * ch + 2}" width="${cw - 4}" height="${ch - 4}" rx="4" fill="${col}" opacity="${c && c.worst ? 0.85 : 0.25}"><title>${lp} ${k}: ${c ? c.n : 0} 件${c && c.worst ? `（最悪 ${c.worst}）` : ""}</title></rect><text class="tick" x="${60 + i * cw + cw / 2}" y="${r * ch + ch / 2 + 4}" text-anchor="middle" style="fill:#fff;font-weight:600">${k}${compact ? "" : `　${JPN[k]}`}${c && c.n ? ` ${c.n}` : ""}</text>`; });
+    });
+    return `<svg viewBox="0 0 ${W} ${loops.length * ch}" role="img" aria-label="PDCA と OODA の段ごとの指摘">${s}</svg>`;
+  }
+  function md(text) {
+    const inl = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+    const out = []; let list = null;
+    const close = () => { if (list) { out.push(`</${list}>`); list = null; } };
+    String(text || "").split("\n").forEach((ln) => {
+      let m;
+      if ((m = ln.match(/^(#{1,3})\s+(.*)/))) { close(); out.push(`<h${m[1].length + 1}>${inl(m[2])}</h${m[1].length + 1}>`); }
+      else if ((m = ln.match(/^\s*[-*]\s+(.*)/))) { if (list !== "ul") { close(); out.push("<ul>"); list = "ul"; } out.push(`<li>${inl(m[1])}</li>`); }
+      else if ((m = ln.match(/^\s*\d+[.)]\s+(.*)/))) { if (list !== "ol") { close(); out.push("<ol>"); list = "ol"; } out.push(`<li>${inl(m[1])}</li>`); }
+      else if (ln.trim() === "") close();
+      else { close(); out.push(`<p>${inl(ln)}</p>`); }
+    });
+    close(); return out.join("");
+  }
+  function frameworkPanel(FW) {
+    const ST = { ok: ["var(--good)", "周期内"], overdue: ["var(--crit)", "期限切れ"], fired: ["var(--warn)", "引き金"] };
+    const rows = FW.layers.map((ly) => FW.table.filter((a) => a.layer === ly).map((a, i, arr) => `<tr>${i === 0 ? `<td rowspan="${arr.length}"><b>${ly}</b></td>` : ""}<td>${esc(a.name)}</td><td class="hint">${esc(a.source)}</td><td>${a.cadence_months} か月・${esc(a.loop)}</td><td>${esc(a.trigger)}</td><td>${a.affects.map(esc).join("・")}</td><td>${esc(a.owner)}</td><td>${a.last_derived}</td><td><span style="background:${ST[a.status][0]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${ST[a.status][1]}</td></tr>`).join("")).join("");
+    // the layers as a ladder: each layer sets the one below's "need", and reads back its headroom
+    const ladder = FW.layers.map((ly, i) => `<span style="display:inline-block;padding:4px 10px;border:1px solid var(--rule);border-radius:6px;margin:2px">${ly}<span class="hint"> ${FW.table.filter((a) => a.layer === ly).length}</span></span>${i < FW.layers.length - 1 ? " → " : ""}`).join("");
+    return panel("前提の見直しの枠組み（層 × 周期 × 引き金）", `<p class="chart-note">${FW.n} の前提。期限切れ ${FW.overdue.length}、引き金が引かれたもの ${FW.fired.length}（${FW.as_of} 時点）</p><p>${ladder}</p><p class="hint">上の層が下の層の「必要」を決め、下の層は上の層に「余力」と「限界」を返す。周期は遅い輪（年次の版・月次会議）、引き金は速い輪（変化点・閾値）。期限切れと引き金は症状表に自動で載る</p><div class="scroll"><table><thead><tr><th>層</th><th>前提</th><th>出所</th><th>周期</th><th>引き金（早める）</th><th>影響先</th><th>担当</th><th>最終導出</th><th>状態</th></tr></thead><tbody>${rows}</tbody></table></div>`, "data/assumptions_review.json。最終導出の月は今は手で持つ。各モジュールの出力（auto 列）から自動で取るのが次の作業。");
+  }
+  function review() {
+    const V = C().review;
+    if (!V) return panel("PDCA／OODA の見直し", '<p class="hint">review.py の結果がありません。</p>');
+    const rows = V.symptoms.map((s) => `<tr><td>${s.loop}</td><td>${s.stage}</td><td><span style="background:${SEV[s.severity]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${s.severity}</td><td>${esc(s.finding)}</td><td class="hint">${esc(s.evidence)}</td><td>${esc(s.ask)}</td></tr>`).join("");
+    const head = V.review.mode === "ai" ? `Claude（${esc(V.review.model)}）が事実パックと症状表から書いた見直し。入力 ${fmt(V.review.usage.input_tokens)}・出力 ${fmt(V.review.usage.output_tokens)} トークン` : `AI 未接続（${esc(V.review.reason)}）。規則層の症状表をそのまま示す`;
+    return panel("", `<p class="chart-note">${esc(reviewLine(V))}</p>` + coverageGrid(V) + G("reviewCoverage"), esc(V.note))
+      + panel("見直し", `<p class="hint">${head}</p><div class="review-text">${md(V.review.text)}</div>`)
+      + (V.framework ? frameworkPanel(V.framework) : "")
+      + panel("症状表（規則層：毎回同じ判定）", `<div class="scroll"><table><thead><tr><th>輪</th><th>段</th><th>重さ</th><th>指摘</th><th>根拠</th><th>会議で聞くこと</th></tr></thead><tbody>${rows}</tbody></table></div>`, "crit＝今すぐ直す、warn＝会議で決める、info＝情報、ok＝問題なし。AI 層はこの表に根拠を添えて総評・問い・次の版で直す点を書く。");
+  }
+
+  /* ---------------- how cheap recovery is ---------------- */
+  const resCls = (R) => (R.base && R.base.recourse / R.base.total > 0.15 ? "warn" : "ok");
+  const resLine = (R) => R.base ? `基準計画の立て直し費は ${(R.base.recourse / 1000).toFixed(1)} 百万ドル（全体の ${pct(R.base.recourse / R.base.total)}、悪い 1 割では ${(R.base.recourse_p90 / 1000).toFixed(1)}）` : "";
+  function splitChart(R, W = 900, H = 60) {
+    const P = R.plans, rowH = 46, L = 190, Hh = P.length * rowH + 30, top = Math.max(...P.map((p) => p.committed + p.recourse_p90)) * 1.05;
+    const x = (v) => L + v / top * (W - L - 20);
+    let s = "";
+    P.forEach((p, i) => {
+      const y = 10 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 18}" text-anchor="end">${esc(p.label)}</text>`;
+      s += `<rect x="${x(0)}" y="${y}" width="${x(p.committed) - x(0)}" height="26" fill="var(--muted)"><title>計画どおり ${(p.committed / 1000).toFixed(1)} 百万ドル</title></rect>`;
+      s += `<rect x="${x(p.committed)}" y="${y}" width="${x(p.committed + p.recourse) - x(p.committed)}" height="26" fill="var(--warn)"><title>立て直し（期待） ${(p.recourse / 1000).toFixed(1)}</title></rect>`;
+      s += `<rect x="${x(p.committed + p.recourse)}" y="${y + 6}" width="${Math.max(0, x(p.committed + p.recourse_p90) - x(p.committed + p.recourse))}" height="14" fill="var(--crit)" opacity=".6"><title>立て直し（悪い 1 割） ${(p.recourse_p90 / 1000).toFixed(1)}</title></rect>`;
+      s += `<text class="tick" x="${x(p.committed + p.recourse_p90) + 6}" y="${y + 18}">${(p.total / 1000).toFixed(0)}・AOG ${pct(p.aog)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="計画どおりの費用と立て直し費">${s}</svg>`;
+  }
+  function premiumChart(R, W = 900, H = 360, compact = false) {
+    const A = R.actions.filter((a) => a.premium != null);
+    if (!A.length) return "";
+    const ash = (v) => Math.asinh(v / 2);            // compressed axes: the part-out and fleet-change levers are 100x the rest
+    const xs = A.map((a) => a.premium / 1000), ys = A.map((a) => a.payout / 1000);
+    const lo = Math.min(-2, ...xs.map(ash), ...ys.map(ash)), hi = Math.max(2, ...xs.map(ash), ...ys.map(ash));
+    const L = compact ? 6 : 56, R_ = compact ? 6 : 16, T = compact ? 6 : 12, B = compact ? 6 : 40;
+    const X = (v) => L + (ash(v) - lo) / (hi - lo) * (W - L - R_), Y = (v) => T + (hi - ash(v)) / (hi - lo) * (H - T - B);
+    const XX = (u) => L + (u - lo) / (hi - lo) * (W - L - R_), YY = (u) => T + (hi - u) / (hi - lo) * (H - T - B);
+    // payout > premium: above the diagonal (in the compressed space the diagonal stays the diagonal)
+    let s = `<polygon points="${XX(lo)},${YY(lo)} ${XX(hi)},${YY(hi)} ${XX(lo)},${YY(hi)}" fill="var(--good-soft)" opacity=".7"><title>払い戻し ＞ 保険料：立て直しが安くなる打ち手</title></polygon>`;
+    s += `<line x1="${XX(lo)}" x2="${XX(hi)}" y1="${YY(lo)}" y2="${YY(hi)}" stroke="var(--rule)" stroke-dasharray="4 3"/><line x1="${X(0)}" x2="${X(0)}" y1="${T}" y2="${H - B}" stroke="var(--rule)"/><line x1="${L}" x2="${W - R_}" y1="${Y(0)}" y2="${Y(0)}" stroke="var(--rule)"/>`;
+    if (!compact) [-100, -10, -1, 0, 1, 10].forEach((v) => { if (ash(v) > lo && ash(v) < hi) { s += `<text class="tick" x="${X(v)}" y="${H - B + 14}" text-anchor="middle">${v}</text><text class="tick" x="${L - 6}" y="${Y(v) + 3}" text-anchor="end">${v}</text>`; } });
+    const placed = [];
+    A.forEach((a, i) => {
+      const good = a.payout > a.premium, cx = X(xs[i]), cy = Y(ys[i]);
+      s += `<circle cx="${cx}" cy="${cy}" r="${compact ? 3.5 : 6}" fill="${good ? "var(--good)" : "var(--crit)"}"><title>${esc(a.question)}：保険料 ${xs[i].toFixed(1)}、払い戻し ${ys[i].toFixed(1)}、差し引き ${(a.net / 1000).toFixed(1)} 百万ドル</title></circle>`;
+      if (!compact) { let ty = cy + 4; while (placed.some((p) => Math.abs(p.y - ty) < 13 && Math.abs(p.x - cx) < 260)) ty += 13; placed.push({ x: cx, y: ty });
+        const lab = esc(a.question.length > 20 ? a.question.slice(0, 20) + "…" : a.question);
+        s += cx > W - 260 ? `<text class="tick" x="${cx - 9}" y="${ty}" text-anchor="end">${lab}</text>` : `<text class="tick" x="${cx + 9}" y="${ty}">${lab}</text>`; }
+    });
+    if (!compact) s += `<text class="tick" x="${(L + W - R_) / 2}" y="${H - 6}" text-anchor="middle">保険料：先に増える費用（百万ドル、負＝先に減る。目盛りは圧縮）</text><text class="tick" x="12" y="${(T + H - B) / 2}" transform="rotate(-90 12 ${(T + H - B) / 2})" text-anchor="middle">払い戻し：立て直し費の減り（百万ドル）</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="保険料と払い戻し">${s}</svg>`;
+  }
+  function delayChart(p, W = 900, H = 220) {
+    const d = (p.delay_curve || []).filter((x) => x.cost_of_delay != null);
+    if (!d.length) return '<p class="hint">遅れの曲線はありません（乗り換えが得にならない世界）。</p>';
+    return lineChart({ xs: d.map((x) => x.delay), series: [{ ys: d.map((x) => x.cost_of_delay / 1000), color: "var(--crit)" }], fillUnder: false,
+      points: d.map((x) => ({ x: x.delay, y: x.cost_of_delay / 1000, color: "var(--crit)", label: `${x.as_of}：${(x.cost_of_delay / 1000).toFixed(1)} 百万ドル` })),
+      yticks: [0, 0.5, 1, 1.5], xticks: d.map((x) => x.delay), xfmt: (v) => `+${v} か月`, yfmt: (v) => v + " M$", xlabel: "変化点に気づいてから動くまでの遅れ", ylabel: "遅れの費用（百万ドル）", aria: "遅れの費用" }, W, H);
+  }
+  function resilience() {
+    const c = C(), R = c.resilience, t = c.track, p = t && t.cpd;
+    if (!R) return panel("立て直しの安さ", '<p class="hint">この基準計画には費用の分離がありません（凍結し直してください）。</p>');
+    const parts = R.base ? R.base.parts : {};
+    const partsTxt = R.base ? `内訳（期待値）：所見・為替の超過 ${((parts.overrun || 0) / 1000).toFixed(1)}、緊急キット ${((parts.emergency_kits || 0) / 1000).toFixed(1)}、リース ${((parts.lease || 0) / 1000).toFixed(1)}、代替機材 ${((parts.substitute || 0) / 1000).toFixed(1)}、欠航 ${((parts.aog || 0) / 1000).toFixed(1)} 百万ドル。立て直し費の大半は所見の超過：予備より契約形態（固定価格・超過の分担）が効く` : "";
+    return panel("", `<p class="chart-note">${esc(resLine(R))}</p>` + splitChart(R) + `<div class="legend"><span><span class="sw" style="background:var(--muted)"></span>計画どおり（入場＋予備＋固定費）</span><span><span class="sw" style="background:var(--warn)"></span>立て直し（期待）</span><span><span class="sw" style="background:var(--crit);opacity:.6"></span>立て直し（悪い 1 割）</span></div>` + G("split"), partsTxt)
+      + panel("", `<p class="chart-note">打ち手を「保険料」と「払い戻し」で見る：緑の領域は払い戻しが保険料を上回る＝立て直しが安くなる</p>` + premiumChart(R) + G("premium"), "保険料＝その打ち手で先に増える費用（計画どおり分の差）、払い戻し＝立て直し費（リース・代替・欠航・割増）の減り。差し引きが「打ち手の効果」の費用差。")
+      + (p ? panel("", `<p class="chart-note">気づいてから動くまでの遅れの費用${p.delay_curve && p.delay_curve.length ? `（${esc(p.fired_world === "crunch" ? "逼迫" : "混雑")}の世界）` : ""}</p>` + delayChart(p) + G("delay"), "変化点の月に乗り換えた場合の価値と、n か月遅れて乗り換えた場合の価値の差。") : "");
+  }
+
+  /* ---------------- money mechanisms ---------------- */
+  const KIND_COL = { "税・会計": "var(--muted)", "資金": "var(--accent)", "規模": "var(--good)", "グループ": "var(--ws-core)" };
+  const pk_ = (F) => F.package_sim.effect_k;
+  const finLine = (F) => `大手だけが使える仕組みで 2 年 ${(-F.total_large_only_k / 1000).toFixed(1)} 百万ドル、全体で ${(-F.total_effect_k / 1000).toFixed(1)} 百万ドル（税の期ズレは含めず）`;
+  function finChart(F, W = 900, H = 320, compact = false) {
+    const I = F.items.filter((i) => i.effect_k !== 0), L = compact ? 6 : 300, R = compact ? 6 : 90, rowH = compact ? 14 : 30, Hh = I.length * rowH + (compact ? 8 : 20);
+    const mx = Math.max(1, ...I.map((i) => Math.abs(i.effect_k))), x0 = L + (W - L - R) / 2, sc = (W - L - R) / 2 / mx;
+    let s = `<line x1="${x0}" x2="${x0}" y1="0" y2="${Hh}" stroke="var(--rule)"/>`;
+    I.forEach((i, j) => {
+      const y = (compact ? 4 : 10) + j * rowH, v = -i.effect_k, w = Math.abs(v) * sc;
+      s += `<rect x="${v >= 0 ? x0 : x0 - w}" y="${y}" width="${w}" height="${rowH - 6}" fill="${KIND_COL[i.kind]}" opacity="${i.needs_tax_review ? .45 : .9}"><title>${esc(i.name)}：${(v / 1000).toFixed(1)} 百万ドル</title></rect>`;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + rowH - 12}" text-anchor="end">${esc(i.name)}${i.large_only ? " ★" : ""}</text><text class="tick" x="${v >= 0 ? x0 + w + 6 : x0 + 6}" y="${y + rowH - 12}" text-anchor="start">${(v / 1000).toFixed(1)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="お金の仕組みの効果">${s}</svg>`;
+  }
+  function finance() {
+    const F = C().finance;
+    if (!F) return panel("お金の仕組み", '<p class="hint">なし</p>');
+    const rows = F.items.map((i) => `<tr><td><span class="sw" style="background:${KIND_COL[i.kind]}"></span>${esc(i.kind)}</td><td>${esc(i.name)}${i.large_only ? " ★" : ""}</td><td>${i.effect_k ? (-i.effect_k / 1000).toFixed(1) : "—"}</td><td>${i.sim_effect_k != null ? `${(-i.sim_effect_k / 1000).toFixed(1)}${i.sim_aog ? `（AOG ${(i.sim_aog * 100).toFixed(1) > 0 ? "+" : ""}${(i.sim_aog * 100).toFixed(1)}pt）` : ""}` : "—"}</td><td>${i.cash_k ? (i.cash_k / 1000).toFixed(1) : "—"}</td><td>${i.balance_k ? (i.balance_k / 1000).toFixed(1) : "—"}</td><td>${esc(i.what)}<br><span class="hint">${esc(i.how)}</span></td><td>${i.needs_tax_review ? "要確認" : i.confidence}</td></tr>`).join("");
+    const pk = F.package_sim ? `<p class="chart-note">大手パッケージをシミュレーションに入れると：費用の差 ${(pk_(F) / 1000).toFixed(1)} 百万ドル（負が得）${F.package_sim.aog != null ? `、欠航リスク ${F.package_sim.aog >= 0 ? "+" : ""}${(F.package_sim.aog * 100).toFixed(1)}pt` : ""}、立て直し費の差 ${F.package_sim.recourse_k != null ? (F.package_sim.recourse_k / 1000).toFixed(1) : "—"} 百万ドル</p>` : "";
+    return panel("", `<p class="chart-note">${esc(finLine(F))}</p>` + pk + finChart(F) + `<div class="legend">${Object.entries(KIND_COL).map(([k, c_]) => `<span><span class="sw" style="background:${c_}"></span>${k}</span>`).join("")}<span>★ 大手だけが使える</span><span>薄い＝税の期ズレ（損得でなく繰延、要税理士確認）</span></div>` + G("finance"), esc(F.note))
+      + panel("", `<table><thead><tr><th>種類</th><th>仕組み</th><th>式で（百万ドル、＋が得）</th><th>シミュレーションで（同、AOG の変化）</th><th>現金（今入る＋／今出る−）</th><th>資産（B/S）</th><th>何を・どう計算したか</th><th>確度</th></tr></thead><tbody>${rows}</tbody></table>`,
+        `割引率 ${(F.params.discount_rate * 100).toFixed(0)}%、実効税率 ${(F.params.tax_rate * 100).toFixed(1)}%。前払いは短期前払費用の特例（継続役務）に当たらないので、税の得はない。`);
+  }
+
+  /* ---------------- after-tax yardstick ---------------- */
+  const taxLine = (T) => { const S = T.split, sp = T.spares.rows, r2 = sp.find((x) => x.years === 2), r10 = sp.find((x) => x.years === 10), sh = T.shops.rows; const nm = { buy: "購入", long: "長期リース", short: "短期リース" };
+    return `税引後の整備費は 2 年で ${musd(S.after_tax_in_window_k)} 百万ドル（税引前 ${musd(S.total_spend_k)}、盾の現在価値 ${musd(S.shield_pv_k)}）。予備 1 基は 2 年なら${nm[r2.best]}、10 年なら${nm[r10.best]}。工場の税引後の順位は ${sh[0].id} が最も安く ${sh[sh.length - 1].id} が最も高い（税引前と同じ）`; };
+  function taxChart(T, W = 900, H = 260, compact = false) {
+    const R = T.split.window, L = compact ? 6 : 56, Rr = compact ? 6 : 16, Tt = compact ? 6 : 14, B = compact ? 6 : 34, n = R.length, bw = (W - L - Rr) / n, mx = Math.max(...R.map((x) => x.spend)) * 1.08;
+    const Y = (v) => Tt + (1 - v / mx) * (H - Tt - B);
+    let s = "";
+    if (!compact) [0, 0.25, 0.5, 0.75, 1].forEach((f) => { const v = Math.round(mx * f / 1000) * 1000; s += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${L - 6}" y="${Y(v) + 3}" text-anchor="end">${musd(v)}</text>`; });
+    R.forEach((x, i) => {
+      const x0 = L + i * bw + bw * 0.18, w = bw * 0.64;
+      s += `<rect x="${x0}" y="${Y(x.after_tax)}" width="${w}" height="${Y(0) - Y(x.after_tax)}" fill="var(--accent)"><title>${x.fy} 税引後 ${musd(x.after_tax)} 百万ドル</title></rect>`;
+      s += `<rect x="${x0}" y="${Y(x.spend)}" width="${w}" height="${Y(x.after_tax) - Y(x.spend)}" fill="var(--accent)" opacity=".3"><title>${x.fy} 税の盾 ${musd(x.shield)} 百万ドル（修繕費 ${musd(x.repair)}＋償却 ${musd(x.depreciation)}）× ${pct(x.rate, 1)}</title></rect>`;
+      if (!compact) s += `<text class="tick" x="${x0 + w / 2}" y="${H - B + 14}" text-anchor="middle">${x.fy}</text><text class="tick" x="${x0 + w / 2}" y="${Y(x.spend) - 4}" text-anchor="middle">${musd(x.after_tax)} / ${musd(x.spend)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度ごとの税引後の費用と税の盾">${s}</svg>`;
+  }
+  function tax() {
+    const T = C().tax;
+    if (!T) return panel("税引後で比べる", '<p class="hint">なし</p>');
+    const S = T.split, P = T.params, k = (v) => v == null ? "—" : musd(v), nm = { buy: "購入", long: "長期リース", short: "短期リース" };
+    const conf = (c_) => `<span class="pill ${c_ === "A" || c_ === "B" ? "go" : c_ === "C" ? "mid" : "act"}">${esc(c_ === "no_source" ? "出典なし" : c_)}</span>`;
+    // 1. split by fiscal year
+    const splitRows = S.rows.filter((x) => x.in_window || x.depreciation > 50).map((x) => `<tr${x.in_window ? "" : ' style="color:var(--muted)"'}><td>${x.fy}${x.in_window ? "" : "（窓の外）"}</td><td>${pct(x.rate, 1)}</td><td>${k(x.spend)}</td><td>${k(x.repair)}</td><td>${k(x.capital)}</td><td>${k(x.depreciation)}</td><td>${k(x.shield)}</td><td><b>${k(x.after_tax)}</b></td><td>${k(x.dtl)}</td></tr>`).join("");
+    const shares = ["PR", "CORE", "FULL"].map((w) => `${w} 修繕 ${pct(S.shares[w].repair)}／資本 ${pct(S.shares[w].capital)}`).join("、");
+    const p1 = panel("", `<p class="chart-note">${esc(taxLine(T))}</p>` + taxChart(T) + legend([["税引後の費用", "var(--accent)"], ["税の盾（損金・償却 × 税率）", "var(--accent-soft)"]]) + G("tax")
+      + `<table><thead><tr><th>年度</th><th>実効税率</th><th>費用（税引前）</th><th>修繕費</th><th>資本的支出</th><th>償却（税務）</th><th>税の盾</th><th>税引後</th><th>繰延税金負債（概算・累計）</th></tr></thead><tbody>${splitRows}</tbody></table>`,
+      `百万ドル。整備範囲ごとの区分は合成の仮定（${shares}）で、実際の会社の会計方針ではない。資本的支出は定率法 10 年（初年度 0.2）。盾の現在価値 ${k(S.shield_pv_k)}、窓の中で戻る盾 ${k(S.shield_in_window_k)}（総額 ${k(S.shield_total_k)}）。繰延税金負債は税務の定率法と会計の定額法の差 × 税率の概算（確度 C）。`);
+    // 2. shift between fiscal years
+    const sh = T.shift;
+    const p2 = !sh ? "" : panel("年度をまたぐ動き（" + esc(sh.question) + "）",
+      `<table><thead><tr><th>年度</th><th>費用の動き（税引前）</th><th>税の動き</th><th>税引後の動き</th></tr></thead><tbody>${sh.rows.map((x) => `<tr><td>${x.fy}</td><td>${(x.spend / 1000).toFixed(2)}</td><td>${(x.tax_effect / 1000).toFixed(2)}</td><td>${(x.after_tax / 1000).toFixed(2)}</td></tr>`).join("")}</tbody></table>`
+      + `<p class="chart-note">後の年度に移る費用 ${(sh.moved_k / 1000).toFixed(2)} 百万ドル。税引前の差 ${(sh.pre_tax_delta_k / 1000).toFixed(2)}、税引後の差 ${(sh.after_tax_delta_k / 1000).toFixed(2)}。納税が 1 年遅れる分の時間価値 ${(sh.timing_value_k / 1000).toFixed(3)} 百万ドル（税率 × 移る額 × (1 − 1/(1+r))）</p>`, esc(sh.note));
+    // 3. spares
+    const sp = T.spares;
+    const cv = sp.curve || [];
+    const spChart = cv.length ? lineChart({ xs: cv.map((c_) => c_.years), series: [{ ys: cv.map((c_) => c_.buy / 1000), color: "var(--ink)" }, { ys: cv.map((c_) => c_.long / 1000), color: "var(--accent)" }, { ys: cv.map((c_) => c_.short / 1000), color: "var(--warn)", dash: "4 3" }],
+      vlines: [{ x: 5, color: "var(--muted)", dash: "4 3", label: "5 年で見る" }].concat(sp.crossover_years ? [{ x: sp.crossover_years, color: "var(--good)", label: `${sp.crossover_years} 年目から購入が得` }] : []),
+      yticks: [0, 2, 4, 6, 8], xticks: cv.map((c_) => c_.years), xfmt: (v) => v + " 年", yfmt: (v) => v + " M$", xlabel: "持つ年数（10 年の中で）", ylabel: "税引後の現在価値（百万ドル）", aria: "予備 1 基の持ち方" }, 900, 260)
+      + legend([["購入（償却の盾・残存簿価を引く）", "var(--ink)", 1], ["長期リース", "var(--accent)", 1], ["短期リース", "var(--warn)", 1]]) : "";
+    const p3 = panel("予備エンジン 1 基：購入／長期リース／短期リース（税引後の現在価値、10 年の中で 5 年を見る）", spChart +
+      `<table><thead><tr><th>期間</th><th>購入（${sp.price_k.toLocaleString()} k$、償却の盾と残存簿価を引く）</th><th>長期リース（${sp.long_per_month} k$/月）</th><th>短期リース（${sp.short_per_month} k$/月）</th><th>安いのは</th></tr></thead><tbody>${sp.rows.map((x) => `<tr><td>${x.years} 年</td><td>${k(x.buy.after_tax_pv)}（税引前 ${k(x.buy.pre_tax_pv)}、盾 ${k(x.buy.shield_pv)}）</td><td>${k(x.long.after_tax_pv)}（税引前 ${k(x.long.pre_tax_pv)}）</td><td>${k(x.short.after_tax_pv)}（税引前 ${k(x.short.pre_tax_pv)}）</td><td><b>${nm[x.best]}</b></td></tr>`).join("")}</tbody></table>`, esc(sp.note));
+    // 4. invest
+    const iv = T.invest;
+    const p4 = !iv || !iv.rows.length ? "" : panel("国内工場：税引後 NPV と補助金の扱い（百万ドル）",
+      `<table><thead><tr><th>方針</th><th>投資（名目）</th><th>税引前 NPV</th><th>償却の盾（現在価値）</th><th>税引後 NPV（補助金なし）</th><th>補助金 ${pct(iv.subsidy_share)}・受取時に課税</th><th>補助金 ${pct(iv.subsidy_share)}・圧縮記帳</th><th>圧縮記帳の差</th></tr></thead><tbody>${iv.rows.map((x) => `<tr><td>${esc(x.label)}</td><td>${k(x.capex_k)}</td><td>${k(x.npv_pre_tax_k)}</td><td>${k(x.shield_pv_k)}</td><td>${k(x.after_tax_no_subsidy_k)}</td><td>${k(x.after_tax_subsidy_taxed_k)}</td><td><b>${k(x.after_tax_subsidy_compressed_k)}</b></td><td>+${k(x.compression_gain_k)}</td></tr>`).join("")}</tbody></table>`,
+      esc(iv.note) + `。建屋 ${pct(P.depreciation.capex_split.building)}（定額法 38 年）・機械 ${pct(P.depreciation.capex_split.machinery)}（定率法 10 年）の仮定${iv.from_stages ? "。invest.py の結果がないので data/leap_invest.json の段階から計算" : ""}`);
+    // 5. shops
+    const so = T.shops;
+    const p5 = panel(`工場ごとの実効費用（${so.workscope} 1 件、税引後）`,
+      `<table><thead><tr><th>順位</th><th>工場</th><th>見積もり</th><th>輸送</th><th>関税・消費税（控除不能分）</th><th>翼を離れる期間（月）</th><th>遅れの費用</th><th>税引前</th><th>税の盾（現在価値）</th><th>税引後の実効費用</th></tr></thead><tbody>${so.rows.map((x) => `<tr><td>${x.rank}</td><td>${esc(x.name)}<br><span class="hint">${x.id}・${x.currency}</span></td><td>${x.quote.toLocaleString()}</td><td>${x.transport}</td><td>${x.customs_vat}</td><td>${x.off_wing_months.toFixed(1)}（工期 ${x.tat}＋輸送 ${2 * x.transport_months}＋遅れ ${x.exp_delay_months.toFixed(2)}）</td><td>${x.delay_cost.toFixed(0)}</td><td>${x.pre_tax.toFixed(0)}</td><td>−${x.shield_pv.toFixed(0)}</td><td><b>${x.effective.toFixed(0)}</b></td></tr>`).join("")}</tbody></table>`
+      + (so.no_quote.length ? `<p class="chart-note">${so.no_quote.map((x) => `${esc(x.name)}：${so.workscope} の見積もりなし（${x.workscopes.join("・")}のみ）`).join("、")}</p>` : ""),
+      `k$。遅れの費用＝最短の工場より長く翼を離れる月数 × 短期リース ${so.lease_per_month} k$/月。` + esc(so.note));
+    // 6. params and what to watch
+    const src = (o) => o && o.source ? `${esc(o.source)} ${conf(o.confidence)}` : "";
+    const rateRows = Object.entries(P.rates).map(([fy, v]) => `<tr><td>${fy}</td><td>実効税率 ${pct(v.rate, 2)}（法定 ${pct(v.corporate, 2)}＋防衛特別法人税 ${(v.defense_add * 100).toFixed(2)}pt）</td><td>${v.sources.map(src).join("<br>")}</td></tr>`).join("");
+    const depRows = Object.entries(P.depreciation).map(([kk, v]) => `<tr><td>償却 ${esc(kk)}</td><td>${v.years ? `${v.years} 年 ${esc(v.method)}` : `建屋 ${pct(v.building)}／機械 ${pct(v.machinery)}`}</td><td>${src(v)}</td></tr>`).join("");
+    const otherRows = [["修繕費／資本的支出", `${shares}。${esc(P.repair_vs_capital.rule)}`, src(P.repair_vs_capital)],
+      ["関税（修繕のための輸出・再輸入）", "減税（控除不能分 0）", src(P.customs.repair_reimport_relief)], ["関税（航空機部品）", "無税", src(P.customs.civil_aircraft_agreement)], ["輸入消費税", "仕入税額控除で中立", src(P.customs.import_vat)],
+      ["補助金", `圧縮記帳、補助率 ${pct(P.subsidy.share_assumed)} の仮定`, `${esc(P.subsidy.source)} ${conf(P.subsidy.confidence)}<br>${src(P.subsidy.share_source)}`],
+      ["税効果会計", esc(P.deferred_tax.book_method_engine), `${esc(P.deferred_tax.source)} ${conf(P.deferred_tax.confidence)}`],
+      ["割引率", pct(P.discount_rate), src(P.discount_rate_source)], ["予備エンジンの価値", `${P.spares.engine_value_k.toLocaleString()} k$`, src(P.spares.engine_value_source)],
+      ["遅れの費用", `${P.shops.aog_lease_k_per_month} k$/月`, src(P.shops.aog_lease_source)]].map(([a, b_, c_]) => `<tr><td>${a}</td><td>${b_}</td><td>${c_}</td></tr>`).join("");
+    const obs = T.observe.map((o) => `<li><b>${esc(o.what)}</b>：${esc(o.why)}（${esc(o.where)}、きっかけ：${esc(o.trigger)}）</li>`).join("");
+    const p6 = panel("前提と出典", `<table><thead><tr><th>項目</th><th>値</th><th>出典・確度</th></tr></thead><tbody>${rateRows}${depRows}${otherRows}</tbody></table>`, esc(P.depreciation_simplification))
+      + panel("OODA で見張る税の指標", `<ul>${obs}</ul>`, esc(T.note));
+    return p1 + p2 + p3 + p4 + p5 + p6;
+  }
+
+  /* ---------------- lease redelivery ---------------- */
+  const REC = { as_is: "そのまま返す", visit: "返却前に入場", extend: "延長" };
+  const leaseLine = (Lz) => `リース機のエンジン ${Lz.n} 基が窓の中で返却。そのまま返すと補償 ${(Lz.total_as_is_k / 1000).toFixed(1)} 百万ドル、最善の組み合わせで ${(Lz.total_best_k / 1000).toFixed(1)}（返却前入場 ${Lz.by_recommend.visit}、そのまま ${Lz.by_recommend.as_is}、延長 ${Lz.by_recommend.extend}）`;
+  function leaseChart(Lz, W = 900) {
+    const E = Lz.engines, rowH = 30, L = 90, Hh = E.length * rowH + 16, mx = Math.max(1, ...E.flatMap((e) => Object.values(e.cost).filter((v) => v != null)));
+    const x = (v) => L + v / mx * (W - L - 230);
+    let s = "";
+    E.forEach((e, i) => {
+      const y = 8 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 14}" text-anchor="end">${e.esn}</text>`;
+      [["as_is", "var(--crit)"], ["visit", "var(--accent)"], ["extend", "var(--muted)"]].forEach(([k, col], j) => {
+        const v = e.cost[k]; if (v == null) return;
+        s += `<rect x="${L}" y="${y + j * 6}" width="${Math.max(2, x(v) - L)}" height="5" fill="${col}" opacity="${e.recommend === k ? 1 : .35}"><title>${REC[k]}：${v} k$</title></rect>`;
+      });
+      s += `<text class="tick" x="${W - 220}" y="${y + 14}">${REC[e.recommend]}・期限 ${esc(e.decide_by)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="リース返却の選択肢">${s}</svg>`;
+  }
+  function lease() {
+    const Lz = C().lease;
+    if (!Lz) return panel("リース返却", '<p class="hint">リース機のエンジンはありません。</p>');
+    const rows = Lz.engines.map((e) => `<tr><td>${e.esn}</td><td>${esc(e.lessor)}</td><td>${e.return}</td><td>${e.planned ? `${e.planned}（${e.planned_ws}）` : "窓の外"}</td><td>${e.llp_at_return.toLocaleString()}${e.short_llp ? ` <span style="color:var(--crit)">−${e.short_llp}</span>` : ""}</td><td>${e.margin_at_return}${e.short_margin ? ` <span style="color:var(--crit)">−${e.short_margin}</span>` : ""}</td><td>${e.cost.as_is}</td><td>${e.cost.visit == null ? "—" : e.cost.visit}</td><td>${e.cost.extend}</td><td><b>${REC[e.recommend]}</b><br><span class="hint">${esc(e.visit_how)}</span></td><td>${esc(e.decide_by)}</td></tr>`).join("");
+    const sim = Lz.sim && Lz.sim.visits_delta_k != null ? `<p class="chart-note">シミュレーションで：全リース機を返却前に入場させる制約で計画を解き直すと +${(Lz.sim.visits_delta_k / 1000).toFixed(1)} 百万ドル（前倒しの寿命損と混雑、欠航 ${Lz.sim.visits_aog >= 0 ? "+" : ""}${(Lz.sim.visits_aog * 100).toFixed(1)}pt）。避けられる補償 ${(Lz.total_as_is_k / 1000).toFixed(1)} と差し引きで ${(Lz.sim.visits_net_k / 1000).toFixed(1)} 百万ドル。延長は ${(Lz.sim.extend_delta_k / 1000).toFixed(1)}</p>` : "";
+    return panel("", `<p class="chart-note">${esc(leaseLine(Lz))}</p>` + sim + leaseChart(Lz) + `<div class="legend"><span><span class="sw" style="background:var(--crit)"></span>そのまま返す（補償）</span><span><span class="sw" style="background:var(--accent)"></span>返却前に入場（前倒しの寿命損）</span><span><span class="sw" style="background:var(--muted)"></span>延長（延長料）</span><span>濃い＝推奨</span></div>` + G("lease"), esc(Lz.note))
+      + panel("", `<table><thead><tr><th>ESN</th><th>リース会社</th><th>返却</th><th>計画の入場</th><th>返却時 LLP 残（サイクル）</th><th>返却時 EGT 余裕（℃）</th><th>そのまま（k$）</th><th>返却前入場</th><th>延長</th><th>推奨</th><th>判断期限</th></tr></thead><tbody>${rows}</tbody></table>`,
+        `返却条件：LLP 残 ${Lz.terms.min_llp_cycles.toLocaleString()} サイクル以上、EGT 余裕 ${Lz.terms.min_egt_margin}℃ 以上。不足は ${Lz.terms.compensation_per_cycle_k * 1000} $/サイクル・${Lz.terms.compensation_per_degc_k} k$/℃ の補償。延長は ${Lz.terms.extension_months} か月 × ${Lz.terms.extension_rent_k_per_month} k$。通知は返却の ${Lz.terms.notice_months} か月前。`);
+  }
+
+  /* ---------------- the asset side (reserves, settlement, maintenance value) ---------------- */
+  const mx4Line = (M) => `計画は ${(M.value.spend_k / 1000).toFixed(0)} 百万ドル使って整備価値 ${(M.value.value_created_k / 1000).toFixed(0)} 百万ドルを作る（${M.value.value_per_spend.toFixed(2)} ドル/ドル）。積立金：流入 ${(M.reserves.total_inflow_k / 1000).toFixed(1)}、請求 ${(M.reserves.total_claims_k / 1000).toFixed(1)}、返却で残る ${(M.settlement.reserves_forfeited_k / 1000).toFixed(1)} 百万ドル`;
+  function mx4Chart(M, W = 900, H = 240, compact = false) {
+    const R = M.reserves, xs = R.labels.map((_, i) => i);
+    return lineChart({ xs, series: [{ ys: R.balance.map((v) => v / 1000), color: "var(--accent)" }], bars: R.outflow.map((v, i) => ({ x: i, y: v / 1000, w: compact ? 3 : 10, color: "var(--warn)", label: `${R.labels[i]} 請求 ${(v / 1000).toFixed(2)} 百万ドル` })),
+      yticks: compact ? [] : [0, 2, 4, 6, 8], xticks: compact ? [] : xs.filter((i) => i % 3 === 0), xfmt: (i) => R.labels[i].slice(2), yfmt: (v) => v + " M$", ylabel: compact ? "" : "積立金残高（百万ドル）", aria: "積立金の残高と請求" }, W, H, compact);
+  }
+  function mx4() {
+    const M = C().mx4;
+    if (!M) return panel("積立金と機体価値", '<p class="hint">なし</p>');
+    const V = M.value, S = M.settlement;
+    const valueBars = `<svg viewBox="0 0 900 90" role="img" aria-label="整備価値"><rect x="0" y="10" width="${760 * V.now_k / Math.max(V.end_k, V.now_k)}" height="28" fill="var(--muted)"/><text class="tick" x="${760 * V.now_k / Math.max(V.end_k, V.now_k) + 8}" y="29">今 ${(V.now_k / 1000).toFixed(0)} 百万ドル</text><rect x="0" y="50" width="${760 * V.end_k / Math.max(V.end_k, V.now_k)}" height="28" fill="var(--good)"/><text class="tick" x="${760 * V.end_k / Math.max(V.end_k, V.now_k) + 8}" y="69">窓の終わり ${(V.end_k / 1000).toFixed(0)}（+${(V.value_created_k / 1000).toFixed(0)}）</text></svg>`;
+    const settle = S.engines.map((e) => `<tr><td>${e.esn}</td><td>${e.return}</td><td>${e.pay_k ? e.pay_k.toFixed(0) : "—"}</td><td>${e.refund_k ? e.refund_k.toFixed(0) : "—"}</td><td>${e.reserve_left_k.toFixed(0)}</td><td>${e.net_k.toFixed(0)}</td></tr>`).join("");
+    const out10 = `<table><thead><tr><th>年</th><th>入場</th><th>積立て流入（全機がリースなら）</th><th>請求</th></tr></thead><tbody>${M.outlook.map((y) => `<tr><td>${y.year}</td><td>${y.visits}</td><td>${(y.inflow_k / 1000).toFixed(0)}</td><td>${(y.claims_k / 1000).toFixed(0)}</td></tr>`).join("")}</tbody></table>`;
+    return panel("", `<p class="chart-note">${esc(mx4Line(M))}</p>` + mx4Chart(M) + legend([["積立金の残高（リース機のエンジン合計）", "var(--accent)", 1], ["入場時の請求（払い戻し）", "var(--warn)"]]) + G("mx4reserves"), `料率：性能回復 ${M.reserves.rates.pr_per_fh} $/飛行時間、寿命部品 ${M.reserves.rates.llp_per_cycle} $/サイクル、値上がり ${(M.reserves.rates.escalation * 100).toFixed(0)}%/年。` + esc(M.note))
+      + panel("", `<p class="chart-note">整備状態で調整したエンジン価値：${(V.now_k / 1000).toFixed(0)} → ${(V.end_k / 1000).toFixed(0)} 百万ドル（${V.n} 基）。費用 ${(V.spend_k / 1000).toFixed(0)} のうち価値になるのは ${(V.value_per_spend * 100).toFixed(0)}%</p>` + valueBars + G("mx4value"), esc(V.note))
+      + panel("", `<p class="chart-note">返却時の精算：借り手が払う ${(S.pay_k / 1000).toFixed(1)}、貸し手が払い戻す ${(S.refund_k / 1000).toFixed(1)}、返却で貸し手に残る積立金 ${(S.reserves_forfeited_k / 1000).toFixed(1)} 百万ドル</p><table><thead><tr><th>ESN</th><th>返却</th><th>支払（k$）</th><th>払い戻し</th><th>残る積立金</th><th>差し引き</th></tr></thead><tbody>${settle}</tbody></table>` + G("mx4settle"), "残る積立金が大きい機は、返却前に入場して積立金を使い切る方が得なことがある（「リース返却」の出口と合わせて見る）。")
+      + panel("10 年の積立金見通し（定常）", out10, "全機がリースだった場合の流入と請求。所有機には積立金はない。");
+  }
+
+  function quote() {
+    const u = C().usecases;
+    return panel("", `<p class="chart-note">追加作業は「延びる月数 × ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル」まで承認してよい（緑の領域なら承認）</p>` + quoteChart(u) + G("quote")
+      + legend([["承認してよい上限額（線より下が承認）", "var(--good)", 1], ["例：承認が得", "var(--good)"], ["例：見送りが得", "var(--crit)"]]), `1 基が 1 か月飛ぶごとに積もる整備費（平年の整備費 ÷ 取付エンジン）を、延びる寿命の価値としています。${esc(u.quote.note)}。繁忙期をまたいで延びる、同じ機体の 2 基をずらせる、などの価値は含まない。`);
+  }
+
+  function trendLine(u) {
+    const t = u.trend, r = t.remove_now, w = t.cases["要監視のエンジン"].wait, wp = t.cases["要監視のエンジン"].wait_peak;
+    const k = w.findIndex((v, i) => i > 0 && v < r[i]);            // from here on, waiting is cheaper
+    const peakAlways = wp.every((v, i) => i === 0 || v >= r[i]);
+    return (k > 0 ? `要監視のエンジンは、残りの余裕が ${k} か月未満なら今下ろし、それ以上なら様子を見るほうが得` : "要監視のエンジンは警報が出たら今下ろすほうが得")
+      + (peakAlways ? "（繁忙期にかかるなら常に下ろす）" : "");
+  }
+  function trendChart(u, W = 900, H = 320, compact = false) {
+    const t = u.trend, c = t.cases;
+    return lineChart({ xs: t.months, series: [
+      { ys: t.remove_now, color: "var(--accent)", label: "今下ろす：失う飛べる寿命" },
+      { ys: c["通常のエンジン"].wait, color: "var(--good)", dash: "5 4", label: "待つ：通常のエンジン（故障率 月 1%）" },
+      { ys: c["要監視のエンジン"].wait, color: "var(--warn)", label: "待つ：要監視（月 6%）" },
+      { ys: c["要監視のエンジン"].wait_peak, color: "var(--crit)", label: "待つ：要監視・繁忙期にかかる" }],
+      points: compact ? [] : (() => { const r = t.remove_now, w = c["要監視のエンジン"].wait, k = w.findIndex((x, i) => i > 0 && x < r[i]); return k > 0 ? [{ x: k, y: r[k], color: "var(--ink)", label: `ここから先は待つほうが得（要監視・${k} か月）` }] : []; })(),
+      yticks: [0, 0.5, 1, 1.5], xticks: [0, 3, 6, 9, 12], yfmt: (v) => v + " M$", xlabel: "あと何か月飛ばすか（残りの余裕）", ylabel: "見込みの損（百万ドル）", aria: "警報時の判断" }, W, H, compact);
+  }
+  function trend() {
+    const u = C().usecases;
+    return panel("", `<p class="chart-note">${trendLine(u)}。通常のエンジンは待つほうが得</p>` + trendChart(u) + G("trend")
+      + legend([["今下ろすと失う寿命", "var(--accent)", 1], ["待つ：通常", "var(--good)", 1], ["待つ：要監視", "var(--warn)", 1], ["待つ：要監視・繁忙期", "var(--crit)", 1]]), esc(u.trend.note));
+  }
+
+  const sparesCur = (u) => u.spares.curves["今の工期"][u.spares.have];
+  const sparesCls = (u) => (sparesCur(u) < 0.9 ? "warn" : "ok");
+  const sparesLine = (u) => `予備 ${u.spares.have} 基で足りる確率：今の工期 ${Math.round(sparesCur(u) * 100)}%、混雑が 2 か月延びると ${Math.round(u.spares.curves["混雑がさらに 2 か月"][u.spares.have] * 100)}%`;
+  function sparesChart(u, W = 900, H = 320, compact = false) {
+    const sp = u.spares, cols = ["var(--good)", "var(--accent)", "var(--crit)"];
+    return lineChart({ xs: sp.spares, series: Object.entries(sp.curves).map(([k, ys], i) => ({ ys: ys.map((v) => v * 100), color: cols[i], label: k })),
+      points: compact ? [] : [{ x: sp.have, y: sp.curves["今の工期"][sp.have] * 100, color: "var(--accent)", label: `今の予備・今の工期 → ${Math.round(sp.curves["今の工期"][sp.have] * 100)}%` }, { x: sp.have, y: sp.curves["混雑がさらに 2 か月"][sp.have] * 100, color: "var(--crit)", label: `混雑が延びると → ${Math.round(sp.curves["混雑がさらに 2 か月"][sp.have] * 100)}%` }],
+      vlines: [{ x: sp.have, color: "var(--ink)", label: `今の予備 ${sp.have} 基` }, { x: sp.rule_10pct, color: "var(--muted)", dash: "4 3", label: "業界の目安 10%", dy: 14 }],
+      yticks: [0, 50, 90, 100], xticks: [0, 5, 10, 15, 20, 25], yfmt: (v) => v + "%", xlabel: "予備エンジンの数（取付の最大を超えて持つ基数）", ylabel: "足りる確率", aria: "予備エンジンの数" }, W, H, compact);
+  }
+  function spares() {
+    const u = C().usecases, sp = u.spares;
+    return panel("", `<p class="chart-note">${sparesLine(u)}</p>` + sparesChart(u) + G("spares") + legend(Object.keys(sp.curves).map((k, i) => [`${k}（工場側に平均 ${sp.mean_off[k].toFixed(1)} 基）`, ["var(--good)", "var(--accent)", "var(--crit)"][i], 1])), esc(sp.note) + "業界の目安（取付の 10%）は、工期が長い今は足りない側に出ます。")
+      + panel("", `<p class="chart-note">${sparesCostLine(u)}</p>` + sparesCostChart(u) + G("sparescost") + legend([["持つ費用（1 基ごとに増える）", "var(--warn)", 1], ["足りない損（リース・運休、予備が増えると減る）", "var(--accent)", 1], ["合計：今の工期", "var(--ink)", 1], ["合計：平常の工期", "var(--good)", 1], ["合計：混雑が 2 か月延びる", "var(--crit)", 1]]), esc(sp.note_cost));
+  }
+  const sparesCostLine = (u) => { const c = u.spares.cost, h = u.spares.have, now = c["今の工期"], nor = c["平常（工期 4 か月）"], con = c["混雑がさらに 2 か月"];
+    const verdict = h > now.best ? `今の工期でも ${h - now.best} 基多く、年 ${now.excess_cost.toFixed(1)} 百万ドル余分` : h < now.best ? `今の工期では ${now.best - h} 基足りない` : "今の工期ではちょうどよい";
+    return `ちょうどよい予備は、平常 ${nor.best} 基・今 ${now.best} 基・混雑 ${con.best} 基。今の ${h} 基は、${verdict}。工期が平常に戻ると年 ${nor.excess_cost.toFixed(1)} 百万ドルの持ちすぎ`; };
+  function sparesCostChart(u, W = 900, H = 320) {
+    const sp = u.spares, c = sp.cost, now = c["今の工期"], xs = sp.spares.slice(0, 21);
+    const cut = (a) => a.slice(0, 21);
+    return lineChart({ xs, series: [
+      { ys: cut(now.hold), color: "var(--warn)", label: "持つ費用" }, { ys: cut(now.short), color: "var(--accent)", label: "足りない損（今の工期）" },
+      { ys: cut(now.total), color: "var(--ink)", label: "合計（今の工期）" },
+      { ys: cut(c["平常（工期 4 か月）"].total), color: "var(--good)", dash: "5 4", label: "合計（平常）" },
+      { ys: cut(c["混雑がさらに 2 か月"].total), color: "var(--crit)", dash: "5 4", label: "合計（混雑）" }],
+      ymax: 0, points: [{ x: now.best, y: now.total[now.best], color: "var(--ink)", label: `今の工期で最も安い ${now.best} 基` },
+        { x: c["平常（工期 4 か月）"].best, y: c["平常（工期 4 か月）"].total[c["平常（工期 4 か月）"].best], color: "var(--good)", label: `平常なら ${c["平常（工期 4 か月）"].best} 基` }],
+      vlines: [{ x: sp.have, color: "var(--muted)", dash: "3 3", label: `今の予備 ${sp.have} 基` }],
+      yticks: [0, 10, 20, 30], xticks: [0, 5, 10, 15, 20], yfmt: (v) => v + " M$", xlabel: "予備エンジンの数", ylabel: "年間の費用（百万ドル）", aria: "予備の持ちすぎと不足の費用" }, W, H, false);
+  }
+
+  const offerLine = (u) => { const o = u.offer, i = o.cycles.indexOf(o.market.cycles); return `残り ${o.market.cycles.toLocaleString()} 回のエンジンは ${o.max_price[i].toFixed(1)} 百万ドルまでなら買い（相場 ${o.market.low}〜${o.market.high}）`; };
+  function offerChart(u, W = 900, H = 320, compact = false) {
+    const o = u.offer;
+    return lineChart({ xs: o.cycles, series: [{ ys: o.max_price, color: "var(--accent)", label: "上限価格" }, { ys: o.max_price_peak, color: "var(--good)", dash: "5 4", label: "繁忙期の前に届く場合" }],
+      bands: [{ x0: o.market.cycles - 700, x1: o.market.cycles + 700, y0: o.market.low, y1: o.market.high, color: "var(--warn)", label: o.market.source }],
+      yticks: [0, 2, 4, 6, 8, 10], xticks: [0, 4000, 8000, 12000, 16000], xfmt: (v) => (v / 1000) + "k", yfmt: (v) => v + " M$", xlabel: "残りの飛行回数", ylabel: "払ってよい上限（百万ドル）", aria: "打診の上限価格" }, W, H, compact);
+  }
+  function offer() {
+    const u = C().usecases;
+    return panel("", `<p class="chart-note">${offerLine(u)}</p>` + offerChart(u) + G("offer") + legend([["上限価格", "var(--accent)", 1], ["繁忙期の前に届く場合", "var(--good)", 1], ["ハーフライフの相場（IBA 2025）", "var(--warn)"]]), esc(u.offer.note) + "。記録の欠け、推力の型、載せ替え費用は別に差し引く。");
+  }
+
+  const cashLine = (u) => `2 年の支払い ${u.cash.cum.at(-1).toFixed(0)} 百万ドル（予算 ${u.cash.cum_budget.at(-1).toFixed(0)}）。円では ${Math.round(u.cash.yen_oku.low)}〜${Math.round(u.cash.yen_oku.high)} 億円`;
+  function cashChart(u, W = 900, H = 320, compact = false) {
+    const c = u.cash, xs = c.labels.map((_, i) => i), bw = (W - 70) / xs.length * 0.6;
+    return lineChart({ xs, series: [{ ys: c.cum, color: "var(--ink)", label: "支払いの累計" }, { ys: c.cum_budget, color: "var(--crit)", dash: "5 4", label: "予算の累計（季節で按分）" }],
+      bars: c.pay.map((v, i) => ({ x: i, y: v, w: compact ? 3 : bw, color: "var(--accent)", label: `${c.labels[i]} 支払い ${v.toFixed(1)} 百万ドル` })),
+      yticks: [0, 100, 200, 300], xticks: [0, 6, 12, 18, 23], xfmt: (i) => c.labels[i].slice(2), yfmt: (v) => v + " M$", xlabel: "月", ylabel: "百万ドル", aria: "支払い" }, W, H, compact);
+  }
+  function cash() {
+    const u = C().usecases;
+    return panel("", `<p class="chart-note">${cashLine(u)}</p>` + cashChart(u) + G("cash") + legend([["月ごとの支払い", "var(--accent)"], ["支払いの累計", "var(--ink)", 1], ["予算の累計", "var(--crit)", 1]]), esc(u.cash.note) + "。戻りの月に支払いが集中するので、入場の山より数か月遅れて支払いの山が来る。");
+  }
+
+  const relLine = (u) => `予定外取卸し率 ${u.reliability.mean.toFixed(3)}（1,000 時間あたり）、警戒値 ${u.reliability.alert.toFixed(3)} を超えた月 ${u.reliability.above}`;
+  function relChart(u, W = 900, H = 320, compact = false) {
+    const r = u.reliability, xs = r.labels.map((_, i) => i);
+    return lineChart({ xs, series: [{ ys: r.uer_3m, color: "var(--accent)", label: "3 か月移動平均" }],
+      hlines: [{ y: r.alert, color: "var(--crit)", dash: "5 4", label: "警戒値（平均＋3σ）" }, { y: r.mean, color: "var(--muted)", dash: "2 3", label: "平均" }],
+      yticks: [0, 0.05, 0.1], xticks: [0, 12, 24, 35], xfmt: (i) => r.labels[i].slice(2), xlabel: "月（直近 3 年）", ylabel: "予定外取卸し / 1,000 時間", aria: "信頼性の管理図" }, W, H, compact);
+  }
+  function reliability() {
+    const u = C().usecases;
+    return panel("", `<p class="chart-note">${relLine(u)}</p>` + relChart(u) + G("reliability") + legend([["3 か月移動平均", "var(--accent)", 1], ["警戒値", "var(--crit)", 1], ["平均", "var(--muted)", 1]]), esc(u.reliability.note) + `。予定外を含む入場全体は 1,000 時間あたり ${u.reliability.svr_per_1000.toFixed(3)}。`);
+  }
+
+  function roleLine(c) {
+    const u = c.usecases;
+    return ({ exec: c.verdict[0].a, fin: cashLine(u), ops: sparesLine(u), plan: `${c.verdict[2].a}。${trendLine(u)}`, proc: offerLine(u), tech: relLine(u) })[role] || "";
+  }
+
+  /* ---------------- level 3 ---------------- */
+  function engines() {
+    const c = C();
+    return panel("", `<p class="chart-note">${c.plan.length} 基の予定</p>` + gantt(c) + ganttLegend + G("gantt"), "バーにマウスを載せると、工場・費用・判断期限の理由が出ます。");
+  }
+
+  /* ---------------- level 4 ---------------- */
+  function sources() {
+    const c = C();
+    const flat = [];
+    const walk = (k, v) => { if (v && typeof v === "object") Object.entries(v).forEach(([kk, vv]) => walk(`${k} / ${kk}`, vv)); else if (v) flat.push([k, v]); };
+    Object.entries(c.sources).forEach(([k, v]) => walk(k, v));
+    const cats = {};
+    flat.forEach(([k]) => { const g = k.split(" / ")[0]; cats[g] = cats[g] || [0, 0]; cats[g][0]++; });
+    c.unsourced.forEach((u) => { const g = u.where.split(".")[1] || u.where; cats[g] = cats[g] || [0, 0]; cats[g][1]++; });
+    const E = Object.entries(cats), W = 560, rowH = 22, L = 110, H = E.length * rowH + 10, top = Math.max(...E.map(([, v]) => v[0] + v[1]));
+    let s = "";
+    E.forEach(([g, [a, b]], i) => { const y = 4 + i * rowH, x = (v) => L + v / top * (W - L - 20); s += `<text class="lbl" x="${L - 8}" y="${y + 13}" text-anchor="end">${esc(g)}</text><rect x="${L}" y="${y + 2}" width="${x(a) - L}" height="14" fill="var(--good)"/><rect x="${x(a)}" y="${y + 2}" width="${x(a + b) - x(a)}" height="14" fill="var(--warn)"/>`; });
+    const link = (t) => esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+    return panel("", `<p class="chart-note">どこまで根拠があるか（緑＝出典あり、黄＝出典なし）</p><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="出典の有無">${s}</svg>` + G("sources"))
+      + `<details class="panel"><summary>出典の一覧</summary><div class="scroll"><table><tbody>${flat.map(([k, v]) => `<tr><td class="mono" style="white-space:nowrap">${esc(k)}</td><td class="src">${link(v)}</td></tr>`).join("")}</tbody></table></div></details>`
+      + `<details class="panel"><summary>出典のない数字（${c.unsourced.length} 件）</summary><div class="scroll"><table><tbody>${c.unsourced.map((u) => `<tr><td class="mono" style="white-space:nowrap">${esc(u.where)}</td><td class="src">${esc(u.what)}</td></tr>`).join("")}</tbody></table></div></details>`;
+  }
+
+  // deep links: report.html#co=1&v=runout opens that company and view
+  try {
+    const h = new URLSearchParams(location.hash.slice(1));
+    if (h.get("co") && DATA[+h.get("co")]) co = +h.get("co");
+    if (h.get("v") && VIEWS[h.get("v")] && h.get("v") !== "summary") path = ["summary", h.get("v")];
+  } catch (e) { /* ignore */ }
+  window.addEventListener("hashchange", () => {
+    const h = new URLSearchParams(location.hash.slice(1));
+    if (h.get("co") && DATA[+h.get("co")]) co = +h.get("co");
+    path = h.get("v") && VIEWS[h.get("v")] && h.get("v") !== "summary" ? ["summary", h.get("v")] : ["summary"];
+    render(); window.scrollTo(0, 0);
+  });
+  render();
+})();
+</script>

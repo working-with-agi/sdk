@@ -1,0 +1,620 @@
+<meta charset="utf-8">
+<title>エンジン入場計画の比較</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5;
+  --surface: #ffffff;
+  --ink: #13202c;
+  --muted: #5b6a78;
+  --rule: #d3dbe3;
+  --accent: #274c77;
+  --accent-soft: #dde7f2;
+  --good: #2c7a4b;
+  --good-soft: #dcefe3;
+  --warn: #a8671a;
+  --warn-soft: #f6e8d3;
+  --crit: #b0362d;
+  --crit-soft: #f6dcd9;
+  --peak: rgba(168, 103, 26, .10);
+  --shop-a: #2f8a78;
+  --shop-b: #c07a2c;
+  --shop-c: #7657a8;
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --peak: rgba(224, 162, 87, .10);
+    --shop-a: #57c2ac; --shop-b: #e6a55e; --shop-c: #a88be0; --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a; --peak: rgba(224, 162, 87, .10);
+  --shop-a: #57c2ac; --shop-b: #e6a55e; --shop-c: #a88be0; --shadow: none;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink);
+  font: 400 14px/1.6 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif;
+}
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 56px; display: grid; gap: 20px; }
+.num, .mono, td.n { font-family: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 28px; line-height: 1.3; margin: 0; font-weight: 700; text-wrap: balance; }
+h2 { font-size: 17px; margin: 0; font-weight: 700; text-wrap: balance; }
+h3 { font-size: 13px; margin: 0; font-weight: 600; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.sub { color: var(--muted); margin: 0; max-width: 72ch; }
+header { display: grid; gap: 8px; }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 18px; box-shadow: var(--shadow); min-width: 0; display: grid; gap: 14px; align-content: start; }
+.panel-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.hint { color: var(--muted); font-size: 12px; }
+.section-label { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; }
+.section-label .step { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--accent); }
+
+/* urgency */
+.verdict { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; }
+.verdict-num { font-family: "IBM Plex Mono", monospace; font-size: 56px; line-height: 1; font-weight: 500; color: var(--crit); }
+.verdict-num.zero { color: var(--good); }
+.verdict-text { display: grid; gap: 4px; }
+.verdict-text strong { font-size: 18px; }
+.chip { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+.chip.now { background: var(--crit-soft); color: var(--crit); }
+.chip.soon { background: var(--warn-soft); color: var(--warn); }
+.chip.can_wait { background: var(--good-soft); color: var(--good); }
+.urg-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.urg { min-width: 900px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); letter-spacing: .04em; padding: 6px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th.n, td.n { text-align: right; }
+td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.urg td.spark { width: 200px; padding-block: 4px; }
+.urg td.mono, .urg td:first-child { white-space: nowrap; }
+.urg .sub-line { display: block; color: var(--muted); font-size: 11px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .line { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+svg .dot { fill: var(--surface); stroke: var(--accent); stroke-width: 1.2; }
+svg .dot-sel { fill: var(--accent); }
+svg .blocked { stroke: var(--muted); stroke-width: 1.2; }
+
+/* chooser */
+.chooser { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 20px; }
+.slider-block { display: grid; gap: 10px; align-content: start; }
+.slider-labels { display: flex; justify-content: space-between; font-size: 13px; font-weight: 500; }
+input[type="range"] { width: 100%; accent-color: var(--accent); }
+input[type="range"]:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+.presets { display: flex; gap: 8px; flex-wrap: wrap; }
+.presets button {
+  font: inherit; font-size: 12px; padding: 4px 10px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--rule); background: transparent; color: var(--ink);
+}
+.presets button:hover { border-color: var(--accent); }
+.presets button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.pick { border-left: 1px solid var(--rule); padding-left: 20px; display: grid; gap: 10px; align-content: start; }
+.pick-name { font-size: 20px; font-weight: 700; line-height: 1.35; }
+.kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.kpi .value { font-size: 18px; font-weight: 500; }
+.kpi .delta { font-size: 11px; }
+.pos { color: var(--good); } .neg { color: var(--crit); }
+.pill { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-weight: 500; }
+.pill.stoch { background: transparent; border: 1px solid var(--accent); }
+.why { color: var(--muted); font-size: 13px; margin: 0; }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; }
+svg .front { stroke: var(--accent); stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; }
+svg .pt { cursor: pointer; }
+svg .pt circle { fill: var(--surface); stroke: var(--muted); stroke-width: 1.5; }
+svg .pt.pareto circle { stroke: var(--accent); fill: var(--accent-soft); }
+svg .pt.sel circle { fill: var(--accent); stroke: var(--accent); }
+svg .pt:focus-visible circle { stroke-width: 3; }
+svg .lbl { fill: var(--ink); font-family: "IBM Plex Sans JP", sans-serif; font-size: 11px; }
+svg .bar { fill: var(--accent); opacity: .85; }
+svg .bar-ghost { fill: var(--muted); opacity: .22; }
+svg .bar-warn { fill: var(--warn); opacity: .85; }
+svg .mark { stroke: var(--ink); stroke-width: 1; }
+svg .mark-label { fill: var(--ink); }
+
+/* constraints */
+.cons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.con { display: grid; gap: 6px; align-content: start; }
+.con .big { font-size: 20px; font-weight: 500; }
+.budget-row { display: grid; grid-template-columns: 64px 1fr 72px; gap: 8px; align-items: center; font-size: 12px; }
+.meter { height: 8px; border-radius: 4px; background: var(--accent-soft); overflow: hidden; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); }
+.ok { color: var(--good); font-weight: 600; } .ng { color: var(--crit); font-weight: 600; }
+
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.gantt-scroll { overflow-x: auto; }
+.gantt { min-width: 720px; display: grid; gap: 6px; }
+.g-row, .g-axis { display: grid; grid-template-columns: 64px 1fr 200px; align-items: center; gap: 10px; font-size: 12px; }
+.g-axis { font-size: 10px; color: var(--muted); }
+.g-track { position: relative; height: 20px; border-radius: 3px; background: var(--ground); }
+.g-peak { position: absolute; top: 0; bottom: 0; background: var(--peak); }
+.g-fy { position: absolute; top: -3px; bottom: -3px; border-left: 1px dashed var(--muted); opacity: .6; }
+.g-bar { position: absolute; top: 3px; height: 14px; border-radius: 3px; }
+.g-tail { position: absolute; top: 8px; height: 4px; border-radius: 2px; opacity: .45; }
+.g-ticks { position: relative; height: 14px; font-family: "IBM Plex Mono", monospace; }
+.g-ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.g-info { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* inputs */
+.inputs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.in-card { border: 1px solid var(--rule); border-radius: 8px; padding: 14px; display: grid; gap: 10px; align-content: start; }
+.in-card .facts { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; font-size: 12px; }
+.in-card .facts dt { color: var(--muted); }
+.in-card .facts dd { margin: 0; }
+.in-wide { grid-column: span 3; }
+.in-two { grid-column: span 2; }
+
+.table-scroll { overflow-x: auto; }
+.cmp { min-width: 760px; }
+.cmp tbody tr { cursor: pointer; }
+.cmp tbody tr:hover { background: var(--accent-soft); }
+.cmp tbody tr.sel { background: var(--accent-soft); box-shadow: inset 3px 0 0 var(--accent); }
+.cmp tbody tr.infeasible { cursor: default; color: var(--muted); }
+.cmp tbody tr:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.best { font-weight: 600; }
+.note { color: var(--muted); font-size: 12px; margin: 0; max-width: 90ch; }
+
+@media (max-width: 900px) {
+  .chooser, .grid2 { grid-template-columns: 1fr; }
+  .pick { border-left: 0; padding-left: 0; border-top: 1px solid var(--rule); padding-top: 16px; }
+  .cons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .inputs { grid-template-columns: 1fr; }
+  .in-wide, .in-two { grid-column: auto; }
+}
+@media (max-width: 480px) {
+  .kpis, .cons { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  h1 { font-size: 22px; }
+  .verdict-num { font-size: 44px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  svg .pt circle, .cmp tbody tr { transition: fill .15s, background .15s; }
+}
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow">Engine shop visit planning</div>
+    <h1>今、決めなければならないエンジンはどれか</h1>
+    <p class="sub">入場予定 10 基について、7 つの解き方で並列に計画し、共通のモンテカルロ・シナリオで評価しました。上から順に「急ぐべきか」「どの計画にするか」「会社の制約に収まっているか」「前提にした不確実性は妥当か」を確認できます。</p>
+    <div class="meta" id="meta"></div>
+  </header>
+
+  <div class="section-label"><span class="step">1</span><h2>急ぐべきか</h2></div>
+  <section class="panel" aria-label="判断期限">
+    <div class="verdict">
+      <div class="verdict-num" id="now-count"></div>
+      <div class="verdict-text">
+        <strong id="now-title"></strong>
+        <span class="hint" id="now-sub"></span>
+      </div>
+    </div>
+    <div class="urg-scroll">
+      <table class="urg">
+        <thead><tr>
+          <th>状態</th><th>ESN</th><th>判断期限</th><th>決め手のリードタイム</th><th>計画</th>
+          <th class="n">急いだ場合</th><th class="n">限界まで待った場合</th><th>入場月ごとの期待総コスト</th>
+        </tr></thead>
+        <tbody id="urg-rows"></tbody>
+      </table>
+    </div>
+    <p class="note">判断期限 = 計画上の入場月 − 最も長いリードタイム（工場の枠予約、手持ちで足りない LLP キットの発注）。急いだ場合／待った場合は、そのエンジンだけを取卸し可能期間の最初／最後の月に動かし、工場・ワークスコープを選び直したときの期待総コストの差です。曲線の網掛けは繁忙期、× は会社の制約（予算・LLP キット・工場枠）で入場できない月です。</p>
+  </section>
+
+  <div class="section-label"><span class="step">2</span><h2>どの計画にするか</h2></div>
+  <section class="panel chooser" aria-label="優先度と推奨計画">
+    <div class="slider-block">
+      <h3>何を優先しますか</h3>
+      <div class="slider-labels"><span>コストを抑える</span><span>欠航を避ける</span></div>
+      <input type="range" id="weight" min="0" max="100" value="50" aria-label="コストと欠航リスクの重み">
+      <div class="presets">
+        <button type="button" data-w="0">コスト最優先</button>
+        <button type="button" data-w="50">バランス</button>
+        <button type="button" data-w="100">欠航回避最優先</button>
+      </div>
+      <p class="hint" id="weight-note"></p>
+    </div>
+    <div class="pick" aria-live="polite">
+      <div><span class="pill" id="pick-kind"></span></div>
+      <div class="pick-name" id="pick-name"></div>
+      <div class="kpis" id="pick-kpis"></div>
+      <p class="why" id="pick-why"></p>
+    </div>
+  </section>
+  <div class="grid2">
+    <section class="panel" aria-label="コストと欠航リスクの散布図">
+      <div class="panel-head"><h3>コスト × 欠航リスク</h3><span class="hint">破線 = どれにも全面的には負けない計画（パレート）</span></div>
+      <svg id="scatter" viewBox="0 0 520 330" role="img" aria-label="平均コストと欠航確率の散布図"></svg>
+    </section>
+    <section class="panel" aria-label="総コストの分布">
+      <div class="panel-head"><h3>総コストの分布</h3><span class="hint" id="hist-hint"></span></div>
+      <svg id="hist" viewBox="0 0 520 330" role="img" aria-label="選択中の計画の総コスト分布"></svg>
+    </section>
+  </div>
+
+  <div class="section-label"><span class="step">3</span><h2>会社の制約に収まっているか</h2></div>
+  <section class="panel" aria-label="会社の制約">
+    <div class="cons" id="cons"></div>
+  </section>
+  <section class="panel" aria-label="入場スケジュール">
+    <div class="panel-head"><h3>入場スケジュール</h3><div class="legend" id="shop-legend"></div></div>
+    <div class="gantt-scroll"><div class="gantt" id="gantt"></div></div>
+    <p class="note">太いバーは期待 off-wing 期間（輸送＋TAT＋遅延の平均）、細い延長は P90 までの幅。網掛けは繁忙期、破線は年度の切れ目（4月）です。</p>
+  </section>
+
+  <div class="section-label"><span class="step">4</span><h2>前提にした不確実性</h2></div>
+  <section class="panel" aria-label="入力パラメータの分布">
+    <p class="sub">計算に使ったシナリオと同じ乱数モデルから 20,000 回引いた分布です。見積もりは「価格」ではなく「価格＋この分布」として扱っています。</p>
+    <div class="inputs" id="inputs"></div>
+  </section>
+
+  <div class="section-label"><span class="step">5</span><h2>全手法の比較</h2></div>
+  <section class="panel" aria-label="全手法の比較表">
+    <div class="panel-head"><span class="hint">金額は k$（本国通貨換算）、整備で得る搭載寿命価値と早期取卸しで失う寿命を含む純額</span></div>
+    <div class="table-scroll">
+      <table class="cmp">
+        <thead><tr>
+          <th>解き方</th><th class="n">平均</th><th class="n">P90</th><th class="n">CVaR90</th>
+          <th class="n">欠航確率</th><th class="n">短期リース</th><th class="n">今決める</th><th class="n">計算</th><th></th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="note">データは説明用の合成値です。CVaR90 は最悪 10% シナリオの平均コスト、欠航確率は計画期間中に1か月以上 AOG（装着位置が埋まらない状態）が生じるシナリオの割合です。</p>
+</div>
+
+<script>
+const DATA = /*__DATA__*/null;
+(function () {
+  const ALL = DATA.methods, M = ALL.filter((m) => m.feasible), meta = DATA.meta, IN = DATA.inputs;
+  const $ = (id) => document.getElementById(id);
+  const fmt = (v) => Math.round(v).toLocaleString("en-US");
+  const signed = (v) => (v > 0.5 ? "+" : v < -0.5 ? "−" : "±") + fmt(Math.abs(v));
+  const pct = (v) => (v * 100).toFixed(1) + "%";
+  const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const SHOP_COLORS = ["var(--shop-a)", "var(--shop-b)", "var(--shop-c)"];
+  const shopColor = {}, shopName = {};
+  meta.shops.forEach((s, i) => { shopColor[s.id] = SHOP_COLORS[i % 3]; shopName[s.id] = s.name; });
+  const KIND = { deterministic: "確定モデル", stochastic: "確率モデル" };
+  const REF = M.find((m) => m.key === "ev") || M[0];
+  const STATUS = { now: "今決める", soon: "3か月以内", can_wait: "待てる" };
+  const T = meta.horizon, labels = meta.month_labels, peak = new Set(meta.peak_months);
+
+  $("meta").innerHTML = [
+    `計画開始 <span class="num">${meta.start}</span>・<span class="num">${T}</span> か月`,
+    `評価シナリオ <span class="num">${meta.eval_scenarios.toLocaleString()}</span>`,
+    `並列ワーカー <span class="num">${meta.workers}</span>`,
+    `求解 <span class="num">${meta.wall_seconds}</span> 秒・判断期限分析 <span class="num">${meta.urgency_seconds}</span> 秒`,
+  ].map((s) => `<span>${s}</span>`).join("");
+
+  const range = (k) => { const v = M.map((m) => m[k]); return [Math.min(...v), Math.max(...v)]; };
+  const [mLo, mHi] = range("mean"), [aLo, aHi] = range("aog_prob");
+  const norm = (v, lo, hi) => (hi - lo < 1e-9 ? 0 : (v - lo) / (hi - lo));
+  function recommend(w) {
+    let best = null, bs = Infinity;
+    M.forEach((m, i) => {
+      if (!m.pareto) return;
+      const s = (1 - w) * norm(m.mean, mLo, mHi) + w * norm(m.aog_prob, aLo, aHi);
+      if (s < bs - 1e-12) { bs = s; best = i; }
+    });
+    return best;
+  }
+  let sel = recommend(0.5);
+  function select(i, fromSlider) {
+    sel = i;
+    if (!fromSlider) $("weight-note").textContent = "表やグラフから直接選択中です。スライダーを動かすと推奨に戻ります。";
+    render();
+  }
+  function weightNote(w) {
+    if (w < 0.2) return "平均コストをほぼそのまま比べています。";
+    if (w > 0.8) return "欠航確率の低さをほぼそのまま比べています。";
+    return "平均コストと欠航確率を、候補の中での相対的な良し悪しで足し合わせています。";
+  }
+  $("weight").addEventListener("input", (e) => {
+    const w = e.target.value / 100;
+    $("weight-note").textContent = weightNote(w);
+    select(recommend(w), true);
+  });
+  document.querySelectorAll(".presets button").forEach((b) => b.addEventListener("click", () => {
+    $("weight").value = b.dataset.w; $("weight").dispatchEvent(new Event("input"));
+  }));
+  $("weight-note").textContent = weightNote(0.5);
+
+  /* ---------- 1. urgency ---------- */
+  function spark(e) {
+    const W = 200, H = 44, P = 6, pts = e.curve, n = pts.length;
+    const ok = pts.filter((c) => c.feasible), lo = Math.min(...ok.map((c) => c.mean)), hi = Math.max(...ok.map((c) => c.mean));
+    const x = (j) => P + (n === 1 ? (W - 2 * P) / 2 : j / (n - 1) * (W - 2 * P));
+    const y = (v) => hi - lo < 1 ? H / 2 : H - P - (v - lo) / (hi - lo) * (H - 2 * P - 8);
+    const step = n > 1 ? (W - 2 * P) / (n - 1) : W;
+    let s = "";
+    pts.forEach((c, j) => { if (c.peak) s += `<rect class="peak" x="${x(j) - step / 2}" y="0" width="${step}" height="${H}"/>`; });
+    let path = "", pen = false;
+    pts.forEach((c, j) => {
+      if (!c.feasible) { pen = false; return; }
+      path += (pen ? "L" : "M") + x(j).toFixed(1) + " " + y(c.mean).toFixed(1); pen = true;
+    });
+    s += `<path class="line" d="${path}"/>`;
+    pts.forEach((c, j) => {
+      const tip = c.feasible ? `${c.label}: ${fmt(c.mean)} k$（${esc(c.choice)}、欠航 ${pct(c.aog_prob)}）` : `${c.label}: 入場不可（${esc(c.blocked_by)}）`;
+      if (!c.feasible) {
+        s += `<g><title>${tip}</title><path class="blocked" d="M${x(j) - 3} ${H - 9}l6 6M${x(j) + 3} ${H - 9}l-6 6"/></g>`;
+      } else {
+        const me = c.month === e.planned_month;
+        s += `<g><title>${tip}${me ? "（計画）" : ""}</title><circle class="${me ? "dot-sel" : "dot"}" cx="${x(j)}" cy="${y(c.mean)}" r="${me ? 4 : 2.5}"/></g>`;
+      }
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${e.esn} の入場月ごとの期待総コスト">${s}</svg>`;
+  }
+  function renderUrgency() {
+    const u = M[sel].urgency, first = labels[0];
+    const now = u.engines.filter((e) => e.status === "now");
+    $("now-count").textContent = now.length;
+    $("now-count").className = "verdict-num" + (now.length ? "" : " zero");
+    $("now-title").textContent = now.length
+      ? `${first} 中に決める必要があるエンジン：${now.map((e) => e.esn).join("、")}`
+      : `${first} 中に決める必要があるエンジンはありません`;
+    const soon = u.engines.filter((e) => e.status === "soon").map((e) => e.esn);
+    $("now-sub").textContent = `選択中の計画「${M[sel].label}」の場合。` + (soon.length ? `3 か月以内の判断が必要：${soon.join("、")}。` : "") + "計画を変えると期限も変わります。";
+    $("urg-rows").innerHTML = u.engines.map((e) => {
+      const leads = e.leads.map((l) => `${l.reason} ${l.months}か月`).join(" / ");
+      return `<tr>
+        <td><span class="chip ${e.status}">${STATUS[e.status]}</span></td>
+        <td class="mono">${e.esn}</td>
+        <td><span class="mono">${e.deadline_label}</span><span class="sub-line">${e.months_to_deadline <= 0 ? "期限到来" : "あと " + e.months_to_deadline + " か月"}</span></td>
+        <td>${esc(e.binding_lead.reason)} <span class="mono">${e.binding_lead.months}</span> か月<span class="sub-line">${esc(leads)}</span></td>
+        <td><span class="mono">${e.planned_label}</span> ${esc(e.planned_choice)}<span class="sub-line">取卸し可能 ${e.window_labels[0]}〜${e.window_labels[1]}・限界まで ${e.slack_to_limit} か月</span></td>
+        <td class="n">${Math.abs(e.hurry_cost) < 0.5 ? "—" : signed(e.hurry_cost)}<span class="sub-line">${e.hurry_month}</span></td>
+        <td class="n">${Math.abs(e.wait_cost) < 0.5 ? "—" : signed(e.wait_cost)}<span class="sub-line">${e.wait_month}</span></td>
+        <td class="spark">${spark(e)}</td></tr>`;
+    }).join("");
+  }
+
+  /* ---------- 2. chooser ---------- */
+  function delta(v, ref, unit) {
+    const d = v - ref;
+    if (Math.abs(d) < (unit === "%" ? 0.0005 : 0.5)) return `<span class="delta">期待値計画と同じ</span>`;
+    const good = d < 0, txt = unit === "%" ? (d > 0 ? "+" : "−") + Math.abs(d * 100).toFixed(1) + "pt" : (d > 0 ? "+" : "−") + fmt(Math.abs(d));
+    return `<span class="delta ${good ? "pos" : "neg"}">期待値計画比 ${txt}</span>`;
+  }
+  function renderPick() {
+    const m = M[sel];
+    $("pick-kind").textContent = KIND[m.kind];
+    $("pick-kind").className = "pill" + (m.kind === "stochastic" ? " stoch" : "");
+    $("pick-name").textContent = m.label;
+    $("pick-kpis").innerHTML = [
+      ["平均総コスト", fmt(m.mean), delta(m.mean, REF.mean)],
+      ["P90", fmt(m.p90), delta(m.p90, REF.p90)],
+      ["欠航確率", pct(m.aog_prob), delta(m.aog_prob, REF.aog_prob, "%")],
+      ["長期予備", m.long_spares + " 台", `<span class="delta">短期リース ${m.lease_engine_months.toFixed(1)} 台月</span>`],
+    ].map(([l, v, d]) => `<div class="kpi"><span class="label">${l}</span><span class="value num">${v}</span>${d}</div>`).join("");
+    const shops = {};
+    m.plan.forEach((r) => { shops[r.shop] = (shops[r.shop] || 0) + 1; });
+    const mix = Object.entries(shops).map(([k, n]) => `${shopName[k]} ${n}件`).join("、");
+    const infeasible = ALL.filter((x) => !x.feasible).map((x) => x.label);
+    $("pick-why").textContent = `工場の割り振り: ${mix}。` + (m.same_as ? `「${m.same_as}」と同じ計画です。` : "") +
+      (m.pareto ? "平均・欠航確率・CVaR90 のすべてで負ける計画は他にありません。" : "他のいずれかの計画に、平均・欠航確率・CVaR90 のすべてで負けています。") +
+      (infeasible.length ? `（${infeasible.join("、")} は会社の制約を満たす計画がなく、候補から外れています）` : "");
+  }
+  function niceTicks(lo, hi, n) {
+    const span = hi - lo, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+    const step = [1, 2, 2.5, 5, 10].map((f) => f * mag).find((s) => s >= step0);
+    const out = []; for (let v = Math.ceil(lo / step) * step; v <= hi + 1e-9; v += step) out.push(+v.toFixed(10));
+    return out;
+  }
+  function renderScatter() {
+    const W = 520, H = 330, L = 58, R = 18, Tp = 16, B = 42;
+    const xLo = mLo - (mHi - mLo) * 0.1 - 1, xHi = mHi + (mHi - mLo) * 0.1 + 1;
+    const yHi = Math.max(0.02, aHi * 1.15);
+    const x = (v) => L + (v - xLo) / (xHi - xLo) * (W - L - R);
+    const y = (v) => H - B - v / yHi * (H - Tp - B);
+    let s = "";
+    niceTicks(xLo, xHi, 5).forEach((t) => { s += `<line class="grid" x1="${x(t)}" x2="${x(t)}" y1="${Tp}" y2="${H - B}"/><text x="${x(t)}" y="${H - B + 16}" text-anchor="middle">${fmt(t)}</text>`; });
+    niceTicks(0, yHi, 5).forEach((t) => { s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}"/><text x="${L - 8}" y="${y(t) + 3}" text-anchor="end">${(t * 100).toFixed(0)}%</text>`; });
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/><line class="axis" x1="${L}" x2="${L}" y1="${Tp}" y2="${H - B}"/>`;
+    s += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">平均総コスト [k$] →</text>`;
+    s += `<text transform="translate(12 ${(Tp + H - B) / 2}) rotate(-90)" text-anchor="middle">欠航確率 →</text>`;
+    const front = M.map((m, i) => ({ m, i })).filter((d) => d.m.pareto).sort((a, b) => a.m.mean - b.m.mean);
+    if (front.length > 1) s += `<polyline class="front" points="${front.map((d) => `${x(d.m.mean)},${y(d.m.aog_prob)}`).join(" ")}"/>`;
+    const placed = [];
+    const hit = (b) => placed.some((p) => b.x0 < p.x1 && b.x1 > p.x0 && b.y0 < p.y1 && b.y1 > p.y0);
+    const pts = M.map((m, i) => ({ m, i, cx: x(m.mean), cy: y(m.aog_prob) }));
+    pts.forEach((p) => placed.push({ x0: p.cx - 7, x1: p.cx + 7, y0: p.cy - 7, y1: p.cy + 7 }));
+    let lbl = "";
+    pts.forEach((p) => {
+      if (p.m.same_as) return;
+      const twins = pts.filter((q) => q.m.same_as === p.m.label).map((q) => q.m.short);
+      const text = [p.m.short, ...twins].join(" = "), w = text.length * 7 + 6, h = 13;
+      const cands = [];
+      for (const d of [12, 26, 40, 54]) cands.push([d, 4], [-d - w, 4], [-w / 2, -d + 2], [-w / 2, d + 10], [d, -d + 4], [d, d + 4], [-d - w, -d + 4], [-d - w, d + 4]);
+      let spot = null;
+      for (const [dx, dy] of cands) {
+        const bx = { x0: p.cx + dx, x1: p.cx + dx + w, y0: p.cy + dy - h + 2, y1: p.cy + dy + 2 };
+        if (bx.x0 < L + 2 || bx.x1 > W - 2 || bx.y0 < 2 || bx.y1 > H - B - 2) continue;
+        if (!hit(bx)) { spot = { dx, dy, bx }; break; }
+      }
+      if (!spot) spot = { dx: 10, dy: 4, bx: { x0: 0, x1: 0, y0: 0, y1: 0 } };
+      placed.push(spot.bx);
+      const lx = p.cx + spot.dx, ly = p.cy + spot.dy;
+      if (Math.hypot(spot.dx, spot.dy) > 20) lbl += `<line class="axis" x1="${p.cx}" y1="${p.cy}" x2="${lx + (spot.dx < 0 ? w : 0)}" y2="${ly - 4}"/>`;
+      lbl += `<text class="lbl" x="${lx}" y="${ly}">${esc(text)}</text>`;
+    });
+    M.forEach((m, i) => {
+      s += `<g class="pt${m.pareto ? " pareto" : ""}${i === sel ? " sel" : ""}" data-i="${i}" tabindex="0" role="button" aria-label="${esc(m.label)}">` +
+        `<circle cx="${x(m.mean)}" cy="${y(m.aog_prob)}" r="${i === sel ? 7 : 5.5}"/></g>`;
+    });
+    $("scatter").innerHTML = s + lbl;
+    $("scatter").querySelectorAll(".pt").forEach((g) => {
+      const go = () => select(+g.dataset.i);
+      g.addEventListener("click", go);
+      g.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
+  }
+  function renderHist() {
+    const W = 520, H = 330, L = 44, R = 18, Tp = 16, B = 42;
+    const edges = meta.hist_edges, m = M[sel], ref = REF, n = m.hist.length, maxC = Math.max(...m.hist, ...ref.hist);
+    const x = (v) => L + (v - edges[0]) / (edges[n] - edges[0]) * (W - L - R);
+    const y = (c) => H - B - c / maxC * (H - Tp - B);
+    let s = "";
+    niceTicks(edges[0], edges[n], 5).forEach((t) => { s += `<line class="grid" x1="${x(t)}" x2="${x(t)}" y1="${Tp}" y2="${H - B}"/><text x="${x(t)}" y="${H - B + 16}" text-anchor="middle">${fmt(t)}</text>`; });
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+    for (let k = 0; k < n; k++) {
+      const x0 = x(edges[k]) + 0.5, w = Math.max(0.5, x(edges[k + 1]) - x(edges[k]) - 1);
+      if (m !== ref) s += `<rect class="bar-ghost" x="${x0}" y="${y(ref.hist[k])}" width="${w}" height="${H - B - y(ref.hist[k])}"/>`;
+      s += `<rect class="bar" x="${x0}" y="${y(m.hist[k])}" width="${w}" height="${H - B - y(m.hist[k])}"/>`;
+    }
+    [["P50", m.p50], ["P90", m.p90]].forEach(([l, v], j) => {
+      s += `<line class="mark" x1="${x(v)}" x2="${x(v)}" y1="${Tp + 4}" y2="${H - B}"/><text class="mark-label" x="${x(v) + 4}" y="${Tp + 12 + j * 14}">${l} ${fmt(v)}</text>`;
+    });
+    s += `<text x="${(L + W - R) / 2}" y="${H - 6}" text-anchor="middle">総コスト [k$]（${meta.eval_scenarios.toLocaleString()} シナリオ）</text>`;
+    $("hist").innerHTML = s;
+    $("hist-hint").textContent = m === ref ? "" : "灰色 = 期待値計画";
+  }
+
+  /* ---------- 3. constraints + schedule ---------- */
+  function renderConstraints() {
+    const c = M[sel].constraints;
+    const budget = c.budget.map((b) => {
+      const r = b.spend / b.budget;
+      return `<div class="budget-row"><span class="mono">${b.fy}</span><div class="meter"><span class="${r > 0.9 ? "hot" : ""}" style="width:${Math.min(100, r * 100)}%"></span></div><span class="mono">${(r * 100).toFixed(0)}%</span></div>`;
+    }).join("");
+    const k = c.llp_kits;
+    const vol = c.volume.map((v) => `${v.shop}: 最低 ${v.min} 件 → 計画 ${v.planned} 件 <span class="${v.planned >= v.min ? "ok" : "ng"}">${v.planned >= v.min ? "達成" : "不足（違約金 " + fmt((v.min - v.planned) * v.penalty) + " k$）"}</span>`).join("<br>");
+    $("cons").innerHTML = `
+      <div class="con"><h3>年度予算（4月始まり）</h3>${budget}<span class="hint">期待整備費 ÷ 予算（入場月の年度で計上）</span></div>
+      <div class="con"><h3>LLP キット</h3><span class="big num">${k.used_before_lead} / ${k.on_hand}</span><span class="hint">調達リードタイム ${k.lead_months} か月以内に使う数 / 手持ち。追加発注 ${k.to_order} セット</span></div>
+      <div class="con"><h3>契約の最低発注量</h3><span>${vol || "なし"}</span></div>
+      <div class="con"><h3>早期取卸しで捨てる寿命</h3><span class="big num">${c.green_time_lost_months} か月</span><span class="hint">${fmt(c.green_time_lost_value)} k$ 相当。特急対応 ${c.rush_count} 件</span></div>`;
+  }
+  function renderGantt() {
+    const m = M[sel], byEsn = {};
+    m.plan.forEach((r) => { byEsn[r.esn] = r; });
+    const pc = (v) => Math.max(0, Math.min(100, v / T * 100));
+    let bg = "";
+    labels.forEach((l, t) => {
+      if (peak.has(t)) bg += `<div class="g-peak" style="left:${pc(t)}%;width:${100 / T}%"></div>`;
+      if (t > 0 && l.endsWith("-04")) bg += `<div class="g-fy" style="left:${pc(t)}%"></div>`;
+    });
+    const ticks = labels.map((l, t) => (t % 6 === 0 ? `<span style="left:${pc(t)}%">${l}</span>` : "")).join("");
+    let h = `<div class="g-axis"><span>ESN</span><div class="g-ticks">${ticks}</div><span>工場・WS・入場→期待復帰</span></div>`;
+    meta.engines.forEach((esn) => {
+      const r = byEsn[esn]; if (!r) return;
+      const c = shopColor[r.shop];
+      h += `<div class="g-row"><span class="mono">${esn}</span><div class="g-track">${bg}` +
+        `<div class="g-tail" style="left:${pc(r.month)}%;width:${pc(r.month + r.p90_off_wing) - pc(r.month)}%;background:${c}"></div>` +
+        `<div class="g-bar" style="left:${pc(r.month)}%;width:${Math.max(0.8, pc(r.month + r.exp_off_wing) - pc(r.month))}%;background:${c}" title="${esc(shopName[r.shop])} / ${r.workscope}"></div>` +
+        `</div><span class="g-info"><span class="mono">${r.workscope}</span> · ${r.shop}${r.rush ? " · 特急" : ""} · <span class="mono">${r.month_label}</span></span></div>`;
+    });
+    $("gantt").innerHTML = h;
+  }
+  $("shop-legend").innerHTML = meta.shops.map((s) => `<span><span class="sw" style="background:${shopColor[s.id]}"></span>${esc(s.name)}</span>`).join("");
+
+  /* ---------- 4. inputs (static) ---------- */
+  function bars(values, opts) {
+    const W = opts.w || 300, H = opts.h || 110, L = 30, R = 6, Tp = 8, B = 22, n = values.length, max = Math.max(...values, 1e-9);
+    const bw = (W - L - R) / n;
+    let s = "";
+    const yt = niceTicks(0, max, 3);
+    yt.forEach((t) => { const yy = H - B - t / max * (H - Tp - B); s += `<line class="grid" x1="${L}" x2="${W - R}" y1="${yy}" y2="${yy}"/><text x="${L - 4}" y="${yy + 3}" text-anchor="end">${opts.yfmt ? opts.yfmt(t) : t}</text>`; });
+    values.forEach((v, j) => {
+      const hh = v / max * (H - Tp - B);
+      s += `<rect class="${opts.cls ? opts.cls(j) : "bar"}" x="${L + j * bw + 1}" y="${H - B - hh}" width="${Math.max(1, bw - 2)}" height="${hh}"><title>${opts.tip(j, v)}</title></rect>`;
+    });
+    s += `<line class="axis" x1="${L}" x2="${W - R}" y1="${H - B}" y2="${H - B}"/>`;
+    opts.xlabels.forEach(([j, t]) => { s += `<text x="${L + j * bw + bw / 2}" y="${H - B + 14}" text-anchor="middle">${t}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(opts.aria)}">${s}</svg>`;
+  }
+  function renderInputs() {
+    const contract = (s) => s.overrun_share === 1 ? "実費精算（超過は全額自社）" : s.overrun_share === 0 ? "固定価格（超過は工場負担）" : `上限付き（超過の ${s.overrun_share * 100}% を自社負担）`;
+    const shopMeta = {}; meta.shops.forEach((s) => { shopMeta[s.id] = s; });
+    let h = IN.shops.map((d) => {
+      const s = shopMeta[d.id], total = d.overrun_pct_hist.reduce((a, b) => a + b, 0);
+      const ov = s.overrun_share === 0
+        ? `<p class="hint">自社が負担する超過はありません。</p>`
+        : bars(d.overrun_pct_hist.map((c) => total ? c / total : 0), {
+            aria: `${s.name} の超過率分布`, yfmt: (t) => (t * 100).toFixed(0) + "%",
+            tip: (j, v) => `${j * 5}〜${j * 5 + 5}%: ${(v * 100).toFixed(1)}%`,
+            xlabels: [[0, "0%"], [5, "25%"], [10, "50%"], [15, "75%"], [19, "100%"]],
+          });
+      const dl = bars(d.delay_probs, {
+        aria: `${s.name} の遅延分布`, h: 90, yfmt: (t) => (t * 100).toFixed(0) + "%", cls: (j) => d.delay_months[j] > 0 ? "bar-warn" : "bar",
+        tip: (j, v) => `${d.delay_months[j]} か月遅延: ${(v * 100).toFixed(1)}%`,
+        xlabels: d.delay_months.map((mm, j) => [j, mm + "か月"]),
+      });
+      return `<div class="in-card">
+        <h3><span class="sw" style="background:${shopColor[d.id]}"></span>${esc(s.name)}</h3>
+        <dl class="facts">
+          <dt>契約</dt><dd>${contract(s)}</dd>
+          <dt>通貨</dt><dd>${s.currency === "HOME" ? "本国通貨" : s.currency + "（為替リスクあり）"}</dd>
+          <dt>枠予約</dt><dd>${s.booking_lead_months} か月前・同時 ${s.slots} 基</dd>
+          <dt>特急</dt><dd>${s.rush_fee ? fmt(s.rush_fee) + " k$ で TAT 1か月短縮" : "なし"}</dd>
+          ${s.min_visits ? `<dt>最低発注</dt><dd>${s.min_visits} 件（テイク・オア・ペイ）</dd>` : ""}
+        </dl>
+        <div><h3>見積もり超過（自社負担分）</h3><p class="hint">超過なし ${(d.overrun_zero_share * 100).toFixed(0)}%・平均 ${d.overrun_mean_pct.toFixed(1)}%・P90 ${d.overrun_p90_pct.toFixed(1)}%。下は超過が出た場合の分布</p>${ov}</div>
+        <div><h3>TAT 遅延（混雑＋個別）</h3>${dl}</div>
+      </div>`;
+    }).join("");
+    const fxTot = IN.fx_hist.reduce((a, b) => a + b, 0);
+    h += `<div class="in-card"><h3>為替（ドル建て見積もりの円換算倍率）</h3>
+      ${bars(IN.fx_hist.map((c) => c / fxTot), { aria: "為替の分布", yfmt: (t) => (t * 100).toFixed(0) + "%",
+        tip: (j, v) => `${IN.fx_edges[j].toFixed(3)}〜${IN.fx_edges[j + 1].toFixed(3)}: ${(v * 100).toFixed(1)}%`,
+        xlabels: [[0, IN.fx_edges[0].toFixed(1)], [12, "1.0"], [23, IN.fx_edges[24].toFixed(1)]] })}
+      <p class="hint">P10〜P90: ${IN.fx_p10_p90[0].toFixed(2)}〜${IN.fx_p10_p90[1].toFixed(2)} 倍</p></div>`;
+    h += `<div class="in-card"><h3>非計画取卸し（24か月の件数）</h3>
+      ${bars(IN.unsched_probs, { aria: "非計画取卸し件数の分布", yfmt: (t) => (t * 100).toFixed(0) + "%",
+        tip: (j, v) => `${IN.unsched_counts[j]} 件: ${(v * 100).toFixed(1)}%`,
+        xlabels: IN.unsched_counts.map((c, j) => [j, c]).filter(([j]) => j % 2 === 0) })}
+      <p class="hint">フリート全体の発生率（MTBUR）から。1件ごとに 2〜4 か月エンジンが抜けます</p></div>`;
+    h += `<div class="in-card"><h3>欠航コストの季節変動</h3>
+      ${bars(IN.aog_cost_by_month, { aria: "月別の欠航コスト", cls: (j) => peak.has(j) ? "bar-warn" : "bar",
+        yfmt: (t) => fmt(t), tip: (j, v) => `${labels[j]}: ${fmt(v)} k$/台月・短期リース上限 ${IN.lease_cap_by_month[j]} 台`,
+        xlabels: labels.map((l, j) => [j, l.slice(2)]).filter(([j]) => j % 6 === 0) })}
+      <p class="hint">橙 = 繁忙期（年末年始・春休み・GW・夏）。繁忙期は欠航コストが最大 1.8 倍、短期リース枠は ${Math.min(...IN.lease_cap_by_month)} 台に減ります</p></div>`;
+    $("inputs").innerHTML = h;
+  }
+
+  /* ---------- 5. table ---------- */
+  function renderTable() {
+    const best = (k) => Math.min(...M.map((m) => m[k]));
+    const b = { mean: best("mean"), p90: best("p90"), cvar90: best("cvar90"), aog_prob: best("aog_prob") };
+    const cell = (m, k, f) => `<td class="n${Math.abs(m[k] - b[k]) < 1e-9 ? " best" : ""}">${f(m[k])}</td>`;
+    $("rows").innerHTML = ALL.map((m) => {
+      if (!m.feasible) return `<tr class="infeasible"><td>${esc(m.label)}<div class="hint">${esc(m.reason)}</div></td><td class="n" colspan="6">実行可能な計画なし</td><td class="n">${m.solve_seconds}s</td><td></td></tr>`;
+      const i = M.indexOf(m);
+      const now = m.urgency.engines.filter((e) => e.status === "now").length;
+      return `<tr class="${i === sel ? "sel" : ""}" data-i="${i}" tabindex="0">` +
+        `<td>${esc(m.label)}${m.same_as ? `<div class="hint">「${esc(m.same_as)}」と同じ計画</div>` : ""}</td>` +
+        cell(m, "mean", fmt) + cell(m, "p90", fmt) + cell(m, "cvar90", fmt) + cell(m, "aog_prob", pct) +
+        `<td class="n">${m.lease_engine_months.toFixed(1)} 台月</td><td class="n">${now} 基</td><td class="n">${m.solve_seconds}s</td>` +
+        `<td>${m.pareto ? '<span class="pill">パレート</span>' : ""}</td></tr>`;
+    }).join("");
+    $("rows").querySelectorAll("tr[data-i]").forEach((tr) => {
+      const go = () => select(+tr.dataset.i);
+      tr.addEventListener("click", go);
+      tr.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
+  }
+
+  function render() { renderUrgency(); renderPick(); renderScatter(); renderHist(); renderConstraints(); renderGantt(); renderTable(); }
+  renderInputs();
+  render();
+})();
+</script>
