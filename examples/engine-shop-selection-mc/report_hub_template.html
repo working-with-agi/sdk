@@ -1036,7 +1036,7 @@ const DATA = /*__DATA__*/null;
     const W = 900, H = 150, L = 44, B = 26, T = 10, ys = TL.curve, y0 = ys[0].year, y1 = ys[ys.length - 1].year, x = (y) => L + (y - y0) / (y1 - y0) * (W - L - 20), y = (v) => T + (H - T - B) * (1 - v);
     let s = `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${ys.map((c) => `${x(c.year)},${y(c.multiplier)}`).join(" ")}"/>`;
     const marks = [[TL.production_end, "生産終了", "var(--warn)"], [TL.fleet_exit_year, "当社の最終退役", "var(--accent)"], [TL.successor_next_eis, `次々世代 ${TL.successor_next || ""}`, "var(--muted)"], [TL.retirement_wave_end, "型式が消える", "var(--crit)"]];
-    marks.forEach(([yr, lab, col]) => { if (yr && yr >= y0 && yr <= y1) s += `<line x1="${x(yr)}" x2="${x(yr)}" y1="${T}" y2="${H - B}" stroke="${col}" stroke-dasharray="4 3"/><text class="tick" x="${x(yr) + 3}" y="${T + 10}" style="fill:${col}">${lab} ${yr}</text>`; });
+    marks.forEach(([yr, lab, col], i) => { if (yr && yr >= y0 && yr <= y1) { const right = x(yr) > W - 140; s += `<line x1="${x(yr)}" x2="${x(yr)}" y1="${T}" y2="${H - B}" stroke="${col}" stroke-dasharray="4 3"/><text class="tick" x="${x(yr) + (right ? -3 : 3)}" y="${T + 10 + (i % 2) * 12}" text-anchor="${right ? "end" : "start"}" style="fill:${col}">${lab} ${yr}</text>`; } });
     for (let yr = y0; yr <= y1; yr += 3) s += `<text class="tick" x="${x(yr)}" y="${H - B + 14}" text-anchor="middle">${yr}</text>`;
     [0, 0.5, 1].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v.toFixed(1)}</text>`; });
     const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="型式の年齢による残存価値の倍率">${s}</svg>`;
