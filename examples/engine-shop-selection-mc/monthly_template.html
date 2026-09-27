@@ -1,0 +1,273 @@
+<title>エンジン月次レポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<style>
+:root {
+  --ground: #eef2f5; --surface: #ffffff; --ink: #13202c; --muted: #5b6a78; --rule: #d3dbe3;
+  --accent: #274c77; --accent-soft: #dde7f2;
+  --good: #2c7a4b; --good-soft: #dcefe3; --warn: #a8671a; --warn-soft: #f6e8d3; --crit: #b0362d; --crit-soft: #f6dcd9;
+  --ws-pr: #3d8fb8; --ws-core: #d08a2e; --ws-full: #7a5aa8;
+  --peak: rgba(168, 103, 26, .10);
+  --shadow: 0 1px 2px rgba(19, 32, 44, .06), 0 4px 16px rgba(19, 32, 44, .05);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+    --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+    --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+    --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ground: #0e141a; --surface: #161f28; --ink: #e3e9ef; --muted: #93a3b3; --rule: #2a3642;
+  --accent: #7fb0e6; --accent-soft: #1d2d3f; --good: #5cc28a; --good-soft: #173326;
+  --warn: #e0a257; --warn-soft: #3a2a16; --crit: #ef7c70; --crit-soft: #3c1d1a;
+  --ws-pr: #6cb8de; --ws-core: #eba857; --ws-full: #a88be0; --peak: rgba(224, 162, 87, .10); --shadow: none;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 14px/1.65 "IBM Plex Sans JP", "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+.wrap { max-width: 1200px; margin: 0 auto; padding-inline: 20px; padding-block: 24px 48px; display: grid; gap: 18px; }
+.mono, .num { font-family: "IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+h1 { font-size: 24px; margin: 0; line-height: 1.35; text-wrap: balance; }
+h2 { font-size: 15px; margin: 0; }
+p { margin: 0; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.hint { color: var(--muted); font-size: 12px; }
+.panel { background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; box-shadow: var(--shadow); padding: 16px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); flex-wrap: wrap; }
+.tabs button { font: inherit; font-size: 13px; padding: 8px 14px; border: 0; border-bottom: 3px solid transparent; background: none; color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+.tabs button:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.kpi { display: grid; gap: 2px; }
+.kpi .label { font-size: 11px; color: var(--muted); }
+.kpi .value { font-size: 22px; font-weight: 500; }
+.kpi .sub { font-size: 11px; color: var(--muted); }
+.meter { height: 6px; border-radius: 3px; background: var(--accent-soft); overflow: hidden; margin-top: 4px; }
+.meter > span { display: block; height: 100%; background: var(--accent); }
+.meter > span.hot { background: var(--warn); } .meter > span.over { background: var(--crit); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 18px; }
+svg { display: block; width: 100%; height: auto; }
+svg text { fill: var(--muted); font-family: "IBM Plex Mono", monospace; font-size: 10px; }
+svg .axis { stroke: var(--rule); }
+svg .grid { stroke: var(--rule); stroke-dasharray: 2 4; }
+svg .peak { fill: var(--peak); }
+svg .pr { fill: var(--ws-pr); } svg .core { fill: var(--ws-core); } svg .full { fill: var(--ws-full); }
+svg .spend { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+svg .spend-dot { fill: var(--ink); }
+svg .req { fill: var(--accent-soft); } svg .buf { fill: var(--warn-soft); }
+svg .have { fill: none; stroke: var(--accent); stroke-width: 2; }
+svg .aging { fill: none; stroke: var(--crit); stroke-width: 1.5; stroke-dasharray: 4 3; }
+svg .win { fill: var(--accent-soft); }
+svg .band { fill: var(--muted); opacity: .16; }
+svg .norm { fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 3 3; }
+svg .plan { fill: var(--accent); }
+svg .plan.sel { fill: var(--ink); }
+svg .fi { font-size: 9px; fill: var(--muted); }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.sw { display: inline-block; width: 12px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+.scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 560px; }
+th { text-align: left; font-weight: 500; font-size: 11px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+td { padding: 6px 8px; border-bottom: 1px solid var(--rule); }
+th.n, td.n { text-align: right; }
+tr.best td { background: var(--accent-soft); }
+.ws { display: inline-block; font-size: 11px; font-weight: 600; padding: 0 7px; border-radius: 4px; color: #fff; }
+.ws.PR { background: var(--ws-pr); } .ws.CORE { background: var(--ws-core); } .ws.FULL { background: var(--ws-full); }
+.btn { font: inherit; font-size: 12px; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--accent); background: var(--accent); color: var(--surface); cursor: pointer; }
+.btn.ghost { background: var(--surface); color: var(--ink); border-color: var(--rule); }
+.btn:disabled { opacity: .5; cursor: default; }
+.ai-out { white-space: pre-wrap; font-size: 13px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; min-height: 44px; }
+.controls { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.controls label { font-size: 12px; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+select { font: inherit; font-size: 13px; padding: 4px 8px; border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); color: var(--ink); }
+input[type=range] { width: min(420px, 60vw); accent-color: var(--accent); }
+.asof { font-family: "IBM Plex Mono", monospace; font-size: 15px; font-weight: 500; color: var(--ink); }
+.verdict { display: grid; gap: 10px; }
+.line { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; align-items: baseline; padding-bottom: 10px; border-bottom: 1px solid var(--rule); }
+.line:last-child { border-bottom: 0; padding-bottom: 0; }
+.line .q { font-size: 11px; color: var(--muted); letter-spacing: .04em; }
+.line .a { font-size: 16px; font-weight: 600; line-height: 1.5; }
+.line .why { font-size: 12px; color: var(--muted); font-weight: 400; display: block; margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 999px; padding: 1px 9px; margin-right: 6px; vertical-align: 2px; }
+.pill.go { background: var(--good-soft); color: var(--good); } .pill.act { background: var(--crit-soft); color: var(--crit); } .pill.mid { background: var(--warn-soft); color: var(--warn); }
+.grid2 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; }
+.sev { font-size: 11px; font-weight: 600; } .sev.crit { color: var(--crit); } .sev.warn { color: var(--warn); }
+.pos { color: var(--good); } .neg { color: var(--crit); }
+details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
+.close { color: var(--good); font-weight: 600; }
+@media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; gap: 2px; } }
+</style>
+<style>
+.crumb { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
+.crumb button { font: inherit; border: 0; background: none; color: var(--accent); cursor: pointer; padding: 0; }
+.crumb span.cur { color: var(--ink); font-weight: 600; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+.card { font: inherit; text-align: left; color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 10px; padding: 14px 16px; display: grid; gap: 8px; cursor: pointer; box-shadow: var(--shadow); }
+.card:hover { border-color: var(--accent); }
+.card .lv { font-size: 10px; letter-spacing: .1em; color: var(--muted); font-family: "IBM Plex Mono", monospace; }
+.card h3 { margin: 0; font-size: 15px; }
+.card .c { font-size: 13px; line-height: 1.55; }
+.card .nums { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.card .nums b { font-family: "IBM Plex Mono", monospace; font-size: 15px; color: var(--ink); font-weight: 500; margin-right: 3px; }
+.card .more { font-size: 12px; color: var(--accent); }
+.card.flag { border-left: 4px solid var(--crit); } .card.warn { border-left: 4px solid var(--warn); } .card.ok { border-left: 4px solid var(--good); }
+.levels { display: flex; gap: 6px; font-size: 11px; color: var(--muted); flex-wrap: wrap; }
+.levels span { border: 1px solid var(--rule); border-radius: 999px; padding: 1px 8px; }
+.levels span.on { background: var(--accent); color: var(--surface); border-color: var(--accent); }
+.bar { height: 8px; background: var(--accent-soft); border-radius: 4px; position: relative; min-width: 80px; }
+.bar > i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 4px; }
+.bar > i.over { background: var(--crit); } .bar > i.hot { background: var(--warn); }
+.src { font-size: 12px; word-break: break-all; }
+.panel > .guide { order: 9; } .panel > p.hint { order: 10; }
+.guide { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px 16px; background: var(--ground); border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; line-height: 1.6; }
+.guide b { display: block; font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .04em; margin-bottom: 1px; }
+.guide .say { color: var(--ink); font-weight: 600; }
+</style>
+<style>
+.chart-note { font-size: 13px; font-weight: 600; margin: 0; }
+svg .lbl { font-size: 11px; fill: var(--ink); font-family: "IBM Plex Sans JP", system-ui, sans-serif; }
+svg .tick { font-size: 9px; }
+.vgrid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 18px; }
+@media (max-width: 900px) { .vgrid { grid-template-columns: 1fr; } }
+.card svg { margin-top: 2px; }
+</style>
+
+<style>
+.mrow { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.mrow input[type=range] { width: min(420px, 60vw); accent-color: var(--accent); }
+.month-title { font-family: "IBM Plex Mono", monospace; font-size: 18px; font-weight: 600; }
+.sec { display: grid; gap: 10px; }
+.sec h2 { display: flex; gap: 8px; align-items: baseline; }
+.sec h2 .no { font-family: "IBM Plex Mono", monospace; color: var(--muted); font-size: 12px; }
+.newtag { font-size: 10px; font-weight: 700; color: var(--surface); background: var(--crit); border-radius: 4px; padding: 0 5px; margin-right: 4px; }
+.chg { font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.approvals li { margin: 4px 0; }
+.btn.print { margin-left: auto; }
+@media print {
+  .controls-bar, .btn.print, #cos { display: none !important; }
+  body { background: #fff; }
+  .panel { box-shadow: none; break-inside: avoid; }
+}
+</style>
+<main class="wrap">
+  <header style="display:grid;gap:8px">
+    <span class="eyebrow">737-800 engine programme · monthly report</span>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between">
+      <h1 id="title">エンジン月次レポート</h1>
+      <div class="tabs" role="tablist" id="cos" aria-label="会社" style="border:0"></div>
+    </div>
+    <div class="mrow controls-bar"><label class="hint" for="k">対象月</label><input type="range" id="k" min="1" step="1"><span class="month-title" id="mt"></span><button type="button" class="btn ghost print" onclick="window.print()">印刷</button></div>
+    <p class="hint" id="sub"></p>
+  </header>
+  <div id="view" style="display:grid;gap:16px"></div>
+  <p class="hint">数字は公開情報からの推定による合成データです。実績も合成（ある前提の世界で基準計画を実行したもの）。</p>
+</main>
+<script>
+const DATA = /*__DATA__*/null;
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const musd = (k) => (k / 1000).toFixed(1);
+  const pct = (v) => Math.round(v * 100) + "%";
+  const WS = { PR: "var(--ws-pr)", CORE: "var(--ws-core)", FULL: "var(--ws-full)" };
+  const WORLD = ["var(--accent)", "var(--warn)", "var(--crit)", "var(--ws-full)"];
+  let co = 0, k = DATA[0].reports.length;
+  DATA.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.role = "tab"; b.textContent = c.name; b.onclick = () => { co = i; k = DATA[co].reports.length; render(); }; $("cos").append(b); });
+  $("k").oninput = () => { k = +$("k").value; render(); };
+  const sec = (no, title, inner, read) => `<section class="panel sec"><h2><span class="no">${no}</span>${title}</h2>${inner}${read ? `<p class="hint"><b>読み方：</b>${read}</p>` : ""}</section>`;
+
+  function render() {
+    const c = DATA[co], R = c.reports[k - 1];
+    [...$("cos").children].forEach((b, i) => b.setAttribute("aria-selected", String(i === co)));
+    $("k").max = c.reports.length; $("k").value = k;
+    $("mt").textContent = `${R.month} 月分`;
+    $("title").textContent = `エンジン月次レポート：${c.name}`;
+    $("sub").textContent = `${R.month} 月末時点。計画開始（${c.labels[0]}）から ${R.k} か月。${c.demo ? "実績はデモ用の合成データ。" : ""}`;
+    $("view").innerHTML = [conclusion(R), changes(c, R), actuals(c, R), decisions(R), exceptions(R), margin(c, R), landing(R), unsched(R)].join("");
+  }
+
+  function conclusion(R) {
+    const q = ["進み具合", "前提", "決めること"];
+    return `<section class="panel verdict" aria-label="今月の結論">${R.lines.map((l, i) => `<div class="line"><span class="q">${q[i]}</span><span class="a">${esc(l)}</span></div>`).join("")}</section>`
+      + sec("1", "会議で決めること", `<ul class="approvals">${R.approvals.map((a) => `<li>${esc(a)}</li>`).join("")}</ul>`);
+  }
+
+  function changes(c, R) {
+    const P = R.changes.posterior, Q = R.changes.posterior_prev;
+    const W = 900, rowH = 26, L = 110, H = Object.keys(P).length * rowH + 8, x = (v) => L + v * (W - L - 200);
+    let s = "";
+    Object.entries(P).forEach(([w, p], i) => {
+      const y = 4 + i * rowH, q = Q ? Q[w] : null;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 14}" text-anchor="end">${esc(w)}</text><rect x="${L}" y="${y + 4}" width="${x(p) - L}" height="12" rx="3" fill="${WORLD[i]}"/>`;
+      if (q != null) s += `<line x1="${x(q)}" x2="${x(q)}" y1="${y}" y2="${y + 20}" stroke="var(--ink)" stroke-width="2"><title>先月 ${pct(q)}</title></line>`;
+      s += `<text class="tick" x="${x(Math.max(p, q || 0)) + 6}" y="${y + 14}">${pct(p)}${q != null ? `（先月 ${pct(q)}）` : ""}</text>`;
+    });
+    const lc = R.changes.landing_change;
+    const txt = [R.changes.world_from && R.changes.world_from !== R.changes.world_to ? `前提の見立てが「${R.changes.world_from}」から「${R.changes.world_to}」に変わった` : "前提の見立ては先月と同じ",
+      `新しい外れ ${R.changes.new_exceptions} 件`, `年度の着地見込みは先月から ${Math.abs(lc) < 50 ? "変わらず" : (lc > 0 ? "+" : "") + musd(lc) + " 百万ドル"}`];
+    return sec("2", "先月からの変化", `<p>${txt.map(esc).join("。")}。</p><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="前提の確率">${s}</svg>`,
+      "棒は今月末の「どの前提（世界）に近いか」の確率、黒い縦線は先月末の値。棒が縦線から大きく動いた前提は、実績で見立てが変わったもの");
+  }
+
+  function actuals(c, R) {
+    const A = R.actuals, n = c.labels.length, W = 900, H = 200, L = 40, Rr = 12, T = 10, B = 26;
+    const top = Math.max(...A.cum_plan) + 2, x = (i) => L + i / (n - 1) * (W - L - Rr), y = (v) => H - B - v / top * (H - T - B);
+    let s = `<rect x="${x(0)}" y="${T}" width="${x(R.k - 1) - x(0)}" height="${H - T - B}" fill="var(--accent-soft)" opacity=".5"/>`;
+    s += `<polyline fill="none" stroke="var(--muted)" stroke-width="2" stroke-dasharray="5 4" points="${A.cum_plan.map((v, i) => `${x(i)},${y(v)}`).join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="3" points="${A.cum_act.map((v, i) => `${x(i)},${y(v)}`).join(" ")}"/>`;
+    [0, 10, 20, 30, 40].forEach((v) => { if (v < top) s += `<text class="tick" x="${L - 6}" y="${y(v) + 3}" text-anchor="end">${v}</text>`; });
+    c.labels.forEach((l, i) => { if (i % 3 === 0) s += `<text class="tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">${l.slice(2)}</text>`; });
+    const list = (xs, f) => xs.length ? xs.map(f).join("、") : "なし";
+    return sec("3", "実績と計画", `<p>今月の入場：${esc(list(A.inductions, (x) => `${x.esn}（${x.workscope}${x.reason === "failure" ? "・故障で前倒し" : ""}）`))}。計画していた入場：${esc(list(A.planned, (e) => e))}。工場から戻った：${esc(list(A.returns, (x) => `${x.esn}（${musd(x.cost_k)} 百万ドル）`))}。</p>`
+      + `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="入場の累計">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--muted);height:2px"></span>計画の累計</span><span><span class="sw" style="background:var(--ink);height:3px"></span>実績の累計（${A.inducted} 件 / 計画 ${A.planned_by_now} 件）</span></div>`,
+      "黒い線（実績）が点線（計画）より上なら計画より多く入場している（前倒し・故障）、下なら遅れている");
+  }
+
+  function decisions(R) {
+    const rows = [...R.decisions].sort((a, b) => a.due.localeCompare(b.due)).map((d) => `<tr><td class="mono">${d.due}${d.this_month ? ' <span class="newtag">今月</span>' : ""}</td><td class="mono">${d.esn}</td><td class="mono">${d.month}</td><td><span class="ws ${d.workscope}">${d.workscope}</span></td><td>${esc(d.reason)}</td><td>${d.watch ? '<span class="sev warn">要監視</span>' : ""}</td></tr>`).join("");
+    const sw = R.switch ? `<p><b>計画の乗り換え：</b>${esc(R.switch.to)}に乗り換えると期待 ${musd(R.switch.saving)} 百万ドル得（変わるのは ${R.switch.changes} 基、判断期限 ${R.switch.decide_by || "—"}）</p>` : "";
+    return sec("4", `今月・来月・再来月に決めること（${R.decisions.length} 件）`, sw + (rows ? `<div class="scroll"><table><thead><tr><th>判断期限</th><th>ESN</th><th>入場予定</th><th>整備範囲</th><th>理由</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` : '<p class="hint">ありません。</p>'),
+      "判断期限までに、工場の枠を予約するか、寿命部品のキットを発注する。期限を過ぎると特急料金や緊急手配になる");
+  }
+
+  function exceptions(R) {
+    const rows = R.exceptions.map((e) => `<tr><td>${e.new ? '<span class="newtag">新</span>' : ""}<span class="sev ${e.severity}">${esc(e.kind)}</span></td><td class="mono">${e.esn}</td><td>${esc(e.detail)}</td></tr>`).join("");
+    return sec("5", `計画からの外れ（${R.exceptions.length} 件、うち新しいもの ${R.exceptions.filter((e) => e.new).length} 件）`, rows ? `<div class="scroll"><table><tbody>${rows}</tbody></table></div>` : '<p class="hint">計画どおりです。</p>',
+      "「新」は今月初めて出たもの。赤（要対応）は戻り遅れなどで、予備が足りなくなるおそれがある");
+  }
+
+  function margin(c, R) {
+    const cells = R.margin.map((m) => { const col = m.now < 0 ? "var(--crit)" : m.now <= 2 ? "var(--warn)" : "var(--good-soft)";
+      return `<div style="flex:1;min-width:120px;border:1px solid var(--rule);border-radius:8px;padding:10px;background:${m.peak ? "var(--peak)" : "var(--surface)"}"><div class="mono">${m.month}${m.peak ? "・繁忙期" : ""}</div><div style="font-size:22px;font-weight:600;color:${m.now < 0 ? "var(--crit)" : "var(--ink)"}">${m.now >= 0 ? "+" : ""}${m.now} 基</div><div style="height:6px;border-radius:3px;background:${col}"></div><div class="hint">計画上 ${m.base >= 0 ? "+" : ""}${m.base}${R.late ? `、戻り遅れ ${R.late} 基を差し引き` : ""}</div></div>`; }).join("");
+    return sec("6", "予備と余力（今後 3 か月）", `<div style="display:flex;gap:10px;flex-wrap:wrap">${cells}</div><p class="hint">予備は ${c.spares.have} 基（今の工期で足りる確率 ${pct(c.spares.p_now)}、費用の面でちょうどよい数は ${c.spares.best_now} 基）。</p>`,
+      "余力＝使えるエンジン −（飛ばすのに必要な数＋棚に置く予備）。マイナスの月は、短期リースか別の機材で埋める必要がある");
+  }
+
+  function landing(R) {
+    const L = R.landing, W = 900, rowH = 36, Lx = 130, H = L.length * rowH + 10, top = Math.max(...L.map((r) => Math.max(r.total, r.budget))) * 1.1, x = (v) => Lx + v / top * (W - Lx - 140);
+    let s = "";
+    L.forEach((r, i) => {
+      const y = 6 + i * rowH; let acc = 0;
+      s += `<text class="lbl" x="${Lx - 8}" y="${y + 14}" text-anchor="end">${r.fy}${r.closed ? "（締め）" : ""}</text>`;
+      [["invoiced", "var(--accent)", "請求済み"], ["committed", "var(--ws-pr)", "工場で作業中"], ["to_come", "var(--accent-soft)", "これから"]].forEach(([kk, col, lab]) => { s += `<rect x="${x(acc)}" y="${y + 3}" width="${x(acc + r[kk]) - x(acc)}" height="16" fill="${col}"><title>${r.fy} ${lab} ${musd(r[kk])} 百万ドル</title></rect>`; acc += r[kk]; });
+      s += `<line x1="${x(r.budget)}" x2="${x(r.budget)}" y1="${y}" y2="${y + 22}" stroke="var(--crit)" stroke-width="2"/>`;
+      s += `<text class="tick" x="${x(Math.max(r.total, r.budget)) + 8}" y="${y + 15}">${musd(r.total)} / 予算 ${musd(r.budget)}（先月比 ${Math.abs(r.change) < 50 ? "±0" : (r.change > 0 ? "+" : "") + musd(r.change)}）</text>`;
+    });
+    return sec("7", "年度の着地見込み（百万ドル）", `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度の着地">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--accent)"></span>請求済み</span><span><span class="sw" style="background:var(--ws-pr)"></span>工場で作業中</span><span><span class="sw" style="background:var(--accent-soft)"></span>これから</span><span><span class="sw" style="background:var(--crit);width:3px"></span>予算</span></div>`,
+      "棒の右端が年度の着地の見込み、赤い線が予算。締めた年度は実績で確定。「先月比」は見込みが先月からどれだけ動いたか");
+  }
+
+  function unsched(R) {
+    const u = R.unsched;
+    return sec("8", "予定外の取卸し（故障など）", `<p>今月 <b>${u.month}</b> 件、計画開始からの累計 <b>${u.ytd}</b> 件（今の見立ての前提で起きるはずだった数 ${u.expected_ytd.toFixed(1)} 件）。</p>`,
+      "累計が「起きるはずだった数」を大きく超えるなら、故障率の前提が甘い。信頼性管理（取卸し率と警戒値）で原因を調べる");
+  }
+
+  render();
+})();
+</script>
