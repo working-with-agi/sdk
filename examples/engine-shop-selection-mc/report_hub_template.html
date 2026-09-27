@@ -368,9 +368,47 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">${esc(v.headline)}</p><p class="hint">${esc(v.why)}</p>`)
       + `<div class="vgrid">${panel("", `<p class="chart-note">何があれば得になるか：受託の件数が決め手、補助は効きが小さい</p>` + breakevenChart(v.breakeven), esc(v.breakeven.note))}`
       + `${panel("", `<p class="chart-note">案ごとの損得の幅（正味現在価値、百万ドル）</p>` + npvChart(v), "線は 10〜90% の幅、点は平均。0 より右なら海外に出し続けるより得。")}</div>`
+      + `<div class="vgrid">${panel("", `<p class="chart-note">損得の内訳：交渉で下がる海外の価格（ゲーム理論）が、どれだけ効くか</p>` + partsChart(v) + partsLegend, "交渉＝国内に能力を持つことで、海外に残る入場の価格が下がる分（ナッシュ交渉）。足元＝建てた後にメーカーが部品・認可の条件を厳しくする分。")}`
+      + `${v.consortium ? panel("", `<p class="chart-note">3 社で組むと：単独よりずっと損が小さく、IHI の技術が価値を生む</p>` + consortiumChart(v.consortium), esc(v.consortium.note)) : ""}</div>`
       + `<div class="vgrid">${panel("", `<p class="chart-note">国内の自社の入場（年）：737-8 の受領に遅れて立ち上がる</p>` + demandChart(v), "帯は 10〜90%、線は中央値。短期入場（破線）は機数に比例。")}`
       + `${panel("", `<p class="chart-note">海外の入場待ち（か月）：世界の整備能力が追いつくと縮む</p>` + queueChart(v), "国内化の価値の大半は、往復の輸送（2 か月）と入場待ちの分だけ予備エンジンを借りずに済むこと。")}</div>`
       + `<details class="panel"><summary>前提と出典</summary><div class="scroll"><table><tbody>${Object.entries(v.sources).map(([k, t]) => `<tr><td class="mono">${esc(k)}</td><td class="src">${esc(t).replace(/(https?:\/\/[^\s）)]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>')}</td></tr>`).join("")}</tbody></table></div><p class="hint">${esc(v.note)}</p></details>`;
+  }
+  const PARTS = [["ops", "運用の節約（輸送・待ち・予備）", "var(--good)"], ["third", "受託の利益", "var(--accent)"], ["bargain", "交渉で下がる価格", "var(--ws-full)"], ["holdup", "足元を見られる", "var(--warn)"], ["fixed", "固定費", "var(--crit-soft)"], ["capex", "投資", "var(--crit)"]];
+  const partsLegend = `<div class="legend">${PARTS.map(([, l, c]) => `<span><span class="sw" style="background:${c}"></span>${l}</span>`).join("")}<span><span class="sw" style="background:var(--ink);border-radius:50%"></span>合計</span></div>`;
+  function partsChart(v, W = 520) {
+    const P = v.policies.filter((p) => ["stage1", "commit12", "commit123", "staged"].includes(p.id)), L = 180, R = 12, rowH = 40, H = P.length * rowH + 26;
+    const pos = (p) => PARTS.reduce((a, [k]) => a + Math.max(0, p.parts[k] || 0), 0), neg = (p) => PARTS.reduce((a, [k]) => a + Math.min(0, p.parts[k] || 0), 0);
+    const lo = Math.min(...P.map(neg)) * 1.05, hi = Math.max(...P.map(pos)) * 1.05, x = (t) => L + (t - lo) / (hi - lo) * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 22}" stroke="var(--ink)"/>`;
+    [-300, -200, -100, 100, 200].forEach((t) => { if (t > lo && t < hi) s += `<text class="tick" x="${x(t)}" y="${H - 6}" text-anchor="middle">${t > 0 ? "+" : ""}${t}</text>`; });
+    P.forEach((p, i) => {
+      const y = 8 + i * rowH; let up = 0, dn = 0;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 13}" text-anchor="end">${esc(p.label)}</text>`;
+      PARTS.forEach(([k, l, c]) => {
+        const v_ = p.parts[k] || 0; if (Math.abs(v_) < 0.5) return;
+        const a = v_ > 0 ? up : dn, b = a + v_;
+        s += `<rect x="${x(Math.min(a, b))}" y="${y}" width="${Math.abs(x(b) - x(a))}" height="18" fill="${c}"><title>${esc(p.label)}：${l} ${v_ > 0 ? "+" : ""}${Math.round(v_)} 百万ドル</title></rect>`;
+        if (v_ > 0) up = b; else dn = b;
+      });
+      s += `<circle cx="${x(p.npv)}" cy="${y + 9}" r="5" fill="var(--ink)" stroke="var(--surface)" stroke-width="2"><title>合計 ${Math.round(p.npv)} 百万ドル</title></circle>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="損得の内訳">${s}</svg>`;
+  }
+  function consortiumChart(c, W = 520) {
+    const M = c.members, L = 60, R = 16, rowH = 38, H = M.length * rowH + 40;
+    const vals = M.flatMap((m) => [c.shapley[m], c.standalone[m]]), lo = Math.min(0, ...vals) * 1.1, hi = Math.max(40, ...vals) * 1.4, x = (t) => L + (t - lo) / (hi - lo) * (W - L - R);
+    let s = `<line x1="${x(0)}" x2="${x(0)}" y1="4" y2="${H - 26}" stroke="var(--ink)"/><text class="tick" x="${x(0)}" y="${H - 10}" text-anchor="middle">0（海外に出し続ける）</text>`;
+    M.forEach((m, i) => {
+      const y = 10 + i * rowH, a = c.standalone[m], b = c.shapley[m];
+      s += `<text class="lbl" x="${L - 8}" y="${y + 12}" text-anchor="end">${m}</text>`;
+      s += `<line x1="${x(a)}" x2="${x(b)}" y1="${y + 8}" y2="${y + 8}" stroke="var(--muted)" stroke-width="2" marker-end="url(#arr)"/>`;
+      s += `<circle cx="${x(a)}" cy="${y + 8}" r="5" fill="var(--surface)" stroke="var(--crit)" stroke-width="2"><title>${m} が単独で建てた場合 ${Math.round(a)} 百万ドル</title></circle>`;
+      s += `<circle cx="${x(b)}" cy="${y + 8}" r="6" fill="${b >= 0 ? "var(--good)" : "var(--warn)"}"><title>${m} の取り分（シャープレイ値） ${Math.round(b)} 百万ドル</title></circle>`;
+      s += `<text class="tick" x="${x(b) + 10}" y="${y + 12}">${b > 0 ? "+" : ""}${Math.round(b)}</text>`;
+    });
+    const defs = `<defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L8 4 L0 8z" fill="var(--muted)"/></marker></defs>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="3 社の取り分">${defs}${s}</svg><div class="legend"><span><span class="sw" style="background:var(--surface);border:2px solid var(--crit);border-radius:50%"></span>単独で建てた場合</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>3 社で組んだときの取り分（シャープレイ値）</span><span>3 社合計 ${Math.round(c.grand)} 百万ドル</span></div>`;
   }
   function breakevenChart(b, W = 520, H = 260) {
     const L = 70, T = 16, R = 10, B = 40, nx = b.third_party_sv.length, ny = b.subsidy.length, cw = (W - L - R) / nx, ch = (H - T - B) / ny;

@@ -147,5 +147,55 @@
    "shop"
   ],
   "source": "A/C: 国内エンジン MRO 拠点強化支援（試運転設備・部品修理設備の補助、2026 年 4 月採択）は実在 https://www.meti.go.jp/information/publicoffer/saitaku/2026/s260407001.html 。補助率・金額は非公開のため 0〜50% の一様分布"
+ },
+ "bargaining": {
+  "seller_margin": [
+   0.1,
+   0.2
+  ],
+  "seller_power": [
+   0.4,
+   0.6
+  ],
+  "domestic_share": [
+   0.5,
+   0.8
+  ],
+  "staged_credibility": 0.5,
+  "source": "C: ナッシュ交渉。整備会社の利益率 10〜20%、交渉力は五分前後、国内で受けられるのは自社入場の 5〜8 割（部品修理の一部は海外に残る）と仮定。条件付きで段階的に進める場合、判断前の 1 年は脅しの信頼度を半分とする。いずれも公開値なし"
+ },
+ "holdup": {
+  "prob": [
+   0.2,
+   0.4
+  ],
+  "cost_up": [
+   0.05,
+   0.1
+  ],
+  "source": "B/C: 経産省の取りまとめは、メーカーとの原契約が自社整備の範囲を限定していることを阻害要因に挙げる。投資後に部品・認可の条件が厳しくなる確率と費用増は仮定 https://www.meti.go.jp/shingikai/sankoshin/seizo_sangyo/kokuki_uchu/pdf/2023_001_07_00.pdf"
+ },
+ "consortium": {
+  "members": {
+   "JAL": {
+    "aircraft": 38
+   },
+   "ANA": {
+    "aircraft": 38
+   },
+   "IHI": {
+    "aircraft": 0
+   }
+  },
+  "domestic_aircraft": 96,
+  "ihi_effect": {
+   "gap_shift": -0.05,
+   "capex": 0.85,
+   "third": 1.3
+  },
+  "without_ihi": {
+   "gap_shift": 0.05
+  },
+  "source": "B/C: 試運転設備は JAL・ANA・IHI の 3 社（報道）。JAL・ANA は 737-8 確定各 38 機、残りはスカイマーク等（連合の外）。IHI が加わると部品修理の技術と既存設備で費用 5% 減・投資 15% 減・受託の営業力 1.3 倍、いないと費用 5% 増と仮定（公開値なし）"
  }
 }
