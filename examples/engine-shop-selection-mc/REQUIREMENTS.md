@@ -285,3 +285,7 @@
 ### 93. レポートを Cloudflare に公開 ✅（仮アカウント）
 - 竹内さん：「公開サーバーにアップロードしたい。cloudflareに公開できる？」
 - 対応：`site/`（wrangler.toml、静的アセット配信の Workers）。このセッションには Cloudflare の API トークンがないため、wrangler の仮アカウント（`--temporary`）で公開：https://engine-plan-report.southern-desert.workers.dev/ （index＝report、monthly／annual／track も同梱）。仮アカウントは 60 分以内に請求 URL から自分のアカウントへ引き取らないと消える。引き取り後は `site/README.md` の手順（API トークンを環境変数に）で再デプロイでき、社外秘を載せる前に Cloudflare Access で認証を掛ける。
+
+### 94. ダッシュボード（年次と月次のマッピング、リンク集）✅
+- 竹内さん：「年次計画と月次計画のマッピングやレポートを見るリンク集、またはダッシュボードを作成」
+- 対応：`build_dashboard.py` → `index.html`。暦の上に年次の版（今・次）、月次会議（実績・予定・乗り換えの判断）、判断期限の件数、入場の件数、リース返却・新機の受領を重ねた 24 か月の表。二つの輪（年次の版／月次会議／その場）ごとに画面への深いリンク（`report.html#co=<会社>&v=<画面>`、レポート側にハッシュ経路を追加）。リンク集（画面・文書・Artifact）。文書（ストーリー・要件・README・PROCESS・PRACTICE）は同じ生成で HTML 化。公開サイトの入口を index＝ダッシュボードに変更、`run_all.sh` に組み込み。

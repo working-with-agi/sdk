@@ -185,7 +185,7 @@ const DATA = /*__DATA__*/null;
     offer: { label: "エンジンの打診", level: 2 }, cash: { label: "支払いと為替", level: 2 }, reliability: { label: "信頼性管理", level: 2 },
   };
   DATA.forEach((c, i) => { const b = document.createElement("button"); b.type = "button"; b.role = "tab"; b.textContent = c.name; b.onclick = () => { co = i; render(); }; $("cos").append(b); });
-  const go = (...p) => { path = p; render(); window.scrollTo(0, 0); };
+  const go = (...p) => { path = p; render(); window.scrollTo(0, 0); try { history.replaceState(null, "", `#co=${co}&v=${p[p.length - 1]}`); } catch (e) { /* file: URLs */ } };
   const C = () => DATA[co];
 
   function render() {
@@ -1525,6 +1525,18 @@ const DATA = /*__DATA__*/null;
       + `<details class="panel"><summary>出典のない数字（${c.unsourced.length} 件）</summary><div class="scroll"><table><tbody>${c.unsourced.map((u) => `<tr><td class="mono" style="white-space:nowrap">${esc(u.where)}</td><td class="src">${esc(u.what)}</td></tr>`).join("")}</tbody></table></div></details>`;
   }
 
+  // deep links: report.html#co=1&v=runout opens that company and view
+  try {
+    const h = new URLSearchParams(location.hash.slice(1));
+    if (h.get("co") && DATA[+h.get("co")]) co = +h.get("co");
+    if (h.get("v") && VIEWS[h.get("v")] && h.get("v") !== "summary") path = ["summary", h.get("v")];
+  } catch (e) { /* ignore */ }
+  window.addEventListener("hashchange", () => {
+    const h = new URLSearchParams(location.hash.slice(1));
+    if (h.get("co") && DATA[+h.get("co")]) co = +h.get("co");
+    path = h.get("v") && VIEWS[h.get("v")] && h.get("v") !== "summary" ? ["summary", h.get("v")] : ["summary"];
+    render(); window.scrollTo(0, 0);
+  });
   render();
 })();
 </script>

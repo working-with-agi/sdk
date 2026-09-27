@@ -4,8 +4,7 @@
 
 ```bash
 cd examples/engine-shop-selection-mc/site
-mkdir -p public && cp ../handover/03_reports/report.html public/index.html \
-  && cp ../handover/03_reports/{monthly,annual,track}.html public/
+mkdir -p public && cp ../handover/03_reports/*.html public/   # index.html＝ダッシュボード、report/monthly/annual/track、文書の HTML
 export CLOUDFLARE_API_TOKEN=...   # Workers Scripts:Edit の権限
 export CLOUDFLARE_ACCOUNT_ID=...
 npx wrangler@latest deploy         # → https://engine-plan-report.<account>.workers.dev/
