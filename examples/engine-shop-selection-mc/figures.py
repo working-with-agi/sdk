@@ -535,8 +535,8 @@ def overview_hero() -> str:
         o.append(f'<text x="{x + 40}" y="{y + 29}" font-size="16" font-weight="700" fill="{INK}">{t}</text>')
         for k, l in enumerate(sub.split("\n")): o.append(f'<text x="{x + 16}" y="{y + 58 + k * 20}" font-size="13" fill="{INK}">{l}</text>')
 
-    o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">上流の便数が下流の必要量を決め、現場のデータが前提を毎月更新する。計算が計画を作り、人が決める。</text>')
-    o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この 5 つを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの。</text>')
+    o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">需要が便数を決め、便数が必要エンジン数を決める。現場のデータが前提を毎月更新し、計算が計画を作り、人が決める。</text>')
+    o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この流れを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの（① 航空需要と ② 航空計画は行 ①、③ は行 ⑤④、④ は行 ②、⑤ は行 ③、⑥ は右端）。</text>')
     body = "".join(o)
     body = re.sub(r"<text[^>]*>", lambda m: m.group(0)[:-1] + ' style="font-family:IBM Plex Sans JP,Noto Sans JP,sans-serif">', body)
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="航空計画から意思決定まで" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
