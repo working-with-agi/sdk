@@ -535,12 +535,13 @@ def overview_hero() -> str:
         o.append(f'<text x="{x + 40}" y="{y + 29}" font-size="16" font-weight="700" fill="{INK}">{t}</text>')
         for k, l in enumerate(sub.split("\n")): o.append(f'<text x="{x + 16}" y="{y + 58 + k * 20}" font-size="13" fill="{INK}">{l}</text>')
 
-    lx = 20; ly = y + bh + 76
-    for f_, st_, lab in (("#d1fae5", "#047857", "緑＝式とデータの扱い（決定論）"), ("#e0e7ff", "#4338ca", "藍＝確率の計算（最適化・シミュレーション・統計）"), ("#fef3c7", "#b45309", "黄＝人の判断（承認・契約・意思決定）")):
-        o.append(f'<rect x="{lx}" y="{ly - 11}" width="16" height="14" rx="3" fill="{f_}" stroke="{st_}" stroke-width="1.5"/><text x="{lx + 22}" y="{ly}" font-size="12" fill="{INK}">{lab}</text>'); lx += 22 + 7.2 * len(lab) + 36
-    o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 28}" y2="{ly - 4}" stroke="{LOOP}" stroke-width="4"/><text x="{lx + 34}" y="{ly}" font-size="12" fill="{INK}">深紅＝推奨する流れ・新しく加える部分</text>'); lx += 34 + 7.2 * 19 + 36
-    o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 28}" y2="{ly - 4}" stroke="{PORT}" stroke-width="3"/><text x="{lx + 34}" y="{ly}" font-size="12" fill="{INK}">青緑＝下から上へ渡る結果</text>'); lx += 34 + 7.2 * 13 + 36
-    o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 28}" y2="{ly - 4}" stroke="{LINE}" stroke-width="2.2" stroke-dasharray="7 5"/><text x="{lx + 34}" y="{ly}" font-size="12" fill="{INK}">灰の点線＝上から下へ渡る決定</text>')
+    items = [("box", "#d1fae5", "#047857", "緑＝式とデータの扱い（決定論）"), ("box", "#e0e7ff", "#4338ca", "藍＝確率の計算（最適化・シミュレーション・統計）"), ("box", "#fef3c7", "#b45309", "黄＝人の判断（承認・契約・意思決定）"),
+             ("line", LOOP, 4, "深紅＝推奨する流れ・新しく加える部分"), ("line", PORT, 3, "青緑＝下から上へ渡る結果"), ("dash", LINE, 2.2, "灰の点線＝上から下へ渡る決定")]
+    lx = 20; ly = y + bh + 78
+    for kind, c1, c2, lab in items:
+        if kind == "box": o.append(f'<rect x="{lx}" y="{ly - 11}" width="16" height="14" rx="3" fill="{c1}" stroke="{c2}" stroke-width="1.5"/>')
+        else: o.append(f'<line x1="{lx}" y1="{ly - 4}" x2="{lx + 22}" y2="{ly - 4}" stroke="{c1}" stroke-width="{c2}" {"stroke-dasharray=\"7 5\"" if kind == "dash" else ""}/>')
+        o.append(f'<text x="{lx + 28}" y="{ly}" font-size="12" fill="{INK}">{lab}</text>'); lx += 28 + tw(lab, 12) + 26
     o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">需要が便数を決め、便数が必要エンジン数を決める。現場のデータが前提を毎月更新し、計算が計画を作り、人が決める。</text>')
     o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この流れを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの（① 航空需要と ② 航空計画は行 ①、③ は行 ⑤④、④ は行 ②、⑤ は行 ③、⑥ は右端）。</text>')
     body = "".join(o)
