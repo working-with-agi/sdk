@@ -86,7 +86,7 @@ def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[
     fleet = {
         "meta": {
             "company": name, "name": cfg["name"], "generator": "company.py", "lifecycle_seed": seed,
-            "description": (f"{cfg['name']}: 737-800 {cfg['aircraft']['total']} 機、保有エンジン {cfg['engines']['owned']} 基。"
+            "description": (f"{cfg['name']}: {cfg.get('type', '737-800')} {cfg['aircraft']['total']} 機、保有エンジン {cfg['engines']['owned']} 基。"
                             f"20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る {len(rows)} 基。"),
             "sources": {"aircraft": cfg["aircraft"]["source"], "engines": cfg["engines"]["source"],
                         "subfleets": {x["name"]: x["source"] for x in cfg.get("subfleets", [])},
@@ -125,12 +125,29 @@ def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[
     return fleet, n
 
 
-def build(name: str) -> dict:
-    conf = json.loads(CONFIG.read_text(encoding="utf-8"))
+def fleet_cfg(conf: dict, name: str, fleet_key: str | None) -> tuple[dict, dict]:
+    """The company's 737-800 config (fleet_key None/'737') or one of its other fleets,
+    with the common assumptions overridden by that fleet's quotes, leases and LLP lives."""
     cfg, common = conf["companies"][name], conf["common"]
-    out = HERE / "data" / name
+    if not fleet_key or fleet_key == cfg.get("fleet_key", "737"):
+        return cfg, common
+    f = next(x for x in cfg.get("fleets", []) if x["type"] == fleet_key)
+    common = {**common, "quotes": {**f["contract"]["quotes"], "source": f["sources"]["quotes"]},
+              "short_term_lease": {**common["short_term_lease"], **f["leases"]["short_term_lease"], "source": f["leases"]["source"]},
+              "long_term_spare": {**common["long_term_spare"], **f["leases"]["long_term_spare"]}}
+    cfg = {**f, "name": f"{cfg['name']} {f['name']}", "fleet_key": fleet_key}
+    return cfg, common
+
+
+def build(name: str, fleet_key: str | None = None) -> dict:
+    conf = json.loads(CONFIG.read_text(encoding="utf-8"))
+    cfg, common = fleet_cfg(conf, name, fleet_key)
+    out = HERE / "data" / name if not fleet_key or fleet_key == "737" else HERE / "data" / name / fleet_key
     out.mkdir(parents=True, exist_ok=True)
     fleet, n = fleet_for(name, cfg, common)
+    fleet["meta"]["fleet_key"] = cfg.get("fleet_key", "737")
+    fleet["meta"]["fleet_type"] = cfg.get("type", "737-800")
+    fleet["meta"]["engine_type"] = cfg.get("engine", "CFM56-7B")
     (out / "fleet.json").write_text(json.dumps(fleet, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (out / "shops.json").write_text(json.dumps(shops_for(name, cfg, common), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     print(f"{name}: {cfg['aircraft']['total']} aircraft, {cfg['engines']['owned']} engines, {len(fleet['engines'])} due in 24 months; "
@@ -147,7 +164,7 @@ def configure_for_fleet(fleet_path: Path) -> int | None:
     if not name:
         return None
     conf = json.loads(CONFIG.read_text(encoding="utf-8"))
-    cfg, common = conf["companies"][name], conf["common"]
+    cfg, common = fleet_cfg(conf, name, meta.get("fleet_key"))
     lifecycle.configure({**cfg, "contract": {**cfg["contract"], "quotes": {w: q for w, q in common["quotes"].items() if w != "source"}}})
     return meta.get("lifecycle_seed", 7)
 
@@ -155,9 +172,14 @@ def configure_for_fleet(fleet_path: Path) -> int | None:
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("companies", nargs="*", default=["jal", "ana"])
+    ap.add_argument("--fleet", help="one of the company's other fleets (e.g. 787, 767); default: 737-800")
+    ap.add_argument("--all-fleets", action="store_true", help="build the 737-800 and every other fleet")
     args = ap.parse_args(argv)
+    conf = json.loads(CONFIG.read_text(encoding="utf-8"))
     for c in args.companies:
-        build(c)
+        keys = [None] + [f["type"] for f in conf["companies"][c].get("fleets", [])] if args.all_fleets else [args.fleet]
+        for k in keys:
+            build(c, k)
     return 0
 
 

@@ -1,0 +1,62 @@
+{
+ "meta": {
+  "company": "jal",
+  "description": "JAL グループ（JAL・JTA） 767-300ER（JAL） の契約工場のみ（工場の選び直しは契約更新時の入札ユースケース）",
+  "contract_type": "tm",
+  "renewal": "不明",
+  "source": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定"
+ },
+ "shops": [
+  {
+   "id": "GE-CF6",
+   "name": "GE 系の契約工場（CF6）",
+   "slots": 5,
+   "transport_cost": 80,
+   "transport_months": 1,
+   "overrun_share": 1.0,
+   "currency": "USD",
+   "booking_lead_months": 4,
+   "quotes": {
+    "PR": {
+     "price": 3000,
+     "tat": 3
+    },
+    "CORE": {
+     "price": 6500,
+     "tat": 4
+    },
+    "FULL": {
+     "price": 8500,
+     "tat": 4
+    }
+   },
+   "findings": {
+    "prob": 0.45,
+    "overrun_mean": 0.2,
+    "overrun_cv": 0.7
+   },
+   "delay": {
+    "shop_months": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "shop_probs": [
+     0.4,
+     0.3,
+     0.2,
+     0.1
+    ],
+    "engine_months": [
+     0,
+     1
+    ],
+    "engine_probs": [
+     0.85,
+     0.15
+    ]
+   }
+  }
+ ]
+}

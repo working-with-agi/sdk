@@ -318,6 +318,434 @@
   },
   "note": "合成データ。先行指標の週次系列は仮定（出典なし）"
  },
+ "ooda": {
+  "unit_value_k": 95.9103078982597,
+  "rules": [
+   {
+    "id": "teardown_extra",
+    "trigger": "分解で追加作業が見つかった",
+    "condition": "追加費用 ≤ 延びる翼上月数 × v",
+    "action": "承認（当日）",
+    "who": "整備計画の担当",
+    "cadence": "same_day"
+   },
+   {
+    "id": "cm_alert",
+    "trigger": "状態監視の警報",
+    "condition": "残り寿命が短い（期限まで 3 か月未満）または取卸しが繁忙期に落ちる",
+    "action": "今下ろす（当日）。それ以外は様子見",
+    "who": "技術",
+    "cadence": "same_day"
+   },
+   {
+    "id": "tat_slip",
+    "trigger": "戻り遅れで予備が足りない",
+    "condition": "余力がマイナス",
+    "action": "短期リースを上限まで（数日）",
+    "who": "運航・調達",
+    "cadence": "days"
+   },
+   {
+    "id": "world_shift",
+    "trigger": "前提（世界）の確率が動いた",
+    "condition": "乗り換えの価値 ΔV を計算",
+    "action": "月次会議へ（判断期限つき）",
+    "who": "整備計画",
+    "cadence": "monthly"
+   },
+   {
+    "id": "safety_switch",
+    "trigger": "どの世界にも当てはまらない（変化点あり・確率動かず）",
+    "condition": "—",
+    "action": "暗黙のルールを全て停止し、全件を会議へ",
+    "who": "全員",
+    "cadence": "monthly"
+   },
+   {
+    "id": "invest_gate",
+    "trigger": "投資ゲートの条件（受領・海外の待ち）が揃った",
+    "condition": "段階の判断条件",
+    "action": "取締役会へ（年次）",
+    "who": "経営",
+    "cadence": "yearly"
+   }
+  ],
+  "thresholds": {
+   "cm_months_left": 3,
+   "hysteresis_months": 2,
+   "material_k": 300
+  },
+  "cases": [
+   {
+    "k": 2,
+    "as_of": "2026-11",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 3,
+    "as_of": "2026-12",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 4,
+    "as_of": "2027-01",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 5,
+    "as_of": "2027-02",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 6,
+    "as_of": "2027-03",
+    "rule": "cm_alert",
+    "esn": "A-118",
+    "detail": "期限まで 7 か月、計画月は閑散期",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 6,
+    "as_of": "2027-03",
+    "rule": "tat_slip",
+    "esn": "A-124,A-137,A-164,A-182",
+    "detail": "戻り遅れ 4 基、余力 -2",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 6,
+    "as_of": "2027-03",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 7,
+    "as_of": "2027-04",
+    "rule": "teardown_extra",
+    "esn": "A-124",
+    "detail": "追加 1,867 k$、延びる 12 か月 × v 96 = 1,151",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": 716.0763052208836
+   },
+   {
+    "k": 7,
+    "as_of": "2027-04",
+    "rule": "teardown_extra",
+    "esn": "A-137",
+    "detail": "追加 1,112 k$、延びる 3 か月 × v 96 = 288",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": 824.2690763052209
+   },
+   {
+    "k": 7,
+    "as_of": "2027-04",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 8,
+    "as_of": "2027-05",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 9,
+    "as_of": "2027-06",
+    "rule": "cm_alert",
+    "esn": "A-105",
+    "detail": "期限まで 8 か月、計画月は閑散期",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 9,
+    "as_of": "2027-06",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 10,
+    "as_of": "2027-07",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 11,
+    "as_of": "2027-08",
+    "rule": "teardown_extra",
+    "esn": "A-153",
+    "detail": "追加 110 k$、延びる 4 か月 × v 96 = 384",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": -273.6412315930388
+   },
+   {
+    "k": 11,
+    "as_of": "2027-08",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   },
+   {
+    "k": 12,
+    "as_of": "2027-09",
+    "rule": "teardown_extra",
+    "esn": "A-130",
+    "detail": "追加 249 k$、延びる 5 か月 × v 96 = 480",
+    "decision": "会議へ（安全スイッチ）",
+    "to_meeting": true,
+    "outcome": -230.5515394912985
+   },
+   {
+    "k": 12,
+    "as_of": "2027-09",
+    "rule": "safety_switch",
+    "esn": "—",
+    "detail": "変化点あり・前提の確率は動かず",
+    "decision": "全件を会議へ",
+    "to_meeting": true,
+    "outcome": null
+   }
+  ],
+  "months": [
+   {
+    "k": 1,
+    "as_of": "2026-10",
+    "safety_switch": false,
+    "by_rule": {},
+    "to_meeting": 0,
+    "decided": 0
+   },
+   {
+    "k": 2,
+    "as_of": "2026-11",
+    "safety_switch": true,
+    "by_rule": {
+     "safety_switch": 1
+    },
+    "to_meeting": 1,
+    "decided": 0
+   },
+   {
+    "k": 3,
+    "as_of": "2026-12",
+    "safety_switch": true,
+    "by_rule": {
+     "safety_switch": 1
+    },
+    "to_meeting": 1,
+    "decided": 0
+   },
+   {
+    "k": 4,
+    "as_of": "2027-01",
+    "safety_switch": true,
+    "by_rule": {
+     "safety_switch": 1
+    },
+    "to_meeting": 1,
+    "decided": 0
+   },
+   {
+    "k": 5,
+    "as_of": "2027-02",
+    "safety_switch": true,
+    "by_rule": {
+     "safety_switch": 1
+    },
+    "to_meeting": 1,
+    "decided": 0
+   },
+   {
+    "k": 6,
+    "as_of": "2027-03",
+    "safety_switch": true,
+    "by_rule": {
+     "cm_alert": 1,
+     "tat_slip": 1,
+     "safety_switch": 1
+    },
+    "to_meeting": 3,
+    "decided": 0
+   },
+   {
+    "k": 7,
+    "as_of": "2027-04",
+    "safety_switch": true,
+    "by_rule": {
+     "teardown_extra": 2,
+     "safety_switch": 1
+    },
+    "to_meeting": 3,
+    "decided": 0
+   },
+   {
+    "k": 8,
+    "as_of": "2027-05",
+    "safety_switch": true,
+    "by_rule": {
+     "safety_switch": 1
+    },
+    "to_meeting": 1,
+    "decided": 0
+   },
+   {
+    "k": 9,
+    "as_of": "2027-06",
+    "safety_switch": true,
+    "by_rule": {
+     "cm_alert": 1,
+     "safety_switch": 1
+    },
+    "to_meeting": 2,
+    "decided": 0
+   },
+   {
+    "k": 10,
+    "as_of": "2027-07",
+    "safety_switch": true,
+    "by_rule": {
+     "safety_switch": 1
+    },
+    "to_meeting": 1,
+    "decided": 0
+   },
+   {
+    "k": 11,
+    "as_of": "2027-08",
+    "safety_switch": true,
+    "by_rule": {
+     "teardown_extra": 1,
+     "safety_switch": 1
+    },
+    "to_meeting": 2,
+    "decided": 0
+   },
+   {
+    "k": 12,
+    "as_of": "2027-09",
+    "safety_switch": true,
+    "by_rule": {
+     "teardown_extra": 1,
+     "safety_switch": 1
+    },
+    "to_meeting": 2,
+    "decided": 0
+   }
+  ],
+  "feedback": {
+   "rule_cases": 0,
+   "rule_cases_by_rule": {
+    "teardown_extra": 0,
+    "cm_alert": 0,
+    "tat_slip": 0,
+    "world_shift": 0,
+    "safety_switch": 0,
+    "invest_gate": 0
+   },
+   "teardown_net_k": 1036.1526104417671,
+   "teardown_review": "承認線 v を見直す",
+   "no_world_fits_months": 11,
+   "add_world": true,
+   "detection_delay_months": 2,
+   "bayes_delay_months": null,
+   "to_meeting_by_safety": 11,
+   "streams_to_watch": [
+    "工場の見積もり工期（週）",
+    "枠の回答リード（週）"
+   ]
+  },
+  "loop_time": {
+   "parts": [
+    {
+     "part": "D 検知の遅れ",
+     "now": 2.0,
+     "unit": "か月",
+     "was": "12+（前提の確率が動かず）",
+     "lever": "先行指標（見積もり工期・枠回答・キット納期）を週次で見て変化点検知にかける"
+    },
+    {
+     "part": "O 状況判断の間隔",
+     "now": 1.0,
+     "unit": "か月",
+     "was": "月次",
+     "lever": "週次データが来るたびに更新する（0.25 か月）",
+     "target": 0.25
+    },
+    {
+     "part": "A 判断の時間",
+     "now": 1.0,
+     "unit": "か月",
+     "was": "月次会議",
+     "lever": "暗黙のルールで当日〜数日に（会議は乗り換えと安全スイッチだけ）",
+     "target": 0.1
+    },
+    {
+     "part": "E 実行のリード",
+     "now": 8.0,
+     "unit": "か月",
+     "was": "キット 8・枠予約 3",
+     "lever": "先行発注・プール契約でキットの待ちを外す",
+     "target": 3.0
+    }
+   ],
+   "T_now": 12.0,
+   "T_target": 5.35,
+   "timing_rule": "D + A ≤ R（判断期限までのリード）。逼迫世界では 1 か月遅れるごとに約 0.9 百万ドル（単一フリート例）",
+   "R_months": 8.0
+  },
+  "note": "合成データ。追加作業の延びる月数と警報の到着は仮定"
+ },
  "baseline_version": "2026-09-27",
  "months": [
   "2026-10",
@@ -2796,6 +3224,7 @@
     "kit_lead": 7.5,
     "_kit_n": 2
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "forced": 0.0075,
@@ -3425,6 +3854,7 @@
     "kit_lead": 8.0,
     "_kit_n": 3
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "forced": 0.0225,
@@ -4054,6 +4484,7 @@
     "kit_lead": 8.0,
     "_kit_n": 5
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "forced": 0.0325,
@@ -4683,6 +5114,7 @@
     "kit_lead": 8.333333333333334,
     "_kit_n": 6
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "forced": 0.05,
@@ -5274,6 +5706,7 @@
     "kit_lead": 8.0,
     "_kit_n": 7
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "forced": 0.0675,
@@ -5807,6 +6240,7 @@
     "kit_lead": 8.0,
     "_kit_n": 7
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "forced": 0.09,
@@ -6365,6 +6799,7 @@
     "kit_lead": 8.125,
     "_kit_n": 8
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "tat_excess": 0.46042424242424246,
@@ -6921,6 +7356,7 @@
     "kit_lead": 8.125,
     "_kit_n": 8
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "tat_excess": 0.8694666134610269,
@@ -7446,6 +7882,7 @@
     "kit_lead": 8.0,
     "_kit_n": 9
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "tat_excess": 1.1148839285714285,
@@ -7882,6 +8319,7 @@
     "kit_lead": 7.8,
     "_kit_n": 10
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "tat_excess": 1.1345575396825396,
@@ -8299,6 +8737,7 @@
     "kit_lead": 7.8,
     "_kit_n": 10
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "tat_excess": 1.1391865079365078,
@@ -8716,6 +9155,7 @@
     "kit_lead": 8.0,
     "_kit_n": 12
    },
+   "hysteresis_ok": false,
    "expected": {
     "base": {
      "tat_excess": 1.14421626984127,

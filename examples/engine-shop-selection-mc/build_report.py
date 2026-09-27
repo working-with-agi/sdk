@@ -75,7 +75,7 @@ def track_summary(t: dict) -> dict:
     top = max(T["posterior"], key=T["posterior"].get)
     sw = sorted(T["switch"].items(), key=lambda x: -x[1]["saving"])
     best = sw[0] if sw else None
-    rec = ("switch", best[0]) if best and best[1]["saving"] > MATERIAL else ("keep", None)
+    rec = ("switch", best[0]) if best and best[1]["saving"] > MATERIAL and T.get("hysteresis_ok", True) else ("keep", None)
     return {"as_of": T["as_of"], "executed": C[T["executed"]]["label"], "follow": T["follow"][T["executed"]],
             "world": W[top]["label"], "world_p": T["posterior"][top], "world_is_base": top == "base",
             "exceptions": len(T["exceptions"]), "planned": T["planned_by_now"], "inducted": T["inducted"],
@@ -89,7 +89,7 @@ def track_summary(t: dict) -> dict:
             "series": [{"as_of": x["as_of"], "posterior": {W[w]["label"]: p for w, p in x["posterior"].items()},
                         "best_saving": max((v["saving"] for v in x["switch"].values()), default=0)} for x in t["timeline"]],
             "world_labels": [W[w]["label"] for w in W],
-            "cpd": cpd_summary(t.get("cpd"), t)}
+            "cpd": cpd_summary(t.get("cpd"), t), "ooda": t.get("ooda"), "hysteresis_ok": T.get("hysteresis_ok")}
 
 
 def cpd_summary(c: dict | None, t: dict) -> dict | None:
@@ -261,6 +261,10 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         c["history"] = h
     if roll_path and roll_path.exists():
         c["roll"] = json.loads(roll_path.read_text(encoding="utf-8"))
+    mp = HERE / "multi" / f"{c['id']}.json"
+    if mp.exists():
+        m = json.loads(mp.read_text(encoding="utf-8"))
+        c["multi"] = {k: m[k] for k in ("fleets", "fiscal_years", "pot", "landing", "labels", "deadlines_by_fleet", "deadlines_total", "curves", "allocation", "settings", "note")}
     c["usecases"] = usecases.build(b)
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)

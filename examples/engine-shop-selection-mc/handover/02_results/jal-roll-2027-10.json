@@ -58,6 +58,35 @@
     "stress": 0.00015357459320529442
    },
    "what": "追跡で更新した前提の確率を、次の版の出発点にする"
+  },
+  "ooda": {
+   "rule_cases": 0,
+   "rule_cases_by_rule": {
+    "teardown_extra": 0,
+    "cm_alert": 0,
+    "tat_slip": 0,
+    "world_shift": 0,
+    "safety_switch": 0,
+    "invest_gate": 0
+   },
+   "teardown_net_k": 6897.037348272643,
+   "teardown_review": "承認線 v を見直す",
+   "no_world_fits_months": 11,
+   "add_world": true,
+   "detection_delay_months": 2,
+   "bayes_delay_months": null,
+   "to_meeting_by_safety": 11,
+   "streams_to_watch": [
+    "工場の見積もり工期（週）",
+    "枠の回答リード（週）"
+   ],
+   "what": "暗黙のルールの件数と結果、当てはまる世界がなかった月数、検知の遅れ、安全スイッチで会議に回した件数",
+   "actions": [
+    "承認線 v と閾値を見直す",
+    "前提（世界）を 1 つ追加する",
+    "見る先行指標を 工場の見積もり工期（週）, 枠の回答リード（週） にする",
+    "安全スイッチの月が多い：会議の処理能力を見直す"
+   ]
   }
  },
  "carried": {
@@ -170,6 +199,11 @@
    {
     "label": "前提を実績で直した分（工期・所見・故障率）",
     "value": 7179,
+    "kind": "delta"
+   },
+   {
+    "label": "決め方を変えた分（γ・K・世界の集合は今回変えていない）",
+    "value": 0.0,
     "kind": "delta"
    },
    {

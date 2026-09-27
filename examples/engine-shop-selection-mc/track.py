@@ -42,6 +42,7 @@ from shop_mc.model import Plan
 
 import actions
 import cpd
+import ooda
 from baseline import CANDIDATES, DEFAULT_FLEET, DEFAULT_SHOPS
 from decide import CASES, assess
 
@@ -144,6 +145,7 @@ FLOOR = {"tat_excess": 0.25, "forced": 0.5, "unsched": 0.3, "kit_lead": 1.5}  # 
 # The worlds are caricatures and the indicators are not independent: the likelihood is
 # tempered so a single month of evidence cannot make one world certain.
 TEMPER = 0.5
+MATERIAL_K = 300   # k$: a switch must clear this two months running (hysteresis) before it is recommended
 INDICATORS = {
     "tat_excess": ("戻りの遅れ", "見積もりより何か月長く翼を離れたか（戻った基の平均）"),
     "forced": ("故障による前倒し", "計画前に故障して入場した基数（累計）"),
@@ -431,8 +433,11 @@ def status(args) -> int:
             row["by_world"] = {w: row["invoiced"] + sum(float(exp_cost[w][ev_idx[w][key(r["esn"], r["shop"], r["workscope"], r["t"], r["rush"])]])
                                                          for r in open_rows if r["fy"] == fy) for w in WORLDS}
 
+        best_now = max((s["saving"] for s in switch.values()), default=0.0)
+        best_prev = max((s["saving"] for s in timeline[-1]["switch"].values()), default=0.0) if timeline else 0.0
         timeline.append({
             "k": k, "as_of": p0.month_label(k - 1), "posterior": post, "observed": obs,
+            "hysteresis_ok": best_now > MATERIAL_K and best_prev > MATERIAL_K,
             "expected": {w: {n: u["mu"] for n, u in used[w].items()} for w in WORLDS},
             "keep": {"mean": sum(post[w] * keep_of(executed, w)["mean"] for w in WORLDS),
                      "aog_prob": sum(post[w] * keep_of(executed, w)["aog_prob"] for w in WORLDS)},
@@ -442,9 +447,10 @@ def status(args) -> int:
         })
 
     cpd_out = change_points(act, timeline, prior, p0)
+    ooda_out = ooda.replay(b, act, timeline, cpd_out, ooda.load_rules(b.get("company", {}).get("id")), p0)
 
     out = {
-        "cpd": cpd_out,
+        "cpd": cpd_out, "ooda": ooda_out,
         "baseline_version": b["version"], "months": [p0.month_label(t) for t in range(p0.horizon)],
         "worlds": {w: {"label": CASES[w][0], "prior": prior[w], "what": CASES[w][2]} for w in WORLDS},
         "candidates": {c: {"label": v["label"], "world": v["world"], "what": v["what"], "feasible": v["feasible"],

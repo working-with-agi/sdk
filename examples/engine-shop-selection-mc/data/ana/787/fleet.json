@@ -1,0 +1,1134 @@
+{
+ "meta": {
+  "company": "ana",
+  "name": "ANA（ANA ウイングス運航） 787（ANA）",
+  "generator": "company.py",
+  "lifecycle_seed": 13,
+  "description": "ANA（ANA ウイングス運航） 787（ANA）: 787 82 機、保有エンジン 182 基。20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る 62 基。",
+  "sources": {
+   "aircraft": "ANA 787 約 80 機（ANA HD 概数）",
+   "engines": "no_source",
+   "subfleets": {
+    "787": "no_source: 機種の典型的な運航（国際線は 1 日 1〜2 便、長い区間）からの仮定"
+   },
+   "wear": "no_source: Trent 1000 は耐久性問題で入場間隔が短い実績。劣化は GEnx よりやや速い仮定",
+   "severity": "区間の長さによる劣化の係数（1 回あたり ≒ (0.65 + 0.2 × 飛行時間) ÷ 1.05）。Ackert の飛行時間あたりの係数表から換算した近似 https://www.aircraftmonitor.com/uploads/1/5/9/9/15993320/engine_mx_concepts_for_financiers___v2.pdf",
+   "contract": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定",
+   "transition": "この機種の更新は 2 年の窓の外（仮定）",
+   "quotes": "no_source: Trent 1000 の工場入場は TotalCare（時間あたり）だが、ここでは 1 回あたりに換算した仮定",
+   "leases": "no_source",
+   "llp_kits": "no_source（公開の根拠なし）",
+   "spares": "no_source"
+  },
+  "units": {
+   "money": "k$ (home-currency equivalent at today's FX rate)",
+   "time": "month"
+  },
+  "derivation": {
+   "aircraft": {
+    "ANA": 82
+   },
+   "thrust": "Trent 1000-A/C/J",
+   "subfleets": [
+    {
+     "name": "787",
+     "aircraft": 82,
+     "cycles_per_year": 700,
+     "fh_per_cycle": 6.5,
+     "climate": 1.0
+    }
+   ],
+   "norms_by_subfleet": {
+    "787": {
+     "visits_per_year": 25.733333333333334,
+     "cycles_per_year": 700,
+     "fh_per_cycle": 6.5,
+     "severity": 1.857
+    }
+   },
+   "flight_index": {
+    "1": 0.9,
+    "2": 0.88,
+    "3": 1.06,
+    "4": 0.97,
+    "5": 1.02,
+    "6": 0.9,
+    "7": 1.02,
+    "8": 1.12,
+    "9": 0.98,
+    "10": 1.0,
+    "11": 0.96,
+    "12": 1.03
+   },
+   "airframe_checks": {
+    "1": 2,
+    "2": 2,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 2,
+    "7": 1,
+    "8": 1,
+    "9": 1,
+    "10": 1,
+    "11": 2,
+    "12": 1
+   },
+   "base_aircraft_needed": 74,
+   "buffer_quantile": 0.95
+  },
+  "fleet_key": "787",
+  "fleet_type": "787",
+  "engine_type": "Trent 1000"
+ },
+ "start": "2026-10",
+ "horizon_months": 24,
+ "required_positions": [
+  148,
+  144,
+  154,
+  134,
+  132,
+  158,
+  144,
+  152,
+  134,
+  152,
+  162,
+  146,
+  148,
+  144,
+  154,
+  134,
+  132,
+  158,
+  144,
+  152,
+  134,
+  152,
+  162,
+  146
+ ],
+ "buffer_spares": [
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5,
+  5
+ ],
+ "owned_engines": 182,
+ "short_term_lease": {
+  "cost_per_month": 250,
+  "max_engines": 2,
+  "max_engines_peak": 1
+ },
+ "long_term_spare": {
+  "cost_per_month": 180,
+  "max_engines": 3
+ },
+ "aog_tiers": [
+  {
+   "engines": 2,
+   "cost_per_month": 700,
+   "what": "extra sections / low-margin off-peak flights"
+  },
+  {
+   "engines": 4,
+   "cost_per_month": 1400,
+   "what": "regional and leisure routes"
+  },
+  {
+   "engines": null,
+   "cost_per_month": 2600,
+   "what": "trunk routes"
+  }
+ ],
+ "aog_peak_multiplier": {
+  "12": 1.4,
+  "1": 1.4,
+  "3": 1.2,
+  "5": 1.3,
+  "7": 1.6,
+  "8": 1.8
+ },
+ "unscheduled_removals": {
+  "rate_per_engine_month": 0.004,
+  "background_engines": 120,
+  "tat_months": [
+   2,
+   3,
+   4
+  ],
+  "tat_probs": [
+   0.3,
+   0.5,
+   0.2
+  ],
+  "failure_cost_factor": 1.3,
+  "failure_extra_months": 1
+ },
+ "workscope_build_value": {
+  "PR": 0,
+  "CORE": 3200,
+  "FULL": 6100
+ },
+ "green_time_value_per_month": 45,
+ "llp_kits": {
+  "workscopes": [
+   "CORE",
+   "FULL"
+  ],
+  "lead_time_months": 8,
+  "on_hand": 3,
+  "emergency_premium": 900
+ },
+ "service_target": {
+  "max_aog_prob": 0.05
+ },
+ "budget": {
+  "fiscal_year_start_month": 4,
+  "by_fiscal_year": {
+   "FY2026": 108700.0,
+   "FY2027": 220800.0,
+   "FY2028": 112100.0
+  }
+ },
+ "fx": {
+  "volatility": 0.1
+ },
+ "terminal_engines": 167,
+ "transition": {
+  "start": "2099-01",
+  "every_months": 12
+ },
+ "engines": [
+  {
+   "esn": "AT-102",
+   "operator": "787",
+   "window": [
+    0,
+    3
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP"
+  },
+  {
+   "esn": "AT-103",
+   "operator": "787",
+   "window": [
+    0,
+    3
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-104",
+   "operator": "787",
+   "window": [
+    7,
+    12
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-111",
+   "operator": "787",
+   "window": [
+    0,
+    1
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-112",
+   "operator": "787",
+   "window": [
+    0,
+    0
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-114",
+   "operator": "787",
+   "window": [
+    14,
+    19
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-119",
+   "operator": "787",
+   "window": [
+    1,
+    6
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-121",
+   "operator": "787",
+   "window": [
+    0,
+    1
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-124",
+   "operator": "787",
+   "window": [
+    7,
+    12
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-125",
+   "operator": "787",
+   "window": [
+    8,
+    13
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-126",
+   "operator": "787",
+   "window": [
+    0,
+    0
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-128",
+   "operator": "787",
+   "window": [
+    6,
+    11
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-129",
+   "operator": "787",
+   "window": [
+    11,
+    16
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-137",
+   "operator": "787",
+   "window": [
+    12,
+    17
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-139",
+   "operator": "787",
+   "window": [
+    3,
+    8
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-142",
+   "operator": "787",
+   "window": [
+    15,
+    20
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-143",
+   "operator": "787",
+   "window": [
+    0,
+    5
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-146",
+   "operator": "787",
+   "window": [
+    4,
+    9
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-155",
+   "operator": "787",
+   "window": [
+    1,
+    6
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-156",
+   "operator": "787",
+   "window": [
+    0,
+    2
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-157",
+   "operator": "787",
+   "window": [
+    10,
+    15
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-158",
+   "operator": "787",
+   "window": [
+    0,
+    0
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-161",
+   "operator": "787",
+   "window": [
+    0,
+    2
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-162",
+   "operator": "787",
+   "window": [
+    7,
+    12
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-163",
+   "operator": "787",
+   "window": [
+    2,
+    7
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-167",
+   "operator": "787",
+   "window": [
+    11,
+    16
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-173",
+   "operator": "787",
+   "window": [
+    17,
+    22
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-176",
+   "operator": "787",
+   "window": [
+    1,
+    6
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-182",
+   "operator": "787",
+   "window": [
+    18,
+    23
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP"
+  },
+  {
+   "esn": "AT-185",
+   "operator": "787",
+   "window": [
+    13,
+    18
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-191",
+   "operator": "787",
+   "window": [
+    6,
+    11
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-192",
+   "operator": "787",
+   "window": [
+    4,
+    9
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-194",
+   "operator": "787",
+   "window": [
+    18,
+    23
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-196",
+   "operator": "787",
+   "window": [
+    0,
+    0
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-197",
+   "operator": "787",
+   "window": [
+    15,
+    20
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-198",
+   "operator": "787",
+   "window": [
+    0,
+    3
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-200",
+   "operator": "787",
+   "window": [
+    12,
+    17
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-201",
+   "operator": "787",
+   "window": [
+    16,
+    21
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-202",
+   "operator": "787",
+   "window": [
+    15,
+    20
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-207",
+   "operator": "787",
+   "window": [
+    0,
+    2
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-208",
+   "operator": "787",
+   "window": [
+    15,
+    20
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-210",
+   "operator": "787",
+   "window": [
+    9,
+    14
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-213",
+   "operator": "787",
+   "window": [
+    11,
+    16
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-215",
+   "operator": "787",
+   "window": [
+    11,
+    16
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-217",
+   "operator": "787",
+   "window": [
+    1,
+    6
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-218",
+   "operator": "787",
+   "window": [
+    12,
+    17
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-221",
+   "operator": "787",
+   "window": [
+    11,
+    16
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-228",
+   "operator": "787",
+   "window": [
+    0,
+    2
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-229",
+   "operator": "787",
+   "window": [
+    3,
+    8
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-232",
+   "operator": "787",
+   "window": [
+    7,
+    12
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-246",
+   "operator": "787",
+   "window": [
+    12,
+    17
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-247",
+   "operator": "787",
+   "window": [
+    8,
+    13
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-248",
+   "operator": "787",
+   "window": [
+    7,
+    12
+   ],
+   "allowed_workscopes": [
+    "CORE",
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-249",
+   "operator": "787",
+   "window": [
+    0,
+    4
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-250",
+   "operator": "787",
+   "window": [
+    10,
+    15
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-251",
+   "operator": "787",
+   "window": [
+    18,
+    23
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-257",
+   "operator": "787",
+   "window": [
+    16,
+    21
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-266",
+   "operator": "787",
+   "window": [
+    0,
+    2
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-268",
+   "operator": "787",
+   "window": [
+    3,
+    8
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-276",
+   "operator": "787",
+   "window": [
+    17,
+    22
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-278",
+   "operator": "787",
+   "window": [
+    0,
+    5
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  },
+  {
+   "esn": "AT-280",
+   "operator": "787",
+   "window": [
+    7,
+    12
+   ],
+   "allowed_workscopes": [
+    "PR",
+    "CORE"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "EGT"
+  }
+ ]
+}

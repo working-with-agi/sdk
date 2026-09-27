@@ -168,12 +168,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], loops: ["exec", "plan", "tech"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -191,7 +191,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -337,6 +337,8 @@ const DATA = /*__DATA__*/null;
     const tr = c.track, inv = c.invest;
     const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
     const cards = [
+      c.multi ? card("fleets", fleetsCls(c.multi), "機種横断（会社全体）", fleetsLine(c.multi), fleetsChart(c.multi, 320, 120, true)) : "",
+      tr && tr.ooda ? card("loops", tr.ooda.feedback.no_world_fits_months >= 3 ? "warn" : "ok", "PDCA と OODA（二つの輪）", loopsLine(tr.ooda), "") : "",
       card("budget", worst.over > 0.05 ? "flag" : "ok", "年間計画と予算", worst.over > 0.05 ? `${worst.fy} は予算を超える` : "予算内", fyBars(c, 320, true)),
       card("month", due3 ? "warn" : "ok", "今月からの判断", `3 か月以内に ${due3} 件の判断`, ""),
       card("track", tr && !tr.world_is_base ? "warn" : "ok", "計画の追跡", tr ? (tr.recommend === "switch" ? `乗り換えを推奨：${esc(tr.switch_to)}` : "今の計画を続けてよい") : "実績なし", tr ? trackChart(tr, 320, 70, true) : ""),
@@ -646,6 +648,13 @@ const DATA = /*__DATA__*/null;
       scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
         (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
       posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      fleetspend: ["機種ごとの 2 年の支出を年度別に積み、会社の予算（黒線）と比べた図", "棒の高さが機種の合計、黒線が会社の枠。線を超える年度は機種横断で予算が足りない", c.multi ? fleetsLine(c.multi) : "", "超える年度は、右の配分表で機種ごとの予算を ×0.9〜×1.1 に動かした損得を見る"],
+      fleetdeadlines: ["全機種の判断期限を月ごとに積んだ図", "色が機種。赤い点線は会議で扱える目安（月 5 件）", c.multi ? `最も多い月 ${Math.max(...c.multi.deadlines_total)} 件` : "", "点線を超える月は、機種ごとの会議を分けるか、暗黙のルールで担当決裁に降ろす"],
+      fleetalloc: ["機種ごとに予算を ×0.9／×1.0／×1.1 で解き直した費用と欠航リスクの表と、会社の枠の中で最も良い組み合わせ", "予算を締めると費用は下がるが欠航リスクが上がる機種、締めても変わらない機種がある。変わらない機種の予算を締めて、変わる機種に回す", c.multi && c.multi.allocation ? `配分：${Object.entries(c.multi.allocation.levels).map(([k, v]) => `${k} ×${v}`).join("、")}` : "", "配分を予算要求に反映する。機種の入れ替え（退役・受領）がある年は再計算"],
+      loops: ["計画の 2 つの輪（PDCA と OODA）の関係", "遅い輪が決め方を直し、速い輪が目の前を動かす。速い輪の結果は年 1 回、遅い輪に戻る", t && t.ooda ? loopsLine(t.ooda) : "", "安全スイッチが続く年は、前提（世界）の定義を見直す"],
+      rules: ["月次会議を待たずに動くための暗黙のルール一覧", "きっかけ・条件・行動・誰が・速さ。条件の単位価値 v は年間整備費 ÷ 取付エンジン ÷ 12", t && t.ooda ? `v = ${t.ooda.unit_value_k.toFixed(0)} 千ドル／基・月` : "", "件数と結果を年 1 回見直し、承認線と閾値を直す"],
+      looptime: ["気づいてから動くまでの時間 T を、検知（D）・状況判断（O）・判断（A）・実行（E）に分けた表", "今の値と、それぞれを縮めるてこ。D + A が判断期限までのリード R を超えると手遅れ", t && t.ooda ? `T ${t.ooda.loop_time.T_now.toFixed(1)} → ${t.ooda.loop_time.T_target.toFixed(1)} か月` : "", "E（キットの納期）が最も長い。先行発注とプール契約で縮める"],
+      feedback: ["速い輪の結果を、年 1 回、遅い輪（次の版）にどう返すか", "ルールの件数と損得 → 承認線の見直し。当てはまる世界がない月 → 前提の追加。検知の遅れ → 見る指標の選び直し。安全スイッチの件数 → 会議の処理能力", "", "roll.py の学習（learned.ooda）に入る"],
       cpdstreams: ["工場とサプライヤーの週次の回答（見積もり工期・枠の回答・キット納期）に、変化点検知（BOCPD と CUSUM）をかけた図", "横が月、線が回答値（週）。赤い縦線＝検知した週。灰色の点線＝合成データに仕込んだ実際の変化（検証用）", t && t.cpd ? cpdLine(t.cpd) : "", "検知した週から、その世界の計画案（混雑対応・逼迫対応）への乗り換えの損得を「計画の追跡」で見る"],
       cpdagree: ["月ごとに、変化点検知と前提（世界）の確率更新が一致しているか", "緑＝両方が動いた（一致）。黄＝片方だけ：変化点だけなら 4 つの前提のどれにも当てはまらない（前提の追加）、前提だけなら尤度が強すぎる。灰＝どちらも動かず", t && t.cpd ? t.cpd.verdict : "", "黄が続いたら前提の定義（世界の 4 つ）と尤度の重み（TEMPER）を見直す"],
       cpduer: ["予定外取卸しの率の変化を、CUSUM と今の警報（3 か月平均＋3σ）で検出したときの遅れと誤警報", "小さな持続的な上振れ（+20%）を仕込んで 300 回試したときの成績", "月 1 件前後の水準では 1 年で検出できる確率は低く、CUSUM の方が高いが誤警報も増える", "率の警報は件数ではなく、飛行時間あたりの率と EGT の傾向（密な系列）に載せ替える"],
@@ -790,6 +799,88 @@ const DATA = /*__DATA__*/null;
         + `<table><thead><tr><th>検出法</th><th>平均の検出遅れ（か月）</th><th>12 か月以内に検出</th><th>誤警報</th><th>見逃し（18 か月）</th></tr></thead><tbody>`
         + [["CUSUM", a.cusum], ["3 か月平均＋3σ（今の警報）", a.ma3]].map(([n, r]) => `<tr><td>${n}</td><td>${r.mean_delay == null ? "—" : r.mean_delay.toFixed(1)}</td><td>${f(r.p_detect_12m)}</td><td>${f(r.false_alarm_rate)}</td><td>${f(r.missed)}</td></tr>`).join("")
         + `</tbody></table>` + G("cpduer"), "取卸しは月 1 件前後しかないので、+20% は 1 年ではどちらの方法でもほぼ見えない。CUSUM は検出率が上がるぶん誤警報も増える。");
+  }
+
+  /* ---------------- fleets together ---------------- */
+  const FLEET_COL = ["var(--accent)", "var(--ws-core)", "var(--ws-full)", "var(--good)"];
+  const fleetsCls = (m) => { const w = Math.max(...Object.values(m.landing).map((l) => l.p_over)); return w > 0.5 ? "flag" : w > 0.2 ? "warn" : "ok"; };
+  const fleetsLine = (m) => { const fy = m.fiscal_years[1] || m.fiscal_years[0], l = m.landing[fy]; return `${Object.keys(m.fleets).length} 機種で ${fy} は ${(l.p50 / 1000).toFixed(0)} 百万ドル（予算 ${(l.budget / 1000).toFixed(0)}、超える確率 ${pct(l.p_over)}）`; };
+  function fleetsChart(m, W = 900, H = 260, compact = false) {
+    const keys = Object.keys(m.fleets), fys = m.fiscal_years, L = compact ? 6 : 60, R = compact ? 6 : 16, T = compact ? 6 : 14, B = compact ? 6 : 30;
+    const tot = fys.map((fy) => Math.max(m.pot[fy], keys.reduce((a, k) => a + (m.fleets[k].by_fy[fy].spend || 0), 0)));
+    const top = Math.max(...tot) * 1.1, bw = (W - L - R) / fys.length, y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    fys.forEach((fy, i) => {
+      let acc = 0; const x0 = L + i * bw + bw * 0.2, w = bw * 0.6;
+      keys.forEach((k, j) => { const v = m.fleets[k].by_fy[fy].spend || 0; s += `<rect x="${x0}" y="${y(acc + v)}" width="${w}" height="${y(acc) - y(acc + v)}" fill="${FLEET_COL[j]}"><title>${esc(m.fleets[k].type)} ${fy}：${(v / 1000).toFixed(1)} 百万ドル</title></rect>`; acc += v; });
+      s += `<line x1="${x0 - 6}" x2="${x0 + w + 6}" y1="${y(m.pot[fy])}" y2="${y(m.pot[fy])}" stroke="var(--ink)" stroke-width="2"><title>会社の予算 ${fy}：${(m.pot[fy] / 1000).toFixed(1)} 百万ドル</title></line>`;
+      if (!compact) s += `<text class="tick" x="${x0 + w / 2}" y="${H - B + 14}" text-anchor="middle">${fy}</text><text class="tick" x="${x0 + w / 2}" y="${y(acc) - 4}" text-anchor="middle">${(acc / 1000).toFixed(0)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="機種ごとの支出と会社の予算">${s}</svg>`;
+  }
+  function fleetDeadlines(m, W = 900, H = 200) {
+    const keys = Object.keys(m.fleets), n = m.labels.length, L = 40, R = 8, T = 10, B = 26, cw = (W - L - R) / n;
+    const top = Math.max(1, ...m.deadlines_total) * 1.15, y = (v) => H - B - v / top * (H - T - B);
+    let s = "";
+    m.labels.forEach((lab, t) => {
+      let acc = 0;
+      keys.forEach((k, j) => { const v = m.deadlines_by_fleet[k][t]; if (!v) return; s += `<rect x="${L + t * cw + 2}" y="${y(acc + v)}" width="${cw - 4}" height="${y(acc) - y(acc + v)}" fill="${FLEET_COL[j]}"><title>${esc(m.fleets[k].type)} ${lab}：判断期限 ${v} 件</title></rect>`; acc += v; });
+      if (t % 3 === 0) s += `<text class="tick" x="${L + t * cw + cw / 2}" y="${H - 6}" text-anchor="middle">${lab.slice(2)}</text>`;
+    });
+    s += `<line x1="${L}" x2="${W - R}" y1="${y(5)}" y2="${y(5)}" stroke="var(--crit)" stroke-dasharray="4 3"><title>会議で扱える目安 5 件/月</title></line>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="機種横断の判断期限">${s}</svg>`;
+  }
+  function fleets() {
+    const m = C().multi;
+    if (!m) return panel("機種横断", '<p class="hint">multi.py の結果がありません。</p>');
+    const keys = Object.keys(m.fleets);
+    const rows = keys.map((k, j) => { const f = m.fleets[k]; return `<tr><td><span class="sw" style="background:${FLEET_COL[j]}"></span>${esc(f.type)}（${esc(f.engine)}）</td><td>${f.visits}</td><td>${(f.total_cost / 1000).toFixed(1)}</td><td>${pct(f.aog_prob)}</td><td>${f.norms.visits_per_year.toFixed(1)} 件・${(f.norms.spend_per_year_k / 1000).toFixed(0)} 百万ドル</td><td>${f.relaxed.length ? "予算超過" : "予算内"}</td></tr>`; }).join("");
+    const land = m.fiscal_years.map((fy) => { const l = m.landing[fy]; return `<tr><td>${fy}</td><td>${(l.budget / 1000).toFixed(1)}</td><td>${(l.p10 / 1000).toFixed(0)}〜${(l.p50 / 1000).toFixed(0)}〜${(l.p90 / 1000).toFixed(0)}</td><td>${pct(l.p_over)}</td><td>${(l.contingency_p80 / 1000).toFixed(1)}</td></tr>`; }).join("");
+    let alloc = "";
+    if (m.allocation) {
+      const a = m.allocation;
+      alloc = panel("", `<p class="chart-note">予算の配分：${keys.map((k) => `${esc(m.fleets[k].type)} ×${a.levels[k]}`).join("、")}（費用 ${(a.cost / 1000).toFixed(1)} 百万ドル、枠超過 ${(a.over_pot / 1000).toFixed(1)}）</p>`
+        + `<table><thead><tr><th>機種</th>${m.settings.levels.map((l) => `<th>予算 ×${l}</th>`).join("")}</tr></thead><tbody>`
+        + keys.map((k) => `<tr><td>${esc(m.fleets[k].type)}</td>${m.curves[k].map((c_) => `<td>${c_ ? `${(c_.cost / 1000).toFixed(1)} 百万ドル／AOG ${pct(c_.aog_prob)}${c_.relaxed.length ? "（予算超過）" : ""}` : "—"}</td>`).join("")}</tr>`).join("")
+        + `</tbody></table>` + G("fleetalloc"), "機種ごとに予算を ×0.9／×1.0／×1.1 で解き直し、会社の枠の中で期待費用＋欠航費用が最小の組み合わせを選ぶ。");
+    }
+    return panel("", `<p class="chart-note">${esc(fleetsLine(m))}</p>` + fleetsChart(m) + `<div class="legend">${keys.map((k, j) => `<span><span class="sw" style="background:${FLEET_COL[j]}"></span>${esc(m.fleets[k].type)}</span>`).join("")}<span><span class="sw" style="background:var(--ink);height:2px"></span>会社の予算</span></div>` + G("fleetspend"))
+      + panel("", `<table><thead><tr><th>機種</th><th>2 年の入場</th><th>2 年の費用（百万ドル）</th><th>欠航リスク</th><th>平年</th><th>予算</th></tr></thead><tbody>${rows}</tbody></table>`
+        + `<table style="margin-top:12px"><thead><tr><th>年度</th><th>会社の予算（百万ドル）</th><th>着地 p10〜p50〜p90</th><th>超える確率</th><th>8 割で収める予備費</th></tr></thead><tbody>${land}</tbody></table>`, esc(m.note))
+      + panel("", `<p class="chart-note">判断期限を機種横断で見ると、会議の負荷が分かる</p>` + fleetDeadlines(m) + G("fleetdeadlines"), "赤い点線は会議で扱える目安（月 5 件）。")
+      + alloc;
+  }
+
+  /* ---------------- the two loops ---------------- */
+  const loopsLine = (o) => `暗黙のルールで決めた ${o.feedback.rule_cases} 件、会議へ ${o.cases.filter((c_) => c_.to_meeting).length} 件（安全スイッチ ${o.feedback.no_world_fits_months} か月）、ループ ${o.loop_time.T_now.toFixed(1)} → ${o.loop_time.T_target.toFixed(1)} か月`;
+  function loops() {
+    const t = C().track, o = t && t.ooda, c = C();
+    if (!o) return panel("PDCA と OODA", '<p class="hint">追跡の結果がありません。</p>');
+    const box = (title, body, cls) => `<div class="panel" style="margin:0;${cls || ""}"><h3 style="margin:0 0 6px">${title}</h3>${body}</div>`;
+    const checks = `<div class="vgrid">`
+      + box("① 実行のずれ（計画 vs 実績）", `<p>例外 ${t.exceptions} 件（時期・整備範囲・戻り遅れ・費用超過）。計画との一致 ${pct(t.follow)}</p><p class="hint">「計画の追跡」の例外一覧</p>`)
+      + box("② 前提のずれ（確率の更新と変化点）", `<p>${esc(t.world)} ${pct(t.world_p)}${t.cpd ? `。${esc(cpdLine(t.cpd))}` : ""}</p><p class="hint">尤度は γ=0.5 で弱めてある。乗り換えは ΔV が 0.3 百万ドルを 2 か月続けて超えたときだけ（履歴）</p>`)
+      + box("③ 決め方のずれ（採点）", `<p>${c.history ? `リスクの幅に入った年度、時期の癖、積み上がり` : "履歴なし"}${c.horizons ? `。時間軸のつながり ${pct(c.horizons.score)}` : ""}</p><p class="hint">「過去の計画との整合」「時間軸のつながり」「前提と出典」</p>`)
+      + `</div>`;
+    const rules = `<table><thead><tr><th>きっかけ</th><th>条件</th><th>行動</th><th>誰が</th><th>速さ</th><th>今回の件数</th></tr></thead><tbody>`
+      + o.rules.map((r) => `<tr><td>${esc(r.trigger)}</td><td>${esc(r.condition)}</td><td>${esc(r.action)}</td><td>${esc(r.who)}</td><td>${{ same_day: "当日", days: "数日", monthly: "月次", yearly: "年次" }[r.cadence]}</td><td>${o.cases.filter((c_) => c_.rule === r.id).length}</td></tr>`).join("") + `</tbody></table>`;
+    const lt = `<table><thead><tr><th>部分</th><th>今</th><th>これまで</th><th>てこ</th></tr></thead><tbody>`
+      + o.loop_time.parts.map((p) => `<tr><td>${esc(p.part)}</td><td>${p.now} ${p.unit}${p.target != null ? ` → ${p.target}` : ""}</td><td>${esc(String(p.was))}</td><td>${esc(p.lever)}</td></tr>`).join("")
+      + `</tbody></table><p class="hint">${esc(o.loop_time.timing_rule)}。R（キットの納期）= ${o.loop_time.R_months} か月</p>`;
+    const fb = o.feedback;
+    const feed = `<ul><li>ルールで決めた件数 ${fb.rule_cases}（分解の追加作業の純額 ${(fb.teardown_net_k / 1000).toFixed(1)} 百万ドル → ${esc(fb.teardown_review)}）</li>`
+      + `<li>どの世界にも当てはまらない月 ${fb.no_world_fits_months} → ${fb.add_world ? "前提（世界）を 1 つ追加する" : "追加は不要"}</li>`
+      + `<li>検知の遅れ D：先行指標 ${fb.detection_delay_months ?? "—"} か月、前提の確率 ${fb.bayes_delay_months ?? "12+"} か月 → 見る指標：${(fb.streams_to_watch || []).map(esc).join("、") || "—"}</li>`
+      + `<li>安全スイッチで会議へ ${fb.to_meeting_by_safety} 件</li></ul>`;
+    const cases = `<table><thead><tr><th>月</th><th>ルール</th><th>対象</th><th>中身</th><th>判断</th></tr></thead><tbody>`
+      + o.cases.slice(0, 40).map((c_) => `<tr><td>${c_.as_of}</td><td>${esc(c_.rule)}</td><td>${esc(c_.esn)}</td><td>${esc(c_.detail)}</td><td>${c_.to_meeting ? `<b>${esc(c_.decision)}</b>` : esc(c_.decision)}</td></tr>`).join("") + `</tbody></table>`;
+    return panel("二つの輪", `<p class="chart-note">遅い輪（PDCA：年 1 回の版と月次会議）が決め方を直し、速い輪（OODA：日〜週）が目の前を動かす。OODA は PDCA の「回す」の中で回る</p>`
+        + `<div class="vgrid">${box("PDCA：つくる → 回す → 確かめる → 直す", `<p>つくる＝前提ごとの計画案から期待費用最小を選ぶ。確かめる＝下の 3 つのずれ。直す＝月次は乗り換え（履歴つき）、年次は前提の重み更新（変化点でリセット）と橋渡し（状態 → 前提 → 決め方の順）</p>`)}${box("OODA：見る → 状況判断 → 決める → 動く", `<p>見る＝先行指標（週）・エンジン状態（便ごと）・結果（月に数件）。状況判断＝今の前提のまま／別の前提へ／どれにも当てはまらない。決める＝暗黙のルール（単位価値 v = ${o.unit_value_k.toFixed(0)} 千ドル／基・月）。動く＝当日〜数日</p>`)}</div>` + G("loops"))
+      + panel("確かめる：3 つのずれを分けて見る", checks)
+      + panel("暗黙のルール（会議を待たない判断）", rules + G("rules"), esc(o.note))
+      + panel("ループの時間 T = D + O + A + E", lt + G("looptime"))
+      + panel("速い輪から遅い輪へ（年 1 回、次の版の前提に）", feed + G("feedback"))
+      + panel("今回の案件", cases, "太字は会議に回した案件。");
   }
 
   function quote() {

@@ -40,7 +40,7 @@ def cred(n: int, k0: int) -> float:
     return n / (n + k0)
 
 
-def learn(b: dict, act: dict, shops: dict, fleet: dict, T: dict, cp: dict | None = None) -> dict:
+def learn(b: dict, act: dict, shops: dict, fleet: dict, T: dict, cp: dict | None = None, ooda_fb: dict | None = None) -> dict:
     """Updated assumptions and the evidence behind each.
 
     cp: the tracker's change-point block. The n/(n+k0) weight assumes the year is one
@@ -116,6 +116,15 @@ def learn(b: dict, act: dict, shops: dict, fleet: dict, T: dict, cp: dict | None
     # 5. the world: this year's posterior becomes next year's prior
     out["fleet_patch"]["world_prior"] = T["posterior"]
     out["evidence"]["world"] = {"posterior": T["posterior"], "what": "追跡で更新した前提の確率を、次の版の出発点にする"}
+    # 6. what the fast loop (OODA) hands to the yearly loop: rule cases and how they turned
+    #    out, months with no fitting world, the detection delay, the safety-switch load
+    if ooda_fb:
+        out["evidence"]["ooda"] = {**ooda_fb, "what": "暗黙のルールの件数と結果、当てはまる世界がなかった月数、検知の遅れ、安全スイッチで会議に回した件数",
+                                   "actions": [a for a in (
+                                       "承認線 v と閾値を見直す" if ooda_fb.get("teardown_review", "").startswith("承認線 v") else None,
+                                       "前提（世界）を 1 つ追加する" if ooda_fb.get("add_world") else None,
+                                       f"見る先行指標を {', '.join(ooda_fb['streams_to_watch'])} にする" if ooda_fb.get("streams_to_watch") else None,
+                                       "安全スイッチの月が多い：会議の処理能力を見直す" if ooda_fb.get("to_meeting_by_safety", 0) >= 3 else None) if a]}
     return out
 
 
@@ -184,7 +193,7 @@ def main(argv=None) -> int:
         track.main(["status", "--baseline", str(bpath), "--actuals", str(apath), "--json-out", str(tpath)])
         TJ = json.loads(tpath.read_text(encoding="utf-8"))
         T = TJ["timeline"][-1]
-        L = learn(b, act, shops, old_fleet, T, TJ.get("cpd"))
+        L = learn(b, act, shops, old_fleet, T, TJ.get("cpd"), (TJ.get("ooda") or {}).get("feedback"))
 
         # the fleet one year on, from the same history
         conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))
@@ -221,6 +230,7 @@ def main(argv=None) -> int:
                 {"label": f"{b['version']} 版の 2 年目", "value": spend(old_y2), "kind": "level"},
                 {"label": "機材の状態が動いた分（新たに期限が来た・済んだ・時期が動いた）", "value": spend(y1_state) - spend(old_y2), "kind": "delta"},
                 {"label": "前提を実績で直した分（工期・所見・故障率）", "value": spend(y1_new) - spend(y1_state), "kind": "delta"},
+                {"label": "決め方を変えた分（γ・K・世界の集合は今回変えていない）", "value": 0.0, "kind": "delta"},
                 {"label": f"{learned['start']} 版の 1 年目", "value": spend(y1_new), "kind": "level"},
             ],
         }

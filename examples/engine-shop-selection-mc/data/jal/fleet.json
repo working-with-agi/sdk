@@ -91,7 +91,10 @@
    },
    "base_aircraft_needed": 50,
    "buffer_quantile": 0.95
-  }
+  },
+  "fleet_key": "737",
+  "fleet_type": "737-800",
+  "engine_type": "CFM56-7B"
  },
  "start": "2026-10",
  "horizon_months": 24,

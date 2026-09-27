@@ -84,7 +84,7 @@ def configure(cfg: dict) -> None:
     """Switch the simulation to one company's fleet (data/companies.json): fleet size,
     engines, aircraft the schedule needs, airframe checks, workscope costs, ESN prefix."""
     global AIRCRAFT, ENGINES, BASE_NEEDED, AIRFRAME_CHECKS, COST, ESN_PREFIX
-    global SUBFLEETS, INITIAL_DROP, EGT_LOSS_PER_1000, RESTORE, FAN_LIFE, CYCLES_PER_MONTH, HOURS_PER_CYCLE
+    global SUBFLEETS, INITIAL_DROP, EGT_LOSS_PER_1000, RESTORE, FAN_LIFE, CYCLES_PER_MONTH, HOURS_PER_CYCLE, CORE_LIFE, LP_LIFE
     AIRCRAFT = cfg["aircraft"]["total"]
     ENGINES = cfg["engines"]["owned"]
     BASE_NEEDED = cfg["aircraft"]["base_needed"]
@@ -105,6 +105,8 @@ def configure(cfg: dict) -> None:
         EGT_LOSS_PER_1000 = w["mature_loss_per_1000"]
         RESTORE = {k: float(v) for k, v in w["restore"].items()}
         FAN_LIFE = w.get("fan_life")
+    if "llp_lives" in cfg:
+        CORE_LIFE, LP_LIFE = cfg["llp_lives"]["core"], cfg["llp_lives"]["lp"]
 
 
 def month_of(t: int) -> int:

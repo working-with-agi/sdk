@@ -93,7 +93,237 @@
     },
     "fan_life": 30000,
     "source": "最初の 1,000 EFC で 11〜15℃、その後 1,000 EFC あたり 4〜6℃。-7B26 の整備後の余裕 42〜48℃に Tech56 等の改修で約 +10℃（改修の有無は仮定） https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs1/Aircraft%20guides/CFM56-7B/ISSUE58_CFM56_7B_MTCE.pdf 。JAL・JTA の推力型式は非公表"
-   }
+   },
+   "fleets": [
+    {
+     "name": "787（JAL）",
+     "type": "787",
+     "engine": "GEnx-1B",
+     "esn_prefix": "JG",
+     "lifecycle_seed": 11,
+     "aircraft": {
+      "total": 52,
+      "by_operator": {
+       "JAL": 52
+      },
+      "source": "JAL 787-8/-9 約 50 機（JAL 決算資料 2026-03、概数） https://www.jal.com/ja/investor/",
+      "base_needed": 47,
+      "base_needed_source": "no_source: 737-800 と同じ比率（約 9 割）",
+      "airframe_checks": {
+       "1": 2,
+       "2": 2,
+       "3": 1,
+       "4": 1,
+       "5": 1,
+       "6": 2,
+       "7": 1,
+       "8": 1,
+       "9": 1,
+       "10": 1,
+       "11": 2,
+       "12": 1
+      },
+      "airframe_checks_source": "no_source: 機数比で縮小"
+     },
+     "engines": {
+      "installed": 104,
+      "owned": 114,
+      "source": "no_source: 予備は取付の約 10%"
+     },
+     "contract": {
+      "shop_id": "GE-GEnx",
+      "name": "GE 系の契約工場（GEnx TrueChoice）",
+      "type": "tm",
+      "source": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定",
+      "renewal": "不明",
+      "slots_in_shop": 8,
+      "slots_source": "no_source",
+      "transport_months": 1,
+      "booking_lead_months": 4,
+      "booking_source": "no_source",
+      "quotes": {
+       "PR": {
+        "price": 4500,
+        "tat": 3
+       },
+       "CORE": {
+        "price": 11500,
+        "tat": 5
+       },
+       "FULL": {
+        "price": 16000,
+        "tat": 5
+       }
+      }
+     },
+     "transition": {
+      "start": "2099-01",
+      "every_months": 12,
+      "source": "この機種の更新は 2 年の窓の外（仮定）"
+     },
+     "spares": {
+      "short_lease_max": 1,
+      "short_lease_max_peak": 1,
+      "long_spare_max": 2,
+      "llp_kits_on_hand": 2,
+      "source": "no_source"
+     },
+     "subfleets": [
+      {
+       "name": "787",
+       "aircraft": 52,
+       "cycles_per_year": 650,
+       "fh_per_cycle": 7.5,
+       "climate": 1.0,
+       "source": "no_source: 機種の典型的な運航（国際線は 1 日 1〜2 便、長い区間）からの仮定"
+      }
+     ],
+     "wear": {
+      "thrust": "GEnx-1B70/74",
+      "initial_drop": 8,
+      "mature_loss_per_1000": 9.0,
+      "restore": {
+       "PR": 70,
+       "CORE": 80,
+       "FULL": 90
+      },
+      "fan_life": 30000,
+      "source": "no_source: GEnx の EGT マージンは非公表。1,000 サイクルあたりの劣化は長い区間ぶん CFM56 の 2 倍強と仮定"
+     },
+     "leases": {
+      "short_term_lease": {
+       "cost_per_month": 250
+      },
+      "long_term_spare": {
+       "cost_per_month": 180
+      },
+      "source": "no_source: ワイドボディのエンジンリースは 20〜30 万ドル/月の仮定"
+     },
+     "llp_lives": {
+      "core": 15000,
+      "lp": 20000,
+      "source": "no_source: ワイドボディ機のエンジンは 1 回の飛行が長く、寿命部品はサイクル数で管理。CFM56 より短いサイクル寿命の仮定"
+     },
+     "sources": {
+      "quotes": "no_source: GEnx-1B の工場入場は 1 回 10〜16 百万ドル規模という業界の目安からの仮定"
+     }
+    },
+    {
+     "name": "767-300ER（JAL）",
+     "type": "767",
+     "engine": "CF6-80C2",
+     "esn_prefix": "JS",
+     "lifecycle_seed": 12,
+     "aircraft": {
+      "total": 27,
+      "by_operator": {
+       "JAL": 27
+      },
+      "source": "JAL 767-300ER 約 27 機（概数、退役進行中）",
+      "base_needed": 24,
+      "base_needed_source": "no_source: 737-800 と同じ比率（約 9 割）",
+      "airframe_checks": {
+       "1": 2,
+       "2": 2,
+       "3": 1,
+       "4": 1,
+       "5": 1,
+       "6": 2,
+       "7": 1,
+       "8": 1,
+       "9": 1,
+       "10": 1,
+       "11": 2,
+       "12": 1
+      },
+      "airframe_checks_source": "no_source: 機数比で縮小"
+     },
+     "engines": {
+      "installed": 54,
+      "owned": 60,
+      "source": "no_source"
+     },
+     "contract": {
+      "shop_id": "GE-CF6",
+      "name": "GE 系の契約工場（CF6）",
+      "type": "tm",
+      "source": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定",
+      "renewal": "不明",
+      "slots_in_shop": 5,
+      "slots_source": "no_source",
+      "transport_months": 1,
+      "booking_lead_months": 4,
+      "booking_source": "no_source",
+      "quotes": {
+       "PR": {
+        "price": 3000,
+        "tat": 3
+       },
+       "CORE": {
+        "price": 6500,
+        "tat": 4
+       },
+       "FULL": {
+        "price": 8500,
+        "tat": 4
+       }
+      }
+     },
+     "transition": {
+      "start": "2099-01",
+      "every_months": 12,
+      "source": "この機種の更新は 2 年の窓の外（仮定）"
+     },
+     "spares": {
+      "short_lease_max": 1,
+      "short_lease_max_peak": 1,
+      "long_spare_max": 2,
+      "llp_kits_on_hand": 2,
+      "source": "no_source"
+     },
+     "subfleets": [
+      {
+       "name": "767-300ER",
+       "aircraft": 27,
+       "cycles_per_year": 1100,
+       "fh_per_cycle": 3.0,
+       "climate": 1.0,
+       "source": "no_source: 機種の典型的な運航（国際線は 1 日 1〜2 便、長い区間）からの仮定"
+      }
+     ],
+     "wear": {
+      "thrust": "CF6-80C2B6F",
+      "initial_drop": 10,
+      "mature_loss_per_1000": 5.0,
+      "restore": {
+       "PR": 45,
+       "CORE": 52,
+       "FULL": 58
+      },
+      "fan_life": 30000,
+      "source": "no_source: 成熟エンジン。EGT マージンは小さめの仮定"
+     },
+     "leases": {
+      "short_term_lease": {
+       "cost_per_month": 150
+      },
+      "long_term_spare": {
+       "cost_per_month": 100
+      },
+      "source": "no_source"
+     },
+     "llp_lives": {
+      "core": 15000,
+      "lp": 20000,
+      "source": "no_source: ワイドボディ機のエンジンは 1 回の飛行が長く、寿命部品はサイクル数で管理。CFM56 より短いサイクル寿命の仮定"
+     },
+     "sources": {
+      "quotes": "no_source: CF6-80C2 の工場入場は 1 回 6〜9 百万ドル規模の仮定"
+     }
+    }
+   ],
+   "fleet_key": "737",
+   "fleets_note": "737-800 はこの会社の直下の設定（従来どおり）。fleets は追加の機種で、機種横断の最適化（multi.py）に使う。"
   },
   "ana": {
    "name": "ANA（ANA ウイングス運航）",
@@ -173,7 +403,237 @@
     },
     "fan_life": 30000,
     "source": "推力型式 -7B24 は ANA Fact Book https://www.ana.co.jp/ir/kessan_info/annual/pdf/10f/10f_07.pdf 。-7B24 の整備後の余裕 70〜80℃、劣化は同上（Aircraft Commerce 58 号）"
-   }
+   },
+   "fleets": [
+    {
+     "name": "787（ANA）",
+     "type": "787",
+     "engine": "Trent 1000",
+     "esn_prefix": "AT",
+     "lifecycle_seed": 13,
+     "aircraft": {
+      "total": 82,
+      "by_operator": {
+       "ANA": 82
+      },
+      "source": "ANA 787 約 80 機（ANA HD 概数）",
+      "base_needed": 74,
+      "base_needed_source": "no_source: 737-800 と同じ比率（約 9 割）",
+      "airframe_checks": {
+       "1": 2,
+       "2": 2,
+       "3": 1,
+       "4": 1,
+       "5": 1,
+       "6": 2,
+       "7": 1,
+       "8": 1,
+       "9": 1,
+       "10": 1,
+       "11": 2,
+       "12": 1
+      },
+      "airframe_checks_source": "no_source: 機数比で縮小"
+     },
+     "engines": {
+      "installed": 164,
+      "owned": 182,
+      "source": "no_source"
+     },
+     "contract": {
+      "shop_id": "RR-T1000",
+      "name": "RR 系の契約工場（TotalCare）",
+      "type": "tm",
+      "source": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定",
+      "renewal": "不明",
+      "slots_in_shop": 12,
+      "slots_source": "no_source",
+      "transport_months": 1,
+      "booking_lead_months": 4,
+      "booking_source": "no_source",
+      "quotes": {
+       "PR": {
+        "price": 4500,
+        "tat": 3
+       },
+       "CORE": {
+        "price": 12000,
+        "tat": 6
+       },
+       "FULL": {
+        "price": 17000,
+        "tat": 6
+       }
+      }
+     },
+     "transition": {
+      "start": "2099-01",
+      "every_months": 12,
+      "source": "この機種の更新は 2 年の窓の外（仮定）"
+     },
+     "spares": {
+      "short_lease_max": 2,
+      "short_lease_max_peak": 1,
+      "long_spare_max": 3,
+      "llp_kits_on_hand": 3,
+      "source": "no_source"
+     },
+     "subfleets": [
+      {
+       "name": "787",
+       "aircraft": 82,
+       "cycles_per_year": 700,
+       "fh_per_cycle": 6.5,
+       "climate": 1.0,
+       "source": "no_source: 機種の典型的な運航（国際線は 1 日 1〜2 便、長い区間）からの仮定"
+      }
+     ],
+     "wear": {
+      "thrust": "Trent 1000-A/C/J",
+      "initial_drop": 8,
+      "mature_loss_per_1000": 10.0,
+      "restore": {
+       "PR": 65,
+       "CORE": 78,
+       "FULL": 88
+      },
+      "fan_life": 30000,
+      "source": "no_source: Trent 1000 は耐久性問題で入場間隔が短い実績。劣化は GEnx よりやや速い仮定"
+     },
+     "leases": {
+      "short_term_lease": {
+       "cost_per_month": 250
+      },
+      "long_term_spare": {
+       "cost_per_month": 180
+      },
+      "source": "no_source"
+     },
+     "llp_lives": {
+      "core": 15000,
+      "lp": 20000,
+      "source": "no_source: ワイドボディ機のエンジンは 1 回の飛行が長く、寿命部品はサイクル数で管理。CFM56 より短いサイクル寿命の仮定"
+     },
+     "sources": {
+      "quotes": "no_source: Trent 1000 の工場入場は TotalCare（時間あたり）だが、ここでは 1 回あたりに換算した仮定"
+     }
+    },
+    {
+     "name": "767-300ER（ANA）",
+     "type": "767",
+     "engine": "CF6-80C2",
+     "esn_prefix": "AS",
+     "lifecycle_seed": 14,
+     "aircraft": {
+      "total": 20,
+      "by_operator": {
+       "ANA": 20
+      },
+      "source": "ANA 767-300ER 約 20 機（概数、退役進行中）",
+      "base_needed": 18,
+      "base_needed_source": "no_source: 737-800 と同じ比率（約 9 割）",
+      "airframe_checks": {
+       "1": 2,
+       "2": 2,
+       "3": 1,
+       "4": 1,
+       "5": 1,
+       "6": 2,
+       "7": 1,
+       "8": 1,
+       "9": 1,
+       "10": 1,
+       "11": 2,
+       "12": 1
+      },
+      "airframe_checks_source": "no_source: 機数比で縮小"
+     },
+     "engines": {
+      "installed": 40,
+      "owned": 48,
+      "source": "no_source"
+     },
+     "contract": {
+      "shop_id": "GE-CF6",
+      "name": "GE 系の契約工場（CF6）",
+      "type": "tm",
+      "source": "no_source: 契約工場は非公表。機種の OEM 系工場と仮定",
+      "renewal": "不明",
+      "slots_in_shop": 4,
+      "slots_source": "no_source",
+      "transport_months": 1,
+      "booking_lead_months": 4,
+      "booking_source": "no_source",
+      "quotes": {
+       "PR": {
+        "price": 3000,
+        "tat": 3
+       },
+       "CORE": {
+        "price": 6500,
+        "tat": 4
+       },
+       "FULL": {
+        "price": 8500,
+        "tat": 4
+       }
+      }
+     },
+     "transition": {
+      "start": "2099-01",
+      "every_months": 12,
+      "source": "この機種の更新は 2 年の窓の外（仮定）"
+     },
+     "spares": {
+      "short_lease_max": 2,
+      "short_lease_max_peak": 1,
+      "long_spare_max": 2,
+      "llp_kits_on_hand": 2,
+      "source": "no_source"
+     },
+     "subfleets": [
+      {
+       "name": "767-300ER",
+       "aircraft": 20,
+       "cycles_per_year": 1200,
+       "fh_per_cycle": 2.8,
+       "climate": 1.0,
+       "source": "no_source: 機種の典型的な運航（国際線は 1 日 1〜2 便、長い区間）からの仮定"
+      }
+     ],
+     "wear": {
+      "thrust": "CF6-80C2B6F",
+      "initial_drop": 10,
+      "mature_loss_per_1000": 5.0,
+      "restore": {
+       "PR": 45,
+       "CORE": 52,
+       "FULL": 58
+      },
+      "fan_life": 30000,
+      "source": "no_source"
+     },
+     "leases": {
+      "short_term_lease": {
+       "cost_per_month": 150
+      },
+      "long_term_spare": {
+       "cost_per_month": 100
+      },
+      "source": "no_source"
+     },
+     "llp_lives": {
+      "core": 15000,
+      "lp": 20000,
+      "source": "no_source: ワイドボディ機のエンジンは 1 回の飛行が長く、寿命部品はサイクル数で管理。CFM56 より短いサイクル寿命の仮定"
+     },
+     "sources": {
+      "quotes": "no_source"
+     }
+    }
+   ],
+   "fleet_key": "737",
+   "fleets_note": "737-800 はこの会社の直下の設定（従来どおり）。fleets は追加の機種で、機種横断の最適化（multi.py）に使う。"
   }
  },
  "common": {
