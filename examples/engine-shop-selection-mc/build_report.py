@@ -23,6 +23,7 @@ from pathlib import Path
 
 import baseline
 import track
+import usecases
 
 HERE = Path(__file__).resolve().parent
 MATERIAL = 300  # k$: below this a switch or an action is not worth the disruption
@@ -234,6 +235,7 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         for v in h["versions"]:
             v.pop("rows", None)
         c["history"] = h
+    c["usecases"] = usecases.build(b)
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c
