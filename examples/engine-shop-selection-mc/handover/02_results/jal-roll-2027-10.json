@@ -52,17 +52,18 @@
   },
   "world": {
    "posterior": {
-    "base": 0.7194148052054637,
-    "backlog": 0.28000324546554217,
-    "crunch": 0.0004283747357887814,
-    "stress": 0.00015357459320529442
+    "base": 0.5230006030879086,
+    "backlog": 0.20355692597016642,
+    "crunch": 0.06540572630889106,
+    "stress": 0.0234482964843601,
+    "observed": 0.18458844814867362
    },
    "what": "追跡で更新した前提の確率を、次の版の出発点にする"
   },
   "ooda": {
-   "rule_cases": 0,
+   "rule_cases": 2,
    "rule_cases_by_rule": {
-    "teardown_extra": 0,
+    "teardown_extra": 2,
     "cm_alert": 0,
     "tat_slip": 0,
     "world_shift": 0,
@@ -71,11 +72,11 @@
    },
    "teardown_net_k": 6897.037348272643,
    "teardown_review": "承認線 v を見直す",
-   "no_world_fits_months": 11,
+   "no_world_fits_months": 10,
    "add_world": true,
    "detection_delay_months": 2,
-   "bayes_delay_months": null,
-   "to_meeting_by_safety": 11,
+   "bayes_delay_months": 5,
+   "to_meeting_by_safety": 10,
    "streams_to_watch": [
     "工場の見積もり工期（週）",
     "枠の回答リード（週）"
@@ -217,6 +218,16 @@
   "plan_of_record": {
    "total_cost": 195816.99513990243,
    "p90": 240037.59315934713,
+   "committed": 156480.0,
+   "recourse": 39336.99513990241,
+   "recourse_p90": 83557.59315934715,
+   "recourse_parts": {
+    "overrun": 35730.157639902405,
+    "lease": 2.1125,
+    "substitute": 0.0,
+    "aog": 4.725,
+    "emergency_kits": 3600.0
+   },
    "aog_prob": 0.0025,
    "by_fiscal_year": {
     "FY2027": {

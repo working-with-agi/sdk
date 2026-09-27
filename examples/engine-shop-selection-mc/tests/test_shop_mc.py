@@ -51,12 +51,14 @@ class ShopMcTest(unittest.TestCase):
         # OEM-NET is fixed price in USD: its cost varies only with FX, which is common to
         # all its quotes in a scenario, so the price ratio is identical across engines
         sc = self.sc
+        fixed = next(k for k in P.shops if k.overrun_share == 0.0)     # the fixed-price shop in the tender data
+        ws = next(w for w in ("PR", "CORE", "FULL") if w in fixed.quotes)
         def ratio(esn):
             i = next(i for i, o in enumerate(sc.options)
-                     if o.shop.id == "OEM-NET" and o.visit.esn == esn and o.workscope == "PR" and not o.rush)
+                     if o.shop is fixed and o.visit.esn == esn and o.workscope == ws and not o.rush)
             k = sc.options[i].shop
-            return (sc.cost[:, i] - k.transport_cost) / k.quotes["PR"].price
-        a, b = [v.esn for v in P.visits if "PR" in v.allowed_workscopes][:2]
+            return (sc.cost[:, i] - k.transport_cost) / k.quotes[ws].price
+        a, b = [v.esn for v in P.visits if ws in v.allowed_workscopes][:2]
         self.assertTrue(np.allclose(ratio(a), ratio(b)))
 
     def test_llp_kits_and_budget(self):

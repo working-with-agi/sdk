@@ -409,7 +409,7 @@ function boot() {
 
   /* ---------- AI ---------- */
   let sample = null, ctl = null;
-  (async () => { sample = await claude.use("sample"); if (sample) $("ai-panel").hidden = false; })();
+  (async () => { try { sample = await claude.use("sample"); } catch (e) { sample = null; } if (sample) $("ai-panel").hidden = false; })();
   $("ai-go").onclick = async () => {
     if (!sample || ctl || tab === "outlook") return;
     const fy = tab === "month" ? M.fy[cur] : tab;

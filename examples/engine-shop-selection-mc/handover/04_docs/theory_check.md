@@ -94,3 +94,17 @@
 3. 合成実績の TAT +1 を変化週以降に限定し、リセットの効果を測り直す（項目 4）。
 4. `data/<co>/rules.json` を置くか README の記述を DEFAULT_RULES に直す（項目 7）。
 5. 乗り換えの式と履歴判定を track.py の関数に出す（項目 3）。
+
+
+## 再検証（2026-09-27、run_all.sh で全体を再生成した後）
+
+- **2 尤度のテンパリング — FAIL → PASS**：キット納期の尤度の FLOOR を 1.5 → 2.0、√n の強めを撤廃（`track.py` FLOOR）。月 1 で先頭の世界は反転しない（下の月 1 の事後）。「動いた」判定は基準外の確率質量 > 0.6（`MOVED_MASS`）。
+- **6 タイミング条件 — FAIL → PARTIAL**：乗り換えの各変更に `timing` {R, A_meeting=1, A_rule=0.1, ok_meeting, ok_rule} を付与し、`switch[候補].timing` に間に合う／ルールなら間に合う／手遅れの件数（`track.py` hybrid の後）。「1.4M vs 0.5M」は会社別では再現せず（遅れの費用曲線 `cpd.value.delay_curve` は ANA 逼迫で負＝遅いほど価値が上がる）。
+- **7 rules.json — 変わらず PARTIAL**（既定値のフォールバック。会社ファイルは未作成）。
+- **15 テスト — PASS**：`python3 -m unittest discover -s tests` → Ran 28 tests, OK（旧サンプルの固定価格テストは工場の名前変更に合わせて修正）。
+- **全画面の自動チェック**：report/monthly/annual/track の 4 ページ、2 社 × 24 画面で JS エラー 0、NaN／undefined 0（`scratchpad/smoke.py`）。
+
+- jal backlog: 月1 の事後 {'base': 0.6, 'backlog': 0.3, 'crunch': 0.07, 'stress': 0.04, 'observed': 0.0}、先行指標 2、前提の更新 5、状態 cpd_only、判断ごとの timing {'backlog': {'in_time_meeting': 0, 'in_time_rule_only': 0, 'too_late': 1}, 'stress': {'in_time_meeting': 4, 'in_time_rule_only': 0, 'too_late': 6}, 'observed': {'in_time_meeting': 2, 'in_time_rule_only': 0, 'too_late': 4}}
+- jal crunch: 月1 の事後 {'base': 0.36, 'backlog': 0.18, 'crunch': 0.3, 'stress': 0.16, 'observed': 0.0}、先行指標 2、前提の更新 1、状態 both、判断ごとの timing {'backlog': {'in_time_meeting': 0, 'in_time_rule_only': 0, 'too_late': 1}, 'stress': {'in_time_meeting': 3, 'in_time_rule_only': 0, 'too_late': 7}, 'observed': {'in_time_meeting': 2, 'in_time_rule_only': 0, 'too_late': 4}}
+- ana backlog: 月1 の事後 {'base': 0.6, 'backlog': 0.3, 'crunch': 0.07, 'stress': 0.04, 'observed': 0.0}、先行指標 2、前提の更新 None、状態 cpd_only、判断ごとの timing {'stress': {'in_time_meeting': 2, 'in_time_rule_only': 0, 'too_late': 2}, 'observed': {'in_time_meeting': 4, 'in_time_rule_only': 0, 'too_late': 1}}
+- ana crunch: 月1 の事後 {'base': 0.36, 'backlog': 0.18, 'crunch': 0.29, 'stress': 0.17, 'observed': 0.0}、先行指標 2、前提の更新 1、状態 both、判断ごとの timing {'stress': {'in_time_meeting': 2, 'in_time_rule_only': 0, 'too_late': 2}, 'observed': {'in_time_meeting': 4, 'in_time_rule_only': 0, 'too_late': 1}}

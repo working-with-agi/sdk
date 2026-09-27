@@ -101,6 +101,7 @@ input[type=range] { width: min(420px, 60vw); accent-color: var(--accent); }
 details summary { cursor: pointer; font-size: 12px; color: var(--muted); }
 .close { color: var(--good); font-weight: 600; }
 @media (max-width: 900px) { .grid2 { grid-template-columns: 1fr; } .line { grid-template-columns: 1fr; gap: 2px; } }
+h2.group { font-size: 15px; color: var(--muted); margin: 22px 0 8px; letter-spacing: .04em; }
 </style>
 <style>
 .crumb { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--muted); }
@@ -367,12 +368,18 @@ const DATA = /*__DATA__*/null;
     ];
     const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
     const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
+    // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
+    const GROUPS = [["つくる：計画と予算", ["budget", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
+      ["確かめる：決め方の採点", ["history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
+      ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
+    const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
+      + (() => { const rest = all.filter((h) => !GROUPS.some(([, keys]) => keys.includes(keyOf(h)))); return rest.length ? `<div class="cards">${rest.join("")}</div>` : ""; })();
     const roleBar = `<div class="tabs" role="tablist" aria-label="見方">${Object.entries(ROLES).map(([k, l]) => `<button type="button" role="tab" data-role="${k}" aria-selected="${k === role}">${l}</button>`).join("")}</div>`;
     const rl = roleLine(c);
     return roleBar + `<section class="panel verdict" aria-label="結論">${rl ? `<div class="line"><span class="q">${ROLES[role]}の視点</span><span class="a">${esc(rl)}</span></div>` : ""}${lines}</section>`
       + panel("エンジンごとの計画ボード", `<p class="chart-note">${c.plan.length} 基の予定（先頭 3 か月に判断が集中）。この板が計画そのもの：ほかの画面はこの板をどう動かすかの判断材料</p>` + gantt(c) + ganttLegend + G("gantt"), "バーにマウスを載せると、工場・費用・判断期限の理由が出ます。")
       + (role === "all" || role === "ops" || role === "plan" || role === "exec" ? panel("この 24 か月の地図", monthMap(c) + legendMap + G("monthmap"), "マスにマウスを載せると数字が出ます。") : "")
-      + `<div class="cards">${all.join("")}</div>`;
+      + grouped;
   }
 
   /* ---------------- level 2 ---------------- */

@@ -3,7 +3,7 @@
  "months": 12,
  "inductions": [
   {
-   "esn": "A-124",
+   "esn": "A-169",
    "month": "2026-10",
    "t": 0,
    "shop": "MTU-ZH",
@@ -11,7 +11,7 @@
    "reason": "planned"
   },
   {
-   "esn": "A-137",
+   "esn": "A-181",
    "month": "2026-10",
    "t": 0,
    "shop": "MTU-ZH",
@@ -19,39 +19,23 @@
    "reason": "planned"
   },
   {
-   "esn": "A-164",
-   "month": "2026-10",
-   "t": 0,
-   "shop": "MTU-ZH",
-   "workscope": "CORE",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-182",
-   "month": "2026-10",
-   "t": 0,
+   "esn": "A-105",
+   "month": "2026-12",
+   "t": 2,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-115",
-   "month": "2026-11",
-   "t": 1,
+   "esn": "A-180",
+   "month": "2026-12",
+   "t": 2,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-186",
-   "month": "2026-11",
-   "t": 1,
-   "shop": "MTU-ZH",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-135",
+   "esn": "A-151",
    "month": "2027-01",
    "t": 3,
    "shop": "MTU-ZH",
@@ -59,7 +43,7 @@
    "reason": "planned"
   },
   {
-   "esn": "A-153",
+   "esn": "A-176",
    "month": "2027-02",
    "t": 4,
    "shop": "MTU-ZH",
@@ -67,9 +51,17 @@
    "reason": "planned"
   },
   {
-   "esn": "A-130",
+   "esn": "A-107",
    "month": "2027-03",
    "t": 5,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-161",
+   "month": "2027-05",
+   "t": 7,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
@@ -83,7 +75,7 @@
    "reason": "planned"
   },
   {
-   "esn": "A-178",
+   "esn": "A-133",
    "month": "2027-06",
    "t": 8,
    "shop": "MTU-ZH",
@@ -91,7 +83,23 @@
    "reason": "planned"
   },
   {
-   "esn": "A-108",
+   "esn": "A-155",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-157",
+   "month": "2027-06",
+   "t": 8,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-140",
    "month": "2027-07",
    "t": 9,
    "shop": "MTU-ZH",
@@ -99,23 +107,15 @@
    "reason": "planned"
   },
   {
-   "esn": "A-121",
-   "month": "2027-08",
-   "t": 10,
+   "esn": "A-115",
+   "month": "2027-09",
+   "t": 11,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-165",
-   "month": "2027-08",
-   "t": 10,
-   "shop": "MTU-ZH",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-105",
+   "esn": "A-122",
    "month": "2027-09",
    "t": 11,
    "shop": "MTU-ZH",
@@ -125,72 +125,60 @@
  ],
  "returns": [
   {
-   "esn": "A-124",
-   "month": "2027-03",
-   "t": 5,
-   "cost_k": 13924
-  },
-  {
-   "esn": "A-137",
-   "month": "2027-03",
-   "t": 5,
-   "cost_k": 13173
-  },
-  {
-   "esn": "A-164",
-   "month": "2027-03",
-   "t": 5,
-   "cost_k": 7557
-  },
-  {
-   "esn": "A-182",
-   "month": "2027-03",
-   "t": 5,
-   "cost_k": 10491
-  },
-  {
-   "esn": "A-115",
+   "esn": "A-169",
    "month": "2027-04",
    "t": 6,
-   "cost_k": 10491
+   "cost_k": 11143
   },
   {
-   "esn": "A-186",
-   "month": "2027-04",
-   "t": 6,
-   "cost_k": 10491
+   "esn": "A-181",
+   "month": "2027-05",
+   "t": 7,
+   "cost_k": 11143
   },
   {
-   "esn": "A-135",
+   "esn": "A-105",
    "month": "2027-06",
    "t": 8,
-   "cost_k": 10491
+   "cost_k": 11143
   },
   {
-   "esn": "A-153",
+   "esn": "A-180",
+   "month": "2027-06",
+   "t": 8,
+   "cost_k": 11143
+  },
+  {
+   "esn": "A-151",
    "month": "2027-07",
    "t": 9,
-   "cost_k": 12206
+   "cost_k": 11143
   },
   {
-   "esn": "A-130",
+   "esn": "A-176",
    "month": "2027-08",
    "t": 10,
-   "cost_k": 12509
+   "cost_k": 12923
+  },
+  {
+   "esn": "A-107",
+   "month": "2027-09",
+   "t": 11,
+   "cost_k": 16371
   }
  ],
  "unscheduled_in_shop": [
   0,
   0,
   0,
+  1,
+  1,
+  1,
   0,
   0,
   0,
   0,
-  1,
-  1,
-  1,
-  1,
+  0,
   0
  ],
  "kit_quotes": [
@@ -203,68 +191,62 @@
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "A-178",
+   "esn": "A-133",
    "lead_months": 13
+  },
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "A-155",
+   "lead_months": 13
+  },
+  {
+   "month": "2026-10",
+   "t": 0,
+   "esn": "A-157",
+   "lead_months": 12
   },
   {
    "month": "2026-11",
    "t": 1,
-   "esn": "A-108",
-   "lead_months": 13
-  },
-  {
-   "month": "2026-12",
-   "t": 2,
-   "esn": "A-121",
-   "lead_months": 12
-  },
-  {
-   "month": "2026-12",
-   "t": 2,
-   "esn": "A-165",
+   "esn": "A-140",
    "lead_months": 12
   },
   {
    "month": "2027-01",
    "t": 3,
-   "esn": "A-105",
+   "esn": "A-115",
    "lead_months": 14
+  },
+  {
+   "month": "2027-01",
+   "t": 3,
+   "esn": "A-122",
+   "lead_months": 10
   },
   {
    "month": "2027-02",
    "t": 4,
-   "esn": "A-163",
-   "lead_months": 10
+   "esn": "A-123",
+   "lead_months": 13
   },
   {
-   "month": "2027-04",
-   "t": 6,
-   "esn": "A-107",
-   "lead_months": 13
+   "month": "2027-03",
+   "t": 5,
+   "esn": "A-145",
+   "lead_months": 11
   },
   {
    "month": "2027-06",
    "t": 8,
-   "esn": "A-113",
-   "lead_months": 11
-  },
-  {
-   "month": "2027-07",
-   "t": 9,
-   "esn": "A-134",
+   "esn": "A-119",
    "lead_months": 10
   },
   {
    "month": "2027-09",
    "t": 11,
-   "esn": "A-103",
+   "esn": "A-132",
    "lead_months": 12
-  },
-  {
-   "month": "2027-09",
-   "t": 11,
-   "esn": "A-145",
-   "lead_months": 14
   }
  ],
  "streams": {
