@@ -332,6 +332,9 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         pp = demand_path.with_name(demand_path.stem + "-plan.json")
         if pp.exists():
             c["demand"]["plan_from_demand"] = json.loads(pp.read_text(encoding="utf-8"))
+        gp = HERE / "growth" / f"{c['id']}.json"
+        if gp.exists():
+            c["demand"]["growth"] = json.loads(gp.read_text(encoding="utf-8"))
     pb = HERE / "playbook" / f"{c['id']}.json"
     if pb.exists():
         c["playbook"] = json.loads(pb.read_text(encoding="utf-8"))

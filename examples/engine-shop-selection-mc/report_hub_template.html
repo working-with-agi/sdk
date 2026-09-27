@@ -984,8 +984,17 @@ const DATA = /*__DATA__*/null;
       + panel(`この会社：${esc(c_.name)}`, `<div class="scroll"><table><thead><tr><th>月</th><th>旅客数</th><th>供給（百万座席キロ）</th><th>需要（百万人キロ）</th><th>利用率</th><th>市場に占める割合</th><th>満たせなかった需要（下限）</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` + G("demandCarrier"), esc(c_.source))
       + panel("需要の季節の形と、計画の運航指数", seasonChart(Dm) + legend([["需要の季節指数（市場）", "var(--ink)", 1], ["計画の運航指数", "var(--warn)", 1]]) + G("demandSeason"))
       + (e ? panel("エンジンの余力を客席に換算（伸ばせるか）", `<p class="chart-note">窓の中：伸ばせる月 ${e.window.growth_months}、余力の平均 ${e.window.ask_headroom_avg} 百万座席キロ（737-800 供給の ${(e.window.ask_headroom_share_avg * 100).toFixed(0)}%）、足りない月 ${e.window.short_months}（失う売上 ${e.window.revenue_lost_oku_yen} 億円）。退役まで：足りない月 ${e.life.short_months}、失う売上 ${e.life.revenue_lost_oku_yen} 億円</p>` + engineSeatsChart(Dm) + legend([["上乗せできる供給", "var(--good-soft)"], ["伸ばせる月（需要が逼迫 かつ 余力あり）", "var(--good)"], ["失う売上（足りない月）", "var(--crit)"]]) + G("demandEngines"), `${esc(e.note)}。座席 ${e.params.seats}、737-800 の割合 ${(e.params.share_737_800 * 100).toFixed(0)}%（仮定）、単価 ${e.params.yield_yen_per_rpk} 円/人キロ（仮定）、1 機 1 か月 ${e.params.ask_per_aircraft_month} 百万座席キロ`) : "")
+      + (Dm.growth ? growthPanel(Dm.growth) : "")
       + (Dm.plan_from_demand ? planFromDemand(Dm.plan_from_demand) : "")
       + panel("前提と限界", `<ul>${cav}</ul>`);
+  }
+  function growthPanel(Gp) {
+    const T = Gp.totals, E = Gp.engine_side;
+    const rows = Gp.months.map((r) => `<tr><td>${r.label}</td><td>${r.flights_per_day}</td><td>${r.lf_month != null ? (r.lf_month * 100).toFixed(0) + "%" : "—"}</td><td>${r.demand_headroom_ac}</td><td>${r.engine_headroom_ac}</td><td>${r.add_aircraft ? `<b>${r.add_aircraft}</b>` : ""}</td><td>${r.add_aircraft ? "+" + r.add_flights_per_day : ""}</td><td>${r.add_aircraft ? r.add_ask : ""}</td><td>${r.add_aircraft ? r.revenue_oku_yen : ""}</td><td class="hint">${r.add_aircraft ? r.binding + "が上限" : (r.lf_month == null ? "需要の月次なし" : "")}</td></tr>`).join("");
+    const sh = E.shifts.length ? `<p class="hint">期限が動く機：${E.shifts.map((x) => `${esc(x.esn)} ${x.limit_shift != null ? (x.limit_shift > 0 ? "+" : "") + x.limit_shift + " か月" : "新たに期限"}`).join("、")}</p>` : "";
+    return panel("足す計画（便の計画に基づく増便と、エンジン側の要求）", `<p class="chart-note">窓の 2 年で足せるのは ${T.months_with_adds} か月・のべ ${T.aircraft_months} 機月（+${T.add_ask} 百万座席キロ、売上 ${T.revenue_oku_yen} 億円）。上限は需要 ${T.binding_months["需要"]} か月・エンジン ${T.binding_months["エンジン"]} か月。エンジン側：サイクル +${fmt(T.extra_cycles)}、入場 +${T.extra_visits} 件（${T.extra_maintenance_oku_yen} 億円）、稼働 ×${E.utilisation_multiplier}、期限が早まる機 ${E.earlier}・新たに期限 ${E.newly_due}。正味 ${T.net_oku_yen} 億円（整備費のみ差し引き）</p>`
+      + `<div class="scroll"><table><thead><tr><th>月</th><th>便/日（計画）</th><th>利用率</th><th>需要の余地（機）</th><th>エンジンの余力（機）</th><th>足す機</th><th>便/日</th><th>+座席キロ（百万）</th><th>売上（億円）</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` + sh,
+      `便の計画：${esc(Gp.schedule_source)}。${esc(Gp.note)}。${esc(E.note)}`);
   }
   function planFromDemand(P) {
     const d = P.derived, i = P.inputs, n = P.norms, pl = P.plan;

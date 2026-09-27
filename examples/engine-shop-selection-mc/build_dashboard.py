@@ -22,7 +22,7 @@ HERE = Path(__file__).resolve().parent
 # which report view answers what, by loop
 LOOPS = [
     ("年次の版（つくる・直す）", "年 1 回。前提を実績で引き直し、計画を凍結し、決め方を採点する", [
-        ("budget", "年間計画と予算", "report"), ("runout", "退役までの入場列", "report"), ("demand", "客席の需要（一つ上の層）", "report"),
+        ("budget", "年間計画と予算", "report"), ("runout", "退役までの入場列", "report"), ("demand", "客席の需要（一つ上の層）・足す計画", "report"),
         ("fleets", "機種横断（会社全体）", "report"), ("backtest", "過去で検証（バックテスト）", "report"), ("review", "PDCA／OODA の見直し", "report"),
         ("roll", "次の版への引き継ぎ", "report"), ("history", "過去の計画との整合", "report"), ("invest", "国内工場の新設", "report"),
         ("tax", "税引後で比べる", "report"), ("finance", "お金の仕組み", "report"), ("mx4", "積立金と機体価値", "report"), ("annual", "年間計画レポート（別画面）", "annual")]),
