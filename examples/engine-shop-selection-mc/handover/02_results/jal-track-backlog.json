@@ -202,6 +202,50 @@
    "at_cpd": -15.31190670973482,
    "at_bayes": null,
    "one_month_late": -15.301307792538061,
+   "delay_curve": [
+    {
+     "delay": 0,
+     "as_of": "2026-11",
+     "saving": -15.31190670973482,
+     "cost_of_delay": 0.0
+    },
+    {
+     "delay": 1,
+     "as_of": "2026-12",
+     "saving": -15.301307792538061,
+     "cost_of_delay": 0.0
+    },
+    {
+     "delay": 2,
+     "as_of": "2027-01",
+     "saving": -16.24210827404882,
+     "cost_of_delay": 0.0
+    },
+    {
+     "delay": 3,
+     "as_of": "2027-02",
+     "saving": -915.7981592646671,
+     "cost_of_delay": 0.0
+    },
+    {
+     "delay": 4,
+     "as_of": "2027-03",
+     "saving": -921.5577713201262,
+     "cost_of_delay": 0.0
+    },
+    {
+     "delay": 5,
+     "as_of": "2027-04",
+     "saving": -923.0035814781695,
+     "cost_of_delay": 0.0
+    },
+    {
+     "delay": 6,
+     "as_of": "2027-05",
+     "saving": -923.987738032259,
+     "cost_of_delay": 0.0
+    }
+   ],
    "months_earlier": 11,
    "bayes_never_moved": true,
    "worth": 0.0,
@@ -826,6 +870,16 @@
    "summary": {
     "total_cost": 218684.24060760307,
     "p90": 267002.0985870312,
+    "committed": 181855.0,
+    "recourse": 36829.24060760308,
+    "recourse_p90": 85147.09858703121,
+    "recourse_parts": {
+     "overrun": 33222.19060760308,
+     "lease": 3.9,
+     "substitute": 0.0,
+     "aog": 3.15,
+     "emergency_kits": 3600.0
+    },
     "aog_prob": 0.0025,
     "by_fiscal_year": {
      "FY2026": {
@@ -1561,6 +1615,16 @@
    "summary": {
     "total_cost": 218766.67904246645,
     "p90": 267102.2886996204,
+    "committed": 181945.0,
+    "recourse": 36821.67904246648,
+    "recourse_p90": 85157.28869962037,
+    "recourse_parts": {
+     "overrun": 33163.45904246647,
+     "lease": 22.1,
+     "substitute": 0.0,
+     "aog": 36.12,
+     "emergency_kits": 3600.0
+    },
     "aog_prob": 0.0185,
     "by_fiscal_year": {
      "FY2026": {
@@ -2296,6 +2360,16 @@
    "summary": {
     "total_cost": 225948.73174991264,
     "p90": 274446.27463566366,
+    "committed": 182080.0,
+    "recourse": 43868.73174991267,
+    "recourse_p90": 92366.27463566363,
+    "recourse_parts": {
+     "overrun": 33053.83174991267,
+     "lease": 9.23,
+     "substitute": 0.0,
+     "aog": 5.67,
+     "emergency_kits": 10800.0
+    },
     "aog_prob": 0.004,
     "by_fiscal_year": {
      "FY2026": {
@@ -3031,6 +3105,16 @@
    "summary": {
     "total_cost": 227548.6182085565,
     "p90": 275998.05570876837,
+    "committed": 182665.0,
+    "recourse": 44883.6182085565,
+    "recourse_p90": 93333.05570876838,
+    "recourse_parts": {
+     "overrun": 33890.848208556505,
+     "lease": 80.21,
+     "substitute": 0.0,
+     "aog": 112.56,
+     "emergency_kits": 10800.0
+    },
     "aog_prob": 0.0655,
     "by_fiscal_year": {
      "FY2026": {
