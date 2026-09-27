@@ -333,7 +333,49 @@ def strategy_stack() -> str:
     return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {Hh}" role="img" aria-label="あるべき分析ストラテジー" font-family="IBM Plex Sans JP, sans-serif">' + body + "</svg>"
 
 
-def strategy_matrix(overlays: bool = True) -> str:
+OV_FLIGHT = [("便1", "必要エンジン数＝飛ぶ機数 × 2 − 整備中の機", 0, 2), ("便2", "稼働率 → 劣化の速さと整備までの期間", 3, 1), ("便3", "季節の波 → 整備入りを閑散期に置く", 1, 1),
+             ("便4", "増便 → 予備エンジンの数", 0, 1), ("便5", "新機材の受領時期 → 退役の順番と速さ", 1, 0), ("便6", "路線の長さ → 劣化のしかた", 3, 0)]
+OV_STAGES = [["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Observe 観測", "Orient 状況判断", "Decide 決定", "Act 行動"], ["Observe 観測", "Observe 観測", "Observe 観測", "—"]]
+OV_KPI = [["便の運航達成率 100%", "増便の余地 > 0"], ["欠航率 5% 以下", "予算との差 ±5% 以内"], ["約束件数の達成", "納期回答の遅れ 1 か月以内"], ["予測の的中率 80% 以上", "変化の検知遅れ 2 か月以内"], ["欠けた値 2% 以下", "遅れ 1 日以内"]]
+OV_AI = {(0, 1): ("計算式", "#475569"), (1, 1): ("数理最適化＋シミュレーション", "#4338ca"), (2, 1): ("計算式＋人（契約の交渉）", "#b45309"), (3, 1): ("機械学習＋統計的な学習", "#4338ca"), (4, 1): ("データ基盤", "#0e7490"), (4, 3): ("データ", "#0e7490"),
+         (3, 2): ("AI（文章の生成と振り分け）", "#9333ea"), (0, 3): ("人が決める", "#b45309"), (1, 3): ("人が決める", "#b45309"), (2, 3): ("人（契約）", "#b45309"), (3, 3): ("人＋AI（症状の整理）", "#9333ea")}
+OV_LINKS = [[("demand", "客席の需要・足す計画"), ("runout", "退役までの入場列")], [("budget", "年間計画と予算"), ("playbook", "購入計画の輪"), ("month", "今月からの判断")], [("actions", "打ち手の効果"), ("resilience", "立て直しの安さ"), ("lease", "リース返却")],
+            [("track", "計画の追跡"), ("cpd", "変化点と前提の整合"), ("backtest", "過去で検証"), ("review", "PDCA／OODA の見直し")], [("sources", "前提と出典")]]
+
+
+def overview_rows():
+    ROWA_, ROWB_ = ROWA, ROWB
+    rows = [
+        ("① 航空計画", "運航・機材計画｜年 1 回・季節ごと", ROWB_,
+         ("需要データと便の計画", ["国の統計と各社の月次の需要", "路線と便数、新機材の受領予定"], "", "det", False),
+         ("需要の伸びを見積もり、便数から必要な機数を出す", ["直近 2 年と長期 5 年の伸びを組み合わせる", "需要の余地とエンジンの余力から、増やせる便数を出す"], "予測の結合：Timmermann 2006／機材計画：Omega（B）", "det", False),
+         ("必要エンジン数と増便の余地", ["整備計画の目標になる", "新機材の受領遅れは退役ペースに影響"], "", "det", False),
+         ("便数に見合う機材計画", ["便の計画に合った必要エンジン数", "増やせる便と、増やせない月"])),
+        ("② エンジン整備計画", "整備計画部門｜年 1 回・必要に応じて", ROWA_,
+         ("統合した前提と制約", ["シナリオの確率・補正値・伸び（技術から）", "工場の枠・納期・価格（MRO から）、予備"], "", "det", False),
+         ("最適化 → シミュレーションで検証 → 購入計画", ["整備計画を最適化し（シナリオ 40 本）、800 通りの将来で検証", "どの前提でも欠航率 5% 以下になる案だけ残す"], "確率計画：EJOR 2024／後悔最小：Savage 1951／頑健な意思決定：Lempert 2003", "mc", True),
+         ("入場計画とその不確実性", ["いつ・何件・どの工場に出すか、費用の幅", "月次の見張りが警告したら再計算"], "", "mc", False),
+         ("年度計画と購入計画", ["予算内で、不確実性の幅つき", "どの前提でも欠航率 5% 以下。購入は最小限"])),
+        ("③ MRO と調達", "工場・部品・契約｜四半期・月次", ROWB_,
+         ("入場計画と見積依頼、市場", ["何件・いつ・どの作業範囲か", "中古エンジンと部品の市場"], "", "det", False),
+         ("工場の枠と容量、契約条件、部品の納期", ["約束件数に応じた容量の増強、固定価格や追加作業の折半", "部品（LLP キット）の納期回答"], "容量計画：Management Science 1991／在庫：METRIC", "det", False),
+         ("枠・納期・価格（制約）、進捗の記録", ["整備計画へ：使える枠と価格の上限", "データへ：工場の進捗と納期回答"], "", "det", False),
+         ("確保した枠と契約", ["約束件数と価格の上限", "納期回答の遅れが見える"])),
+        ("④ 技術", "状態監視・残り寿命・前提の更新｜便ごと〜月次", ROWA_,
+         ("整えたデータ", ["排気温度・部品の残り寿命、入場・遅れ・故障", "納期の回答記録、便の実績"], "", "mc", True),
+         ("残り寿命の推定、変化の検知、4 つの手法で前提を更新", ["残り寿命は複数モデルの組み合わせ。納期回答の変化を検知", "前提は 4 手法（平均・直近重視・状況別・混合）で学ぶ", "① 単純平均 ② 成績で重み付け ③ ばらつきを見直しの合図に"], "残り寿命のアンサンブル：Sci. Rep. 2025／予測結合／動的モデル平均／変化点検知", "mc", True),
+         ("現在の状態と統合した前提", ["エンジンごとの残り時間と部品、計画との差", "シナリオの確率・補正値・伸びを整備計画へ"], "", "mc", True),
+         ("現在の状態と見直しの合図", ["いつ会議で見直すか", "4 つの手法の成績と、採用した統合方法"])),
+        ("⑤ データ", "センサー・記録｜便ごと・日次", ROWB_,
+         ("センサーと記録", ["機上センサー（排気温度・振動・油圧）", "工場の進捗、部品の納期回答、運航の記録"], "", "det", False),
+         ("集めて整え、異常の一次検知", ["欠けた値を補い、単位と時刻を揃える", "しきい値と傾きで異常の候補を拾う"], "データ基盤：取り込み → 索引 → 検索（Aether Platform）", "det", False),
+         ("便ごとの時系列と実績データ", ["エンジン・部品ごとに揃った時系列", "会議前に整えた実績（Secretary.io）"], "", "det", False),
+         ("信頼できるデータ", ["欠けが少なく、遅れない", "（判断材料の土台）"])),
+    ]
+    return rows
+
+
+def strategy_matrix(overlays: bool = True, compact: bool = True) -> str:
     """One level more abstract: rows are the four layers of the first figure, columns are the
     flow (what enters, what is run, what comes out), and the far right is the result the
     decision-maker should receive. Observation rises, decisions descend."""
@@ -348,8 +390,8 @@ def strategy_matrix(overlays: bool = True) -> str:
         f, st = COL[kind]
         o.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="8" fill="{f}" stroke="{LOOP if strong else st}" stroke-width="{2.6 if strong else 1.5}"/>')
         T(x + 10, y + 19, title, 12.5, INK, 'font-weight="700"')
-        for i, l in enumerate(lines): T(x + 10, y + 37 + i * 15, l, 10.5)
-        if lit: T(x + 10, y + h - 8, lit, 9.5, MUTE)
+        for i, l in enumerate(lines[:1] if compact else lines): T(x + 10, y + 37 + i * 15, l, 10.5)
+        if lit and not compact: T(x + 10, y + h - 8, lit, 9.5, MUTE)
     nref = [0]
     def poly(pts, red=False, w=2.4, dash="", teal=False):
         col_, mk = (LOOP, "mr") if red else (PORT, "mg") if teal else (LINE, "ma")
@@ -368,35 +410,10 @@ def strategy_matrix(overlays: bool = True) -> str:
     NR = 5
     o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="{NR * RH + (NR - 1) * GY + 44}" rx="10" fill="rgba(190,18,60,0.05)" stroke="{LOOP}" stroke-width="2.5"/>')
     o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="36" rx="8" fill="{LOOP}"/>'); T(XR + RW / 2, T0 - 28, "得られる成果", 13, "#fff", 'font-weight="700"', "middle"); T(XR + RW / 2, T0 - 14, "意思決定者が受け取るもの", 9.5, "#fecdd3", "", "middle")
-    rows = [
-        ("① 航空計画", "運航・機材計画｜年 1 回・季節ごと", ROWB,
-         ("需要データと便の計画", ["国の統計と各社の月次の需要", "路線と便数、新機材の受領予定"], "", "det", False),
-         ("需要の伸びを見積もり、便数から必要な機数を出す", ["直近 2 年と長期 5 年の伸びを組み合わせる", "需要の余地とエンジンの余力から、増やせる便数を出す"], "予測の結合：Timmermann 2006／機材計画：Omega（B）", "det", False),
-         ("必要エンジン数と増便の余地", ["整備計画の目標になる", "新機材の受領遅れは退役ペースに影響"], "", "det", False),
-         ("便数に見合う機材計画", ["便の計画に合った必要エンジン数", "増やせる便と、増やせない月"])),
-        ("② エンジン整備計画", "整備計画部門｜年 1 回・必要に応じて", ROWA,
-         ("統合した前提と制約", ["シナリオの確率・補正値・伸び（技術から）", "工場の枠・納期・価格（MRO から）、予備"], "", "det", False),
-         ("最適化 → シミュレーションで検証 → 購入計画", ["整備計画を最適化し（シナリオ 40 本）、800 通りの将来で検証", "どの前提でも欠航率 5% 以下になる案だけ残す"], "確率計画：EJOR 2024／後悔最小：Savage 1951／頑健な意思決定：Lempert 2003", "mc", True),
-         ("入場計画とその不確実性", ["いつ・何件・どの工場に出すか、費用の幅", "月次の見張りが警告したら再計算"], "", "mc", False),
-         ("年度計画と購入計画", ["予算内で、不確実性の幅つき", "どの前提でも欠航率 5% 以下。購入は最小限"])),
-        ("③ MRO と調達", "工場・部品・契約｜四半期・月次", ROWB,
-         ("入場計画と見積依頼、市場", ["何件・いつ・どの作業範囲か", "中古エンジンと部品の市場"], "", "det", False),
-         ("工場の枠と容量、契約条件、部品の納期", ["約束件数に応じた容量の増強、固定価格や追加作業の折半", "部品（LLP キット）の納期回答"], "容量計画：Management Science 1991／在庫：METRIC", "det", False),
-         ("枠・納期・価格（制約）、進捗の記録", ["整備計画へ：使える枠と価格の上限", "データへ：工場の進捗と納期回答"], "", "det", False),
-         ("確保した枠と契約", ["約束件数と価格の上限", "納期回答の遅れが見える"])),
-        ("④ 技術", "状態監視・残り寿命・前提の更新｜便ごと〜月次", ROWA,
-         ("整えたデータ", ["排気温度・部品の残り寿命、入場・遅れ・故障", "納期の回答記録、便の実績"], "", "mc", True),
-         ("残り寿命の推定、変化の検知、4 つの手法で前提を更新", ["残り寿命は複数モデルの組み合わせ。納期回答の変化を検知", "前提は 4 手法（平均・直近重視・状況別・混合）で学ぶ", "① 単純平均 ② 成績で重み付け ③ ばらつきを見直しの合図に"], "残り寿命のアンサンブル：Sci. Rep. 2025／予測結合／動的モデル平均／変化点検知", "mc", True),
-         ("現在の状態と統合した前提", ["エンジンごとの残り時間と部品、計画との差", "シナリオの確率・補正値・伸びを整備計画へ"], "", "mc", True),
-         ("現在の状態と見直しの合図", ["いつ会議で見直すか", "4 つの手法の成績と、採用した統合方法"])),
-        ("⑤ データ", "センサー・記録｜便ごと・日次", ROWB,
-         ("センサーと記録", ["機上センサー（排気温度・振動・油圧）", "工場の進捗、部品の納期回答、運航の記録"], "", "det", False),
-         ("集めて整え、異常の一次検知", ["欠けた値を補い、単位と時刻を揃える", "しきい値と傾きで異常の候補を拾う"], "データ基盤：取り込み → 索引 → 検索（Aether Platform）", "det", False),
-         ("便ごとの時系列と実績データ", ["エンジン・部品ごとに揃った時系列", "会議前に整えた実績（Secretary.io）"], "", "det", False),
-         ("信頼できるデータ", ["欠けが少なく、遅れない", "（判断材料の土台）"])),
-    ]
+    rows = overview_rows()
     for r, (lab, cad, fill, cin, crun, cout, res) in enumerate(rows):
         y = T0 + r * (RH + GY)
+        o.append(f'<g class="row" data-row="{r}" data-y0="{y - 24}" data-y1="{y + RH + 24}">')
         o.append(f'<rect x="20" y="{y}" width="{XR - 20 - 12}" height="{RH}" rx="10" fill="{fill}" stroke="#e2e8f0"/>')
         T(30, y + 22, lab, 13, INK, 'font-weight="700"'); 
         for i, part in enumerate(cad.split("｜")): T(30, y + 40 + i * 14, part, 10, MUTE)
@@ -408,6 +425,8 @@ def strategy_matrix(overlays: bool = True) -> str:
         cell(X2, y + 12, CW[2], RH - 24, *cout)
         strong = r in (1, 3)
         cell(XR + 10, y + 12, RW - 20, RH - 24, res[0], res[1], "", "judge", strong)
+        if compact: T(X2 + CW[2] - 8, y + RH - 6, "クリックで拡大と詳細 ›", 10, MUTE, "", "end")
+        o.append('</g>')
         red = r in (1, 3)
         poly(f"{X0 + CW[0] + 2},{y + RH / 2} {X1 - 2},{y + RH / 2}", red, 4.5 if red else 2.4)
         poly(f"{X1 + CW[1] + 2},{y + RH / 2} {X2 - 2},{y + RH / 2}", red, 4.5 if red else 2.4)
@@ -438,8 +457,7 @@ def strategy_matrix(overlays: bool = True) -> str:
             o.append(f'<rect x="{x}" y="{y}" width="{bw}" height="17" rx="8" fill="{fill}" stroke="{col}" stroke-width="1.4"/>'); T(x + bw / 2, y + 12, t, size, col, 'font-weight="700"', "middle"); return bw
         # 1. what the flight plan (航空計画) derives — numbered teal badges in the cells they land in
         o.append('<g id="ov-flight">')
-        FLIGHT = [("便1", "必要エンジン数＝飛ぶ機数 × 2 − 整備中の機", 0, 2), ("便2", "稼働率 → 劣化の速さと整備までの期間", 3, 1), ("便3", "季節の波 → 整備入りを閑散期に置く", 1, 1),
-                  ("便4", "増便 → 予備エンジンの数", 0, 1), ("便5", "新機材の受領時期 → 退役の順番と速さ", 1, 0), ("便6", "路線の長さ → 劣化のしかた", 3, 0)]
+        FLIGHT = OV_FLIGHT
         cols_x = [X0, X1, X2]
         for k, (tag, what, r, c) in enumerate(FLIGHT):
             y = T0 + r * (RH + GY) + 12; x = cols_x[c] + CW[c] - 46 - (k % 2) * 40
@@ -451,7 +469,7 @@ def strategy_matrix(overlays: bool = True) -> str:
         o.append('</g>')
         # 2. PDCA (rows ①②) and OODA (rows ③④) stage chips, one per cell
         o.append('<g id="ov-stage">')
-        STAGES = [["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Plan 計画", "Do 実行", "Check 評価", "Act 改善"], ["Observe 観測", "Orient 状況判断", "Decide 決定", "Act 行動"], ["Observe 観測", "Observe 観測", "Observe 観測", "—"]]
+        STAGES = OV_STAGES
         for r in range(NR):
             y = T0 + r * (RH + GY) + 12 + 4; col_ = PDCA if r < 3 else OODA
             for c, x in enumerate([X0, X1, X2, XR + 10]):
@@ -462,7 +480,7 @@ def strategy_matrix(overlays: bool = True) -> str:
         o.append('</g>')
         # 3. output-based: a KPI with a target under each result box
         o.append('<g id="ov-output">')
-        KPI = [["便の運航達成率 100%", "増便の余地 > 0"], ["欠航率 5% 以下", "予算との差 ±5% 以内"], ["約束件数の達成", "納期回答の遅れ 1 か月以内"], ["予測の的中率 80% 以上", "変化の検知遅れ 2 か月以内"], ["欠けた値 2% 以下", "遅れ 1 日以内"]]
+        KPI = OV_KPI
         for r in range(NR):
             y = T0 + r * (RH + GY) + 12 + RH - 24 - 40; x = XR + 16
             T(x, y - 4, "成果指標（目標）", 9.5, "#7c2d12", 'font-weight="700"')
@@ -471,8 +489,7 @@ def strategy_matrix(overlays: bool = True) -> str:
         o.append('</g>')
         # 4. what kind of intelligence does the work in each box
         o.append('<g id="ov-ai">')
-        AI = {(0, 1): ("計算式", "#475569"), (1, 1): ("数理最適化＋シミュレーション", "#4338ca"), (2, 1): ("計算式＋人（契約の交渉）", "#b45309"), (3, 1): ("機械学習＋統計的な学習", "#4338ca"), (4, 1): ("データ基盤", "#0e7490"), (4, 3): ("データ", "#0e7490"),
-              (3, 2): ("AI（文章の生成と振り分け）", "#9333ea"), (0, 3): ("人が決める", "#b45309"), (1, 3): ("人が決める", "#b45309"), (2, 3): ("人（契約）", "#b45309"), (3, 3): ("人＋AI（症状の整理）", "#9333ea")}
+        AI = OV_AI
         for (r, c), (t, col_) in AI.items():
             x = [X0, X1, X2, XR + 10][c]; w = [CW[0], CW[1], CW[2], RW - 20][c]; y = T0 + r * (RH + GY) + 12 + RH - 24
             bw = tw(t, 9.5) + 12
@@ -500,29 +517,49 @@ def svgs() -> dict[str, str]:
     return {"plan_basic": plan_basic(), "plan_detail": plan_detail()}
 
 
+def overview_details() -> list[dict]:
+    """Per-row detail for the concept page: full text, literature, KPIs, flight-plan items, links."""
+    out = []
+    for r, (lab, cad, _, cin, crun, cout, res) in enumerate(overview_rows()):
+        out.append({"label": lab, "cadence": cad.replace("｜", "／"), "stage": OV_STAGES[r],
+                    "input": {"title": cin[0], "lines": cin[1]}, "process": {"title": crun[0], "lines": crun[1], "lit": crun[2]},
+                    "output": {"title": cout[0], "lines": cout[1]}, "result": {"title": res[0], "lines": res[1]},
+                    "kpi": OV_KPI[r], "flight": [f"{t} {w}" for t, w, rr, _ in OV_FLIGHT if rr == r],
+                    "works": [t for (rr, _), (t, _) in OV_AI.items() if rr == r], "links": OV_LINKS[r]})
+    return out
+
+
 def concept_page() -> str:
-    """The strategy matrix as an HTML page: the plain figure first, then one overlay at a
-    time (tabs), each with a one-line explanation."""
-    svg = strategy_matrix(True)
-    TABS = [("none", "基本の図", "行＝5 つの部門（航空計画・整備計画・MRO と調達・技術・データ）、列＝入力 → 処理 → 出力、右端＝得られる成果。太い深紅が推奨する流れ。"),
+    """The overview as an HTML page: compact boxes, one overlay at a time (tabs), and a click on
+    a row that zooms into it and opens a detail panel (full text, literature, KPIs, links)."""
+    import json as _json
+    svg = strategy_matrix(True, True)
+    TABS = [("none", "基本の図", "行＝5 つの部門（航空計画・整備計画・MRO と調達・技術・データ）、列＝入力 → 処理 → 出力、右端＝得られる成果。太い深紅が推奨する流れ。行をクリックすると拡大し、詳細が右に出ます。"),
             ("ov-flight", "① 航空計画から導かれるもの", "便数が必要エンジン数を決める。便 1〜6 の札は、航空計画から導いた値を使う箱。"),
             ("ov-stage", "② PDCA と OODA", "上 3 行（航空計画・整備計画・MRO）が PDCA、下 2 行（技術・データ）が OODA。列がそのまま段階（入力＝計画／観測、右端＝改善／行動）。"),
             ("ov-output", "③ 成果指標", "右端の各成果に目標を付ける。欠航率 5% 以下、予算との差 ±5% 以内、予測の的中率 80% 以上など（目安）。"),
             ("ov-ai", "④ 何が働くか", "AI 支援ソルバー（AI-assisted solver）：計画を解くのは数理最適化とシミュレーション、前提を学ぶのは統計、残り寿命は機械学習、候補づくり・説明・振り分けは AI、決めるのは人。")]
     tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
     caps = "".join(f'<p class="cap" data-for="{g}" {"" if g == "none" else "hidden"}>{c}</p>' for g, _, c in TABS)
+    details = _json.dumps(overview_details(), ensure_ascii=False)
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画の全体像</title>
 <style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
 .bar{{display:flex;gap:8px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:{BG};z-index:2}}
 .bar button{{font:inherit;font-size:13px;padding:6px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer}} .bar button.on{{background:{HEAD};color:#fff;border-color:{HEAD}}}
 .cap{{margin:0 20px;padding:8px 12px;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}}
-svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
+.stage{{display:grid;grid-template-columns:1fr;gap:0}} .stage.open{{grid-template-columns:minmax(0,1fr) 420px}} .stage.open > div{{overflow-x:auto;padding:8px 0 8px 20px}} .stage.open svg{{height:52vh;width:auto;max-width:none}}
+svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:none}} g.row{{cursor:pointer}} g.row:hover rect:first-child{{stroke:{HEAD};stroke-width:2}}
 .anim .flow{{stroke-dasharray:14 10;animation:dash 1.1s linear infinite}} .anim .flow.red{{stroke-dasharray:18 10;animation-duration:.6s;filter:drop-shadow(0 0 3px rgba(190,18,60,.6))}}
 .anim .flow.dashed{{stroke-dasharray:7 5;animation-duration:1.6s}} .dot{{display:none}} .anim .dot{{display:inline}}
 @keyframes dash{{to{{stroke-dashoffset:-24}}}} @media (prefers-reduced-motion: reduce){{.anim .flow{{animation:none}} .anim .dot{{display:none}}}}
 .bar label{{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center}}
 .lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
 .lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
+#panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}} .stage.open #panel{{display:block}}
+#panel h2{{font-size:16px;margin:0 0 2px}} #panel .cad{{color:{MUTE};font-size:12px;margin-bottom:10px}} #panel h3{{font-size:12.5px;margin:12px 0 4px;color:{HEAD};border-bottom:1px solid #e2e8f0;padding-bottom:2px}}
+#panel ul{{margin:0;padding-left:16px}} #panel .lit{{color:{MUTE};font-size:11.5px}} #panel .chips span{{display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px}}
+#panel a{{color:{PORT}}} #panel .close{{float:right;font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer}}
+.zoombar{{display:none;padding:6px 20px;font-size:12.5px;color:{MUTE}}} .stage.open .zoombar{{display:block}} .zoombar button{{font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:8px}}
 .note{{padding:10px 20px 24px;font-size:12px;color:{MUTE};max-width:1400px}}</style></head><body>
 <header class="lead"><h1>エンジン整備計画を、航空計画から意思決定まで一本でつなぐ</h1>
 <p class="msg">便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。その流れを、航空計画・エンジン整備計画・MRO と調達・技術・データという 5 つの部門で示した図です。</p>
@@ -531,12 +568,33 @@ svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
 <li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul></header>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
-{svg}
-<p class="note">動き：流れる破線が向き、深紅の線を走る点が推奨する流れ（データ → 技術 → 整備計画 → 成果）。一度に見るのは 1 つの見方だけ。航空計画・整備計画・MRO は年次〜四半期（PDCA）、技術・データは月ごと〜便ごと（OODA）。数値はすべて合成データの目安。</p>
+<div class="zoombar">拡大中：<b id="zoomlabel"></b><button type="button" id="zoomout">全体に戻る</button><button type="button" id="prev">▲ 上の行</button><button type="button" id="next">▼ 下の行</button></div>
+<div class="stage" id="stage"><div>{svg}</div><aside id="panel"></aside></div>
+<p class="note">概要の箱は要点 1 行だけ。詳細（全文・根拠の文献・成果指標・航空計画から導かれる項目・関連画面）は行をクリックして右のパネルで見る。動き：流れる破線が向き、深紅の線を走る点が推奨する流れ。数値はすべて合成データの目安。</p>
 <script>
-const G=["ov-flight","ov-stage","ov-output","ov-ai"]; const show=(g)=>{{G.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==g)); document.querySelectorAll(".bar button").forEach(b=>b.classList.toggle("on",b.dataset.g===g)); document.querySelectorAll(".cap").forEach(c=>c.hidden=c.dataset.for!==g);}};
+const DET={details}; const G=["ov-flight","ov-stage","ov-output","ov-ai"];
+const show=(g)=>{{G.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==g)); document.querySelectorAll(".bar button").forEach(b=>b.classList.toggle("on",b.dataset.g===g)); document.querySelectorAll(".cap").forEach(c=>c.hidden=c.dataset.for!==g);}};
 document.querySelectorAll(".bar button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.g))); show("none");
-const svgEl=document.querySelector("svg"); const setAnim=()=>svgEl.classList.toggle("anim",document.getElementById("anim").checked); document.getElementById("anim").addEventListener("change",setAnim); setAnim();
+const svgEl=document.querySelector("svg"); const VB=svgEl.getAttribute("viewBox"); const W=+VB.split(" ")[2];
+const setAnim=()=>svgEl.classList.toggle("anim",document.getElementById("anim").checked); document.getElementById("anim").addEventListener("change",setAnim); setAnim();
+const esc=(s)=>String(s).replace(/[&<>]/g,(c)=>({{"&":"&amp;","<":"&lt;",">":"&gt;"}}[c]));
+let cur=-1;
+function zoom(r){{ const g=document.querySelector(`g.row[data-row="${{r}}"]`); if(!g) return; cur=r; const y0=+g.dataset.y0, y1=+g.dataset.y1;
+  svgEl.setAttribute("viewBox",`0 ${{y0}} ${{W}} ${{y1-y0}}`); svgEl.setAttribute("preserveAspectRatio","xMinYMin meet"); document.getElementById("stage").classList.add("open"); document.getElementById("zoomlabel").textContent=DET[r].label;
+  const d=DET[r]; const li=(a)=>a.map((x)=>`<li>${{esc(x)}}</li>`).join("");
+  document.getElementById("panel").innerHTML=`<button type="button" class="close" id="close">閉じる</button><h2>${{esc(d.label)}}</h2><div class="cad">${{esc(d.cadence)}}　｜　段階：${{d.stage.filter(x=>x!=="—").map(esc).join(" → ")}}</div>
+   <h3>入力：${{esc(d.input.title)}}</h3><ul>${{li(d.input.lines)}}</ul>
+   <h3>処理：${{esc(d.process.title)}}</h3><ul>${{li(d.process.lines)}}</ul>${{d.process.lit?`<div class="lit">根拠：${{esc(d.process.lit)}}</div>`:""}}
+   <h3>出力：${{esc(d.output.title)}}</h3><ul>${{li(d.output.lines)}}</ul>
+   <h3>得られる成果：${{esc(d.result.title)}}</h3><ul>${{li(d.result.lines)}}</ul>
+   <h3>成果指標（目標）</h3><div class="chips">${{d.kpi.map(k=>`<span>${{esc(k)}}</span>`).join("")}}</div>
+   ${{d.flight.length?`<h3>航空計画から導かれるもの</h3><ul>${{li(d.flight)}}</ul>`:""}}
+   <h3>何が働くか</h3><div class="chips">${{d.works.map(k=>`<span>${{esc(k)}}</span>`).join("")}}</div>
+   <h3>詳しく見る（対話版レポート）</h3><ul>${{d.links.map(([k,l])=>`<li><a href="report.html#co=0&v=${{k}}">${{esc(l)}}</a></li>`).join("")}}<li><a href="plan_basic.html">図：基本計画（年次）</a> ／ <a href="plan_detail.html">図：詳細計画（月次）</a></li></ul>`;
+  document.getElementById("close").onclick=reset; }}
+function reset(){{ cur=-1; svgEl.setAttribute("viewBox",VB); document.getElementById("stage").classList.remove("open"); }}
+document.querySelectorAll("g.row").forEach(g=>g.addEventListener("click",()=>zoom(+g.dataset.row)));
+document.getElementById("zoomout").onclick=reset; document.getElementById("prev").onclick=()=>zoom(Math.max(0,cur-1)); document.getElementById("next").onclick=()=>zoom(Math.min(DET.length-1,cur+1));
 </script></body></html>'''
 
 
