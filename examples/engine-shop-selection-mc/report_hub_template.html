@@ -168,12 +168,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], lease: ["plan", "proc", "fin"], loops: ["exec", "plan", "tech"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, lease: { label: "リース返却", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -191,7 +191,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4 })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -338,8 +338,10 @@ const DATA = /*__DATA__*/null;
     const tr = c.track, inv = c.invest;
     const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
     const cards = [
+      c.mx4 ? card("mx4", "ok", "積立金と機体価値（資産側）", mx4Line(c.mx4), mx4Chart(c.mx4, 320, 110, true)) : "",
       c.lease ? card("lease", c.lease.total_as_is_k - c.lease.total_best_k > 300 ? "warn" : "ok", "リース返却", leaseLine(c.lease), "") : "",
       c.finance ? card("finance", "ok", "お金の仕組み（税・資金・規模）", finLine(c.finance), finChart(c.finance, 320, 150, true)) : "",
+      c.tax ? card("tax", "ok", "税引後で比べる", taxLine(c.tax), taxChart(c.tax, 320, 150, true)) : "",
       c.resilience ? card("resilience", resCls(c.resilience), "立て直しの安さ", resLine(c.resilience), premiumChart(c.resilience, 320, 150, true)) : "",
       c.multi ? card("fleets", fleetsCls(c.multi), "機種横断（会社全体）", fleetsLine(c.multi), fleetsChart(c.multi, 320, 120, true)) : "",
       tr && tr.ooda ? card("loops", tr.ooda.feedback.no_world_fits_months >= 3 ? "warn" : "ok", "PDCA と OODA（二つの輪）", loopsLine(tr.ooda), "") : "",
@@ -652,7 +654,11 @@ const DATA = /*__DATA__*/null;
       scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
         (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
       posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      mx4reserves: ["リース機のエンジンの整備積立金：毎月の積立て（流入）と入場時の請求（流出）、残高の推移", "線が残高の合計、棒が請求。残高が積み上がるだけで請求が来ない機は、返却時に貸し手に残る", c.mx4 ? mx4Line(c.mx4) : "", "返却前の入場で積立金を使い切れるか「リース返却」で確かめる"],
+      mx4value: ["エンジンの整備状態で調整した価値（ハーフライフ基準）が、計画の入場でどう増えるか", "上が今、下が窓の終わり。増えた分が計画の作る整備価値。費用との比が 1 に近いほど、払った金が資産に残る", "", "比が低い計画案は、所見・輸送・工期に金が消えている。契約形態と工場の選び直しで比を上げる"],
+      mx4settle: ["リース返却時の精算：不足の補償、超過の払い戻し、残る積立金", "差し引きが負なら借り手の持ち出し。残る積立金は返却時に貸し手のもの", "", "残高の大きい機は返却前入場で使い切る。返却条件の交渉材料にもなる"],
       lease: ["リース機のエンジンごとに、返却時の条件不足と 3 つの出口（そのまま返して補償／返却前に入場／延長）の費用を並べた図", "行がエンジン、3 本の棒が出口の費用。濃い棒が推奨。右に判断期限（返却の 6 か月前の通知）", c.lease ? leaseLine(c.lease) : "", "判断期限が今月・来月のものから、リース会社に通知する。返却前入場はボードの白い菱形と棒の位置で確認"],
+      tax: ["同じ計画の費用を税引後の物差しで見た図。年度ごとに、税引後の費用（濃い）と税の盾（薄い＝損金・償却で戻る分）を積む", "棒の高さが税引前の費用。薄い部分が大きい年度ほど当期の損金が多い（修繕費の割合が高い）。資本的支出の盾は 10 年の償却で後の年度にずれる", C().tax ? taxLine(C().tax) : "", "税引後の順位は税引前とほぼ同じ。工場や時期を税のために選ばない。税率・防衛特別法人税・耐用年数の改正は「見張る指標」に載せて年 1 回見直す"],
       finance: ["計画を変えずに、同じ計画の「お金」を動かす仕組みの一覧と効果", "右に伸びるほど得。色は種類（税・会計／資金／規模／グループ）。★ は大手だけが使える仕組み。薄い棒は税の期ズレで、税額は減らない", "", "★ の仕組みは契約更新と年度の資金計画に載せる。税の項目は税理士に確認してから前提に入れる"],
       split: ["計画案ごとに、費用を「計画どおり」と「立て直し」に分けた図", "灰＝入場・予備・固定費など先に決まる分。黄＝シナリオ次第で後から要る分（リース・代替機材・欠航・緊急キット）の期待値。赤＝悪い 1 割のときの立て直し費。右端が合計と欠航リスク", c.resilience && c.resilience.base ? resLine(c.resilience) : "", "黄と赤が大きい計画案は、平時は安くても事後に高くつく。予備・プール契約・先行発注で黄を灰に移せるか「打ち手」で見る"],
       premium: ["打ち手ごとに、先に払う費用（保険料）と、立て直し費の減り（払い戻し）を置いた図", "横が保険料、縦が払い戻し。点線より上（緑）は払い戻しが保険料を上回る。負の保険料＝先に減る打ち手。目盛りは両端を圧縮", c.resilience ? (() => { const g = c.resilience.actions.filter((a) => a.payout > a.premium); return g.length ? `払い戻しが保険料を上回る打ち手：${g.map((a) => a.question.length > 14 ? a.question.slice(0, 14) + "…" : a.question).join("、")}` : "基準の世界では、予備やプール契約の払い戻しはほぼ 0（保険料だけ）"; })() : "", "緑の打ち手は立て直しを安くする投資。赤は平時の節約で事後に高くつくか、保険料が高すぎる"],
@@ -975,6 +981,69 @@ const DATA = /*__DATA__*/null;
         `割引率 ${(F.params.discount_rate * 100).toFixed(0)}%、実効税率 ${(F.params.tax_rate * 100).toFixed(1)}%。前払いは短期前払費用の特例（継続役務）に当たらないので、税の得はない。`);
   }
 
+  /* ---------------- after-tax yardstick ---------------- */
+  const taxLine = (T) => { const S = T.split, sp = T.spares.rows, r2 = sp.find((x) => x.years === 2), r10 = sp.find((x) => x.years === 10), sh = T.shops.rows; const nm = { buy: "購入", long: "長期リース", short: "短期リース" };
+    return `税引後の整備費は 2 年で ${musd(S.after_tax_in_window_k)} 百万ドル（税引前 ${musd(S.total_spend_k)}、盾の現在価値 ${musd(S.shield_pv_k)}）。予備 1 基は 2 年なら${nm[r2.best]}、10 年なら${nm[r10.best]}。工場の税引後の順位は ${sh[0].id} が最も安く ${sh[sh.length - 1].id} が最も高い（税引前と同じ）`; };
+  function taxChart(T, W = 900, H = 260, compact = false) {
+    const R = T.split.window, L = compact ? 6 : 56, Rr = compact ? 6 : 16, Tt = compact ? 6 : 14, B = compact ? 6 : 34, n = R.length, bw = (W - L - Rr) / n, mx = Math.max(...R.map((x) => x.spend)) * 1.08;
+    const Y = (v) => Tt + (1 - v / mx) * (H - Tt - B);
+    let s = "";
+    if (!compact) [0, 0.25, 0.5, 0.75, 1].forEach((f) => { const v = Math.round(mx * f / 1000) * 1000; s += `<line class="grid" x1="${L}" x2="${W - Rr}" y1="${Y(v)}" y2="${Y(v)}"/><text class="tick" x="${L - 6}" y="${Y(v) + 3}" text-anchor="end">${musd(v)}</text>`; });
+    R.forEach((x, i) => {
+      const x0 = L + i * bw + bw * 0.18, w = bw * 0.64;
+      s += `<rect x="${x0}" y="${Y(x.after_tax)}" width="${w}" height="${Y(0) - Y(x.after_tax)}" fill="var(--accent)"><title>${x.fy} 税引後 ${musd(x.after_tax)} 百万ドル</title></rect>`;
+      s += `<rect x="${x0}" y="${Y(x.spend)}" width="${w}" height="${Y(x.after_tax) - Y(x.spend)}" fill="var(--accent)" opacity=".3"><title>${x.fy} 税の盾 ${musd(x.shield)} 百万ドル（修繕費 ${musd(x.repair)}＋償却 ${musd(x.depreciation)}）× ${pct(x.rate, 1)}</title></rect>`;
+      if (!compact) s += `<text class="tick" x="${x0 + w / 2}" y="${H - B + 14}" text-anchor="middle">${x.fy}</text><text class="tick" x="${x0 + w / 2}" y="${Y(x.spend) - 4}" text-anchor="middle">${musd(x.after_tax)} / ${musd(x.spend)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度ごとの税引後の費用と税の盾">${s}</svg>`;
+  }
+  function tax() {
+    const T = C().tax;
+    if (!T) return panel("税引後で比べる", '<p class="hint">なし</p>');
+    const S = T.split, P = T.params, k = (v) => v == null ? "—" : musd(v), nm = { buy: "購入", long: "長期リース", short: "短期リース" };
+    const conf = (c_) => `<span class="pill ${c_ === "A" || c_ === "B" ? "go" : c_ === "C" ? "mid" : "act"}">${esc(c_ === "no_source" ? "出典なし" : c_)}</span>`;
+    // 1. split by fiscal year
+    const splitRows = S.rows.filter((x) => x.in_window || x.depreciation > 50).map((x) => `<tr${x.in_window ? "" : ' style="color:var(--muted)"'}><td>${x.fy}${x.in_window ? "" : "（窓の外）"}</td><td>${pct(x.rate, 1)}</td><td>${k(x.spend)}</td><td>${k(x.repair)}</td><td>${k(x.capital)}</td><td>${k(x.depreciation)}</td><td>${k(x.shield)}</td><td><b>${k(x.after_tax)}</b></td><td>${k(x.dtl)}</td></tr>`).join("");
+    const shares = ["PR", "CORE", "FULL"].map((w) => `${w} 修繕 ${pct(S.shares[w].repair)}／資本 ${pct(S.shares[w].capital)}`).join("、");
+    const p1 = panel("", `<p class="chart-note">${esc(taxLine(T))}</p>` + taxChart(T) + legend([["税引後の費用", "var(--accent)"], ["税の盾（損金・償却 × 税率）", "var(--accent-soft)"]]) + G("tax")
+      + `<table><thead><tr><th>年度</th><th>実効税率</th><th>費用（税引前）</th><th>修繕費</th><th>資本的支出</th><th>償却（税務）</th><th>税の盾</th><th>税引後</th><th>繰延税金負債（概算・累計）</th></tr></thead><tbody>${splitRows}</tbody></table>`,
+      `百万ドル。整備範囲ごとの区分は合成の仮定（${shares}）で、実際の会社の会計方針ではない。資本的支出は定率法 10 年（初年度 0.2）。盾の現在価値 ${k(S.shield_pv_k)}、窓の中で戻る盾 ${k(S.shield_in_window_k)}（総額 ${k(S.shield_total_k)}）。繰延税金負債は税務の定率法と会計の定額法の差 × 税率の概算（確度 C）。`);
+    // 2. shift between fiscal years
+    const sh = T.shift;
+    const p2 = !sh ? "" : panel("年度をまたぐ動き（" + esc(sh.question) + "）",
+      `<table><thead><tr><th>年度</th><th>費用の動き（税引前）</th><th>税の動き</th><th>税引後の動き</th></tr></thead><tbody>${sh.rows.map((x) => `<tr><td>${x.fy}</td><td>${(x.spend / 1000).toFixed(2)}</td><td>${(x.tax_effect / 1000).toFixed(2)}</td><td>${(x.after_tax / 1000).toFixed(2)}</td></tr>`).join("")}</tbody></table>`
+      + `<p class="chart-note">後の年度に移る費用 ${(sh.moved_k / 1000).toFixed(2)} 百万ドル。税引前の差 ${(sh.pre_tax_delta_k / 1000).toFixed(2)}、税引後の差 ${(sh.after_tax_delta_k / 1000).toFixed(2)}。納税が 1 年遅れる分の時間価値 ${(sh.timing_value_k / 1000).toFixed(3)} 百万ドル（税率 × 移る額 × (1 − 1/(1+r))）</p>`, esc(sh.note));
+    // 3. spares
+    const sp = T.spares;
+    const p3 = panel("予備エンジン 1 基：購入／長期リース／短期リース（税引後の現在価値）",
+      `<table><thead><tr><th>期間</th><th>購入（${sp.price_k.toLocaleString()} k$、償却の盾と残存簿価を引く）</th><th>長期リース（${sp.long_per_month} k$/月）</th><th>短期リース（${sp.short_per_month} k$/月）</th><th>安いのは</th></tr></thead><tbody>${sp.rows.map((x) => `<tr><td>${x.years} 年</td><td>${k(x.buy.after_tax_pv)}（税引前 ${k(x.buy.pre_tax_pv)}、盾 ${k(x.buy.shield_pv)}）</td><td>${k(x.long.after_tax_pv)}（税引前 ${k(x.long.pre_tax_pv)}）</td><td>${k(x.short.after_tax_pv)}（税引前 ${k(x.short.pre_tax_pv)}）</td><td><b>${nm[x.best]}</b></td></tr>`).join("")}</tbody></table>`, esc(sp.note));
+    // 4. invest
+    const iv = T.invest;
+    const p4 = !iv || !iv.rows.length ? "" : panel("国内工場：税引後 NPV と補助金の扱い（百万ドル）",
+      `<table><thead><tr><th>方針</th><th>投資（名目）</th><th>税引前 NPV</th><th>償却の盾（現在価値）</th><th>税引後 NPV（補助金なし）</th><th>補助金 ${pct(iv.subsidy_share)}・受取時に課税</th><th>補助金 ${pct(iv.subsidy_share)}・圧縮記帳</th><th>圧縮記帳の差</th></tr></thead><tbody>${iv.rows.map((x) => `<tr><td>${esc(x.label)}</td><td>${k(x.capex_k)}</td><td>${k(x.npv_pre_tax_k)}</td><td>${k(x.shield_pv_k)}</td><td>${k(x.after_tax_no_subsidy_k)}</td><td>${k(x.after_tax_subsidy_taxed_k)}</td><td><b>${k(x.after_tax_subsidy_compressed_k)}</b></td><td>+${k(x.compression_gain_k)}</td></tr>`).join("")}</tbody></table>`,
+      esc(iv.note) + `。建屋 ${pct(P.depreciation.capex_split.building)}（定額法 38 年）・機械 ${pct(P.depreciation.capex_split.machinery)}（定率法 10 年）の仮定${iv.from_stages ? "。invest.py の結果がないので data/leap_invest.json の段階から計算" : ""}`);
+    // 5. shops
+    const so = T.shops;
+    const p5 = panel(`工場ごとの実効費用（${so.workscope} 1 件、税引後）`,
+      `<table><thead><tr><th>順位</th><th>工場</th><th>見積もり</th><th>輸送</th><th>関税・消費税（控除不能分）</th><th>翼を離れる期間（月）</th><th>遅れの費用</th><th>税引前</th><th>税の盾（現在価値）</th><th>税引後の実効費用</th></tr></thead><tbody>${so.rows.map((x) => `<tr><td>${x.rank}</td><td>${esc(x.name)}<br><span class="hint">${x.id}・${x.currency}</span></td><td>${x.quote.toLocaleString()}</td><td>${x.transport}</td><td>${x.customs_vat}</td><td>${x.off_wing_months.toFixed(1)}（工期 ${x.tat}＋輸送 ${2 * x.transport_months}＋遅れ ${x.exp_delay_months.toFixed(2)}）</td><td>${x.delay_cost.toFixed(0)}</td><td>${x.pre_tax.toFixed(0)}</td><td>−${x.shield_pv.toFixed(0)}</td><td><b>${x.effective.toFixed(0)}</b></td></tr>`).join("")}</tbody></table>`
+      + (so.no_quote.length ? `<p class="chart-note">${so.no_quote.map((x) => `${esc(x.name)}：${so.workscope} の見積もりなし（${x.workscopes.join("・")}のみ）`).join("、")}</p>` : ""),
+      `k$。遅れの費用＝最短の工場より長く翼を離れる月数 × 短期リース ${so.lease_per_month} k$/月。` + esc(so.note));
+    // 6. params and what to watch
+    const src = (o) => o && o.source ? `${esc(o.source)} ${conf(o.confidence)}` : "";
+    const rateRows = Object.entries(P.rates).map(([fy, v]) => `<tr><td>${fy}</td><td>実効税率 ${pct(v.rate, 2)}（法定 ${pct(v.corporate, 2)}＋防衛特別法人税 ${(v.defense_add * 100).toFixed(2)}pt）</td><td>${v.sources.map(src).join("<br>")}</td></tr>`).join("");
+    const depRows = Object.entries(P.depreciation).map(([kk, v]) => `<tr><td>償却 ${esc(kk)}</td><td>${v.years ? `${v.years} 年 ${esc(v.method)}` : `建屋 ${pct(v.building)}／機械 ${pct(v.machinery)}`}</td><td>${src(v)}</td></tr>`).join("");
+    const otherRows = [["修繕費／資本的支出", `${shares}。${esc(P.repair_vs_capital.rule)}`, src(P.repair_vs_capital)],
+      ["関税（修繕のための輸出・再輸入）", "減税（控除不能分 0）", src(P.customs.repair_reimport_relief)], ["関税（航空機部品）", "無税", src(P.customs.civil_aircraft_agreement)], ["輸入消費税", "仕入税額控除で中立", src(P.customs.import_vat)],
+      ["補助金", `圧縮記帳、補助率 ${pct(P.subsidy.share_assumed)} の仮定`, `${esc(P.subsidy.source)} ${conf(P.subsidy.confidence)}<br>${src(P.subsidy.share_source)}`],
+      ["税効果会計", esc(P.deferred_tax.book_method_engine), `${esc(P.deferred_tax.source)} ${conf(P.deferred_tax.confidence)}`],
+      ["割引率", pct(P.discount_rate), src(P.discount_rate_source)], ["予備エンジンの価値", `${P.spares.engine_value_k.toLocaleString()} k$`, src(P.spares.engine_value_source)],
+      ["遅れの費用", `${P.shops.aog_lease_k_per_month} k$/月`, src(P.shops.aog_lease_source)]].map(([a, b_, c_]) => `<tr><td>${a}</td><td>${b_}</td><td>${c_}</td></tr>`).join("");
+    const obs = T.observe.map((o) => `<li><b>${esc(o.what)}</b>：${esc(o.why)}（${esc(o.where)}、きっかけ：${esc(o.trigger)}）</li>`).join("");
+    const p6 = panel("前提と出典", `<table><thead><tr><th>項目</th><th>値</th><th>出典・確度</th></tr></thead><tbody>${rateRows}${depRows}${otherRows}</tbody></table>`, esc(P.depreciation_simplification))
+      + panel("OODA で見張る税の指標", `<ul>${obs}</ul>`, esc(T.note));
+    return p1 + p2 + p3 + p4 + p5 + p6;
+  }
+
   /* ---------------- lease redelivery ---------------- */
   const REC = { as_is: "そのまま返す", visit: "返却前に入場", extend: "延長" };
   const leaseLine = (Lz) => `リース機のエンジン ${Lz.n} 基が窓の中で返却。そのまま返すと補償 ${(Lz.total_as_is_k / 1000).toFixed(1)} 百万ドル、最善の組み合わせで ${(Lz.total_best_k / 1000).toFixed(1)}（返却前入場 ${Lz.by_recommend.visit}、そのまま ${Lz.by_recommend.as_is}、延長 ${Lz.by_recommend.extend}）`;
@@ -1001,6 +1070,26 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">${esc(leaseLine(Lz))}</p>` + sim + leaseChart(Lz) + `<div class="legend"><span><span class="sw" style="background:var(--crit)"></span>そのまま返す（補償）</span><span><span class="sw" style="background:var(--accent)"></span>返却前に入場（前倒しの寿命損）</span><span><span class="sw" style="background:var(--muted)"></span>延長（延長料）</span><span>濃い＝推奨</span></div>` + G("lease"), esc(Lz.note))
       + panel("", `<table><thead><tr><th>ESN</th><th>リース会社</th><th>返却</th><th>計画の入場</th><th>返却時 LLP 残（サイクル）</th><th>返却時 EGT 余裕（℃）</th><th>そのまま（k$）</th><th>返却前入場</th><th>延長</th><th>推奨</th><th>判断期限</th></tr></thead><tbody>${rows}</tbody></table>`,
         `返却条件：LLP 残 ${Lz.terms.min_llp_cycles.toLocaleString()} サイクル以上、EGT 余裕 ${Lz.terms.min_egt_margin}℃ 以上。不足は ${Lz.terms.compensation_per_cycle_k * 1000} $/サイクル・${Lz.terms.compensation_per_degc_k} k$/℃ の補償。延長は ${Lz.terms.extension_months} か月 × ${Lz.terms.extension_rent_k_per_month} k$。通知は返却の ${Lz.terms.notice_months} か月前。`);
+  }
+
+  /* ---------------- the asset side (reserves, settlement, maintenance value) ---------------- */
+  const mx4Line = (M) => `計画は ${(M.value.spend_k / 1000).toFixed(0)} 百万ドル使って整備価値 ${(M.value.value_created_k / 1000).toFixed(0)} 百万ドルを作る（${M.value.value_per_spend.toFixed(2)} ドル/ドル）。積立金：流入 ${(M.reserves.total_inflow_k / 1000).toFixed(1)}、請求 ${(M.reserves.total_claims_k / 1000).toFixed(1)}、返却で残る ${(M.settlement.reserves_forfeited_k / 1000).toFixed(1)} 百万ドル`;
+  function mx4Chart(M, W = 900, H = 240, compact = false) {
+    const R = M.reserves, xs = R.labels.map((_, i) => i);
+    return lineChart({ xs, series: [{ ys: R.balance.map((v) => v / 1000), color: "var(--accent)" }], bars: R.outflow.map((v, i) => ({ x: i, y: v / 1000, w: compact ? 3 : 10, color: "var(--warn)", label: `${R.labels[i]} 請求 ${(v / 1000).toFixed(2)} 百万ドル` })),
+      yticks: compact ? [] : [0, 2, 4, 6, 8], xticks: compact ? [] : xs.filter((i) => i % 3 === 0), xfmt: (i) => R.labels[i].slice(2), yfmt: (v) => v + " M$", ylabel: compact ? "" : "積立金残高（百万ドル）", aria: "積立金の残高と請求" }, W, H, compact);
+  }
+  function mx4() {
+    const M = C().mx4;
+    if (!M) return panel("積立金と機体価値", '<p class="hint">なし</p>');
+    const V = M.value, S = M.settlement;
+    const valueBars = `<svg viewBox="0 0 900 90" role="img" aria-label="整備価値"><rect x="0" y="10" width="${760 * V.now_k / Math.max(V.end_k, V.now_k)}" height="28" fill="var(--muted)"/><text class="tick" x="${760 * V.now_k / Math.max(V.end_k, V.now_k) + 8}" y="29">今 ${(V.now_k / 1000).toFixed(0)} 百万ドル</text><rect x="0" y="50" width="${760 * V.end_k / Math.max(V.end_k, V.now_k)}" height="28" fill="var(--good)"/><text class="tick" x="${760 * V.end_k / Math.max(V.end_k, V.now_k) + 8}" y="69">窓の終わり ${(V.end_k / 1000).toFixed(0)}（+${(V.value_created_k / 1000).toFixed(0)}）</text></svg>`;
+    const settle = S.engines.map((e) => `<tr><td>${e.esn}</td><td>${e.return}</td><td>${e.pay_k ? e.pay_k.toFixed(0) : "—"}</td><td>${e.refund_k ? e.refund_k.toFixed(0) : "—"}</td><td>${e.reserve_left_k.toFixed(0)}</td><td>${e.net_k.toFixed(0)}</td></tr>`).join("");
+    const out10 = `<table><thead><tr><th>年</th><th>入場</th><th>積立て流入（全機がリースなら）</th><th>請求</th></tr></thead><tbody>${M.outlook.map((y) => `<tr><td>${y.year}</td><td>${y.visits}</td><td>${(y.inflow_k / 1000).toFixed(0)}</td><td>${(y.claims_k / 1000).toFixed(0)}</td></tr>`).join("")}</tbody></table>`;
+    return panel("", `<p class="chart-note">${esc(mx4Line(M))}</p>` + mx4Chart(M) + legend([["積立金の残高（リース機のエンジン合計）", "var(--accent)", 1], ["入場時の請求（払い戻し）", "var(--warn)"]]) + G("mx4reserves"), `料率：性能回復 ${M.reserves.rates.pr_per_fh} $/飛行時間、寿命部品 ${M.reserves.rates.llp_per_cycle} $/サイクル、値上がり ${(M.reserves.rates.escalation * 100).toFixed(0)}%/年。` + esc(M.note))
+      + panel("", `<p class="chart-note">整備状態で調整したエンジン価値：${(V.now_k / 1000).toFixed(0)} → ${(V.end_k / 1000).toFixed(0)} 百万ドル（${V.n} 基）。費用 ${(V.spend_k / 1000).toFixed(0)} のうち価値になるのは ${(V.value_per_spend * 100).toFixed(0)}%</p>` + valueBars + G("mx4value"), esc(V.note))
+      + panel("", `<p class="chart-note">返却時の精算：借り手が払う ${(S.pay_k / 1000).toFixed(1)}、貸し手が払い戻す ${(S.refund_k / 1000).toFixed(1)}、返却で貸し手に残る積立金 ${(S.reserves_forfeited_k / 1000).toFixed(1)} 百万ドル</p><table><thead><tr><th>ESN</th><th>返却</th><th>支払（k$）</th><th>払い戻し</th><th>残る積立金</th><th>差し引き</th></tr></thead><tbody>${settle}</tbody></table>` + G("mx4settle"), "残る積立金が大きい機は、返却前に入場して積立金を使い切る方が得なことがある（「リース返却」の出口と合わせて見る）。")
+      + panel("10 年の積立金見通し（定常）", out10, "全機がリースだった場合の流入と請求。所有機には積立金はない。");
   }
 
   function quote() {

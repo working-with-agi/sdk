@@ -26,6 +26,8 @@ import track
 import usecases
 import finance
 import lease
+import mx4
+import tax
 
 HERE = Path(__file__).resolve().parent
 MATERIAL = 300  # k$: below this a switch or an action is not worth the disruption
@@ -291,8 +293,12 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     fleet_json = json.loads((HERE / b["paths"]["fleet"]).read_text(encoding="utf-8"))
     conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))
     c["finance"] = finance.build(b, fleet_json, conf["companies"].get(c["id"] or ""), c.get("invest"), deltas)
+    c["tax"] = tax.build(b, fleet_json, deltas, c.get("invest"))
     wear = (conf["companies"].get(c["id"] or "") or {}).get("wear", {})
     c["lease"] = lease.evaluate(b, fleet_json, loss=wear.get("mature_loss_per_1000"))
+    c["mx4"] = mx4.build(b, fleet_json, c["lease"])
+    for k in ("engines_now", "engines_end"):
+        c["mx4"]["value"][k] = c["mx4"]["value"][k][:60]
     if c["lease"]:
         # the same question inside the simulation: the plan re-solved with the returns as
         # constraints (lease_visits) costs this much more, against the compensation it avoids

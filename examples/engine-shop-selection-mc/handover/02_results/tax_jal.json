@@ -1,0 +1,705 @@
+{
+ "split": {
+  "rows": [
+   {
+    "fy": "FY2026",
+    "in_window": true,
+    "rate": 0.3153,
+    "spend": 127436.0,
+    "repair": 70371.15000000001,
+    "capital": 57064.850000000006,
+    "by_ws": {
+     "PR": 16575.0,
+     "CORE": 26058.0,
+     "FULL": 84803.0
+    },
+    "depreciation": 11412.970000000001,
+    "deductible": 81784.12000000001,
+    "shield": 25786.533036000004,
+    "after_tax": 101649.46696399999,
+    "dtl": 1799.2547205000003
+   },
+   {
+    "fy": "FY2027",
+    "in_window": true,
+    "rate": 0.3153,
+    "spend": 169976.0,
+    "repair": 88921.95000000001,
+    "capital": 81054.04999999999,
+    "by_ws": {
+     "PR": 13032.0,
+     "CORE": 35101.0,
+     "FULL": 121843.0
+    },
+    "depreciation": 25341.186,
+    "deductible": 114263.13600000001,
+    "shield": 36027.166780800006,
+    "after_tax": 133948.8332192,
+    "dtl": 5434.441749300001
+   },
+   {
+    "fy": "FY2028",
+    "in_window": true,
+    "rate": 0.3153,
+    "spend": 75108.0,
+    "repair": 37758.3,
+    "capital": 37349.700000000004,
+    "by_ws": {
+     "PR": 0.0,
+     "CORE": 26398.0,
+     "FULL": 48710.0
+    },
+    "depreciation": 27742.8888,
+    "deductible": 65501.1888,
+    "shield": 20652.524828640002,
+    "after_tax": 54455.47517136,
+    "dtl": 8649.24962994
+   },
+   {
+    "fy": "FY2029",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 22194.31104,
+    "deductible": 22194.31104,
+    "shield": 6997.866270912001,
+    "after_tax": -6997.866270912001,
+    "dtl": 10114.590942852
+   },
+   {
+    "fy": "FY2030",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 17755.448832000002,
+    "deductible": 17755.448832000002,
+    "shield": 5598.293016729601,
+    "after_tax": -5598.293016729601,
+    "dtl": 10180.3590015816
+   },
+   {
+    "fy": "FY2031",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 14204.359065600001,
+    "deductible": 14204.359065600001,
+    "shield": 4478.634413383681,
+    "after_tax": -4478.634413383681,
+    "dtl": 9126.468456965282
+   },
+   {
+    "fy": "FY2032",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 12111.447654399999,
+    "deductible": 12111.447654399999,
+    "shield": 3818.73944543232,
+    "after_tax": -3818.73944543232,
+    "dtl": 7412.682944397601
+   },
+   {
+    "fy": "FY2033",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 11499.510169599998,
+    "deductible": 11499.510169599998,
+    "shield": 3625.79555647488,
+    "after_tax": -3625.79555647488,
+    "dtl": 5505.95354287248
+   },
+   {
+    "fy": "FY2034",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 11499.510169599998,
+    "deductible": 11499.510169599998,
+    "shield": 3625.79555647488,
+    "after_tax": -3625.79555647488,
+    "dtl": 3599.2241413473594
+   },
+   {
+    "fy": "FY2035",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 11499.510169599998,
+    "deductible": 11499.510169599998,
+    "shield": 3625.79555647488,
+    "after_tax": -3625.79555647488,
+    "dtl": 1692.4947398222384
+   },
+   {
+    "fy": "FY2036",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 7759.708159999999,
+    "deductible": 7759.708159999999,
+    "shield": 2446.635982848,
+    "after_tax": -2446.635982848,
+    "dtl": 405.860485170238
+   },
+   {
+    "fy": "FY2037",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 2447.7499392,
+    "deductible": 2447.7499392,
+    "shield": 771.77555582976,
+    "after_tax": -771.77555582976,
+    "dtl": -2.1032064978498966e-12
+   },
+   {
+    "fy": "FY2038",
+    "in_window": false,
+    "rate": 0.3153,
+    "spend": 0.0,
+    "repair": 0.0,
+    "capital": 0.0,
+    "by_ws": {},
+    "depreciation": 0.0,
+    "deductible": 0.0,
+    "shield": 0.0,
+    "after_tax": 0.0,
+    "dtl": -2.1032064978498966e-12
+   }
+  ],
+  "window": [
+   {
+    "fy": "FY2026",
+    "in_window": true,
+    "rate": 0.3153,
+    "spend": 127436.0,
+    "repair": 70371.15000000001,
+    "capital": 57064.850000000006,
+    "by_ws": {
+     "PR": 16575.0,
+     "CORE": 26058.0,
+     "FULL": 84803.0
+    },
+    "depreciation": 11412.970000000001,
+    "deductible": 81784.12000000001,
+    "shield": 25786.533036000004,
+    "after_tax": 101649.46696399999,
+    "dtl": 1799.2547205000003
+   },
+   {
+    "fy": "FY2027",
+    "in_window": true,
+    "rate": 0.3153,
+    "spend": 169976.0,
+    "repair": 88921.95000000001,
+    "capital": 81054.04999999999,
+    "by_ws": {
+     "PR": 13032.0,
+     "CORE": 35101.0,
+     "FULL": 121843.0
+    },
+    "depreciation": 25341.186,
+    "deductible": 114263.13600000001,
+    "shield": 36027.166780800006,
+    "after_tax": 133948.8332192,
+    "dtl": 5434.441749300001
+   },
+   {
+    "fy": "FY2028",
+    "in_window": true,
+    "rate": 0.3153,
+    "spend": 75108.0,
+    "repair": 37758.3,
+    "capital": 37349.700000000004,
+    "by_ws": {
+     "PR": 0.0,
+     "CORE": 26398.0,
+     "FULL": 48710.0
+    },
+    "depreciation": 27742.8888,
+    "deductible": 65501.1888,
+    "shield": 20652.524828640002,
+    "after_tax": 54455.47517136,
+    "dtl": 8649.24962994
+   }
+  ],
+  "total_spend_k": 372520.0,
+  "total_repair_k": 197051.40000000002,
+  "total_capital_k": 175468.6,
+  "shield_in_window_k": 82466.22464544002,
+  "shield_total_k": 117455.55600000004,
+  "shield_pv_k": 101167.35597352423,
+  "after_tax_in_window_k": 290053.77535456,
+  "after_tax_pv_k": 271352.6440264758,
+  "shares": {
+   "PR": {
+    "repair": 1.0,
+    "capital": 0.0
+   },
+   "CORE": {
+    "repair": 0.6,
+    "capital": 0.4
+   },
+   "FULL": {
+    "repair": 0.45,
+    "capital": 0.55
+   }
+  },
+  "shield_factor_capital": 0.8124161296174996,
+  "dtl_end_of_window_k": 8649.24962994
+ },
+ "shift": {
+  "question": "外部工場の TAT が 1 か月延びたら（再計画）",
+  "case": "backlog",
+  "rows": [
+   {
+    "fy": "FY2026",
+    "spend": 19.561583695060108,
+    "visits": 0,
+    "after_tax": 13.393816356007655,
+    "tax_effect": -6.167767339052452
+   },
+   {
+    "fy": "FY2027",
+    "spend": -78.29314883169718,
+    "visits": 0,
+    "after_tax": -53.607319005063054,
+    "tax_effect": 24.685829826634123
+   },
+   {
+    "fy": "FY2028",
+    "spend": 0.0,
+    "visits": 0,
+    "after_tax": 0.0,
+    "tax_effect": -0.0
+   }
+  ],
+  "moved_k": 19.561583695060108,
+  "pre_tax_delta_k": -58.73156513663707,
+  "after_tax_delta_k": -40.2135026490554,
+  "timing_value_k": 0.40349879788193616,
+  "note": "費用が後の年度に移れば損金も移る。税額は変わらず、納税が 1 年遅れる分の時間価値だけが差になる"
+ },
+ "spares": {
+  "rows": [
+   {
+    "years": 2,
+    "buy": {
+     "price": 5500,
+     "shield_pv": 606.1421495327103,
+     "residual_pv": 3074.504323521705,
+     "after_tax_pv": 1819.3535269455847,
+     "pre_tax_pv": 2425.495676478295
+    },
+    "long": {
+     "pre_tax_pv": 1973.271028037383,
+     "after_tax_pv": 1351.0986728971961,
+     "per_month": 85
+    },
+    "short": {
+     "pre_tax_pv": 3017.9439252336447,
+     "after_tax_pv": 2066.3862056074768,
+     "per_month": 130
+    },
+    "best": "long"
+   },
+   {
+    "years": 10,
+    "buy": {
+     "price": 5500,
+     "shield_pv": 1408.8514311761871,
+     "residual_pv": -4.623409878465441e-13,
+     "after_tax_pv": 4091.148568823813,
+     "pre_tax_pv": 5500.000000000001
+    },
+    "long": {
+     "pre_tax_pv": 7665.53689377384,
+     "after_tax_pv": 5248.593111166948,
+     "per_month": 85
+    },
+    "short": {
+     "pre_tax_pv": 11723.762308124698,
+     "after_tax_pv": 8027.26005237298,
+     "per_month": 130
+    },
+    "best": "buy"
+   }
+  ],
+  "price_k": 5500,
+  "long_per_month": 85,
+  "short_per_month": 130,
+  "note": "購入は税務簿価で期末に売れる（売却損益なし）と置く。リース料は当期の損金。判断は保有か借りるかの物差しであって、税のために保有する話ではない"
+ },
+ "invest": {
+  "rows": [
+   {
+    "id": "stage1",
+    "label": "段階 1 だけ",
+    "capex_k": 22496.460680901328,
+    "capex_pv_k": -11248.230340450664,
+    "npv_pre_tax_k": -10153.538751285372,
+    "shield_pv_k": 2412.1671396329966,
+    "subsidy_k": 2812.057585112666,
+    "after_tax_no_subsidy_k": -8086.527869716192,
+    "after_tax_subsidy_taxed_k": -6161.11204118955,
+    "after_tax_subsidy_compressed_k": -5877.512069511775,
+    "compression_gain_k": 283.59997167777453
+   },
+   {
+    "id": "commit12",
+    "label": "段階 1・2 を今決める",
+    "capex_k": 108753.3405220656,
+    "capex_pv_k": -84123.93399787738,
+    "npv_pre_tax_k": -135217.42229507645,
+    "shield_pv_k": 18040.259054492726,
+    "subsidy_k": 21030.983499469345,
+    "after_tax_no_subsidy_k": -101067.38638047686,
+    "after_tax_subsidy_taxed_k": -86667.47197839021,
+    "after_tax_subsidy_compressed_k": -84546.46764463071,
+    "compression_gain_k": 2121.0043337595034
+   },
+   {
+    "id": "commit123",
+    "label": "段階 1・2・3 を今決める",
+    "capex_k": 153770.09178550952,
+    "capex_pv_k": -119669.00523872169,
+    "npv_pre_tax_k": -116023.5551301724,
+    "shield_pv_k": 25662.849473426417,
+    "subsidy_k": 29917.25130968042,
+    "after_tax_no_subsidy_k": -91510.11607597157,
+    "after_tax_subsidy_taxed_k": -71025.7741042334,
+    "after_tax_subsidy_compressed_k": -68008.57713464776,
+    "compression_gain_k": 3017.1969695856333
+   },
+   {
+    "id": "staged",
+    "label": "段階的に決める（条件付き）",
+    "capex_k": 37097.517106456144,
+    "capex_pv_k": -23393.982618094014,
+    "npv_pre_tax_k": -17471.138581469462,
+    "shield_pv_k": 5016.806593440634,
+    "subsidy_k": 5848.495654523504,
+    "after_tax_no_subsidy_k": -14321.80471277655,
+    "after_tax_subsidy_taxed_k": -10317.339738124307,
+    "after_tax_subsidy_compressed_k": -9727.510706613204,
+    "compression_gain_k": 589.8290315111024
+   }
+  ],
+  "subsidy_share": 0.25,
+  "shield_factor": 0.6801414217510304,
+  "from_stages": false,
+  "note": "税引後 NPV ＝ 営業の現在価値 ×(1−税率) − 投資 ＋ 償却の盾。補助金は受け取り時に課税（益金）か、圧縮記帳で取得価額を減らして償却の盾を失う代わりに課税を繰り延べる。差は時間価値だけ"
+ },
+ "shops": {
+  "rows": [
+   {
+    "id": "IND-ASIA",
+    "name": "独立系大手（アジア・上限付き T&M）",
+    "has_quote": true,
+    "currency": "USD",
+    "quote": 9100,
+    "tat": 4,
+    "transport": 60,
+    "transport_months": 1,
+    "exp_delay_months": 1.1,
+    "off_wing_months": 7.1,
+    "extra_months": 1.9499999999999993,
+    "delay_cost": 253.49999999999991,
+    "customs_vat": 0.0,
+    "shield_pv": 2670.1030609573872,
+    "pre_tax": 9413.5,
+    "effective": 6743.396939042613,
+    "rank": 1
+   },
+   {
+    "id": "IND-NA",
+    "name": "独立系（北米・T&M）",
+    "has_quote": true,
+    "currency": "USD",
+    "quote": 8900,
+    "tat": 5,
+    "transport": 120,
+    "transport_months": 2,
+    "exp_delay_months": 0.7000000000000001,
+    "off_wing_months": 9.7,
+    "extra_months": 4.549999999999999,
+    "delay_cost": 591.4999999999999,
+    "customs_vat": 0.0,
+    "shield_pv": 2737.0866409209207,
+    "pre_tax": 9611.5,
+    "effective": 6874.413359079079,
+    "rank": 2
+   },
+   {
+    "id": "IND-EU",
+    "name": "独立系大手（欧州・T&M）",
+    "has_quote": true,
+    "currency": "USD",
+    "quote": 9500,
+    "tat": 4,
+    "transport": 130,
+    "transport_months": 1,
+    "exp_delay_months": 0.30000000000000004,
+    "off_wing_months": 6.3,
+    "extra_months": 1.1499999999999995,
+    "delay_cost": 149.49999999999994,
+    "customs_vat": 0.0,
+    "shield_pv": 2770.2138282226683,
+    "pre_tax": 9779.5,
+    "effective": 7009.286171777332,
+    "rank": 3
+   },
+   {
+    "id": "OEM-ASIA",
+    "name": "OEM 系ネットワーク（アジア・固定価格）",
+    "has_quote": true,
+    "currency": "USD",
+    "quote": 10100,
+    "tat": 3,
+    "transport": 80,
+    "transport_months": 1,
+    "exp_delay_months": 0.15000000000000002,
+    "off_wing_months": 5.15,
+    "extra_months": 0.0,
+    "delay_cost": 0.0,
+    "customs_vat": 0.0,
+    "shield_pv": 2878.6000569373587,
+    "pre_tax": 10180.0,
+    "effective": 7301.399943062641,
+    "rank": 4
+   }
+  ],
+  "no_quote": [
+   {
+    "id": "GRP-JP",
+    "name": "国内グループ工場（PR のみ）",
+    "has_quote": false,
+    "workscopes": [
+     "PR"
+    ]
+   }
+  ],
+  "workscope": "FULL",
+  "lease_per_month": 130,
+  "base_off_wing_months": 5.15,
+  "rate": 0.3153,
+  "shield_factor_capital": 0.8124161296174996,
+  "note": "関税は修繕のための輸出・再輸入の減税と民間航空機協定で 0、輸入消費税は仕入税額控除で中立（0）。翼を離れる期間の差は短期リース料で値付け。税引後にしても順位は税引前とほぼ同じ＝税は工場を選ぶ理由にならない"
+ },
+ "params": {
+  "discount_rate": 0.07,
+  "discount_rate_source": {
+   "source": "no_source: 資本コストの仮定（finance.py・invest.py と同じ 7%）",
+   "confidence": "no_source"
+  },
+  "rates": {
+   "FY2026": {
+    "rate": 0.3153,
+    "corporate": 0.306,
+    "defense_add": 0.0093,
+    "sources": [
+     {
+      "source": "法定実効税率 約 30.62%（東京都・資本金 1 億円超の大法人、外形標準課税適用）。PwC Japan 税務ニュース 2023-12 https://www.pwc.com/jp/ja/knowledge/news/tax-news/2023/assets/pdf/tax-news-20231222.pdf",
+      "confidence": "B"
+     },
+     {
+      "source": "防衛特別法人税：法人税額の 4% 相当（基礎控除 500 万円）、2026 年 4 月 1 日以後に開始する事業年度から。実効税率への上乗せは 23.2%×4%≒0.9pt の概算。財務省「令和 7 年度税制改正」 https://www.mof.go.jp/tax_policy/tax_reform/outline/fy2025/07taikou_01.htm、日本経済新聞 2024-12-20",
+      "confidence": "C"
+     }
+    ]
+   },
+   "FY2027": {
+    "rate": 0.3153,
+    "corporate": 0.306,
+    "defense_add": 0.0093,
+    "sources": [
+     {
+      "source": "同上（FY2026）",
+      "confidence": "B"
+     },
+     {
+      "source": "同上（FY2026）",
+      "confidence": "C"
+     }
+    ]
+   },
+   "FY2028": {
+    "rate": 0.3153,
+    "corporate": 0.306,
+    "defense_add": 0.0093,
+    "sources": [
+     {
+      "source": "同上（FY2026）。FY2028 以降の税率は据え置きの仮定",
+      "confidence": "C"
+     },
+     {
+      "source": "同上（FY2026）",
+      "confidence": "C"
+     }
+    ]
+   }
+  },
+  "depreciation": {
+   "engine": {
+    "years": 10,
+    "method": "定率法",
+    "rate": 0.2,
+    "guarantee_rate": 0.06552,
+    "revised_rate": 0.25,
+    "source": "減価償却資産の耐用年数等に関する省令 別表第一「航空機（主として金属製）10 年」を航空機用エンジン・予備エンジンに当てる。200% 定率法（2012 年 4 月以後取得）の償却率 0.200、保証率 0.06552、改定償却率 0.250（別表第十） https://www.nta.go.jp/taxes/shiraberu/taxanswer/hojin/5404.htm",
+    "confidence": "B"
+   },
+   "shop_building": {
+    "years": 38,
+    "method": "定額法",
+    "rate": 0.027,
+    "source": "別表第一 鉄骨鉄筋コンクリート造・工場用 38 年（建物は 1998 年 4 月以後、定額法のみ）。整備工場の建屋に当てる仮定",
+    "confidence": "C"
+   },
+   "shop_machinery": {
+    "years": 10,
+    "method": "定率法",
+    "rate": 0.2,
+    "guarantee_rate": 0.06552,
+    "revised_rate": 0.25,
+    "source": "別表第二 機械及び装置「航空機整備業用設備」相当 10 年の仮定（試運転設備・部品修理設備）",
+    "confidence": "C"
+   },
+   "capex_split": {
+    "building": 0.3,
+    "machinery": 0.7,
+    "source": "no_source: 国内工場の投資額を建屋 3 割・機械 7 割に分ける仮定",
+    "confidence": "no_source"
+   }
+  },
+  "depreciation_simplification": "定率法は初年度 0.2 の定率、償却額が保証額（取得価額×保証率）を下回った年から改定償却率で残額を均等に落とす。月割り（取得月からの按分）は省略し、取得した年度に 1 年分を計上",
+  "repair_vs_capital": {
+   "PR": {
+    "repair": 1.0,
+    "capital": 0.0
+   },
+   "CORE": {
+    "repair": 0.6,
+    "capital": 0.4
+   },
+   "FULL": {
+    "repair": 0.45,
+    "capital": 0.55
+   },
+   "rule": "性能回復（清掃・検査・修理）＝修繕費として当期の損金、寿命部品（LLP）の交換＝資本的支出として資産計上・償却",
+   "source": "no_source: 合成の仮定。整備範囲ごとの修繕費／資本的支出の割合は寿命部品キットの価格比からの推定であり、実際の会社の会計方針ではない（法人税基本通達 7-8-1〜7-8-2 の区分は個別判断）",
+   "confidence": "no_source"
+  },
+  "customs": {
+   "repair_reimport_relief": {
+    "non_deductible_share": 0.0,
+    "source": "海外の工場で修理するための輸出・再輸入は関税の減税（関税定率法 11 条 加工又は修繕のため輸出された貨物の減税）。国税庁・税関 https://www.customs.go.jp/tetsuzuki/c-answer/imtsukan/1907_jr.htm",
+    "confidence": "B"
+   },
+   "civil_aircraft_agreement": {
+    "parts_duty": 0.0,
+    "source": "WTO 民間航空機貿易協定により航空機・航空機部品は無税（実行関税率表 第 88 類）",
+    "confidence": "B"
+   },
+   "import_vat": {
+    "neutral": true,
+    "source": "輸入消費税は仕入税額控除で中立（消費税法 30 条）。国際線の課税売上割合により一部控除できない可能性は無視する仮定",
+    "confidence": "C"
+   }
+  },
+  "subsidy": {
+   "compression_bookkeeping": true,
+   "source": "国庫補助金等で取得した固定資産の圧縮記帳（法人税法 42 条）。補助金への課税を償却期間にわたって繰り延べる",
+   "confidence": "B",
+   "share_assumed": 0.25,
+   "share_source": {
+    "source": "data/leap_invest.json の補助率 0〜50% の一様分布の中央値",
+    "confidence": "C"
+   }
+  },
+  "deferred_tax": {
+   "book_method_engine": "定額法 10 年",
+   "source": "no_source: 税効果会計（税務上の定率法と会計上の定額法の差 × 税率 を繰延税金負債の概算とする）。実際の会計方針ではない",
+   "confidence": "C"
+  },
+  "spares": {
+   "engine_value_k": 5500,
+   "engine_value_source": {
+    "source": "no_source: CFM56-7B 中寿命エンジンの市場価値 5.5〜6.5 M$（finance.json と同じ）",
+    "confidence": "no_source"
+   },
+   "residual": "保有の場合、期末の税務簿価で売却できる（売却損益なし）と置く仮定",
+   "residual_confidence": "no_source"
+  },
+  "shops": {
+   "aog_lease_k_per_month": 130,
+   "aog_lease_source": {
+    "source": "no_source: 翼を離れる期間が延びた分は短期リース 130 k$/月で埋める仮定（fleet.json short_term_lease と同じ）",
+    "confidence": "no_source"
+   },
+   "reference_workscope": "FULL"
+  }
+ },
+ "observe": [
+  {
+   "what": "法定実効税率の改正（法人税率・地方法人税・事業税率）",
+   "why": "税引後の費用・償却の盾が全年度で動く",
+   "where": "税制改正大綱（毎年 12 月）",
+   "trigger": "実効税率が ±0.5pt 動いたら"
+  },
+  {
+   "what": "防衛特別法人税の開始・税率（法人税額の 4%）",
+   "why": "2026 年 4 月以後開始の事業年度から。税率や基礎控除の変更で上乗せ幅が変わる",
+   "where": "財務省・国税庁",
+   "trigger": "施行時期・率の変更"
+  },
+  {
+   "what": "耐用年数・償却方法の改正（航空機 10 年、定率法の償却率）",
+   "why": "資本的支出の盾の時期が動く",
+   "where": "耐用年数省令の改正",
+   "trigger": "別表の改正"
+  },
+  {
+   "what": "修繕費／資本的支出の区分の税務判断",
+   "why": "整備範囲ごとの割合が変われば当期の損金が動く",
+   "where": "税理士・税務調査の指摘",
+   "trigger": "区分の変更"
+  },
+  {
+   "what": "補助金の採択と圧縮記帳の適用",
+   "why": "国内工場の税引後 NPV が動く",
+   "where": "経産省の公募・採択",
+   "trigger": "採択通知"
+  }
+ ],
+ "note": "合成データ。税引後の物差しを作るための前提。税額を減らす・場所や時期を税のために選ぶものではなく、同じ計画の税引後の費用を並べるだけ。会計方針・税務の扱いは実際の会社のものではなく、税理士・会計士の確認が要る。金額は k$。"
+}
