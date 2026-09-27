@@ -702,6 +702,22 @@
    "emergency_premium": 900,
    "source": "no_source（公開の根拠なし）"
   },
-  "severity_source": "区間の長さによる劣化の係数（1 回あたり ≒ (0.65 + 0.2 × 飛行時間) ÷ 1.05）。Ackert の飛行時間あたりの係数表から換算した近似 https://www.aircraftmonitor.com/uploads/1/5/9/9/15993320/engine_mx_concepts_for_financiers___v2.pdf"
+  "severity_source": "区間の長さによる劣化の係数（1 回あたり ≒ (0.65 + 0.2 × 飛行時間) ÷ 1.05）。Ackert の飛行時間あたりの係数表から換算した近似 https://www.aircraftmonitor.com/uploads/1/5/9/9/15993320/engine_mx_concepts_for_financiers___v2.pdf",
+  "contract_forms": {
+   "fixed": {
+    "overrun_share": 0.0,
+    "premium": 0.08
+   },
+   "share50": {
+    "overrun_share": 0.5,
+    "premium": 0.03
+   },
+   "pbh": {
+    "overrun_share": 0.0,
+    "premium": 0.05,
+    "pbh": true
+   },
+   "source": "no_source: 契約更新時の契約形態の打ち手（actions.py の contract_fixed / contract_share50 / contract_pbh）。工場が引き受けるリスクの分だけ見積もりに上乗せ（固定 +8%、折半 +3%、PBH +5%）。PBH は飛行時間あたりの課金を「所見込みの期待費用（price×(1+prob×overrun_mean×share)）で固定した 1 件あたり価格」で近似。工期の遅れ分布は変えない。感度分析の対象"
+  }
  }
 }

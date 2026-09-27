@@ -101,8 +101,8 @@ def replay(b: dict, act: dict, timeline: list, cpd: dict | None, rules: dict, p0
             n = min(lease_max, -margin)
             cases.append(_case(m, "tat_slip", safety, ",".join(e["esn"] for e in late), f"戻り遅れ {len(late)} 基、余力 {margin:+d}", f"短期リース {n} 基"))
         # 4. world shift: probability moved -> switch value to the meeting
-        top = max(x["posterior"], key=x["posterior"].get)
-        if top != "base" and x["posterior"][top] > 0.5:
+        top = max((w for w in x["posterior"] if w != "base"), key=x["posterior"].get)
+        if 1 - x["posterior"]["base"] > 0.6:
             sw = x["switch"].get(top)
             if sw:
                 cases.append(_case(m, "world_shift", safety, top, f"ΔV {sw['saving']:+,.0f} k$、判断期限 {sw['decide_by'] or '—'}", "会議へ", meeting=True))

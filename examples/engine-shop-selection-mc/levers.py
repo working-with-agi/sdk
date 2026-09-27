@@ -14,6 +14,10 @@ Levers (prices are rough public-market estimates, not quotes):
                350 k$/year fee
   fixed        the Asian independent shop moves to fixed price: no overrun for the
                operator, +8 % on its quotes
+  contract     contract form of a company's own contracted shop (see actions.py):
+               ("contract", {"shop": id or None, "overrun_share": s, "premium": r,
+               "pbh": bool}); None = the single contracted shop. pbh prices the visit at
+               the expected cost incl. findings (approximation of a rate per flight hour)
   substitute   fly the missing 737-800 capacity with another type (737-8 / A321neo / 767):
                450 k$ per engine-month; other fleets can spare 2 aircraft (4 engines)
                off-peak, 1 aircraft in peaks, +1 aircraft once 737-8 deliveries build up
@@ -52,6 +56,29 @@ LEVERS = {
 }
 
 
+MARKET_SHOPS = ("MIDLIFE", "PARTOUT")
+
+
+def contracted_shop(p):
+    """The company's single contracted shop (the tender data has several: then none)."""
+    real = [k for k in p.shops if k.id not in MARKET_SHOPS]
+    if len(real) != 1:
+        raise ValueError("no single contracted shop: a contract form needs one")
+    return real[0]
+
+
+def contract_form(k, x):
+    """The shop under another contract form: the operator's share of findings overrun
+    changes, and the shop prices the risk it takes over into the quote (premium).
+    PBH-style ("pbh"): the operator pays a rate per flight hour, which we approximate as
+    a fixed price per visit equal to the expected cost incl. findings under the current
+    contract, plus the premium; the shop's delay distributions are unchanged."""
+    base = 1.0 + (k.findings_prob * k.overrun_mean * k.overrun_share if x.get("pbh") else 0.0)
+    factor = base * (1 + x.get("premium", 0.0))
+    return dataclasses.replace(k, overrun_share=float(x.get("overrun_share", 0.0)),
+                               quotes={w: dataclasses.replace(q, price=q.price * factor) for w, q in k.quotes.items()})
+
+
 def apply(p, lever):
     if lever is None:
         return p
@@ -84,6 +111,9 @@ def apply(p, lever):
             w: dataclasses.replace(q, price=q.price * (1 + x)) for w, q in k.quotes.items()})
             if k.id == "IND-ASIA" else k for k in p.shops]
         return dataclasses.replace(p, shops=shops)
+    if kind == "contract":
+        return dataclasses.replace(p, shops=[contract_form(k, x) if k.id == (x.get("shop") or contracted_shop(p).id) else k
+                                             for k in p.shops])
     if kind == "substitute":
         cap = []
         for t in range(p.horizon):

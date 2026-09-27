@@ -65,17 +65,26 @@ ALTERNATIVES = {
 
 
 def case_problem(p, case: str):
+    """The world a plan is made for. A case may carry a level after '@': 'backlog@1.6' is
+    congestion of 1.6 months (default 1), 'crunch@14' a kit lead of 14 months (default 12),
+    so a world can be built from what the leading indicators actually showed."""
+    level = None
+    if "@" in case:
+        case, lv = case.split("@", 1)
+        level = float(lv)
     if case in ("backlog", "stress"):
+        extra = 1 if level is None or case == "stress" else level
         shops = []
         for k in p.shops:
             if k.transport_months > 0:  # external shops only
                 k = dataclasses.replace(
-                    k, quotes={w: dataclasses.replace(q, tat=q.tat + 1) for w, q in k.quotes.items()}
+                    k, quotes={w: dataclasses.replace(q, tat=q.tat + extra) for w, q in k.quotes.items()}
                 )
             shops.append(k)
         p = dataclasses.replace(p, shops=shops)
     if case in ("crunch", "stress"):
-        p = dataclasses.replace(p, llp_kit_lead_months=12, llp_kits_on_hand=max(1, p.llp_kits_on_hand // 2))
+        lead = 12 if level is None or case == "stress" else int(round(level))
+        p = dataclasses.replace(p, llp_kit_lead_months=lead, llp_kits_on_hand=max(1, p.llp_kits_on_hand // 2))
     if case == "stress":
         p = dataclasses.replace(
             p,

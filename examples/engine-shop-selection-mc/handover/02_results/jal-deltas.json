@@ -64,7 +64,7 @@
   }
  },
  "inputs_changed": [],
- "wall_seconds": 5.9,
+ "wall_seconds": 12.0,
  "answers": [
   {
    "use_case": "② 月次の入場判断",
@@ -357,6 +357,306 @@
      "FY2028": {
       "visits": 0,
       "spend": 0.0
+     }
+    },
+    "shops": {
+     "GE-TC": 0
+    }
+   }
+  },
+  {
+   "use_case": "③' 契約形態（更新時）",
+   "question": "固定価格契約に切り替えたら（超過 0、+8%）",
+   "actions": [
+    "contract_fixed"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 215407.72531438773,
+    "p90": 260989.70741759782,
+    "committed": 208653.0,
+    "recourse": 6754.725314387735,
+    "recourse_p90": 52336.70741759782,
+    "recourse_parts": {
+     "overrun": 3143.9453143877354,
+     "lease": 6.37,
+     "substitute": 0.0,
+     "aog": 4.41,
+     "emergency_kits": 3600.0
+    },
+    "aog_prob": 0.003,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 15,
+      "spend": 126470.32689406673,
+      "PR": 5,
+      "CORE": 3,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 18,
+      "spend": 168452.13571867655,
+      "PR": 4,
+      "CORE": 4,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 7,
+      "spend": 74409.48270164452,
+      "PR": 0,
+      "CORE": 3,
+      "FULL": 4,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 40,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 4,
+    "early_months": 57,
+    "rush": 0,
+    "shops": {
+     "GE-TC": 40
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -3276.5152932153433,
+    "p90": -6012.391169433366,
+    "aog_prob": 0.0005,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": -2,
+    "rush": 0,
+    "committed": 26798.0,
+    "recourse": -30074.515293215347,
+    "recourse_p90": -32810.391169433395,
+    "premium": 26798.0,
+    "payout": 30074.515293215347,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -967.2139223072445
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -1523.7741069054755
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -699.2572640025464
+     }
+    },
+    "shops": {
+     "GE-TC": 0
+    }
+   }
+  },
+  {
+   "use_case": "③' 契約形態（更新時）",
+   "question": "超過を折半する契約なら（分担 50%、+3%）",
+   "actions": [
+    "contract_share50"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 214063.63261676833,
+    "p90": 260232.78651592718,
+    "committed": 191758.0,
+    "recourse": 22305.63261676834,
+    "recourse_p90": 68474.78651592718,
+    "recourse_parts": {
+     "overrun": 18692.50761676834,
+     "lease": 6.825,
+     "substitute": 0.0,
+     "aog": 6.3,
+     "emergency_kits": 3600.0
+    },
+    "aog_prob": 0.0035,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 15,
+      "spend": 125932.79079833641,
+      "PR": 5,
+      "CORE": 3,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 18,
+      "spend": 167974.79966709862,
+      "PR": 4,
+      "CORE": 4,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 7,
+      "spend": 74167.9171513331,
+      "PR": 0,
+      "CORE": 3,
+      "FULL": 4,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 40,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 4,
+    "early_months": 55,
+    "rush": 0,
+    "shops": {
+     "GE-TC": 40
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": -4620.607990834746,
+    "p90": -6769.31207110401,
+    "aog_prob": 0.001,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": -4,
+    "rush": 0,
+    "committed": 9903.0,
+    "recourse": -14523.607990834742,
+    "recourse_p90": -16672.31207110404,
+    "premium": 9903.0,
+    "payout": 14523.607990834742,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": -1504.7500180375646
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": -2001.1101584834105
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": -940.8228143139713
+     }
+    },
+    "shops": {
+     "GE-TC": 0
+    }
+   }
+  },
+  {
+   "use_case": "③' 契約形態（更新時）",
+   "question": "時間課金（PBH 型）なら（所見込み期待費用で固定、+5%）",
+   "actions": [
+    "contract_pbh"
+   ],
+   "case": "base",
+   "feasible": true,
+   "summary": {
+    "total_cost": 237334.91241758107,
+    "p90": 285709.05813693866,
+    "committed": 230556.44999999984,
+    "recourse": 6778.462417581223,
+    "recourse_p90": 55152.6081369388,
+    "recourse_parts": {
+     "overrun": 3172.237417581224,
+     "lease": 3.705,
+     "substitute": 0.0,
+     "aog": 2.52,
+     "emergency_kits": 3600.0
+    },
+    "aog_prob": 0.0025,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 15,
+      "spend": 133917.44046145823,
+      "PR": 5,
+      "CORE": 3,
+      "FULL": 7,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 18,
+      "spend": 178301.70105424125,
+      "PR": 4,
+      "CORE": 4,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 7,
+      "spend": 78819.54590188159,
+      "PR": 0,
+      "CORE": 3,
+      "FULL": 4,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 40,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 4,
+    "early_months": 62,
+    "rush": 0,
+    "shops": {
+     "GE-TC": 40
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "delta": {
+    "total_cost": 18650.671809977997,
+    "p90": 18706.95954990748,
+    "aog_prob": 0.0,
+    "shop_visits": 0,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 0,
+    "early_months": 3,
+    "rush": 0,
+    "committed": 48701.44999999984,
+    "recourse": -30050.778190021858,
+    "recourse_p90": -29994.490450092417,
+    "premium": 48701.44999999984,
+    "payout": 30050.778190021858,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 0,
+      "spend": 6479.899645084253
+     },
+     "FY2027": {
+      "visits": 0,
+      "spend": 8325.791228659218
+     },
+     "FY2028": {
+      "visits": 0,
+      "spend": 3710.805936234523
      }
     },
     "shops": {

@@ -1,0 +1,32 @@
+{
+  "meta": {
+    "description": "How a contracted CFM56-7B shop's capacity responds to an airline's committed (long-term contracted) volume. Three scenarios over years 0..6. All thresholds and shares marked no_source are our assumptions for a synthetic exercise; the grounding lines cite public industry figures only for orders of magnitude.",
+    "as_of": "2026-09",
+    "horizon_years": 6
+  },
+  "grounding": {
+    "expansion_step_visits_per_year": {"value": [30, 150], "source": "B: a single shop expansion adds roughly +30 to +150 shop visits/yr, e.g. SAESM (Safran/RAM, Morocco) 70 -> 100 visits/yr by 2026; MTU Maintenance Zhuhai +50% to ~450 visits/yr after its expansion"},
+    "expansion_lead_years": {"value": [2, 4], "source": "B: announced shop expansions take 2-4 years from decision to first added capacity (SAESM, MTU Zhuhai timelines)"},
+    "tat_improvement_per_year": {"value": 0.10, "source": "B: GE reports LEAP / CFM56 turnaround time improving by more than 10%/yr from flow (lean) production in its overhaul network"},
+    "world_cfm56_shop_visits_per_year": {"value": [2300, 2400], "source": "B: world CFM56 shop visits ~2,300-2,400/yr through 2028 (trade press / OEM outlook); demand is roughly flat, so added capacity is not absorbed by market growth"},
+    "slot_allocation_rule": {"value": "proportional to contracted volume", "source": "B: network shops allocate induction slots roughly in proportion to each customer's contracted (long-term agreement) volume"},
+    "airline_visits_per_year": {"jal": 20.5, "ana": 9.9, "source": "A (this repo): baselines/jal-2026-10.json and baselines/ana-2026-10.json norms.visits_per_year"}
+  },
+  "assumptions": {
+    "commit_threshold_visits_per_year": {"value": 15, "source": "no_source: committed volume at or above which the shop treats the airline as an anchor customer and adds capacity"},
+    "expansion_lag_years": {"value": 3, "source": "no_source: middle of the public 2-4 year range"},
+    "expansion_step_visits_per_year": {"value": 30, "source": "no_source: low end of the public +30..+150 range (one line, not a new hangar)"},
+    "shop_total_visits_per_year": {"value": 300, "source": "no_source: order of magnitude of one large network shop (SAESM 100, MTU Zhuhai 450)"},
+    "long_term_price_discount": {"value": 0.03, "source": "no_source: price concession for long-term committed volume"},
+    "congestion_price_step_per_year": {"value": 0.05, "source": "no_source: annual price increase while the shop is congested"},
+    "congestion_utilisation_threshold": {"value": 0.90, "source": "no_source: shop utilisation above which quotes are raised"},
+    "shop_utilisation_year0": {"value": 0.95, "source": "no_source: today's shop-level utilisation (congested world, cf. README 混雑世界)"},
+    "tat_improvement_per_year": {"value": 0.10, "source": "B: GE >10%/yr, see grounding.tat_improvement_per_year"},
+    "tat_floor_share": {"value": 0.60, "source": "no_source: TAT cannot fall below 60% of today's quoted TAT (test and logistics floor)"}
+  },
+  "scenarios": {
+    "A": {"name": "反応なし", "slots": "unchanged", "tat": "unchanged", "price": "unchanged"},
+    "B": {"name": "契約量に応じて増強", "slots": "if V >= threshold: shop adds expansion_step visits/yr after expansion_lag years; airline's extra visits/yr = V / shop_total * expansion_step", "tat": "unchanged", "price": "-3% from the year the long-term contract starts (year 1)"},
+    "C": {"name": "混雑を価格に転嫁", "slots": "unchanged; effective capacity rises via shorter TAT", "tat": "-10%/yr down to tat_floor_share", "price": "+5%/yr while shop utilisation > 0.90; utilisation falls with TAT because demand is flat"}
+  }
+}

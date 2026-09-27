@@ -41,6 +41,7 @@ from shop_mc import sample
 from shop_mc.model import Plan
 
 import actions
+import baseline
 import cpd
 import ooda
 from baseline import CANDIDATES, DEFAULT_FLEET, DEFAULT_SHOPS
@@ -141,7 +142,7 @@ def simulated(p, sc, rows, idx, k):
     }
 
 
-FLOOR = {"tat_excess": 0.25, "forced": 0.5, "unsched": 0.3, "kit_lead": 1.5}  # measurement noise
+FLOOR = {"tat_excess": 0.25, "forced": 0.5, "unsched": 0.3, "kit_lead": 2.0}  # measurement noise (kit quotes: suppliers move together, so one month is one noisy draw)
 # The worlds are caricatures and the indicators are not independent: the likelihood is
 # tempered so a single month of evidence cannot make one world certain.
 TEMPER = 0.5
@@ -164,8 +165,7 @@ def loglik(obs, sims):
         if len(v) < 20:
             continue
         noise = FLOOR[name]
-        if name == "kit_lead":  # an average of several quotes; suppliers move together, so count at most 4
-            noise /= math.sqrt(min(4, max(1, obs["_kit_n"])))
+        # kit_lead: an average of several quotes, but suppliers move together -> one draw, no sharpening
         mu, sd = float(v.mean()), math.hypot(float(v.std()), noise)
         out += -0.5 * ((x - mu) / sd) ** 2 - math.log(sd)
         used[name] = {"mu": mu, "sd": sd}
@@ -212,8 +212,30 @@ def inputs_of(args, b):
 # ---------------------------------------------------------------- change points
 
 STREAM_WORLD = {"quoted_tat_weeks": "backlog", "slot_lead_weeks": "backlog", "kit_lead_weeks": "crunch"}
-MOVED = 0.5      # a world other than base above this = the Bayes update has moved
+MOVED_MASS = 0.6   # probability mass outside the base world above this = the Bayes update has moved
 STREAM_WORLD_LABEL = {"backlog": "混雑", "crunch": "逼迫"}
+
+
+def observed_world(act, p0):
+    """From the leading streams: the shift the change point measured, as a world case."""
+    streams = act.get("streams")
+    if not streams:
+        return None
+    det = cpd.detect_streams(streams)
+    fired = {n: d for n, d in det.items() if d["month"]}
+    if not fired:
+        return None
+    n = max(fired, key=lambda n: abs(fired[n]["shift_sigma"] or 0))
+    d = fired[n]
+    shift_months = (d["level_after"] - d["level_before"]) / 4.33
+    month = min(x["month"] for x in fired.values())
+    if n in ("quoted_tat_weeks", "slot_lead_weeks"):
+        lv = max(0.25, round(shift_months, 2))
+        return {"case": f"backlog@{lv}", "month": month, "level": lv, "stream": n,
+                "label": f"実測の混雑（工期 +{lv:.1f} か月）に合わせた計画", "what": f"先行指標（{cpd.STREAMS[n][0]}）が {month} か月目に示した変化から自動で作った前提"}
+    lead = max(1, int(round(p0.llp_kit_lead_months + shift_months)))
+    return {"case": f"crunch@{lead}", "month": month, "level": lead, "stream": n,
+            "label": f"実測の逼迫（キット納期 {lead} か月）に合わせた計画", "what": f"先行指標（{cpd.STREAMS[n][0]}）が {month} か月目に示した変化から自動で作った前提"}
 
 
 def change_points(act, timeline, prior, p0):
@@ -229,8 +251,7 @@ def change_points(act, timeline, prior, p0):
         fired_world = STREAM_WORLD[max(fired, key=lambda n: abs(det[n]["shift_sigma"] or 0))]
     bayes_month = None
     for x in timeline:
-        top = max(x["posterior"], key=x["posterior"].get)
-        if top != "base" and x["posterior"][top] > MOVED:
+        if 1 - x["posterior"]["base"] > MOVED_MASS:
             bayes_month = x["k"]; break
 
     # what earlier detection is worth: the switch to the world's plan, valued at the month
@@ -262,10 +283,8 @@ def change_points(act, timeline, prior, p0):
     for x in timeline:
         k = x["k"]
         c = bool(cpd_month and k >= cpd_month)
-        top = max(x["posterior"], key=x["posterior"].get)
-        moved = top != "base" and x["posterior"][top] > MOVED
-        shift = max(abs(x["posterior"][w] - prior[w]) for w in x["posterior"])
-        bmv = bool(moved or shift > 0.25)
+        moved = 1 - x["posterior"]["base"] > MOVED_MASS
+        bmv = bool(moved)
         state = ("both" if c and bmv else "cpd_only" if c else "bayes_only" if bmv else "none")
         agree.append({"k": k, "as_of": x["as_of"], "cpd": c, "bayes": bmv, "state": state})
     last = agree[-1]["state"] if agree else "none"
@@ -289,6 +308,7 @@ def change_points(act, timeline, prior, p0):
 
 
 def status(args) -> int:
+    WORLDS = list(globals()["WORLDS"])
     b = json.loads(args.baseline.read_text(encoding="utf-8"))
     inputs_of(args, b)
     act = json.loads(args.actuals.read_text(encoding="utf-8"))
@@ -297,11 +317,25 @@ def status(args) -> int:
     rows_by_esn = {r["esn"]: r for r in base_rows}
     probs = {w: actions.build(str(args.fleet), str(args.shops), (), w) for w in WORLDS}
     p0 = probs["base"]
-    lik_sc = {w: sample(probs[w], args.scenarios, args.seed) for w in WORLDS}
-    eval_sc = {w: sample(probs[w], args.eval_scenarios, args.seed + 999) for w in WORLDS}
-    lik_idx = {w: rows_to_indices(base_rows, option_index(lik_sc[w])) for w in WORLDS}
-    ev_idx = {w: option_index(eval_sc[w]) for w in WORLDS}
+    # a world that is not in the set: when the leading indicators show a shift, build the
+    # world from the measured level and solve a plan for it, so "no world fits" has an answer
+    obs = observed_world(act, p0)
+    worlds_all = list(WORLDS)
+    if obs:
+        probs["observed"] = actions.build(str(args.fleet), str(args.shops), (), obs["case"])
+        _a, _c, summ, rows = baseline.solve_summary(((), obs["case"], str(args.fleet), str(args.shops), 40, args.seed, 400, 60, ("budget",)))
+        if summ is not None:
+            C = dict(C)
+            C["observed"] = {"label": obs["label"], "world": "observed", "what": obs["what"], "feasible": True, "summary": summ, "rows": rows}
+            worlds_all.append("observed")
+        else:
+            probs.pop("observed"); obs = None
+    lik_sc = {w: sample(probs[w], args.scenarios, args.seed) for w in worlds_all}
+    eval_sc = {w: sample(probs[w], args.eval_scenarios, args.seed + 999) for w in worlds_all}
+    lik_idx = {w: rows_to_indices(base_rows, option_index(lik_sc[w])) for w in worlds_all}
+    ev_idx = {w: option_index(eval_sc[w]) for w in worlds_all}
     prior = {w: CASES[w][1] for w in WORLDS}
+    prior["observed"] = 0.0   # enters when the change point fires
     wp = json.loads(Path(args.fleet).read_text(encoding="utf-8")).get("meta", {}).get("world_prior")
     if wp:  # a rolled version starts from where last year's tracking ended
         prior = {w: float(wp.get(w, prior[w])) for w in WORLDS}
@@ -310,8 +344,9 @@ def status(args) -> int:
     cand_long = {c: (C[c]["summary"] or {}).get("long_spares", 0) for c in C}
 
     # expected cost of each base row in each world (for the spend forecast)
-    exp_cost = {w: eval_sc[w].cost.mean(0) for w in WORLDS}
+    exp_cost = {w: eval_sc[w].cost.mean(0) for w in worlds_all}
     cache = {}
+    OBS_PRIOR = 0.15
 
     def keep_of(c, w):  # the executed plan kept to the end, evaluated in world w
         if (c, w) not in cache:
@@ -321,13 +356,19 @@ def status(args) -> int:
 
     timeline = []
     for k in range(1, act["months"] + 1):
-        obs = observed(act, rows_by_esn, k)
+        WORLDS_K = worlds_all if (obs and k >= obs["month"]) else list(WORLDS)
+        if obs and k == obs["month"]:   # the observed world joins with a share of the prior
+            prior = {w: (OBS_PRIOR if w == "observed" else prior[w] * (1 - OBS_PRIOR)) for w in worlds_all}
+        obs_k = observed(act, rows_by_esn, k)
         ll, used = {}, {}
-        for w in WORLDS:
-            ll[w], used[w] = loglik(obs, simulated(probs[w], lik_sc[w], base_rows, lik_idx[w], k))
+        for w in WORLDS_K:
+            ll[w], used[w] = loglik(obs_k, simulated(probs[w], lik_sc[w], base_rows, lik_idx[w], k))
         m = max(ll.values())
-        z = {w: prior[w] * math.exp(TEMPER * (ll[w] - m)) for w in WORLDS}
-        post = {w: z[w] / sum(z.values()) for w in WORLDS}
+        z = {w: prior[w] * math.exp(TEMPER * (ll[w] - m)) for w in WORLDS_K}
+        post = {w: z[w] / sum(z.values()) for w in WORLDS_K}
+        for w in worlds_all:
+            post.setdefault(w, 0.0)
+        WORLDS = WORLDS_K  # noqa: F811  (the loops below run over the worlds active this month)
 
         # which plan are we following: inductions so far against each candidate's (engine,
         # month, workscope, shop -- with one contracted shop the timing and workscope are the plan)
@@ -378,6 +419,10 @@ def status(args) -> int:
                     x["to"]["month"] = p0.month_label(x["to"]["t"])
                     x["overdue"] = x["decide_t"] < k - 1
                     x["decide_by"] = p0.month_label(max(0, x["decide_t"]))
+                    # timing rule per decision: months left to the deadline (R) against the time a
+                    # decision takes (A): 1 month via the meeting, ~0.1 via an implicit rule
+                    R_ = x["decide_t"] - (k - 1)
+                    x["timing"] = {"R": R_, "A_meeting": 1, "A_rule": 0.1, "ok_meeting": R_ >= 1, "ok_rule": R_ >= 0.1}
                 pl = Plan(chosen=chosen, long_spares=cand_long[c], objective=0.0, status="hybrid")
                 a = assess(probs[w], pl, eval_sc[w])
                 # a change past its decision deadline needs an emergency order: a new LLP kit
@@ -390,6 +435,9 @@ def status(args) -> int:
             late_kits = sum(1 for x in changed if x["overdue"] and x["new_kit"])
             switch[c] = {
                 "late_kits": late_kits,
+                "timing": {"in_time_meeting": sum(1 for x in changed if x.get("timing", {}).get("ok_meeting")),
+                           "in_time_rule_only": sum(1 for x in changed if x.get("timing", {}).get("ok_rule") and not x.get("timing", {}).get("ok_meeting")),
+                           "too_late": sum(1 for x in changed if not x.get("timing", {}).get("ok_rule", True))},
                 "saving": sum(post[w] * by_w[w]["saving"] for w in WORLDS),
                 "aog_delta": sum(post[w] * by_w[w]["aog_delta"] for w in WORLDS),
                 "by_world": by_w, "changes": changed,
@@ -450,13 +498,18 @@ def status(args) -> int:
             "planned_by_now": sum(1 for r in C[executed]["rows"] if r["t"] < k),
         })
 
-    cpd_out = change_points(act, timeline, prior, p0)
+    WORLDS = worlds_all
+    cpd_out = change_points(act, timeline, {w: CASES.get(w, ("", 0.0))[1] if w != "observed" else 0.0 for w in worlds_all}, p0)
+    if obs:
+        cpd_out["observed_world"] = {**obs, "posterior_last": timeline[-1]["posterior"].get("observed", 0.0),
+                                     "switch_last": (timeline[-1]["switch"].get("observed") or {}).get("saving")}
     ooda_out = ooda.replay(b, act, timeline, cpd_out, ooda.load_rules(b.get("company", {}).get("id")), p0)
 
     out = {
         "cpd": cpd_out, "ooda": ooda_out,
         "baseline_version": b["version"], "months": [p0.month_label(t) for t in range(p0.horizon)],
-        "worlds": {w: {"label": CASES[w][0], "prior": prior[w], "what": CASES[w][2]} for w in WORLDS},
+        "worlds": {w: ({"label": CASES[w][0], "prior": CASES[w][1], "what": CASES[w][2]} if w != "observed"
+                       else {"label": obs["label"], "prior": OBS_PRIOR, "what": obs["what"]}) for w in worlds_all},
         "candidates": {c: {"label": v["label"], "world": v["world"], "what": v["what"], "feasible": v["feasible"],
                            "summary": v["summary"], "rows": v["rows"]} for c, v in C.items()},
         "indicators": {n: {"label": a, "what": d} for n, (a, d) in INDICATORS.items()},
@@ -471,7 +524,7 @@ def status(args) -> int:
     args.json_out.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
     last = timeline[-1]
     print(f"as of {last['as_of']}: following {C[last['executed']]['label']}; world "
-          + ", ".join(f"{CASES[w][0]} {last['posterior'][w]:.0%}" for w in WORLDS))
+          + ", ".join(f"{out['worlds'][w]['label']} {last['posterior'][w]:.0%}" for w in WORLDS))
     for c, s in last["switch"].items():
         print(f"  switch to {C[c]['label']}: saving {s['saving']:+,.0f} k$, AOG {s['aog_delta'] * 100:+.1f}pt, {len(s['changes'])} engines change")
     return 0

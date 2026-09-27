@@ -20,6 +20,12 @@ Action catalogue (prices are rough public-market estimates, not quotes)
                kits_ahead  order 4 LLP kits now (holding cost 6 %/year on 3,500 k$ each)
   contracts    slots       reserve 2 more slots at the OEM network shop (400 k$/year)
                fixed       Asian independent shop at fixed price (+8 %)
+               contract_fixed / contract_share50 / contract_pbh
+                           contract form of the company's own contracted shop at renewal
+                           (data/companies.json common.contract_forms): fixed price per
+                           workscope (overrun 0, +8 %), overrun shared 50/50 (+3 %), or
+                           PBH-style: fixed price = expected cost incl. findings, +5 %
+                           (approximation of a rate per engine flight hour)
                pool        engine pool / exchange: +2 short-term engines (350 k$/year)
   operations   substitute  fly missing capacity with another type (450 k$ / engine-month)
                rotate      move high-margin engines to low-utilisation aircraft: one in
@@ -48,9 +54,24 @@ from shop_mc.data import Quote, Shop
 from shop_mc.model import InfeasibleError
 
 from decide import ALL_HARD, REQS, assess, case_problem
-from levers import apply as apply_lever
+from levers import apply as apply_lever, contracted_shop
 
 HERE = Path(__file__).resolve().parent
+
+# contract forms for the company's own contracted shop (overrides in data/companies.json)
+CONTRACT_FORMS = {
+    "contract_fixed": {"overrun_share": 0.0, "premium": 0.08},
+    "contract_share50": {"overrun_share": 0.5, "premium": 0.03},
+    "contract_pbh": {"overrun_share": 0.0, "premium": 0.05, "pbh": True},
+}
+try:
+    _cf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))["common"].get("contract_forms", {})
+    for _k, _v in _cf.items():  # keys "fixed" / "share50" / "pbh" (or with the contract_ prefix)
+        _k = _k if _k.startswith("contract_") else f"contract_{_k}"
+        if _k in CONTRACT_FORMS and isinstance(_v, dict):
+            CONTRACT_FORMS[_k] = {**CONTRACT_FORMS[_k], **{a: b for a, b in _v.items() if a in ("overrun_share", "premium", "pbh")}}
+except (OSError, ValueError, KeyError):
+    pass
 
 CATALOGUE = {
     "midlife": ("調達", "中寿命エンジンへの入れ替え（正味 5,000 k$、最大 8 基）"),
@@ -58,6 +79,9 @@ CATALOGUE = {
     "kits_ahead": ("調達", "LLP キット 4 セットを先行発注"),
     "slots": ("契約", "OEM 工場の枠を 2 つ事前確保"),
     "fixed": ("契約", "アジア独立系を固定価格化（+8%）"),
+    "contract_fixed": ("契約", "契約工場を固定価格契約に（超過 0、+8%）"),
+    "contract_share50": ("契約", "契約工場と超過を折半（分担 50%、+3%）"),
+    "contract_pbh": ("契約", "契約工場を時間課金（PBH 型：所見込み期待費用で固定、+5%）"),
     "pool": ("契約", "エンジン・プール契約（+2 台）"),
     "substitute": ("運用", "別機種での代替運航"),
     "rotate": ("運用", "ローテーションで寿命を 1 か月延ばす（3 基に 1 基）"),
@@ -93,6 +117,12 @@ def apply_action(p, a):
     ids = {k.id for k in p.shops}
     if a == "fixed" and "IND-ASIA" not in ids:
         raise NotApplicable(a)
+    if a in CONTRACT_FORMS:
+        try:
+            contracted_shop(p)
+        except ValueError:  # the tender data: several shops, no single contract to reform
+            raise NotApplicable(a) from None
+        return apply_lever(p, ("contract", {"shop": None, **CONTRACT_FORMS[a]}))
     if a in ("usm", "pool", "fixed", "spares"):
         return apply_lever(p, {"usm": ("usm", 0.10), "pool": ("pool", 2), "fixed": ("fixed", 0.08), "spares": ("spares", 2)}[a])
     if a == "substitute":
@@ -135,7 +165,10 @@ def build(fleet, shops, actions, case):
 
 def job(args):
     actions, case, fleet, shops, n, seed, time_limit, n_eval = args
-    p = build(fleet, shops, actions, case)
+    try:
+        p = build(fleet, shops, actions, case)
+    except NotApplicable:
+        return actions, case, None
     t0 = time.perf_counter()
     try:
         plan = solve_saa(p, sample(p, n, seed), req=Requirements(**REQ), time_limit=time_limit, threads=1)
