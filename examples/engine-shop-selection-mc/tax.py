@@ -149,7 +149,20 @@ def spares_of(fleet: dict, P: dict, r: float) -> dict:
     long_m = fleet["long_term_spare"]["cost_per_month"]
     short_m = fleet["short_term_lease"]["cost_per_month"]
     rows = []
-    for years in (2, 10):
+    # the whole ten-year curve, year by year, and the rows for the 2 / 5 / 10-year views:
+    # the 2-year window is the plan's, 5 years is the horizon a spare is really held for,
+    # 10 years the depreciation life
+    curve = []
+    for years in range(1, 11):
+        rate = [rate_for(P, f"FY{2026 + y}") for y in range(years)]
+        shield = pv([sched[y] * rate[y] for y in range(years)], r)
+        residual = price - sum(sched[:years])
+        buy = price - shield - residual / (1 + r) ** years
+        long_pv = pv([long_m * 12 * (1 - rate[y]) for y in range(years)], r)
+        short_pv = pv([short_m * 12 * (1 - rate[y]) for y in range(years)], r)
+        curve.append({"years": years, "buy": buy, "long": long_pv, "short": short_pv})
+    crossover = next((c["years"] for c in curve if c["buy"] < c["long"]), None)
+    for years in (2, 5, 10):
         rate = [rate_for(P, f"FY{2026 + y}") for y in range(years)]
         shield = pv([sched[y] * rate[y] for y in range(years)], r)
         residual = price - sum(sched[:years])
@@ -163,7 +176,7 @@ def spares_of(fleet: dict, P: dict, r: float) -> dict:
         rows.append({"years": years, "buy": {"price": price, "shield_pv": shield, "residual_pv": residual / (1 + r) ** years, "after_tax_pv": buy,
                                              "pre_tax_pv": price - residual / (1 + r) ** years},
                      "long": lease["long"], "short": lease["short"], "best": min(cands, key=cands.get)})
-    return {"rows": rows, "price_k": price, "long_per_month": long_m, "short_per_month": short_m,
+    return {"rows": rows, "curve": curve, "crossover_years": crossover, "price_k": price, "long_per_month": long_m, "short_per_month": short_m,
             "note": "購入は税務簿価で期末に売れる（売却損益なし）と置く。リース料は当期の損金。判断は保有か借りるかの物差しであって、税のために保有する話ではない"}
 
 

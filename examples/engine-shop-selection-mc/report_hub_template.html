@@ -1015,7 +1015,12 @@ const DATA = /*__DATA__*/null;
       + `<p class="chart-note">後の年度に移る費用 ${(sh.moved_k / 1000).toFixed(2)} 百万ドル。税引前の差 ${(sh.pre_tax_delta_k / 1000).toFixed(2)}、税引後の差 ${(sh.after_tax_delta_k / 1000).toFixed(2)}。納税が 1 年遅れる分の時間価値 ${(sh.timing_value_k / 1000).toFixed(3)} 百万ドル（税率 × 移る額 × (1 − 1/(1+r))）</p>`, esc(sh.note));
     // 3. spares
     const sp = T.spares;
-    const p3 = panel("予備エンジン 1 基：購入／長期リース／短期リース（税引後の現在価値）",
+    const cv = sp.curve || [];
+    const spChart = cv.length ? lineChart({ xs: cv.map((c_) => c_.years), series: [{ ys: cv.map((c_) => c_.buy / 1000), color: "var(--ink)" }, { ys: cv.map((c_) => c_.long / 1000), color: "var(--accent)" }, { ys: cv.map((c_) => c_.short / 1000), color: "var(--warn)", dash: "4 3" }],
+      vlines: [{ x: 5, color: "var(--muted)", dash: "4 3", label: "5 年で見る" }].concat(sp.crossover_years ? [{ x: sp.crossover_years, color: "var(--good)", label: `${sp.crossover_years} 年目から購入が得` }] : []),
+      yticks: [0, 2, 4, 6, 8], xticks: cv.map((c_) => c_.years), xfmt: (v) => v + " 年", yfmt: (v) => v + " M$", xlabel: "持つ年数（10 年の中で）", ylabel: "税引後の現在価値（百万ドル）", aria: "予備 1 基の持ち方" }, 900, 260)
+      + legend([["購入（償却の盾・残存簿価を引く）", "var(--ink)", 1], ["長期リース", "var(--accent)", 1], ["短期リース", "var(--warn)", 1]]) : "";
+    const p3 = panel("予備エンジン 1 基：購入／長期リース／短期リース（税引後の現在価値、10 年の中で 5 年を見る）", spChart +
       `<table><thead><tr><th>期間</th><th>購入（${sp.price_k.toLocaleString()} k$、償却の盾と残存簿価を引く）</th><th>長期リース（${sp.long_per_month} k$/月）</th><th>短期リース（${sp.short_per_month} k$/月）</th><th>安いのは</th></tr></thead><tbody>${sp.rows.map((x) => `<tr><td>${x.years} 年</td><td>${k(x.buy.after_tax_pv)}（税引前 ${k(x.buy.pre_tax_pv)}、盾 ${k(x.buy.shield_pv)}）</td><td>${k(x.long.after_tax_pv)}（税引前 ${k(x.long.pre_tax_pv)}）</td><td>${k(x.short.after_tax_pv)}（税引前 ${k(x.short.pre_tax_pv)}）</td><td><b>${nm[x.best]}</b></td></tr>`).join("")}</tbody></table>`, esc(sp.note));
     // 4. invest
     const iv = T.invest;
