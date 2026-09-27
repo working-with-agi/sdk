@@ -508,7 +508,7 @@ def concept_page() -> str:
             ("ov-ai", "④ 何が働くか", "AI 支援ソルバー（AI-assisted solver）：計画を解くのは数理最適化とシミュレーション、前提を学ぶのは統計、残り寿命は機械学習、候補づくり・説明・振り分けは AI、決めるのは人。")]
     tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
     caps = "".join(f'<p class="cap" data-for="{g}" {"" if g == "none" else "hidden"}>{c}</p>' for g, _, c in TABS)
-    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>あるべき分析ストラテジー（層 × 流れ）</title>
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画の全体像</title>
 <style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
 .bar{{display:flex;gap:8px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:{BG};z-index:2}}
 .bar button{{font:inherit;font-size:13px;padding:6px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer}} .bar button.on{{background:{HEAD};color:#fff;border-color:{HEAD}}}
@@ -518,7 +518,14 @@ svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
 .anim .flow.dashed{{stroke-dasharray:7 5;animation-duration:1.6s}} .dot{{display:none}} .anim .dot{{display:inline}}
 @keyframes dash{{to{{stroke-dashoffset:-24}}}} @media (prefers-reduced-motion: reduce){{.anim .flow{{animation:none}} .anim .dot{{display:none}}}}
 .bar label{{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center}}
+.lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
+.lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
 .note{{padding:10px 20px 24px;font-size:12px;color:{MUTE};max-width:1400px}}</style></head><body>
+<header class="lead"><h1>エンジン整備計画を、航空計画から意思決定まで一本でつなぐ</h1>
+<p class="msg">便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。その流れを 5 つの層で示した図です。</p>
+<ul class="keys"><li><b>目標は上から下へ。</b>便数が必要エンジン数を決め、エンジン計画はそれに合わせる。</li>
+<li><b>新しいのは 3 行目。</b>前提を一つの方法で決めず、4 つの学習手法で並行して学び、結果を統合してから計画を解く。前提が外れても壊れにくい計画になる。</li>
+<li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul></header>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
 {svg}
