@@ -249,17 +249,22 @@ const DATA = /*__DATA__*/null;
   }
 
   function landing(R) {
-    const L = R.landing, W = 900, rowH = 36, Lx = 130, H = L.length * rowH + 10, top = Math.max(...L.map((r) => Math.max(r.total, r.budget))) * 1.1, x = (v) => Lx + v / top * (W - Lx - 140);
+    const L = R.landing, W = 900, rowH = 44, Lx = 130, H = L.length * rowH + 10;
+    const top = Math.max(...L.map((r) => Math.max(r.p90 || r.total, r.budget))) * 1.08, x = (v) => Lx + v / top * (W - Lx - 230);
     let s = "";
     L.forEach((r, i) => {
-      const y = 6 + i * rowH; let acc = 0;
+      const y = 8 + i * rowH;
       s += `<text class="lbl" x="${Lx - 8}" y="${y + 14}" text-anchor="end">${r.fy}${r.closed ? "（締め）" : ""}</text>`;
-      [["invoiced", "var(--accent)", "請求済み"], ["committed", "var(--ws-pr)", "工場で作業中"], ["to_come", "var(--accent-soft)", "これから"]].forEach(([kk, col, lab]) => { s += `<rect x="${x(acc)}" y="${y + 3}" width="${x(acc + r[kk]) - x(acc)}" height="16" fill="${col}"><title>${r.fy} ${lab} ${musd(r[kk])} 百万ドル</title></rect>`; acc += r[kk]; });
-      s += `<line x1="${x(r.budget)}" x2="${x(r.budget)}" y1="${y}" y2="${y + 22}" stroke="var(--crit)" stroke-width="2"/>`;
-      s += `<text class="tick" x="${x(Math.max(r.total, r.budget)) + 8}" y="${y + 15}">${musd(r.total)} / 予算 ${musd(r.budget)}（先月比 ${Math.abs(r.change) < 50 ? "±0" : (r.change > 0 ? "+" : "") + musd(r.change)}）</text>`;
+      s += `<rect x="${Lx}" y="${y + 4}" width="${x(r.invoiced) - Lx}" height="14" fill="var(--accent)"><title>請求済み ${musd(r.invoiced)}</title></rect>`;
+      s += `<line x1="${x(r.invoiced)}" x2="${x(r.p10)}" y1="${y + 11}" y2="${y + 11}" stroke="var(--muted)" stroke-dasharray="2 3"><title>まだ請求されていない分</title></line>`;
+      s += `<rect x="${x(r.p10)}" y="${y + 4}" width="${Math.max(2, x(r.p90) - x(r.p10))}" height="14" rx="7" fill="${r.p_over >= 0.5 ? "var(--crit-soft)" : "var(--accent-soft)"}"><title>着地の幅 ${musd(r.p10)}〜${musd(r.p90)}（10〜90%）</title></rect>`;
+      s += `<circle cx="${x(r.p50)}" cy="${y + 11}" r="5" fill="var(--ink)"><title>中央 ${musd(r.p50)}</title></circle>`;
+      s += `<line x1="${x(r.budget)}" x2="${x(r.budget)}" y1="${y}" y2="${y + 24}" stroke="var(--crit)" stroke-width="2.5"><title>予算 ${musd(r.budget)}</title></line>`;
+      s += `<text class="tick" x="${x(Math.max(r.p90, r.budget)) + 8}" y="${y + 10}">${musd(r.p10)}〜${musd(r.p90)}（予算 ${musd(r.budget)}）</text>`;
+      s += `<text class="tick" x="${x(Math.max(r.p90, r.budget)) + 8}" y="${y + 23}" style="fill:${r.p_over >= 0.5 ? "var(--crit)" : "var(--muted)"}">予算超過の確率 ${pct(r.p_over)}・先月比 ${Math.abs(r.change) < 50 ? "±0" : (r.change > 0 ? "+" : "") + musd(r.change)}</text>`;
     });
-    return sec("7", "年度の着地見込み（百万ドル）", `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度の着地">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--accent)"></span>請求済み</span><span><span class="sw" style="background:var(--ws-pr)"></span>工場で作業中</span><span><span class="sw" style="background:var(--accent-soft)"></span>これから</span><span><span class="sw" style="background:var(--crit);width:3px"></span>予算</span></div>`,
-      "棒の右端が年度の着地の見込み、赤い線が予算。締めた年度は実績で確定。「先月比」は見込みが先月からどれだけ動いたか");
+    return sec("7", "年度の着地見込み（百万ドル、シナリオの幅つき）", `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="年度の着地">${s}</svg><div class="legend"><span><span class="sw" style="background:var(--accent)"></span>請求済み（確定）</span><span><span class="sw" style="background:var(--accent-soft)"></span>着地の幅（10〜90%）</span><span><span class="sw" style="background:var(--crit-soft)"></span>超過のほうがあり得る年度</span><span><span class="sw" style="background:var(--ink);border-radius:50%"></span>中央</span><span><span class="sw" style="background:var(--crit);width:3px"></span>予算</span></div>`,
+      "濃い棒は請求済みで確定した分。淡い帯が、まだ請求されていない入場の費用の幅（分解で見つかる追加作業、為替、故障、前提の世界を確率で混ぜたもの）。赤い線（予算）が帯の中にあれば「超えるかもしれない」、帯より左なら「ほぼ超える」。平均だけで予算と比べると、帯の半分以上が予算を超えていても見逃す");
   }
 
   function unsched(R) {

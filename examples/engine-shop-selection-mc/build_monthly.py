@@ -93,9 +93,12 @@ def month_reports(b: dict, t: dict, act: dict, u: dict) -> list[dict]:
         fy_now = f"FY{y if mth >= 4 else y - 1}"
         for r in land:
             r["closed"] = r["fy"] < fy_now
-        over = [r for r in land if not r["closed"] and r["budget"] and r["total"] > r["budget"] * 1.05]
+        # judge the budget on the scenario range, not the mean: flag an open fiscal year when
+        # it is more likely than not to exceed, or when even the 90 % case is well over
+        over = [r for r in land if not r["closed"] and r["budget"] and r.get("p_over", 0) >= 0.5]
         for r in over:
-            approvals.append(f"{r['fy']} の着地が予算を {r['total'] / r['budget'] - 1:.0%} 超える見込み：予算の見直しか入場の組み替え")
+            approvals.append(f"{r['fy']} は予算を超える確率 {r['p_over']:.0%}（着地 {r['p10'] / 1000:.0f}〜{r['p90'] / 1000:.0f} 百万ドル、予算 {r['budget'] / 1000:.0f}）："
+                             "予算の見直しか入場の組み替え、または予備費の確保")
         if not approvals:
             approvals.append("今月、会議で決めることはありません")
         # the three lines

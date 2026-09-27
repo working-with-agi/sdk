@@ -324,6 +324,28 @@ def status(args) -> int:
                 row["to_come"] += e
         for row in fc.values():
             row["total"] = row["invoiced"] + row["committed"] + row["to_come"]
+        # the scenario range: draw a world by its probability, then one of its scenarios, and
+        # add up the visits not yet invoiced (findings, FX and failures move together within a
+        # scenario). Gives the 10-90 % landing per fiscal year and the chance of exceeding budget.
+        rng_fc = np.random.default_rng(args.seed + k)
+        draws = 2000
+        wsel = rng_fc.choice(len(WORLDS), size=draws, p=[post[w] for w in WORLDS])
+        open_rows = [r for r in C[executed]["rows"] if r["esn"] not in rets]
+        by_fy = {}
+        for j, w in enumerate(WORLDS):
+            idx_draw = np.nonzero(wsel == j)[0]
+            if not len(idx_draw):
+                continue
+            sidx = rng_fc.integers(0, eval_sc[w].n, len(idx_draw))
+            for r in open_rows:
+                i = ev_idx[w][key(r["esn"], r["shop"], r["workscope"], r["t"], r["rush"])]
+                by_fy.setdefault(r["fy"], np.zeros(draws))[idx_draw] += eval_sc[w].cost[sidx, i]
+        for fy, row in fc.items():
+            tot = row["invoiced"] + by_fy.get(fy, np.zeros(draws))
+            row["p10"], row["p50"], row["p90"] = (float(np.percentile(tot, q)) for q in (10, 50, 90))
+            row["p_over"] = float((tot > row["budget"]).mean()) if row["budget"] else 0.0
+            row["by_world"] = {w: row["invoiced"] + sum(float(exp_cost[w][ev_idx[w][key(r["esn"], r["shop"], r["workscope"], r["t"], r["rush"])]])
+                                                         for r in open_rows if r["fy"] == fy) for w in WORLDS}
 
         timeline.append({
             "k": k, "as_of": p0.month_label(k - 1), "posterior": post, "observed": obs,
