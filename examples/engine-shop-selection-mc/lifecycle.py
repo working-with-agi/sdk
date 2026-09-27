@@ -50,6 +50,7 @@ AIRCRAFT, ENGINES = 76, 166
 START_MONTH = 10  # calendar month of the snapshot month (t = 0 of the 2-year window)
 FLIGHT_INDEX = {1: 0.90, 2: 0.88, 3: 1.06, 4: 0.97, 5: 1.02, 6: 0.90,
                 7: 1.02, 8: 1.12, 9: 0.98, 10: 1.00, 11: 0.96, 12: 1.03}
+DEFAULT_FLIGHT_INDEX = dict(FLIGHT_INDEX)
 AIRFRAME_CHECKS = {1: 6, 2: 6, 3: 2, 4: 4, 5: 2, 6: 6, 7: 3, 8: 2, 9: 4, 10: 4, 11: 6, 12: 2}
 BASE_NEEDED = 68
 
@@ -72,6 +73,10 @@ ESN_PREFIX = "896"
 SUBFLEETS = [{"name": "fleet", "share": 1.0, "cycles_year": 2000, "fh_cycle": HOURS_PER_CYCLE, "severity": 1.0}]
 INITIAL_DROP = 0.0            # degC lost in the first 1,000 cycles after a shop visit
 FAN_LIFE = None               # fan/booster LLP life [cycles]; None = not tracked (old sample)
+
+
+DEFAULTS = {"initial_drop": INITIAL_DROP, "egt_loss": EGT_LOSS_PER_1000, "restore": dict(RESTORE), "core_life": CORE_LIFE, "lp_life": LP_LIFE,
+            "subfleets": [dict(x) for x in SUBFLEETS], "cpm": CYCLES_PER_MONTH, "fh": HOURS_PER_CYCLE}
 
 
 def leg_factor(fh_cycle: float) -> float:
@@ -99,14 +104,27 @@ def configure(cfg: dict) -> None:
                      for x in subs]
         CYCLES_PER_MONTH = sum(x["share"] * x["cycles_year"] for x in SUBFLEETS) / 12
         HOURS_PER_CYCLE = sum(x["share"] * x["cycles_year"] * x["fh_cycle"] for x in SUBFLEETS) / (12 * CYCLES_PER_MONTH)
-    if "wear" in cfg:
-        w = cfg["wear"]
-        INITIAL_DROP = w["initial_drop"]
-        EGT_LOSS_PER_1000 = w["mature_loss_per_1000"]
-        RESTORE = {k: float(v) for k, v in w["restore"].items()}
-        FAN_LIFE = w.get("fan_life")
-    if "llp_lives" in cfg:
-        CORE_LIFE, LP_LIFE = cfg["llp_lives"]["core"], cfg["llp_lives"]["lp"]
+    # every optional block resets to the module default when absent, so one company's
+    # settings never leak into the next built in the same process
+    w = cfg.get("wear") or {}
+    INITIAL_DROP = w.get("initial_drop", DEFAULTS["initial_drop"])
+    EGT_LOSS_PER_1000 = w.get("mature_loss_per_1000", DEFAULTS["egt_loss"])
+    RESTORE = {k: float(v) for k, v in w.get("restore", DEFAULTS["restore"]).items()}
+    FAN_LIFE = w.get("fan_life")
+    lives = cfg.get("llp_lives") or {}
+    CORE_LIFE, LP_LIFE = lives.get("core", DEFAULTS["core_life"]), lives.get("lp", DEFAULTS["lp_life"])
+    if "subfleets" not in cfg:
+        SUBFLEETS = [dict(x) for x in DEFAULTS["subfleets"]]
+        CYCLES_PER_MONTH, HOURS_PER_CYCLE = DEFAULTS["cpm"], DEFAULTS["fh"]
+    # the demand layer can replace the assumed seasonal shape and scale the utilisation
+    # (plan_from_demand.py): the same simulation, different operations side
+    global FLIGHT_INDEX
+    FLIGHT_INDEX = {int(m): float(v) for m, v in cfg["flight_index"].items()} if cfg.get("flight_index") else dict(DEFAULT_FLIGHT_INDEX)
+    if cfg.get("utilisation_multiplier"):
+        u = float(cfg["utilisation_multiplier"])
+        for x in SUBFLEETS:
+            x["cycles_year"] = x["cycles_year"] * u
+        CYCLES_PER_MONTH *= u
 
 
 def month_of(t: int) -> int:

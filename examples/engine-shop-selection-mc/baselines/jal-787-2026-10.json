@@ -29,9 +29,9 @@
   "fleet": "data/jal/787/fleet.json",
   "shops": "data/jal/787/shops.json"
  },
- "created": "2026-09-27T04:00:44+00:00",
+ "created": "2026-09-27T05:55:59+00:00",
  "inputs": {
-  "fleet.json": "bf39bc8b32350421",
+  "fleet.json": "383a6d7f7a82d3ef",
   "shops.json": "8b8f0bcfc216548c"
  },
  "settings": {

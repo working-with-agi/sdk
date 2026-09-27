@@ -4,7 +4,7 @@
   "name": "ANA（ANA ウイングス運航）",
   "generator": "company.py",
   "lifecycle_seed": 9,
-  "description": "ANA（ANA ウイングス運航）: 737-800 39 機、保有エンジン 86 基。20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る 24 基。",
+  "description": "ANA（ANA ウイングス運航）: 737-800 39 機、保有エンジン 86 基。20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る 22 基。 需要の層から導いた前提（稼働 x1.000、需要の伸び +3.8%/年、季節の形は市場の実績）で窓を引き直したもの。",
   "sources": {
    "aircraft": "ANA 決算資料 FY2024 末（737-800 39 機、所有 26・リース 13） https://www.ana.co.jp/group/investors/data/kessan/pdf/2025_04_2.pdf",
    "engines": "no_source: 予備エンジン数は非公表。業界の目安（取付エンジンの約 10%）",
@@ -40,25 +40,25 @@
    ],
    "norms_by_subfleet": {
     "ANAウイングス": {
-     "visits_per_year": 9.933333333333334,
+     "visits_per_year": 11.266666666666667,
      "cycles_per_year": 1900,
      "fh_per_cycle": 1.2,
      "severity": 0.848
     }
    },
    "flight_index": {
-    "1": 0.9,
-    "2": 0.88,
-    "3": 1.06,
-    "4": 0.97,
-    "5": 1.02,
-    "6": 0.9,
-    "7": 1.02,
-    "8": 1.12,
-    "9": 0.98,
-    "10": 1.0,
-    "11": 0.96,
-    "12": 1.03
+    "1": 0.926,
+    "2": 0.928,
+    "3": 1.095,
+    "4": 0.916,
+    "5": 0.997,
+    "6": 0.915,
+    "7": 1.014,
+    "8": 1.172,
+    "9": 1.034,
+    "10": 1.089,
+    "11": 1.029,
+    "12": 0.972
    },
    "airframe_checks": {
     "1": 3,
@@ -84,30 +84,30 @@
  "start": "2026-10",
  "horizon_months": 24,
  "required_positions": [
-  70,
-  68,
   74,
-  64,
-  62,
-  76,
+  73,
+  71,
+  67,
+  67,
+  78,
   68,
   72,
-  64,
-  72,
-  76,
-  70,
-  70,
   68,
+  75,
+  78,
+  77,
+  77,
+  75,
   74,
-  64,
-  62,
-  76,
-  68,
-  72,
-  64,
-  72,
-  76,
-  70
+  70,
+  70,
+  78,
+  70,
+  75,
+  71,
+  77,
+  78,
+  78
  ],
  "buffer_spares": [
   3,
@@ -207,15 +207,15 @@
  "budget": {
   "fiscal_year_start_month": 4,
   "by_fiscal_year": {
-   "FY2026": 47000.0,
-   "FY2027": 95500.0,
-   "FY2028": 48500.0
+   "FY2026": 57200.0,
+   "FY2027": 116300.0,
+   "FY2028": 59000.0
   }
  },
  "fx": {
   "volatility": 0.1
  },
- "terminal_engines": 79,
+ "terminal_engines": 81,
  "transition": {
   "start": "2026-10",
   "every_months": 2
@@ -727,175 +727,7 @@
   },
   "engines": [
    {
-    "esn": "A-103",
-    "lessor": "リース会社 A",
-    "return_t": 5,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
     "esn": "A-105",
-    "lessor": "リース会社 B",
-    "return_t": 5,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-107",
-    "lessor": "リース会社 C",
-    "return_t": 4,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-108",
-    "lessor": "リース会社 A",
-    "return_t": 22,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-113",
-    "lessor": "リース会社 B",
-    "return_t": 18,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-115",
-    "lessor": "リース会社 C",
-    "return_t": 18,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-118",
-    "lessor": "リース会社 A",
-    "return_t": 8,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-121",
-    "lessor": "リース会社 B",
-    "return_t": 21,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-124",
-    "lessor": "リース会社 C",
-    "return_t": 14,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-127",
-    "lessor": "リース会社 A",
-    "return_t": 9,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-130",
-    "lessor": "リース会社 B",
-    "return_t": 6,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-133",
-    "lessor": "リース会社 C",
-    "return_t": 6,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-134",
-    "lessor": "リース会社 A",
-    "return_t": 21,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-135",
-    "lessor": "リース会社 B",
-    "return_t": 18,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-137",
-    "lessor": "リース会社 C",
-    "return_t": 9,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-145",
-    "lessor": "リース会社 A",
-    "return_t": 10,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-151",
-    "lessor": "リース会社 B",
-    "return_t": 17,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-153",
-    "lessor": "リース会社 C",
-    "return_t": 9,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-163",
-    "lessor": "リース会社 A",
-    "return_t": 15,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-164",
-    "lessor": "リース会社 B",
-    "return_t": 6,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-165",
-    "lessor": "リース会社 C",
-    "return_t": 21,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-178",
     "lessor": "リース会社 A",
     "return_t": 7,
     "min_llp_cycles": 3000,
@@ -903,17 +735,169 @@
     "extend_option_months": 6
    },
    {
-    "esn": "A-182",
+    "esn": "A-107",
     "lessor": "リース会社 B",
+    "return_t": 21,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-115",
+    "lessor": "リース会社 C",
     "return_t": 3,
     "min_llp_cycles": 3000,
     "min_egt_margin": 15,
     "extend_option_months": 6
    },
    {
-    "esn": "A-186",
+    "esn": "A-118",
+    "lessor": "リース会社 A",
+    "return_t": 9,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-119",
+    "lessor": "リース会社 B",
+    "return_t": 5,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-122",
     "lessor": "リース会社 C",
-    "return_t": 11,
+    "return_t": 5,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-123",
+    "lessor": "リース会社 A",
+    "return_t": 4,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-132",
+    "lessor": "リース会社 B",
+    "return_t": 22,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-133",
+    "lessor": "リース会社 C",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-137",
+    "lessor": "リース会社 A",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-140",
+    "lessor": "リース会社 B",
+    "return_t": 8,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-145",
+    "lessor": "リース会社 C",
+    "return_t": 21,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-151",
+    "lessor": "リース会社 A",
+    "return_t": 14,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-155",
+    "lessor": "リース会社 B",
+    "return_t": 9,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-157",
+    "lessor": "リース会社 C",
+    "return_t": 6,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-161",
+    "lessor": "リース会社 A",
+    "return_t": 6,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-169",
+    "lessor": "リース会社 B",
+    "return_t": 21,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-176",
+    "lessor": "リース会社 C",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-178",
+    "lessor": "リース会社 A",
+    "return_t": 9,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-180",
+    "lessor": "リース会社 B",
+    "return_t": 10,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-181",
+    "lessor": "リース会社 C",
+    "return_t": 17,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-185",
+    "lessor": "リース会社 A",
+    "return_t": 9,
     "min_llp_cycles": 3000,
     "min_egt_margin": 15,
     "extend_option_months": 6

@@ -1,0 +1,645 @@
+{
+ "company": "ana",
+ "derived": {
+  "flight_index": {
+   "1": 0.926,
+   "2": 0.928,
+   "3": 1.095,
+   "4": 0.916,
+   "5": 0.997,
+   "6": 0.915,
+   "7": 1.014,
+   "8": 1.172,
+   "9": 1.034,
+   "10": 1.089,
+   "11": 1.029,
+   "12": 0.972
+  },
+  "demand_growth_per_year": 0.0378,
+  "utilisation_multiplier": 1.0,
+  "how": {
+   "flight_index": "市場の月次 RPK ÷ 平均（航空輸送統計速報 13 か月）",
+   "growth": "FY2023→FY2025 の市場 RPK の年率（99,354 → 107,001 百万人キロ）",
+   "utilisation": "利用率 78.6% を閾値 85% に戻しつつ需要 +3.8% を運ぶのに要る供給の比 0.959、上限 1.1",
+   "lf_now": 0.7858,
+   "ask_ratio": 0.9593
+  }
+ },
+ "current": {
+  "flight_index": {
+   "1": 0.9,
+   "2": 0.88,
+   "3": 1.06,
+   "4": 0.97,
+   "5": 1.02,
+   "6": 0.9,
+   "7": 1.02,
+   "8": 1.12,
+   "9": 0.98,
+   "10": 1.0,
+   "11": 0.96,
+   "12": 1.03
+  },
+  "subfleets": [
+   {
+    "name": "ANAウイングス",
+    "aircraft": 39,
+    "cycles_per_year": 1900,
+    "fh_per_cycle": 1.2,
+    "climate": 1.0
+   }
+  ]
+ },
+ "inputs": {
+  "due_now": 22,
+  "due_new": 24,
+  "newly_due": 15,
+  "no_longer_due": 13,
+  "earlier": 3,
+  "later": 5,
+  "mean_shift_months": 1.0,
+  "shifts": [
+   {
+    "esn": "A-103",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     16,
+     21
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-105",
+    "limit_shift": 9,
+    "window_now": [
+     2,
+     7
+    ],
+    "window_new": [
+     11,
+     16
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-107",
+    "limit_shift": 8,
+    "window_now": [
+     1,
+     6
+    ],
+    "window_new": [
+     9,
+     14
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-108",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     4,
+     9
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-113",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     11,
+     16
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-115",
+    "limit_shift": -9,
+    "window_now": [
+     10,
+     15
+    ],
+    "window_new": [
+     1,
+     6
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-119",
+    "limit_shift": null,
+    "window_now": [
+     14,
+     19
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-121",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     5,
+     10
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-122",
+    "limit_shift": null,
+    "window_now": [
+     9,
+     14
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-123",
+    "limit_shift": null,
+    "window_now": [
+     12,
+     17
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-124",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     0,
+     4
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-127",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     16,
+     21
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-130",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     0,
+     5
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-132",
+    "limit_shift": null,
+    "window_now": [
+     18,
+     23
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-133",
+    "limit_shift": 11,
+    "window_now": [
+     5,
+     10
+    ],
+    "window_new": [
+     16,
+     21
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-134",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     13,
+     18
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-135",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     1,
+     6
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-137",
+    "limit_shift": -23,
+    "window_now": [
+     18,
+     23
+    ],
+    "window_new": [
+     0,
+     0
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-140",
+    "limit_shift": null,
+    "window_now": [
+     6,
+     11
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-145",
+    "limit_shift": 6,
+    "window_now": [
+     8,
+     13
+    ],
+    "window_new": [
+     14,
+     19
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-151",
+    "limit_shift": 17,
+    "window_now": [
+     0,
+     5
+    ],
+    "window_new": [
+     17,
+     22
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-153",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     2,
+     7
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-155",
+    "limit_shift": null,
+    "window_now": [
+     3,
+     8
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-157",
+    "limit_shift": null,
+    "window_now": [
+     4,
+     9
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-161",
+    "limit_shift": null,
+    "window_now": [
+     2,
+     7
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-163",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     9,
+     14
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-164",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     0,
+     2
+    ],
+    "ws_now": null,
+    "ws_new": "CORE",
+    "newly_due": true
+   },
+   {
+    "esn": "A-165",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     6,
+     11
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-169",
+    "limit_shift": null,
+    "window_now": [
+     0,
+     1
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-176",
+    "limit_shift": null,
+    "window_now": [
+     0,
+     4
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-178",
+    "limit_shift": -11,
+    "window_now": [
+     18,
+     23
+    ],
+    "window_new": [
+     7,
+     12
+    ],
+    "ws_now": "FULL",
+    "ws_new": "FULL"
+   },
+   {
+    "esn": "A-180",
+    "limit_shift": null,
+    "window_now": [
+     0,
+     4
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-181",
+    "limit_shift": null,
+    "window_now": [
+     0,
+     3
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-182",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     0,
+     0
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   },
+   {
+    "esn": "A-185",
+    "limit_shift": null,
+    "window_now": [
+     15,
+     20
+    ],
+    "window_new": null,
+    "ws_now": "FULL",
+    "ws_new": null,
+    "no_longer_due": true
+   },
+   {
+    "esn": "A-186",
+    "limit_shift": null,
+    "window_now": null,
+    "window_new": [
+     1,
+     6
+    ],
+    "ws_now": null,
+    "ws_new": "FULL",
+    "newly_due": true
+   }
+  ],
+  "required_now": [
+   70,
+   68,
+   74,
+   64,
+   62,
+   76,
+   68,
+   72,
+   64,
+   72,
+   76,
+   70,
+   70,
+   68,
+   74,
+   64,
+   62,
+   76,
+   68,
+   72,
+   64,
+   72,
+   76,
+   70
+  ],
+  "required_new": [
+   74,
+   73,
+   71,
+   67,
+   67,
+   78,
+   68,
+   72,
+   68,
+   75,
+   78,
+   77,
+   77,
+   75,
+   74,
+   70,
+   70,
+   78,
+   70,
+   75,
+   71,
+   77,
+   78,
+   78
+  ],
+  "required_diff": [
+   4,
+   5,
+   -3,
+   3,
+   5,
+   2,
+   0,
+   0,
+   4,
+   3,
+   2,
+   7,
+   7,
+   7,
+   0,
+   6,
+   8,
+   2,
+   2,
+   3,
+   7,
+   5,
+   2,
+   8
+  ],
+  "buffer_now": 3,
+  "buffer_new": 3,
+  "budget_now": {
+   "FY2026": 57200.0,
+   "FY2027": 116300.0,
+   "FY2028": 59000.0
+  },
+  "budget_new": {
+   "FY2026": 57200.0,
+   "FY2027": 116300.0,
+   "FY2028": 59000.0
+  }
+ },
+ "norms": {
+  "now": {
+   "visits_per_year": 9.933333333333334,
+   "spend_per_year_k": 95526.66666666667,
+   "usd_per_efh": 601.4018299336858,
+   "mean_run_months": 103.89261744966443
+  },
+  "new": {
+   "visits_per_year": 9.933333333333334,
+   "spend_per_year_k": 95526.66666666667,
+   "usd_per_efh": 601.4018299336858,
+   "mean_run_months": 103.89261744966443
+  },
+  "note": "導いた前提の平年値は、稼働の倍率で按分（入場も費用もエンジン・サイクルあたり）"
+ },
+ "plan": {
+  "now": {
+   "total_cost": 139540.81854303373,
+   "aog_prob": 0.0155,
+   "visits": 22,
+   "p90": 174594.26789523714
+  },
+  "new": {
+   "total_cost": 149548.02637916067,
+   "aog_prob": 0.13875,
+   "visits": 24,
+   "p90": 189621.59797644184,
+   "relaxed": [
+    "budget"
+   ],
+   "by_ws": {
+    "PR": 0,
+    "CORE": 1,
+    "FULL": 23
+   }
+  },
+  "delta": {
+   "total_cost": 10007.207836126938,
+   "aog_prob": 0.12325000000000001,
+   "visits": 2
+  }
+ },
+ "note": "過去の需要から導いた前提（季節の形・伸び・稼働）で同じ 20 年シミュレーションを回し直し、今の入力と比べる。稼働が上がれば寿命部品と EGT の限界が早まり入場の窓が前に動く。季節の形が変われば繁忙期と必要エンジン数が変わる。伸びれば必要な位置が増え予備と退役のペースが変わる"
+}

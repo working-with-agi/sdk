@@ -323,6 +323,9 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
                                   for e in ro["engines"]]
     if demand_path and demand_path.exists():
         c["demand"] = json.loads(demand_path.read_text(encoding="utf-8"))
+        pp = demand_path.with_name(demand_path.stem + "-plan.json")
+        if pp.exists():
+            c["demand"]["plan_from_demand"] = json.loads(pp.read_text(encoding="utf-8"))
     if review_path and review_path.exists():
         rv = json.loads(review_path.read_text(encoding="utf-8"))
         c["review"] = {k: rv[k] for k in ("symptoms", "coverage", "review", "note")}
