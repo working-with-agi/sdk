@@ -106,7 +106,7 @@ th.n, td.n { text-align: right; }
 <div class="wrap">
   <header style="display:grid;gap:6px">
     <div class="eyebrow">737-800 engine shop visits · plan</div>
-    <h1>エンジン整備計画（月次）</h1>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between"><h1 id="title">エンジン整備計画（月次）</h1><select id="company" aria-label="会社" style="font:inherit;font-size:14px;padding:4px 8px;border:1px solid var(--rule);border-radius:6px;background:var(--surface);color:var(--ink)"></select></div>
     <p class="hint" id="sub"></p>
   </header>
 
@@ -191,8 +191,10 @@ th.n, td.n { text-align: right; }
 </div>
 
 <script>
-const D = /*__DATA__*/null;
-(function () {
+const ALL = /*__DATA__*/null;
+let D = ALL[0].data;
+function boot() {
+  document.getElementById("tabs").textContent = "";
   const $ = (id) => document.getElementById(id);
   const fmt = (v) => Math.round(v).toLocaleString("en-US");
   const musd = (k) => (k / 1000).toFixed(1);
@@ -200,7 +202,10 @@ const D = /*__DATA__*/null;
   const fys = [...new Set(M.fy)];
   const monthsIn = (fy) => M.fy.map((f, t) => (f === fy ? t : -1)).filter((t) => t >= 0);
   const fyLabel = (fy) => { const n = monthsIn(fy).length; return n === 12 ? fy : `${fy}（${M.labels[monthsIn(fy)[0]]}〜${M.labels[monthsIn(fy)[n - 1]]}）`; };
-  $("sub").textContent = `基準 ${D.version} 版。便の計画から逆算した必要装着数と、全要望（予算・バッファ・契約など）を守る計画。定常の目安：年 ${N.visits_per_year.toFixed(1)} 件・${musd(N.spend_per_year_k)} 百万ドル（月へは便の多さで割り振り、季節込みの平年値にしています）。`;
+  const CO = D.company || {}, CT = CO.contract || {};
+  $("title").textContent = `エンジン整備計画（月次）${CO.name ? "：" + CO.name : ""}`;
+  const relaxed = (D.plan_of_record.relaxed || []).includes("budget");
+  $("sub").textContent = `${CT.description ? CT.description + "（" + ({ tm: "実費精算", rpfh: "飛行時間払い" }[CT.contract_type] || "契約") + "、更新 " + CT.renewal + "）。" : ""}基準 ${D.version} 版。便の計画から逆算した必要装着数と、全要望（${relaxed ? "予算は除く：平年並みの予算ではこの期間に期限が来るエンジンを回せないため、超過額を示します" : "予算・バッファ・契約など"}）を守る計画。定常の目安：年 ${N.visits_per_year.toFixed(1)} 件・${musd(N.spend_per_year_k)} 百万ドル（月へは便の多さで割り振り、季節込みの平年値にしています）。`;
 
   let tab = "month", cur = 0;
   const tabs = [["month", "月次計画"], ...fys.map((f) => [f, `年度：${fyLabel(f)}`]), ["outlook", "10 年の見通し"]];
@@ -430,5 +435,12 @@ const D = /*__DATA__*/null;
     } finally { ctl = null; $("ai-go").disabled = false; $("ai-stop").hidden = true; }
   };
   $("ai-stop").onclick = () => ctl && ctl.abort();
+}
+(function () {
+  const sel = document.getElementById("company");
+  ALL.forEach((c, i) => { const o = document.createElement("option"); o.value = i; o.textContent = c.label; sel.append(o); });
+  sel.hidden = ALL.length < 2;
+  sel.onchange = () => { D = ALL[+sel.value].data; boot(); };
+  boot();
 })();
 </script>

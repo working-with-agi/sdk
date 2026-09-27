@@ -63,6 +63,19 @@ COST = {"PR": 2500, "CORE": 5900, "FULL": 9900}
 TAT = 3
 UNSCHED_RATE = 0.004
 HOURS_PER_CYCLE = 1.6
+ESN_PREFIX = "896"
+
+
+def configure(cfg: dict) -> None:
+    """Switch the simulation to one company's fleet (data/companies.json): fleet size,
+    engines, aircraft the schedule needs, airframe checks, workscope costs, ESN prefix."""
+    global AIRCRAFT, ENGINES, BASE_NEEDED, AIRFRAME_CHECKS, COST, ESN_PREFIX
+    AIRCRAFT = cfg["aircraft"]["total"]
+    ENGINES = cfg["engines"]["owned"]
+    BASE_NEEDED = cfg["aircraft"]["base_needed"]
+    AIRFRAME_CHECKS = {int(m): n for m, n in cfg["aircraft"]["airframe_checks"].items()}
+    COST = {w: q["price"] for w, q in cfg["contract"]["quotes"].items()}
+    ESN_PREFIX = cfg["esn_prefix"]
 
 
 def month_of(t: int) -> int:
@@ -212,7 +225,7 @@ def window(state, t_now: int, horizon: int = 24, width: int = 5):
         ws = workscope(core[e] - latest * CYCLES_PER_MONTH, lp[e] - latest * CYCLES_PER_MONTH, run_cycles)
         allowed = {"PR": ["PR", "CORE"], "CORE": ["CORE", "FULL"], "FULL": ["FULL"]}[ws]
         rows.append({
-            "esn": f"896-{101 + e:03d}",
+            "esn": f"{ESN_PREFIX}-{101 + e:03d}",
             "window": [max(0, latest - width), latest],
             "allowed_workscopes": allowed,
             "watch": bool(loss[e] > np.quantile(loss, 0.85)),

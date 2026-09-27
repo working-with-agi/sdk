@@ -7,7 +7,7 @@ Month t = 0 is the calendar month given by ``start`` (e.g. "2026-10").
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import NamedTuple
 
@@ -153,6 +153,8 @@ class Problem:
     """Volatility of the home/foreign FX rate over the horizon (lognormal sigma)."""
     visits: list[Visit]
     shops: list[Shop]
+    transition: dict = field(default_factory=dict)
+    """Replacement deliveries: {"start": "YYYY-MM", "every_months": n} (737-8 case)."""
 
     # --- calendar helpers ---------------------------------------------------
     def calendar(self, t: int) -> tuple[int, int]:
@@ -279,6 +281,7 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
             for e in f["engines"]
         ],
         shops=shops,
+        transition=f.get("transition", {}),
     )
     _validate(p)
     return p

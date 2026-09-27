@@ -11,7 +11,8 @@ other use cases answered as deltas against it.
            "what changes against the baseline": cost, AOG probability, visits and spend by
            fiscal year, spares, part-outs, mid-life swaps, early removals, shop mix
 
-  python baseline.py freeze  --out baselines/2026-10.json
+  python baseline.py freeze  --company jal --out baselines/jal-2026-10.json
+  python baseline.py freeze  --out baselines/2026-10.json          # the old group-wide sample
   python baseline.py compare --baseline baselines/2026-10.json --md-out deltas.md
 """
 
@@ -35,6 +36,7 @@ from shop_mc.summary import diff, summarize
 from shop_mc.urgency import lead_times
 
 import actions
+import company
 import lifecycle
 
 HERE = Path(__file__).resolve().parent
@@ -55,9 +57,9 @@ CANDIDATES = {
 QUESTIONS = [
     ("② 月次の入場判断", "外部工場の TAT が 1 か月延びたら（再計画）", (), "backlog"),
     ("③ 工場・契約", "アジア独立系を固定価格にしたら", ("fixed",), "base"),
-    ("③ 工場・契約", "OEM 工場の枠を 2 つ事前確保したら", ("slots",), "base"),
+    ("③ 工場・契約", "工場の枠を 2 つ事前確保したら", ("slots",), "base"),
     ("③ 工場・契約", "エンジン・プール契約を結んだら", ("pool",), "base"),
-    ("④ 資産戦略", "中寿命エンジンを最大 8 基使えたら", ("midlife",), "base"),
+    ("④ 資産戦略", "グリーンタイム・エンジンを最大 8 基使えたら", ("midlife",), "base"),
     ("④ 資産戦略", "予備エンジンを 2 基増やしたら", ("spares",), "base"),
     ("④ 資産戦略", "整備せず部品取りで打ち切れるなら", ("partout",), "base"),
     ("④ 資産戦略", "737-8 の受領が進む中で部品取りを使うなら", ("partout",), "transition"),
@@ -72,11 +74,23 @@ def fingerprint(*paths: Path) -> dict:
 
 
 def solve_summary(args):
-    acts, case, fleet, shops, n, seed, n_eval, time_limit = args
-    p = actions.build(fleet, shops, acts, case)
+    acts, case, fleet, shops, n, seed, n_eval, time_limit = args[:8]
+    relax = args[8] if len(args) > 8 else ()
     try:
-        plan = solve_saa(p, sample(p, n, seed), req=Requirements(**actions.REQ), time_limit=time_limit, threads=1)
-    except InfeasibleError:
+        p = actions.build(fleet, shops, acts, case)
+    except actions.NotApplicable:
+        return acts, case, None, None
+    plan, relaxed = None, []
+    # every requirement first; then give up the ones in `relax`, in order, until a plan exists
+    for k in range(len(relax) + 1):
+        try:
+            req = {**actions.REQ, **{r: False for r in relax[:k]}}
+            plan = solve_saa(p, sample(p, n, seed), req=Requirements(**req), time_limit=time_limit, threads=1)
+            relaxed = list(relax[:k])
+            break
+        except InfeasibleError:
+            continue
+    if plan is None:
         return acts, case, None, None
     sc = sample(p, n_eval, seed + 999)
     rows = []
@@ -94,12 +108,16 @@ def solve_summary(args):
             # or LLP kit order when the kits on hand are already committed)
             "deadline_t": o.month - lead, "deadline_reason": f"{reason} {lead} か月前",
         })
-    return acts, case, summarize(p, plan, sc), rows
+    summ = summarize(p, plan, sc)
+    summ["relaxed"] = relaxed
+    return acts, case, summ, rows
 
 
 def freeze(args) -> int:
     t0 = time.perf_counter()
-    jobs = [((), c, str(args.fleet), str(args.shops), args.scenarios, args.seed, args.eval_scenarios, args.time_limit)
+    # the budget is the one requirement the baseline may give up: in practice it is built
+    # up from the removal forecast, and the gap to the normal-state spend is the finding
+    jobs = [((), c, str(args.fleet), str(args.shops), args.scenarios, args.seed, args.eval_scenarios, args.time_limit, ("budget",))
             for c in CANDIDATES]
     with ProcessPoolExecutor(max_workers=min(len(jobs), os.cpu_count() or 1)) as pool:
         solved = {c: (summ, rows) for (_a, c, summ, rows) in pool.map(solve_summary, jobs)}
@@ -107,7 +125,9 @@ def freeze(args) -> int:
     if summ is None:
         print("no plan meets every requirement in the base case; relax one before freezing")
         return 1
-    visits, shelf, short, _state, T = lifecycle.simulate(args.seed)
+    # norms from the same life-cycle simulation that produced the company's fleet
+    lc_seed = company.configure_for_fleet(args.fleet) or args.seed
+    visits, shelf, short, _state, T = lifecycle.simulate(lc_seed)
     p = actions.build(str(args.fleet), str(args.shops), (), "base")
     monthly = {
         "labels": [p.month_label(t) for t in range(p.horizon)],
@@ -134,7 +154,7 @@ def freeze(args) -> int:
     for name, aging in (("stationary", 0.0), ("aging_2pct", 0.02)):
         # same seed: the first YEARS reproduce the history that led to today; the 10 years
         # after that are the outlook (year 0 = the 12 months from the window start)
-        v, sh, st, _s, TT = lifecycle.simulate(args.seed, years=lifecycle.YEARS + 10, aging=aging)
+        v, sh, st, _s, TT = lifecycle.simulate(lc_seed, years=lifecycle.YEARS + 10, aging=aging)
         years = []
         for y in range(lifecycle.YEARS - 5, lifecycle.YEARS + 10):
             vs = [x for x in v if y * 12 <= x["t"] < (y + 1) * 12]
@@ -142,8 +162,14 @@ def freeze(args) -> int:
                           "by_ws": {w: sum(1 for x in vs if x["ws"] == w) for w in lifecycle.COST},
                           "spend": sum(lifecycle.COST[x["ws"]] for x in vs)})
         outlook[name] = years
+    meta = json.loads(args.fleet.read_text(encoding="utf-8")).get("meta", {})
+    shops_meta = json.loads(args.shops.read_text(encoding="utf-8")).get("meta", {})
     base = {
         "version": dt.date.today().isoformat(),
+        "company": {"id": meta.get("company"), "name": meta.get("name", "737-800 フリート"),
+                    "contract": {k: shops_meta.get(k) for k in ("description", "contract_type", "renewal", "source")},
+                    "sources": meta.get("sources", {})},
+        "paths": {"fleet": os.path.relpath(args.fleet, HERE), "shops": os.path.relpath(args.shops, HERE)},
         "created": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "inputs": fingerprint(args.fleet, args.shops),
         "settings": {"scenarios": args.scenarios, "eval_scenarios": args.eval_scenarios, "seed": args.seed,
@@ -163,6 +189,8 @@ def freeze(args) -> int:
     n = base["norms"]
     print(f"baseline frozen in {time.perf_counter() - t0:.0f}s -> {args.out}")
     print(f"  norms: {n['visits_per_year']:.1f} visits/yr, {n['spend_per_year_k']:,.0f} k$/yr, {n['usd_per_efh']:.0f} $/EFH")
+    if summ["relaxed"]:
+        print(f"  relaxed: {summ['relaxed']} (no plan fits the normal-state budget)")
     print(f"  plan of record: cost {summ['total_cost']:,.0f} k$, AOG {summ['aog_prob']:.1%}, "
           + ", ".join(f"{fy} {v['visits']} visits / {v['spend']:,.0f} k$" for fy, v in summ["by_fiscal_year"].items()))
     return 0
@@ -173,15 +201,24 @@ def compare(args) -> int:
     now = fingerprint(args.fleet, args.shops)
     stale = [k for k in now if base["inputs"].get(k) != now[k]]
     s = base["settings"]
-    jobs = [(acts, case, str(args.fleet), str(args.shops), s["scenarios"], s["seed"], s["eval_scenarios"], args.time_limit)
-            for _uc, _q, acts, case in QUESTIONS]
+    questions = []
+    for q in QUESTIONS:  # skip what does not exist for this company (e.g. a shop it has no contract with)
+        try:
+            actions.build(str(args.fleet), str(args.shops), q[2], q[3])
+            questions.append(q)
+        except actions.NotApplicable:
+            pass
+    # give up the budget only if the baseline itself had to
+    relax = tuple(ref_relaxed) if (ref_relaxed := base["plan_of_record"].get("relaxed")) else ()
+    jobs = [(acts, case, str(args.fleet), str(args.shops), s["scenarios"], s["seed"], s["eval_scenarios"], args.time_limit, relax)
+            for _uc, _q, acts, case in questions]
     t0 = time.perf_counter()
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
         res = list(pool.map(solve_summary, jobs))
     wall = time.perf_counter() - t0
     ref = base["plan_of_record"]
     out = []
-    for (uc, q, acts, case), (_a, _c, summ, _rows) in zip(QUESTIONS, res):
+    for (uc, q, acts, case), (_a, _c, summ, _rows) in zip(questions, res):
         out.append({"use_case": uc, "question": q, "actions": list(acts), "case": case,
                     "feasible": summ is not None, "summary": summ, "delta": None if summ is None else diff(ref, summ)})
     result = {"baseline": {"version": base["version"], "inputs": base["inputs"], "plan_of_record": ref},
@@ -206,7 +243,7 @@ def to_markdown(r: dict) -> str:
     ]
     if r["inputs_changed"]:
         lines += [f"> 注意：基準を固定した後に入力が変わっています（{', '.join(r['inputs_changed'])}）。基準の固定し直しを検討してください。", ""]
-    head = "| ユースケース | 問い | 総コスト | 欠航確率 | 入場件数 | " + " | ".join(f"{fy} 支出" for fy in fys) + " | 予備 | 部品取り | 中寿命 | 前倒し(月) |"
+    head = "| ユースケース | 問い | 総コスト | 欠航確率 | 入場件数 | " + " | ".join(f"{fy} 支出" for fy in fys) + " | 予備 | 部品取り | グリーンタイム | 前倒し(月) |"
     lines += [head, "|" + "---|" * (9 + len(fys))]
     for a in r["answers"]:
         if not a["feasible"]:
@@ -228,8 +265,9 @@ def main(argv=None) -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name in ("freeze", "compare"):
         sp = sub.add_parser(name)
-        sp.add_argument("--fleet", type=Path, default=DEFAULT_FLEET)
-        sp.add_argument("--shops", type=Path, default=DEFAULT_SHOPS)
+        sp.add_argument("--company", help="jal / ana: use data/<company>/ inputs (company.py builds them)")
+        sp.add_argument("--fleet", type=Path)
+        sp.add_argument("--shops", type=Path)
         sp.add_argument("--time-limit", type=int, default=120)
         if name == "freeze":
             sp.add_argument("--out", type=Path, default=HERE / "baselines" / "baseline.json")
@@ -242,6 +280,14 @@ def main(argv=None) -> int:
             sp.add_argument("--json-out", type=Path, default=Path("deltas.json"))
             sp.add_argument("--md-out", type=Path)
     args = ap.parse_args(argv)
+    if args.company:
+        args.fleet = args.fleet or HERE / "data" / args.company / "fleet.json"
+        args.shops = args.shops or HERE / "data" / args.company / "shops.json"
+    if args.cmd == "compare" and (args.fleet is None or args.shops is None):
+        paths = json.loads(args.baseline.read_text(encoding="utf-8")).get("paths", {})
+        args.fleet = args.fleet or (HERE / paths["fleet"] if "fleet" in paths else DEFAULT_FLEET)
+        args.shops = args.shops or (HERE / paths["shops"] if "shops" in paths else DEFAULT_SHOPS)
+    args.fleet, args.shops = args.fleet or DEFAULT_FLEET, args.shops or DEFAULT_SHOPS
     return freeze(args) if args.cmd == "freeze" else compare(args)
 
 

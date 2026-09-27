@@ -66,6 +66,7 @@ def make_actuals(args) -> int:
     """Execute the base plan in one scenario of the 'true' world and record what an
     operator would see. The truth is written to meta only, for checking the tracker."""
     b = json.loads(args.baseline.read_text(encoding="utf-8"))
+    inputs_of(args, b)
     rows = b["candidates"]["base"]["rows"]
     p = actions.build(str(args.fleet), str(args.shops), (), args.truth)
     sc = sample(p, 200, args.seed)
@@ -194,8 +195,18 @@ def hybrid(base_rows, cand_rows, k, idx, options, llp_ws, kit_lead):
     return chosen, changed
 
 
+def inputs_of(args, b):
+    """Fleet and shop files: as given, else the ones the baseline was frozen from."""
+    paths = b.get("paths", {})
+    if args.fleet is None:
+        args.fleet = HERE / paths["fleet"] if "fleet" in paths else DEFAULT_FLEET
+    if args.shops is None:
+        args.shops = HERE / paths["shops"] if "shops" in paths else DEFAULT_SHOPS
+
+
 def status(args) -> int:
     b = json.loads(args.baseline.read_text(encoding="utf-8"))
+    inputs_of(args, b)
     act = json.loads(args.actuals.read_text(encoding="utf-8"))
     C = b["candidates"]
     base_rows = C["base"]["rows"]
@@ -229,13 +240,14 @@ def status(args) -> int:
         z = {w: prior[w] * math.exp(TEMPER * (ll[w] - m)) for w in WORLDS}
         post = {w: z[w] / sum(z.values()) for w in WORLDS}
 
-        # which plan are we following: inductions so far against each candidate's
-        actual = {(x["esn"], x["shop"]) for x in act["inductions"] if x["t"] < k}
+        # which plan are we following: inductions so far against each candidate's (engine,
+        # month, workscope, shop -- with one contracted shop the timing and workscope are the plan)
+        actual = {(x["esn"], x["t"], x["workscope"], x["shop"]) for x in act["inductions"] if x["t"] < k}
         follow = {}
         for c, v in C.items():
             if not v["feasible"]:
                 continue
-            want = {(r["esn"], r["shop"]) for r in v["rows"] if r["t"] < k}
+            want = {(r["esn"], r["t"], r["workscope"], r["shop"]) for r in v["rows"] if r["t"] < k}
             union = actual | want
             follow[c] = len(actual & want) / len(union) if union else 1.0
         executed = max(follow, key=lambda c: (round(follow[c], 6), c == "base"))
@@ -251,6 +263,10 @@ def status(args) -> int:
                 exc.append({"esn": r["esn"], "kind": "故障で前倒し", "detail": f"計画 {r['month']} → 実際 {a['month']}（{r['t'] - a['t']} か月前）", "severity": "warn"})
             elif a and a["shop"] != r["shop"]:
                 exc.append({"esn": r["esn"], "kind": "工場が違う", "detail": f"計画 {r['shop']} → 実際 {a['shop']}", "severity": "warn"})
+            elif a and a["t"] != r["t"]:
+                exc.append({"esn": r["esn"], "kind": "時期が違う", "detail": f"計画 {r['month']} → 実際 {a['month']}", "severity": "warn"})
+            elif a and a["workscope"] != r["workscope"]:
+                exc.append({"esn": r["esn"], "kind": "整備範囲が違う", "detail": f"計画 {r['workscope']} → 実際 {a['workscope']}", "severity": "warn"})
             elif not a and r["t"] < k:
                 exc.append({"esn": r["esn"], "kind": "未入場", "detail": f"計画 {r['month']}", "severity": "crit"})
             if a and r["esn"] not in rets and due_back < k:
@@ -328,7 +344,7 @@ def status(args) -> int:
         # every candidate kept to the end in every world (regret matrix)
         "matrix": {c: {w: {"mean": keep_of(c, w)["mean"], "aog_prob": keep_of(c, w)["aog_prob"]} for w in WORLDS}
                    for c in C if C[c]["feasible"]},
-        "budgets": b["budgets"], "shops": {},
+        "budgets": b["budgets"], "shops": {}, "company": b.get("company", {}),
         "actuals": act, "timeline": timeline,
     }
     shops = json.loads(args.shops.read_text(encoding="utf-8"))["shops"]
@@ -348,8 +364,8 @@ def main(argv=None) -> int:
     for name in ("actuals", "status"):
         sp = sub.add_parser(name)
         sp.add_argument("--baseline", type=Path, default=HERE / "baselines" / "2026-10.json")
-        sp.add_argument("--fleet", type=Path, default=DEFAULT_FLEET)
-        sp.add_argument("--shops", type=Path, default=DEFAULT_SHOPS)
+        sp.add_argument("--fleet", type=Path, help="default: the fleet file the baseline was frozen from")
+        sp.add_argument("--shops", type=Path)
         sp.add_argument("--seed", type=int, default=42)
         if name == "actuals":
             sp.add_argument("--truth", choices=WORLDS, default="backlog")

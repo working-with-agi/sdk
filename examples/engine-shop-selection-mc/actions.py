@@ -68,12 +68,20 @@ CASES = {"base": "基準", "backlog": "MRO 混雑", "transition": "機材更新�
 REQ = {**ALL_HARD, "kits_on_hand_only": False, "no_new_spares": False}
 
 
+class NotApplicable(ValueError):
+    """The action does not exist for this company (e.g. a shop it has no contract with)."""
+
+
 def with_case(p, case):
     if case == "transition":
+        # deliveries from the fleet file's "transition" (default: one every two months from 2027-01)
+        y0, m0 = map(int, p.transition.get("start", "2027-01").split("-"))
+        every = p.transition.get("every_months", 2)
         req = []
         for t in range(p.horizon):
             y, m = p.calendar(t)
-            delivered = max(0, (y - 2027) * 12 + m + 1) // 2  # one every two months from 2027-01
+            since = (y - y0) * 12 + (m - m0)
+            delivered = since // every + 1 if since >= 0 else 0
             req.append(max(0, p.required_positions[t] - 2 * delivered))
         # the fleet keeps shrinking after the window: the end condition follows the last month
         term = None if p.terminal_engines is None else max(0, p.terminal_engines - (max(p.required_positions) - max(req)) - 2 * 3)
@@ -82,6 +90,9 @@ def with_case(p, case):
 
 
 def apply_action(p, a):
+    ids = {k.id for k in p.shops}
+    if a == "fixed" and "IND-ASIA" not in ids:
+        raise NotApplicable(a)
     if a in ("usm", "pool", "fixed", "spares"):
         return apply_lever(p, {"usm": ("usm", 0.10), "pool": ("pool", 2), "fixed": ("fixed", 0.08), "spares": ("spares", 2)}[a])
     if a == "substitute":
@@ -95,7 +106,9 @@ def apply_action(p, a):
         return dataclasses.replace(p, llp_kits_on_hand=p.llp_kits_on_hand + 4,
                                    extra_fixed_cost=p.extra_fixed_cost + 4 * 3500 * 0.06 * p.horizon / 12)
     if a == "slots":
-        return dataclasses.replace(p, shops=[dataclasses.replace(k, slots=k.slots + 2) if k.id == "OEM-ASIA" else k for k in p.shops],
+        # the OEM network shop in the tender data; otherwise the company's contracted shop
+        target = "OEM-ASIA" if "OEM-ASIA" in ids else p.shops[0].id
+        return dataclasses.replace(p, shops=[dataclasses.replace(k, slots=k.slots + 2) if k.id == target else k for k in p.shops],
                                    extra_fixed_cost=p.extra_fixed_cost + 400 * p.horizon / 12)
     if a == "rotate":
         visits = [dataclasses.replace(v, latest=min(p.horizon - 1, v.latest + 1)) if j % 3 == 0 else v for j, v in enumerate(p.visits)]
