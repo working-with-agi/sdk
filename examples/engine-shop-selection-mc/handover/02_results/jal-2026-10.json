@@ -30,9 +30,9 @@
   "fleet": "data/jal/fleet.json",
   "shops": "data/jal/shops.json"
  },
- "created": "2026-09-27T04:00:43+00:00",
+ "created": "2026-09-27T05:55:57+00:00",
  "inputs": {
-  "fleet.json": "572212da8dcc21e0",
+  "fleet.json": "8912a1ba347030cc",
   "shops.json": "4f7a79ad0af8880a"
  },
  "settings": {

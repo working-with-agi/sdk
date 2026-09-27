@@ -631,7 +631,7 @@
  "inputs": {
   "track": "/tmp/claude-0/-home-user/a52bb465-9187-5eca-9ca8-d957904d8eca/scratchpad/out/track/jal-track-crunch.json",
   "roll": "/tmp/claude-0/-home-user/a52bb465-9187-5eca-9ca8-d957904d8eca/scratchpad/out/roll/jal-roll-2027-10.json",
-  "runout": "runout/jal.json"
+  "runout": "/tmp/claude-0/-home-user/a52bb465-9187-5eca-9ca8-d957904d8eca/scratchpad/out/runout/jal.json"
  },
  "note": "合成データ。規則層は毎回同じ判定、AI 層は Claude が事実パックと症状表から書く（資格情報がなければ規則層のみ）"
 }

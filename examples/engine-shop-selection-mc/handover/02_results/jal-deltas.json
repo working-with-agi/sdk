@@ -2,7 +2,7 @@
  "baseline": {
   "version": "2026-09-27",
   "inputs": {
-   "fleet.json": "572212da8dcc21e0",
+   "fleet.json": "8912a1ba347030cc",
    "shops.json": "4f7a79ad0af8880a"
   },
   "plan_of_record": {
@@ -64,7 +64,7 @@
   }
  },
  "inputs_changed": [],
- "wall_seconds": 12.9,
+ "wall_seconds": 12.6,
  "answers": [
   {
    "use_case": "② 月次の入場判断",

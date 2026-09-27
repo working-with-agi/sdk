@@ -5,41 +5,41 @@
   "version": "2026-09-27",
   "horizon_months": 24,
   "plan": {
-   "visits": 22,
-   "total_cost_k": 139540.81854303373,
-   "p90_k": 174594.26789523714,
-   "committed_k": 111585.0,
-   "recourse_k": 27955.818543033736,
-   "recourse_p90_k": 63009.26789523713,
-   "aog_prob": 0.0155,
+   "visits": 24,
+   "total_cost_k": 151461.79423179242,
+   "p90_k": 188938.75142376704,
+   "committed_k": 121255.0,
+   "recourse_k": 30206.794231792406,
+   "recourse_p90_k": 67683.75142376704,
+   "aog_prob": 0.0245,
    "relaxed": [
     "budget"
    ],
    "by_fy": {
     "FY2026": {
-     "spend": 84769.05733343746,
-     "budget": 57200.0,
-     "over": 0.48197652680834735
+     "spend": 105441.76709307783,
+     "budget": 47000.0,
+     "over": 1.2434418530442088
     },
     "FY2027": {
-     "spend": 134716.48781844688,
-     "budget": 116300.0,
-     "over": 0.15835329164614698
+     "spend": 121920.19279839183,
+     "budget": 95500.0,
+     "over": 0.27665123349101384
     },
     "FY2028": {
-     "spend": 48593.48339114908,
-     "budget": 59000.0,
-     "over": -0.17638163743815116
+     "spend": 61117.314340322824,
+     "budget": 48500.0,
+     "over": 0.26015081114067673
     }
    },
-   "deadlines_before_start": 8,
+   "deadlines_before_start": 9,
    "deadlines_next_3m": 5,
    "rush": 0,
-   "watch": 5,
+   "watch": 6,
    "by_ws": {
     "PR": 0,
-    "CORE": 0,
-    "FULL": 22
+    "CORE": 1,
+    "FULL": 23
    }
   },
   "norms": {
@@ -54,16 +54,15 @@
    "follow_base": 1.0,
    "executed": "base",
    "posterior": {
-    "base": 0.30715320973380883,
-    "backlog": 0.11971284578084437,
-    "crunch": 0.2287122772530528,
-    "stress": 0.07534839987576132,
-    "observed": 0.2690732673565327
+    "base": 0.3151302615654325,
+    "backlog": 0.07584000275602824,
+    "crunch": 0.2569838590832583,
+    "stress": 0.04971192473262415,
+    "observed": 0.3023339518626568
    },
-   "exceptions": 9,
+   "exceptions": 7,
    "exceptions_by_kind": {
-    "戻り遅れ": 8,
-    "費用超過": 1
+    "費用超過": 7
    },
    "hysteresis_ok": false,
    "observed_world": {
@@ -73,14 +72,14 @@
     "stream": "kit_lead_weeks",
     "label": "実測の逼迫（キット納期 12 か月）に合わせた計画",
     "what": "先行指標（LLP キット納期回答（週））が 2 か月目に示した変化から自動で作った前提",
-    "posterior_last": 0.2690732673565327,
-    "switch_last": -1027.5527836118738
+    "posterior_last": 0.3023339518626568,
+    "switch_last": -3641.904225502404
    },
    "switch_best": [
     "backlog",
     0.0
    ],
-   "keep_mean_k": 144933.50456704994
+   "keep_mean_k": 156286.9873427241
   },
   "cpd": {
    "cpd_month": 2,
@@ -90,51 +89,51 @@
    "fired_world": "crunch",
    "value": {
     "candidate": "crunch",
-    "at_cpd": -2218.929860277446,
-    "at_bayes": -2948.7373082502013,
-    "one_month_late": -2226.8217785475526,
+    "at_cpd": -343.33982661628175,
+    "at_bayes": -1048.91977607821,
+    "one_month_late": -357.89510713664953,
     "delay_curve": [
      {
       "delay": 0,
       "as_of": "2026-11",
-      "saving": -2218.929860277446,
+      "saving": -343.33982661628175,
       "cost_of_delay": 0.0
      },
      {
       "delay": 1,
       "as_of": "2026-12",
-      "saving": -2226.8217785475526,
+      "saving": -357.89510713664953,
       "cost_of_delay": 0.0
      },
      {
       "delay": 2,
       "as_of": "2027-01",
-      "saving": -2241.0968061639833,
+      "saving": -222.67279312399478,
       "cost_of_delay": 0.0
      },
      {
       "delay": 3,
       "as_of": "2027-02",
-      "saving": -2353.91500429396,
+      "saving": -366.684403166878,
       "cost_of_delay": 0.0
      },
      {
       "delay": 4,
       "as_of": "2027-03",
-      "saving": -2613.4814389864255,
+      "saving": -278.09813004686316,
       "cost_of_delay": 0.0
      },
      {
       "delay": 5,
       "as_of": "2027-04",
-      "saving": -2913.0727957520007,
+      "saving": -110.33611198423336,
       "cost_of_delay": 0.0
      },
      {
       "delay": 6,
       "as_of": "2027-05",
-      "saving": 858.5847614780698,
-      "cost_of_delay": -858.5847614780698
+      "saving": 177.0189060734409,
+      "cost_of_delay": -177.0189060734409
      }
     ],
     "months_earlier": -1,
@@ -150,16 +149,16 @@
   "ooda": {
    "unit_value_k": 95.9103078982597,
    "feedback": {
-    "rule_cases": 5,
+    "rule_cases": 6,
     "rule_cases_by_rule": {
-     "teardown_extra": 2,
-     "cm_alert": 3,
+     "teardown_extra": 4,
+     "cm_alert": 2,
      "tat_slip": 0,
      "world_shift": 0,
      "safety_switch": 0,
      "invest_gate": 0
     },
-    "teardown_net_k": 3454.3453815261046,
+    "teardown_net_k": 1036.1526104417671,
     "teardown_review": "承認線 v を見直す",
     "no_world_fits_months": 0,
     "add_world": false,
@@ -209,11 +208,11 @@
     "timing_rule": "D + A ≤ R（判断期限までのリード）。逼迫世界では 1 か月遅れるごとに約 0.9 百万ドル（単一フリート例）",
     "R_months": 8.0
    },
-   "cases": 17,
+   "cases": 18,
    "to_meeting": 12,
    "by_rule": {
-    "teardown_extra": 2,
-    "cm_alert": 3,
+    "teardown_extra": 4,
+    "cm_alert": 2,
     "tat_slip": 0,
     "world_shift": 0,
     "safety_switch": 0,
@@ -226,17 +225,17 @@
    "bridge": [
     {
      "label": "2026-09-27 版の 2 年目",
-     "value": 85006,
+     "value": 109915,
      "kind": "level"
     },
     {
      "label": "機材の状態が動いた分（新たに期限が来た・済んだ・時期が動いた）",
-     "value": 85253,
+     "value": 47750,
      "kind": "delta"
     },
     {
      "label": "前提を実績で直した分（工期・所見・故障率）",
-     "value": -13931,
+     "value": -15059,
      "kind": "delta"
     },
     {
@@ -246,130 +245,130 @@
     },
     {
      "label": "2027-10 版の 1 年目",
-     "value": 156328,
+     "value": 142606,
      "kind": "level"
     }
    ],
    "learned": {
     "delay": {
-     "n": 4,
+     "n": 5,
      "prior": 1.15,
-     "observed": 2.0,
-     "updated": 1.3624999999999998,
-     "weight": 0.25
+     "observed": 1.0,
+     "updated": 1.1058823529411763,
+     "weight": 0.29411764705882354
     },
     "findings": {
-     "n": 4,
+     "n": 5,
      "prior": 1.0,
-     "observed": 0.9556778636410184,
-     "updated": 0.9889194659102546,
-     "weight": 0.25
+     "observed": 0.9264976123916565,
+     "updated": 0.9783816507034284,
+     "weight": 0.29411764705882354
     },
     "unsched": {
      "n": 12,
      "prior": 0.004,
-     "observed": 0.0013469827586206895,
-     "updated": 0.002673491379310345,
+     "observed": 0.001853911753800519,
+     "updated": 0.0029269558769002596,
      "weight": 0.5
     },
     "hazard": {
      "n": 15,
-     "prior": 0.7225,
+     "prior": 0.335,
      "observed": 0,
-     "updated": 0.36125,
+     "updated": 0.1675,
      "weight": 0.6521739130434783
     }
    },
    "cpd_reset": {
     "reset_at_t": 1,
-    "dropped": 2,
+    "dropped": 4,
     "without_reset": {
-     "n": 6,
-     "observed": 2.1666666666666665,
-     "weight": 0.3333333333333333,
-     "updated": 1.488888888888889
+     "n": 9,
+     "observed": 1.0,
+     "weight": 0.42857142857142855,
+     "updated": 1.0857142857142856
     }
    },
    "world": {
-    "base": 0.46223920714103567,
-    "backlog": 0.27419081562517744,
-    "crunch": 0.046581367691387314,
-    "stress": 0.023442151454039002,
-    "observed": 0.19354645808836055
+    "base": 0.5612150994066246,
+    "backlog": 0.2099335562484524,
+    "crunch": 0.061937849144005366,
+    "stress": 0.018725102554951165,
+    "observed": 0.1481883926459664
    },
    "carried": {
-    "fixed": 2,
-    "dropped_committed": 2,
+    "fixed": 6,
+    "dropped_committed": 0,
     "kits": {
      "old_on_hand": 4,
      "used": 15,
-     "ordered": 2,
-     "new_on_hand": 2
+     "ordered": 6,
+     "new_on_hand": 6
     }
    }
   },
   "runout": {
    "end": "2033-02",
    "engines": 86,
-   "visits": 22,
+   "visits": 24,
    "after_window_visits": 0,
-   "spend_k": 242000,
-   "residual_value_k": 158076,
-   "green_time_engines": 3,
+   "spend_k": 260900,
+   "residual_value_k": 180669,
+   "green_time_engines": 8,
    "heavy_late_engines": 0,
-   "plan_gaps": 0,
-   "plan_gap_max_months": 0,
+   "plan_gaps": 1,
+   "plan_gap_max_months": 1,
    "policies": {
     "next_due": {
-     "visits": 22,
-     "spend_k": 242000,
-     "residual_value_k": 158076,
-     "green_time_engines": 3,
+     "visits": 24,
+     "spend_k": 260900,
+     "residual_value_k": 180669,
+     "green_time_engines": 8,
      "heavy_late_engines": 0,
      "after_window_visits": 0
     },
     "oldest": {
-     "visits": 22,
-     "spend_k": 242000,
-     "residual_value_k": 158076,
-     "green_time_engines": 5,
+     "visits": 24,
+     "spend_k": 260900,
+     "residual_value_k": 180669,
+     "green_time_engines": 15,
      "heavy_late_engines": 0,
      "after_window_visits": 0
     },
     "random": {
-     "visits": 108,
-     "spend_k": 491400,
-     "residual_value_k": 187386,
-     "green_time_engines": 19,
+     "visits": 129,
+     "spend_k": 565400,
+     "residual_value_k": 215436,
+     "green_time_engines": 29,
      "heavy_late_engines": 8,
-     "after_window_visits": 86
+     "after_window_visits": 105
     }
    },
    "without_runout": {
-    "visits": 22,
-    "spend_k": 242000,
-    "residual_value_k": 158076,
+    "visits": 24,
+    "spend_k": 260900,
+    "residual_value_k": 180669,
     "heavy_late_engines": 0
    },
    "by_year": [
     {
      "year": "2026",
-     "visits": 4,
-     "spend_k": 44000,
+     "visits": 6,
+     "spend_k": 62900,
      "retired": 0,
      "engines": 86
     },
     {
      "year": "2027",
-     "visits": 13,
-     "spend_k": 143000,
+     "visits": 11,
+     "spend_k": 121000,
      "retired": 0,
      "engines": 86
     },
     {
      "year": "2028",
-     "visits": 5,
-     "spend_k": 55000,
+     "visits": 7,
+     "spend_k": 77000,
      "retired": 12,
      "engines": 78
     },
@@ -450,7 +449,7 @@
    "loop": "OODA",
    "stage": "Decide",
    "severity": "warn",
-   "finding": "分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +3.5 百万ドル",
+   "finding": "分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +1.0 百万ドル",
    "evidence": "承認線 v を見直す",
    "ask": "承認線 v を年次で見直す（追加作業の延びる月数の実績で）"
   },
@@ -458,8 +457,8 @@
    "loop": "PDCA",
    "stage": "Plan",
    "severity": "warn",
-   "finding": "FY2026 の予算前提が計画と合わない（+48%）",
-   "evidence": "見込み 84.8 百万ドル／予算 57.2",
+   "finding": "FY2026 の予算前提が計画と合わない（+124%）",
+   "evidence": "見込み 105.4 百万ドル／予算 47.0",
    "ask": "予算を直すのか、入場を前後の年度へ動かすのか。どちらも決めないまま回す年にしない"
   },
   {
@@ -467,15 +466,23 @@
    "stage": "Plan",
    "severity": "warn",
    "finding": "立て直し費が全体の 20%",
-   "evidence": "立て直し 28.0／全体 139.5 百万ドル（悪い 1 割 63.0）",
+   "evidence": "立て直し 30.2／全体 151.5 百万ドル（悪い 1 割 67.7）",
    "ask": "契約形態（固定価格・上限）で先に買うか、予備で受けるか"
+  },
+  {
+   "loop": "PDCA",
+   "stage": "Plan",
+   "severity": "warn",
+   "finding": "平均の劣化では計画の入場より前に限界が来る機 1 基（最大 1 か月）",
+   "evidence": "退役までの入場列（gap）",
+   "ask": "その機は状態監視（EGT・LLP）を月次の最初に見る。窓の定義（earliest/limit）と劣化前提のどちらが違うか"
   },
   {
    "loop": "PDCA",
    "stage": "Act",
    "severity": "warn",
    "finding": "次の版で「決め方」を変えていない（Δ決め方 = 0）",
-   "evidence": "橋渡し: 機材の状態が動いた分（新… +85.3、前提を実績で直した分（工… -13.9、決め方を変えた分（γ・K… +0.0",
+   "evidence": "橋渡し: 機材の状態が動いた分（新… +47.8、前提を実績で直した分（工… -15.1、決め方を変えた分（γ・K… +0.0",
    "ask": "確かめるで出た 3 つのずれのうち、決め方（γ・K・世界の集合・承認線）に返したものは何か"
   },
   {
@@ -490,15 +497,15 @@
    "loop": "OODA",
    "stage": "Decide",
    "severity": "info",
-   "finding": "暗黙のルールで決めた 5 件、会議へ 12 件",
-   "evidence": "teardown_extra 2、cm_alert 3",
+   "finding": "暗黙のルールで決めた 6 件、会議へ 12 件",
+   "evidence": "teardown_extra 4、cm_alert 2",
    "ask": "会議に回した件は、ルールにできないか"
   },
   {
    "loop": "PDCA",
    "stage": "Plan",
    "severity": "info",
-   "finding": "計画開始前に手配済みを前提にした判断 8 件",
+   "finding": "計画開始前に手配済みを前提にした判断 9 件",
    "evidence": "判断期限が計画開始より前",
    "ask": "手配済みの前提（枠・キット）が本当に済んでいるか、月次の最初に確認する"
   },
@@ -506,7 +513,7 @@
    "loop": "PDCA",
    "stage": "Plan",
    "severity": "info",
-   "finding": "寿命を残して退役する機 3 基（残存価値 158 百万ドル）",
+   "finding": "寿命を残して退役する機 8 基（残存価値 181 百万ドル）",
    "evidence": "退役までの入場列",
    "ask": "売却・グリーンタイムリース・他機種への融通を年次で決める。残存価値は税引後の資産側にも載る"
   },
@@ -514,16 +521,16 @@
    "loop": "PDCA",
    "stage": "Act",
    "severity": "info",
-   "finding": "delay の学習は 4 件の実績（重み 25%）",
-   "evidence": "事前 1.15 → 更新 1.36",
+   "finding": "delay の学習は 5 件の実績（重み 29%）",
+   "evidence": "事前 1.15 → 更新 1.11",
    "ask": "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない"
   },
   {
    "loop": "PDCA",
    "stage": "Act",
    "severity": "info",
-   "finding": "findings の学習は 4 件の実績（重み 25%）",
-   "evidence": "事前 1 → 更新 0.989",
+   "finding": "findings の学習は 5 件の実績（重み 29%）",
+   "evidence": "事前 1 → 更新 0.978",
    "ask": "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない"
   },
   {
@@ -547,15 +554,15 @@
    "stage": "Do",
    "severity": "ok",
    "finding": "計画との一致 100%",
-   "evidence": "例外 9 件",
+   "evidence": "例外 7 件",
    "ask": ""
   },
   {
    "loop": "PDCA",
    "stage": "Check",
    "severity": "ok",
-   "finding": "前提のずれ：いちばん確からしい世界は「base」（31%）",
-   "evidence": "確率: base 31%、backlog 12%、crunch 23%、stress 8%、observed 27%",
+   "finding": "前提のずれ：いちばん確からしい世界は「base」（32%）",
+   "evidence": "確率: base 32%、backlog 8%、crunch 26%、stress 5%、observed 30%",
    "ask": "その世界の計画案（乗り換え）は会議に出ているか"
   },
   {
@@ -570,14 +577,14 @@
    "loop": "PDCA",
    "stage": "Act",
    "severity": "ok",
-   "finding": "変化点で学習をリセット（2 件を落とした）",
+   "finding": "変化点で学習をリセット（4 件を落とした）",
    "evidence": "cpd_reset",
    "ask": ""
   }
  ],
  "coverage": {
   "PDCA.Plan": {
-   "n": 5,
+   "n": 6,
    "worst": "crit"
   },
   "PDCA.Do": {
@@ -612,12 +619,12 @@
  "review": {
   "mode": "rules",
   "reason": "no credentials (ANTHROPIC_API_KEY / ANTHROPIC_AUTH_TOKEN unset)",
-  "text": "# ANA（ANA ウイングス運航） 計画の見直し（規則層のみ・合成データ）\n\n## PDCA\n### Plan（つくる）\n- [crit] 制約を緩めないと解けない計画　（緩めた制約: budget）　→ 緩めた制約はだれの前提か。計画の外で（予備・契約）解くのか\n- [warn] FY2026 の予算前提が計画と合わない（+48%）　（見込み 84.8 百万ドル／予算 57.2）　→ 予算を直すのか、入場を前後の年度へ動かすのか。どちらも決めないまま回す年にしない\n- [warn] 立て直し費が全体の 20%　（立て直し 28.0／全体 139.5 百万ドル（悪い 1 割 63.0））　→ 契約形態（固定価格・上限）で先に買うか、予備で受けるか\n- [info] 計画開始前に手配済みを前提にした判断 8 件　（判断期限が計画開始より前）　→ 手配済みの前提（枠・キット）が本当に済んでいるか、月次の最初に確認する\n- [info] 寿命を残して退役する機 3 基（残存価値 158 百万ドル）　（退役までの入場列）　→ 売却・グリーンタイムリース・他機種への融通を年次で決める。残存価値は税引後の資産側にも載る\n### Do（回す）\n- [ok] 計画との一致 100%　（例外 9 件）\n### Check（確かめる）\n- [ok] 前提のずれ：いちばん確からしい世界は「base」（31%）　（確率: base 31%、backlog 12%、crunch 23%、stress 8%、observed 27%）　→ その世界の計画案（乗り換え）は会議に出ているか\n- [ok] 当時のリスクの幅に実績が入った年度 4/5　（決め方のずれ（採点））\n### Act（直す／動く）\n- [warn] 次の版で「決め方」を変えていない（Δ決め方 = 0）　（橋渡し: 機材の状態が動いた分（新… +85.3、前提を実績で直した分（工… -13.9、決め方を変えた分（γ・K… +0.0）　→ 確かめるで出た 3 つのずれのうち、決め方（γ・K・世界の集合・承認線）に返したものは何か\n- [info] delay の学習は 4 件の実績（重み 25%）　（事前 1.15 → 更新 1.36）　→ 件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない\n- [info] findings の学習は 4 件の実績（重み 25%）　（事前 1 → 更新 0.989）　→ 件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない\n- [ok] 変化点で学習をリセット（2 件を落とした）　（cpd_reset）\n\n## OODA\n### Observe（見る）\n- [info] 警報の出た先行指標　（LLP キット納期回答（週））　→ その指標の出所（工場・サプライヤーの回答ログ）を実データでつなぐ\n### Orient（状況判断）\n- [ok] 変化点と前提の更新が一致　（検知 2 か月目、前提 1 か月目）\n### Decide（決める）\n- [warn] 分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +3.5 百万ドル　（承認線 v を見直す）　→ 承認線 v を年次で見直す（追加作業の延びる月数の実績で）\n- [info] 暗黙のルールで決めた 5 件、会議へ 12 件　（teardown_extra 2、cm_alert 3）　→ 会議に回した件は、ルールにできないか\n### Act（直す／動く）\n- [ok] D + A = 3.0 か月 ≤ R = 8（判断期限までのリード）　（ループ T = 12.0 → 目標 5.3 か月）\n"
+  "text": "# ANA（ANA ウイングス運航） 計画の見直し（規則層のみ・合成データ）\n\n## PDCA\n### Plan（つくる）\n- [crit] 制約を緩めないと解けない計画　（緩めた制約: budget）　→ 緩めた制約はだれの前提か。計画の外で（予備・契約）解くのか\n- [warn] FY2026 の予算前提が計画と合わない（+124%）　（見込み 105.4 百万ドル／予算 47.0）　→ 予算を直すのか、入場を前後の年度へ動かすのか。どちらも決めないまま回す年にしない\n- [warn] 立て直し費が全体の 20%　（立て直し 30.2／全体 151.5 百万ドル（悪い 1 割 67.7））　→ 契約形態（固定価格・上限）で先に買うか、予備で受けるか\n- [warn] 平均の劣化では計画の入場より前に限界が来る機 1 基（最大 1 か月）　（退役までの入場列（gap））　→ その機は状態監視（EGT・LLP）を月次の最初に見る。窓の定義（earliest/limit）と劣化前提のどちらが違うか\n- [info] 計画開始前に手配済みを前提にした判断 9 件　（判断期限が計画開始より前）　→ 手配済みの前提（枠・キット）が本当に済んでいるか、月次の最初に確認する\n- [info] 寿命を残して退役する機 8 基（残存価値 181 百万ドル）　（退役までの入場列）　→ 売却・グリーンタイムリース・他機種への融通を年次で決める。残存価値は税引後の資産側にも載る\n### Do（回す）\n- [ok] 計画との一致 100%　（例外 7 件）\n### Check（確かめる）\n- [ok] 前提のずれ：いちばん確からしい世界は「base」（32%）　（確率: base 32%、backlog 8%、crunch 26%、stress 5%、observed 30%）　→ その世界の計画案（乗り換え）は会議に出ているか\n- [ok] 当時のリスクの幅に実績が入った年度 4/5　（決め方のずれ（採点））\n### Act（直す／動く）\n- [warn] 次の版で「決め方」を変えていない（Δ決め方 = 0）　（橋渡し: 機材の状態が動いた分（新… +47.8、前提を実績で直した分（工… -15.1、決め方を変えた分（γ・K… +0.0）　→ 確かめるで出た 3 つのずれのうち、決め方（γ・K・世界の集合・承認線）に返したものは何か\n- [info] delay の学習は 5 件の実績（重み 29%）　（事前 1.15 → 更新 1.11）　→ 件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない\n- [info] findings の学習は 5 件の実績（重み 29%）　（事前 1 → 更新 0.978）　→ 件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない\n- [ok] 変化点で学習をリセット（4 件を落とした）　（cpd_reset）\n\n## OODA\n### Observe（見る）\n- [info] 警報の出た先行指標　（LLP キット納期回答（週））　→ その指標の出所（工場・サプライヤーの回答ログ）を実データでつなぐ\n### Orient（状況判断）\n- [ok] 変化点と前提の更新が一致　（検知 2 か月目、前提 1 か月目）\n### Decide（決める）\n- [warn] 分解の追加作業の承認線（v = 96 千ドル/基・月）の純額 +1.0 百万ドル　（承認線 v を見直す）　→ 承認線 v を年次で見直す（追加作業の延びる月数の実績で）\n- [info] 暗黙のルールで決めた 6 件、会議へ 12 件　（teardown_extra 4、cm_alert 2）　→ 会議に回した件は、ルールにできないか\n### Act（直す／動く）\n- [ok] D + A = 3.0 か月 ≤ R = 8（判断期限までのリード）　（ループ T = 12.0 → 目標 5.3 か月）\n"
  },
  "inputs": {
   "track": "/tmp/claude-0/-home-user/a52bb465-9187-5eca-9ca8-d957904d8eca/scratchpad/out/track/ana-track-crunch.json",
   "roll": "/tmp/claude-0/-home-user/a52bb465-9187-5eca-9ca8-d957904d8eca/scratchpad/out/roll/ana-roll-2027-10.json",
-  "runout": "runout/ana.json"
+  "runout": "/tmp/claude-0/-home-user/a52bb465-9187-5eca-9ca8-d957904d8eca/scratchpad/out/runout/ana.json"
  },
  "note": "合成データ。規則層は毎回同じ判定、AI 層は Claude が事実パックと症状表から書く（資格情報がなければ規則層のみ）"
 }
