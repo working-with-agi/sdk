@@ -587,7 +587,7 @@ def outputs_cycle() -> str:
         if m < 12: o.append(f'<text x="{x + (x1 - x0) / 24}" y="{ya + 20}" font-size="10.5" fill="{MUTE}" text-anchor="middle">{(m + 9) % 12 + 1} 月</text>')
     o.append(f'<polyline fill="none" points="{xs + bw + gap + bw / 2},94 {xs + bw + gap + bw / 2},118 {x0 + 8},118 {x0 + 8},{ya - 8}" stroke="{LINE}" stroke-width="2" marker-end="url(#oc)"/>')
     o.append(f'<text x="{x0 + 16}" y="{ya - 24}" font-size="10.5" fill="{MUTE}">② を 10 月に凍結して 1 年回す</text>')
-    o.append(f'<polyline fill="none" points="{x1 - 4},{ya - 8} {x1 - 4},118 {xs + 3 * bw + 2 * gap + 30},118 {xs + 3 * bw + 2 * gap + 30},69 {xs + 3 * bw + 2 * gap + 8},69" stroke="{LINE}" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#oc)"/><text x="{x1 - 12}" y="{ya - 24}" font-size="10.5" fill="{MUTE}" text-anchor="end">9 月末 → 翌年の ① 年間見直しへ</text>')
+    o.append(f'<polyline fill="none" points="{x1 - 4},{ya - 8} {x1 - 4},124 {xs + 3 * bw + 2 * gap + 30},124 {xs + 3 * bw + 2 * gap + 30},69 {xs + 3 * bw + 2 * gap + 8},69" stroke="{LINE}" stroke-width="1.5" stroke-dasharray="6 4" marker-end="url(#oc)"/><text x="{x1 - 12}" y="{ya - 36}" font-size="10.5" fill="{MUTE}" text-anchor="end">9 月末 → 翌年の ① 年間見直しへ（点線）</text>')
     # monthly band (below)
     yb = 184
     o.append(f'<rect x="{L}" y="{yb}" width="{W - L - R}" height="112" rx="10" fill="rgba(15,118,110,0.06)" stroke="{OODA}" stroke-dasharray="8 5"/><text x="{L + 12}" y="{yb + 18}" font-size="12" font-weight="700" fill="{OODA}">毎月（月次会議）</text>')
