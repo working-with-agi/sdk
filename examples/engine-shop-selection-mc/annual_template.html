@@ -274,7 +274,8 @@ function boot() {
       kpi("工場から戻る", outs.length, `工場にいる ${inShop.length} 基`) +
       kpi("余力", (g >= 0 ? "+" : "") + g, `使える ${M.serviceable[t]} ／ 必要 ${M.required[t]}＋バッファ ${M.buffer[t]}`) +
       kpi("支出（百万ドル）", musd(spend), `平年 ${musd(M.norm_spend[t])}・年度予算 ${musd(D.budgets[M.fy[t]] || 0)}`) +
-      kpi("季節", `便 ×${M.flight_index[t].toFixed(2)}`, `欠航コスト ×${M.aog_multiplier[t].toFixed(1)}・リース上限 ${M.lease_cap[t]} 基`);
+      kpi("季節", `便 ×${M.flight_index[t].toFixed(2)}`, `欠航コスト ×${M.aog_multiplier[t].toFixed(1)}・リース上限 ${M.lease_cap[t]} 基`) +
+      (M.shop_load ? kpi("工場の混み具合", `${M.shop_load[t]} / ${M.shop_slots}`, (() => { const u = M.shop_load[t] / M.shop_slots; return u > 0.9 ? '<span class="over">詰まり気味（9 割超）</span>' : u < 0.5 ? "空きが多い（5 割未満）" : "適度"; })()) : "");
     $("d-title").textContent = `今月決めること（${due.length} 件）`;
     $("m-due").innerHTML = due.length ? `<thead><tr><th>ESN</th><th>入場予定</th><th>ワークスコープ</th><th>工場</th><th>理由</th><th>取卸し期限</th><th></th></tr></thead><tbody>` +
       due.map((r) => `<tr><td class="mono">${r.esn}</td><td class="mono">${r.month}</td><td><span class="ws ${r.workscope}">${r.workscope}</span></td><td>${D.shops[r.shop] || r.shop}</td><td>${r.deadline_reason}${r.deadline_t < 0 ? ' <span class="over">期限超過</span>' : ""}</td><td class="mono">${r.limit}</td><td>${r.watch ? '<span class="flag">要監視</span>' : ""}</td></tr>`).join("") + "</tbody>"

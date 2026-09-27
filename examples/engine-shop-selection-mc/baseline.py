@@ -150,6 +150,12 @@ def freeze(args) -> int:
     monthly["norm_spend"] = [round(sea[m]["spend_k"]) for m in cal]
     monthly["plan_visits"] = [sum(1 for r in rows if r["t"] == t) for t in range(p.horizon)]
     monthly["plan_spend"] = [sum(r["exp_cost"] for r in rows if r["t"] == t) for t in range(p.horizon)]
+    # load levelling: engines inside the contracted shop(s) each month against their capacity
+    shop_of = {k.id: k for k in p.shops}
+    monthly["shop_load"] = [sum(1 for r in rows if r["shop"] in shop_of
+                                and r["t"] + shop_of[r["shop"]].transport_months <= t < r["t"] + r["quoted_off_wing"])
+                            for t in range(p.horizon)]
+    monthly["shop_slots"] = sum(k.slots for k in p.shops if k.id != "MIDLIFE")
     outlook = {}
     for name, aging in (("stationary", 0.0), ("aging_2pct", 0.02)):
         # same seed: the first YEARS reproduce the history that led to today; the 10 years

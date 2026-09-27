@@ -3,7 +3,15 @@
  "months": 12,
  "inductions": [
   {
-   "esn": "J-137",
+   "esn": "J-110",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "GE-TC",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-161",
    "month": "2026-10",
    "t": 0,
    "shop": "GE-TC",
@@ -11,7 +19,55 @@
    "reason": "planned"
   },
   {
-   "esn": "J-181",
+   "esn": "J-196",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "GE-TC",
+   "workscope": "CORE",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-209",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "GE-TC",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-220",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "GE-TC",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-133",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "GE-TC",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-159",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "GE-TC",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-200",
+   "month": "2026-11",
+   "t": 1,
+   "shop": "GE-TC",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-211",
    "month": "2026-11",
    "t": 1,
    "shop": "GE-TC",
@@ -19,15 +75,7 @@
    "reason": "planned"
   },
   {
-   "esn": "J-143",
-   "month": "2026-11",
-   "t": 1,
-   "shop": "GE-TC",
-   "workscope": "PR",
-   "reason": "failure"
-  },
-  {
-   "esn": "J-176",
+   "esn": "J-212",
    "month": "2026-12",
    "t": 2,
    "shop": "GE-TC",
@@ -35,63 +83,55 @@
    "reason": "planned"
   },
   {
-   "esn": "J-186",
-   "month": "2026-12",
-   "t": 2,
-   "shop": "GE-TC",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-130",
+   "esn": "J-205",
    "month": "2027-01",
    "t": 3,
    "shop": "GE-TC",
-   "workscope": "FULL",
+   "workscope": "CORE",
    "reason": "planned"
   },
   {
-   "esn": "J-134",
-   "month": "2027-01",
-   "t": 3,
-   "shop": "GE-TC",
-   "workscope": "PR",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-107",
-   "month": "2027-03",
-   "t": 5,
-   "shop": "GE-TC",
-   "workscope": "PR",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-185",
-   "month": "2027-03",
-   "t": 5,
-   "shop": "GE-TC",
-   "workscope": "PR",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-207",
-   "month": "2027-03",
-   "t": 5,
+   "esn": "J-140",
+   "month": "2027-02",
+   "t": 4,
    "shop": "GE-TC",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "J-152",
+   "esn": "J-187",
+   "month": "2027-02",
+   "t": 4,
+   "shop": "GE-TC",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-191",
+   "month": "2027-02",
+   "t": 4,
+   "shop": "GE-TC",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-141",
+   "month": "2027-03",
+   "t": 5,
+   "shop": "GE-TC",
+   "workscope": "PR",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-125",
    "month": "2027-04",
    "t": 6,
    "shop": "GE-TC",
-   "workscope": "FULL",
+   "workscope": "PR",
    "reason": "planned"
   },
   {
-   "esn": "J-129",
+   "esn": "J-113",
    "month": "2027-06",
    "t": 8,
    "shop": "GE-TC",
@@ -99,7 +139,7 @@
    "reason": "planned"
   },
   {
-   "esn": "J-131",
+   "esn": "J-122",
    "month": "2027-06",
    "t": 8,
    "shop": "GE-TC",
@@ -107,7 +147,7 @@
    "reason": "planned"
   },
   {
-   "esn": "J-142",
+   "esn": "J-123",
    "month": "2027-06",
    "t": 8,
    "shop": "GE-TC",
@@ -115,33 +155,9 @@
    "reason": "planned"
   },
   {
-   "esn": "J-203",
+   "esn": "J-178",
    "month": "2027-06",
    "t": 8,
-   "shop": "GE-TC",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-221",
-   "month": "2027-06",
-   "t": 8,
-   "shop": "GE-TC",
-   "workscope": "FULL",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-115",
-   "month": "2027-07",
-   "t": 9,
-   "shop": "GE-TC",
-   "workscope": "CORE",
-   "reason": "planned"
-  },
-  {
-   "esn": "J-214",
-   "month": "2027-07",
-   "t": 9,
    "shop": "GE-TC",
    "workscope": "FULL",
    "reason": "planned"
@@ -155,9 +171,25 @@
    "reason": "failure"
   },
   {
-   "esn": "J-194",
+   "esn": "J-201",
    "month": "2027-08",
    "t": 10,
+   "shop": "GE-TC",
+   "workscope": "CORE",
+   "reason": "failure"
+  },
+  {
+   "esn": "J-116",
+   "month": "2027-09",
+   "t": 11,
+   "shop": "GE-TC",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "J-206",
+   "month": "2027-09",
+   "t": 11,
    "shop": "GE-TC",
    "workscope": "PR",
    "reason": "planned"
@@ -165,212 +197,212 @@
  ],
  "returns": [
   {
-   "esn": "J-176",
+   "esn": "J-110",
+   "month": "2027-01",
+   "t": 3,
+   "cost_k": 3604
+  },
+  {
+   "esn": "J-209",
+   "month": "2027-01",
+   "t": 3,
+   "cost_k": 3407
+  },
+  {
+   "esn": "J-159",
+   "month": "2027-02",
+   "t": 4,
+   "cost_k": 4294
+  },
+  {
+   "esn": "J-161",
    "month": "2027-03",
    "t": 5,
-   "cost_k": 3250
+   "cost_k": 11129
   },
   {
-   "esn": "J-143",
+   "esn": "J-196",
    "month": "2027-03",
    "t": 5,
-   "cost_k": 3602
+   "cost_k": 9859
   },
   {
-   "esn": "J-137",
+   "esn": "J-212",
+   "month": "2027-03",
+   "t": 5,
+   "cost_k": 3099
+  },
+  {
+   "esn": "J-220",
    "month": "2027-04",
    "t": 6,
-   "cost_k": 14764
+   "cost_k": 11129
   },
   {
-   "esn": "J-181",
+   "esn": "J-133",
    "month": "2027-04",
    "t": 6,
-   "cost_k": 7410
+   "cost_k": 11129
   },
   {
-   "esn": "J-134",
+   "esn": "J-200",
    "month": "2027-04",
    "t": 6,
-   "cost_k": 2771
+   "cost_k": 14972
   },
   {
-   "esn": "J-186",
-   "month": "2027-05",
-   "t": 7,
-   "cost_k": 10286
+   "esn": "J-211",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 8016
   },
   {
-   "esn": "J-130",
+   "esn": "J-141",
    "month": "2027-06",
    "t": 8,
-   "cost_k": 11264
+   "cost_k": 3475
   },
   {
-   "esn": "J-107",
-   "month": "2027-06",
-   "t": 8,
-   "cost_k": 2771
+   "esn": "J-205",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 8016
   },
   {
-   "esn": "J-185",
-   "month": "2027-06",
-   "t": 8,
-   "cost_k": 2771
+   "esn": "J-140",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 11129
   },
   {
-   "esn": "J-207",
-   "month": "2027-08",
-   "t": 10,
-   "cost_k": 12983
+   "esn": "J-187",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 11129
   },
   {
-   "esn": "J-152",
-   "month": "2027-09",
-   "t": 11,
-   "cost_k": 10286
+   "esn": "J-191",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 18044
+  },
+  {
+   "esn": "J-125",
+   "month": "2027-07",
+   "t": 9,
+   "cost_k": 2993
   }
  ],
  "unscheduled_in_shop": [
   0,
-  2,
-  2,
-  2,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  1,
   1,
   0,
   0,
-  0,
-  0,
-  0,
-  0,
-  0
+  1
  ],
  "kit_quotes": [
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "J-129",
+   "esn": "J-113",
    "lead_months": 10
   },
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "J-131",
+   "esn": "J-122",
    "lead_months": 13
   },
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "J-142",
+   "esn": "J-123",
    "lead_months": 13
   },
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "J-203",
+   "esn": "J-178",
    "lead_months": 12
   },
   {
-   "month": "2026-10",
-   "t": 0,
-   "esn": "J-221",
+   "month": "2027-01",
+   "t": 3,
+   "esn": "J-116",
    "lead_months": 12
   },
   {
-   "month": "2026-11",
-   "t": 1,
-   "esn": "J-115",
-   "lead_months": 14
-  },
-  {
-   "month": "2026-11",
-   "t": 1,
-   "esn": "J-214",
-   "lead_months": 10
-  },
-  {
-   "month": "2027-02",
-   "t": 4,
+   "month": "2027-01",
+   "t": 3,
    "esn": "J-119",
-   "lead_months": 13
-  },
-  {
-   "month": "2027-02",
-   "t": 4,
-   "esn": "J-127",
-   "lead_months": 11
+   "lead_months": 14
   },
   {
    "month": "2027-03",
    "t": 5,
-   "esn": "J-101",
+   "esn": "J-139",
+   "lead_months": 10
+  },
+  {
+   "month": "2027-03",
+   "t": 5,
+   "esn": "J-201",
+   "lead_months": 13
+  },
+  {
+   "month": "2027-04",
+   "t": 6,
+   "esn": "J-146",
+   "lead_months": 11
+  },
+  {
+   "month": "2027-04",
+   "t": 6,
+   "esn": "J-173",
    "lead_months": 10
   },
   {
    "month": "2027-04",
    "t": 6,
-   "esn": "J-111",
+   "esn": "J-188",
    "lead_months": 12
-  },
-  {
-   "month": "2027-04",
-   "t": 6,
-   "esn": "J-164",
-   "lead_months": 14
-  },
-  {
-   "month": "2027-04",
-   "t": 6,
-   "esn": "J-171",
-   "lead_months": 13
   },
   {
    "month": "2027-05",
    "t": 7,
-   "esn": "J-163",
+   "esn": "J-177",
+   "lead_months": 14
+  },
+  {
+   "month": "2027-05",
+   "t": 7,
+   "esn": "J-213",
    "lead_months": 13
   },
   {
    "month": "2027-06",
    "t": 8,
-   "esn": "J-114",
+   "esn": "J-108",
    "lead_months": 13
-  },
-  {
-   "month": "2027-06",
-   "t": 8,
-   "esn": "J-132",
-   "lead_months": 13
-  },
-  {
-   "month": "2027-07",
-   "t": 9,
-   "esn": "J-196",
-   "lead_months": 12
   },
   {
    "month": "2027-08",
    "t": 10,
-   "esn": "J-204",
-   "lead_months": 10
+   "esn": "J-114",
+   "lead_months": 13
   },
   {
    "month": "2027-09",
    "t": 11,
-   "esn": "J-106",
-   "lead_months": 14
-  },
-  {
-   "month": "2027-09",
-   "t": 11,
-   "esn": "J-144",
-   "lead_months": 12
-  },
-  {
-   "month": "2027-09",
-   "t": 11,
-   "esn": "J-183",
-   "lead_months": 12
+   "esn": "J-195",
+   "lead_months": 13
   }
  ],
  "meta": {

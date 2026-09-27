@@ -2,20 +2,37 @@
  "meta": {
   "description": "Per-company inputs for the 737-800 / CFM56-7B engine plan. Each company plans its own engines under its own long-term shop contract; the shop tender (data/shop_quotes.json) is a separate use case at contract renewal. Every value carries a source or is marked no_source (then it is a sensitivity parameter). See PRACTICE.md.",
   "money": "k$ (US dollars; the contract is priced in USD)",
-  "as_of": "2026-09"
+  "as_of": "2026-09",
+  "lifecycle_seed_note": "現在の機材の状態はシミュレーションの 1 本の筋書き。筋書きによって今後 2 年の入場の山が大きく変わるため、15 本のうち 1 年目・2 年目の件数が平均に近いものを選んでいる（JAL 平均 19.9 / 18.2 件、ANA 12.5 / 10.8 件）。実データがあれば、実際の各エンジンの状態に置き換える。"
  },
  "companies": {
   "jal": {
    "name": "JAL グループ（JAL・JTA）",
    "esn_prefix": "J",
-   "lifecycle_seed": 11,
+   "lifecycle_seed": 5,
    "aircraft": {
     "total": 56,
-    "by_operator": {"JAL": 42, "JTA": 14},
+    "by_operator": {
+     "JAL": 42,
+     "JTA": 14
+    },
     "source": "JAL 決算資料 2026-03-31（737-800 56 機、所有 49・リース 7。SPRING JAPAN 6 機は別会社として除外） https://finance-frontend-pc-dist.west.edge.storage-yahoo.jp/disclosure/20260430/20260430514545.pdf",
     "base_needed": 50,
     "base_needed_source": "no_source: 旧サンプルの比率（68/76）を適用",
-    "airframe_checks": {"1": 4, "2": 4, "3": 1, "4": 3, "5": 1, "6": 4, "7": 2, "8": 1, "9": 3, "10": 3, "11": 4, "12": 1},
+    "airframe_checks": {
+     "1": 4,
+     "2": 4,
+     "3": 1,
+     "4": 3,
+     "5": 1,
+     "6": 4,
+     "7": 2,
+     "8": 1,
+     "9": 3,
+     "10": 3,
+     "11": 4,
+     "12": 1
+    },
     "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる"
    },
    "engines": {
@@ -40,19 +57,70 @@
     "every_months": 2,
     "source": "737-8 確定 38 機、受領は 2026 年度後半の見込み https://press.jal.co.jp/ja/release/202503/008714.html https://www.aviationwire.jp/archives/328247 。受領の間隔は no_source"
    },
-   "spares": {"short_lease_max": 3, "short_lease_max_peak": 2, "long_spare_max": 4, "llp_kits_on_hand": 6, "source": "no_source"}
+   "spares": {
+    "short_lease_max": 3,
+    "short_lease_max_peak": 2,
+    "long_spare_max": 4,
+    "llp_kits_on_hand": 6,
+    "source": "no_source"
+   },
+   "subfleets": [
+    {
+     "name": "JAL",
+     "aircraft": 42,
+     "cycles_per_year": 1950,
+     "fh_per_cycle": 1.2,
+     "climate": 1.0,
+     "source": "推定：羽田発の幹線・地方路線（羽田–伊丹 1h05〜羽田–那覇 2h45 のブロック時間から飛行時間へ）、1 日 5〜6 回。機種別の稼働実績は非公表 https://www.airtrip.jp/travel-column/474"
+    },
+    {
+     "name": "JTA",
+     "aircraft": 14,
+     "cycles_per_year": 2000,
+     "fh_per_cycle": 1.15,
+     "climate": 1.08,
+     "source": "計算：2023 年度の提供座席 465.9 万席 ÷ 165 席 ≒ 2.8 万便 ÷ 14 機、平均区間 約 768km（有効座席キロ ÷ 座席） https://jta-okinawa.com/cms/wp-content/uploads/2024/05/24007-1.pdf 。気候係数 1.08 は那覇の夏の暑さと塩分の仮定（no_source）"
+    }
+   ],
+   "wear": {
+    "thrust": "CFM56-7B26（仮定）",
+    "initial_drop": 13,
+    "mature_loss_per_1000": 4.0,
+    "restore": {
+     "PR": 52,
+     "CORE": 55,
+     "FULL": 58
+    },
+    "fan_life": 30000,
+    "source": "最初の 1,000 EFC で 11〜15℃、その後 1,000 EFC あたり 4〜6℃。-7B26 の整備後の余裕 42〜48℃に Tech56 等の改修で約 +10℃（改修の有無は仮定） https://www.aircraft-commerce.com/wp-content/uploads/aircraft-commerce-docs1/Aircraft%20guides/CFM56-7B/ISSUE58_CFM56_7B_MTCE.pdf 。JAL・JTA の推力型式は非公表"
+   }
   },
   "ana": {
    "name": "ANA（ANA ウイングス運航）",
    "esn_prefix": "A",
-   "lifecycle_seed": 7,
+   "lifecycle_seed": 9,
    "aircraft": {
     "total": 39,
-    "by_operator": {"ANA": 39},
+    "by_operator": {
+     "ANA": 39
+    },
     "source": "ANA 決算資料 FY2024 末（737-800 39 機、所有 26・リース 13） https://www.ana.co.jp/group/investors/data/kessan/pdf/2025_04_2.pdf",
     "base_needed": 35,
     "base_needed_source": "no_source: 旧サンプルの比率（68/76）を適用",
-    "airframe_checks": {"1": 3, "2": 3, "3": 1, "4": 2, "5": 1, "6": 3, "7": 2, "8": 1, "9": 2, "10": 2, "11": 3, "12": 1},
+    "airframe_checks": {
+     "1": 3,
+     "2": 3,
+     "3": 1,
+     "4": 2,
+     "5": 1,
+     "6": 3,
+     "7": 2,
+     "8": 1,
+     "9": 2,
+     "10": 2,
+     "11": 3,
+     "12": 1
+    },
     "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる"
    },
    "engines": {
@@ -77,22 +145,103 @@
     "every_months": 2,
     "source": "737-8 30 機、受領は遅れを重ね 2026 年 10 月以降 https://www.aviationwire.jp/archives/335931 。受領の間隔は no_source"
    },
-   "spares": {"short_lease_max": 2, "short_lease_max_peak": 1, "long_spare_max": 3, "llp_kits_on_hand": 4, "source": "no_source"}
+   "spares": {
+    "short_lease_max": 2,
+    "short_lease_max_peak": 1,
+    "long_spare_max": 3,
+    "llp_kits_on_hand": 4,
+    "source": "no_source"
+   },
+   "subfleets": [
+    {
+     "name": "ANAウイングス",
+     "aircraft": 39,
+     "cycles_per_year": 1900,
+     "fh_per_cycle": 1.2,
+     "climate": 1.0,
+     "source": "推定：幹線からローカル線・那覇–離島まで、1 日 4.5〜6 回。機種別の稼働実績は非公表 https://www.anawings.co.jp/fleet/"
+    }
+   ],
+   "wear": {
+    "thrust": "CFM56-7B24",
+    "initial_drop": 13,
+    "mature_loss_per_1000": 4.0,
+    "restore": {
+     "PR": 72,
+     "CORE": 75,
+     "FULL": 78
+    },
+    "fan_life": 30000,
+    "source": "推力型式 -7B24 は ANA Fact Book https://www.ana.co.jp/ir/kessan_info/annual/pdf/10f/10f_07.pdf 。-7B24 の整備後の余裕 70〜80℃、劣化は同上（Aircraft Commerce 58 号）"
+   }
   }
  },
  "common": {
   "quotes": {
-   "PR": {"price": 2900, "tat": 2},
-   "CORE": {"price": 7900, "tat": 4},
-   "FULL": {"price": 11000, "tat": 4},
+   "PR": {
+    "price": 2900,
+    "tat": 2
+   },
+   "CORE": {
+    "price": 7900,
+    "tat": 4
+   },
+   "FULL": {
+    "price": 11000,
+    "tat": 4
+   },
    "source": "2020 年の例（コア性能回復 2.0M$＋寿命部品 2.0M$、コア＋LPT 3.0M$＋寿命部品 3.0M$）を性能回復 年 4.5〜6.5%・寿命部品 年 5〜8% で 2026 年に外挿（推定） https://www.istat.org/Portals/0/Ackert_ISTAT_LearningLab_pdf.pdf 。工期は現状のオーバーホール 90〜120 日、軽作業 約 45 日 https://www.aerfin.com/latest/insights/inside-the-engine-mro-supply-chain-why-repair-delays-are-rising-and-whats-driving-them/"
   },
-  "findings": {"prob": 0.45, "overrun_mean": 0.2, "overrun_cv": 0.7, "overrun_share": 1.0, "source": "実費精算では所見の費用は全額自社負担（契約の型）。確率と大きさは no_source"},
-  "delay": {"shop_months": [0, 1, 2, 3], "shop_probs": [0.4, 0.3, 0.2, 0.1], "engine_months": [0, 1], "engine_probs": [0.85, 0.15], "source": "高圧タービン翼の不足で工期が延び、ナローボディ全般で 180〜200 日も（上側の裾） https://aviationweek.com/mro/supply-chain/hpt-blade-supply-crunch-slows-cfm56-overhauls https://avitrader.com/2026/09/23/spare-engine-management/"},
+  "findings": {
+   "prob": 0.45,
+   "overrun_mean": 0.2,
+   "overrun_cv": 0.7,
+   "overrun_share": 1.0,
+   "source": "実費精算では所見の費用は全額自社負担（契約の型）。確率と大きさは no_source"
+  },
+  "delay": {
+   "shop_months": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "shop_probs": [
+    0.4,
+    0.3,
+    0.2,
+    0.1
+   ],
+   "engine_months": [
+    0,
+    1
+   ],
+   "engine_probs": [
+    0.85,
+    0.15
+   ],
+   "source": "高圧タービン翼の不足で工期が延び、ナローボディ全般で 180〜200 日も（上側の裾） https://aviationweek.com/mro/supply-chain/hpt-blade-supply-crunch-slows-cfm56-overhauls https://avitrader.com/2026/09/23/spare-engine-management/"
+  },
   "transport_cost": 80,
-  "short_term_lease": {"cost_per_month": 130, "source": "中長期 80〜90k$/月、短期は 10 万ドル前後〜＋使用量料金 https://www.iba.aero/resources/articles/iba-engine-value-and-lease-rate-update/"},
-  "long_term_spare": {"cost_per_month": 85, "source": "IBA 2025（中長期 80〜90k$/月）"},
-  "workscope_build_value": {"PR": 0, "CORE": 3200, "FULL": 6100, "source": "no_source: 期間の後に残る寿命の価値。旧サンプルと同じく、正味（価格−価値）で FULL が CORE よりわずかに高くなるように置く"},
-  "llp_kits": {"lead_time_months": 8, "emergency_premium": 900, "source": "no_source（公開の根拠なし）"}
+  "short_term_lease": {
+   "cost_per_month": 130,
+   "source": "中長期 80〜90k$/月、短期は 10 万ドル前後〜＋使用量料金 https://www.iba.aero/resources/articles/iba-engine-value-and-lease-rate-update/"
+  },
+  "long_term_spare": {
+   "cost_per_month": 85,
+   "source": "IBA 2025（中長期 80〜90k$/月）"
+  },
+  "workscope_build_value": {
+   "PR": 0,
+   "CORE": 3200,
+   "FULL": 6100,
+   "source": "no_source: 期間の後に残る寿命の価値。旧サンプルと同じく、正味（価格−価値）で FULL が CORE よりわずかに高くなるように置く"
+  },
+  "llp_kits": {
+   "lead_time_months": 8,
+   "emergency_premium": 900,
+   "source": "no_source（公開の根拠なし）"
+  },
+  "severity_source": "区間の長さによる劣化の係数（1 回あたり ≒ (0.65 + 0.2 × 飛行時間) ÷ 1.05）。Ackert の飛行時間あたりの係数表から換算した近似 https://www.aircraftmonitor.com/uploads/1/5/9/9/15993320/engine_mx_concepts_for_financiers___v2.pdf"
  }
 }

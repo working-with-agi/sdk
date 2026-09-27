@@ -84,11 +84,15 @@ def fleet_for(name: str, cfg: dict, common: dict) -> tuple[dict, dict]:
             "description": (f"{cfg['name']}: 737-800 {cfg['aircraft']['total']} 機、保有エンジン {cfg['engines']['owned']} 基。"
                             f"20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る {len(rows)} 基。"),
             "sources": {"aircraft": cfg["aircraft"]["source"], "engines": cfg["engines"]["source"],
+                        "subfleets": {x["name"]: x["source"] for x in cfg.get("subfleets", [])},
+                        "wear": cfg.get("wear", {}).get("source"), "severity": common.get("severity_source"),
                         "contract": cfg["contract"]["source"], "transition": cfg["transition"]["source"],
                         "quotes": common["quotes"]["source"], "leases": common["short_term_lease"]["source"],
                         "llp_kits": common["llp_kits"]["source"], "spares": sp["source"]},
             "units": base["meta"]["units"],
-            "derivation": {"aircraft": cfg["aircraft"]["by_operator"], "flight_index": lifecycle.FLIGHT_INDEX,
+            "derivation": {"aircraft": cfg["aircraft"]["by_operator"], "thrust": cfg.get("wear", {}).get("thrust"),
+                           "subfleets": [{k: x[k] for k in ("name", "aircraft", "cycles_per_year", "fh_per_cycle", "climate")} for x in cfg.get("subfleets", [])],
+                           "norms_by_subfleet": n.get("by_subfleet"), "flight_index": lifecycle.FLIGHT_INDEX,
                            "airframe_checks": lifecycle.AIRFRAME_CHECKS, "base_aircraft_needed": lifecycle.BASE_NEEDED,
                            "buffer_quantile": 0.95},
         },
@@ -111,8 +115,7 @@ def fleet_for(name: str, cfg: dict, common: dict) -> tuple[dict, dict]:
         # after the window the schedule still needs its peak positions plus the shelf buffer
         "terminal_engines": max(required) + buffer,
         "transition": {k: v for k, v in cfg["transition"].items() if k != "source"},
-        "engines": [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard")}
-                    | {"operator": name} for r in rows],
+        "engines": [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard", "driver")} for r in rows],
     }
     return fleet, n
 

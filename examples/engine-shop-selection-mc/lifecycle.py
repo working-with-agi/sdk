@@ -64,18 +64,47 @@ TAT = 3
 UNSCHED_RATE = 0.004
 HOURS_PER_CYCLE = 1.6
 ESN_PREFIX = "896"
+# Sub-fleets (operating companies / route networks) the engines fly with. The default is
+# the old single-fleet sample; configure() replaces it with a company's sub-fleets.
+#   share         part of the installed positions
+#   cycles_year   cycles per aircraft-year      fh_cycle   flight hours per cycle
+#   severity      EGT deterioration multiplier per cycle (stage length x climate x derate)
+SUBFLEETS = [{"name": "fleet", "share": 1.0, "cycles_year": 2000, "fh_cycle": HOURS_PER_CYCLE, "severity": 1.0}]
+INITIAL_DROP = 0.0            # degC lost in the first 1,000 cycles after a shop visit
+FAN_LIFE = None               # fan/booster LLP life [cycles]; None = not tracked (old sample)
+
+
+def leg_factor(fh_cycle: float) -> float:
+    """EGT deterioration per cycle vs a 2-hour leg (Ackert's severity curve per flight hour,
+    turned into per-cycle; ~0.65 + 0.2 x FH, 1.05 at 2 h)."""
+    return (0.65 + 0.2 * fh_cycle) / 1.05
 
 
 def configure(cfg: dict) -> None:
     """Switch the simulation to one company's fleet (data/companies.json): fleet size,
     engines, aircraft the schedule needs, airframe checks, workscope costs, ESN prefix."""
     global AIRCRAFT, ENGINES, BASE_NEEDED, AIRFRAME_CHECKS, COST, ESN_PREFIX
+    global SUBFLEETS, INITIAL_DROP, EGT_LOSS_PER_1000, RESTORE, FAN_LIFE, CYCLES_PER_MONTH, HOURS_PER_CYCLE
     AIRCRAFT = cfg["aircraft"]["total"]
     ENGINES = cfg["engines"]["owned"]
     BASE_NEEDED = cfg["aircraft"]["base_needed"]
     AIRFRAME_CHECKS = {int(m): n for m, n in cfg["aircraft"]["airframe_checks"].items()}
     COST = {w: q["price"] for w, q in cfg["contract"]["quotes"].items()}
     ESN_PREFIX = cfg["esn_prefix"]
+    if "subfleets" in cfg:
+        subs = cfg["subfleets"]
+        total = sum(x["aircraft"] for x in subs)
+        SUBFLEETS = [{"name": x["name"], "share": x["aircraft"] / total, "cycles_year": x["cycles_per_year"],
+                      "fh_cycle": x["fh_per_cycle"], "severity": leg_factor(x["fh_per_cycle"]) * x.get("climate", 1.0)}
+                     for x in subs]
+        CYCLES_PER_MONTH = sum(x["share"] * x["cycles_year"] for x in SUBFLEETS) / 12
+        HOURS_PER_CYCLE = sum(x["share"] * x["cycles_year"] * x["fh_cycle"] for x in SUBFLEETS) / (12 * CYCLES_PER_MONTH)
+    if "wear" in cfg:
+        w = cfg["wear"]
+        INITIAL_DROP = w["initial_drop"]
+        EGT_LOSS_PER_1000 = w["mature_loss_per_1000"]
+        RESTORE = {k: float(v) for k, v in w["restore"].items()}
+        FAN_LIFE = w.get("fan_life")
 
 
 def month_of(t: int) -> int:
@@ -90,9 +119,9 @@ def needed_positions(t: int) -> int:
 STUB_TOLERANCE = 0.6  # replace a stack only if it would not last 60 % of a typical run
 
 
-def workscope(core_left: float, lp_left: float, margin_run_cycles: float) -> str:
+def workscope(core_left: float, lp_left: float, margin_run_cycles: float, fan_left: float = float("inf")) -> str:
     core_low = core_left < MIN_LLP + STUB_TOLERANCE * margin_run_cycles
-    lp_low = lp_left < MIN_LLP + STUB_TOLERANCE * margin_run_cycles
+    lp_low = min(lp_left, fan_left) < MIN_LLP + STUB_TOLERANCE * margin_run_cycles
     if core_low and lp_low:
         return "FULL"
     if lp_low:
@@ -103,9 +132,18 @@ def workscope(core_left: float, lp_left: float, margin_run_cycles: float) -> str
 
 
 def simulate(seed: int = 7, years: int = YEARS, aging: float = 0.0, unsched_growth: float = 0.0):
-    """aging: yearly growth of the deterioration rate (0 = stationary baseline)."""
+    """aging: yearly growth of the deterioration rate (0 = stationary baseline).
+
+    Each engine flies with one sub-fleet at a time: cycles per month follow that
+    sub-fleet's utilisation and the flight index, EGT margin falls by the initial drop over
+    the first 1,000 cycles after a visit and then at the mature rate x the sub-fleet's
+    severity. After a shop visit the engine goes onto whichever aircraft needs it next,
+    i.e. a sub-fleet drawn by share (engines are pooled within the company)."""
     rng = np.random.default_rng(seed)
     T = years * 12
+    share = np.array([x["share"] for x in SUBFLEETS])
+    cyc_sub = np.array([x["cycles_year"] / 12 for x in SUBFLEETS])
+    sev_sub = np.array([x["severity"] for x in SUBFLEETS])
     # engine state
     loss = EGT_LOSS_PER_1000 / 1000 * rng.lognormal(-EGT_SPREAD**2 / 2, EGT_SPREAD, ENGINES)  # degC per cycle
     # start from scattered ages (no real fleet is new all at once); the warm-up then
@@ -113,40 +151,56 @@ def simulate(seed: int = 7, years: int = YEARS, aging: float = 0.0, unsched_grow
     margin = rng.uniform(MIN_MARGIN + 1, RESTORE["FULL"], ENGINES)
     core = rng.uniform(MIN_LLP + 500, CORE_LIFE, ENGINES)
     lp = rng.uniform(MIN_LLP + 500, LP_LIFE, ENGINES)
+    fan = rng.uniform(MIN_LLP + 500, FAN_LIFE, ENGINES) if FAN_LIFE else np.full(ENGINES, np.inf)
+    # extra random draws only when the features are on, so the old sample keeps its stream
+    since = rng.uniform(1000, 10000, ENGINES) if INITIAL_DROP else np.full(ENGINES, 1e9)  # cycles since the last visit
+    sub = rng.choice(len(SUBFLEETS), size=ENGINES, p=share) if len(SUBFLEETS) > 1 else np.zeros(ENGINES, dtype=int)
     back = np.zeros(ENGINES, dtype=int)   # month the engine returns from the shop (0 = serviceable)
     visits, shelf, short = [], [], []
-    run_cycles = RESTORE["PR"] / (EGT_LOSS_PER_1000 / 1000)  # typical run length in cycles
+    run_cycles = (RESTORE["PR"] - INITIAL_DROP) / (EGT_LOSS_PER_1000 / 1000)  # typical run length in cycles
 
     for t in range(T):
         serviceable = np.nonzero(back <= t)[0]
         need = needed_positions(t)
-        # fly the engines with the most margin left first? no: fly by index (random order) --
-        # the operator cannot pick freely; a random permutation stands in for tail assignment
+        # fly by index (random order): the operator cannot pick freely; a random
+        # permutation stands in for tail assignment
         order = rng.permutation(serviceable)
         flying = order[:need]
         shelf.append(len(serviceable) - len(flying))
         short.append(max(0, need - len(serviceable)))
         idx = FLIGHT_INDEX[month_of(t)]
-        cyc = CYCLES_PER_MONTH * idx
         grow = (1 + aging) ** (t / 12)
-        margin[flying] -= loss[flying] * cyc * grow
+        cyc = cyc_sub[sub[flying]] * idx
+        # the first 1,000 cycles after a visit lose the initial drop instead of the mature rate
+        early = np.clip(1000 - since[flying], 0, None) if INITIAL_DROP else np.zeros(len(flying))
+        drop = INITIAL_DROP * np.minimum(cyc, early) / 1000
+        margin[flying] -= drop + loss[flying] * np.maximum(0, cyc - early) * sev_sub[sub[flying]] * grow
+        since[flying] += cyc
         core[flying] -= cyc
         lp[flying] -= cyc
+        fan[flying] -= cyc
         # removals
-        due = flying[(margin[flying] < MIN_MARGIN) | (core[flying] < MIN_LLP) | (lp[flying] < MIN_LLP)]
+        lim = (margin[flying] < MIN_MARGIN) | (core[flying] < MIN_LLP) | (lp[flying] < MIN_LLP) | (fan[flying] < MIN_LLP)
+        due = flying[lim]
         rate = UNSCHED_RATE * (1 + unsched_growth) ** (t / 12)
         failed = flying[rng.random(len(flying)) < rate]
         for e in set(due.tolist()) | set(failed.tolist()):
-            ws = workscope(core[e], lp[e], run_cycles)
+            ws = workscope(core[e], lp[e], run_cycles, fan[e])
             unscheduled = e not in set(due.tolist())
-            visits.append({"t": t, "engine": int(e), "ws": ws, "unscheduled": bool(unscheduled)})
+            visits.append({"t": t, "engine": int(e), "ws": ws, "unscheduled": bool(unscheduled),
+                           "subfleet": SUBFLEETS[sub[e]]["name"]})
             margin[e] = RESTORE[ws]
+            since[e] = 0
             if ws in ("CORE", "FULL"):
                 core[e] = CORE_LIFE
             if ws == "FULL":
                 lp[e] = LP_LIFE
+                if FAN_LIFE and fan[e] < MIN_LLP + STUB_TOLERANCE * run_cycles:
+                    fan[e] = FAN_LIFE
             back[e] = t + TAT + int(rng.integers(0, 3))
-    state = {"margin": margin, "core": core, "lp": lp, "back": back, "loss": loss}
+            if len(SUBFLEETS) > 1:
+                sub[e] = rng.choice(len(SUBFLEETS), p=share)
+    state = {"margin": margin, "core": core, "lp": lp, "fan": fan, "back": back, "loss": loss, "sub": sub, "since": since}
     return visits, np.array(shelf), np.array(short), state, T
 
 
@@ -156,7 +210,7 @@ def norms(visits, shelf, short, T):
     yrs = (T - t0) / 12
     by_ws = {w: sum(1 for x in v if x["ws"] == w) / yrs for w in COST}
     spend = sum(COST[x["ws"]] for x in v) / yrs
-    efh = ENGINES * 0 + sum(needed_positions(t) for t in range(t0, T)) / (T - t0) * 12 * CYCLES_PER_MONTH * HOURS_PER_CYCLE
+    efh = sum(needed_positions(t) for t in range(t0, T)) / (T - t0) * 12 * CYCLES_PER_MONTH * HOURS_PER_CYCLE
     per_year = {}
     for x in v:
         y = (x["t"] - t0) // 12
@@ -173,8 +227,17 @@ def norms(visits, shelf, short, T):
         "shelf_mean": float(shelf[t0:].mean()),
         "shelf_p5": float(np.percentile(shelf[t0:], 5)),
         "short_month_share": float((short[t0:] > 0).mean()),
+        "by_subfleet": {x["name"]: {"visits_per_year": sum(1 for y in v if y.get("subfleet") == x["name"]) / yrs,
+                                     "cycles_per_year": x["cycles_year"], "fh_per_cycle": x["fh_cycle"],
+                                     "severity": round(x["severity"], 3)} for x in SUBFLEETS},
+        "removal_causes": removal_causes(v),
         "seasonal": seasonal(visits, shelf, short, T),
     }
+
+
+def removal_causes(v):
+    n = max(1, len(v))
+    return {"unscheduled": sum(x["unscheduled"] for x in v) / n}
 
 
 def seasonal(visits, shelf, short, T):
@@ -210,19 +273,23 @@ def seasonal(visits, shelf, short, T):
 
 def window(state, t_now: int, horizon: int = 24, width: int = 5):
     """Engines due within the window, as input rows for the 2-year optimisation."""
-    margin, core, lp, loss = state["margin"], state["core"], state["lp"], state["loss"]
+    margin, core, lp, fan, loss = state["margin"], state["core"], state["lp"], state["fan"], state["loss"]
+    sub = state.get("sub", np.zeros(ENGINES, dtype=int))
+    since = state.get("since", np.full(ENGINES, 1e9))
     rows = []
-    run_cycles = RESTORE["PR"] / (EGT_LOSS_PER_1000 / 1000)
+    run_cycles = (RESTORE["PR"] - INITIAL_DROP) / (EGT_LOSS_PER_1000 / 1000)
     for e in range(ENGINES):
         if state["back"][e] > t_now:
             continue  # in the shop right now
-        # months until a hard limit, assuming average utilisation
-        m_egt = (margin[e] - MIN_MARGIN) / (loss[e] * CYCLES_PER_MONTH) if loss[e] > 0 else 1e9
-        m_llp = (min(core[e], lp[e]) - MIN_LLP) / CYCLES_PER_MONTH
+        sf = SUBFLEETS[sub[e]]
+        cpm = sf["cycles_year"] / 12  # the sub-fleet it flies with now, average month
+        left = margin[e] - MIN_MARGIN - INITIAL_DROP * max(0.0, 1000 - since[e]) / 1000
+        m_egt = left / (loss[e] * sf["severity"] * cpm) if loss[e] > 0 else 1e9
+        m_llp = (min(core[e], lp[e], fan[e]) - MIN_LLP) / cpm
         latest = int(max(0, min(m_egt, m_llp)))
         if latest >= horizon:
             continue
-        ws = workscope(core[e] - latest * CYCLES_PER_MONTH, lp[e] - latest * CYCLES_PER_MONTH, run_cycles)
+        ws = workscope(core[e] - latest * cpm, lp[e] - latest * cpm, run_cycles, fan[e] - latest * cpm)
         allowed = {"PR": ["PR", "CORE"], "CORE": ["CORE", "FULL"], "FULL": ["FULL"]}[ws]
         rows.append({
             "esn": f"{ESN_PREFIX}-{101 + e:03d}",
@@ -230,9 +297,10 @@ def window(state, t_now: int, horizon: int = 24, width: int = 5):
             "allowed_workscopes": allowed,
             "watch": bool(loss[e] > np.quantile(loss, 0.85)),
             "hazard": 0.06 if loss[e] > np.quantile(loss, 0.85) else 0.01,
-            "operator": "mainline",
+            "operator": sf["name"],
+            "driver": "EGT" if m_egt <= m_llp else "LLP",
             "egt_margin": round(float(margin[e]), 1),
-            "llp_remaining": {"core": int(core[e]), "lp": int(lp[e])},
+            "llp_remaining": {"core": int(core[e]), "lp": int(lp[e]), **({"fan": int(fan[e])} if FAN_LIFE else {})},
         })
     return rows
 

@@ -3,7 +3,7 @@
  "months": 12,
  "inductions": [
   {
-   "esn": "A-135",
+   "esn": "A-124",
    "month": "2026-10",
    "t": 0,
    "shop": "MTU-ZH",
@@ -15,11 +15,19 @@
    "month": "2026-10",
    "t": 0,
    "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-164",
+   "month": "2026-10",
+   "t": 0,
+   "shop": "MTU-ZH",
    "workscope": "CORE",
    "reason": "planned"
   },
   {
-   "esn": "A-172",
+   "esn": "A-182",
    "month": "2026-10",
    "t": 0,
    "shop": "MTU-ZH",
@@ -27,15 +35,7 @@
    "reason": "planned"
   },
   {
-   "esn": "A-139",
-   "month": "2026-11",
-   "t": 1,
-   "shop": "MTU-ZH",
-   "workscope": "CORE",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-173",
+   "esn": "A-115",
    "month": "2026-11",
    "t": 1,
    "shop": "MTU-ZH",
@@ -43,47 +43,39 @@
    "reason": "planned"
   },
   {
-   "esn": "A-158",
-   "month": "2027-02",
-   "t": 4,
+   "esn": "A-186",
+   "month": "2026-11",
+   "t": 1,
    "shop": "MTU-ZH",
-   "workscope": "PR",
+   "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-150",
+   "esn": "A-135",
+   "month": "2027-01",
+   "t": 3,
+   "shop": "MTU-ZH",
+   "workscope": "FULL",
+   "reason": "planned"
+  },
+  {
+   "esn": "A-153",
    "month": "2027-02",
    "t": 4,
    "shop": "MTU-ZH",
-   "workscope": "PR",
-   "reason": "failure"
+   "workscope": "FULL",
+   "reason": "planned"
   },
   {
-   "esn": "A-104",
+   "esn": "A-130",
    "month": "2027-03",
    "t": 5,
    "shop": "MTU-ZH",
-   "workscope": "CORE",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-146",
-   "month": "2027-05",
-   "t": 7,
-   "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-116",
-   "month": "2027-06",
-   "t": 8,
-   "shop": "MTU-ZH",
-   "workscope": "PR",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-119",
+   "esn": "A-118",
    "month": "2027-06",
    "t": 8,
    "shop": "MTU-ZH",
@@ -91,7 +83,7 @@
    "reason": "planned"
   },
   {
-   "esn": "A-145",
+   "esn": "A-178",
    "month": "2027-06",
    "t": 8,
    "shop": "MTU-ZH",
@@ -99,23 +91,15 @@
    "reason": "planned"
   },
   {
-   "esn": "A-156",
-   "month": "2027-06",
-   "t": 8,
-   "shop": "MTU-ZH",
-   "workscope": "PR",
-   "reason": "planned"
-  },
-  {
-   "esn": "A-132",
+   "esn": "A-108",
    "month": "2027-07",
    "t": 9,
    "shop": "MTU-ZH",
-   "workscope": "CORE",
+   "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-176",
+   "esn": "A-121",
    "month": "2027-08",
    "t": 10,
    "shop": "MTU-ZH",
@@ -123,15 +107,15 @@
    "reason": "planned"
   },
   {
-   "esn": "A-117",
-   "month": "2027-09",
-   "t": 11,
+   "esn": "A-165",
+   "month": "2027-08",
+   "t": 10,
    "shop": "MTU-ZH",
    "workscope": "FULL",
    "reason": "planned"
   },
   {
-   "esn": "A-144",
+   "esn": "A-105",
    "month": "2027-09",
    "t": 11,
    "shop": "MTU-ZH",
@@ -141,133 +125,145 @@
  ],
  "returns": [
   {
-   "esn": "A-135",
-   "month": "2027-06",
-   "t": 8,
-   "cost_k": 10371
+   "esn": "A-124",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 13924
   },
   {
    "esn": "A-137",
-   "month": "2027-06",
-   "t": 8,
-   "cost_k": 8221
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 13173
   },
   {
-   "esn": "A-172",
+   "esn": "A-164",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 7557
+  },
+  {
+   "esn": "A-182",
+   "month": "2027-04",
+   "t": 6,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-115",
+   "month": "2027-05",
+   "t": 7,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-186",
+   "month": "2027-05",
+   "t": 7,
+   "cost_k": 10491
+  },
+  {
+   "esn": "A-135",
    "month": "2027-07",
    "t": 9,
-   "cost_k": 9544
+   "cost_k": 10491
   },
   {
-   "esn": "A-139",
-   "month": "2027-07",
-   "t": 9,
-   "cost_k": 6877
-  },
-  {
-   "esn": "A-173",
-   "month": "2027-07",
-   "t": 9,
-   "cost_k": 9544
-  },
-  {
-   "esn": "A-158",
+   "esn": "A-153",
    "month": "2027-08",
    "t": 10,
-   "cost_k": 2575
+   "cost_k": 12206
   },
   {
-   "esn": "A-150",
+   "esn": "A-130",
    "month": "2027-09",
    "t": 11,
-   "cost_k": 3649
+   "cost_k": 12509
   }
  ],
  "unscheduled_in_shop": [
   0,
   0,
-  1,
-  3,
-  3,
-  1,
-  1,
-  1,
-  1,
+  0,
+  0,
+  0,
+  0,
+  0,
   1,
   1,
-  1
+  1,
+  1,
+  0
  ],
  "kit_quotes": [
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "A-119",
+   "esn": "A-118",
    "lead_months": 6
   },
   {
    "month": "2026-10",
    "t": 0,
-   "esn": "A-145",
+   "esn": "A-178",
    "lead_months": 9
   },
   {
    "month": "2026-11",
    "t": 1,
-   "esn": "A-132",
+   "esn": "A-108",
    "lead_months": 9
   },
   {
    "month": "2026-12",
    "t": 2,
-   "esn": "A-176",
+   "esn": "A-121",
+   "lead_months": 8
+  },
+  {
+   "month": "2026-12",
+   "t": 2,
+   "esn": "A-165",
    "lead_months": 8
   },
   {
    "month": "2027-01",
    "t": 3,
-   "esn": "A-117",
-   "lead_months": 8
-  },
-  {
-   "month": "2027-01",
-   "t": 3,
-   "esn": "A-144",
+   "esn": "A-105",
    "lead_months": 10
   },
   {
    "month": "2027-02",
    "t": 4,
-   "esn": "A-134",
+   "esn": "A-163",
    "lead_months": 6
-  },
-  {
-   "month": "2027-02",
-   "t": 4,
-   "esn": "A-138",
-   "lead_months": 9
-  },
-  {
-   "month": "2027-03",
-   "t": 5,
-   "esn": "A-166",
-   "lead_months": 7
   },
   {
    "month": "2027-04",
    "t": 6,
-   "esn": "A-161",
+   "esn": "A-107",
+   "lead_months": 9
+  },
+  {
+   "month": "2027-06",
+   "t": 8,
+   "esn": "A-113",
+   "lead_months": 7
+  },
+  {
+   "month": "2027-07",
+   "t": 9,
+   "esn": "A-134",
    "lead_months": 6
   },
   {
-   "month": "2027-07",
-   "t": 9,
-   "esn": "A-136",
+   "month": "2027-09",
+   "t": 11,
+   "esn": "A-103",
    "lead_months": 8
   },
   {
-   "month": "2027-07",
-   "t": 9,
-   "esn": "A-149",
+   "month": "2027-09",
+   "t": 11,
+   "esn": "A-145",
    "lead_months": 10
   }
  ],
