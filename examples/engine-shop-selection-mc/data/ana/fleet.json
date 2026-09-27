@@ -862,5 +862,1128 @@
     "extend_option_months": 6
    }
   ]
+ },
+ "engine_state": {
+  "note": "20 年シミュレーション（最初の 5 年は捨てる）が残した全エンジンの状態。窓の外の機の入場列はここから始める",
+  "engines": [
+   {
+    "esn": "A-101",
+    "operator": "ANAウイングス",
+    "egt_margin": 63.9,
+    "cycles_since_visit": 1401,
+    "llp_remaining": {
+     "core": 13598,
+     "lp": 18598,
+     "fan": 15598
+    },
+    "wear_factor": 0.845,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-102",
+    "operator": "ANAウイングス",
+    "egt_margin": 49.1,
+    "cycles_since_visit": 5549,
+    "llp_remaining": {
+     "core": 9450,
+     "lp": 14450,
+     "fan": 24450
+    },
+    "wear_factor": 1.098,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-103",
+    "operator": "ANAウイングス",
+    "egt_margin": 63.8,
+    "cycles_since_visit": 1564,
+    "llp_remaining": {
+     "core": 13435,
+     "lp": 18435,
+     "fan": 14785
+    },
+    "wear_factor": 0.683,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-104",
+    "operator": "ANAウイングス",
+    "egt_margin": 48.2,
+    "cycles_since_visit": 5345,
+    "llp_remaining": {
+     "core": 9654,
+     "lp": 14654,
+     "fan": 24654
+    },
+    "wear_factor": 1.217,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-105",
+    "operator": "ANAウイングス",
+    "egt_margin": 15.6,
+    "cycles_since_visit": 12286,
+    "llp_remaining": {
+     "core": 2713,
+     "lp": 7713,
+     "fan": 4131
+    },
+    "wear_factor": 1.375,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-106",
+    "operator": "ANAウイングス",
+    "egt_margin": 42.2,
+    "cycles_since_visit": 8781,
+    "llp_remaining": {
+     "core": 6218,
+     "lp": 11218,
+     "fan": 21218
+    },
+    "wear_factor": 0.923,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-107",
+    "operator": "ANAウイングス",
+    "egt_margin": 32.3,
+    "cycles_since_visit": 8288,
+    "llp_remaining": {
+     "core": 2467,
+     "lp": 7467,
+     "fan": 3965
+    },
+    "wear_factor": 1.151,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-108",
+    "operator": "ANAウイングス",
+    "egt_margin": 76.0,
+    "cycles_since_visit": 155,
+    "llp_remaining": {
+     "core": 14844,
+     "lp": 19844,
+     "fan": 29844
+    },
+    "wear_factor": 1.1,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-109",
+    "operator": "ANAウイングス",
+    "egt_margin": 47.1,
+    "cycles_since_visit": 7026,
+    "llp_remaining": {
+     "core": 7973,
+     "lp": 12973,
+     "fan": 22973
+    },
+    "wear_factor": 0.936,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-110",
+    "operator": "ANAウイングス",
+    "egt_margin": 59.3,
+    "cycles_since_visit": 3135,
+    "llp_remaining": {
+     "core": 11864,
+     "lp": 16865,
+     "fan": 26865
+    },
+    "wear_factor": 0.833,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-111",
+    "operator": "ANAウイングス",
+    "egt_margin": 52.1,
+    "cycles_since_visit": 7517,
+    "llp_remaining": {
+     "core": 7482,
+     "lp": 12482,
+     "fan": 8867
+    },
+    "wear_factor": 0.622,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-112",
+    "operator": "ANAウイングス",
+    "egt_margin": 55.8,
+    "cycles_since_visit": 1691,
+    "llp_remaining": {
+     "core": 12396,
+     "lp": 17397,
+     "fan": 27397
+    },
+    "wear_factor": 1.47,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-113",
+    "operator": "ANAウイングス",
+    "egt_margin": 78.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 20000,
+     "fan": 30000
+    },
+    "wear_factor": 1.021,
+    "back_in_months": 1
+   },
+   {
+    "esn": "A-114",
+    "operator": "ANAウイングス",
+    "egt_margin": 33.2,
+    "cycles_since_visit": 6154,
+    "llp_remaining": {
+     "core": 8845,
+     "lp": 13845,
+     "fan": 12768
+    },
+    "wear_factor": 1.941,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-115",
+    "operator": "ANAウイングス",
+    "egt_margin": 24.7,
+    "cycles_since_visit": 10983,
+    "llp_remaining": {
+     "core": 4016,
+     "lp": 9016,
+     "fan": 19016
+    },
+    "wear_factor": 1.27,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-116",
+    "operator": "ANAウイングス",
+    "egt_margin": 71.6,
+    "cycles_since_visit": 494,
+    "llp_remaining": {
+     "core": 14506,
+     "lp": 19506,
+     "fan": 29506
+    },
+    "wear_factor": 1.108,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-117",
+    "operator": "ANAウイングス",
+    "egt_margin": 58.9,
+    "cycles_since_visit": 3184,
+    "llp_remaining": {
+     "core": 11815,
+     "lp": 16815,
+     "fan": 26815
+    },
+    "wear_factor": 0.877,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-118",
+    "operator": "ANAウイングス",
+    "egt_margin": 32.3,
+    "cycles_since_visit": 8019,
+    "llp_remaining": {
+     "core": 6980,
+     "lp": 11980,
+     "fan": 3474
+    },
+    "wear_factor": 1.463,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-119",
+    "operator": "ANAウイングス",
+    "egt_margin": 37.6,
+    "cycles_since_visit": 10475,
+    "llp_remaining": {
+     "core": 4524,
+     "lp": 9524,
+     "fan": 19524
+    },
+    "wear_factor": 0.91,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-120",
+    "operator": "ANAウイングス",
+    "egt_margin": 46.2,
+    "cycles_since_visit": 4870,
+    "llp_remaining": {
+     "core": 10129,
+     "lp": 15129,
+     "fan": 11482
+    },
+    "wear_factor": 1.53,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-121",
+    "operator": "ANAウイングス",
+    "egt_margin": 52.5,
+    "cycles_since_visit": 5188,
+    "llp_remaining": {
+     "core": 9811,
+     "lp": 14811,
+     "fan": 11159
+    },
+    "wear_factor": 0.935,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-122",
+    "operator": "ANAウイングス",
+    "egt_margin": 30.1,
+    "cycles_since_visit": 11141,
+    "llp_remaining": {
+     "core": 3858,
+     "lp": 8858,
+     "fan": 18858
+    },
+    "wear_factor": 1.082,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-123",
+    "operator": "ANAウイングス",
+    "egt_margin": 43.2,
+    "cycles_since_visit": 10719,
+    "llp_remaining": {
+     "core": 4280,
+     "lp": 9280,
+     "fan": 19280
+    },
+    "wear_factor": 0.706,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-124",
+    "operator": "ANAウイングス",
+    "egt_margin": 73.7,
+    "cycles_since_visit": 332,
+    "llp_remaining": {
+     "core": 14667,
+     "lp": 19667,
+     "fan": 29667
+    },
+    "wear_factor": 1.856,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-125",
+    "operator": "ANAウイングス",
+    "egt_margin": 64.2,
+    "cycles_since_visit": 1254,
+    "llp_remaining": {
+     "core": 13745,
+     "lp": 18746,
+     "fan": 28746
+    },
+    "wear_factor": 1.009,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-126",
+    "operator": "ANAウイングス",
+    "egt_margin": 55.8,
+    "cycles_since_visit": 4080,
+    "llp_remaining": {
+     "core": 10919,
+     "lp": 15919,
+     "fan": 25919
+    },
+    "wear_factor": 0.938,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-127",
+    "operator": "ANAウイングス",
+    "egt_margin": 48.1,
+    "cycles_since_visit": 5196,
+    "llp_remaining": {
+     "core": 9803,
+     "lp": 14803,
+     "fan": 24803
+    },
+    "wear_factor": 1.265,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-128",
+    "operator": "ANAウイングス",
+    "egt_margin": 48.6,
+    "cycles_since_visit": 7235,
+    "llp_remaining": {
+     "core": 7764,
+     "lp": 12764,
+     "fan": 22764
+    },
+    "wear_factor": 0.827,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-129",
+    "operator": "ANAウイングス",
+    "egt_margin": 60.2,
+    "cycles_since_visit": 2216,
+    "llp_remaining": {
+     "core": 12783,
+     "lp": 17783,
+     "fan": 27783
+    },
+    "wear_factor": 1.252,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-130",
+    "operator": "ANAウイングス",
+    "egt_margin": 62.4,
+    "cycles_since_visit": 2044,
+    "llp_remaining": {
+     "core": 12955,
+     "lp": 17955,
+     "fan": 14396
+    },
+    "wear_factor": 0.771,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-131",
+    "operator": "ANAウイングス",
+    "egt_margin": 50.9,
+    "cycles_since_visit": 3146,
+    "llp_remaining": {
+     "core": 7309,
+     "lp": 12309,
+     "fan": 8697
+    },
+    "wear_factor": 1.184,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-132",
+    "operator": "ANAウイングス",
+    "egt_margin": 39.9,
+    "cycles_since_visit": 9726,
+    "llp_remaining": {
+     "core": 5273,
+     "lp": 5488,
+     "fan": 15488
+    },
+    "wear_factor": 0.796,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-133",
+    "operator": "ANAウイングス",
+    "egt_margin": 42.3,
+    "cycles_since_visit": 11914,
+    "llp_remaining": {
+     "core": 3085,
+     "lp": 8085,
+     "fan": 4486
+    },
+    "wear_factor": 0.653,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-134",
+    "operator": "ANAウイングス",
+    "egt_margin": 78.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 20000,
+     "fan": 16495
+    },
+    "wear_factor": 0.891,
+    "back_in_months": 1
+   },
+   {
+    "esn": "A-135",
+    "operator": "ANAウイングス",
+    "egt_margin": 69.7,
+    "cycles_since_visit": 636,
+    "llp_remaining": {
+     "core": 14363,
+     "lp": 19363,
+     "fan": 29363
+    },
+    "wear_factor": 0.717,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-136",
+    "operator": "ANAウイングス",
+    "egt_margin": 59.2,
+    "cycles_since_visit": 2530,
+    "llp_remaining": {
+     "core": 12469,
+     "lp": 17469,
+     "fan": 27469
+    },
+    "wear_factor": 1.187,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-137",
+    "operator": "ANAウイングス",
+    "egt_margin": 35.9,
+    "cycles_since_visit": 9810,
+    "llp_remaining": {
+     "core": 5189,
+     "lp": 10189,
+     "fan": 6585
+    },
+    "wear_factor": 1.039,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-138",
+    "operator": "ANAウイングス",
+    "egt_margin": 47.7,
+    "cycles_since_visit": 5647,
+    "llp_remaining": {
+     "core": 9352,
+     "lp": 14352,
+     "fan": 24352
+    },
+    "wear_factor": 1.174,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-139",
+    "operator": "ANAウイングス",
+    "egt_margin": 73.7,
+    "cycles_since_visit": 332,
+    "llp_remaining": {
+     "core": 14667,
+     "lp": 19667,
+     "fan": 29667
+    },
+    "wear_factor": 1.057,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-140",
+    "operator": "ANAウイングス",
+    "egt_margin": 33.0,
+    "cycles_since_visit": 11632,
+    "llp_remaining": {
+     "core": 3367,
+     "lp": 8367,
+     "fan": 4779
+    },
+    "wear_factor": 0.946,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-141",
+    "operator": "ANAウイングス",
+    "egt_margin": 75.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 13614,
+     "fan": 23614
+    },
+    "wear_factor": 1.041,
+    "back_in_months": 2
+   },
+   {
+    "esn": "A-142",
+    "operator": "ANAウイングス",
+    "egt_margin": 32.5,
+    "cycles_since_visit": 8603,
+    "llp_remaining": {
+     "core": 6396,
+     "lp": 11396,
+     "fan": 7834
+    },
+    "wear_factor": 1.344,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-143",
+    "operator": "ANAウイングス",
+    "egt_margin": 62.6,
+    "cycles_since_visit": 1752,
+    "llp_remaining": {
+     "core": 13247,
+     "lp": 18247,
+     "fan": 14682
+    },
+    "wear_factor": 0.987,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-144",
+    "operator": "ANAウイングス",
+    "egt_margin": 50.4,
+    "cycles_since_visit": 6390,
+    "llp_remaining": {
+     "core": 8609,
+     "lp": 13609,
+     "fan": 9975
+    },
+    "wear_factor": 0.854,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-145",
+    "operator": "ANAウイングス",
+    "egt_margin": 38.4,
+    "cycles_since_visit": 11312,
+    "llp_remaining": {
+     "core": 3687,
+     "lp": 8687,
+     "fan": 5179
+    },
+    "wear_factor": 0.811,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-146",
+    "operator": "ANAウイングス",
+    "egt_margin": 61.2,
+    "cycles_since_visit": 2208,
+    "llp_remaining": {
+     "core": 12791,
+     "lp": 17791,
+     "fan": 14280
+    },
+    "wear_factor": 0.978,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-147",
+    "operator": "ANAウイングス",
+    "egt_margin": 78.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 20000,
+     "fan": 16470
+    },
+    "wear_factor": 0.857,
+    "back_in_months": 2
+   },
+   {
+    "esn": "A-148",
+    "operator": "ANAウイングス",
+    "egt_margin": 43.8,
+    "cycles_since_visit": 5023,
+    "llp_remaining": {
+     "core": 9976,
+     "lp": 14976,
+     "fan": 12114
+    },
+    "wear_factor": 1.653,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-149",
+    "operator": "ANAウイングス",
+    "egt_margin": 60.2,
+    "cycles_since_visit": 2971,
+    "llp_remaining": {
+     "core": 12028,
+     "lp": 17028,
+     "fan": 27028
+    },
+    "wear_factor": 0.77,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-150",
+    "operator": "ANAウイングス",
+    "egt_margin": 69.5,
+    "cycles_since_visit": 655,
+    "llp_remaining": {
+     "core": 14344,
+     "lp": 19344,
+     "fan": 15827
+    },
+    "wear_factor": 0.788,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-151",
+    "operator": "ANAウイングス",
+    "egt_margin": 29.6,
+    "cycles_since_visit": 12614,
+    "llp_remaining": {
+     "core": 2385,
+     "lp": 7385,
+     "fan": 3868
+    },
+    "wear_factor": 0.957,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-152",
+    "operator": "ANAウイングス",
+    "egt_margin": 42.8,
+    "cycles_since_visit": 6748,
+    "llp_remaining": {
+     "core": 8251,
+     "lp": 13251,
+     "fan": 9624
+    },
+    "wear_factor": 1.216,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-153",
+    "operator": "ANAウイングス",
+    "egt_margin": 56.4,
+    "cycles_since_visit": 3800,
+    "llp_remaining": {
+     "core": 11199,
+     "lp": 16200,
+     "fan": 12686
+    },
+    "wear_factor": 0.966,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-154",
+    "operator": "ANAウイングス",
+    "egt_margin": 50.8,
+    "cycles_since_visit": 5332,
+    "llp_remaining": {
+     "core": 9667,
+     "lp": 6823,
+     "fan": 16823
+    },
+    "wear_factor": 0.813,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-155",
+    "operator": "ANAウイングス",
+    "egt_margin": 35.1,
+    "cycles_since_visit": 12134,
+    "llp_remaining": {
+     "core": 2865,
+     "lp": 7865,
+     "fan": 17865
+    },
+    "wear_factor": 0.844,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-156",
+    "operator": "ANAウイングス",
+    "egt_margin": 58.1,
+    "cycles_since_visit": 3296,
+    "llp_remaining": {
+     "core": 11703,
+     "lp": 16703,
+     "fan": 26703
+    },
+    "wear_factor": 0.946,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-157",
+    "operator": "ANAウイングス",
+    "egt_margin": 18.9,
+    "cycles_since_visit": 11990,
+    "llp_remaining": {
+     "core": 3009,
+     "lp": 8009,
+     "fan": 4435
+    },
+    "wear_factor": 1.318,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-158",
+    "operator": "ANAウイングス",
+    "egt_margin": 45.4,
+    "cycles_since_visit": 8624,
+    "llp_remaining": {
+     "core": 6375,
+     "lp": 11375,
+     "fan": 7855
+    },
+    "wear_factor": 0.809,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-159",
+    "operator": "ANAウイングス",
+    "egt_margin": 52.1,
+    "cycles_since_visit": 5022,
+    "llp_remaining": {
+     "core": 9977,
+     "lp": 14977,
+     "fan": 11334
+    },
+    "wear_factor": 1.01,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-160",
+    "operator": "ANAウイングス",
+    "egt_margin": 40.8,
+    "cycles_since_visit": 9595,
+    "llp_remaining": {
+     "core": 5404,
+     "lp": 10405,
+     "fan": 6845
+    },
+    "wear_factor": 0.886,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-161",
+    "operator": "ANAウイングス",
+    "egt_margin": 24.4,
+    "cycles_since_visit": 12381,
+    "llp_remaining": {
+     "core": 2618,
+     "lp": 7618,
+     "fan": 17618
+    },
+    "wear_factor": 1.121,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-162",
+    "operator": "ANAウイングス",
+    "egt_margin": 61.3,
+    "cycles_since_visit": 2029,
+    "llp_remaining": {
+     "core": 12970,
+     "lp": 17970,
+     "fan": 27970
+    },
+    "wear_factor": 1.141,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-163",
+    "operator": "ANAウイングス",
+    "egt_margin": 63.4,
+    "cycles_since_visit": 1722,
+    "llp_remaining": {
+     "core": 13277,
+     "lp": 18277,
+     "fan": 28277
+    },
+    "wear_factor": 0.716,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-164",
+    "operator": "ANAウイングス",
+    "egt_margin": 41.2,
+    "cycles_since_visit": 4995,
+    "llp_remaining": {
+     "core": 10004,
+     "lp": 15004,
+     "fan": 25004
+    },
+    "wear_factor": 1.877,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-165",
+    "operator": "ANAウイングス",
+    "egt_margin": 69.5,
+    "cycles_since_visit": 655,
+    "llp_remaining": {
+     "core": 14344,
+     "lp": 19344,
+     "fan": 29344
+    },
+    "wear_factor": 1.083,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-166",
+    "operator": "ANAウイングス",
+    "egt_margin": 61.5,
+    "cycles_since_visit": 2224,
+    "llp_remaining": {
+     "core": 12775,
+     "lp": 17775,
+     "fan": 27775
+    },
+    "wear_factor": 0.91,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-167",
+    "operator": "ANAウイングス",
+    "egt_margin": 58.9,
+    "cycles_since_visit": 3317,
+    "llp_remaining": {
+     "core": 11682,
+     "lp": 16682,
+     "fan": 13039
+    },
+    "wear_factor": 0.826,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-168",
+    "operator": "ANAウイングス",
+    "egt_margin": 42.0,
+    "cycles_since_visit": 8469,
+    "llp_remaining": {
+     "core": 6530,
+     "lp": 11530,
+     "fan": 21530
+    },
+    "wear_factor": 0.968,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-169",
+    "operator": "ANAウイングス",
+    "egt_margin": 24.3,
+    "cycles_since_visit": 13295,
+    "llp_remaining": {
+     "core": 1704,
+     "lp": 6704,
+     "fan": 16704
+    },
+    "wear_factor": 1.041,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-170",
+    "operator": "ANAウイングス",
+    "egt_margin": 41.1,
+    "cycles_since_visit": 7261,
+    "llp_remaining": {
+     "core": 7738,
+     "lp": 12738,
+     "fan": 9106
+    },
+    "wear_factor": 1.199,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-171",
+    "operator": "ANAウイングス",
+    "egt_margin": 63.0,
+    "cycles_since_visit": 1597,
+    "llp_remaining": {
+     "core": 13402,
+     "lp": 18402,
+     "fan": 9788
+    },
+    "wear_factor": 1.035,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-172",
+    "operator": "ANAウイングス",
+    "egt_margin": 60.6,
+    "cycles_since_visit": 2191,
+    "llp_remaining": {
+     "core": 12808,
+     "lp": 17808,
+     "fan": 14288
+    },
+    "wear_factor": 1.166,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-173",
+    "operator": "ANAウイングス",
+    "egt_margin": 50.9,
+    "cycles_since_visit": 7398,
+    "llp_remaining": {
+     "core": 7601,
+     "lp": 12601,
+     "fan": 22601
+    },
+    "wear_factor": 0.691,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-174",
+    "operator": "ANAウイングス",
+    "egt_margin": 63.9,
+    "cycles_since_visit": 1412,
+    "llp_remaining": {
+     "core": 13587,
+     "lp": 18587,
+     "fan": 28587
+    },
+    "wear_factor": 0.856,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-175",
+    "operator": "ANAウイングス",
+    "egt_margin": 44.6,
+    "cycles_since_visit": 8964,
+    "llp_remaining": {
+     "core": 6035,
+     "lp": 11035,
+     "fan": 7480
+    },
+    "wear_factor": 0.803,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-176",
+    "operator": "ANAウイングス",
+    "egt_margin": 24.4,
+    "cycles_since_visit": 12856,
+    "llp_remaining": {
+     "core": 2143,
+     "lp": 7143,
+     "fan": 3521
+    },
+    "wear_factor": 1.077,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-177",
+    "operator": "ANAウイングス",
+    "egt_margin": 69.5,
+    "cycles_since_visit": 653,
+    "llp_remaining": {
+     "core": 14346,
+     "lp": 19346,
+     "fan": 29346
+    },
+    "wear_factor": 1.159,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-178",
+    "operator": "ANAウイングス",
+    "egt_margin": 45.1,
+    "cycles_since_visit": 9734,
+    "llp_remaining": {
+     "core": 5265,
+     "lp": 10265,
+     "fan": 6679
+    },
+    "wear_factor": 0.716,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-179",
+    "operator": "ANAウイングス",
+    "egt_margin": 48.6,
+    "cycles_since_visit": 6216,
+    "llp_remaining": {
+     "core": 8783,
+     "lp": 13783,
+     "fan": 10192
+    },
+    "wear_factor": 0.991,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-180",
+    "operator": "ANAウイングス",
+    "egt_margin": 14.2,
+    "cycles_since_visit": 12372,
+    "llp_remaining": {
+     "core": 2146,
+     "lp": 7146,
+     "fan": 17146
+    },
+    "wear_factor": 1.239,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-181",
+    "operator": "ANAウイングス",
+    "egt_margin": 15.6,
+    "cycles_since_visit": 12961,
+    "llp_remaining": {
+     "core": 2038,
+     "lp": 7038,
+     "fan": 17038
+    },
+    "wear_factor": 1.299,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-182",
+    "operator": "ANAウイングス",
+    "egt_margin": 62.8,
+    "cycles_since_visit": 1874,
+    "llp_remaining": {
+     "core": 13125,
+     "lp": 18125,
+     "fan": 28125
+    },
+    "wear_factor": 0.782,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-183",
+    "operator": "ANAウイングス",
+    "egt_margin": 78.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 20000,
+     "fan": 16421
+    },
+    "wear_factor": 1.189,
+    "back_in_months": 3
+   },
+   {
+    "esn": "A-184",
+    "operator": "ANAウイングス",
+    "egt_margin": 61.2,
+    "cycles_since_visit": 2048,
+    "llp_remaining": {
+     "core": 12951,
+     "lp": 17951,
+     "fan": 27951
+    },
+    "wear_factor": 1.124,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-185",
+    "operator": "ANAウイングス",
+    "egt_margin": 37.7,
+    "cycles_since_visit": 10247,
+    "llp_remaining": {
+     "core": 4752,
+     "lp": 9752,
+     "fan": 6140
+    },
+    "wear_factor": 0.927,
+    "back_in_months": 0
+   },
+   {
+    "esn": "A-186",
+    "operator": "ANAウイングス",
+    "egt_margin": 41.9,
+    "cycles_since_visit": 5297,
+    "llp_remaining": {
+     "core": 9702,
+     "lp": 14702,
+     "fan": 24702
+    },
+    "wear_factor": 1.688,
+    "back_in_months": 0
+   }
+  ]
  }
 }

@@ -123,6 +123,10 @@ def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[
         "engines": [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard", "driver", "egt_margin", "llp_remaining")} for r in rows],
     }
     fleet["leases"] = leases_for(rows, cfg, seed)
+    # every engine's simulated state (the 40-odd due engines above are the subset inside
+    # the window); the run-out chain to retirement starts from this, not from an assumption
+    fleet["engine_state"] = {"note": "20 年シミュレーション（最初の 5 年は捨てる）が残した全エンジンの状態。窓の外の機の入場列はここから始める",
+                             "engines": lifecycle.snapshot(state, T)}
     return fleet, n
 
 

@@ -1192,5 +1192,1609 @@
     "extend_option_months": 6
    }
   ]
+ },
+ "engine_state": {
+  "note": "20 年シミュレーション（最初の 5 年は捨てる）が残した全エンジンの状態。窓の外の機の入場列はここから始める",
+  "engines": [
+   {
+    "esn": "J-101",
+    "operator": "JTA",
+    "egt_margin": 38.9,
+    "cycles_since_visit": 3108,
+    "llp_remaining": {
+     "core": 16891,
+     "lp": 21891,
+     "fan": 26891
+    },
+    "wear_factor": 0.871,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-102",
+    "operator": "JAL",
+    "egt_margin": 44.3,
+    "cycles_since_visit": 1303,
+    "llp_remaining": {
+     "core": 18696,
+     "lp": 23696,
+     "fan": 28696
+    },
+    "wear_factor": 0.764,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-103",
+    "operator": "JAL",
+    "egt_margin": 51.4,
+    "cycles_since_visit": 507,
+    "llp_remaining": {
+     "core": 19493,
+     "lp": 24493,
+     "fan": 10864
+    },
+    "wear_factor": 1.0,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-104",
+    "operator": "JTA",
+    "egt_margin": 40.1,
+    "cycles_since_visit": 1483,
+    "llp_remaining": {
+     "core": 18516,
+     "lp": 8173,
+     "fan": 13173
+    },
+    "wear_factor": 1.182,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-105",
+    "operator": "JTA",
+    "egt_margin": 31.8,
+    "cycles_since_visit": 3833,
+    "llp_remaining": {
+     "core": 16166,
+     "lp": 21166,
+     "fan": 7596
+    },
+    "wear_factor": 1.414,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-106",
+    "operator": "JAL",
+    "egt_margin": 28.0,
+    "cycles_since_visit": 5131,
+    "llp_remaining": {
+     "core": 14868,
+     "lp": 6348,
+     "fan": 11348
+    },
+    "wear_factor": 1.094,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-107",
+    "operator": "JAL",
+    "egt_margin": 32.6,
+    "cycles_since_visit": 3245,
+    "llp_remaining": {
+     "core": 9900,
+     "lp": 14900,
+     "fan": 19900
+    },
+    "wear_factor": 0.927,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-108",
+    "operator": "JTA",
+    "egt_margin": 22.7,
+    "cycles_since_visit": 6646,
+    "llp_remaining": {
+     "core": 5138,
+     "lp": 10138,
+     "fan": 15138
+    },
+    "wear_factor": 0.874,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-109",
+    "operator": "JAL",
+    "egt_margin": 33.4,
+    "cycles_since_visit": 3926,
+    "llp_remaining": {
+     "core": 16074,
+     "lp": 21074,
+     "fan": 26074
+    },
+    "wear_factor": 1.283,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-110",
+    "operator": "JAL",
+    "egt_margin": 6.5,
+    "cycles_since_visit": 7577,
+    "llp_remaining": {
+     "core": 8252,
+     "lp": 13252,
+     "fan": 18252
+    },
+    "wear_factor": 1.601,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-111",
+    "operator": "JAL",
+    "egt_margin": 18.6,
+    "cycles_since_visit": 6786,
+    "llp_remaining": {
+     "core": 9105,
+     "lp": 14105,
+     "fan": 19105
+    },
+    "wear_factor": 1.139,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-112",
+    "operator": "JAL",
+    "egt_margin": 41.3,
+    "cycles_since_visit": 1278,
+    "llp_remaining": {
+     "core": 18721,
+     "lp": 7159,
+     "fan": 12159
+    },
+    "wear_factor": 0.782,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-113",
+    "operator": "JAL",
+    "egt_margin": 19.1,
+    "cycles_since_visit": 8711,
+    "llp_remaining": {
+     "core": 2997,
+     "lp": 7997,
+     "fan": 12997
+    },
+    "wear_factor": 0.837,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-114",
+    "operator": "JAL",
+    "egt_margin": 21.4,
+    "cycles_since_visit": 5815,
+    "llp_remaining": {
+     "core": 14184,
+     "lp": 19184,
+     "fan": 6093
+    },
+    "wear_factor": 1.587,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-115",
+    "operator": "JAL",
+    "egt_margin": 15.6,
+    "cycles_since_visit": 9501,
+    "llp_remaining": {
+     "core": 10498,
+     "lp": 15498,
+     "fan": 20498
+    },
+    "wear_factor": 1.119,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-116",
+    "operator": "JAL",
+    "egt_margin": 31.4,
+    "cycles_since_visit": 7382,
+    "llp_remaining": {
+     "core": 12617,
+     "lp": 17617,
+     "fan": 4108
+    },
+    "wear_factor": 0.69,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-117",
+    "operator": "JAL",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 30000
+    },
+    "wear_factor": 1.042,
+    "back_in_months": 2
+   },
+   {
+    "esn": "J-118",
+    "operator": "JAL",
+    "egt_margin": 36.3,
+    "cycles_since_visit": 4537,
+    "llp_remaining": {
+     "core": 15463,
+     "lp": 20463,
+     "fan": 25463
+    },
+    "wear_factor": 0.796,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-119",
+    "operator": "JTA",
+    "egt_margin": 28.0,
+    "cycles_since_visit": 5663,
+    "llp_remaining": {
+     "core": 14336,
+     "lp": 3349,
+     "fan": 8349
+    },
+    "wear_factor": 0.909,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-120",
+    "operator": "JAL",
+    "egt_margin": 47.6,
+    "cycles_since_visit": 341,
+    "llp_remaining": {
+     "core": 15466,
+     "lp": 20466,
+     "fan": 25466
+    },
+    "wear_factor": 0.942,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-121",
+    "operator": "JTA",
+    "egt_margin": 38.6,
+    "cycles_since_visit": 2160,
+    "llp_remaining": {
+     "core": 17839,
+     "lp": 6464,
+     "fan": 11464
+    },
+    "wear_factor": 0.89,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-122",
+    "operator": "JAL",
+    "egt_margin": 24.5,
+    "cycles_since_visit": 4832,
+    "llp_remaining": {
+     "core": 3018,
+     "lp": 8018,
+     "fan": 13018
+    },
+    "wear_factor": 1.222,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-123",
+    "operator": "JAL",
+    "egt_margin": 15.7,
+    "cycles_since_visit": 8207,
+    "llp_remaining": {
+     "core": 3100,
+     "lp": 8100,
+     "fan": 13100
+    },
+    "wear_factor": 1.047,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-124",
+    "operator": "JAL",
+    "egt_margin": 40.9,
+    "cycles_since_visit": 2453,
+    "llp_remaining": {
+     "core": 17546,
+     "lp": 22546,
+     "fan": 27546
+    },
+    "wear_factor": 0.918,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-125",
+    "operator": "JTA",
+    "egt_margin": 7.4,
+    "cycles_since_visit": 10678,
+    "llp_remaining": {
+     "core": 9321,
+     "lp": 14321,
+     "fan": 19321
+    },
+    "wear_factor": 1.179,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-126",
+    "operator": "JTA",
+    "egt_margin": 42.9,
+    "cycles_since_visit": 1496,
+    "llp_remaining": {
+     "core": 18503,
+     "lp": 23503,
+     "fan": 28503
+    },
+    "wear_factor": 1.309,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-127",
+    "operator": "JAL",
+    "egt_margin": 28.9,
+    "cycles_since_visit": 8386,
+    "llp_remaining": {
+     "core": 11613,
+     "lp": 16613,
+     "fan": 21613
+    },
+    "wear_factor": 0.706,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-128",
+    "operator": "JAL",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 30000
+    },
+    "wear_factor": 0.998,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-129",
+    "operator": "JAL",
+    "egt_margin": 42.2,
+    "cycles_since_visit": 2083,
+    "llp_remaining": {
+     "core": 17916,
+     "lp": 22916,
+     "fan": 9398
+    },
+    "wear_factor": 0.833,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-130",
+    "operator": "JAL",
+    "egt_margin": 38.6,
+    "cycles_since_visit": 3037,
+    "llp_remaining": {
+     "core": 16962,
+     "lp": 21962,
+     "fan": 8624
+    },
+    "wear_factor": 1.019,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-131",
+    "operator": "JAL",
+    "egt_margin": 34.4,
+    "cycles_since_visit": 5453,
+    "llp_remaining": {
+     "core": 14546,
+     "lp": 19546,
+     "fan": 6010
+    },
+    "wear_factor": 0.771,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-132",
+    "operator": "JTA",
+    "egt_margin": 16.1,
+    "cycles_since_visit": 9181,
+    "llp_remaining": {
+     "core": 10818,
+     "lp": 15818,
+     "fan": 20818
+    },
+    "wear_factor": 1.07,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-133",
+    "operator": "JAL",
+    "egt_margin": 16.3,
+    "cycles_since_visit": 8887,
+    "llp_remaining": {
+     "core": 11112,
+     "lp": 2055,
+     "fan": 7055
+    },
+    "wear_factor": 1.054,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-134",
+    "operator": "JAL",
+    "egt_margin": 53.6,
+    "cycles_since_visit": 341,
+    "llp_remaining": {
+     "core": 19658,
+     "lp": 24658,
+     "fan": 29658
+    },
+    "wear_factor": 0.986,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-135",
+    "operator": "JAL",
+    "egt_margin": 42.6,
+    "cycles_since_visit": 1966,
+    "llp_remaining": {
+     "core": 18033,
+     "lp": 23033,
+     "fan": 9399
+    },
+    "wear_factor": 0.819,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-136",
+    "operator": "JAL",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 11446
+    },
+    "wear_factor": 0.964,
+    "back_in_months": 2
+   },
+   {
+    "esn": "J-137",
+    "operator": "JAL",
+    "egt_margin": 40.2,
+    "cycles_since_visit": 2915,
+    "llp_remaining": {
+     "core": 17084,
+     "lp": 22084,
+     "fan": 9172
+    },
+    "wear_factor": 0.81,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-138",
+    "operator": "JAL",
+    "egt_margin": 53.8,
+    "cycles_since_visit": 325,
+    "llp_remaining": {
+     "core": 19675,
+     "lp": 24675,
+     "fan": 29675
+    },
+    "wear_factor": 0.758,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-139",
+    "operator": "JAL",
+    "egt_margin": 13.0,
+    "cycles_since_visit": 10196,
+    "llp_remaining": {
+     "core": 9803,
+     "lp": 14803,
+     "fan": 19803
+    },
+    "wear_factor": 1.126,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-140",
+    "operator": "JTA",
+    "egt_margin": 30.8,
+    "cycles_since_visit": 6353,
+    "llp_remaining": {
+     "core": 13646,
+     "lp": 18646,
+     "fan": 2449
+    },
+    "wear_factor": 0.806,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-141",
+    "operator": "JAL",
+    "egt_margin": 6.7,
+    "cycles_since_visit": 9689,
+    "llp_remaining": {
+     "core": 10310,
+     "lp": 15310,
+     "fan": 20310
+    },
+    "wear_factor": 1.426,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-142",
+    "operator": "JAL",
+    "egt_margin": 26.1,
+    "cycles_since_visit": 5798,
+    "llp_remaining": {
+     "core": 14202,
+     "lp": 19202,
+     "fan": 5637
+    },
+    "wear_factor": 1.273,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-143",
+    "operator": "JTA",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 11351
+    },
+    "wear_factor": 0.646,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-144",
+    "operator": "JAL",
+    "egt_margin": 43.5,
+    "cycles_since_visit": 653,
+    "llp_remaining": {
+     "core": 7111,
+     "lp": 12111,
+     "fan": 17111
+    },
+    "wear_factor": 1.139,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-145",
+    "operator": "JAL",
+    "egt_margin": 34.2,
+    "cycles_since_visit": 5346,
+    "llp_remaining": {
+     "core": 14653,
+     "lp": 19653,
+     "fan": 24653
+    },
+    "wear_factor": 0.808,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-146",
+    "operator": "JAL",
+    "egt_margin": 22.6,
+    "cycles_since_visit": 5936,
+    "llp_remaining": {
+     "core": 3839,
+     "lp": 8839,
+     "fan": 13839
+    },
+    "wear_factor": 1.073,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-147",
+    "operator": "JTA",
+    "egt_margin": 37.2,
+    "cycles_since_visit": 2345,
+    "llp_remaining": {
+     "core": 17654,
+     "lp": 8879,
+     "fan": 13879
+    },
+    "wear_factor": 1.076,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-148",
+    "operator": "JAL",
+    "egt_margin": 47.4,
+    "cycles_since_visit": 819,
+    "llp_remaining": {
+     "core": 19181,
+     "lp": 24181,
+     "fan": 10680
+    },
+    "wear_factor": 0.647,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-149",
+    "operator": "JAL",
+    "egt_margin": 20.6,
+    "cycles_since_visit": 8862,
+    "llp_remaining": {
+     "core": 11137,
+     "lp": 16137,
+     "fan": 21137
+    },
+    "wear_factor": 1.004,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-150",
+    "operator": "JAL",
+    "egt_margin": 22.3,
+    "cycles_since_visit": 8363,
+    "llp_remaining": {
+     "core": 11636,
+     "lp": 16636,
+     "fan": 21636
+    },
+    "wear_factor": 0.998,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-151",
+    "operator": "JAL",
+    "egt_margin": 38.2,
+    "cycles_since_visit": 2622,
+    "llp_remaining": {
+     "core": 17377,
+     "lp": 22377,
+     "fan": 8847
+    },
+    "wear_factor": 1.353,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-152",
+    "operator": "JAL",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 11456
+    },
+    "wear_factor": 0.792,
+    "back_in_months": 1
+   },
+   {
+    "esn": "J-153",
+    "operator": "JAL",
+    "egt_margin": 32.9,
+    "cycles_since_visit": 4065,
+    "llp_remaining": {
+     "core": 15934,
+     "lp": 20934,
+     "fan": 7277
+    },
+    "wear_factor": 1.28,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-154",
+    "operator": "JAL",
+    "egt_margin": 44.7,
+    "cycles_since_visit": 1137,
+    "llp_remaining": {
+     "core": 18862,
+     "lp": 23862,
+     "fan": 28862
+    },
+    "wear_factor": 0.808,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-155",
+    "operator": "JAL",
+    "egt_margin": 33.0,
+    "cycles_since_visit": 4977,
+    "llp_remaining": {
+     "core": 15022,
+     "lp": 20022,
+     "fan": 6463
+    },
+    "wear_factor": 0.979,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-156",
+    "operator": "JAL",
+    "egt_margin": 14.2,
+    "cycles_since_visit": 12548,
+    "llp_remaining": {
+     "core": 7451,
+     "lp": 12451,
+     "fan": 17451
+    },
+    "wear_factor": 0.862,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-157",
+    "operator": "JAL",
+    "egt_margin": 39.3,
+    "cycles_since_visit": 976,
+    "llp_remaining": {
+     "core": 9680,
+     "lp": 14680,
+     "fan": 19680
+    },
+    "wear_factor": 1.528,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-158",
+    "operator": "JAL",
+    "egt_margin": 13.2,
+    "cycles_since_visit": 9400,
+    "llp_remaining": {
+     "core": 10599,
+     "lp": 15599,
+     "fan": 20599
+    },
+    "wear_factor": 1.226,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-159",
+    "operator": "JAL",
+    "egt_margin": 5.0,
+    "cycles_since_visit": 7632,
+    "llp_remaining": {
+     "core": 12367,
+     "lp": 17367,
+     "fan": 22367
+    },
+    "wear_factor": 1.954,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-160",
+    "operator": "JAL",
+    "egt_margin": 41.9,
+    "cycles_since_visit": 1792,
+    "llp_remaining": {
+     "core": 18207,
+     "lp": 23207,
+     "fan": 9549
+    },
+    "wear_factor": 1.249,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-161",
+    "operator": "JAL",
+    "egt_margin": 12.9,
+    "cycles_since_visit": 7429,
+    "llp_remaining": {
+     "core": 1828,
+     "lp": 6828,
+     "fan": 11828
+    },
+    "wear_factor": 1.314,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-162",
+    "operator": "JAL",
+    "egt_margin": 45.7,
+    "cycles_since_visit": 487,
+    "llp_remaining": {
+     "core": 8105,
+     "lp": 13105,
+     "fan": 18105
+    },
+    "wear_factor": 1.313,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-163",
+    "operator": "JTA",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 12303
+    },
+    "wear_factor": 0.914,
+    "back_in_months": 3
+   },
+   {
+    "esn": "J-164",
+    "operator": "JTA",
+    "egt_margin": 20.4,
+    "cycles_since_visit": 8141,
+    "llp_remaining": {
+     "core": 11858,
+     "lp": 16858,
+     "fan": 21858
+    },
+    "wear_factor": 1.046,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-165",
+    "operator": "JTA",
+    "egt_margin": 52.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 9276,
+     "lp": 14276,
+     "fan": 19276
+    },
+    "wear_factor": 1.491,
+    "back_in_months": 1
+   },
+   {
+    "esn": "J-166",
+    "operator": "JAL",
+    "egt_margin": 28.4,
+    "cycles_since_visit": 6571,
+    "llp_remaining": {
+     "core": 13428,
+     "lp": 18428,
+     "fan": 23428
+    },
+    "wear_factor": 0.964,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-167",
+    "operator": "JAL",
+    "egt_margin": 24.5,
+    "cycles_since_visit": 6948,
+    "llp_remaining": {
+     "core": 13051,
+     "lp": 18051,
+     "fan": 23051
+    },
+    "wear_factor": 1.115,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-168",
+    "operator": "JAL",
+    "egt_margin": 37.8,
+    "cycles_since_visit": 2275,
+    "llp_remaining": {
+     "core": 17725,
+     "lp": 8743,
+     "fan": 13743
+    },
+    "wear_factor": 1.058,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-169",
+    "operator": "JTA",
+    "egt_margin": 43.3,
+    "cycles_since_visit": 670,
+    "llp_remaining": {
+     "core": 7293,
+     "lp": 12293,
+     "fan": 17293
+    },
+    "wear_factor": 1.239,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-170",
+    "operator": "JAL",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 30000
+    },
+    "wear_factor": 0.971,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-171",
+    "operator": "JAL",
+    "egt_margin": 27.8,
+    "cycles_since_visit": 6452,
+    "llp_remaining": {
+     "core": 13547,
+     "lp": 18547,
+     "fan": 23547
+    },
+    "wear_factor": 1.024,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-172",
+    "operator": "JAL",
+    "egt_margin": 30.6,
+    "cycles_since_visit": 3401,
+    "llp_remaining": {
+     "core": 11291,
+     "lp": 16291,
+     "fan": 21291
+    },
+    "wear_factor": 1.131,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-173",
+    "operator": "JTA",
+    "egt_margin": 19.2,
+    "cycles_since_visit": 7343,
+    "llp_remaining": {
+     "core": 12656,
+     "lp": 4139,
+     "fan": 9139
+    },
+    "wear_factor": 1.092,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-174",
+    "operator": "JTA",
+    "egt_margin": 38.8,
+    "cycles_since_visit": 2136,
+    "llp_remaining": {
+     "core": 17863,
+     "lp": 7469,
+     "fan": 12469
+    },
+    "wear_factor": 0.857,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-175",
+    "operator": "JAL",
+    "egt_margin": 29.8,
+    "cycles_since_visit": 4686,
+    "llp_remaining": {
+     "core": 15313,
+     "lp": 20313,
+     "fan": 25313
+    },
+    "wear_factor": 1.331,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-176",
+    "operator": "JAL",
+    "egt_margin": 23.6,
+    "cycles_since_visit": 10005,
+    "llp_remaining": {
+     "core": 9994,
+     "lp": 14994,
+     "fan": 19994
+    },
+    "wear_factor": 0.769,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-177",
+    "operator": "JTA",
+    "egt_margin": 9.7,
+    "cycles_since_visit": 14581,
+    "llp_remaining": {
+     "core": 5418,
+     "lp": 10418,
+     "fan": 15418
+    },
+    "wear_factor": 0.788,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-178",
+    "operator": "JAL",
+    "egt_margin": 28.7,
+    "cycles_since_visit": 7821,
+    "llp_remaining": {
+     "core": 12178,
+     "lp": 17178,
+     "fan": 2856
+    },
+    "wear_factor": 0.772,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-179",
+    "operator": "JAL",
+    "egt_margin": 14.9,
+    "cycles_since_visit": 6751,
+    "llp_remaining": {
+     "core": 12762,
+     "lp": 17762,
+     "fan": 22762
+    },
+    "wear_factor": 1.355,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-180",
+    "operator": "JAL",
+    "egt_margin": 44.4,
+    "cycles_since_visit": 819,
+    "llp_remaining": {
+     "core": 19181,
+     "lp": 9068,
+     "fan": 14068
+    },
+    "wear_factor": 0.972,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-181",
+    "operator": "JTA",
+    "egt_margin": 34.5,
+    "cycles_since_visit": 4799,
+    "llp_remaining": {
+     "core": 15199,
+     "lp": 20199,
+     "fan": 25199
+    },
+    "wear_factor": 0.835,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-182",
+    "operator": "JAL",
+    "egt_margin": 27.5,
+    "cycles_since_visit": 8058,
+    "llp_remaining": {
+     "core": 11941,
+     "lp": 16941,
+     "fan": 21941
+    },
+    "wear_factor": 0.801,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-183",
+    "operator": "JAL",
+    "egt_margin": 22.7,
+    "cycles_since_visit": 7112,
+    "llp_remaining": {
+     "core": 12887,
+     "lp": 17887,
+     "fan": 22887
+    },
+    "wear_factor": 1.182,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-184",
+    "operator": "JAL",
+    "egt_margin": 31.5,
+    "cycles_since_visit": 6350,
+    "llp_remaining": {
+     "core": 13649,
+     "lp": 18649,
+     "fan": 23649
+    },
+    "wear_factor": 0.817,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-185",
+    "operator": "JAL",
+    "egt_margin": 26.0,
+    "cycles_since_visit": 6446,
+    "llp_remaining": {
+     "core": 11163,
+     "lp": 16163,
+     "fan": 21163
+    },
+    "wear_factor": 0.774,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-186",
+    "operator": "JAL",
+    "egt_margin": 33.5,
+    "cycles_since_visit": 2431,
+    "llp_remaining": {
+     "core": 11395,
+     "lp": 16395,
+     "fan": 21395
+    },
+    "wear_factor": 1.241,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-187",
+    "operator": "JAL",
+    "egt_margin": 29.3,
+    "cycles_since_visit": 4993,
+    "llp_remaining": {
+     "core": 10838,
+     "lp": 15838,
+     "fan": 2443
+    },
+    "wear_factor": 0.789,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-188",
+    "operator": "JTA",
+    "egt_margin": 10.8,
+    "cycles_since_visit": 11566,
+    "llp_remaining": {
+     "core": 8433,
+     "lp": 13433,
+     "fan": 18433
+    },
+    "wear_factor": 0.982,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-189",
+    "operator": "JAL",
+    "egt_margin": 19.5,
+    "cycles_since_visit": 6929,
+    "llp_remaining": {
+     "core": 10159,
+     "lp": 15159,
+     "fan": 20159
+    },
+    "wear_factor": 1.062,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-190",
+    "operator": "JAL",
+    "egt_margin": 35.0,
+    "cycles_since_visit": 4392,
+    "llp_remaining": {
+     "core": 15607,
+     "lp": 20607,
+     "fan": 25607
+    },
+    "wear_factor": 0.952,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-191",
+    "operator": "JTA",
+    "egt_margin": 13.3,
+    "cycles_since_visit": 9290,
+    "llp_remaining": {
+     "core": 10709,
+     "lp": 2416,
+     "fan": 7416
+    },
+    "wear_factor": 1.05,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-192",
+    "operator": "JAL",
+    "egt_margin": 49.9,
+    "cycles_since_visit": 159,
+    "llp_remaining": {
+     "core": 19528,
+     "lp": 24528,
+     "fan": 29528
+    },
+    "wear_factor": 1.487,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-193",
+    "operator": "JAL",
+    "egt_margin": 44.2,
+    "cycles_since_visit": 1272,
+    "llp_remaining": {
+     "core": 18727,
+     "lp": 23727,
+     "fan": 28727
+    },
+    "wear_factor": 0.935,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-194",
+    "operator": "JAL",
+    "egt_margin": 31.8,
+    "cycles_since_visit": 6498,
+    "llp_remaining": {
+     "core": 13501,
+     "lp": 18501,
+     "fan": 23501
+    },
+    "wear_factor": 0.777,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-195",
+    "operator": "JAL",
+    "egt_margin": 15.4,
+    "cycles_since_visit": 15270,
+    "llp_remaining": {
+     "core": 4729,
+     "lp": 9729,
+     "fan": 14729
+    },
+    "wear_factor": 0.672,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-196",
+    "operator": "JAL",
+    "egt_margin": 3.8,
+    "cycles_since_visit": 14192,
+    "llp_remaining": {
+     "core": 5807,
+     "lp": 10807,
+     "fan": 15807
+    },
+    "wear_factor": 1.011,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-197",
+    "operator": "JAL",
+    "egt_margin": 39.7,
+    "cycles_since_visit": 2757,
+    "llp_remaining": {
+     "core": 17242,
+     "lp": 22242,
+     "fan": 27242
+    },
+    "wear_factor": 0.974,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-198",
+    "operator": "JAL",
+    "egt_margin": 20.6,
+    "cycles_since_visit": 7947,
+    "llp_remaining": {
+     "core": 12052,
+     "lp": 17052,
+     "fan": 22052
+    },
+    "wear_factor": 1.137,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-199",
+    "operator": "JTA",
+    "egt_margin": 30.3,
+    "cycles_since_visit": 4756,
+    "llp_remaining": {
+     "core": 15243,
+     "lp": 6529,
+     "fan": 11529
+    },
+    "wear_factor": 0.947,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-200",
+    "operator": "JAL",
+    "egt_margin": 4.2,
+    "cycles_since_visit": 12943,
+    "llp_remaining": {
+     "core": 2051,
+     "lp": 7051,
+     "fan": 12051
+    },
+    "wear_factor": 0.944,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-201",
+    "operator": "JTA",
+    "egt_margin": 9.6,
+    "cycles_since_visit": 13081,
+    "llp_remaining": {
+     "core": 6918,
+     "lp": 11918,
+     "fan": 16918
+    },
+    "wear_factor": 0.888,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-202",
+    "operator": "JAL",
+    "egt_margin": 38.2,
+    "cycles_since_visit": 3357,
+    "llp_remaining": {
+     "core": 16642,
+     "lp": 21642,
+     "fan": 5484
+    },
+    "wear_factor": 0.934,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-203",
+    "operator": "JTA",
+    "egt_margin": 43.3,
+    "cycles_since_visit": 670,
+    "llp_remaining": {
+     "core": 12708,
+     "lp": 17708,
+     "fan": 22708
+    },
+    "wear_factor": 1.108,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-204",
+    "operator": "JAL",
+    "egt_margin": 28.0,
+    "cycles_since_visit": 5677,
+    "llp_remaining": {
+     "core": 14322,
+     "lp": 5100,
+     "fan": 10100
+    },
+    "wear_factor": 0.968,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-205",
+    "operator": "JTA",
+    "egt_margin": 5.0,
+    "cycles_since_visit": 10458,
+    "llp_remaining": {
+     "core": 3738,
+     "lp": 8738,
+     "fan": 13738
+    },
+    "wear_factor": 1.091,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-206",
+    "operator": "JAL",
+    "egt_margin": 17.1,
+    "cycles_since_visit": 6287,
+    "llp_remaining": {
+     "core": 13712,
+     "lp": 18712,
+     "fan": 23712
+    },
+    "wear_factor": 1.712,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-207",
+    "operator": "JTA",
+    "egt_margin": 55.6,
+    "cycles_since_visit": 186,
+    "llp_remaining": {
+     "core": 19813,
+     "lp": 24813,
+     "fan": 29813
+    },
+    "wear_factor": 1.199,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-208",
+    "operator": "JAL",
+    "egt_margin": 38.0,
+    "cycles_since_visit": 1469,
+    "llp_remaining": {
+     "core": 17234,
+     "lp": 22234,
+     "fan": 8685
+    },
+    "wear_factor": 0.718,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-209",
+    "operator": "JAL",
+    "egt_margin": 7.1,
+    "cycles_since_visit": 7297,
+    "llp_remaining": {
+     "core": 10363,
+     "lp": 15363,
+     "fan": 20363
+    },
+    "wear_factor": 1.641,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-210",
+    "operator": "JAL",
+    "egt_margin": 28.7,
+    "cycles_since_visit": 3869,
+    "llp_remaining": {
+     "core": 15134,
+     "lp": 7417,
+     "fan": 12417
+    },
+    "wear_factor": 1.161,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-211",
+    "operator": "JTA",
+    "egt_margin": 3.8,
+    "cycles_since_visit": 15844,
+    "llp_remaining": {
+     "core": 4154,
+     "lp": 9154,
+     "fan": 14154
+    },
+    "wear_factor": 0.841,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-212",
+    "operator": "JAL",
+    "egt_margin": 5.3,
+    "cycles_since_visit": 10635,
+    "llp_remaining": {
+     "core": 9364,
+     "lp": 14364,
+     "fan": 19364
+    },
+    "wear_factor": 1.335,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-213",
+    "operator": "JAL",
+    "egt_margin": 21.4,
+    "cycles_since_visit": 7231,
+    "llp_remaining": {
+     "core": 12768,
+     "lp": 3957,
+     "fan": 8957
+    },
+    "wear_factor": 1.069,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-214",
+    "operator": "JAL",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 20000,
+     "lp": 25000,
+     "fan": 30000
+    },
+    "wear_factor": 0.912,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-215",
+    "operator": "JAL",
+    "egt_margin": 30.8,
+    "cycles_since_visit": 4977,
+    "llp_remaining": {
+     "core": 15022,
+     "lp": 5006,
+     "fan": 10006
+    },
+    "wear_factor": 0.908,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-216",
+    "operator": "JAL",
+    "egt_margin": 32.2,
+    "cycles_since_visit": 5978,
+    "llp_remaining": {
+     "core": 14021,
+     "lp": 19021,
+     "fan": 24021
+    },
+    "wear_factor": 0.83,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-217",
+    "operator": "JAL",
+    "egt_margin": 33.9,
+    "cycles_since_visit": 4351,
+    "llp_remaining": {
+     "core": 15648,
+     "lp": 20648,
+     "fan": 25648
+    },
+    "wear_factor": 1.077,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-218",
+    "operator": "JAL",
+    "egt_margin": 38.8,
+    "cycles_since_visit": 2442,
+    "llp_remaining": {
+     "core": 17557,
+     "lp": 22557,
+     "fan": 8922
+    },
+    "wear_factor": 1.39,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-219",
+    "operator": "JAL",
+    "egt_margin": 13.7,
+    "cycles_since_visit": 9347,
+    "llp_remaining": {
+     "core": 7989,
+     "lp": 12989,
+     "fan": 17989
+    },
+    "wear_factor": 0.981,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-220",
+    "operator": "JTA",
+    "egt_margin": 23.5,
+    "cycles_since_visit": 4966,
+    "llp_remaining": {
+     "core": 2455,
+     "lp": 7455,
+     "fan": 12455
+    },
+    "wear_factor": 1.182,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-221",
+    "operator": "JAL",
+    "egt_margin": 30.6,
+    "cycles_since_visit": 3734,
+    "llp_remaining": {
+     "core": 16265,
+     "lp": 21265,
+     "fan": 26265
+    },
+    "wear_factor": 1.701,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-222",
+    "operator": "JTA",
+    "egt_margin": 38.5,
+    "cycles_since_visit": 2333,
+    "llp_remaining": {
+     "core": 17666,
+     "lp": 8824,
+     "fan": 13824
+    },
+    "wear_factor": 0.785,
+    "back_in_months": 0
+   },
+   {
+    "esn": "J-223",
+    "operator": "JAL",
+    "egt_margin": 43.4,
+    "cycles_since_visit": 1462,
+    "llp_remaining": {
+     "core": 18537,
+     "lp": 23537,
+     "fan": 28537
+    },
+    "wear_factor": 1.135,
+    "back_in_months": 0
+   }
+  ]
  }
 }

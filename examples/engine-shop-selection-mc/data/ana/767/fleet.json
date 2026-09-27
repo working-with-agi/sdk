@@ -527,5 +527,634 @@
    "return_source": "no_source: 返却時期は非公表。2 年の窓に散らばる仮定"
   },
   "engines": []
+ },
+ "engine_state": {
+  "note": "20 年シミュレーション（最初の 5 年は捨てる）が残した全エンジンの状態。窓の外の機の入場列はここから始める",
+  "engines": [
+   {
+    "esn": "AS-101",
+    "operator": "767-300ER",
+    "egt_margin": 14.5,
+    "cycles_since_visit": 4080,
+    "llp_remaining": {
+     "core": 3074,
+     "lp": 8074,
+     "fan": 6966
+    },
+    "wear_factor": 1.151,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-102",
+    "operator": "767-300ER",
+    "egt_margin": 25.2,
+    "cycles_since_visit": 4838,
+    "llp_remaining": {
+     "core": 10162,
+     "lp": 3835,
+     "fan": 13835
+    },
+    "wear_factor": 0.757,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-103",
+    "operator": "767-300ER",
+    "egt_margin": 31.2,
+    "cycles_since_visit": 3878,
+    "llp_remaining": {
+     "core": 11122,
+     "lp": 3168,
+     "fan": 13168
+    },
+    "wear_factor": 0.653,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-104",
+    "operator": "767-300ER",
+    "egt_margin": 24.4,
+    "cycles_since_visit": 4951,
+    "llp_remaining": {
+     "core": 4809,
+     "lp": 9809,
+     "fan": 19809
+    },
+    "wear_factor": 0.466,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-105",
+    "operator": "767-300ER",
+    "egt_margin": 4.4,
+    "cycles_since_visit": 6994,
+    "llp_remaining": {
+     "core": 6898,
+     "lp": 11898,
+     "fan": 7705
+    },
+    "wear_factor": 0.885,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-106",
+    "operator": "767-300ER",
+    "egt_margin": 25.2,
+    "cycles_since_visit": 3204,
+    "llp_remaining": {
+     "core": 11796,
+     "lp": 4581,
+     "fan": 14581
+    },
+    "wear_factor": 1.321,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-107",
+    "operator": "767-300ER",
+    "egt_margin": 52.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 10598,
+     "fan": 11247
+    },
+    "wear_factor": 0.975,
+    "back_in_months": 2
+   },
+   {
+    "esn": "AS-108",
+    "operator": "767-300ER",
+    "egt_margin": 23.3,
+    "cycles_since_visit": 4898,
+    "llp_remaining": {
+     "core": 10102,
+     "lp": 15102,
+     "fan": 5753
+    },
+    "wear_factor": 1.099,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-109",
+    "operator": "767-300ER",
+    "egt_margin": 38.0,
+    "cycles_since_visit": 700,
+    "llp_remaining": {
+     "core": 8393,
+     "lp": 13393,
+     "fan": 23393
+    },
+    "wear_factor": 1.249,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-110",
+    "operator": "767-300ER",
+    "egt_margin": 58.0,
+    "cycles_since_visit": 0,
+    "llp_remaining": {
+     "core": 15000,
+     "lp": 20000,
+     "fan": 30000
+    },
+    "wear_factor": 0.776,
+    "back_in_months": 1
+   },
+   {
+    "esn": "AS-111",
+    "operator": "767-300ER",
+    "egt_margin": 29.3,
+    "cycles_since_visit": 2173,
+    "llp_remaining": {
+     "core": 12827,
+     "lp": 4736,
+     "fan": 3723
+    },
+    "wear_factor": 1.877,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-112",
+    "operator": "767-300ER",
+    "egt_margin": 18.6,
+    "cycles_since_visit": 7544,
+    "llp_remaining": {
+     "core": 7456,
+     "lp": 12456,
+     "fan": 6649
+    },
+    "wear_factor": 0.777,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-113",
+    "operator": "767-300ER",
+    "egt_margin": 33.9,
+    "cycles_since_visit": 1177,
+    "llp_remaining": {
+     "core": 5432,
+     "lp": 10432,
+     "fan": 20432
+    },
+    "wear_factor": 1.062,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-114",
+    "operator": "767-300ER",
+    "egt_margin": 29.9,
+    "cycles_since_visit": 2089,
+    "llp_remaining": {
+     "core": 12911,
+     "lp": 4910,
+     "fan": 8558
+    },
+    "wear_factor": 1.919,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-115",
+    "operator": "767-300ER",
+    "egt_margin": 23.6,
+    "cycles_since_visit": 3106,
+    "llp_remaining": {
+     "core": 3668,
+     "lp": 2682,
+     "fan": 4837
+    },
+    "wear_factor": 0.94,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-116",
+    "operator": "767-300ER",
+    "egt_margin": 42.9,
+    "cycles_since_visit": 906,
+    "llp_remaining": {
+     "core": 14094,
+     "lp": 5506,
+     "fan": 15506
+    },
+    "wear_factor": 0.995,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-117",
+    "operator": "767-300ER",
+    "egt_margin": 14.0,
+    "cycles_since_visit": 6698,
+    "llp_remaining": {
+     "core": 8302,
+     "lp": 3068,
+     "fan": 13068
+    },
+    "wear_factor": 0.851,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-118",
+    "operator": "767-300ER",
+    "egt_margin": 54.9,
+    "cycles_since_visit": 312,
+    "llp_remaining": {
+     "core": 14688,
+     "lp": 19688,
+     "fan": 29688
+    },
+    "wear_factor": 1.052,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-119",
+    "operator": "767-300ER",
+    "egt_margin": 42.5,
+    "cycles_since_visit": 2677,
+    "llp_remaining": {
+     "core": 12323,
+     "lp": 17323,
+     "fan": 7026
+    },
+    "wear_factor": 0.568,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-120",
+    "operator": "767-300ER",
+    "egt_margin": 32.3,
+    "cycles_since_visit": 4307,
+    "llp_remaining": {
+     "core": 10693,
+     "lp": 15693,
+     "fan": 2635
+    },
+    "wear_factor": 0.823,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-121",
+    "operator": "767-300ER",
+    "egt_margin": 26.0,
+    "cycles_since_visit": 2877,
+    "llp_remaining": {
+     "core": 12123,
+     "lp": 6086,
+     "fan": 6263
+    },
+    "wear_factor": 1.477,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-122",
+    "operator": "767-300ER",
+    "egt_margin": 19.9,
+    "cycles_since_visit": 4756,
+    "llp_remaining": {
+     "core": 10244,
+     "lp": 1660,
+     "fan": 11660
+    },
+    "wear_factor": 1.02,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-123",
+    "operator": "767-300ER",
+    "egt_margin": 30.1,
+    "cycles_since_visit": 4412,
+    "llp_remaining": {
+     "core": 10588,
+     "lp": 15588,
+     "fan": 9196
+    },
+    "wear_factor": 0.911,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-124",
+    "operator": "767-300ER",
+    "egt_margin": 36.1,
+    "cycles_since_visit": 893,
+    "llp_remaining": {
+     "core": 5686,
+     "lp": 10686,
+     "fan": 20686
+    },
+    "wear_factor": 1.062,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-125",
+    "operator": "767-300ER",
+    "egt_margin": 42.9,
+    "cycles_since_visit": 210,
+    "llp_remaining": {
+     "core": 6524,
+     "lp": 11524,
+     "fan": 21524
+    },
+    "wear_factor": 1.073,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-126",
+    "operator": "767-300ER",
+    "egt_margin": 29.1,
+    "cycles_since_visit": 4264,
+    "llp_remaining": {
+     "core": 10736,
+     "lp": 15736,
+     "fan": 6326
+    },
+    "wear_factor": 1.005,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-127",
+    "operator": "767-300ER",
+    "egt_margin": 29.0,
+    "cycles_since_visit": 3940,
+    "llp_remaining": {
+     "core": 11060,
+     "lp": 16060,
+     "fan": 26060
+    },
+    "wear_factor": 1.118,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-128",
+    "operator": "767-300ER",
+    "egt_margin": 23.1,
+    "cycles_since_visit": 7760,
+    "llp_remaining": {
+     "core": 7240,
+     "lp": 12240,
+     "fan": 22240
+    },
+    "wear_factor": 0.639,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-129",
+    "operator": "767-300ER",
+    "egt_margin": 35.9,
+    "cycles_since_visit": 1942,
+    "llp_remaining": {
+     "core": 13058,
+     "lp": 4532,
+     "fan": 14532
+    },
+    "wear_factor": 1.121,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-130",
+    "operator": "767-300ER",
+    "egt_margin": 38.7,
+    "cycles_since_visit": 2978,
+    "llp_remaining": {
+     "core": 12022,
+     "lp": 17022,
+     "fan": 9687
+    },
+    "wear_factor": 0.817,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-131",
+    "operator": "767-300ER",
+    "egt_margin": 35.2,
+    "cycles_since_visit": 2888,
+    "llp_remaining": {
+     "core": 12112,
+     "lp": 17112,
+     "fan": 27112
+    },
+    "wear_factor": 1.177,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-132",
+    "operator": "767-300ER",
+    "egt_margin": 53.0,
+    "cycles_since_visit": 499,
+    "llp_remaining": {
+     "core": 14501,
+     "lp": 19501,
+     "fan": 12247
+    },
+    "wear_factor": 0.962,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-133",
+    "operator": "767-300ER",
+    "egt_margin": 21.2,
+    "cycles_since_visit": 7156,
+    "llp_remaining": {
+     "core": 7844,
+     "lp": 12844,
+     "fan": 22844
+    },
+    "wear_factor": 0.754,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-134",
+    "operator": "767-300ER",
+    "egt_margin": 39.0,
+    "cycles_since_visit": 2646,
+    "llp_remaining": {
+     "core": 12354,
+     "lp": 17354,
+     "fan": 27354
+    },
+    "wear_factor": 0.95,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-135",
+    "operator": "767-300ER",
+    "egt_margin": 29.9,
+    "cycles_since_visit": 5160,
+    "llp_remaining": {
+     "core": 9840,
+     "lp": 14840,
+     "fan": 24840
+    },
+    "wear_factor": 0.752,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-136",
+    "operator": "767-300ER",
+    "egt_margin": 21.6,
+    "cycles_since_visit": 4669,
+    "llp_remaining": {
+     "core": 10331,
+     "lp": 15331,
+     "fan": 25331
+    },
+    "wear_factor": 1.246,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-137",
+    "operator": "767-300ER",
+    "egt_margin": 22.8,
+    "cycles_since_visit": 4461,
+    "llp_remaining": {
+     "core": 10539,
+     "lp": 3282,
+     "fan": 13282
+    },
+    "wear_factor": 0.96,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-138",
+    "operator": "767-300ER",
+    "egt_margin": 34.3,
+    "cycles_since_visit": 1096,
+    "llp_remaining": {
+     "core": 9645,
+     "lp": 14645,
+     "fan": 12062
+    },
+    "wear_factor": 1.197,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-139",
+    "operator": "767-300ER",
+    "egt_margin": 38.1,
+    "cycles_since_visit": 3336,
+    "llp_remaining": {
+     "core": 11664,
+     "lp": 16664,
+     "fan": 26664
+    },
+    "wear_factor": 0.732,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-140",
+    "operator": "767-300ER",
+    "egt_margin": 32.3,
+    "cycles_since_visit": 2157,
+    "llp_remaining": {
+     "core": 12843,
+     "lp": 4261,
+     "fan": 14261
+    },
+    "wear_factor": 1.45,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-141",
+    "operator": "767-300ER",
+    "egt_margin": 28.7,
+    "cycles_since_visit": 3576,
+    "llp_remaining": {
+     "core": 11424,
+     "lp": 6684,
+     "fan": 16684
+    },
+    "wear_factor": 0.897,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-142",
+    "operator": "767-300ER",
+    "egt_margin": 41.1,
+    "cycles_since_visit": 392,
+    "llp_remaining": {
+     "core": 6467,
+     "lp": 11467,
+     "fan": 8390
+    },
+    "wear_factor": 1.361,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-143",
+    "operator": "767-300ER",
+    "egt_margin": 18.8,
+    "cycles_since_visit": 4361,
+    "llp_remaining": {
+     "core": 10639,
+     "lp": 2379,
+     "fan": 4650
+    },
+    "wear_factor": 1.197,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-144",
+    "operator": "767-300ER",
+    "egt_margin": 45.2,
+    "cycles_since_visit": 1670,
+    "llp_remaining": {
+     "core": 13330,
+     "lp": 18330,
+     "fan": 28330
+    },
+    "wear_factor": 0.735,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-145",
+    "operator": "767-300ER",
+    "egt_margin": 21.7,
+    "cycles_since_visit": 3189,
+    "llp_remaining": {
+     "core": 3353,
+     "lp": 8353,
+     "fan": 18353
+    },
+    "wear_factor": 1.049,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-146",
+    "operator": "767-300ER",
+    "egt_margin": 10.1,
+    "cycles_since_visit": 7549,
+    "llp_remaining": {
+     "core": 7451,
+     "lp": 2133,
+     "fan": 3663
+    },
+    "wear_factor": 0.845,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-147",
+    "operator": "767-300ER",
+    "egt_margin": 48.2,
+    "cycles_since_visit": 982,
+    "llp_remaining": {
+     "core": 14018,
+     "lp": 19018,
+     "fan": 7815
+    },
+    "wear_factor": 1.071,
+    "back_in_months": 0
+   },
+   {
+    "esn": "AS-148",
+    "operator": "767-300ER",
+    "egt_margin": 13.5,
+    "cycles_since_visit": 4572,
+    "llp_remaining": {
+     "core": 10428,
+     "lp": 3663,
+     "fan": 13663
+    },
+    "wear_factor": 1.384,
+    "back_in_months": 0
+   }
+  ]
  }
 }

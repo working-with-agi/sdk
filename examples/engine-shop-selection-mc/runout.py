@@ -80,8 +80,9 @@ class Physics:
         self.min_margin, self.min_llp = lifecycle.MIN_MARGIN, lifecycle.MIN_LLP
         self.run_cycles = (self.restore["PR"] - self.initial_drop - self.min_margin) / self.loss_per_cycle
 
-    def months_of_margin(self, margin: float, since: float) -> float:
-        """Months of flying until the EGT limit from this state."""
+    def months_of_margin(self, margin: float, since: float, wear: float = 1.0) -> float:
+        """Months of flying until the EGT limit from this state (wear = engine-specific
+        multiplier on the mature loss rate, 1 = fleet median)."""
         early = max(0.0, 1000 - since)
         c = 0.0
         m = margin
@@ -91,17 +92,17 @@ class Physics:
                 return (m - self.min_margin) / (self.initial_drop / 1000) / self.cpm
             m -= drop_early
             c += early
-        c += max(0.0, m - self.min_margin) / self.loss_per_cycle
+        c += max(0.0, m - self.min_margin) / (self.loss_per_cycle * wear)
         return c / self.cpm
 
     def months_to_removal(self, s: dict) -> float:
         llp = min(s["core"], s["lp"], s["fan"]) - self.min_llp
-        return max(0.0, min(self.months_of_margin(s["margin"], s["since"]), llp / self.cpm))
+        return max(0.0, min(self.months_of_margin(s["margin"], s["since"], s.get("wear", 1.0)), llp / self.cpm))
 
     def fly(self, s: dict, months: float = 1.0) -> None:
         cyc = self.cpm * months
         early = max(0.0, min(cyc, 1000 - s["since"]))
-        s["margin"] -= self.initial_drop * early / 1000 + self.loss_per_cycle * (cyc - early)
+        s["margin"] -= self.initial_drop * early / 1000 + self.loss_per_cycle * s.get("wear", 1.0) * (cyc - early)
         s["since"] += cyc
         for k in ("core", "lp", "fan"):
             s[k] -= cyc
@@ -163,12 +164,22 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
     # engines: the fleet's due list carries the state; the rest of the owned engines are
     # "not due in the window" and get a synthetic state spread over a run
     eng = {}
+    snap = {x["esn"]: x for x in (fleet.get("engine_state") or {}).get("engines", [])}
     for e in fleet["engines"]:
-        eng[e["esn"]] = {"esn": e["esn"], "margin": float(e["egt_margin"]), "since": 0.0 if e["egt_margin"] > ph.restore["PR"] - 2 else 1500.0,
+        st = snap.get(e["esn"], {})
+        eng[e["esn"]] = {"esn": e["esn"], "margin": float(e["egt_margin"]), "since": float(st.get("cycles_since_visit", 1500.0)),
                          "core": float(e["llp_remaining"]["core"]), "lp": float(e["llp_remaining"]["lp"]), "fan": float(e["llp_remaining"].get("fan", ph.life["fan"])),
-                         "allowed": e["allowed_workscopes"], "back": 0, "chain": [], "retired": None, "from_plan": True}
+                         "allowed": e["allowed_workscopes"], "back": 0, "chain": [], "retired": None, "from_plan": True, "wear": float(st.get("wear_factor", 1.0))}
+    # the engines not due inside the window: their state comes from the same 20-year
+    # simulation (fleet.engine_state); only when a fleet file predates it is a spread assumed
     n_extra = max(0, fleet["owned_engines"] - len(eng))
-    for i in range(n_extra):
+    extras = [x for esn, x in snap.items() if esn not in eng][:n_extra]
+    state_source = "simulation" if extras else "assumed"
+    for x in extras:
+        eng[x["esn"]] = {"esn": x["esn"], "margin": float(x["egt_margin"]), "since": float(x["cycles_since_visit"]),
+                         "core": float(x["llp_remaining"]["core"]), "lp": float(x["llp_remaining"]["lp"]), "fan": float(x["llp_remaining"].get("fan", ph.life["fan"])),
+                         "allowed": ["PR", "CORE", "FULL"], "back": int(x.get("back_in_months", 0)), "chain": [], "retired": None, "from_plan": False, "wear": float(x.get("wear_factor", 1.0))}
+    for i in range(n_extra - len(extras)):
         esn = f"{fleet['engines'][0]['esn'].split('-')[0]}-X{i + 1:03d}"
         frac = rng.uniform(0.05, 0.6)     # part of a run already flown; not due inside the window by construction
         cyc = frac * ph.run_cycles
@@ -254,8 +265,9 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
         if rt is None:
             note = "最終退役より後まで残る（窓の後の状態は仮定）"
         elif not s["from_plan"] and not chain:
-            note = (f"窓の外の機（状態は非公表・仮定）。限界の {due_in} か月前に退役し、入場を 1 回避けた" if due_in is not None and due_in < 12
-                    else f"窓の外の機（状態は非公表・仮定）。入場なしで退役、翼上 {run_left:.0f} か月を残す")
+            src = "状態はシミュレーションの続き" if state_source == "simulation" else "状態は非公表・仮定"
+            note = (f"窓の外の機（{src}）。限界の {due_in} か月前に退役し、入場を 1 回避けた" if due_in is not None and due_in < 12
+                    else f"窓の外の機（{src}）。入場なしで退役、翼上 {run_left:.0f} か月を残す")
         elif last and last["reason"].startswith("計画") and rt - last["t"] < 30:
             note = f"計画の入場（{last['label']} {last['ws']}）のあと退役まで {rt - last['t']} か月。買った寿命の一部を捨てる"
         elif last and "最軽" in last["reason"]:
@@ -284,7 +296,7 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
         elif len(vs) == 0:
             note = "入場 0：限界に達する機がない" + ("" if y > labels[0][:4] else "")
         elif n_unknown >= len(vs) * 0.6:
-            note = f"入場 {len(vs)}：うち {n_unknown} 基は窓の外の機（状態は非公表の仮定で、限界がこの年に固まる）" + (f"。退役で {absorbed} 基を吸収" if absorbed else "")
+            note = f"入場 {len(vs)}：うち {n_unknown} 基は窓の外の機（{'シミュレーションの状態から' if state_source == 'simulation' else '状態は非公表の仮定で、限界がこの年に固まる'}）" + (f"。退役で {absorbed} 基を吸収" if absorbed else "")
         else:
             note = f"入場 {len(vs)}" + (f"、退役で {absorbed} 基を吸収" if absorbed else "")
         by_year.append({"year": y, "visits": len(vs), "by_ws": {ws: sum(1 for v in vs if v["ws"] == ws) for ws in ("PR", "CORE", "FULL")},
@@ -301,9 +313,11 @@ def simulate(cfg: dict, b: dict, fleet: dict, shops: dict, policy: str = "next_d
                        "plan_gap_max_months": max((c["slack_months"] or 0 for r in rows for c in r["chain"] if c.get("gap")), default=0), "retired": sum(1 for r in rows if r["retire_t"] is not None)},
             "physics": {"cycles_per_month": ph.cpm, "run_cycles": ph.run_cycles, "restore": ph.restore, "llp_life": ph.life, "prices": price},
             "retire_order": retire_order,
-            "caveats": [f"窓の外の {n_extra} 基は状態が非公表。1 回の翼上寿命の 5〜60% を飛んだと一様に仮定したため、限界が数年に固まる（実データでは散る）",
+            "state_source": state_source,
+            "caveats": [(f"窓の外の {n_extra} 基の状態は 20 年シミュレーション（最初の 5 年は捨てる）の続きから。実機の EGT・LLP ではない"
+                         if state_source == "simulation" else f"窓の外の {n_extra} 基は状態が非公表。翼上寿命の 5〜60% を飛んだと一様に仮定（限界が固まる）"),
                         "退役順「次に入場が近い機から」は、限界の近い機を入場させずに退役させる。空の年は退役が入場を吸収した年",
-                        "劣化は平均（分布なし）。計画外の取卸しは入れていない"]}
+                        "劣化は機ごとの係数つきの平均（月ごとの乱れなし）。計画外の取卸しは入れていない"]}
 
 
 def build(cid: str, baseline_path: Path | None = None, seed: int = 11) -> dict:

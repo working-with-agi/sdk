@@ -273,6 +273,23 @@ def seasonal(visits, shelf, short, T):
     return out
 
 
+def snapshot(state, t_now: int) -> list[dict]:
+    """The state of every engine at t_now, as the 20-year simulation (warm-up discarded)
+    left it: what the run-out chain after the 2-year window starts from. Engines in the
+    shop carry the month they come back."""
+    sub = state.get("sub", np.zeros(ENGINES, dtype=int))
+    since = state.get("since", np.full(ENGINES, 1e9))
+    loss_med = float(np.median(state["loss"])) or 1.0
+    rows = []
+    for e in range(ENGINES):
+        rows.append({"esn": f"{ESN_PREFIX}-{101 + e:03d}", "operator": SUBFLEETS[sub[e]]["name"],
+                     "egt_margin": round(float(state["margin"][e]), 1), "cycles_since_visit": int(min(since[e], 10 ** 6)),
+                     "llp_remaining": {"core": int(state["core"][e]), "lp": int(state["lp"][e]), **({"fan": int(state["fan"][e])} if FAN_LIFE else {})},
+                     "wear_factor": round(float(state["loss"][e]) / loss_med, 3),
+                     "back_in_months": int(max(0, state["back"][e] - t_now))})
+    return rows
+
+
 def window(state, t_now: int, horizon: int = 24, width: int = 5):
     """Engines due within the window, as input rows for the 2-year optimisation."""
     margin, core, lp, fan, loss = state["margin"], state["core"], state["lp"], state["fan"], state["loss"]
