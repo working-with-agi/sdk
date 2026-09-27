@@ -87,7 +87,19 @@ CATALOGUE = {
     "rotate": ("運用", "ローテーションで寿命を 1 か月延ばす（3 基に 1 基）"),
     "spares": ("資産", "予備エンジン +2 基（長期リース）"),
     "partout": ("資産", "整備せず部品取りで打ち切る"),
+    # money mechanisms, inside the simulation (finance.py prices the same items by formula)
+    "fin_prepay": ("お金", "前払い割引（見積もり −3%、4 か月早払いの金利込み）"),
+    "fin_tier": ("お金", "OEM の大口ティア（見積もり −3%、100 基超）★"),
+    "fin_escalation": ("お金", "複数年契約の値上げ上限（市場 5% → 上限 3%、平均 −1%）★"),
+    "fin_pool_alliance": ("お金", "アライアンス共同の予備プール（必要予備 √3/3）★"),
+    "fin_group_mro": ("お金", "グループ整備会社に軽作業（PR）を内製（−10%、輸送なし、2 枠）★"),
+    "fin_fx_hedge": ("お金", "為替を先物で固定（変動 0）★"),
+    "fin_slb": ("お金", "予備エンジンのセール＆リースバック（費用は増える）"),
+    "fin_no_reserves": ("お金", "リース機の整備積立金を信用状で代替★"),
+    "fin_package": ("お金", "大手パッケージ（ティア＋上限＋共同プール＋内製＋為替固定＋積立金なし）★"),
 }
+FIN = {"prepay_discount": 0.03, "prepay_financing": 0.07 * 4 / 12, "tier": 0.03, "escalation_avg": 0.01, "pool_partners": 3,
+       "group_pr_discount": 0.10, "group_slots": 2, "engine_value_k": 5500, "rate": 0.07, "reserve_balance_k": 300, "leased_engines": 14}
 CASES = {"base": "基準", "backlog": "MRO 混雑", "transition": "機材更新（737-8 受領）"}
 REQ = {**ALL_HARD, "kits_on_hand_only": False, "no_new_spares": False}
 
@@ -111,6 +123,52 @@ def with_case(p, case):
         term = None if p.terminal_engines is None else max(0, p.terminal_engines - (max(p.required_positions) - max(req)) - 2 * 3)
         return dataclasses.replace(p, required_positions=req, terminal_engines=term)
     return case_problem(p, case)
+
+
+def scale_quotes(p, factor, only=None):
+    return dataclasses.replace(p, shops=[
+        dataclasses.replace(k, quotes={w: dataclasses.replace(q, price=q.price * factor) for w, q in k.quotes.items()})
+        if (only is None or k.id in only) and k.id not in ("MIDLIFE", "PARTOUT") else k for k in p.shops])
+
+
+def apply_finance(p, a):
+    """The money mechanisms as levers on the problem itself, so the Monte Carlo prices
+    them with everything else (findings, delays, AOG) instead of a formula."""
+    F = FIN
+    if a == "fin_package":
+        for x in ("fin_tier", "fin_escalation", "fin_pool_alliance", "fin_group_mro", "fin_fx_hedge", "fin_no_reserves"):
+            try:
+                p = apply_finance(p, x)
+            except NotApplicable:   # e.g. the tier needs 100+ engines: the package is what applies
+                pass
+        return p
+    if a == "fin_prepay":
+        return scale_quotes(p, 1 - F["prepay_discount"] + F["prepay_financing"])
+    if a == "fin_tier":
+        if p.owned_engines < 100:
+            raise NotApplicable(a)
+        return scale_quotes(p, 1 - F["tier"])
+    if a == "fin_escalation":
+        return scale_quotes(p, 1 - F["escalation_avg"])
+    if a == "fin_pool_alliance":
+        n = F["pool_partners"]
+        return dataclasses.replace(p, buffer=[max(1, int(round(b_ * n ** 0.5 / n))) for b_ in p.buffer])
+    if a == "fin_group_mro":
+        k0 = p.shops[0]
+        grp = dataclasses.replace(k0, id="GROUP", name="グループ整備会社（軽作業）", slots=F["group_slots"], transport_cost=0.0, transport_months=0,
+                                  quotes={"PR": dataclasses.replace(k0.quotes["PR"], price=k0.quotes["PR"].price * (1 - F["group_pr_discount"]))})
+        return dataclasses.replace(p, shops=p.shops + [grp])
+    if a == "fin_fx_hedge":
+        return dataclasses.replace(p, fx_vol=0.0)
+    if a == "fin_slb":
+        n = max(p.buffer)
+        lease = p.long_spare_cost * p.horizon * n
+        capital = n * F["engine_value_k"] * (1 - 1 / (1 + F["rate"]) ** (p.horizon / 12))
+        return dataclasses.replace(p, extra_fixed_cost=p.extra_fixed_cost + lease - capital)
+    if a == "fin_no_reserves":
+        bal = F["leased_engines"] * F["reserve_balance_k"]
+        return dataclasses.replace(p, extra_fixed_cost=p.extra_fixed_cost - bal * ((1 + F["rate"]) ** (p.horizon / 12) - 1))
+    raise ValueError(a)
 
 
 def apply_action(p, a):
@@ -144,6 +202,8 @@ def apply_action(p, a):
         visits = [dataclasses.replace(v, latest=min(p.horizon - 1, v.latest + 1)) if j % 3 == 0 else v for j, v in enumerate(p.visits)]
         moved = sum(1 for j, v in enumerate(p.visits) if j % 3 == 0 and v.latest < p.horizon - 1)
         return dataclasses.replace(p, visits=visits, extra_fixed_cost=p.extra_fixed_cost + 60 * moved)
+    if a.startswith("fin_"):
+        return apply_finance(p, a)
     if a == "partout":
         yard = Shop(
             id="PARTOUT", name="部品取り（退役）", slots=99, transport_cost=0, transport_months=0,

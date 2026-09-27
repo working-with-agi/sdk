@@ -949,6 +949,7 @@ const DATA = /*__DATA__*/null;
 
   /* ---------------- money mechanisms ---------------- */
   const KIND_COL = { "税・会計": "var(--muted)", "資金": "var(--accent)", "規模": "var(--good)", "グループ": "var(--ws-core)" };
+  const pk_ = (F) => F.package_sim.effect_k;
   const finLine = (F) => `大手だけが使える仕組みで 2 年 ${(-F.total_large_only_k / 1000).toFixed(1)} 百万ドル、全体で ${(-F.total_effect_k / 1000).toFixed(1)} 百万ドル（税の期ズレは含めず）`;
   function finChart(F, W = 900, H = 320, compact = false) {
     const I = F.items.filter((i) => i.effect_k !== 0), L = compact ? 6 : 300, R = compact ? 6 : 90, rowH = compact ? 14 : 30, Hh = I.length * rowH + (compact ? 8 : 20);
@@ -964,9 +965,10 @@ const DATA = /*__DATA__*/null;
   function finance() {
     const F = C().finance;
     if (!F) return panel("お金の仕組み", '<p class="hint">なし</p>');
-    const rows = F.items.map((i) => `<tr><td><span class="sw" style="background:${KIND_COL[i.kind]}"></span>${esc(i.kind)}</td><td>${esc(i.name)}${i.large_only ? " ★" : ""}</td><td>${i.effect_k ? (-i.effect_k / 1000).toFixed(1) : "—"}</td><td>${i.cash_k ? (i.cash_k / 1000).toFixed(1) : "—"}</td><td>${i.balance_k ? (i.balance_k / 1000).toFixed(1) : "—"}</td><td>${esc(i.what)}<br><span class="hint">${esc(i.how)}</span></td><td>${i.needs_tax_review ? "要確認" : i.confidence}</td></tr>`).join("");
-    return panel("", `<p class="chart-note">${esc(finLine(F))}</p>` + finChart(F) + `<div class="legend">${Object.entries(KIND_COL).map(([k, c_]) => `<span><span class="sw" style="background:${c_}"></span>${k}</span>`).join("")}<span>★ 大手だけが使える</span><span>薄い＝税の期ズレ（損得でなく繰延、要税理士確認）</span></div>` + G("finance"), esc(F.note))
-      + panel("", `<table><thead><tr><th>種類</th><th>仕組み</th><th>2 年の効果（百万ドル、＋が得）</th><th>現金（今入る＋／今出る−）</th><th>資産（B/S）</th><th>何を・どう計算したか</th><th>確度</th></tr></thead><tbody>${rows}</tbody></table>`,
+    const rows = F.items.map((i) => `<tr><td><span class="sw" style="background:${KIND_COL[i.kind]}"></span>${esc(i.kind)}</td><td>${esc(i.name)}${i.large_only ? " ★" : ""}</td><td>${i.effect_k ? (-i.effect_k / 1000).toFixed(1) : "—"}</td><td>${i.sim_effect_k != null ? `${(-i.sim_effect_k / 1000).toFixed(1)}${i.sim_aog ? `（AOG ${(i.sim_aog * 100).toFixed(1) > 0 ? "+" : ""}${(i.sim_aog * 100).toFixed(1)}pt）` : ""}` : "—"}</td><td>${i.cash_k ? (i.cash_k / 1000).toFixed(1) : "—"}</td><td>${i.balance_k ? (i.balance_k / 1000).toFixed(1) : "—"}</td><td>${esc(i.what)}<br><span class="hint">${esc(i.how)}</span></td><td>${i.needs_tax_review ? "要確認" : i.confidence}</td></tr>`).join("");
+    const pk = F.package_sim ? `<p class="chart-note">大手パッケージをシミュレーションに入れると：費用の差 ${(pk_(F) / 1000).toFixed(1)} 百万ドル（負が得）${F.package_sim.aog != null ? `、欠航リスク ${F.package_sim.aog >= 0 ? "+" : ""}${(F.package_sim.aog * 100).toFixed(1)}pt` : ""}、立て直し費の差 ${F.package_sim.recourse_k != null ? (F.package_sim.recourse_k / 1000).toFixed(1) : "—"} 百万ドル</p>` : "";
+    return panel("", `<p class="chart-note">${esc(finLine(F))}</p>` + pk + finChart(F) + `<div class="legend">${Object.entries(KIND_COL).map(([k, c_]) => `<span><span class="sw" style="background:${c_}"></span>${k}</span>`).join("")}<span>★ 大手だけが使える</span><span>薄い＝税の期ズレ（損得でなく繰延、要税理士確認）</span></div>` + G("finance"), esc(F.note))
+      + panel("", `<table><thead><tr><th>種類</th><th>仕組み</th><th>式で（百万ドル、＋が得）</th><th>シミュレーションで（同、AOG の変化）</th><th>現金（今入る＋／今出る−）</th><th>資産（B/S）</th><th>何を・どう計算したか</th><th>確度</th></tr></thead><tbody>${rows}</tbody></table>`,
         `割引率 ${(F.params.discount_rate * 100).toFixed(0)}%、実効税率 ${(F.params.tax_rate * 100).toFixed(1)}%。前払いは短期前払費用の特例（継続役務）に当たらないので、税の得はない。`);
   }
 

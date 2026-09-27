@@ -289,7 +289,7 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     c["usecases"] = usecases.build(b)
     fleet_json = json.loads((HERE / b["paths"]["fleet"]).read_text(encoding="utf-8"))
     conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))
-    c["finance"] = finance.build(b, fleet_json, conf["companies"].get(c["id"] or ""), c.get("invest"))
+    c["finance"] = finance.build(b, fleet_json, conf["companies"].get(c["id"] or ""), c.get("invest"), deltas)
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c

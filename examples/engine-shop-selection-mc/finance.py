@@ -23,7 +23,7 @@ def npv_factor(rate: float, years: float) -> float:
     return 1.0 / (1.0 + rate) ** years
 
 
-def build(b: dict, fleet: dict, cfg: dict | None, invest: dict | None) -> dict:
+def build(b: dict, fleet: dict, cfg: dict | None, invest: dict | None, deltas: dict | None = None) -> dict:
     P = load_params()
     r, tax = P["discount_rate"], P["tax_rate"]
     pr = b["plan_of_record"]
@@ -111,7 +111,23 @@ def build(b: dict, fleet: dict, cfg: dict | None, invest: dict | None) -> dict:
     add("fx_hedge", "為替の自然ヘッジ・先物", "資金", 0.0, cash=0.0, large=True,
         what=f"見積もりはドル建て（変動 {vol:.0%}）。国際線のドル収入で相殺、残りは先物で固定", how="期待値は変えない。着地の幅（p10〜p90）を狭める", conf="B")
 
+    # the same items priced inside the Monte Carlo (baseline.compare, actions fin_*)
+    SIM = {"prepay": "fin_prepay", "volume_tier": "fin_tier", "escalation_cap": "fin_escalation", "alliance_pool": "fin_pool_alliance",
+           "group_mro": "fin_group_mro", "fx_hedge": "fin_fx_hedge", "slb": "fin_slb", "no_reserves": "fin_no_reserves"}
+    if deltas:
+        by_act = {tuple(x["actions"]): x for x in deltas["answers"] if x["feasible"] and x["delta"] and x["case"] == "base"}
+        for i in items:
+            x = by_act.get((SIM.get(i["key"]),))
+            if x:
+                i["sim_effect_k"] = x["delta"]["total_cost"]
+                i["sim_p90_k"] = x["delta"].get("p90")
+                i["sim_aog"] = x["delta"].get("aog_prob")
+        pk = by_act.get(("fin_package",))
+        package = None if not pk else {"effect_k": pk["delta"]["total_cost"], "p90_k": pk["delta"].get("p90"), "aog": pk["delta"].get("aog_prob"),
+                                       "recourse_k": pk["delta"].get("recourse")}
+    else:
+        package = None
     total = sum(i["effect_k"] for i in items if not i["needs_tax_review"])
     total_large = sum(i["effect_k"] for i in items if i["large_only"] and not i["needs_tax_review"])
-    return {"items": items, "total_effect_k": total, "total_large_only_k": total_large, "spend_k": spend,
+    return {"items": items, "total_effect_k": total, "total_large_only_k": total_large, "spend_k": spend, "package_sim": package,
             "params": {"discount_rate": r, "tax_rate": tax}, "note": P["note"]}
