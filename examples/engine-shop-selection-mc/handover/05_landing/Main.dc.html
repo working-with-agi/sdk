@@ -14,43 +14,32 @@ body{margin:0;font-family:"Noto Sans JP",sans-serif;background:#f6f4ee;color:#14
 a{color:#1f3d63}a:hover{color:#122744}
 </style>
 </helmet>
-<div style="width: 1280px; min-height: 4500px; box-sizing: border-box; display: flex; flex-direction: column; background: #f6f4ee; color: #141413; font-family: 'Noto Sans JP', sans-serif">
+<div style="width: 1280px; min-height: 4300px; box-sizing: border-box; display: flex; flex-direction: column; background: #f6f4ee; color: #141413; font-family: 'Noto Sans JP', sans-serif">
 
-  <div style="box-sizing: border-box; padding: 100px 96px 80px 96px; display: flex; flex-direction: column; gap: 26px; background: #141413; color: #f6f4ee">
+  <div style="box-sizing: border-box; padding: 72px 96px 64px 96px; display: flex; flex-direction: column; gap: 28px; background: #141413; color: #f6f4ee">
     <div style="font-size: 12px; letter-spacing: 0.2em; color: #cfcbc0">AI による数理最適化支援システム　／　エンジン整備（MRO）向け</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 54px; line-height: 1.25; color: #ffffff; max-width: 1040px">経営と現場が、同じ一つの計画を見て決める。</div>
-    <div style="font-size: 19px; line-height: 1.8; color: #e8e4d8; max-width: 940px">経営は年に一度、予算と購入を決める。現場は毎月、工場の枠と部品の納期と向き合う。二つの時間の速さは違うのに、見ている計画は一つでなければならない。数理最適化がその一つの計画を作り、AI が両者の言葉に翻訳し、人が決める。</div>
-    <div style="display: flex; gap: 14px; margin-top: 8px">
-      <div style="padding: 12px 20px; background: {{accent}}; color: #ffffff; border-radius: 8px; font-size: 14px; font-weight: 700">経営：年に一度の版と、承認</div>
-      <div style="padding: 12px 20px; border: 1.5px solid #cfcbc0; color: #f6f4ee; border-radius: 8px; font-size: 14px; font-weight: 700">現場：毎月の補正と、合図</div>
-      <div style="padding: 12px 20px; border: 1.5px solid #cfcbc0; color: #f6f4ee; border-radius: 8px; font-size: 14px; font-weight: 700">計算：同じ計画を、両方の速さで</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 48px; line-height: 1.25; color: #ffffff; max-width: 1040px">経営と現場が、同じ一つの計画を見て決める。</div>
+    <div style="font-size: 17px; line-height: 1.8; color: #e8e4d8; max-width: 940px">経営は年に一度、予算と購入を決める。現場は毎月、工場の枠と部品の納期と向き合う。速さの違う二つの時間で、見ている計画は一つ。数理最適化がその計画を作り、AI が両者の言葉に翻訳し、人が決める。五つの部門が前提と制約を渡し合う。</div>
+    <div style="display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 32px; align-items: center; margin-top: 6px">
+      <div style="display: flex; flex-direction: column; gap: 14px">
+        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #cfcbc0">{{slide.kicker}}</div>
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 30px; line-height: 1.35; color: #ffffff">{{slide.title}}</div>
+        <div style="font-size: 15px; line-height: 1.8; color: #e8e4d8">{{slide.body}}</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px">
+          <div style="display: flex; gap: 10px; font-size: 13px; line-height: 1.6"><span style="flex: none; width: 88px; color: #cfcbc0">上から受ける</span><span style="color: #f6f4ee">{{slide.down}}</span></div>
+          <div style="display: flex; gap: 10px; font-size: 13px; line-height: 1.6"><span style="flex: none; width: 88px; color: #cfcbc0">下から受ける</span><span style="color: #f6f4ee">{{slide.up}}</span></div>
+          <div style="display: flex; gap: 10px; font-size: 13px; line-height: 1.6"><span style="flex: none; width: 88px; color: #7fa3d1; font-weight: 700">渡すもの</span><span style="color: #ffffff; font-weight: 700">{{slide.out}}</span></div>
+        </div>
+      </div>
+      <img src="{{slide.img}}" alt="{{slide.label}}" style="width: 100%; height: auto; border-radius: 14px; border: 1px solid #3a3835; display: block">
     </div>
-  </div>
-
-  <div style="box-sizing: border-box; padding: 72px 96px 64px 96px; display: flex; flex-direction: column; gap: 18px; background: #ffffff; border-bottom: 1px solid #d9d4c7">
-    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">五つの部門が、互いに前提と制約を渡し合う</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">上の部門の決定が下へ渡り、下の部門の結果が上へ上がる</div>
-    <div style="display: flex; gap: 8px; margin-top: 6px">
+    <div style="display: flex; align-items: center; gap: 10px">
+      <button onClick="{{prev}}" aria-label="前の部門" style="padding: 10px 16px; background: transparent; color: #f6f4ee; border: 1.5px solid #6b6862; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer">←</button>
       <sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
         <button onClick="{{t.pick}}" style="{{t.style}}">{{t.label}}</button>
       </sc-for>
-    </div>
-    <div style="display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 28px; padding: 28px 30px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 14px; min-height: 330px">
-      <div style="display: flex; flex-direction: column; gap: 12px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: {{accent}}">{{slide.kicker}}</div>
-        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 28px; line-height: 1.35">{{slide.title}}</div>
-        <div style="font-size: 15px; line-height: 1.8; color: #2b2a26">{{slide.body}}</div>
-      </div>
-      <div style="display: flex; flex-direction: column; gap: 12px">
-        <div style="padding: 16px 18px; background: #ffffff; border: 1.5px solid #cfcbc0; border-radius: 10px; display: flex; flex-direction: column; gap: 4px"><div style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; color: #5b5a55">上から受け取るもの（決定・目標）</div><div style="font-size: 14px; line-height: 1.7">{{slide.down}}</div></div>
-        <div style="padding: 16px 18px; background: #ffffff; border: 1.5px solid #cfcbc0; border-radius: 10px; display: flex; flex-direction: column; gap: 4px"><div style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; color: #5b5a55">下から受け取るもの（結果・制約）</div><div style="font-size: 14px; line-height: 1.7">{{slide.up}}</div></div>
-        <div style="padding: 16px 18px; background: #e6ebf3; border: 1.5px solid #1f3d63; border-radius: 10px; display: flex; flex-direction: column; gap: 4px"><div style="font-size: 11.5px; font-weight: 700; letter-spacing: 0.1em; color: #1f3d63">この部門が渡すもの</div><div style="font-size: 14px; line-height: 1.7">{{slide.out}}</div></div>
-      </div>
-    </div>
-    <div style="display: flex; justify-content: space-between; align-items: center">
-      <button onClick="{{prev}}" aria-label="前の部門" style="padding: 10px 18px; background: #ffffff; border: 1.5px solid #cfcbc0; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer">← 前</button>
-      <div style="font-size: 13px; color: #5b5a55">{{slide.pos}}　ボタンか矢印で、部門を送る</div>
-      <button onClick="{{next}}" aria-label="次の部門" style="padding: 10px 18px; background: #ffffff; border: 1.5px solid #cfcbc0; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer">次 →</button>
+      <button onClick="{{next}}" aria-label="次の部門" style="padding: 10px 16px; background: transparent; color: #f6f4ee; border: 1.5px solid #6b6862; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer">→</button>
+      <div style="margin-left: auto; font-size: 13px; color: #cfcbc0">{{slide.pos}}　上の部門の決定が下へ渡り、下の部門の結果が上へ上がる</div>
     </div>
   </div>
 
@@ -119,23 +108,23 @@ a{color:#1f3d63}a:hover{color:#122744}
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1f3d63","options":["#1f3d63","#7a3b1e","#2f5d3a","#141413"]},"$preview":{"width":1280,"height":4500}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1f3d63","options":["#1f3d63","#7a3b1e","#2f5d3a","#141413"]},"$preview":{"width":1280,"height":4300}}'>
 class Component extends DCLogic {
 constructor(props) {
 super(props);
 this.state = { i: 0 };
 this.slides = [
-{ label: "航空計画", kicker: "① 航空計画（運航・機材）", title: "便数が、必要なエンジン数を決める", body: "航空需要から便の計画を立てる。便の計画が「飛ぶ機数 × 2 − 整備で止まる機」という必要エンジン数を決め、整備計画の目標になる。増便の余地は、需要の余地とエンジンの余力の小さいほうで決まる。新機材の受領が遅れれば、退役のペースが変わる。", down: "航空需要（市場と各社の乗客の伸び）、便の計画、新機材の受領予定。", up: "整備計画から：計画とその不確実性（今の便数で、欠航率はいくつか。増やせる月はどこか）。", out: "必要エンジン数と、増便の余地。" },
-{ label: "整備計画", kicker: "② エンジン整備計画", title: "必要数を満たす入場計画と購入計画を、最適化で作る", body: "統合した前提と、工場の制約を受け取る。エンジンごとの入場月・作業範囲・工場を最適化し（シナリオ 40 本）、その計画を 800 通りの将来で検証する。予備・購入・プール・中寿命機を 1 手ずつ足し、どの前提でも欠航率 5% 以下になる購入計画を選ぶ。", down: "航空計画から：必要エンジン数。技術から：統合した前提（劣化率・工期・計画外率・伸び）。", up: "MRO と調達から：使える枠、納期、価格の上限。", out: "入場計画（いつ・何件・どの工場）、購入計画、費用の幅と欠航率。" },
-{ label: "MRO と調達", kicker: "③ MRO と調達（工場・部品・契約）", title: "入場計画を、枠と納期と価格で裏づける", body: "整備計画から入場計画と見積依頼を受ける。約束件数に応じて工場が容量を増やす。固定価格や追加作業の折半といった契約条件、LLP キットの納期回答を返す。中古エンジンと部品の市場も見る。入場が減ると約束件数を割り、容量の増強を失う。この読み返しが購入計画に効く。", down: "整備計画から：入場計画（何件・いつ・どの作業範囲）。", up: "データから：工場の進捗と納期回答の記録。", out: "枠・納期・価格（整備計画の制約）。進捗と納期回答（データへ）。" },
-{ label: "技術", kicker: "④ 技術（状態監視・残り寿命・前提の更新）", title: "実績から前提を学び直し、統合して整備計画へ渡す", body: "整えたデータから、部品の残り寿命を推定し、納期回答の段の変化を検知する。劣化率・工期・計画外率・需要の伸びを 4 つの学習手法（平均・直近重視・状況別・混合）で並行して学び、単純平均で 1 組の前提に統合する。4 つの答えがばらついた月は、見直しの合図。ここが新しく加える部分。", down: "整備計画から：計画（何を監視するか）。MRO から：作業の記録。", up: "データから：整えたデータ（便ごとの時系列と実績）。", out: "統合した前提、現在の状態、見直しの合図。年に 1 回、4 手法の成績表。" },
-{ label: "データ", kicker: "⑤ データ（センサー・記録）", title: "機上センサーと工場・運航の記録を、揃った時系列にする", body: "機上センサー（排気温度・振動・油圧）、部品の使用回数、工場の進捗、部品の納期回答、運航の記録を集める。欠けた値を補い、単位と時刻を揃え、しきい値と傾きで異常の候補を拾う。会議の前に整った実績として技術と整備計画へ渡す。", down: "技術から：何を測るか、警報のしきい値。", up: "（最下層）", out: "便ごとの時系列と実績データ。欠けが少なく、遅れない。" }
+{ label: "航空計画", img: "/_blob/1579419b22997c3c0aa3e5d1b387a68a", kicker: "① 航空計画（運航・機材）", title: "便数が、必要なエンジン数を決める", body: "航空需要から便の計画を立てる。便の計画が「飛ぶ機数 × 2 − 整備で止まる機」という必要エンジン数を決め、整備計画の目標になる。増便の余地は、需要の余地とエンジンの余力の小さいほうで決まる。新機材の受領が遅れれば、退役のペースが変わる。", down: "航空需要（市場と各社の乗客の伸び）、便の計画、新機材の受領予定。", up: "整備計画から：計画とその不確実性（今の便数で、欠航率はいくつか。増やせる月はどこか）。", out: "必要エンジン数と、増便の余地。" },
+{ label: "整備計画", img: "/_blob/2806830d4a9bfce51929ccf959d43289", kicker: "② エンジン整備計画", title: "必要数を満たす入場計画と購入計画を、最適化で作る", body: "統合した前提と、工場の制約を受け取る。エンジンごとの入場月・作業範囲・工場を最適化し（シナリオ 40 本）、その計画を 800 通りの将来で検証する。予備・購入・プール・中寿命機を 1 手ずつ足し、どの前提でも欠航率 5% 以下になる購入計画を選ぶ。", down: "航空計画から：必要エンジン数。技術から：統合した前提（劣化率・工期・計画外率・伸び）。", up: "MRO と調達から：使える枠、納期、価格の上限。", out: "入場計画（いつ・何件・どの工場）、購入計画、費用の幅と欠航率。" },
+{ label: "MRO と調達", img: "/_blob/d0e00a7dffb60f7b1702bbd0947528d7", kicker: "③ MRO と調達（工場・部品・契約）", title: "入場計画を、枠と納期と価格で裏づける", body: "整備計画から入場計画と見積依頼を受ける。約束件数に応じて工場が容量を増やす。固定価格や追加作業の折半といった契約条件、LLP キットの納期回答を返す。中古エンジンと部品の市場も見る。入場が減ると約束件数を割り、容量の増強を失う。この読み返しが購入計画に効く。", down: "整備計画から：入場計画（何件・いつ・どの作業範囲）。", up: "データから：工場の進捗と納期回答の記録。", out: "枠・納期・価格（整備計画の制約）。進捗と納期回答（データへ）。" },
+{ label: "技術", img: "/_blob/6c8c22cfa44980c2e4ecec7e797684d4", kicker: "④ 技術（状態監視・残り寿命・前提の更新）", title: "実績から前提を学び直し、統合して整備計画へ渡す", body: "整えたデータから、部品の残り寿命を推定し、納期回答の段の変化を検知する。劣化率・工期・計画外率・需要の伸びを 4 つの学習手法（平均・直近重視・状況別・混合）で並行して学び、単純平均で 1 組の前提に統合する。4 つの答えがばらついた月は、見直しの合図。ここが新しく加える部分。", down: "整備計画から：計画（何を監視するか）。MRO から：作業の記録。", up: "データから：整えたデータ（便ごとの時系列と実績）。", out: "統合した前提、現在の状態、見直しの合図。年に 1 回、4 手法の成績表。" },
+{ label: "データ", img: "/_blob/8a3ff6746c55c47cb9805ab70dfa0773", kicker: "⑤ データ（センサー・記録）", title: "機上センサーと工場・運航の記録を、揃った時系列にする", body: "機上センサー（排気温度・振動・油圧）、部品の使用回数、工場の進捗、部品の納期回答、運航の記録を集める。欠けた値を補い、単位と時刻を揃え、しきい値と傾きで異常の候補を拾う。会議の前に整った実績として技術と整備計画へ渡す。", down: "技術から：何を測るか、警報のしきい値。", up: "（最下層）", out: "便ごとの時系列と実績データ。欠けが少なく、遅れない。" }
 ];
 }
 renderVals() {
 const i = this.state.i, n = this.slides.length, accent = this.props.accent ?? '#1f3d63';
 const tabs = this.slides.map((s, k) => ({ label: s.label, pick: () => this.setState({ i: k }),
-style: k === i ? `padding: 10px 18px; background: ${accent}; color: #ffffff; border: 1.5px solid ${accent}; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer` : `padding: 10px 18px; background: #ffffff; color: #141413; border: 1.5px solid #cfcbc0; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer` }));
+style: k === i ? `padding: 10px 18px; background: #f6f4ee; color: #141413; border: 1.5px solid #f6f4ee; border-radius: 8px; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer` : `padding: 10px 18px; background: transparent; color: #f6f4ee; border: 1.5px solid #6b6862; border-radius: 8px; font: inherit; font-size: 14px; cursor: pointer` }));
 return { accent, tabs, slide: { ...this.slides[i], pos: `${i + 1} / ${n}` }, prev: () => this.setState({ i: (i + n - 1) % n }), next: () => this.setState({ i: (i + 1) % n }) };
 }
 }
