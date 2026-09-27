@@ -624,15 +624,16 @@ def overview_details() -> list[dict]:
 
 
 def concept_page() -> str:
-    """The overview as an HTML page: compact boxes, one overlay at a time (tabs), and a click on
-    a row that zooms into it and opens a detail panel (full text, literature, KPIs, links)."""
+    """A landing page: headline and the one-line story, three points, the six outputs over a
+    year, the tools behind them, then the full grid (rows zoom into a detail panel), and the
+    reference tables folded away at the end."""
     import json as _json
     svg = strategy_matrix(True, True)
-    TABS = [("none", "基本の図", "行＝5 つの部門（航空計画・整備計画・MRO と調達・技術・データ）、列＝入力 → 処理 → 出力、右端＝得られる成果。太い深紅が推奨する流れ。行をクリックすると拡大し、詳細が右に出ます。"),
-            ("ov-flight", "① 航空計画から導かれるもの", "便数が必要エンジン数を決める。便 1〜6 の札は、航空計画から導いた値を使う箱。"),
-            ("ov-stage", "② PDCA と OODA", "上 3 行（航空計画・整備計画・MRO）が PDCA、下 2 行（技術・データ）が OODA。列がそのまま段階（入力＝計画／観測、右端＝改善／行動）。"),
-            ("ov-output", "③ 成果指標", "右端の各成果に目標を付ける。欠航率 5% 以下、予算との差 ±5% 以内、予測の的中率 80% 以上など（目安）。"),
-            ("ov-ai", "④ 何が働くか", "AI 支援ソルバー（AI-assisted solver）：計画を解くのは数理最適化とシミュレーション、前提を学ぶのは統計、残り寿命は機械学習、候補づくり・説明・振り分けは AI、決めるのは人。")]
+    TABS = [("none", "基本の図", "行＝5 つの部門、列＝入力 → 処理 → 出力、右端＝得られる成果。太い深紅が推奨する流れ。行をクリックすると拡大し、詳細が右に出ます。"),
+            ("ov-flight", "航空計画から導かれるもの", "便数が必要エンジン数を決める。便 1〜6 の札は、航空計画から導いた値を使う箱。"),
+            ("ov-stage", "PDCA と OODA", "上 3 行（航空計画・整備計画・MRO）が PDCA、下 2 行（技術・データ）が OODA。列がそのまま段階。"),
+            ("ov-output", "成果指標", "右端の各成果に目標を付ける。欠航率 5% 以下、予算との差 ±5% 以内、予測の的中率 80% 以上など（目安）。"),
+            ("ov-ai", "何が働くか", "AI 支援ソルバー：計画を解くのは数理最適化とシミュレーション、前提を学ぶのは統計、残り寿命は機械学習、候補づくり・説明・振り分けは AI、決めるのは人。")]
     tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
     caps = "".join(f'<p class="cap" data-for="{g}" {"" if g == "none" else "hidden"}>{c}</p>' for g, _, c in TABS)
     details = _json.dumps(overview_details(), ensure_ascii=False)
@@ -645,78 +646,83 @@ def concept_page() -> str:
     by = {k: (k, n, w, who, what, src, sc, sec) for k, n, w, who, what, src, sc, sec in OUTPUTS}
     out_rows = "".join((lambda k, n, w, who, what, src, sc, sec, i: f"<tr><td><b>{NUM[i]} {n}</b></td><td>{w}</td><td>{who}</td><td>{what}</td><td>{_link(sc)}</td><td>{sec}</td></tr>")(*by[key], i) for i, key in enumerate(ORDER))
     cycle_svg = outputs_cycle()
+    TOOLS = [("index.html", "ダッシュボード", "入口。年次の版と月次会議を暦に置き、KPI と不足の見張り、話題ごとの論点、すべてのページへのリンク。", "①〜⑥ の入口"),
+             ("report.html", "詳細レポート（対話版）", "会社ごと・役割ごとに 30 余りの画面。各図に「何の図か・どう読むか・言えること・次にすること」の案内。", "計画の中身と判断材料"),
+             ("report_a4.html", "統合レポート（A4・PDF）", "本文 1〜8 章＋付録。年次分と月次分を綴じた、印刷して配る 1 冊。", "①〜⑥ を綴じたもの"),
+             ("annual.html", "年間計画レポート", "年度ごとの入場・整備費・予算と 10 年先の見通しを 1 画面に。", "③ 年次レポート"),
+             ("monthly.html", "月次レポート", "今月の判断期限、乗り換えの推奨、着地の更新を 1 画面に。", "⑥ 月次レポート"),
+             ("track.html", "計画の追跡", "実績と計画の差、シナリオの確率、乗り換えの価値と判断期限。", "④ 見直し・⑤ 修正")]
+    tool_cards = "".join(f'<a class="card" href="{f}"><div class="ct">{t}</div><div class="cd">{d}</div><div class="cf">{tag}</div></a>' for f, t, d, tag in TOOLS)
     return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画の全体像</title>
 <style>body{{margin:0;background:{BG};font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
-.bar{{display:flex;gap:8px;align-items:center;padding:10px 20px;border-bottom:1px solid #e2e8f0;position:sticky;top:0;background:{BG};z-index:2}}
-.bar button{{font:inherit;font-size:13px;padding:6px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer}} .bar button.on{{background:{HEAD};color:#fff;border-color:{HEAD}}}
-.cap{{margin:0 20px;padding:8px 12px;font-size:13px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}}
-.stage{{display:grid;grid-template-columns:1fr;gap:0}} .stage.open{{grid-template-columns:minmax(0,1fr) 420px}} .stage.open > div{{overflow-x:auto;padding:8px 0 8px 20px}} .stage.open svg{{height:300px;width:auto;max-width:none}}
-svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:none}} g.row{{cursor:pointer}} g.row:hover rect:first-child{{stroke:{HEAD};stroke-width:2}}
-.anim .flow{{stroke-dasharray:14 10;animation:dash 1.1s linear infinite}} .hero .flow{{stroke-dasharray:22 12}} .anim .flow.red{{stroke-dasharray:18 10;animation-duration:.6s;filter:drop-shadow(0 0 3px rgba(190,18,60,.6))}}
+.wrap{{max-width:1400px;margin:0 auto;padding:0 20px}} section{{padding:28px 0 18px;border-top:1px solid #e2e8f0}} section:first-of-type{{border-top:0}}
+.kicker{{font-size:12px;letter-spacing:.14em;color:{PORT};font-weight:700;margin:0 0 6px}} h1{{font-size:30px;line-height:1.3;margin:0 0 10px}} h2{{font-size:21px;margin:0 0 6px}} .lead{{font-size:15px;line-height:1.75;margin:0 0 14px;max-width:1000px}}
+.points{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:6px 0 4px}} .pt{{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px}} .pt b{{display:block;font-size:14.5px;margin-bottom:4px}} .pt span{{font-size:13px;line-height:1.65;color:#334155}}
+.hero svg,.cycle svg,.grid svg{{width:100%;height:auto;display:block}} .hero{{margin:10px 0 0}}
+.explain{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 28px;font-size:13px;line-height:1.7;margin:10px 0 0}} .explain h3{{font-size:13.5px;margin:6px 0 2px;color:{HEAD}}} .explain p{{margin:0}}
+.cards{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}} .card{{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;text-decoration:none;color:inherit}} .card:hover{{border-color:{PORT};box-shadow:0 2px 10px rgba(0,0,0,.06)}}
+.ct{{font-size:15px;font-weight:700;margin-bottom:4px}} .cd{{font-size:12.5px;line-height:1.6;color:#334155}} .cf{{margin-top:8px;font-size:11.5px;color:{PORT};font-weight:700}}
+.bar{{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}} .bar button{{font:inherit;font-size:12.5px;padding:5px 11px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;cursor:pointer}} .bar button.on{{background:{HEAD};color:#fff;border-color:{HEAD}}}
+.bar label{{margin-left:auto;font-size:12.5px;display:flex;gap:6px;align-items:center}} .cap{{margin:0 0 8px;padding:8px 12px;font-size:12.5px;background:#fff;border:1px solid #e2e8f0;border-radius:8px}}
+.stage{{display:grid;grid-template-columns:1fr;gap:0}} .stage.open{{grid-template-columns:minmax(0,1fr) 420px}} .stage.open > div{{overflow-x:auto;padding:8px 0}} .stage.open svg{{height:300px;width:auto;max-width:none}}
+.hide{{display:none}} g.row{{cursor:pointer}} g.row:hover rect:first-child{{stroke:{HEAD};stroke-width:2}}
+.anim .flow{{stroke-dasharray:14 10;animation:dash 1.1s linear infinite}} .anim .flow.red{{stroke-dasharray:18 10;animation-duration:.6s;filter:drop-shadow(0 0 3px rgba(190,18,60,.6))}} .hero .flow{{stroke-dasharray:22 12}}
 .anim .flow.dashed{{stroke-dasharray:7 5;animation-duration:1.6s}} .dot{{display:none}} .anim .dot{{display:inline}}
 @keyframes dash{{to{{stroke-dashoffset:-24}}}} @media (prefers-reduced-motion: reduce){{.anim .flow{{animation:none}} .anim .dot{{display:none}}}}
-.bar label{{margin-left:auto;font-size:13px;display:flex;gap:6px;align-items:center}}
-.lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
-.lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
-.outputs{{padding:10px 20px 6px;max-width:1400px}} .outputs h2{{font-size:17px;margin:8px 0 6px}} .explain{{font-size:13px;line-height:1.75;margin:6px 0 14px}} .explain h3{{font-size:13.5px;margin:12px 0 2px;color:{HEAD}}} .explain p{{margin:0 0 4px}}
-.outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs code{{font-size:11.5px;background:#f1f5f9;padding:1px 4px;border-radius:3px}} .outs a{{color:{PORT}}} .cycle svg{{width:100%;height:auto;max-width:1400px}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
-#panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}} .stage.open #panel{{display:block}}
+#panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto}} .stage.open #panel{{display:block}}
 #panel h2{{font-size:16px;margin:0 0 2px}} #panel .cad{{color:{MUTE};font-size:12px;margin-bottom:10px}} #panel h3{{font-size:12.5px;margin:12px 0 4px;color:{HEAD};border-bottom:1px solid #e2e8f0;padding-bottom:2px}}
 #panel ul{{margin:0;padding-left:16px}} #panel .lit{{color:{MUTE};font-size:11.5px}} #panel .chips span{{display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px}}
 #panel a{{color:{PORT}}} #panel .close{{float:right;font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer}}
-.zoombar{{display:none;padding:6px 20px;font-size:12.5px;color:{MUTE}}} .stage.open .zoombar{{display:block}} .zoombar button{{font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:8px}}
-.note{{padding:10px 20px 24px;font-size:12px;color:{MUTE};max-width:1400px}}</style></head><body>
-<header class="lead"><h1>エンジン整備計画を、航空需要から意思決定まで一本でつなぐ</h1>
-<p class="msg">航空需要から便の計画を立て、便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。その流れを、航空計画・エンジン整備計画・MRO と調達・技術・データという 5 つの部門で示した図です。</p>
-<ul class="keys"><li><b>目標は上から下へ。</b>需要が便数を決め、便数が必要エンジン数を決め、エンジン計画はそれに合わせる。</li>
-<li><b>新しいのは技術の行（④）。</b>前提を一つの方法で決めず、4 つの学習手法で並行して学び、結果を統合してから整備計画が解く。前提が外れても壊れにくい計画になる。</li>
-<li><b>成果は右端の 4 つ。</b>年度計画と購入計画、見直しの合図、現在の状態、信頼できるデータ。決めるのは人。</li></ul>
-<div class="hero anim">{overview_hero()}</div></header>
-<section class="outputs"><h2>成果物の一覧と、それを統合するレポート</h2>
-<p class="msg">成果物は 6 つ。年に 1 回の ① 年間見直し → ② 計画 → ③ 年次レポート と、毎月の ④ 月次見直し → ⑤ 計画修正（必要な月だけ）→ ⑥ 月次レポート。全部を <a href="report_a4.html">統合レポート（A4 版）</a> に綴じる。</p>
+.zoombar{{display:none;padding:6px 0;font-size:12.5px;color:{MUTE}}} .stage.open .zoombar{{display:block}} .zoombar button{{font:inherit;border:1px solid #cbd5e1;background:#fff;border-radius:6px;padding:2px 8px;cursor:pointer;margin-left:8px}}
+details{{margin:8px 0}} summary{{cursor:pointer;font-weight:700;font-size:14px}} .outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:8px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs a{{color:{PORT}}}
+.note{{font-size:12px;color:{MUTE};padding:14px 0 28px}} @media (max-width:900px){{.points,.cards,.explain{{grid-template-columns:1fr}} .stage.open{{grid-template-columns:1fr}}}}</style></head><body><div class="wrap">
+
+<section><p class="kicker">737-800 / CFM56-7B　エンジン整備計画　合成データによる見本</p>
+<h1>エンジン整備計画を、航空需要から意思決定まで一本でつなぐ</h1>
+<p class="lead">航空需要から便の計画を立て、便の計画から必要なエンジン数を決め、現場のデータで前提を更新し、最適化とシミュレーションで計画を作り、意思決定者に「年度計画・購入計画・見直しの合図」を渡す。</p>
+<div class="hero anim">{overview_hero()}</div>
+<div class="points">
+<div class="pt"><b>目標は上から下へ</b><span>需要が便数を決め、便数が必要エンジン数を決める。エンジン計画はそれに合わせる。</span></div>
+<div class="pt"><b>前提は 4 つの手法で学び、統合する</b><span>一つの方法で決めず、平均・直近重視・状況別・混合の 4 手法で並行して学ぶ。前提が外れても壊れにくい計画になる。ここが新しい。</span></div>
+<div class="pt"><b>計算が作り、人が決める</b><span>数理最適化とシミュレーションが計画を解き、AI が候補づくり・説明・振り分けを支援し、経営が承認する（AI 支援ソルバー）。</span></div>
+</div></section>
+
+<section><p class="kicker">成果物</p><h2>1 年で出るもの：年に 1 回の 3 つと、毎月の 3 つ</h2>
+<p class="lead">上の帯が年に 1 回の版づくり、下の帯が毎月の補正。全部を統合レポート（A4）に綴じる。</p>
 <div class="cycle">{cycle_svg}</div>
 <div class="explain">
-<h3>上の帯：年に 1 回の版づくり（10 月）</h3>
-<p><b>① 年間見直し</b>で、過去 8 版を当時の情報で解き直し、予測の癖（入場時期が早すぎる、計画外の取卸しが多い）を補正値にする。4 つの学習手法の成績を採点し、来年どの手法で前提を作るかを決める。需要の伸びも長期と直近を見比べて置き直す。<br>
-<b>② 計画（版）</b>は、その前提で整備計画を最適化し（シナリオ 40 本）、800 通りの将来で検証して凍結したもの。エンジンごとの入場月・作業範囲・工場と、購入する手（予備・プール・中寿命機）を含む。<br>
-<b>③ 年次レポート</b>は、②を経営向けに要約したもの。年度ごとの整備費と予算、欠航率、退役までの入場列、購入計画、次の版で直す決め方。ここで承認される。</p>
-<h3>真ん中：12 か月の時間軸</h3>
-<p>②を 10 月に凍結し、1 年間はこの版を基準にして回す。基準があるから「実績とどれだけずれたか」が測れる。9 月末に翌年の①へ戻り、次の版を作る。</p>
-<h3>下の帯：毎月の補正（月次会議）</h3>
-<p><b>④ 月次見直し</b>：入った実績（入場・遅れ・追加作業・故障・納期回答）を基準計画に当て、どのシナリオが確からしいかの確率を更新し、見直しの合図（4 手法のばらつき・変化点・需要の引き金）を出す。PDCA／OODA の症状表で「どこがずれたか」を段階ごとに整理する。<br>
-<b>⑤ 計画修正</b>：必要な月だけ。3 か月先の欠航率が 5% を超えそう、または乗り換えの価値が 2 か月続けてしきい値を超えたときに、乗り換え先の計画や短期リースの手当てを出し、何基が動くかの差分を示す。動く基数が多い・購入に及ぶ修正は、月次では決めずに次の版（②）に戻す。<br>
-<b>⑥ 月次レポート</b>：今月の判断期限、乗り換えの推奨、3 か月先の見張り、年度の着地の更新。経営向けの 1 枚。</p>
-<h3>最下段：統合レポート（A4）に綴じる</h3>
-<p>年次の 3 つ（③②①）が本文 1〜8 章になり、月次の 3 つ（④⑤⑥）が 6 章に毎月差し替えで入る。付録に思考の枠組み（PDCA／OODA）・文献・出典・画面との対応表。文書は「何を決めるか」だけを書き、数字の根拠は各画面（対話版レポート）に置く。</p>
-<h3>誰が読むか</h3>
-<p>経営は③と⑥（決めることと理由）。整備計画は②と⑤（計画そのもの）。技術と調達は④（ずれと合図）。年間見直し①は技術・整備計画・経営企画が合同で行う。</p>
-</div>
-<table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>判断材料の画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table>
-<h3 style="font-size:15px;margin:18px 0 6px">これを支える道具立て：ダッシュボード・詳細レポート・別画面・図・文書</h3>
-<p class="msg">成果物 ①〜⑥ は、次のページ群がすでに生成する。入口は <a href="index.html">ダッシュボード</a>。年次と月次の計画を暦の上に置き、KPI・不足の見張り・話題ごとの論点を出し、すべての画面と文書へのリンクを持つ。</p>
-<table class="outs tools"><thead><tr><th>道具</th><th>何ができるか</th><th>対応する成果物</th><th>開く</th></tr></thead><tbody>
-<tr><td><b>ダッシュボード</b></td><td>年次の版と月次会議を暦にマッピング、KPI（整備費・欠航率・予算超過確率）、不足の見張りの警告、話題ごとの論点、意思決定 → 判断材料 → 画面の対応表、全リンク</td><td>入口（①〜⑥ すべて）</td><td><a href="index.html">index.html</a></td></tr>
-<tr><td><b>詳細レポート（対話版）</b></td><td>会社ごと・役割ごとに 30 余りの画面。年間計画と予算、エンジン別の明細、購入計画の輪、計画の追跡、変化点、不足の見張り、PDCA／OODA の見直し、過去で検証、客席の需要、税引後・資産、付録（計画の構造・二つの輪）。各図に「何の図か・どう読むか・言えること・次にすること」の案内</td><td>②⑤ の計画そのもの、④ の判断材料、① の採点</td><td><a href="report.html">report.html</a></td></tr>
-<tr><td><b>年間計画レポート</b></td><td>年度ごとの入場・整備費・予算、10 年先の見通しを 1 画面に</td><td>③ 年次レポート</td><td><a href="annual.html">annual.html</a></td></tr>
-<tr><td><b>月次レポート</b></td><td>今月の判断期限、乗り換えの推奨、着地の更新を 1 画面に</td><td>⑥ 月次レポート</td><td><a href="monthly.html">monthly.html</a></td></tr>
-<tr><td><b>計画の追跡（別画面）</b></td><td>実績と計画の差、シナリオの確率、乗り換えの価値と判断期限</td><td>④ 月次見直し・⑤ 計画修正</td><td><a href="track.html">track.html</a></td></tr>
-<tr><td><b>統合レポート（A4・PDF）</b></td><td>本文 1〜8 章＋付録 A〜E。印刷して配る形</td><td>①〜⑥ を綴じたもの</td><td><a href="report_a4.html">report_a4.html</a></td></tr>
-<tr><td><b>図</b></td><td>基本計画（年次、PDCA）と詳細計画（月次、OODA）の 2 頁、分析の全体像（本ページ）、ストラテジーの流れ</td><td>付録 A・B</td><td><a href="plan_basic.html">plan_basic</a> ／ <a href="plan_detail.html">plan_detail</a> ／ <a href="strategy_stack.html">strategy_stack</a></td></tr>
-<tr><td><b>文書</b></td><td>ストーリー（需要から検証まで）、付録（思考の枠組み・文献・シミュレーションの範囲）、概念設計（分析ストラテジー）、要件と対応の記録、README・進め方・実務との距離</td><td>付録・背景</td><td><a href="story.html">story</a> ／ <a href="appendix.html">appendix</a> ／ <a href="design_strategy.html">design</a> ／ <a href="requirements.html">requirements</a></td></tr>
-<tr><td><b>再生成</b></td><td>すべて <code>run_all.sh</code> 一発で、入力データから計画・検証・レポート・ダッシュボード・A4 版まで作り直す（約 10 分）。AI 層は API キーがあれば見直しの文章を生成、なければ規則層に落ちる</td><td>①〜⑥ の更新</td><td>—</td></tr>
-</tbody></table>
-<p class="msg" style="color:#64748b;font-size:12.5px">任意で足せる画面：条件を動かして打ち手の変化を見る画面（what-if）、承認／保留／差し戻しを共有する判断ルーム。今の一括生成には含めていない。</p></section>
-<div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
-<div style="padding-top:10px">{caps}</div>
+<div><h3>① 年間見直し（10 月、年 1 回）</h3><p>過去 8 版を当時の情報で解き直して予測の癖を補正値にし、4 手法の成績を採点して来年の手法を決める。需要の伸びも置き直す。</p>
+<h3>② 計画（版）</h3><p>その前提で整備計画を最適化し（シナリオ 40 本）、800 通りの将来で検証して凍結。入場月・作業範囲・工場と、購入する手。</p>
+<h3>③ 年次レポート</h3><p>② の経営向け要約。年度ごとの整備費と予算、欠航率、退役までの入場列、購入計画。ここで承認される。</p></div>
+<div><h3>④ 月次見直し（毎月）</h3><p>実績を基準計画に当て、シナリオの確率を更新し、見直しの合図（ばらつき・変化点・需要の引き金）を出す。</p>
+<h3>⑤ 計画修正（必要な月だけ）</h3><p>3 か月先の欠航率が 5% を超えそう、または乗り換えの価値が 2 か月続いたとき。乗り換え先・短期リース・動く基数の差分。大きな修正は次の版に戻す。</p>
+<h3>⑥ 月次レポート</h3><p>今月の判断期限、乗り換えの推奨、3 か月先の見張り、年度の着地の更新。経営向けの 1 枚。</p></div>
+</div></section>
+
+<section><p class="kicker">道具</p><h2>これを支える 6 つのページ</h2>
+<p class="lead">入口はダッシュボード。判断材料は詳細レポートに置き、印刷して配るのは統合レポート。すべて <code>run_all.sh</code> 一発で入力データから作り直せる。</p>
+<div class="cards">{tool_cards}</div></section>
+
+<section><p class="kicker">仕組み</p><h2>全体像：5 つの部門 × 入力・処理・出力、右端が得られる成果</h2>
+<p class="lead">行は部門（航空計画・エンジン整備計画・MRO と調達・技術・データ）。行をクリックすると拡大し、右に詳細（全文・根拠の文献・成果指標・関連画面）が出る。</p>
+<div class="bar"><b style="font-size:12.5px;margin-right:4px">見方：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き</label></div>
+{caps}
 <div class="zoombar">拡大中：<b id="zoomlabel"></b><button type="button" id="zoomout">全体に戻る</button><button type="button" id="prev">▲ 上の行</button><button type="button" id="next">▼ 下の行</button></div>
-<div class="stage" id="stage"><div>{svg}</div><aside id="panel"></aside></div>
-<p class="note">概要の箱は要点 1 行だけ。詳細（全文・根拠の文献・成果指標・航空計画から導かれる項目・関連画面）は行をクリックして右のパネルで見る。動き：流れる破線が向き、深紅の線を走る点が推奨する流れ。数値はすべて合成データの目安。</p>
+<div class="stage" id="stage"><div class="grid">{svg}</div><aside id="panel"></aside></div></section>
+
+<section><p class="kicker">参考</p><h2>表と文書</h2>
+<details><summary>成果物の一覧表（いつ・誰が・中身・画面・章）</summary><table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>判断材料の画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table></details>
+<details><summary>図と文書</summary><ul style="font-size:13px;line-height:1.9"><li>図：<a href="plan_basic.html">基本計画（年次、PDCA）</a>／<a href="plan_detail.html">詳細計画（月次、OODA）</a>／<a href="strategy_stack.html">分析ストラテジーの流れ</a></li>
+<li>文書：<a href="story.html">ストーリー（需要から検証まで）</a>／<a href="appendix.html">付録（思考の枠組み・文献・シミュレーションの範囲）</a>／<a href="design_strategy.html">概念設計（分析ストラテジー）</a>／<a href="requirements.html">要件と対応の記録</a>／<a href="readme.html">README</a>／<a href="process.html">進め方</a>／<a href="practice.html">実務との距離</a></li>
+<li>任意で足せる画面：条件を動かして打ち手の変化を見る画面（what-if）、承認／保留／差し戻しを共有する判断ルーム。今の一括生成には含めていない。</li></ul></details>
+<p class="note">数値はすべて合成データの目安。実データは需要（e-Stat 航空輸送統計速報、各社月次資料）と型式の年表のみ。AI 層は API キーがあれば見直しの文章を生成し、なければ規則層に落ちる。</p></section>
+</div>
 <script>
 const DET={details}; const G=["ov-flight","ov-stage","ov-output","ov-ai"];
 const show=(g)=>{{G.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==g)); document.querySelectorAll(".bar button").forEach(b=>b.classList.toggle("on",b.dataset.g===g)); document.querySelectorAll(".cap").forEach(c=>c.hidden=c.dataset.for!==g);}};
 document.querySelectorAll(".bar button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.g))); show("none");
-const svgEl=document.querySelector("svg"); const VB=svgEl.getAttribute("viewBox"); const W=+VB.split(" ")[2];
-const setAnim=()=>{{svgEl.classList.toggle("anim",document.getElementById("anim").checked); document.querySelector(".hero").classList.toggle("anim",document.getElementById("anim").checked);}}; document.getElementById("anim").addEventListener("change",setAnim); setAnim();
+const svgEl=document.querySelector(".grid svg"); const VB=svgEl.getAttribute("viewBox"); const W=+VB.split(" ")[2];
+const setAnim=()=>{{const on=document.getElementById("anim").checked; svgEl.classList.toggle("anim",on); document.querySelector(".hero").classList.toggle("anim",on);}}; document.getElementById("anim").addEventListener("change",setAnim); setAnim();
 const esc=(s)=>String(s).replace(/[&<>]/g,(c)=>({{"&":"&amp;","<":"&lt;",">":"&gt;"}}[c]));
 let cur=-1;
 function zoom(r){{ const g=document.querySelector(`g.row[data-row="${{r}}"]`); if(!g) return; cur=r; const y0=+g.dataset.y0, y1=+g.dataset.y1;
@@ -730,7 +736,7 @@ function zoom(r){{ const g=document.querySelector(`g.row[data-row="${{r}}"]`); i
    <h3>成果指標（目標）</h3><div class="chips">${{d.kpi.map(k=>`<span>${{esc(k)}}</span>`).join("")}}</div>
    ${{d.flight.length?`<h3>航空計画から導かれるもの</h3><ul>${{li(d.flight)}}</ul>`:""}}
    <h3>何が働くか</h3><div class="chips">${{d.works.map(k=>`<span>${{esc(k)}}</span>`).join("")}}</div>
-   <h3>詳しく見る（対話版レポート）</h3><ul>${{d.links.map(([k,l])=>`<li><a href="report.html#co=0&v=${{k}}">${{esc(l)}}</a></li>`).join("")}}<li><a href="plan_basic.html">図：基本計画（年次）</a> ／ <a href="plan_detail.html">図：詳細計画（月次）</a></li></ul>`;
+   <h3>詳しく見る（詳細レポート）</h3><ul>${{d.links.map(([k,l])=>`<li><a href="report.html#co=0&v=${{k}}">${{esc(l)}}</a></li>`).join("")}}<li><a href="plan_basic.html">図：基本計画（年次）</a> ／ <a href="plan_detail.html">図：詳細計画（月次）</a></li></ul>`;
   document.getElementById("close").onclick=reset; }}
 function reset(){{ cur=-1; svgEl.setAttribute("viewBox",VB); document.getElementById("stage").classList.remove("open"); }}
 document.querySelectorAll("g.row").forEach(g=>g.addEventListener("click",()=>zoom(+g.dataset.row)));
