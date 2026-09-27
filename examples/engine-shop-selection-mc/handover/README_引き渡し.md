@@ -50,7 +50,7 @@
 3. **月ごとの差分**：`build_monthly.py` の `month_reports()` が `timeline[k]` と `[k−1]` の差（前提の確率、着地 p50、新しい例外）を計算。JSON には無く、レポート生成時に作る。
 4. **「6 か月目に検知したが乗り換えないほうが得」**：単一フリート例（README の旧節）の数字。会社別は `timeline[k].switch[候補].saving / decide_by` と `cpd` ブロック。JAL 混雑：先行指標は月 2 で検知、前提の確率は月 5、乗り換えはどの月でも損。
 5. **つながり 50% → 63%**：`build_report.py` の `horizons()`。矢印ごとに ok/warn/bad を判定し、score = ok 数 ÷ 矢印数。50% は追跡→次の版の矢印が未実装だった時点、63% は roll.py 実装後。
-6. **出典のない数字 11 件**：`build_report.unsourced()` が companies.json の当該会社＋common の `no_source` を数える（JAL 11、ANA 10）。leap_invest の確度 C は別集計。
+6. **出典のない数字 11 件**：`build_report.unsourced()` が companies.json の当該会社＋common の `no_source` を数える（当時 JAL 11、ANA 10）。その後、追加機種・契約形態・お金の仕組みの前提が増え、2026-09-27 時点では JAL 36 件。leap_invest・finance・tax・mx4・lease の各パラメータ表の no_source は別集計。
 7. **グリーンタイム・エンジン（8 基）の −37.0／−37.8 M$**：購入価格 5,000 k$ を**差し引いた後**（`actions.py` の GT 価格、残存価値は CORE 相当で評価）。売り込みの上限額は「差額がゼロになる価格」で、会社別の感度は未計算。
 8. **history の半期と通年の予算**：`fiscal_years` は実績のある月だけ集計（`months` に月数）。予算は通年の値なので、半期の行は `months` で按分する。
 
