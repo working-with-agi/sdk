@@ -624,6 +624,67 @@ def overview_details() -> list[dict]:
 
 
 def concept_page() -> str:
+    """The landing page: five screens, one idea each, few words. The detailed grid lives on
+    its own page (concept_grid_page)."""
+    hero = overview_hero()
+    cyc = outputs_cycle()
+    return f'''<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画の全体像</title>
+<style>body{{margin:0;background:#fff;font-family:"IBM Plex Sans JP","Noto Sans JP",sans-serif;color:{INK}}}
+.s{{min-height:88vh;display:flex;flex-direction:column;justify-content:center;padding:48px 24px;border-bottom:1px solid #e2e8f0}} .s:nth-child(even){{background:{BG}}}
+.in{{max-width:1240px;margin:0 auto;width:100%}} .k{{font-size:13px;letter-spacing:.16em;color:{PORT};font-weight:700;margin:0 0 10px}}
+h1{{font-size:40px;line-height:1.25;margin:0 0 16px;letter-spacing:-.01em}} h2{{font-size:32px;line-height:1.3;margin:0 0 12px}}
+.big{{font-size:20px;line-height:1.7;margin:0 0 20px;max-width:900px}} .sub{{font-size:15px;line-height:1.7;color:#475569;max-width:900px;margin:0}}
+svg{{width:100%;height:auto;display:block}} .fig{{margin:18px 0 10px}}
+.three{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:18px}} .three div{{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:22px 24px}}
+.three b{{display:block;font-size:20px;margin-bottom:8px}} .three span{{font-size:15px;line-height:1.7;color:#334155}}
+.six{{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:18px}} .six a{{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;text-decoration:none;color:inherit}} .six a:hover{{border-color:{PORT}}}
+.six b{{display:block;font-size:18px;margin-bottom:6px}} .six span{{font-size:14px;line-height:1.65;color:#334155}} .six em{{display:block;font-style:normal;margin-top:8px;font-size:12.5px;color:{PORT};font-weight:700}}
+.cta{{display:inline-block;margin-top:14px;padding:12px 22px;background:{HEAD};color:#fff;border-radius:10px;text-decoration:none;font-size:15px;font-weight:700}} .cta.alt{{background:#fff;color:{HEAD};border:1.5px solid {HEAD};margin-left:10px}}
+.anim .flow{{stroke-dasharray:22 12;animation:dash 1.1s linear infinite}} .anim .dot{{display:inline}} .dot{{display:none}} @keyframes dash{{to{{stroke-dashoffset:-34}}}} @media (prefers-reduced-motion: reduce){{.anim .flow{{animation:none}} .anim .dot{{display:none}}}}
+.foot{{font-size:12px;color:{MUTE};padding:20px 24px 40px;text-align:center}} @media (max-width:900px){{.three,.six{{grid-template-columns:1fr}} h1{{font-size:30px}} h2{{font-size:26px}}}}</style></head><body>
+
+<section class="s"><div class="in"><p class="k">1 ／ 5　なにをする仕組みか</p>
+<h1>エンジン整備計画を、航空需要から意思決定まで一本でつなぐ</h1>
+<p class="big">需要が便数を決め、便数が必要なエンジン数を決める。現場のデータで前提を毎月更新し、計算が計画を作り、人が決める。</p>
+<div class="fig anim">{hero}</div></div></section>
+
+<section class="s"><div class="in"><p class="k">2 ／ 5　なにが新しいか</p>
+<h2>前提を一つの方法で決めない</h2>
+<p class="big">同じ実績から 4 つの学習手法で前提を作り、統合してから計画を解く。前提が外れても壊れにくい計画になる。</p>
+<div class="three">
+<div><b>平均</b><span>全期間を等しく見る。標準。</span></div>
+<div><b>直近重視・状況別</b><span>最近を重く見る手法と、状況が変わったら切り替える手法。</span></div>
+<div><b>統合</b><span>4 つを単純平均して 1 組の前提に。ばらつきが大きい月は見直しの合図。年に 1 回、成績で来年の手法を決める。</span></div>
+</div></div></section>
+
+<section class="s"><div class="in"><p class="k">3 ／ 5　なにが出てくるか</p>
+<h2>年に 1 回の 3 つと、毎月の 3 つ</h2>
+<p class="big">上の帯が年に 1 回の版づくり、下の帯が毎月の補正。全部を統合レポート（A4）に綴じる。</p>
+<div class="fig">{cyc}</div>
+<p class="sub">① 年間見直し：過去の検証で予測の癖を補正し、来年の手法を決める　② 計画：最適化して 800 通りの将来で検証し凍結　③ 年次レポート：経営が承認<br>④ 月次見直し：実績を当ててシナリオの確率を更新　⑤ 計画修正：必要な月だけ（3 か月先の欠航率 5% 超など）　⑥ 月次レポート：経営向けの 1 枚</p></div></section>
+
+<section class="s"><div class="in"><p class="k">4 ／ 5　どこで見るか</p>
+<h2>用意してあるページ</h2>
+<p class="big">入口はダッシュボード。数字の根拠は詳細レポート。配るのは統合レポート。</p>
+<div class="six">
+<a href="index.html"><b>ダッシュボード</b><span>年次と月次を暦に置き、KPI と不足の見張り、全ページへのリンク。</span><em>入口</em></a>
+<a href="report.html"><b>詳細レポート</b><span>30 余りの画面。各図に「どう読むか・次にすること」の案内。</span><em>計画の中身と判断材料</em></a>
+<a href="report_a4.html"><b>統合レポート（A4）</b><span>本文 1〜8 章＋付録。印刷して配る 1 冊。</span><em>①〜⑥ を綴じたもの</em></a>
+<a href="annual.html"><b>年間計画レポート</b><span>年度ごとの入場・整備費・予算、10 年先の見通し。</span><em>③ 年次レポート</em></a>
+<a href="monthly.html"><b>月次レポート</b><span>今月の判断期限、乗り換えの推奨、着地の更新。</span><em>⑥ 月次レポート</em></a>
+<a href="track.html"><b>計画の追跡</b><span>実績と計画の差、シナリオの確率、乗り換えの価値。</span><em>④ 見直し・⑤ 修正</em></a>
+</div></div></section>
+
+<section class="s"><div class="in"><p class="k">5 ／ 5　仕組みの中身</p>
+<h2>5 つの部門が、入力 → 処理 → 出力でつながる</h2>
+<p class="big">航空計画・エンジン整備計画・MRO と調達・技術・データ。上の部門の決定が下へ渡り、下の部門の結果が上へ上がる。</p>
+<a class="cta" href="strategy_grid.html">全体像の図を開く（行をクリックで詳細）</a><a class="cta alt" href="plan_basic.html">基本計画（年次）の図</a><a class="cta alt" href="plan_detail.html">詳細計画（月次）の図</a>
+<p class="sub" style="margin-top:18px">参考：<a href="story.html">ストーリー</a>／<a href="appendix.html">付録（思考の枠組み・文献）</a>／<a href="design_strategy.html">概念設計</a>／<a href="requirements.html">要件と対応の記録</a></p></div></section>
+<p class="foot">数値はすべて合成データの目安。実データは需要（e-Stat 航空輸送統計速報、各社月次資料）と型式の年表のみ。すべて run_all.sh 一発で入力データから作り直せる。</p>
+</body></html>'''
+
+
+def concept_grid_page() -> str:
     """A landing page: headline and the one-line story, three points, the six outputs over a
     year, the tools behind them, then the full grid (rows zoom into a detail panel), and the
     reference tables folded away at the end."""
@@ -754,6 +815,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     a.out_dir.mkdir(parents=True, exist_ok=True)
     (a.out_dir / "strategy_concept.html").write_text(concept_page(), encoding="utf-8")
+    (a.out_dir / "strategy_grid.html").write_text(concept_grid_page(), encoding="utf-8")
     for k, s in {**svgs(), **extra_svgs()}.items():
         (a.out_dir / f"{k}.html").write_text(page(s, {"plan_basic": "基本計画（年次〜半期）", "plan_detail": "詳細計画（月次〜当日）", "strategy_stack": "あるべき分析ストラテジー（流れ）", "strategy_matrix": "あるべき分析ストラテジー（層 × 流れ）"}[k]), encoding="utf-8")
         print(f"{k} -> {a.out_dir / f'{k}.html'} ({len(s) // 1024} KB)")
