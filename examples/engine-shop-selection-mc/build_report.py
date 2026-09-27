@@ -24,6 +24,7 @@ from pathlib import Path
 import baseline
 import track
 import usecases
+import finance
 
 HERE = Path(__file__).resolve().parent
 MATERIAL = 300  # k$: below this a switch or an action is not worth the disruption
@@ -286,6 +287,9 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         c["multi"] = {k: m[k] for k in ("fleets", "fiscal_years", "pot", "landing", "labels", "deadlines_by_fleet", "deadlines_total", "curves", "allocation", "settings", "note")}
     c["resilience"] = resilience_of(b, deltas)
     c["usecases"] = usecases.build(b)
+    fleet_json = json.loads((HERE / b["paths"]["fleet"]).read_text(encoding="utf-8"))
+    conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))
+    c["finance"] = finance.build(b, fleet_json, conf["companies"].get(c["id"] or ""), c.get("invest"))
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c

@@ -33,7 +33,8 @@
      "11": 4,
      "12": 1
     },
-    "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる"
+    "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる",
+    "leased": 7
    },
    "engines": {
     "installed": 112,
@@ -351,7 +352,9 @@
      "11": 3,
      "12": 1
     },
-    "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる"
+    "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる",
+    "leased": 5,
+    "leased_source": "no_source: リース機数は非公表、5 機の仮定"
    },
    "engines": {
     "installed": 78,

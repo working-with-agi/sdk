@@ -168,12 +168,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], loops: ["exec", "plan", "tech"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], loops: ["exec", "plan", "tech"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -191,7 +191,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -337,6 +337,7 @@ const DATA = /*__DATA__*/null;
     const tr = c.track, inv = c.invest;
     const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
     const cards = [
+      c.finance ? card("finance", "ok", "お金の仕組み（税・資金・規模）", finLine(c.finance), finChart(c.finance, 320, 150, true)) : "",
       c.resilience ? card("resilience", resCls(c.resilience), "立て直しの安さ", resLine(c.resilience), premiumChart(c.resilience, 320, 150, true)) : "",
       c.multi ? card("fleets", fleetsCls(c.multi), "機種横断（会社全体）", fleetsLine(c.multi), fleetsChart(c.multi, 320, 120, true)) : "",
       tr && tr.ooda ? card("loops", tr.ooda.feedback.no_world_fits_months >= 3 ? "warn" : "ok", "PDCA と OODA（二つの輪）", loopsLine(tr.ooda), "") : "",
@@ -649,6 +650,7 @@ const DATA = /*__DATA__*/null;
       scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
         (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
       posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      finance: ["計画を変えずに、同じ計画の「お金」を動かす仕組みの一覧と効果", "右に伸びるほど得。色は種類（税・会計／資金／規模／グループ）。★ は大手だけが使える仕組み。薄い棒は税の期ズレで、税額は減らない", "", "★ の仕組みは契約更新と年度の資金計画に載せる。税の項目は税理士に確認してから前提に入れる"],
       split: ["計画案ごとに、費用を「計画どおり」と「立て直し」に分けた図", "灰＝入場・予備・固定費など先に決まる分。黄＝シナリオ次第で後から要る分（リース・代替機材・欠航・緊急キット）の期待値。赤＝悪い 1 割のときの立て直し費。右端が合計と欠航リスク", c.resilience && c.resilience.base ? resLine(c.resilience) : "", "黄と赤が大きい計画案は、平時は安くても事後に高くつく。予備・プール契約・先行発注で黄を灰に移せるか「打ち手」で見る"],
       premium: ["打ち手ごとに、先に払う費用（保険料）と、立て直し費の減り（払い戻し）を置いた図", "横が保険料、縦が払い戻し。点線より上（緑）は払い戻しが保険料を上回る。負の保険料＝先に減る打ち手。目盛りは両端を圧縮", c.resilience ? (() => { const g = c.resilience.actions.filter((a) => a.payout > a.premium); return g.length ? `払い戻しが保険料を上回る打ち手：${g.map((a) => a.question.length > 14 ? a.question.slice(0, 14) + "…" : a.question).join("、")}` : "基準の世界では、予備やプール契約の払い戻しはほぼ 0（保険料だけ）"; })() : "", "緑の打ち手は立て直しを安くする投資。赤は平時の節約で事後に高くつくか、保険料が高すぎる"],
       delay: ["前提の変化に気づいてから動くまでの遅れが、いくら費用になるかの曲線", "横が遅れ（か月）、縦が費用（百万ドル）。変化点の月に動いた場合との差", "", "曲線が急なら、判断を会議待ちにせず暗黙のルールに降ろす価値がある"],
@@ -943,6 +945,29 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">${esc(resLine(R))}</p>` + splitChart(R) + `<div class="legend"><span><span class="sw" style="background:var(--muted)"></span>計画どおり（入場＋予備＋固定費）</span><span><span class="sw" style="background:var(--warn)"></span>立て直し（期待）</span><span><span class="sw" style="background:var(--crit);opacity:.6"></span>立て直し（悪い 1 割）</span></div>` + G("split"), partsTxt)
       + panel("", `<p class="chart-note">打ち手を「保険料」と「払い戻し」で見る：緑の領域は払い戻しが保険料を上回る＝立て直しが安くなる</p>` + premiumChart(R) + G("premium"), "保険料＝その打ち手で先に増える費用（計画どおり分の差）、払い戻し＝立て直し費（リース・代替・欠航・割増）の減り。差し引きが「打ち手の効果」の費用差。")
       + (p ? panel("", `<p class="chart-note">気づいてから動くまでの遅れの費用${p.delay_curve && p.delay_curve.length ? `（${esc(p.fired_world === "crunch" ? "逼迫" : "混雑")}の世界）` : ""}</p>` + delayChart(p) + G("delay"), "変化点の月に乗り換えた場合の価値と、n か月遅れて乗り換えた場合の価値の差。") : "");
+  }
+
+  /* ---------------- money mechanisms ---------------- */
+  const KIND_COL = { "税・会計": "var(--muted)", "資金": "var(--accent)", "規模": "var(--good)", "グループ": "var(--ws-core)" };
+  const finLine = (F) => `大手だけが使える仕組みで 2 年 ${(-F.total_large_only_k / 1000).toFixed(1)} 百万ドル、全体で ${(-F.total_effect_k / 1000).toFixed(1)} 百万ドル（税の期ズレは含めず）`;
+  function finChart(F, W = 900, H = 320, compact = false) {
+    const I = F.items.filter((i) => i.effect_k !== 0), L = compact ? 6 : 300, R = compact ? 6 : 90, rowH = compact ? 14 : 30, Hh = I.length * rowH + (compact ? 8 : 20);
+    const mx = Math.max(1, ...I.map((i) => Math.abs(i.effect_k))), x0 = L + (W - L - R) / 2, sc = (W - L - R) / 2 / mx;
+    let s = `<line x1="${x0}" x2="${x0}" y1="0" y2="${Hh}" stroke="var(--rule)"/>`;
+    I.forEach((i, j) => {
+      const y = (compact ? 4 : 10) + j * rowH, v = -i.effect_k, w = Math.abs(v) * sc;
+      s += `<rect x="${v >= 0 ? x0 : x0 - w}" y="${y}" width="${w}" height="${rowH - 6}" fill="${KIND_COL[i.kind]}" opacity="${i.needs_tax_review ? .45 : .9}"><title>${esc(i.name)}：${(v / 1000).toFixed(1)} 百万ドル</title></rect>`;
+      if (!compact) s += `<text class="lbl" x="${L - 8}" y="${y + rowH - 12}" text-anchor="end">${esc(i.name)}${i.large_only ? " ★" : ""}</text><text class="tick" x="${v >= 0 ? x0 + w + 6 : x0 - w - 6}" y="${y + rowH - 12}" text-anchor="${v >= 0 ? "start" : "end"}">${(v / 1000).toFixed(1)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="お金の仕組みの効果">${s}</svg>`;
+  }
+  function finance() {
+    const F = C().finance;
+    if (!F) return panel("お金の仕組み", '<p class="hint">なし</p>');
+    const rows = F.items.map((i) => `<tr><td><span class="sw" style="background:${KIND_COL[i.kind]}"></span>${esc(i.kind)}</td><td>${esc(i.name)}${i.large_only ? " ★" : ""}</td><td>${i.effect_k ? (-i.effect_k / 1000).toFixed(1) : "—"}</td><td>${i.cash_k ? (i.cash_k / 1000).toFixed(1) : "—"}</td><td>${i.balance_k ? (i.balance_k / 1000).toFixed(1) : "—"}</td><td>${esc(i.what)}<br><span class="hint">${esc(i.how)}</span></td><td>${i.needs_tax_review ? "要確認" : i.confidence}</td></tr>`).join("");
+    return panel("", `<p class="chart-note">${esc(finLine(F))}</p>` + finChart(F) + `<div class="legend">${Object.entries(KIND_COL).map(([k, c_]) => `<span><span class="sw" style="background:${c_}"></span>${k}</span>`).join("")}<span>★ 大手だけが使える</span><span>薄い＝税の期ズレ（損得でなく繰延、要税理士確認）</span></div>` + G("finance"), esc(F.note))
+      + panel("", `<table><thead><tr><th>種類</th><th>仕組み</th><th>2 年の効果（百万ドル、＋が得）</th><th>現金（今入る＋／今出る−）</th><th>資産（B/S）</th><th>何を・どう計算したか</th><th>確度</th></tr></thead><tbody>${rows}</tbody></table>`,
+        `割引率 ${(F.params.discount_rate * 100).toFixed(0)}%、実効税率 ${(F.params.tax_rate * 100).toFixed(1)}%。前払いは短期前払費用の特例（継続役務）に当たらないので、税の得はない。`);
   }
 
   function quote() {
