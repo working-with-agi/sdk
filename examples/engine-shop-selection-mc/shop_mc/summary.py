@@ -33,6 +33,10 @@ def summarize(p: Problem, plan: Plan, sc: ScenarioSet) -> dict:
     return {
         "total_cost": ev.mean,
         "p90": ev.p90,
+        "committed": ev.committed_mean,
+        "recourse": ev.recourse_mean,
+        "recourse_p90": ev.recourse_p90,
+        "recourse_parts": ev.recourse_parts,
         "aog_prob": ev.aog_prob,
         "by_fiscal_year": dict(sorted(by_fy.items())),
         "shop_visits": sum(1 for o in chosen if o.workscope not in ("GT", "PO")),
@@ -50,8 +54,11 @@ def diff(base: dict, new: dict) -> dict:
     """new - base, field by field (fiscal years and shops aligned by key)."""
     out = {}
     for k in ("total_cost", "p90", "aog_prob", "shop_visits", "midlife_swaps", "partouts",
-              "long_spares", "emergency_kits", "early_months", "rush"):
-        out[k] = new[k] - base[k]
+              "long_spares", "emergency_kits", "early_months", "rush", "committed", "recourse", "recourse_p90"):
+        out[k] = new.get(k, 0) - base.get(k, 0)
+    # premium / payout: what the action costs up front against what it saves afterwards
+    out["premium"] = out["committed"]
+    out["payout"] = -out["recourse"]
     fys = sorted(set(base["by_fiscal_year"]) | set(new["by_fiscal_year"]))
     zero = {"visits": 0, "spend": 0.0}
     out["by_fiscal_year"] = {

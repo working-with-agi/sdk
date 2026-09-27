@@ -65,8 +65,27 @@ def actions_of(deltas: dict) -> list[dict]:
         d = a["delta"]
         out.append({"use_case": a["use_case"], "question": a["question"], "cost": d["total_cost"],
                     "aog": d["aog_prob"], "visits": d["shop_visits"],
+                    "premium": d.get("premium"), "payout": d.get("payout"), "recourse_p90": d.get("recourse_p90"),
                     "fy": {fy: v["spend"] for fy, v in d["by_fiscal_year"].items()}})
     return out
+
+
+def resilience_of(b: dict, deltas: dict) -> dict | None:
+    """How cheap recovery is: for every candidate plan the committed cost against the
+    recourse (lease, substitution, AOG, emergency kits); for every action the premium it
+    costs up front against the payout it returns afterwards."""
+    C = b["candidates"]
+    if not any((v.get("summary") or {}).get("recourse") is not None for v in C.values()):
+        return None
+    plans = [{"key": k, "label": v["label"], "committed": v["summary"]["committed"], "recourse": v["summary"]["recourse"],
+              "recourse_p90": v["summary"]["recourse_p90"], "parts": v["summary"].get("recourse_parts") or {},
+              "total": v["summary"]["total_cost"], "aog": v["summary"]["aog_prob"]}
+             for k, v in C.items() if v.get("feasible") and v.get("summary")]
+    acts = [{"question": a["question"], "use_case": a["use_case"], "premium": a["delta"]["premium"], "payout": a["delta"]["payout"],
+             "net": -a["delta"]["total_cost"], "aog": a["delta"]["aog_prob"], "recourse_p90": a["delta"]["recourse_p90"]}
+            for a in deltas["answers"] if a["feasible"] and a["delta"] and a["delta"].get("premium") is not None]
+    base = next((p for p in plans if p["key"] == "base"), None)
+    return {"plans": plans, "actions": acts, "base": base}
 
 
 def track_summary(t: dict) -> dict:
@@ -101,7 +120,7 @@ def cpd_summary(c: dict | None, t: dict) -> dict | None:
     return {"state": c["state"], "verdict": c["verdict"], "cpd_as_of": c["cpd_as_of"], "bayes_as_of": c["bayes_as_of"],
             "cpd_month": c["cpd_month"], "bayes_month": c["bayes_month"], "fired_world": c["fired_world"],
             "months_earlier": v.get("months_earlier"), "bayes_never_moved": v.get("bayes_never_moved"),
-            "worth": v.get("worth"), "at_cpd": v.get("at_cpd"), "at_bayes": v.get("at_bayes"),
+            "worth": v.get("worth"), "at_cpd": v.get("at_cpd"), "at_bayes": v.get("at_bayes"), "delay_curve": v.get("delay_curve"),
             "first_profitable": None if not v.get("first_profitable_month") else months[v["first_profitable_month"] - 1],
             "truth_week": c.get("change_week_truth"), "weeks_per_month": w,
             "streams": [{"key": n, "label": s["label"], "what": s["what"], "world": s["world"], "ys": c["series"][n],
@@ -265,6 +284,7 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     if mp.exists():
         m = json.loads(mp.read_text(encoding="utf-8"))
         c["multi"] = {k: m[k] for k in ("fleets", "fiscal_years", "pot", "landing", "labels", "deadlines_by_fleet", "deadlines_total", "curves", "allocation", "settings", "note")}
+    c["resilience"] = resilience_of(b, deltas)
     c["usecases"] = usecases.build(b)
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)

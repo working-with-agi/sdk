@@ -247,7 +247,11 @@ def change_points(act, timeline, prior, p0):
         # worth = what switching at the CPD month gains over switching when Bayes moves
         # (never switch when it loses: a negative saving counts as 0)
         pos = lambda v: 0.0 if v is None else max(0.0, v)  # noqa: E731
-        value = {"candidate": fired_world, "at_cpd": v_cpd, "at_bayes": v_bayes, "one_month_late": v_late,
+        # the cost of every month of delay after the change point: acting at k vs at the CPD month
+        delay_curve = [{"delay": d, "as_of": timeline[cpd_month - 1 + d]["as_of"], "saving": saving_at(cpd_month + d, fired_world),
+                        "cost_of_delay": pos(v_cpd) - pos(saving_at(cpd_month + d, fired_world))}
+                       for d in range(0, 7) if cpd_month + d <= len(timeline)]
+        value = {"candidate": fired_world, "at_cpd": v_cpd, "at_bayes": v_bayes, "one_month_late": v_late, "delay_curve": delay_curve,
                  "months_earlier": None if cpd_month is None else (len(timeline) + 1 if bayes_month is None else bayes_month) - cpd_month,
                  "bayes_never_moved": bayes_month is None,
                  "worth": pos(v_cpd) - pos(v_bayes),

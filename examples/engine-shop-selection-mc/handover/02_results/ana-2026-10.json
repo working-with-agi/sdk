@@ -29,9 +29,9 @@
   "fleet": "data/ana/fleet.json",
   "shops": "data/ana/shops.json"
  },
- "created": "2026-09-27T00:30:39+00:00",
+ "created": "2026-09-27T03:09:22+00:00",
  "inputs": {
-  "fleet.json": "b2ab27e64eadac61",
+  "fleet.json": "ed7f1b119b273c72",
   "shops.json": "6b48bcf3d5bc87f0"
  },
  "settings": {
@@ -263,6 +263,16 @@
  "plan_of_record": {
   "total_cost": 151461.79423179242,
   "p90": 188938.75142376704,
+  "committed": 121255.0,
+  "recourse": 30206.794231792406,
+  "recourse_p90": 67683.75142376704,
+  "recourse_parts": {
+   "overrun": 25659.274231792406,
+   "lease": 15.6,
+   "substitute": 0.0,
+   "aog": 31.92,
+   "emergency_kits": 4500.0
+  },
   "aog_prob": 0.0245,
   "by_fiscal_year": {
    "FY2026": {
@@ -1502,6 +1512,16 @@
    "summary": {
     "total_cost": 151461.79423179242,
     "p90": 188938.75142376704,
+    "committed": 121255.0,
+    "recourse": 30206.794231792406,
+    "recourse_p90": 67683.75142376704,
+    "recourse_parts": {
+     "overrun": 25659.274231792406,
+     "lease": 15.6,
+     "substitute": 0.0,
+     "aog": 31.92,
+     "emergency_kits": 4500.0
+    },
     "aog_prob": 0.0245,
     "by_fiscal_year": {
      "FY2026": {
@@ -1965,6 +1985,16 @@
    "summary": {
     "total_cost": 151361.28305925944,
     "p90": 188893.75142376704,
+    "committed": 121210.0,
+    "recourse": 30151.283059259466,
+    "recourse_p90": 67683.75142376704,
+    "recourse_parts": {
+     "overrun": 25633.143059259466,
+     "lease": 6.24,
+     "substitute": 0.0,
+     "aog": 11.9,
+     "emergency_kits": 4500.0
+    },
     "aog_prob": 0.0105,
     "by_fiscal_year": {
      "FY2026": {
@@ -2428,6 +2458,16 @@
    "summary": {
     "total_cost": 156699.66136865516,
     "p90": 194357.53478274622,
+    "committed": 120985.0,
+    "recourse": 35714.66136865514,
+    "recourse_p90": 73372.53478274624,
+    "recourse_parts": {
+     "overrun": 26660.131368655144,
+     "lease": 18.2,
+     "substitute": 0.0,
+     "aog": 36.33,
+     "emergency_kits": 9000.0
+    },
     "aog_prob": 0.0285,
     "by_fiscal_year": {
      "FY2026": {
@@ -2891,6 +2931,16 @@
    "summary": {
     "total_cost": 157891.1886507967,
     "p90": 195056.8869898238,
+    "committed": 121480.0,
+    "recourse": 36411.18865079671,
+    "recourse_p90": 73576.8869898238,
+    "recourse_parts": {
+     "overrun": 26409.428650796704,
+     "lease": 26.65,
+     "substitute": 0.0,
+     "aog": 75.11,
+     "emergency_kits": 9900.0
+    },
     "aog_prob": 0.055,
     "by_fiscal_year": {
      "FY2026": {

@@ -2,12 +2,22 @@
  "baseline": {
   "version": "2026-09-27",
   "inputs": {
-   "fleet.json": "b2ab27e64eadac61",
+   "fleet.json": "ed7f1b119b273c72",
    "shops.json": "6b48bcf3d5bc87f0"
   },
   "plan_of_record": {
    "total_cost": 151461.79423179242,
    "p90": 188938.75142376704,
+   "committed": 121255.0,
+   "recourse": 30206.794231792406,
+   "recourse_p90": 67683.75142376704,
+   "recourse_parts": {
+    "overrun": 25659.274231792406,
+    "lease": 15.6,
+    "substitute": 0.0,
+    "aog": 31.92,
+    "emergency_kits": 4500.0
+   },
    "aog_prob": 0.0245,
    "by_fiscal_year": {
     "FY2026": {
@@ -54,7 +64,7 @@
   }
  },
  "inputs_changed": [],
- "wall_seconds": 4.9,
+ "wall_seconds": 3.3,
  "answers": [
   {
    "use_case": "② 月次の入場判断",
@@ -65,6 +75,16 @@
    "summary": {
     "total_cost": 151361.28305925944,
     "p90": 188893.75142376704,
+    "committed": 121210.0,
+    "recourse": 30151.283059259466,
+    "recourse_p90": 67683.75142376704,
+    "recourse_parts": {
+     "overrun": 25633.143059259466,
+     "lease": 6.24,
+     "substitute": 0.0,
+     "aog": 11.9,
+     "emergency_kits": 4500.0
+    },
     "aog_prob": 0.0105,
     "by_fiscal_year": {
      "FY2026": {
@@ -120,6 +140,11 @@
     "emergency_kits": 0,
     "early_months": -1,
     "rush": 0,
+    "committed": -45.0,
+    "recourse": -55.51117253294069,
+    "recourse_p90": 0.0,
+    "premium": -45.0,
+    "payout": 55.51117253294069,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -2,
@@ -150,6 +175,16 @@
    "summary": {
     "total_cost": 152259.3640503872,
     "p90": 189659.8887569195,
+    "committed": 122145.0,
+    "recourse": 30114.36405038723,
+    "recourse_p90": 67514.88875691952,
+    "recourse_parts": {
+     "overrun": 25567.03905038723,
+     "lease": 15.405,
+     "substitute": 0.0,
+     "aog": 31.92,
+     "emergency_kits": 4500.0
+    },
     "aog_prob": 0.0245,
     "by_fiscal_year": {
      "FY2026": {
@@ -205,6 +240,11 @@
     "emergency_kits": 0,
     "early_months": 2,
     "rush": 0,
+    "committed": 890.0,
+    "recourse": -92.43018140517597,
+    "recourse_p90": -168.862666847519,
+    "premium": 890.0,
+    "payout": 92.43018140517597,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -235,6 +275,16 @@
    "summary": {
     "total_cost": 152136.61923179243,
     "p90": 189638.75142376704,
+    "committed": 121955.0,
+    "recourse": 30181.619231792407,
+    "recourse_p90": 67683.75142376704,
+    "recourse_parts": {
+     "overrun": 25659.274231792406,
+     "lease": 19.825,
+     "substitute": 0.0,
+     "aog": 2.52,
+     "emergency_kits": 4500.0
+    },
     "aog_prob": 0.0015,
     "by_fiscal_year": {
      "FY2026": {
@@ -290,6 +340,11 @@
     "emergency_kits": 0,
     "early_months": 0,
     "rush": 0,
+    "committed": 700.0,
+    "recourse": -25.174999999999272,
+    "recourse_p90": 0.0,
+    "premium": 700.0,
+    "payout": 25.174999999999272,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -320,6 +375,16 @@
    "summary": {
     "total_cost": 113681.43485988065,
     "p90": 146021.18089072185,
+    "committed": 95815.0,
+    "recourse": 17866.43485988066,
+    "recourse_p90": 50206.180890721844,
+    "recourse_parts": {
+     "overrun": 17865.46485988066,
+     "lease": 0.13,
+     "substitute": 0.0,
+     "aog": 0.84,
+     "emergency_kits": 0.0
+    },
     "aog_prob": 0.0005,
     "by_fiscal_year": {
      "FY2026": {
@@ -376,6 +441,11 @@
     "emergency_kits": -5,
     "early_months": 0,
     "rush": 0,
+    "committed": -25440.0,
+    "recourse": -12340.359371911745,
+    "recourse_p90": -17477.570533045196,
+    "premium": -25440.0,
+    "payout": 12340.359371911745,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -1,
@@ -407,6 +477,16 @@
    "summary": {
     "total_cost": 155497.83423179243,
     "p90": 193018.75142376704,
+    "committed": 125335.0,
+    "recourse": 30162.834231792403,
+    "recourse_p90": 67683.75142376704,
+    "recourse_parts": {
+     "overrun": 25659.274231792406,
+     "lease": 1.04,
+     "substitute": 0.0,
+     "aog": 2.52,
+     "emergency_kits": 4500.0
+    },
     "aog_prob": 0.0015,
     "by_fiscal_year": {
      "FY2026": {
@@ -462,6 +542,11 @@
     "emergency_kits": 0,
     "early_months": 0,
     "rush": 0,
+    "committed": 4080.0,
+    "recourse": -43.960000000002765,
+    "recourse_p90": 0.0,
+    "premium": 4080.0,
+    "payout": 43.960000000002765,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -492,6 +577,16 @@
    "summary": {
     "total_cost": 93434.46464114003,
     "p90": 121561.02032478833,
+    "committed": 73975.0,
+    "recourse": 19459.464641140028,
+    "recourse_p90": 47586.020324788326,
+    "recourse_parts": {
+     "overrun": 17168.96964114003,
+     "lease": 99.385,
+     "substitute": 0.0,
+     "aog": 391.11,
+     "emergency_kits": 1800.0
+    },
     "aog_prob": 0.2255,
     "by_fiscal_year": {
      "FY2026": {
@@ -548,6 +643,11 @@
     "emergency_kits": -3,
     "early_months": 4,
     "rush": 0,
+    "committed": -47280.0,
+    "recourse": -10747.329590652378,
+    "recourse_p90": -20097.731098978715,
+    "premium": -47280.0,
+    "payout": 10747.329590652378,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -3,
@@ -579,6 +679,16 @@
    "summary": {
     "total_cost": -5402.659506784845,
     "p90": 2980.662372335976,
+    "committed": -9410.0,
+    "recourse": 4007.340493215154,
+    "recourse_p90": 12390.662372335975,
+    "recourse_parts": {
+     "overrun": 4007.340493215154,
+     "lease": 0.0,
+     "substitute": 0.0,
+     "aog": 0.0,
+     "emergency_kits": 0.0
+    },
     "aog_prob": 0.0,
     "by_fiscal_year": {
      "FY2026": {
@@ -633,6 +743,11 @@
     "emergency_kits": -5,
     "early_months": -41,
     "rush": 0,
+    "committed": -130665.0,
+    "recourse": -26199.453738577253,
+    "recourse_p90": -55293.08905143107,
+    "premium": -130665.0,
+    "payout": 26199.453738577253,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -6,
@@ -662,6 +777,16 @@
    "summary": {
     "total_cost": 156699.66136865516,
     "p90": 194357.53478274622,
+    "committed": 120985.0,
+    "recourse": 35714.66136865514,
+    "recourse_p90": 73372.53478274624,
+    "recourse_parts": {
+     "overrun": 26660.131368655144,
+     "lease": 18.2,
+     "substitute": 0.0,
+     "aog": 36.33,
+     "emergency_kits": 9000.0
+    },
     "aog_prob": 0.0285,
     "by_fiscal_year": {
      "FY2026": {
@@ -717,6 +842,11 @@
     "emergency_kits": 5,
     "early_months": -6,
     "rush": 0,
+    "committed": -270.0,
+    "recourse": 5507.8671368627365,
+    "recourse_p90": 5688.783358979199,
+    "premium": -270.0,
+    "payout": -5507.8671368627365,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -747,6 +877,16 @@
    "summary": {
     "total_cost": 156579.66136865516,
     "p90": 194237.53478274622,
+    "committed": 122665.0,
+    "recourse": 33914.66136865514,
+    "recourse_p90": 71572.53478274624,
+    "recourse_parts": {
+     "overrun": 26660.131368655144,
+     "lease": 18.2,
+     "substitute": 0.0,
+     "aog": 36.33,
+     "emergency_kits": 7200.0
+    },
     "aog_prob": 0.0285,
     "by_fiscal_year": {
      "FY2026": {
@@ -802,6 +942,11 @@
     "emergency_kits": 3,
     "early_months": -6,
     "rush": 0,
+    "committed": 1410.0,
+    "recourse": 3707.8671368627365,
+    "recourse_p90": 3888.783358979199,
+    "premium": 1410.0,
+    "payout": -3707.8671368627365,
     "by_fiscal_year": {
      "FY2026": {
       "visits": 0,
@@ -830,6 +975,16 @@
    "summary": {
     "total_cost": 157891.1886507967,
     "p90": 195056.8869898238,
+    "committed": 121480.0,
+    "recourse": 36411.18865079671,
+    "recourse_p90": 73576.8869898238,
+    "recourse_parts": {
+     "overrun": 26409.428650796704,
+     "lease": 26.65,
+     "substitute": 0.0,
+     "aog": 75.11,
+     "emergency_kits": 9900.0
+    },
     "aog_prob": 0.055,
     "by_fiscal_year": {
      "FY2026": {
@@ -885,6 +1040,11 @@
     "emergency_kits": 6,
     "early_months": 5,
     "rush": 0,
+    "committed": 225.0,
+    "recourse": 6204.3944190043,
+    "recourse_p90": 5893.135566056764,
+    "premium": 225.0,
+    "payout": -6204.3944190043,
     "by_fiscal_year": {
      "FY2026": {
       "visits": -2,

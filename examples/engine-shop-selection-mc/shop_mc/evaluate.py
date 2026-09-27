@@ -26,6 +26,12 @@ class Evaluation:
     aog_engine_months: float
     lease_engine_months: float
     costs: np.ndarray
+    # the split that says how cheap recovery is: what the plan commits to (first stage +
+    # planned visits) against what the scenarios force afterwards (recourse)
+    committed_mean: float = 0.0
+    recourse_mean: float = 0.0
+    recourse_p90: float = 0.0
+    recourse_parts: dict | None = None
 
     @property
     def stderr(self) -> float:
@@ -72,7 +78,21 @@ def evaluate(p: Problem, plan: Plan, sc: ScenarioSet) -> Evaluation:
         + (aog_money * season).sum(1)
     )
     q = np.sort(total)
+    # committed = what the plan signs up for if nothing goes wrong: quotes at today's rate,
+    # transport, spares, build values. Recourse = everything the scenarios add afterwards:
+    # findings and FX over the quote, failure surcharges, leases, substitution, AOG and
+    # emergency kits. Total = committed + recourse in every scenario.
+    quoted = sum(o.shop.quotes[o.workscope].price + (getattr(o.shop, "rush_fee", 0.0) if o.rush else 0.0) + o.shop.transport_cost for o in chosen)
+    kits_premium = p.emergency_kit_premium * plan.emergency_kits
+    lease_c, subst_c, aog_c = p.short_lease_cost * lease.sum(1), p.sub_cost * subst.sum(1), (aog_money * season).sum(1)
+    over_c = visit_cost - quoted
+    recourse = over_c + lease_c + subst_c + aog_c + kits_premium
     return Evaluation(
+        committed_mean=float(first_stage - kits_premium + quoted),
+        recourse_mean=float(recourse.mean()),
+        recourse_p90=float(np.percentile(recourse, 90)),
+        recourse_parts={"overrun": float(over_c.mean()), "lease": float(lease_c.mean()), "substitute": float(subst_c.mean()), "aog": float(aog_c.mean()),
+                        "emergency_kits": float(kits_premium)},
         n=len(total),
         mean=float(total.mean()),
         std=float(total.std(ddof=1)),
