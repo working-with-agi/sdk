@@ -241,7 +241,8 @@ def horizons(c: dict, b: dict) -> dict:
 
 
 def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | None, invest_path: Path | None,
-            history_path: Path | None = None, roll_path: Path | None = None, runout_path: Path | None = None, review_path: Path | None = None) -> dict:
+            history_path: Path | None = None, roll_path: Path | None = None, runout_path: Path | None = None, review_path: Path | None = None,
+            demand_path: Path | None = None) -> dict:
     b = json.loads(baseline_path.read_text(encoding="utf-8"))
     with tempfile.TemporaryDirectory() as tmp:
         if deltas_path is None or not deltas_path.exists():
@@ -320,6 +321,8 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
                                                    "residual_value_k", "green_time", "heavy_late", "last_visit_to_exit_months", "due_in_at_exit", "note")}
                                   | {"chain": [{k: v for k, v in x.items() if k in ("t", "label", "ws", "cost_k", "reason", "lasts_months", "gap", "slack_months", "off_wing")} for x in e["chain"]]}
                                   for e in ro["engines"]]
+    if demand_path and demand_path.exists():
+        c["demand"] = json.loads(demand_path.read_text(encoding="utf-8"))
     if review_path and review_path.exists():
         rv = json.loads(review_path.read_text(encoding="utf-8"))
         c["review"] = {k: rv[k] for k in ("symptoms", "coverage", "review", "note")}
@@ -338,6 +341,7 @@ def main(argv=None) -> int:
     ap.add_argument("--roll-dir", type=Path, help="directory with <company>-roll-<version>.json (roll.py output)")
     ap.add_argument("--runout-dir", type=Path, help="directory with <company>.json (runout.py output)")
     ap.add_argument("--review-dir", type=Path, help="directory with <company>.json (review.py output)")
+    ap.add_argument("--demand-dir", type=Path, help="directory with <company>.json (demand.py output)")
     ap.add_argument("--html-out", type=Path, default=Path("report.html"))
     args = ap.parse_args(argv)
     data = []
@@ -348,7 +352,8 @@ def main(argv=None) -> int:
                             args.history_dir / f"{cid}-history.json" if args.history_dir else None,
                             next(iter(sorted(args.roll_dir.glob(f"{cid}-roll-*.json"))), None) if args.roll_dir else None,
                             args.runout_dir / f"{cid}.json" if args.runout_dir else None,
-                            args.review_dir / f"{cid}.json" if args.review_dir else None))
+                            args.review_dir / f"{cid}.json" if args.review_dir else None,
+                            args.demand_dir / f"{cid}.json" if args.demand_dir else None))
     html = (HERE / "report_hub_template.html").read_text(encoding="utf-8").replace(
         "/*__DATA__*/null", json.dumps(data, ensure_ascii=False, separators=(",", ":"), default=float))
     args.html_out.write_text(html, encoding="utf-8")

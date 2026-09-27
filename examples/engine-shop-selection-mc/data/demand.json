@@ -1,0 +1,360 @@
+{
+ "note": "客席需要の層（一つ上の層）。国内線のみ。市場は国交省 航空輸送統計速報（e-Stat）、各社は月次輸送実績（ANA は公式 PDF、JAL は公式 PDF が取得できず報道の転載値）。単位：旅客数 人、ASK 百万座席キロ、RPK 百万人キロ、L/F ％",
+ "market": {
+  "source": "国土交通省 航空輸送統計速報 2026年6月分（e-Stat statInfId=000040497288、表 6-1 国内定期 旅客）https://www.e-stat.go.jp/stat-search/file-download?statInfId=000040497288&fileKind=0",
+  "confidence": "A",
+  "fiscal_years": [
+   {
+    "fy": "FY2018",
+    "pax_k": 103903,
+    "rpk": 96171,
+    "ask": 131600,
+    "lf": 73.1
+   },
+   {
+    "fy": "FY2019",
+    "pax_k": 101873,
+    "rpk": 94490,
+    "ask": 133364,
+    "lf": 70.9
+   },
+   {
+    "fy": "FY2020",
+    "pax_k": 33768,
+    "rpk": 31543,
+    "ask": 68793,
+    "lf": 45.9
+   },
+   {
+    "fy": "FY2021",
+    "pax_k": 49695,
+    "rpk": 46658,
+    "ask": 92479,
+    "lf": 50.5
+   },
+   {
+    "fy": "FY2022",
+    "pax_k": 90662,
+    "rpk": 86382,
+    "ask": 129753,
+    "lf": 66.6
+   },
+   {
+    "fy": "FY2023",
+    "pax_k": 104805,
+    "rpk": 99354,
+    "ask": 132196,
+    "lf": 75.2
+   },
+   {
+    "fy": "FY2024",
+    "pax_k": 108765,
+    "rpk": 103384,
+    "ask": 132713,
+    "lf": 77.9
+   },
+   {
+    "fy": "FY2025",
+    "pax_k": 112503,
+    "rpk": 107001,
+    "ask": 131691,
+    "lf": 81.3
+   }
+  ],
+  "months": [
+   {
+    "m": "2025-06",
+    "pax_k": 8777,
+    "rpk": 8266,
+    "ask": 10665,
+    "lf": 77.5
+   },
+   {
+    "m": "2025-07",
+    "pax_k": 9431,
+    "rpk": 9027,
+    "ask": 11282,
+    "lf": 80.0
+   },
+   {
+    "m": "2025-08",
+    "pax_k": 10893,
+    "rpk": 10427,
+    "ask": 11856,
+    "lf": 87.9
+   },
+   {
+    "m": "2025-09",
+    "pax_k": 9679,
+    "rpk": 9202,
+    "ask": 10924,
+    "lf": 84.2
+   },
+   {
+    "m": "2025-10",
+    "pax_k": 10199,
+    "rpk": 9694,
+    "ask": 11219,
+    "lf": 86.4
+   },
+   {
+    "m": "2025-11",
+    "pax_k": 9665,
+    "rpk": 9156,
+    "ask": 10747,
+    "lf": 85.2
+   },
+   {
+    "m": "2025-12",
+    "pax_k": 9097,
+    "rpk": 8648,
+    "ask": 11076,
+    "lf": 78.1
+   },
+   {
+    "m": "2026-01",
+    "pax_k": 8640,
+    "rpk": 8244,
+    "ask": 11012,
+    "lf": 74.9
+   },
+   {
+    "m": "2026-02",
+    "pax_k": 8637,
+    "rpk": 8256,
+    "ask": 9869,
+    "lf": 83.7
+   },
+   {
+    "m": "2026-03",
+    "pax_k": 10187,
+    "rpk": 9744,
+    "ask": 11178,
+    "lf": 87.2
+   },
+   {
+    "m": "2026-04",
+    "pax_k": 8554,
+    "rpk": 8156,
+    "ask": 10665,
+    "lf": 76.5
+   },
+   {
+    "m": "2026-05",
+    "pax_k": 9390,
+    "rpk": 8870,
+    "ask": 11209,
+    "lf": 79.1
+   },
+   {
+    "m": "2026-06",
+    "pax_k": 8469,
+    "rpk": 8013,
+    "ask": 10429,
+    "lf": 76.8
+   }
+  ]
+ },
+ "companies": {
+  "jal": {
+   "name": "JAL グループ（JAL・JTA ほか、国内線）",
+   "source": "JAL の公式月次 PDF（jal.com/ja/safety/data_monthly_trans）は取得時 403 のため、Aviation Wire・sky-budget の転載値。2026-01・2025-08 の ASK/RPK は報道の丸め値（十億単位）。2025-09〜12 は未取得",
+   "confidence": "B",
+   "months": [
+    {
+     "m": "2025-08",
+     "pax": 3580000,
+     "ask": 3120,
+     "rpk": 2770,
+     "lf": 88.8,
+     "rounded": true
+    },
+    {
+     "m": "2026-01",
+     "pax": 2904551,
+     "ask": 2900,
+     "rpk": null,
+     "lf": 76.9,
+     "rounded": true
+    },
+    {
+     "m": "2026-02",
+     "pax": 3003493,
+     "ask": 2626.86,
+     "rpk": 2298.825,
+     "lf": 87.5
+    },
+    {
+     "m": "2026-03",
+     "pax": 3447548,
+     "ask": 2949.198,
+     "rpk": 2654.087,
+     "lf": 90.0
+    },
+    {
+     "m": "2026-04",
+     "pax": 2869589,
+     "ask": 2808.21,
+     "rpk": 2198.966,
+     "lf": 78.3
+    },
+    {
+     "m": "2026-05",
+     "pax": 3135000,
+     "ask": 2936,
+     "rpk": 2374,
+     "lf": 80.9,
+     "rounded": true
+    },
+    {
+     "m": "2026-06",
+     "pax": 2832647,
+     "ask": 2727.812,
+     "rpk": 2149.122,
+     "lf": 78.8
+    },
+    {
+     "m": "2026-07",
+     "pax": 3181402,
+     "ask": 2941.098,
+     "rpk": 2450.679,
+     "lf": 83.3
+    },
+    {
+     "m": "2026-08",
+     "pax": null,
+     "ask": null,
+     "rpk": null,
+     "lf": 87.1
+    }
+   ],
+   "sources": [
+    "https://www.aviationwire.jp/archives/340629",
+    "https://www.aviationwire.jp/archives/342648",
+    "https://www.aviationwire.jp/archives/344329",
+    "https://www.aviationwire.jp/archives/346307",
+    "https://www.aviationwire.jp/archives/347943",
+    "https://www.aviationwire.jp/archives/349347",
+    "https://www.aviationwire.jp/archives/331350",
+    "https://sky-budget.com/2026/02/25/jal-data-jan-2026/",
+    "https://sky-budget.com/2026/06/24/jal-data-may2026/",
+    "https://sky-budget.com/2026/09/25/jall-d-aug2026/"
+   ],
+   "seats_737_800": 165,
+   "seats_source": "JAL 737-800 国内線 165 席（クラス J 20・普通席 145） https://www.jal.co.jp/jp/ja/aircraft/conf/737.html",
+   "share_737_800_of_domestic_ask": 0.33,
+   "share_source": "no_source: 737-800 56 機が国内線 ASK に占める割合の仮定（C）",
+   "yield_yen_per_rpk": 15.0,
+   "yield_source": "no_source: 国内線旅客収入 ÷ RPK の目安（C）。決算資料で差し替える"
+  },
+  "ana": {
+   "name": "ANA（ANA・ANA ウイングス・エアージャパン運航の ANA 便、国内線）",
+   "source": "ANA 月次輸送実績 2026年2月（第26-001号、2026-04-08）https://www.anahd.co.jp/group/pr/pdf/20260408.pdf 。2026-03 は旅客数・利用率のみ（sky-budget 転載）",
+   "confidence": "A",
+   "months": [
+    {
+     "m": "2025-04",
+     "pax": 2894042,
+     "ask": 3414.388,
+     "rpk": 2340.968,
+     "lf": 68.6
+    },
+    {
+     "m": "2025-05",
+     "pax": 3154093,
+     "ask": 3454.37,
+     "rpk": 2512.097,
+     "lf": 72.7
+    },
+    {
+     "m": "2025-06",
+     "pax": 3062477,
+     "ask": 3331.32,
+     "rpk": 2446.657,
+     "lf": 73.4
+    },
+    {
+     "m": "2025-07",
+     "pax": 3431804,
+     "ask": 3611.978,
+     "rpk": 2823.862,
+     "lf": 78.2
+    },
+    {
+     "m": "2025-08",
+     "pax": 4091693,
+     "ask": 3824.513,
+     "rpk": 3350.238,
+     "lf": 87.6
+    },
+    {
+     "m": "2025-09",
+     "pax": 3518249,
+     "ask": 3470.704,
+     "rpk": 2857.118,
+     "lf": 82.3
+    },
+    {
+     "m": "2025-10",
+     "pax": 3741215,
+     "ask": 3546.718,
+     "rpk": 3035.724,
+     "lf": 85.6
+    },
+    {
+     "m": "2025-11",
+     "pax": 3582007,
+     "ask": 3441.901,
+     "rpk": 2908.39,
+     "lf": 84.5
+    },
+    {
+     "m": "2025-12",
+     "pax": 3361126,
+     "ask": 3560.234,
+     "rpk": 2734.51,
+     "lf": 76.8
+    },
+    {
+     "m": "2026-01",
+     "pax": 3104985,
+     "ask": 3507.018,
+     "rpk": 2542.925,
+     "lf": 72.5
+    },
+    {
+     "m": "2026-02",
+     "pax": 3058375,
+     "ask": 3118.891,
+     "rpk": 2527.935,
+     "lf": 81.1
+    },
+    {
+     "m": "2026-03",
+     "pax": 3685541,
+     "ask": null,
+     "rpk": null,
+     "lf": 85.4
+    }
+   ],
+   "sources": [
+    "https://www.anahd.co.jp/group/pr/pdf/20260408.pdf",
+    "https://sky-budget.com/2026/05/14/ana-data-mar2026/"
+   ],
+   "seats_737_800": 166,
+   "seats_source": "ANA 737-800 国内線 166 席（プレミアム 8・普通席 158） https://www.ana.co.jp/ja/jp/guide/prepare/seatmap/domestic/738/",
+   "share_737_800_of_domestic_ask": 0.28,
+   "share_source": "no_source: 737-800 39 機が国内線 ASK に占める割合の仮定（C）",
+   "yield_yen_per_rpk": 15.0,
+   "yield_source": "no_source: 国内線旅客収入 ÷ RPK の目安（C）。決算資料で差し替える"
+  }
+ },
+ "assumptions": {
+  "lf_capacity_threshold": 0.85,
+  "lf_threshold_source": "no_source: 利用率がこの水準を超える月は満席便が多く、乗せられなかった需要（スピル）が出ていると見なす（C）",
+  "spill_factor": 1.0,
+  "spill_note": "満たせなかった需要 ≈ ASK × max(0, L/F − 閾値) × 係数。下限の目安で、スピルモデル（Swan 型）は未実装",
+  "stage_length_km": 770,
+  "stage_source": "JAL 2026-07 の RPK ÷ 旅客数 ≈ 770 km（A から導出）"
+ }
+}

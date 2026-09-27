@@ -171,12 +171,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"], demand: ["exec", "ops", "fin"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -194,7 +194,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review, demand })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -341,6 +341,7 @@ const DATA = /*__DATA__*/null;
     const tr = c.track, inv = c.invest;
     const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
     const cards = [
+      c.demand ? card("demand", demandCls(c.demand), "客席の需要（一つ上の層）", demandLine(c.demand), seatDemandChart(c.demand, 320, 110, true)) : "",
       c.runout ? card("runout", runoutCls(c.runout), "退役までの入場列", runoutLine(c.runout), runoutYears(c.runout, 320, 110, true)) : "",
       c.review ? card("review", reviewCls(c.review), "PDCA／OODA の見直し（AI）", reviewLine(c.review), coverageGrid(c.review, true)) : "",
       c.mx4 ? card("mx4", "ok", "積立金と機体価値（資産側）", mx4Line(c.mx4), mx4Chart(c.mx4, 320, 110, true)) : "",
@@ -373,7 +374,7 @@ const DATA = /*__DATA__*/null;
     const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
     const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
     // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
-    const GROUPS = [["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
+    const GROUPS = [["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
       ["確かめる：決め方の採点", ["review", "history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
       ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
     const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
@@ -677,6 +678,14 @@ const DATA = /*__DATA__*/null;
       fleetspend: ["機種ごとの 2 年の支出を年度別に積み、会社の予算（黒線）と比べた図", "棒の高さが機種の合計、黒線が会社の枠。線を超える年度は機種横断で予算が足りない", c.multi ? fleetsLine(c.multi) : "", "超える年度は、右の配分表で機種ごとの予算を ×0.9〜×1.1 に動かした損得を見る"],
       fleetdeadlines: ["全機種の判断期限を月ごとに積んだ図", "色が機種。赤い点線は会議で扱える目安（月 5 件）", c.multi ? `最も多い月 ${Math.max(...c.multi.deadlines_total)} 件` : "", "点線を超える月は、機種ごとの会議を分けるか、暗黙のルールで担当決裁に降ろす"],
       fleetalloc: ["機種ごとに予算を ×0.9／×1.0／×1.1 で解き直した費用と欠航リスクの表と、会社の枠の中で最も良い組み合わせ", "予算を締めると費用は下がるが欠航リスクが上がる機種、締めても変わらない機種がある。変わらない機種の予算を締めて、変わる機種に回す", c.multi && c.multi.allocation ? `配分：${Object.entries(c.multi.allocation.levels).map(([k, v]) => `${k} ×${v}`).join("、")}` : "", "配分を予算要求に反映する。機種の入れ替え（退役・受領）がある年は再計算"],
+      demandMarket: ["国内線の市場全体：月ごとの需要（旅客キロ）と供給（座席キロ）、利用率", "棒が供給、濃い部分が需要。上の折れ線が利用率で、点線は「席が足りている」と見なす閾値。閾値を超える月は乗せられなかった客がいる",
+        c.demand ? `市場の利用率は FY2019 の ${c.demand.market.recovery.lf_2019}% から FY2025 の ${c.demand.market.recovery.lf_2025}% へ。需要は ${((c.demand.market.recovery.ratio - 1) * 100).toFixed(0)}% 増、供給は ${((c.demand.market.recovery.ask_ratio - 1) * 100).toFixed(0)}%` : "", "供給が需要に追いついていない月は、機材とエンジンの余力が売上になる月"],
+      demandCarrier: ["この会社の国内線：月ごとの旅客数・供給・需要・利用率と、市場に占める割合", "利用率が閾値を超えた月に「満たせなかった需要」の下限を出す（供給 × 超過分）。割合は市場の旅客キロに対する比",
+        c.demand ? demandLine(c.demand) : "", "満たせなかった月が毎年同じなら、その月に機材を足す価値がある。エンジン側の余力と重ねて見る"],
+      demandSeason: ["需要の季節の形（市場の旅客キロ ÷ 平均）と、エンジンの計画が仮定している運航指数", "二つの線がずれている月は、計画の「必要なエンジン数」が実需とずれている月",
+        c.demand ? c.demand.market.seasonal_note : "", "ずれの大きい月は運航指数を実績で置き換える（companies.json の flight_index）"],
+      demandEngines: ["エンジンの余力を客席に換算：月ごとに上乗せできる座席キロ（緑）と、足りない月に失う売上（赤）", "余力 ÷ 2 が飛ばせる機数、× 便数 × 座席 × 区間距離が上乗せできる供給。需要が逼迫する月（利用率 ≥ 閾値）に余力があれば「伸ばせる月」",
+        c.demand && c.demand.engines ? `窓の中で伸ばせる月 ${c.demand.engines.window.growth_months}、平均の余力は 737-800 供給の ${(c.demand.engines.window.ask_headroom_share_avg * 100).toFixed(0)}%` : "", "伸ばせる月が続くなら退役を遅らせる（受領遅れと同じ計算）か、その月に向けて入場を前後へ動かす"],
       runoutYears: ["退役までの毎年の入場件数（整備範囲で色分け）と、その年に退役する基数（線）", "窓（最初の 2 年）は凍結した計画、その後は平均の劣化で退役まで飛ばした結果。退役が進むと、入場の代わりに退役で済む機が増える",
         c.runout ? runoutLine(c.runout) : "", "山の年は退役順を前後させて均す。谷の年に前倒しできる重整備があるか、機ごとの列で探す"],
       runoutOps: ["退役までの毎月、運航が必要とするエンジン数と、計画が残す稼働可能なエンジン数", "黒い線が必要な数（運航指数 × 飛ぶ機数の 2 倍、機体整備で止まる機は引く）、灰色の帯が予備、緑の線が稼働可能（保有から工場にいる数を引いた数）。緑が帯の上端を割る月は赤",
@@ -917,6 +926,55 @@ const DATA = /*__DATA__*/null;
       + panel("ループの時間 T = D + O + A + E", lt + G("looptime"))
       + panel("速い輪から遅い輪へ（年 1 回、次の版の前提に）", feed + G("feedback"))
       + panel("今回の案件", cases, "太字は会議に回した案件。");
+  }
+
+  /* ---------------- the layer above: seat demand ---------------- */
+  const demandCls = (Dm) => (Dm.engines && Dm.engines.window.short_months > 0 ? "warn" : "ok");
+  const demandLine = (Dm) => { const c_ = Dm.carrier, e = Dm.engines; return `国内線の利用率 ${c_.lf_avg != null ? (c_.lf_avg * 100).toFixed(1) : "—"}%、需要が逼迫した月 ${c_.tight_months.length}（満たせなかった需要の下限 ${(c_.spilled_rpk_total / 100).toFixed(1)} 億人キロ ≈ ${(c_.spilled_pax_est / 10000).toFixed(0)} 万人）` + (e ? `。エンジンの余力は窓の平均で 737-800 供給の ${(e.window.ask_headroom_share_avg * 100).toFixed(0)}%、足りない月 ${e.window.short_months}` : ""); };
+  function seatDemandChart(Dm, W = 900, H = 240, compact = false) {
+    const M = Dm.market.months, L = compact ? 6 : 44, B = compact ? 6 : 26, T = compact ? 6 : 10, R_ = compact ? 6 : 40;
+    const top = Math.max(...M.map((x) => x.ask)) * 1.05, bw = (W - L - R_) / M.length, y = (v) => T + (H - T - B) * (1 - v / top), yl = (v) => T + (H - T - B) * (1 - (v - 40) / 60);
+    let s = "";
+    M.forEach((x, i) => { const X = L + i * bw + bw * 0.15; s += `<rect x="${X}" y="${y(x.ask)}" width="${bw * 0.7}" height="${y(0) - y(x.ask)}" fill="var(--accent-soft)"><title>${x.m} 供給 ${fmt(x.ask)} 百万座席キロ</title></rect><rect x="${X}" y="${y(x.rpk)}" width="${bw * 0.7}" height="${y(0) - y(x.rpk)}" fill="var(--accent)"><title>${x.m} 需要 ${fmt(x.rpk)} 百万人キロ、利用率 ${x.lf}%</title></rect>`; if (!compact && i % 2 === 0) s += `<text class="tick" x="${X + bw * 0.35}" y="${H - B + 14}" text-anchor="middle">${x.m.slice(2)}</text>`; });
+    const th = Dm.assumptions.lf_capacity_threshold * 100;
+    s += `<line x1="${L}" x2="${W - R_}" y1="${yl(th)}" y2="${yl(th)}" stroke="var(--crit)" stroke-dasharray="4 3"/>`;
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${M.map((x, i) => `${L + i * bw + bw * 0.5},${yl(x.lf)}`).join(" ")}"/>`;
+    if (!compact) { s += `<text class="tick" x="${L - 6}" y="${y(top / 1.05) + 4}" text-anchor="end">${fmt(top / 1.05)}</text><text class="tick" x="${W - R_ + 4}" y="${yl(100) + 4}">100%</text><text class="tick" x="${W - R_ + 4}" y="${yl(th) + 4}">${th}%</text><text class="tick" x="${W - R_ + 4}" y="${yl(40) + 4}">40%</text>`; }
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="国内線の需要と供給">${s}</svg>`;
+  }
+  function seasonChart(Dm, W = 900, H = 180) {
+    const S_ = Dm.market.seasonal, L = 44, B = 26, T = 10, bw = (W - L - 20) / 12, y = (v) => T + (H - T - B) * (1 - (v - 0.8) / 0.4);
+    let s = `<line x1="${L}" x2="${W - 20}" y1="${y(1)}" y2="${y(1)}" stroke="var(--rule)"/>`;
+    s += `<polyline fill="none" stroke="var(--ink)" stroke-width="2" points="${S_.map((c_) => `${L + (c_.month - 0.5) * bw},${y(c_.demand_index)}`).join(" ")}"/>`;
+    s += `<polyline fill="none" stroke="var(--warn)" stroke-width="2" stroke-dasharray="5 3" points="${S_.map((c_) => `${L + (c_.month - 0.5) * bw},${y(c_.model_flight_index)}`).join(" ")}"/>`;
+    S_.forEach((c_) => { s += `<text class="tick" x="${L + (c_.month - 0.5) * bw}" y="${H - B + 14}" text-anchor="middle">${c_.month}月</text><rect x="${L + (c_.month - 1) * bw}" y="${T}" width="${bw}" height="${H - T - B}" fill="transparent"><title>${c_.month}月 需要 ${c_.demand_index}、モデル ${c_.model_flight_index}（差 ${c_.gap >= 0 ? "+" : ""}${c_.gap}）</title></rect>`; });
+    [0.8, 1.0, 1.2].forEach((v) => { s += `<text class="tick" x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v.toFixed(1)}</text>`; });
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="需要の季節指数と運航指数">${s}</svg>`;
+  }
+  function engineSeatsChart(Dm, W = 1000, H = 180) {
+    const E = Dm.engines.months, L = 44, B = 22, T = 10, N = E.length, x = (t) => L + t / N * (W - L - 40);
+    const top = Math.max(1, ...E.map((m) => m.ask_headroom)), topL = Math.max(0.1, ...E.map((m) => m.revenue_lost_oku_yen));
+    const y = (v) => T + (H - T - B) * (1 - v / top), yl = (v) => T + (H - T - B) * (1 - v / topL);
+    let s = `<rect x="${x(0)}" y="${T}" width="${x(Dm.engines.window.months) - x(0)}" height="${H - T - B}" fill="var(--accent-soft)" opacity=".35"/>`;
+    E.forEach((m) => { const w = x(m.t + 1) - x(m.t); if (m.ask_headroom > 0) s += `<rect x="${x(m.t)}" y="${y(m.ask_headroom)}" width="${w}" height="${y(0) - y(m.ask_headroom)}" fill="${m.growth_month ? "var(--good)" : "var(--good-soft)"}"><title>${m.label} 余力 ${m.margin} 基 → ${m.extra_aircraft} 機、+${m.ask_headroom} 百万座席キロ${m.growth_month ? "（伸ばせる月）" : ""}</title></rect>`; if (m.revenue_lost_oku_yen > 0) s += `<rect x="${x(m.t)}" y="${yl(m.revenue_lost_oku_yen)}" width="${w}" height="${yl(0) - yl(m.revenue_lost_oku_yen)}" fill="var(--crit)" opacity=".7"><title>${m.label} 足りない ${m.short_aircraft} 機、失う売上 ${m.revenue_lost_oku_yen} 億円</title></rect>`; });
+    const y0 = +E[0].label.slice(0, 4);
+    for (let yr = 0; yr * 12 < N; yr++) s += `<text class="tick" x="${x(yr * 12) + 2}" y="${H - B + 14}">${y0 + yr}</text>`;
+    s += `<text class="tick" x="${L - 6}" y="${y(top) + 4}" text-anchor="end">${fmt(top)}</text><text class="tick" x="${W - 36}" y="${yl(topL) + 4}">${topL.toFixed(1)} 億</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="エンジンの余力を客席に換算">${s}</svg>`;
+  }
+  function demand() {
+    const Dm = C().demand;
+    if (!Dm) return panel("客席の需要", '<p class="hint">demand.py の結果がありません。</p>');
+    const c_ = Dm.carrier, e = Dm.engines;
+    const rows = c_.months.map((r) => `<tr><td>${r.m}</td><td>${r.pax != null ? fmt(r.pax) : "—"}</td><td>${r.ask != null ? fmt(r.ask) : "—"}</td><td>${r.rpk != null ? fmt(r.rpk) : "—"}</td><td>${r.lf != null ? r.lf + "%" : "—"}${r.tight ? " <b>逼迫</b>" : ""}</td><td>${r.share_rpk != null ? pct(r.share_rpk) : "—"}</td><td>${r.spilled_rpk ? fmt(r.spilled_rpk) : "—"}</td><td class="hint">${r.rounded ? "報道の丸め値" : ""}</td></tr>`).join("");
+    const fy = Dm.market.fiscal_years.map((f) => `<tr><td>${f.fy}</td><td>${fmt(f.pax_k)} 千人</td><td>${fmt(f.ask)}</td><td>${fmt(f.rpk)}</td><td>${f.lf}%</td></tr>`).join("");
+    const cav = Dm.caveats.map((x) => `<li>${esc(x)}</li>`).join("");
+    return panel("", `<p class="chart-note">${esc(demandLine(Dm))}</p>` + seatDemandChart(Dm) + legend([["供給（座席キロ）", "var(--accent-soft)"], ["需要（人キロ）", "var(--accent)"], ["利用率", "var(--ink)", 1], ["席が足りている目安", "var(--crit)", 1]]) + G("demandMarket"), esc(Dm.market.source))
+      + panel("年度の推移（市場全体）", `<table><thead><tr><th>年度</th><th>旅客数</th><th>供給（百万座席キロ）</th><th>需要（百万人キロ）</th><th>利用率</th></tr></thead><tbody>${fy}</tbody></table>`, "供給は 2019 年度の水準に戻っていないのに需要は上回り、利用率が 10 ポイント上がった。席が足りない側に振れている。")
+      + panel(`この会社：${esc(c_.name)}`, `<div class="scroll"><table><thead><tr><th>月</th><th>旅客数</th><th>供給（百万座席キロ）</th><th>需要（百万人キロ）</th><th>利用率</th><th>市場に占める割合</th><th>満たせなかった需要（下限）</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>` + G("demandCarrier"), esc(c_.source))
+      + panel("需要の季節の形と、計画の運航指数", seasonChart(Dm) + legend([["需要の季節指数（市場）", "var(--ink)", 1], ["計画の運航指数", "var(--warn)", 1]]) + G("demandSeason"))
+      + (e ? panel("エンジンの余力を客席に換算（伸ばせるか）", `<p class="chart-note">窓の中：伸ばせる月 ${e.window.growth_months}、余力の平均 ${e.window.ask_headroom_avg} 百万座席キロ（737-800 供給の ${(e.window.ask_headroom_share_avg * 100).toFixed(0)}%）、足りない月 ${e.window.short_months}（失う売上 ${e.window.revenue_lost_oku_yen} 億円）。退役まで：足りない月 ${e.life.short_months}、失う売上 ${e.life.revenue_lost_oku_yen} 億円</p>` + engineSeatsChart(Dm) + legend([["上乗せできる供給", "var(--good-soft)"], ["伸ばせる月（需要が逼迫 かつ 余力あり）", "var(--good)"], ["失う売上（足りない月）", "var(--crit)"]]) + G("demandEngines"), `${esc(e.note)}。座席 ${e.params.seats}、737-800 の割合 ${(e.params.share_737_800 * 100).toFixed(0)}%（仮定）、単価 ${e.params.yield_yen_per_rpk} 円/人キロ（仮定）、1 機 1 か月 ${e.params.ask_per_aircraft_month} 百万座席キロ`) : "")
+      + panel("前提と限界", `<ul>${cav}</ul>`);
   }
 
   /* ---------------- run-out to the fleet's exit ---------------- */

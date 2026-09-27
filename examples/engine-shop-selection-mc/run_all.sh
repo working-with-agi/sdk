@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 OUT="${OUT:-out}"
-mkdir -p "$OUT/deltas" "$OUT/hist" "$OUT/roll" "$OUT/multi" "$OUT/shop_response" "$OUT/track" "$OUT/runout" "$OUT/review"
+mkdir -p "$OUT/deltas" "$OUT/hist" "$OUT/roll" "$OUT/multi" "$OUT/shop_response" "$OUT/track" "$OUT/runout" "$OUT/review" "$OUT/demand"
 log() { printf '%s %s\n' "$(date +%H:%M:%S)" "$*"; }
 
 log "fleets"; python3 company.py jal ana --all-fleets
@@ -25,12 +25,13 @@ log "history"; python3 history.py jal ana --out-dir "$OUT/hist"
 log "invest"; python3 invest.py --json-out "$OUT/invest.json"
 for co in jal ana; do
   log "runout $co"; python3 runout.py $co --out "$OUT/runout/$co.json"
+  log "demand $co"; python3 demand.py $co --runout "$OUT/runout/$co.json" --out "$OUT/demand/$co.json"
   log "review $co"; python3 review.py $co --track "$OUT/track/$co-track-crunch.json" --roll "$OUT/roll/$co-roll-2027-10.json" --runout "$OUT/runout/$co.json" --history "$OUT/hist/$co-history.json" --out "$OUT/review/$co.json" ${REVIEW_NO_AI:+--no-ai}
 done
-cp "$OUT/runout/"*.json runout/ 2>/dev/null || true; cp "$OUT/review/"*.json review/ 2>/dev/null || true
+cp "$OUT/runout/"*.json runout/ 2>/dev/null || true; cp "$OUT/review/"*.json review/ 2>/dev/null || true; cp "$OUT/demand/"*.json demand/ 2>/dev/null || true
 cp "$OUT/multi/"*.json multi/ 2>/dev/null || true
 log "reports"
-python3 build_report.py --deltas-dir "$OUT/deltas" --invest "$OUT/invest.json" --history-dir "$OUT/hist" --roll-dir "$OUT/roll" --runout-dir "$OUT/runout" --review-dir "$OUT/review" --html-out "$OUT/report.html"
+python3 build_report.py --deltas-dir "$OUT/deltas" --invest "$OUT/invest.json" --history-dir "$OUT/hist" --roll-dir "$OUT/roll" --runout-dir "$OUT/runout" --review-dir "$OUT/review" --demand-dir "$OUT/demand" --html-out "$OUT/report.html"
 python3 build_monthly.py --html-out "$OUT/monthly.html"
 python3 build_annual.py --html-out "$OUT/annual.html"
 python3 build_track.py --html-out "$OUT/track.html"
