@@ -29,9 +29,9 @@
   "fleet": "data/ana/fleet.json",
   "shops": "data/ana/shops.json"
  },
- "created": "2026-09-27T03:09:22+00:00",
+ "created": "2026-09-27T03:37:44+00:00",
  "inputs": {
-  "fleet.json": "ed7f1b119b273c72",
+  "fleet.json": "adb4cf2b3cd7b066",
   "shops.json": "6b48bcf3d5bc87f0"
  },
  "settings": {

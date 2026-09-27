@@ -168,12 +168,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], loops: ["exec", "plan", "tech"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], lease: ["plan", "proc", "fin"], loops: ["exec", "plan", "tech"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, lease: { label: "リース返却", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -191,7 +191,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -325,6 +325,7 @@ const DATA = /*__DATA__*/null;
       if (r.deadline_t >= 0) s += `<path d="M${x(r.deadline_t) + cw / 2} ${y + 1} l4 6 l-4 6 l-4 -6z" fill="var(--crit)"><title>判断期限 ${r.decide_by}（${esc(r.deadline_reason)}）</title></path>`;
       else s += `<path d="M${L + 2} ${y + 7} l6 -4 v8z" fill="var(--muted)"><title>計画開始前に手配済み（前提）</title></path>`;
       if (r.watch) s += `<circle cx="${x(r.t + r.quoted_off_wing) + 5}" cy="${y + 7}" r="3" fill="var(--warn)"><title>要監視</title></circle>`;
+      if (r.lease_return_t != null) s += `<path d="M${x(r.lease_return_t) + cw / 2} ${y + 1} l4 6 l-4 6 l-4 -6z" fill="none" stroke="var(--ink)" stroke-width="1.5"><title>リース返却 ${c.months[r.lease_return_t].label}（${{ as_is: "そのまま返す", visit: "返却前に入場", extend: "延長" }[r.lease_recommend]}）</title></path>`;
     });
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="エンジンごとの計画">${s}</svg>`;
   }
@@ -337,6 +338,7 @@ const DATA = /*__DATA__*/null;
     const tr = c.track, inv = c.invest;
     const due3 = c.months.slice(0, 3).reduce((a, r) => a + r.due, 0);
     const cards = [
+      c.lease ? card("lease", c.lease.total_as_is_k - c.lease.total_best_k > 300 ? "warn" : "ok", "リース返却", leaseLine(c.lease), "") : "",
       c.finance ? card("finance", "ok", "お金の仕組み（税・資金・規模）", finLine(c.finance), finChart(c.finance, 320, 150, true)) : "",
       c.resilience ? card("resilience", resCls(c.resilience), "立て直しの安さ", resLine(c.resilience), premiumChart(c.resilience, 320, 150, true)) : "",
       c.multi ? card("fleets", fleetsCls(c.multi), "機種横断（会社全体）", fleetsLine(c.multi), fleetsChart(c.multi, 320, 120, true)) : "",
@@ -384,7 +386,7 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">いつ詰まり、いつ判断が要るか</p>` + monthMap(c) + legendMap + G("monthmap"))
       + panel("", `<p class="chart-note">エンジンごとの予定（先頭 3 か月に判断が集中）</p>` + gantt(c) + ganttLegend + G("gantt"), "");
   }
-  const ganttLegend = `<div class="legend"><span><span class="sw" style="background:var(--accent-soft)"></span>取卸しできる期間</span><span><span class="sw" style="background:var(--ws-pr)"></span><span class="sw" style="background:var(--ws-core)"></span><span class="sw" style="background:var(--ws-full)"></span>入場から戻りまで（整備範囲の色）</span><span><span class="sw" style="background:var(--crit)"></span>判断期限</span><span><span class="sw" style="background:var(--muted)"></span>手配済み（前提）</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>要監視</span></div>`;
+  const ganttLegend = `<div class="legend"><span><span class="sw" style="background:var(--accent-soft)"></span>取卸しできる期間</span><span><span class="sw" style="border:1.5px solid var(--ink);background:none"></span>リース返却</span><span><span class="sw" style="background:var(--ws-pr)"></span><span class="sw" style="background:var(--ws-core)"></span><span class="sw" style="background:var(--ws-full)"></span>入場から戻りまで（整備範囲の色）</span><span><span class="sw" style="background:var(--crit)"></span>判断期限</span><span><span class="sw" style="background:var(--muted)"></span>手配済み（前提）</span><span><span class="sw" style="background:var(--warn);border-radius:50%"></span>要監視</span></div>`;
 
   function track() {
     const t = C().track;
@@ -650,6 +652,7 @@ const DATA = /*__DATA__*/null;
       scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
         (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
       posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      lease: ["リース機のエンジンごとに、返却時の条件不足と 3 つの出口（そのまま返して補償／返却前に入場／延長）の費用を並べた図", "行がエンジン、3 本の棒が出口の費用。濃い棒が推奨。右に判断期限（返却の 6 か月前の通知）", c.lease ? leaseLine(c.lease) : "", "判断期限が今月・来月のものから、リース会社に通知する。返却前入場はボードの白い菱形と棒の位置で確認"],
       finance: ["計画を変えずに、同じ計画の「お金」を動かす仕組みの一覧と効果", "右に伸びるほど得。色は種類（税・会計／資金／規模／グループ）。★ は大手だけが使える仕組み。薄い棒は税の期ズレで、税額は減らない", "", "★ の仕組みは契約更新と年度の資金計画に載せる。税の項目は税理士に確認してから前提に入れる"],
       split: ["計画案ごとに、費用を「計画どおり」と「立て直し」に分けた図", "灰＝入場・予備・固定費など先に決まる分。黄＝シナリオ次第で後から要る分（リース・代替機材・欠航・緊急キット）の期待値。赤＝悪い 1 割のときの立て直し費。右端が合計と欠航リスク", c.resilience && c.resilience.base ? resLine(c.resilience) : "", "黄と赤が大きい計画案は、平時は安くても事後に高くつく。予備・プール契約・先行発注で黄を灰に移せるか「打ち手」で見る"],
       premium: ["打ち手ごとに、先に払う費用（保険料）と、立て直し費の減り（払い戻し）を置いた図", "横が保険料、縦が払い戻し。点線より上（緑）は払い戻しが保険料を上回る。負の保険料＝先に減る打ち手。目盛りは両端を圧縮", c.resilience ? (() => { const g = c.resilience.actions.filter((a) => a.payout > a.premium); return g.length ? `払い戻しが保険料を上回る打ち手：${g.map((a) => a.question.length > 14 ? a.question.slice(0, 14) + "…" : a.question).join("、")}` : "基準の世界では、予備やプール契約の払い戻しはほぼ 0（保険料だけ）"; })() : "", "緑の打ち手は立て直しを安くする投資。赤は平時の節約で事後に高くつくか、保険料が高すぎる"],
@@ -970,6 +973,34 @@ const DATA = /*__DATA__*/null;
     return panel("", `<p class="chart-note">${esc(finLine(F))}</p>` + pk + finChart(F) + `<div class="legend">${Object.entries(KIND_COL).map(([k, c_]) => `<span><span class="sw" style="background:${c_}"></span>${k}</span>`).join("")}<span>★ 大手だけが使える</span><span>薄い＝税の期ズレ（損得でなく繰延、要税理士確認）</span></div>` + G("finance"), esc(F.note))
       + panel("", `<table><thead><tr><th>種類</th><th>仕組み</th><th>式で（百万ドル、＋が得）</th><th>シミュレーションで（同、AOG の変化）</th><th>現金（今入る＋／今出る−）</th><th>資産（B/S）</th><th>何を・どう計算したか</th><th>確度</th></tr></thead><tbody>${rows}</tbody></table>`,
         `割引率 ${(F.params.discount_rate * 100).toFixed(0)}%、実効税率 ${(F.params.tax_rate * 100).toFixed(1)}%。前払いは短期前払費用の特例（継続役務）に当たらないので、税の得はない。`);
+  }
+
+  /* ---------------- lease redelivery ---------------- */
+  const REC = { as_is: "そのまま返す", visit: "返却前に入場", extend: "延長" };
+  const leaseLine = (Lz) => `リース機のエンジン ${Lz.n} 基が窓の中で返却。そのまま返すと補償 ${(Lz.total_as_is_k / 1000).toFixed(1)} 百万ドル、最善の組み合わせで ${(Lz.total_best_k / 1000).toFixed(1)}（返却前入場 ${Lz.by_recommend.visit}、そのまま ${Lz.by_recommend.as_is}、延長 ${Lz.by_recommend.extend}）`;
+  function leaseChart(Lz, W = 900) {
+    const E = Lz.engines, rowH = 30, L = 90, Hh = E.length * rowH + 16, mx = Math.max(1, ...E.flatMap((e) => Object.values(e.cost).filter((v) => v != null)));
+    const x = (v) => L + v / mx * (W - L - 230);
+    let s = "";
+    E.forEach((e, i) => {
+      const y = 8 + i * rowH;
+      s += `<text class="lbl" x="${L - 8}" y="${y + 14}" text-anchor="end">${e.esn}</text>`;
+      [["as_is", "var(--crit)"], ["visit", "var(--accent)"], ["extend", "var(--muted)"]].forEach(([k, col], j) => {
+        const v = e.cost[k]; if (v == null) return;
+        s += `<rect x="${L}" y="${y + j * 6}" width="${Math.max(2, x(v) - L)}" height="5" fill="${col}" opacity="${e.recommend === k ? 1 : .35}"><title>${REC[k]}：${v} k$</title></rect>`;
+      });
+      s += `<text class="tick" x="${W - 220}" y="${y + 14}">${REC[e.recommend]}・期限 ${esc(e.decide_by)}</text>`;
+    });
+    return `<svg viewBox="0 0 ${W} ${Hh}" role="img" aria-label="リース返却の選択肢">${s}</svg>`;
+  }
+  function lease() {
+    const Lz = C().lease;
+    if (!Lz) return panel("リース返却", '<p class="hint">リース機のエンジンはありません。</p>');
+    const rows = Lz.engines.map((e) => `<tr><td>${e.esn}</td><td>${esc(e.lessor)}</td><td>${e.return}</td><td>${e.planned ? `${e.planned}（${e.planned_ws}）` : "窓の外"}</td><td>${e.llp_at_return.toLocaleString()}${e.short_llp ? ` <span style="color:var(--crit)">−${e.short_llp}</span>` : ""}</td><td>${e.margin_at_return}${e.short_margin ? ` <span style="color:var(--crit)">−${e.short_margin}</span>` : ""}</td><td>${e.cost.as_is}</td><td>${e.cost.visit == null ? "—" : e.cost.visit}</td><td>${e.cost.extend}</td><td><b>${REC[e.recommend]}</b><br><span class="hint">${esc(e.visit_how)}</span></td><td>${esc(e.decide_by)}</td></tr>`).join("");
+    const sim = Lz.sim && Lz.sim.visits_delta_k != null ? `<p class="chart-note">シミュレーションで：全リース機を返却前に入場させる制約で計画を解き直すと +${(Lz.sim.visits_delta_k / 1000).toFixed(1)} 百万ドル（前倒しの寿命損と混雑、欠航 ${Lz.sim.visits_aog >= 0 ? "+" : ""}${(Lz.sim.visits_aog * 100).toFixed(1)}pt）。避けられる補償 ${(Lz.total_as_is_k / 1000).toFixed(1)} と差し引きで ${(Lz.sim.visits_net_k / 1000).toFixed(1)} 百万ドル。延長は ${(Lz.sim.extend_delta_k / 1000).toFixed(1)}</p>` : "";
+    return panel("", `<p class="chart-note">${esc(leaseLine(Lz))}</p>` + sim + leaseChart(Lz) + `<div class="legend"><span><span class="sw" style="background:var(--crit)"></span>そのまま返す（補償）</span><span><span class="sw" style="background:var(--accent)"></span>返却前に入場（前倒しの寿命損）</span><span><span class="sw" style="background:var(--muted)"></span>延長（延長料）</span><span>濃い＝推奨</span></div>` + G("lease"), esc(Lz.note))
+      + panel("", `<table><thead><tr><th>ESN</th><th>リース会社</th><th>返却</th><th>計画の入場</th><th>返却時 LLP 残（サイクル）</th><th>返却時 EGT 余裕（℃）</th><th>そのまま（k$）</th><th>返却前入場</th><th>延長</th><th>推奨</th><th>判断期限</th></tr></thead><tbody>${rows}</tbody></table>`,
+        `返却条件：LLP 残 ${Lz.terms.min_llp_cycles.toLocaleString()} サイクル以上、EGT 余裕 ${Lz.terms.min_egt_margin}℃ 以上。不足は ${Lz.terms.compensation_per_cycle_k * 1000} $/サイクル・${Lz.terms.compensation_per_degc_k} k$/℃ の補償。延長は ${Lz.terms.extension_months} か月 × ${Lz.terms.extension_rent_k_per_month} k$。通知は返却の ${Lz.terms.notice_months} か月前。`);
   }
 
   function quote() {

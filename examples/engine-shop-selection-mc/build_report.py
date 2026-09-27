@@ -25,6 +25,7 @@ import baseline
 import track
 import usecases
 import finance
+import lease
 
 HERE = Path(__file__).resolve().parent
 MATERIAL = 300  # k$: below this a switch or an action is not worth the disruption
@@ -290,6 +291,21 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
     fleet_json = json.loads((HERE / b["paths"]["fleet"]).read_text(encoding="utf-8"))
     conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))
     c["finance"] = finance.build(b, fleet_json, conf["companies"].get(c["id"] or ""), c.get("invest"), deltas)
+    wear = (conf["companies"].get(c["id"] or "") or {}).get("wear", {})
+    c["lease"] = lease.evaluate(b, fleet_json, loss=wear.get("mature_loss_per_1000"))
+    if c["lease"]:
+        # the same question inside the simulation: the plan re-solved with the returns as
+        # constraints (lease_visits) costs this much more, against the compensation it avoids
+        sim = {tuple(x["actions"]): x for x in deltas["answers"] if x["feasible"] and x["delta"] and x["case"] == "base"}
+        lv, le = sim.get(("lease_visits",)), sim.get(("lease_extend",))
+        c["lease"]["sim"] = {"visits_delta_k": lv["delta"]["total_cost"] if lv else None, "visits_aog": lv["delta"]["aog_prob"] if lv else None,
+                             "extend_delta_k": le["delta"]["total_cost"] if le else None,
+                             "visits_net_k": (lv["delta"]["total_cost"] - c["lease"]["total_as_is_k"]) if lv else None}
+        by = {x["esn"]: x for x in c["lease"]["engines"]}
+        for row in c["plan"]:
+            if row["esn"] in by:
+                row["lease_return_t"] = by[row["esn"]]["return_t"]
+                row["lease_recommend"] = by[row["esn"]]["recommend"]
     c["horizons"] = horizons(c, b)
     c["verdict"] = verdict(c)
     return c

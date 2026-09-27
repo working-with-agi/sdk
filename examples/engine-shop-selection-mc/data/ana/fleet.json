@@ -233,7 +233,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 34.5,
+   "llp_remaining": {
+    "core": 4978,
+    "lp": 9978,
+    "fan": 14978
+   }
   },
   {
    "esn": "A-105",
@@ -247,7 +253,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 22.7,
+   "llp_remaining": {
+    "core": 9326,
+    "lp": 14326,
+    "fan": 4098
+   }
   },
   {
    "esn": "A-107",
@@ -261,7 +273,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 39.0,
+   "llp_remaining": {
+    "core": 11890,
+    "lp": 16890,
+    "fan": 3862
+   }
   },
   {
    "esn": "A-108",
@@ -275,7 +293,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 38.8,
+   "llp_remaining": {
+    "core": 11522,
+    "lp": 16522,
+    "fan": 2929
+   }
   },
   {
    "esn": "A-113",
@@ -289,7 +313,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 44.8,
+   "llp_remaining": {
+    "core": 12781,
+    "lp": 17781,
+    "fan": 4155
+   }
   },
   {
    "esn": "A-115",
@@ -303,7 +333,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 7.1,
+   "llp_remaining": {
+    "core": 4657,
+    "lp": 9657,
+    "fan": 14657
+   }
   },
   {
    "esn": "A-118",
@@ -317,7 +353,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 33.1,
+   "llp_remaining": {
+    "core": 12149,
+    "lp": 17149,
+    "fan": 3555
+   }
   },
   {
    "esn": "A-121",
@@ -331,7 +373,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 17.9,
+   "llp_remaining": {
+    "core": 3161,
+    "lp": 8161,
+    "fan": 13161
+   }
   },
   {
    "esn": "A-124",
@@ -345,7 +393,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 16.2,
+   "llp_remaining": {
+    "core": 10739,
+    "lp": 15739,
+    "fan": 2165
+   }
   },
   {
    "esn": "A-127",
@@ -359,7 +413,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 16.4,
+   "llp_remaining": {
+    "core": 6927,
+    "lp": 11928,
+    "fan": 16928
+   }
   },
   {
    "esn": "A-130",
@@ -373,7 +433,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 22.7,
+   "llp_remaining": {
+    "core": 2337,
+    "lp": 7337,
+    "fan": 12337
+   }
   },
   {
    "esn": "A-133",
@@ -387,7 +453,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 53.7,
+   "llp_remaining": {
+    "core": 13549,
+    "lp": 18549,
+    "fan": 4939
+   }
   },
   {
    "esn": "A-134",
@@ -401,7 +473,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 41.2,
+   "llp_remaining": {
+    "core": 4461,
+    "lp": 9461,
+    "fan": 14461
+   }
   },
   {
    "esn": "A-135",
@@ -415,7 +493,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 47.2,
+   "llp_remaining": {
+    "core": 11190,
+    "lp": 16190,
+    "fan": 2556
+   }
   },
   {
    "esn": "A-137",
@@ -429,7 +513,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 21.1,
+   "llp_remaining": {
+    "core": 6630,
+    "lp": 1642,
+    "fan": 6642
+   }
   },
   {
    "esn": "A-145",
@@ -443,7 +533,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 49.8,
+   "llp_remaining": {
+    "core": 13093,
+    "lp": 18093,
+    "fan": 4527
+   }
   },
   {
    "esn": "A-151",
@@ -457,7 +553,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 48.8,
+   "llp_remaining": {
+    "core": 13687,
+    "lp": 18687,
+    "fan": 5075
+   }
   },
   {
    "esn": "A-153",
@@ -471,7 +573,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 38.0,
+   "llp_remaining": {
+    "core": 2692,
+    "lp": 7692,
+    "fan": 12692
+   }
   },
   {
    "esn": "A-163",
@@ -485,7 +593,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 49.8,
+   "llp_remaining": {
+    "core": 12319,
+    "lp": 17319,
+    "fan": 3792
+   }
   },
   {
    "esn": "A-164",
@@ -500,7 +614,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 5.2,
+   "llp_remaining": {
+    "core": 8983,
+    "lp": 13983,
+    "fan": 18983
+   }
   },
   {
    "esn": "A-165",
@@ -514,7 +634,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 40.5,
+   "llp_remaining": {
+    "core": 11893,
+    "lp": 16893,
+    "fan": 3369
+   }
   },
   {
    "esn": "A-178",
@@ -528,7 +654,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 49.1,
+   "llp_remaining": {
+    "core": 12026,
+    "lp": 17026,
+    "fan": 3434
+   }
   },
   {
    "esn": "A-182",
@@ -542,7 +674,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 43.0,
+   "llp_remaining": {
+    "core": 10137,
+    "lp": 15137,
+    "fan": 1501
+   }
   },
   {
    "esn": "A-186",
@@ -556,7 +694,118 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 17.2,
+   "llp_remaining": {
+    "core": 10104,
+    "lp": 15104,
+    "fan": 2524
+   }
   }
- ]
+ ],
+ "leases": {
+  "terms": {
+   "note": "合成データ。オペレーティングリースの返却条件（redelivery conditions）の典型例を置いた仮定。個別契約は非公表。",
+   "min_llp_cycles": 3000,
+   "min_llp_source": "no_source: 返却時の寿命部品残り。契約では「受領時と同等」か「最低 ○サイクル」で、3,000〜5,000 サイクルが典型という業界の説明 https://www.iba.aero/resources/articles/",
+   "min_egt_margin": 15,
+   "min_egt_source": "no_source: 返却時の EGT マージン下限（℃）の仮定",
+   "compensation_per_cycle_k": 0.09,
+   "compensation_source": "no_source: LLP の不足分の補償単価。LLP 積立金の相場 80〜120 $/サイクルから",
+   "compensation_per_degc_k": 60,
+   "compensation_degc_source": "no_source: EGT マージン不足の補償（℃あたり）の仮定",
+   "extension_months": 6,
+   "extension_rent_k_per_month": 95,
+   "extension_source": "no_source: 延長時のエンジン相当のリース料（月 85 k$ の +10%）",
+   "notice_months": 6,
+   "notice_source": "no_source: 延長・返却の通知期限（返却の 6 か月前）の仮定",
+   "return_spread_months": [
+    3,
+    23
+   ],
+   "return_source": "no_source: 返却時期は非公表。2 年の窓に散らばる仮定"
+  },
+  "engines": [
+   {
+    "esn": "A-103",
+    "lessor": "リース会社 A",
+    "return_t": 10,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-107",
+    "lessor": "リース会社 C",
+    "return_t": 19,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-108",
+    "lessor": "リース会社 A",
+    "return_t": 6,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-124",
+    "lessor": "リース会社 C",
+    "return_t": 22,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-127",
+    "lessor": "リース会社 A",
+    "return_t": 8,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-134",
+    "lessor": "リース会社 A",
+    "return_t": 7,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-137",
+    "lessor": "リース会社 C",
+    "return_t": 10,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-153",
+    "lessor": "リース会社 C",
+    "return_t": 11,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-165",
+    "lessor": "リース会社 C",
+    "return_t": 11,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-186",
+    "lessor": "リース会社 C",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   }
+  ]
+ }
 }

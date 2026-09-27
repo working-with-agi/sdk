@@ -120,9 +120,31 @@ def fleet_for(name: str, cfg: dict, common: dict, years_back: int = 0) -> tuple[
         # after the window the schedule still needs its peak positions plus the shelf buffer
         "terminal_engines": max(required) + buffer,
         "transition": {k: v for k, v in cfg["transition"].items() if k != "source"},
-        "engines": [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard", "driver")} for r in rows],
+        "engines": [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard", "driver", "egt_margin", "llp_remaining")} for r in rows],
     }
+    fleet["leases"] = leases_for(rows, cfg, seed)
     return fleet, n
+
+
+def leases_for(rows: list[dict], cfg: dict, seed: int) -> dict:
+    """Operating-lease redelivery: which of the due engines belong to leased aircraft, when
+    they go back and on what condition (data/lease_terms.json). Synthetic: the leased
+    engines are spread over the due list and the return months over the window."""
+    import numpy as np
+    terms = json.loads((HERE / "data" / "lease_terms.json").read_text(encoding="utf-8"))
+    n_leased = 2 * int(cfg.get("aircraft", {}).get("leased", 0))
+    if not n_leased or not rows:
+        return {"terms": terms, "engines": []}
+    rng = np.random.default_rng(seed + 77)
+    idx = sorted(rng.choice(len(rows), size=min(n_leased, len(rows)), replace=False).tolist())
+    lo, hi = terms["return_spread_months"]
+    out = []
+    for i in idx:
+        r = rows[i]
+        out.append({"esn": r["esn"], "lessor": f"リース会社 {chr(65 + i % 3)}", "return_t": int(rng.integers(lo, hi + 1)),
+                    "min_llp_cycles": terms["min_llp_cycles"], "min_egt_margin": terms["min_egt_margin"],
+                    "extend_option_months": terms["extension_months"]})
+    return {"terms": terms, "engines": out}
 
 
 def fleet_cfg(conf: dict, name: str, fleet_key: str | None) -> tuple[dict, dict]:

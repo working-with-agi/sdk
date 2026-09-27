@@ -157,6 +157,9 @@ class Problem:
     """Replacement deliveries: {"start": "YYYY-MM", "every_months": n} (737-8 case)."""
 
     # --- calendar helpers ---------------------------------------------------
+    leases: dict | None = None
+    """Operating-lease redelivery (fleet.json 'leases'), used by the lease levers."""
+
     def calendar(self, t: int) -> tuple[int, int]:
         y, m = map(int, self.start.split("-"))
         m0 = m - 1 + t
@@ -270,6 +273,7 @@ def load(fleet_path: str | Path, shops_path: str | Path) -> Problem:
         extra_fixed_cost=f.get("extra_fixed_cost", 0.0),
         terminal_engines=f.get("terminal_engines"),
         fx_vol=f.get("fx", {}).get("volatility", 0.0),
+        leases=f.get("leases"),
         visits=[
             Visit(
                 e["esn"], e["window"][0], e["window"][1], tuple(e["allowed_workscopes"]),

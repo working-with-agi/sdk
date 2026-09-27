@@ -97,6 +97,8 @@ CATALOGUE = {
     "fin_slb": ("お金", "予備エンジンのセール＆リースバック（費用は増える）"),
     "fin_no_reserves": ("お金", "リース機の整備積立金を信用状で代替★"),
     "fin_package": ("お金", "大手パッケージ（ティア＋上限＋共同プール＋内製＋為替固定＋積立金なし）★"),
+    "lease_visits": ("リース", "リース返却前に入場して返却条件を満たす（補償を払わない）"),
+    "lease_extend": ("リース", "返却を 6 か月延長する（延長料を払い、窓の外へ）"),
 }
 FIN = {"prepay_discount": 0.03, "prepay_financing": 0.07 * 4 / 12, "tier": 0.03, "escalation_avg": 0.01, "pool_partners": 3,
        "group_pr_discount": 0.10, "group_slots": 2, "engine_value_k": 5500, "rate": 0.07, "reserve_balance_k": 300, "leased_engines": 14}
@@ -171,6 +173,32 @@ def apply_finance(p, a):
     raise ValueError(a)
 
 
+def apply_lease(p, a):
+    """Redelivery as a constraint on the plan: the leased engines must come back from the
+    shop before their return month (lease_visits), or the return moves out by the option
+    term at the extension rent (lease_extend). Compensation for returning as-is is what
+    the base plan pays, added as a fixed cost so the comparison is fair."""
+    import json as _json
+    from pathlib import Path as _P
+    L = getattr(p, "leases", None)
+    if L is None:
+        raise NotApplicable(a)
+    terms, engines = L["terms"], {e["esn"]: e for e in L["engines"]}
+    if not engines:
+        raise NotApplicable(a)
+    off = min(k.transport_months + min(q.tat for q in k.quotes.values()) for k in p.shops if k.id not in ("MIDLIFE", "PARTOUT", "GROUP")) or 3
+    if a == "lease_visits":
+        visits = []
+        for v in p.visits:
+            le = engines.get(v.esn)
+            if le and le["return_t"] - off >= 0 and le["return_t"] - off < v.latest:
+                v = dataclasses.replace(v, latest=max(v.earliest, le["return_t"] - off), earliest=min(v.earliest, max(0, le["return_t"] - off)))
+            visits.append(v)
+        return dataclasses.replace(p, visits=visits)
+    ext = sum(le["extend_option_months"] * terms["extension_rent_k_per_month"] for le in engines.values())
+    return dataclasses.replace(p, extra_fixed_cost=p.extra_fixed_cost + ext)
+
+
 def apply_action(p, a):
     ids = {k.id for k in p.shops}
     if a == "fixed" and "IND-ASIA" not in ids:
@@ -204,6 +232,8 @@ def apply_action(p, a):
         return dataclasses.replace(p, visits=visits, extra_fixed_cost=p.extra_fixed_cost + 60 * moved)
     if a.startswith("fin_"):
         return apply_finance(p, a)
+    if a in ("lease_visits", "lease_extend"):
+        return apply_lease(p, a)
     if a == "partout":
         yard = Shop(
             id="PARTOUT", name="部品取り（退役）", slots=99, transport_cost=0, transport_months=0,
