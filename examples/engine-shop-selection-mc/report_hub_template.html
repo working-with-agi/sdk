@@ -161,7 +161,7 @@ const DATA = /*__DATA__*/null;
   const pct = (v, d = 0) => (v * 100).toFixed(d) + "%";
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const WS = { PR: "var(--ws-pr)", CORE: "var(--ws-core)", FULL: "var(--ws-full)" };
-  const WORLD = ["var(--accent)", "var(--warn)", "var(--crit)", "var(--ws-full)"];
+  const WORLD = ["var(--accent)", "var(--warn)", "var(--crit)", "var(--ws-full)", "var(--good)"];
   let co = 0, path = ["summary"], role = "all";
   const ROLES = { all: "すべて", exec: "経営", fin: "財務", ops: "運航", plan: "整備計画", proc: "調達・契約", tech: "技術・品質" };
   const CARD_ROLES = {
@@ -922,7 +922,8 @@ const DATA = /*__DATA__*/null;
       const good = a.payout > a.premium, cx = X(xs[i]), cy = Y(ys[i]);
       s += `<circle cx="${cx}" cy="${cy}" r="${compact ? 3.5 : 6}" fill="${good ? "var(--good)" : "var(--crit)"}"><title>${esc(a.question)}：保険料 ${xs[i].toFixed(1)}、払い戻し ${ys[i].toFixed(1)}、差し引き ${(a.net / 1000).toFixed(1)} 百万ドル</title></circle>`;
       if (!compact) { let ty = cy + 4; while (placed.some((p) => Math.abs(p.y - ty) < 13 && Math.abs(p.x - cx) < 260)) ty += 13; placed.push({ x: cx, y: ty });
-        s += `<text class="tick" x="${cx + 9}" y="${ty}">${esc(a.question.length > 20 ? a.question.slice(0, 20) + "…" : a.question)}</text>`; }
+        const lab = esc(a.question.length > 20 ? a.question.slice(0, 20) + "…" : a.question);
+        s += cx > W - 260 ? `<text class="tick" x="${cx - 9}" y="${ty}" text-anchor="end">${lab}</text>` : `<text class="tick" x="${cx + 9}" y="${ty}">${lab}</text>`; }
     });
     if (!compact) s += `<text class="tick" x="${(L + W - R_) / 2}" y="${H - 6}" text-anchor="middle">保険料：先に増える費用（百万ドル、負＝先に減る。目盛りは圧縮）</text><text class="tick" x="12" y="${(T + H - B) / 2}" transform="rotate(-90 12 ${(T + H - B) / 2})" text-anchor="middle">払い戻し：立て直し費の減り（百万ドル）</text>`;
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="保険料と払い戻し">${s}</svg>`;
