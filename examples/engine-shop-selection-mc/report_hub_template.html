@@ -372,7 +372,7 @@ const DATA = /*__DATA__*/null;
     const GROUPS = [["つくる：計画と予算", ["budget", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
       ["確かめる：決め方の採点", ["history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
       ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
-    const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
+    const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
       + (() => { const rest = all.filter((h) => !GROUPS.some(([, keys]) => keys.includes(keyOf(h)))); return rest.length ? `<div class="cards">${rest.join("")}</div>` : ""; })();
     const roleBar = `<div class="tabs" role="tablist" aria-label="見方">${Object.entries(ROLES).map(([k, l]) => `<button type="button" role="tab" data-role="${k}" aria-selected="${k === role}">${l}</button>`).join("")}</div>`;
     const rl = roleLine(c);
@@ -720,7 +720,7 @@ const DATA = /*__DATA__*/null;
   }
 
   /* ---------------- roll to the next version ---------------- */
-  const rollLine = (r) => { const st = r.bridge.steps; return `${r.to_version} 版の 1 年目は ${musd(st[3].value)} 百万ドル：前の版の 2 年目 ${musd(st[0].value)} に、機材の状態の動き ${st[1].value >= 0 ? "+" : "−"}${musd(Math.abs(st[1].value))}、前提の修正 ${st[2].value >= 0 ? "+" : "−"}${musd(Math.abs(st[2].value))}`; };
+  const rollLine = (r) => { const st = r.bridge.steps, last = st[st.length - 1], m = st.find((x) => x.label.startsWith("決め方")); return `${r.to_version} 版の 1 年目は ${musd(last.value)} 百万ドル：前の版の 2 年目 ${musd(st[0].value)} に、機材の状態の動き ${st[1].value >= 0 ? "+" : "−"}${musd(Math.abs(st[1].value))}、前提の修正 ${st[2].value >= 0 ? "+" : "−"}${musd(Math.abs(st[2].value))}${m ? `、決め方の変更 ${musd(m.value)}` : ""}`; };
   function bridgeChart(r, W = 900, H = 260, compact = false) {
     const st = r.bridge.steps, L = compact ? 6 : 60, R = compact ? 6 : 16, T = compact ? 6 : 14, B = compact ? 6 : 60, n = st.length, bw = (W - L - R) / n;
     const top = Math.max(...st.map((x) => x.kind === "level" ? x.value : 0)) * 1.15, y = (v) => H - B - v / top * (H - T - B);
@@ -799,7 +799,7 @@ const DATA = /*__DATA__*/null;
     const vl = [];
     if (s.week != null) vl.push({ x: s.week / w, color: "var(--crit)", label: `検知 ${s.week + 1} 週目` });
     if (p.truth_week != null) vl.push({ x: p.truth_week / w, color: "var(--muted)", dash: "4 3", label: "実際の変化（検証用）" });
-    return lineChart({ xs, series: [{ ys: s.ys, color: "var(--accent)" }], vlines: vl,
+    return lineChart({ xs, series: [{ ys: s.ys, color: "var(--accent)" }], vlines: compact ? [] : vl,
       yticks: compact ? [] : [Math.floor(Math.min(...s.ys)), Math.ceil(Math.max(...s.ys))], xticks: compact ? [] : xs.filter((_, i) => i % (3 * w) === 0),
       xfmt: (v) => `${Math.round(v)} か月`, ylabel: compact ? "" : "週", aria: s.label }, W, H, compact);
   }
