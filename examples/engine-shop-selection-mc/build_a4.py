@@ -22,6 +22,7 @@ from pathlib import Path
 import build_report as br
 import build_dashboard as bd
 import figures
+import decisions
 
 HERE = Path(__file__).resolve().parent
 COS = ["jal", "ana"]
@@ -250,6 +251,15 @@ def appendix_md() -> str:
     return inner("B. " + b) + inner("C. " + c)
 
 
+def appendix_e() -> str:
+    rows = decisions.rows_html(esc)
+    opt = "、".join(f"{esc(l)}（{esc(f)}）" for f, l in decisions.OPTIONAL_SCREENS)
+    return ('<h2>付録 E. 意思決定レポートとシミュレーション画面の対応</h2><p>この A4 版は「何を決めるか」を書く意思決定レポート。判断材料はシミュレーション画面（対話版 report.html と月次・年次・追跡の画面）に置き、別に出せる。'
+            '下の表が、分析結果 → 判断材料 → 画面 → 本文の章 → 誰がいつ決めるか、の対応。</p>'
+            f'<table class="small"><thead><tr>{"".join(f"<th>{esc(h)}</th>" for h in decisions.HEAD)}</tr></thead><tbody>{rows}</tbody></table>'
+            f'<p class="cap">画面の列は対話版レポートの画面名（report.html）、または別画面（annual／monthly／track）。任意で足せる画面：{opt}。</p>')
+
+
 def appendix_d(cs):
     rows = []
     for c in cs:
@@ -281,12 +291,12 @@ section.land { page: land; page-break-before: always; page-break-after: always; 
 def build_html(cs: list[dict], today: str) -> str:
     fig = figures.svgs()
     toc = ["1. 結論", "2. 需要と必要エンジン数", "3. 基本計画（年次の版）", "4. 購入計画の輪", "5. 打ち手の順番", "6. 詳細計画（月次〜当日）", "7. 検証（過去で当てる）", "8. 次の版で直す 3 点",
-           "付録 A. 思考の枠組み（PDCA／OODA、2 頁の図）", "付録 B. 新しい情報の重みづけ（文献）", "付録 C. シミュレーションの範囲（矢印の包含）", "付録 D. 前提と出典"]
+           "付録 A. 思考の枠組み（PDCA／OODA、2 頁の図）", "付録 B. 新しい情報の重みづけ（文献）", "付録 C. シミュレーションの範囲（矢印の包含）", "付録 D. 前提と出典", "付録 E. 意思決定レポートとシミュレーション画面の対応"]
     cover = f'<div class="cover"><div class="tag">737-800 / CFM56-7B　エンジン整備計画</div><h1>エンジン整備計画レポート</h1><div class="sub">需要から検証まで：基本計画（年次）と詳細計画（月次）、購入計画の輪、過去での検証</div>' \
             f'<div class="meta">{today} 版　　対象：{"、".join(esc(c["name"]) for c in cs)}<br>Aether Platform 上のエンジン計画コンポーネント（Secretary.io が会議と版をつなぐ）<br><b>すべて合成データ</b>。実データは需要と型式の年表のみ、出典と確からしさを付記。</div>' \
             f'<h3 style="margin-top:32pt">目次</h3><ul class="toc">{"".join(f"<li>{esc(t)}</li>" for t in toc)}</ul></div>'
-    body = sec_conclusion(cs).replace("<h2>", '<h2 class="first">', 1) + sec_demand(cs) + sec_basic(cs) + sec_purchase(cs) + sec_playbook(cs) + sec_detail(cs) + sec_verify(cs) + sec_next() \
-        + appendix_a(fig) + appendix_md() + appendix_d(cs)
+    body = sec_conclusion(cs).replace("<h2>", '<h2 class="first">', 1).replace("</table>", '</table><p class="cap">判断材料はシミュレーション画面にある（付録 E に対応表）。この文書は決めることと理由だけを書く。</p>', 1) + sec_demand(cs) + sec_basic(cs) + sec_purchase(cs) + sec_playbook(cs) + sec_detail(cs) + sec_verify(cs) + sec_next() \
+        + appendix_a(fig) + appendix_md() + appendix_d(cs) + appendix_e()
     return f'<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>エンジン整備計画レポート（A4）</title><style>{CSS}</style></head><body><div class="sheet">{cover}{body}<p class="cap">生成：build_a4.py（{today}）。対話版のレポート（report.html）が明細、この A4 版が本文。</p></div></body></html>'
 
 

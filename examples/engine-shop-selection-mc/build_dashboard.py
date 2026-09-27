@@ -17,6 +17,8 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import decisions
+
 HERE = Path(__file__).resolve().parent
 
 # which report view answers what, by loop
@@ -138,6 +140,7 @@ def company_calendar(cid: str, track_dir: Path | None, roll_dir: Path | None) ->
 def build_html(cos: list[dict], today: str) -> str:
     data = json.dumps(cos, ensure_ascii=False, separators=(",", ":"))
     loops = json.dumps(LOOPS, ensure_ascii=False)
+    dec = json.dumps([[d, m, mat, sc, sec, who, lp] for d, m, mat, sc, sec, who, lp in decisions.DECISIONS], ensure_ascii=False)
     docs = "".join(f'<li><a href="{f}">{html.escape(t)}</a></li>' for f, t, _ in DOCS) + "".join(f'<li><a href="{f}">{html.escape(t)}</a></li>' for f, t in FIGS)
     arts = "".join(f'<li><a href="{u}">{html.escape(t)}</a> <span class="hint">非公開リンク：共有された人だけ開ける</span></li>' for u, t in ARTIFACTS)
     return f'''<!doctype html>
@@ -169,6 +172,7 @@ td.peak{{background:#f3ede2}}td.fy1{{background:#eef2f7}}.bar{{display:inline-bl
 <div class="grid3" id="topics"></div>
 <h2>二つの輪と画面</h2>
 <div class="grid3" id="loops"></div>
+<div class="panel"><h3 style="margin:0 0 6px;font-size:15px">意思決定 → 判断材料 → 画面（レポートとシミュレーション画面の対応）</h3><div style="overflow:auto"><table id="decisions" style="font-size:12px;border-collapse:collapse;width:100%"></table></div></div>
 <h2>リンク集</h2>
 <div class="grid3">
 <div class="panel"><h3 style="margin:0 0 6px;font-size:15px">画面</h3><ul id="pages" style="margin:0;padding-left:18px;font-size:13px"></ul></div>
@@ -178,7 +182,7 @@ td.peak{{background:#f3ede2}}td.fy1{{background:#eef2f7}}.bar{{display:inline-bl
 <p class="hint">コード：working-with-agi/sdk の examples/engine-shop-selection-mc（ブランチ claude/aircraft-engine-repair-optimization-8oww5m）。再生成は run_all.sh。</p>
 </main>
 <script>
-const DATA = {data}; const LOOPS = {loops}; let co = 0;
+const DATA = {data}; const LOOPS = {loops}; const DEC = {dec}; let co = 0;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}}[c]));
 const link = (key, kind) => kind === "report" ? `report.html#co=${{co}}&v=${{key}}` : kind === "annual" ? "annual.html" : kind === "a4" ? "report_a4.html" : kind === "monthly" ? "monthly.html" : "track.html";
@@ -222,6 +226,7 @@ function render() {{
       <ul>${{trig}}${{top}}${{acts}}${{ex}}</ul>
       <div class="hint" style="margin-top:6px">画面：${{t.views.map((v) => `<a href="report.html#co=${{co}}&v=${{v}}">${{v}}</a>`).join(" · ")}}</div></div>`;
   }}).join("");
+  $("decisions").innerHTML = `<thead><tr>${{["決めること", "分析", "判断材料", "画面", "A4 の章", "誰が・いつ", "輪"].map((h) => `<th style="text-align:left;border-bottom:1px solid var(--rule);padding:4px 6px">${{h}}</th>`).join("")}}</tr></thead><tbody>` + DEC.map(([d, m, mat, sc, sec, who, lp]) => `<tr>${{[`<b>${{esc(d)}}</b>`, esc(m), esc(mat), sc.map(([k, l]) => `<a href="${{link(k, k === "annual" ? "annual" : k === "monthly" ? "monthly" : k === "tracking" ? "track" : "report")}}">${{esc(l)}}</a>`).join("、"), esc(sec), esc(who), esc(lp)].map((x) => `<td style="padding:4px 6px;border-bottom:1px solid var(--rule);vertical-align:top">${{x}}</td>`).join("")}}</tr>`).join("") + "</tbody>";
   $("loops").innerHTML = LOOPS.map(([title, what, items]) => `<div class="panel loop"><h3>${{esc(title)}}</h3><p>${{esc(what)}}</p><ul>${{items.map(([k, label, kind]) => `<li><a href="${{link(k, kind)}}">${{esc(label)}}</a></li>`).join("")}}</ul></div>`).join("");
   $("pages").innerHTML = [["report.html#co=" + co, "エンジン整備レポート（4 段：結論 → ユースケース → 明細 → 前提と出典）"], ["annual.html", "年間計画レポート"], ["monthly.html", "月次レポート"], ["track.html", "計画の追跡"]].map(([h, t]) => `<li><a href="${{h}}">${{esc(t)}}</a></li>`).join("");
 }}
