@@ -526,14 +526,15 @@ def overview_hero() -> str:
     n = len(steps); bw, bh = 220, 110; gap = (W - 40 - n * bw) / (n - 1); y = 14
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
          f'<defs><marker id="hh" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 z" fill="{LOOP}"/></marker></defs>',
-         f'<line class="flow red" x1="{20 + bw}" y1="{y + bh / 2}" x2="{20 + (n - 1) * (bw + gap)}" y2="{y + bh / 2}" stroke="{LOOP}" stroke-width="5" marker-end="url(#hh)"/>']
+         f'<line class="flow red" x1="{20 + bw}" y1="{y + bh / 2}" x2="{20 + (n - 1) * (bw + gap)}" y2="{y + bh / 2}" stroke="{LOOP}" stroke-width="5" marker-end="url(#hh)"/>',
+         f'<circle class="dot" r="6" fill="#fff" stroke="{LOOP}" stroke-width="3"><animateMotion dur="4s" repeatCount="indefinite" path="M {20 + bw} {y + bh / 2} L {20 + (n - 1) * (bw + gap) - 8} {y + bh / 2}"/></circle>']
     for i, (t, sub, f, st) in enumerate(steps):
         x = 20 + i * (bw + gap)
         o.append(f'<rect x="{x}" y="{y}" width="{bw}" height="{bh}" rx="12" fill="{f}" stroke="{st}" stroke-width="2.5"/>')
         o.append(f'<circle cx="{x + 22}" cy="{y + 24}" r="12" fill="{st}"/><text x="{x + 22}" y="{y + 28}" font-size="12" font-weight="700" fill="#fff" text-anchor="middle">{i + 1}</text>')
         o.append(f'<text x="{x + 42}" y="{y + 29}" font-size="17" font-weight="700" fill="{INK}">{t}</text>')
         for k, l in enumerate(sub.split("\n")): o.append(f'<text x="{x + 16}" y="{y + 58 + k * 20}" font-size="13" fill="{INK}">{l}</text>')
-    o.append(f'<circle class="dot" r="6" fill="#fff" stroke="{LOOP}" stroke-width="3"><animateMotion dur="4s" repeatCount="indefinite" path="M {20 + bw} {y + bh / 2} L {20 + (n - 1) * (bw + gap) - 8} {y + bh / 2}"/></circle>')
+
     o.append(f'<text x="{W / 2}" y="{y + bh + 40}" font-size="13" fill="{MUTE}" text-anchor="middle">上流の便数が下流の必要量を決め、現場のデータが前提を毎月更新する。計算が計画を作り、人が決める。</text>')
     o.append(f'<text x="{W / 2}" y="{y + bh + 60}" font-size="13" fill="{MUTE}" text-anchor="middle">下の図は、この 5 つを部門ごとの「入力 → 処理 → 出力 → 成果」に分けたもの。</text>')
     body = "".join(o)
