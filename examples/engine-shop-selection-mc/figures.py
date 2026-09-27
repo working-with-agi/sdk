@@ -337,7 +337,7 @@ def strategy_matrix(overlays: bool = True) -> str:
     """One level more abstract: rows are the four layers of the first figure, columns are the
     flow (what enters, what is run, what comes out), and the far right is the result the
     decision-maker should receive. Observation rises, decisions descend."""
-    W, Hh = 1400, 1000
+    W, Hh = 1400, 1190
     o = [f'<rect width="{W}" height="{Hh}" fill="{BG}"/>',
          f'<defs><marker id="ma" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 z" fill="{LINE}"/></marker>'
          f'<marker id="mr" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L12,6 L0,12 z" fill="{LOOP}"/></marker>'
@@ -360,7 +360,8 @@ def strategy_matrix(overlays: bool = True) -> str:
     heads = [("入る", "その層が受け取るもの"), ("回す（方法）", "計算か人か・文献"), ("出る", "上の層／右へ渡すもの")]
     for x, w, (h, sub) in zip((X0, X1, X2), CW, heads):
         o.append(f'<rect x="{x}" y="{T0 - 44}" width="{w}" height="36" rx="8" fill="{HEAD}"/>'); T(x + w / 2, T0 - 28, h, 13, "#fff", 'font-weight="700"', "middle"); T(x + w / 2, T0 - 14, sub, 9.5, "#cbd5e1", "", "middle")
-    o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="{4 * RH + 3 * GY + 44}" rx="10" fill="rgba(190,18,60,0.05)" stroke="{LOOP}" stroke-width="2.5"/>')
+    NR = 5
+    o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="{NR * RH + (NR - 1) * GY + 44}" rx="10" fill="rgba(190,18,60,0.05)" stroke="{LOOP}" stroke-width="2.5"/>')
     o.append(f'<rect x="{XR}" y="{T0 - 44}" width="{RW}" height="36" rx="8" fill="{LOOP}"/>'); T(XR + RW / 2, T0 - 28, "あるべき結果", 13, "#fff", 'font-weight="700"', "middle"); T(XR + RW / 2, T0 - 14, "決める人が受け取るもの", 9.5, "#fecdd3", "", "middle")
     rows = [
         ("① 上の層", "需要と機材｜年 1 回", ROWB,
@@ -383,6 +384,11 @@ def strategy_matrix(overlays: bool = True) -> str:
          ("残り寿命の束ね、変化点の検知", ["RUL は複数モデルを束ねて誤差を下げる", "BOCPD・CUSUM で納期回答の段を見張る"], "RUL のアンサンブル：Sci. Rep. 2025／C-MAPSS／cpd.py", "det", False),
          ("今日の状態・変化点", ["機ごとの残り時間と部品、計画との差", "段が変わった印"], "", "det", False),
          ("見えている今", ["今日の機材状態と、段が変わった印", "（結果ではなく材料）"])),
+        ("⑤ センサーとデータ", "機上・工場・運航の記録｜便ごと・日次", ROWB,
+         ("センサーと記録", ["EGT・振動・油圧（QAR／ACMS）、LLP", "工場の進捗・部品の納期回答、運航の記録"], "", "det", False),
+         ("集める・整える・一次検知", ["欠測を埋め、単位と時刻を揃える", "しきい値と傾きで一次の異常を拾う（Knowledge Hub へ）"], "データ基盤：取り込み → 埋め込み → 検索（Aether Platform）", "det", False),
+         ("便ごとの時系列・実績のデータセット", ["機・部品ごとに揃った時系列", "会議前に整った実績（Secretary.io）"], "", "det", False),
+         ("信頼できるデータ", ["欠測が少なく、遅れない", "（材料の土台）"])),
     ]
     for r, (lab, cad, fill, cin, crun, cout, res) in enumerate(rows):
         y = T0 + r * (RH + GY)
@@ -402,17 +408,17 @@ def strategy_matrix(overlays: bool = True) -> str:
         poly(f"{X1 + CW[1] + 2},{y + RH / 2} {X2 - 2},{y + RH / 2}", red, 4.5 if red else 2.4)
         poly(f"{X2 + CW[2] + 2},{y + RH / 2} {XR + 8},{y + RH / 2}", red, 4.5 if red else 2.4)
     # vertical: observation rises (out of the lower row -> in of the upper row), decisions descend (dashed)
-    for r in (1, 2, 3):
+    for r in range(1, NR):
         yt = T0 + (r - 1) * (RH + GY) + RH - 12; yb = T0 + r * (RH + GY) + 12; ym = (yt + yb) / 2
         red = r == 2   # bundled assumptions -> fleet planning is on the recommended path
         poly(f"{X2 + CW[2] - 50},{yb} {X2 + CW[2] - 50},{ym} {X0 + CW[0] - 50},{ym} {X0 + CW[0] - 50},{yt}", red, 4.5 if red else 3, "", teal=not red)
         poly(f"{X0 + 36},{yt} {X0 + 36},{yb}", False, 2.2, "7 5")
-        T(X0 + CW[0] - 44, ym - 5, "上がる：" + ("束ねた前提" if r == 2 else "観測・状態" if r == 3 else "計画と幅"), 10, LOOP if red else PORT, 'font-weight="700"')
-        T(X0 + 42, ym + 4, "下りる：" + ("必要エンジン数" if r == 1 else "上限・世界" if r == 2 else "計画（何を見るか）"), 10, MUTE)
+        T(X0 + CW[0] - 44, ym - 5, "上がる：" + {1: "計画と幅", 2: "束ねた前提", 3: "観測・状態", 4: "整ったデータ"}[r], 10, LOOP if red else PORT, 'font-weight="700"')
+        T(X0 + 42, ym + 4, "下りる：" + {1: "必要エンジン数", 2: "上限・世界", 3: "計画（何を見るか）", 4: "何を測るか（警報の閾値）"}[r], 10, MUTE)
     # the decision under the result column
-    yd = T0 + 4 * RH + 3 * GY + 12
+    yd = T0 + NR * RH + (NR - 1) * GY + 12
     o.append(f'<rect x="{XR + 10}" y="{yd}" width="{RW - 20}" height="34" rx="8" fill="{COL["judge"][0]}" stroke="{COL["judge"][1]}" stroke-width="1.5"/>'); T(XR + RW / 2, yd + 22, "→ 決める：版の承認・購入・便・投資", 12, INK, 'font-weight="700"', "middle")
-    poly(f"{XR + RW / 2},{T0 + 4 * RH + 3 * GY - 8} {XR + RW / 2},{yd - 2}", True, 4.5)
+    poly(f"{XR + RW / 2},{T0 + NR * RH + (NR - 1) * GY - 8} {XR + RW / 2},{yd - 2}", True, 4.5)
     # feedback: next year's strategy back to the learning layer (dashed)
     yf = T0 + 2 * (RH + GY) + RH + 6
     poly(f"{XR + 60},{T0 + 2 * (RH + GY) + RH - 12} {XR + 60},{yf} {X2 + CW[2] - 110},{yf} {X2 + CW[2] - 110},{T0 + 2 * (RH + GY) + RH - 12}", False, 2.2, "7 5")
@@ -437,19 +443,19 @@ def strategy_matrix(overlays: bool = True) -> str:
         o.append('</g>')
         # 2. PDCA (rows ①②) and OODA (rows ③④) stage chips, one per cell
         o.append('<g id="ov-stage">')
-        STAGES = [["Plan", "Plan → Do", "Check", "Act"], ["Plan", "Plan → Do", "Check", "Act"], ["Observe", "Orient", "Decide", "Act"], ["Observe", "Orient", "Decide", "Act"]]
-        for r in range(4):
+        STAGES = [["Plan", "Plan → Do", "Check", "Act"], ["Plan", "Plan → Do", "Check", "Act"], ["Observe", "Orient", "Decide", "Act"], ["Observe", "Orient", "Decide", "Act"], ["Observe（センサー）", "Observe（整える）", "Observe（揃った）", "—"]]
+        for r in range(NR):
             y = T0 + r * (RH + GY) + 12 + 4; col_ = PDCA if r < 2 else OODA
             for c, x in enumerate([X0, X1, X2, XR + 10]):
                 chip(x + 6, y - 14, ("PDCA " if r < 2 else "OODA ") + STAGES[r][c], col_, "#fff", 9.5)
-        o.append(f'<rect x="4" y="{T0}" width="10" height="{2 * RH + GY}" rx="3" fill="{PDCA}"/><rect x="4" y="{T0 + 2 * (RH + GY)}" width="10" height="{2 * RH + GY}" rx="3" fill="{OODA}"/>')
+        o.append(f'<rect x="4" y="{T0}" width="10" height="{2 * RH + GY}" rx="3" fill="{PDCA}"/><rect x="4" y="{T0 + 2 * (RH + GY)}" width="10" height="{3 * RH + 2 * GY}" rx="3" fill="{OODA}"/>')
         T(-(T0 + RH + GY / 2), 12, "PDCA（年次〜半期）", 10, "#fff", 'font-weight="700" transform="rotate(-90)"', "middle")
-        T(-(T0 + 2 * (RH + GY) + RH + GY / 2), 12, "OODA（月次〜当日）", 10, "#fff", 'font-weight="700" transform="rotate(-90)"', "middle")
+        T(-(T0 + 2 * (RH + GY) + 1.5 * RH + GY), 12, "OODA（月次〜当日、センサーまで）", 10, "#fff", 'font-weight="700" transform="rotate(-90)"', "middle")
         o.append('</g>')
         # 3. output-based: a KPI with a target under each result box
         o.append('<g id="ov-output">')
-        KPI = [["便の達成率 100%", "足せる便 > 0"], ["欠航確率 ≤ 5%", "予算差 ±5%・p90 の幅"], ["被覆率 ≥ 80%", "幅の警報 ≤ 2 回／年"], ["データ鮮度：月次 100%", "変化点の検知遅れ ≤ 2 か月"]]
-        for r in range(4):
+        KPI = [["便の達成率 100%", "足せる便 > 0"], ["欠航確率 ≤ 5%", "予算差 ±5%・p90 の幅"], ["被覆率 ≥ 80%", "幅の警報 ≤ 2 回／年"], ["状態の更新：便ごと", "変化点の検知遅れ ≤ 2 か月"], ["欠測率 ≤ 2%", "遅延 ≤ 1 日"]]
+        for r in range(NR):
             y = T0 + r * (RH + GY) + 12 + RH - 24 - 40; x = XR + 16
             T(x, y - 4, "アウトプット（成果指標）", 9.5, "#7c2d12", 'font-weight="700"')
             for k_, t in enumerate(KPI[r]):
@@ -457,8 +463,8 @@ def strategy_matrix(overlays: bool = True) -> str:
         o.append('</g>')
         # 4. what kind of intelligence does the work in each box
         o.append('<g id="ov-ai">')
-        AI = {(0, 1): ("式", "#475569"), (1, 1): ("OR：MILP＋MC", "#4338ca"), (2, 1): ("統計学習：ベイズ・忘却・変化点", "#4338ca"), (3, 1): ("ML：RUL アンサンブル／統計：BOCPD", "#4338ca"),
-              (2, 2): ("AI（LLM）：見直しの文章と振り分け", "#9333ea"), (0, 3): ("人", "#b45309"), (1, 3): ("人", "#b45309"), (2, 3): ("人＋AI（LLM）：症状表", "#9333ea"), (3, 3): ("データ", "#0e7490")}
+        AI = {(0, 1): ("式", "#475569"), (1, 1): ("OR：MILP＋MC", "#4338ca"), (2, 1): ("統計学習：ベイズ・忘却・変化点", "#4338ca"), (3, 1): ("ML：RUL アンサンブル／統計：BOCPD", "#4338ca"), (4, 1): ("データ基盤：収集・整形・一次検知", "#0e7490"), (4, 3): ("データ", "#0e7490"),
+              (2, 2): ("AI（LLM）：見直しの文章と振り分け", "#9333ea"), (0, 3): ("人", "#b45309"), (1, 3): ("人", "#b45309"), (2, 3): ("人＋AI（LLM）：症状表", "#9333ea"), (3, 3): ("材料", "#0e7490")}
         for (r, c), (t, col_) in AI.items():
             x = [X0, X1, X2, XR + 10][c]; w = [CW[0], CW[1], CW[2], RW - 20][c]; y = T0 + r * (RH + GY) + 12 + RH - 24
             bw = tw(t, 9.5) + 12
@@ -466,7 +472,7 @@ def strategy_matrix(overlays: bool = True) -> str:
         o.append('</g>')
     y0 = Hh - 36
     T(20, y0, "推奨の経路（太い深紅）：観測 → 4 本の前提を束ねる（③）→ 束ねた前提で解いて叩き、購入の輪で後悔最小（②）→ 予算内の年度計画と壊れにくい購入計画 → 決める。② 採点重みは年 1 回だけ。すべて合成データの目安。", 11.5, INK, 'font-weight="700"')
-    T(20, y0 + 18, "元の図との対応：行 ①〜④ は最初の層の図、列「入る → 回す → 出る」と右端は 2 枚目の流れの図。P1 基本計画（PDCA）は行 ①②、P2 詳細計画（OODA）は行 ③④ にあたる。", 11, MUTE)
+    T(20, y0 + 18, "元の図との対応：行 ①〜④ は最初の層の図、行 ⑤ はセンサーとデータ（OODA の土台）。列「入る → 回す → 出る」と右端は 2 枚目の流れの図。P1 基本計画（PDCA）は行 ①②、P2 詳細計画（OODA）は行 ③④⑤。", 11, MUTE)
     body = "".join(o)
     def fix(m):
         tag = m.group(0); st = []
@@ -492,7 +498,7 @@ def concept_page() -> str:
     svg = strategy_matrix(True)
     TABS = [("none", "基本の図", "行＝層、列＝入る → 回す → 出る、右端＝あるべき結果。太い深紅が推奨の経路。まずこれだけを見る。"),
             ("ov-flight", "① 航空計画から導く", "便の計画が「必要」を決める。便 1〜6 の札が、航空計画から導いた量を使う箱。"),
-            ("ov-stage", "② PDCA と OODA", "上 2 行が PDCA（年次〜半期）、下 2 行が OODA（月次〜当日）。列がそのまま段階（入る＝Plan／Observe … 右端＝Act）。"),
+            ("ov-stage", "② PDCA と OODA", "上 2 行が PDCA（年次〜半期）、下 3 行が OODA（月次〜当日、センサーとデータまで）。列がそのまま段階（入る＝Plan／Observe … 右端＝Act）。"),
             ("ov-output", "③ 成果指標", "右端の各結果に目標つきの指標。欠航確率 ≤ 5%、予算差 ±5%、被覆率 ≥ 80% など（目安）。"),
             ("ov-ai", "④ 何が働くか", "解くのは数理最適化（OR）、学ぶのは統計、部品の寿命は ML、文章と振り分けは AI（LLM）、決めるのは人。")]
     tabs = "".join(f'<button type="button" data-g="{g}" class="{"on" if g == "none" else ""}">{t}</button>' for g, t, _ in TABS)
@@ -507,7 +513,7 @@ svg{{display:block;max-width:100%;height:auto}} .hide{{display:none}}
 <div class="bar"><b style="font-size:13px;margin-right:6px">一つずつ重ねる：</b>{tabs}</div>
 <div style="padding-top:10px">{caps}</div>
 {svg}
-<p class="note">一度に見るのは 1 つの重ねだけ。上の層と機隊の計画は年に 1 回の版（PDCA）、前提の学習と観測は月ごと（OODA）。すべて合成データの目安。</p>
+<p class="note">一度に見るのは 1 つの重ねだけ。上の層と機隊の計画は年に 1 回の版（PDCA）、前提の学習・観測・センサーとデータは月ごと〜便ごと（OODA）。すべて合成データの目安。</p>
 <script>
 const G=["ov-flight","ov-stage","ov-output","ov-ai"]; const show=(g)=>{{G.forEach(x=>document.getElementById(x).classList.toggle("hide",x!==g)); document.querySelectorAll(".bar button").forEach(b=>b.classList.toggle("on",b.dataset.g===g)); document.querySelectorAll(".cap").forEach(c=>c.hidden=c.dataset.for!==g);}};
 document.querySelectorAll(".bar button").forEach(b=>b.addEventListener("click",()=>show(b.dataset.g))); show("none");
