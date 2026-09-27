@@ -40,12 +40,20 @@ def cred(n: int, k0: int) -> float:
     return n / (n + k0)
 
 
-def learn(b: dict, act: dict, shops: dict, fleet: dict, T: dict) -> dict:
-    """Updated assumptions and the evidence behind each."""
+def learn(b: dict, act: dict, shops: dict, fleet: dict, T: dict, cp: dict | None = None) -> dict:
+    """Updated assumptions and the evidence behind each.
+
+    cp: the tracker's change-point block. The n/(n+k0) weight assumes the year is one
+    regime; after a detected change point in the shop's quotes only the returns of engines
+    inducted from that month on are used for the delay, and n restarts there."""
     K = act["months"]
     rows = {r["esn"]: r for r in b["candidates"]["base"]["rows"]}
     ind = {x["esn"]: x for x in act["inductions"] if x["t"] < K}
-    rets = [x for x in act["returns"] if x["t"] < K and x["esn"] in ind]
+    rets_all = [x for x in act["returns"] if x["t"] < K and x["esn"] in ind]
+    reset_at = None
+    if cp and cp.get("cpd_month") and cp.get("fired_world") == "backlog":
+        reset_at = cp["cpd_month"] - 1
+    rets = [x for x in rets_all if reset_at is None or ind[x["esn"]]["t"] >= reset_at]
     k = shops["shops"][0]
     out = {"evidence": {}, "shops": json.loads(json.dumps(shops)), "fleet_patch": {}}
 
@@ -61,9 +69,17 @@ def learn(b: dict, act: dict, shops: dict, fleet: dict, T: dict) -> dict:
     w = np.array([shop_mean ** m / math.factorial(m) for m in ms])
     w /= w.sum()
     out["shops"]["shops"][0]["delay"]["shop_months"] = ms
-    out["shops"]["shops"][0]["delay"]["shop_probs"] = [round(float(x), 4) for x in w]
+    probs = [round(float(x), 4) for x in w]
+    probs[-1] = round(1 - sum(probs[:-1]), 4)   # rounding must still sum to 1
+    out["shops"]["shops"][0]["delay"]["shop_probs"] = probs
+    excess_all = [x["t"] - ind[x["esn"]]["t"] - rows[x["esn"]]["quoted_off_wing"] for x in rets_all]
+    z_all = cred(len(excess_all), K0["delay"])
     out["evidence"]["delay"] = {"n": len(excess), "observed": float(np.mean(excess)) if excess else None, "prior": prior_excess,
-                                "updated": new_excess, "weight": z, "what": "戻ったエンジンの、見積もりより長く翼を離れた月数"}
+                                "updated": new_excess, "weight": z, "what": "戻ったエンジンの、見積もりより長く翼を離れた月数",
+                                "cpd_reset": None if reset_at is None else {
+                                    "reset_at_t": reset_at, "dropped": len(excess_all) - len(excess),
+                                    "without_reset": {"n": len(excess_all), "observed": float(np.mean(excess_all)) if excess_all else None,
+                                                      "weight": z_all, "updated": z_all * (float(np.mean(excess_all)) if excess_all else prior_excess) + (1 - z_all) * prior_excess}}}
 
     # 2. findings: invoiced against expected cost
     ratio = [x["cost_k"] / rows[x["esn"]]["exp_cost"] for x in rets]
@@ -166,8 +182,9 @@ def main(argv=None) -> int:
         # what the year taught
         tpath = tmp / "track.json"
         track.main(["status", "--baseline", str(bpath), "--actuals", str(apath), "--json-out", str(tpath)])
-        T = json.loads(tpath.read_text(encoding="utf-8"))["timeline"][-1]
-        L = learn(b, act, shops, old_fleet, T)
+        TJ = json.loads(tpath.read_text(encoding="utf-8"))
+        T = TJ["timeline"][-1]
+        L = learn(b, act, shops, old_fleet, T, TJ.get("cpd"))
 
         # the fleet one year on, from the same history
         conf = json.loads((HERE / "data" / "companies.json").read_text(encoding="utf-8"))

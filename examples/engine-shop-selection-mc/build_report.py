@@ -88,7 +88,27 @@ def track_summary(t: dict) -> dict:
             # month by month, for the charts
             "series": [{"as_of": x["as_of"], "posterior": {W[w]["label"]: p for w, p in x["posterior"].items()},
                         "best_saving": max((v["saving"] for v in x["switch"].values()), default=0)} for x in t["timeline"]],
-            "world_labels": [W[w]["label"] for w in W]}
+            "world_labels": [W[w]["label"] for w in W],
+            "cpd": cpd_summary(t.get("cpd"), t)}
+
+
+def cpd_summary(c: dict | None, t: dict) -> dict | None:
+    if not c:
+        return None
+    w = c["weeks_per_month"]
+    months = t["months"]
+    v = c.get("value") or {}
+    return {"state": c["state"], "verdict": c["verdict"], "cpd_as_of": c["cpd_as_of"], "bayes_as_of": c["bayes_as_of"],
+            "cpd_month": c["cpd_month"], "bayes_month": c["bayes_month"], "fired_world": c["fired_world"],
+            "months_earlier": v.get("months_earlier"), "bayes_never_moved": v.get("bayes_never_moved"),
+            "worth": v.get("worth"), "at_cpd": v.get("at_cpd"), "at_bayes": v.get("at_bayes"),
+            "first_profitable": None if not v.get("first_profitable_month") else months[v["first_profitable_month"] - 1],
+            "truth_week": c.get("change_week_truth"), "weeks_per_month": w,
+            "streams": [{"key": n, "label": s["label"], "what": s["what"], "world": s["world"], "ys": c["series"][n],
+                         "week": s["week"], "bocpd_week": s["bocpd_week"], "cusum_week": s["cusum_week"],
+                         "before": s["level_before"], "after": s["level_after"]} for n, s in c["streams"].items()],
+            "agreement": [a["state"] for a in c["agreement"]], "as_of": [a["as_of"] for a in c["agreement"]],
+            "uer_arl": c["uer_arl"], "note": c["note"]}
 
 
 def unsourced(company_id: str) -> list[dict]:

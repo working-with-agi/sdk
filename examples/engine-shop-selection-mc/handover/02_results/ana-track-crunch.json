@@ -1,0 +1,8958 @@
+{
+ "cpd": {
+  "streams": {
+   "quoted_tat_weeks": {
+    "label": "工場の見積もり工期（週）",
+    "what": "新規入場の見積もり TAT。混雑すると先に延びる",
+    "world": "backlog",
+    "bocpd_week": null,
+    "cusum_week": null,
+    "week": null,
+    "month": null,
+    "level_before": 14.225000000000001,
+    "level_after": null,
+    "shift_sigma": null
+   },
+   "slot_lead_weeks": {
+    "label": "枠の回答リード（週）",
+    "what": "次に取れる枠まで何週か。混雑すると先に延びる",
+    "world": "backlog",
+    "bocpd_week": null,
+    "cusum_week": null,
+    "week": null,
+    "month": null,
+    "level_before": 8.025,
+    "level_after": null,
+    "shift_sigma": null
+   },
+   "kit_lead_weeks": {
+    "label": "LLP キット納期回答（週）",
+    "what": "サプライヤーの納期回答。逼迫すると先に延びる",
+    "world": "crunch",
+    "bocpd_week": 6,
+    "cusum_week": 6,
+    "week": 6,
+    "month": 2,
+    "level_before": 34.325,
+    "level_after": 51.91190476190476,
+    "shift_sigma": 11.72460317460317
+   }
+  },
+  "series": {
+   "quoted_tat_weeks": [
+    14.5,
+    14.2,
+    14.4,
+    13.8,
+    15.1,
+    15.1,
+    14.5,
+    15.3,
+    14.8,
+    13.7,
+    14.7,
+    13.7,
+    15.1,
+    14.4,
+    14.3,
+    13.9,
+    15.4,
+    14.3,
+    14.1,
+    14.2,
+    14.9,
+    14.7,
+    14.8,
+    14.8,
+    16.1,
+    14.1,
+    14.0,
+    13.8,
+    14.9,
+    15.3,
+    14.3,
+    13.8,
+    13.8,
+    15.0,
+    15.0,
+    14.9,
+    13.9,
+    14.6,
+    14.5,
+    14.6,
+    15.1,
+    14.6,
+    15.0,
+    14.5,
+    14.7,
+    14.9,
+    13.3,
+    14.2
+   ],
+   "slot_lead_weeks": [
+    7.4,
+    7.2,
+    7.7,
+    9.8,
+    7.0,
+    9.2,
+    6.0,
+    7.6,
+    8.2,
+    8.7,
+    8.9,
+    9.0,
+    7.6,
+    7.4,
+    9.0,
+    7.8,
+    6.5,
+    6.6,
+    6.9,
+    8.6,
+    8.2,
+    8.8,
+    7.5,
+    8.2,
+    8.8,
+    7.6,
+    8.5,
+    7.2,
+    7.6,
+    7.5,
+    6.6,
+    8.6,
+    7.4,
+    8.0,
+    8.6,
+    8.5,
+    8.8,
+    7.9,
+    7.5,
+    7.9,
+    6.0,
+    6.3,
+    6.4,
+    6.8,
+    8.5,
+    6.9,
+    7.5,
+    9.6
+   ],
+   "kit_lead_weeks": [
+    34.1,
+    35.7,
+    33.2,
+    34.3,
+    33.2,
+    34.1,
+    53.2,
+    49.4,
+    52.6,
+    52.3,
+    51.1,
+    49.8,
+    52.1,
+    51.2,
+    52.3,
+    52.0,
+    54.4,
+    51.6,
+    50.4,
+    52.2,
+    52.3,
+    54.0,
+    53.2,
+    52.5,
+    54.2,
+    50.2,
+    51.0,
+    50.6,
+    51.4,
+    49.9,
+    52.9,
+    51.6,
+    49.8,
+    50.4,
+    52.4,
+    53.2,
+    55.0,
+    56.3,
+    52.6,
+    50.5,
+    48.8,
+    52.4,
+    50.7,
+    51.3,
+    51.0,
+    51.7,
+    53.6,
+    52.2
+   ]
+  },
+  "weeks_per_month": 4,
+  "change_week_truth": 6,
+  "cpd_month": 2,
+  "cpd_as_of": "2026-11",
+  "bayes_month": 1,
+  "bayes_as_of": "2026-10",
+  "fired_world": "crunch",
+  "value": {
+   "candidate": "crunch",
+   "at_cpd": 981.0180040079902,
+   "at_bayes": 408.1853657644712,
+   "one_month_late": 1031.7110882544555,
+   "months_earlier": -1,
+   "bayes_never_moved": false,
+   "worth": 572.8326382435189,
+   "first_profitable_month": 1
+  },
+  "agreement": [
+   {
+    "k": 1,
+    "as_of": "2026-10",
+    "cpd": false,
+    "bayes": true,
+    "state": "bayes_only"
+   },
+   {
+    "k": 2,
+    "as_of": "2026-11",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 3,
+    "as_of": "2026-12",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 4,
+    "as_of": "2027-01",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 5,
+    "as_of": "2027-02",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 6,
+    "as_of": "2027-03",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 7,
+    "as_of": "2027-04",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 8,
+    "as_of": "2027-05",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 9,
+    "as_of": "2027-06",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 10,
+    "as_of": "2027-07",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 11,
+    "as_of": "2027-08",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   },
+   {
+    "k": 12,
+    "as_of": "2027-09",
+    "cpd": true,
+    "bayes": true,
+    "state": "both"
+   }
+  ],
+  "state": "both",
+  "verdict": "変化点と前提の更新が一致している",
+  "uer_arl": {
+   "cusum": {
+    "mean_delay": 9.923076923076923,
+    "p_detect_12m": 0.12666666666666668,
+    "false_alarm_rate": 0.04666666666666667,
+    "missed": 0.7366666666666667
+   },
+   "ma3": {
+    "mean_delay": 8.076923076923077,
+    "p_detect_12m": 0.03666666666666667,
+    "false_alarm_rate": 0.03666666666666667,
+    "missed": 0.92
+   },
+   "setup": {
+    "shift": 0.2,
+    "lam0_per_month": 0.5,
+    "months": 36,
+    "change_at": 18,
+    "runs": 300
+   }
+  },
+  "note": "合成データ。先行指標の週次系列は仮定（出典なし）"
+ },
+ "baseline_version": "2026-09-27",
+ "months": [
+  "2026-10",
+  "2026-11",
+  "2026-12",
+  "2027-01",
+  "2027-02",
+  "2027-03",
+  "2027-04",
+  "2027-05",
+  "2027-06",
+  "2027-07",
+  "2027-08",
+  "2027-09",
+  "2027-10",
+  "2027-11",
+  "2027-12",
+  "2028-01",
+  "2028-02",
+  "2028-03",
+  "2028-04",
+  "2028-05",
+  "2028-06",
+  "2028-07",
+  "2028-08",
+  "2028-09"
+ ],
+ "worlds": {
+  "base": {
+   "label": "基準",
+   "prior": 0.5,
+   "what": "入力どおり"
+  },
+  "backlog": {
+   "label": "MRO 混雑",
+   "prior": 0.25,
+   "what": "外部工場の TAT が 1 か月延びる（2025〜26 年のエンジン MRO 逼迫）"
+  },
+  "crunch": {
+   "label": "LLP 逼迫",
+   "prior": 0.15,
+   "what": "LLP キットの調達が 12 か月、手持ち半減"
+  },
+  "stress": {
+   "label": "複合ストレス",
+   "prior": 0.1,
+   "what": "MRO 混雑 ＋ LLP 逼迫 ＋ 故障率 1.5 倍"
+  }
+ },
+ "candidates": {
+  "base": {
+   "label": "基準計画",
+   "world": "base",
+   "what": "入力どおりの前提で立てた計画（これが基準）",
+   "feasible": true,
+   "summary": {
+    "total_cost": 151461.79423179242,
+    "p90": 188938.75142376704,
+    "aog_prob": 0.0245,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 9,
+      "spend": 105441.76709307783,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 8,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 121920.19279839183,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 43,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "A-124",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-02",
+     "earliest": "2026-10",
+     "exp_cost": 12057,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-137",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12061,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-164",
+     "shop": "MTU-ZH",
+     "workscope": "CORE",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 8687,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-182",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12008,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-115",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12097,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -7,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-186",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12099,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -7,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-135",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-01",
+     "t": 3,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12076,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -5,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-153",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-02",
+     "t": 4,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-05",
+     "earliest": "2026-12",
+     "exp_cost": 12096,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -4,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-130",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-03",
+     "t": 5,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-03",
+     "earliest": "2026-10",
+     "exp_cost": 12260,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-118",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12241,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-178",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12102,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-108",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-07",
+     "t": 9,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-07",
+     "earliest": "2027-02",
+     "exp_cost": 12223,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 1,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-121",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-08",
+     "earliest": "2027-03",
+     "exp_cost": 12281,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 2,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-165",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 12238,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 2,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-105",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-09",
+     "t": 11,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12037,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-163",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12120,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 4,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-107",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-12",
+     "t": 14,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12240,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 6,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-113",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12232,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 8,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-134",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 12206,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 9,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-103",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12261,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 11,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-145",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-05",
+     "earliest": "2027-12",
+     "exp_cost": 12183,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 11,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-133",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-06",
+     "t": 20,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12247,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 12,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-127",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-07",
+     "t": 21,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12226,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 13,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-151",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-07",
+     "t": 21,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 12200,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 13,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    }
+   ]
+  },
+  "backlog": {
+   "label": "混雑対応計画",
+   "world": "backlog",
+   "what": "外部工場の TAT が 1 か月延びる前提で立てた計画",
+   "feasible": true,
+   "summary": {
+    "total_cost": 151361.28305925944,
+    "p90": 188893.75142376704,
+    "aog_prob": 0.0105,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 7,
+      "spend": 81066.5657843702,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 6,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 12,
+      "spend": 146269.26293456653,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 12,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 5,
+    "early_months": 42,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "A-124",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-02",
+     "earliest": "2026-10",
+     "exp_cost": 12057,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-130",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-03",
+     "earliest": "2026-10",
+     "exp_cost": 12057,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-137",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12061,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-164",
+     "shop": "MTU-ZH",
+     "workscope": "CORE",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 8687,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-182",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12008,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -8,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-115",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12097,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -7,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-186",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12099,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -7,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-135",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12153,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -2,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-153",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-05",
+     "t": 7,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-05",
+     "earliest": "2026-12",
+     "exp_cost": 12196,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -1,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-118",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12241,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-178",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12102,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-108",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-07",
+     "t": 9,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-07",
+     "earliest": "2027-02",
+     "exp_cost": 12223,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 1,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-121",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-08",
+     "earliest": "2027-03",
+     "exp_cost": 12281,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 2,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-165",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 12238,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 2,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-105",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-09",
+     "t": 11,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12037,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-163",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12120,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 4,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-107",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-12",
+     "t": 14,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12240,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 6,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-113",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12232,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 8,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-134",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 12206,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 9,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-103",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12261,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 11,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-145",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-05",
+     "earliest": "2027-12",
+     "exp_cost": 12183,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 11,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-133",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-06",
+     "t": 20,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12247,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 12,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-127",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-07",
+     "t": 21,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12226,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 13,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    },
+    {
+     "esn": "A-151",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-07",
+     "t": 21,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 12200,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 13,
+     "deadline_reason": "LLP キット発注 8 か月前"
+    }
+   ]
+  },
+  "crunch": {
+   "label": "逼迫対応計画",
+   "world": "crunch",
+   "what": "LLP キットの納期 12 か月・手持ち半減の前提で立てた計画",
+   "feasible": true,
+   "summary": {
+    "total_cost": 156699.66136865516,
+    "p90": 194357.53478274622,
+    "aog_prob": 0.0285,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 9,
+      "spend": 105441.76709307783,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 8,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 10,
+      "spend": 122921.04993525456,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 10,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 5,
+      "spend": 61117.314340322824,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 5,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 10,
+    "early_months": 37,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "A-124",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-02",
+     "earliest": "2026-10",
+     "exp_cost": 12057,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-137",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12061,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-164",
+     "shop": "MTU-ZH",
+     "workscope": "CORE",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 8687,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -12,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-182",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12008,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -12,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-115",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12097,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -11,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-186",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12099,
+     "off_wing": 6.1,
+     "quoted_off_wing": 5,
+     "deadline_t": -11,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-135",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-01",
+     "t": 3,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12076,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -9,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-153",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-02",
+     "t": 4,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-05",
+     "earliest": "2026-12",
+     "exp_cost": 12096,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -8,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-130",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-03",
+     "t": 5,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-03",
+     "earliest": "2026-10",
+     "exp_cost": 12260,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -7,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-108",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-07",
+     "earliest": "2027-02",
+     "exp_cost": 12122,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-121",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-08",
+     "earliest": "2027-03",
+     "exp_cost": 12281,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -2,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-165",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 12238,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": -2,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-105",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12285,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-118",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12971,
+     "off_wing": 6.4,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-163",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12120,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-178",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12226,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-107",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-12",
+     "t": 14,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12240,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 2,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-113",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12232,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 4,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-134",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-03",
+     "t": 17,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 12206,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-103",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12261,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 7,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-145",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-05",
+     "earliest": "2027-12",
+     "exp_cost": 12183,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 7,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-133",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-06",
+     "t": 20,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12247,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 8,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-127",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-07",
+     "t": 21,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12226,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 9,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-151",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-07",
+     "t": 21,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 12200,
+     "off_wing": 6.2,
+     "quoted_off_wing": 5,
+     "deadline_t": 9,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    }
+   ]
+  },
+  "stress": {
+   "label": "複合ストレス対応計画",
+   "world": "stress",
+   "what": "混雑＋逼迫＋故障率 1.5 倍の前提で立てた計画",
+   "feasible": true,
+   "summary": {
+    "total_cost": 157891.1886507967,
+    "p90": 195056.8869898238,
+    "aog_prob": 0.055,
+    "by_fiscal_year": {
+     "FY2026": {
+      "visits": 7,
+      "spend": 81278.83934900677,
+      "PR": 0,
+      "CORE": 1,
+      "FULL": 6,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2027": {
+      "visits": 13,
+      "spend": 158874.2246937799,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 13,
+      "GT": 0,
+      "PO": 0
+     },
+     "FY2028": {
+      "visits": 4,
+      "spend": 49076.364608010066,
+      "PR": 0,
+      "CORE": 0,
+      "FULL": 4,
+      "GT": 0,
+      "PO": 0
+     }
+    },
+    "shop_visits": 24,
+    "midlife_swaps": 0,
+    "partouts": 0,
+    "long_spares": 0,
+    "emergency_kits": 11,
+    "early_months": 48,
+    "rush": 0,
+    "shops": {
+     "MTU-ZH": 24
+    },
+    "relaxed": [
+     "budget"
+    ]
+   },
+   "rows": [
+    {
+     "esn": "A-124",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-02",
+     "earliest": "2026-10",
+     "exp_cost": 12057,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-137",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12061,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -3,
+     "deadline_reason": "工場の枠予約 3 か月前"
+    },
+    {
+     "esn": "A-164",
+     "shop": "MTU-ZH",
+     "workscope": "CORE",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2026-12",
+     "earliest": "2026-10",
+     "exp_cost": 8687,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -12,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-182",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-10",
+     "t": 0,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2026-10",
+     "earliest": "2026-10",
+     "exp_cost": 12008,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -12,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-115",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12097,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -11,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-186",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2026-11",
+     "t": 1,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12099,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -11,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-130",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-03",
+     "t": 5,
+     "fy": "FY2026",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-03",
+     "earliest": "2026-10",
+     "exp_cost": 12269,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -7,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-121",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-08",
+     "earliest": "2027-03",
+     "exp_cost": 12155,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-135",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-04",
+     "t": 6,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-04",
+     "earliest": "2026-11",
+     "exp_cost": 12276,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-118",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-05",
+     "t": 7,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12012,
+     "off_wing": 7.1,
+     "quoted_off_wing": 6,
+     "deadline_t": -5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-153",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-05",
+     "t": 7,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-05",
+     "earliest": "2026-12",
+     "exp_cost": 12259,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -5,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-108",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-06",
+     "t": 8,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-07",
+     "earliest": "2027-02",
+     "exp_cost": 12233,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -4,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-165",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-08",
+     "t": 10,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-09",
+     "earliest": "2027-04",
+     "exp_cost": 12313,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": -2,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-105",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": true,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12340,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-107",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12218,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-178",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-10",
+     "t": 12,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-10",
+     "earliest": "2027-05",
+     "exp_cost": 12374,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 0,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-134",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-11",
+     "t": 13,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-04",
+     "earliest": "2027-11",
+     "exp_cost": 12051,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 1,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-163",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2027-12",
+     "t": 14,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2027-12",
+     "earliest": "2027-07",
+     "exp_cost": 12293,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 2,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-145",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-01",
+     "t": 15,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-05",
+     "earliest": "2027-12",
+     "exp_cost": 12050,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 3,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-113",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-02",
+     "t": 16,
+     "fy": "FY2027",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-02",
+     "earliest": "2027-09",
+     "exp_cost": 12300,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 4,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-133",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-04",
+     "t": 18,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12193,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 6,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-127",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-05",
+     "t": 19,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12234,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 7,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-103",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-06",
+     "t": 20,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-07",
+     "earliest": "2028-02",
+     "exp_cost": 12365,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 8,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    },
+    {
+     "esn": "A-151",
+     "shop": "MTU-ZH",
+     "workscope": "FULL",
+     "month": "2028-08",
+     "t": 22,
+     "fy": "FY2028",
+     "rush": false,
+     "watch": false,
+     "limit": "2028-08",
+     "earliest": "2028-03",
+     "exp_cost": 12286,
+     "off_wing": 7.2,
+     "quoted_off_wing": 6,
+     "deadline_t": 10,
+     "deadline_reason": "LLP キット発注 12 か月前"
+    }
+   ]
+  }
+ },
+ "indicators": {
+  "tat_excess": {
+   "label": "戻りの遅れ",
+   "what": "見積もりより何か月長く翼を離れたか（戻った基の平均）"
+  },
+  "forced": {
+   "label": "故障による前倒し",
+   "what": "計画前に故障して入場した基数（累計）"
+  },
+  "unsched": {
+   "label": "予定外で工場にいる数",
+   "what": "計画外の取卸しで工場にいるエンジン（月平均）"
+  },
+  "kit_lead": {
+   "label": "LLP キットの納期回答",
+   "what": "発注時にサプライヤーが回答した納期（か月、平均）"
+  }
+ },
+ "matrix": {
+  "base": {
+   "base": {
+    "mean": 151838.6376431434,
+    "aog_prob": 0.024
+   },
+   "backlog": {
+    "mean": 151876.1976431434,
+    "aog_prob": 0.045
+   },
+   "crunch": {
+    "mean": 159038.6376431434,
+    "aog_prob": 0.024
+   },
+   "stress": {
+    "mean": 160255.38900646454,
+    "aog_prob": 0.111
+   }
+  },
+  "backlog": {
+   "base": {
+    "mean": 151794.8141819024,
+    "aog_prob": 0.001
+   },
+   "backlog": {
+    "mean": 151803.71418190238,
+    "aog_prob": 0.005
+   },
+   "crunch": {
+    "mean": 158994.8141819024,
+    "aog_prob": 0.001
+   },
+   "stress": {
+    "mean": 160149.48151800197,
+    "aog_prob": 0.029
+   }
+  },
+  "crunch": {
+   "base": {
+    "mean": 153398.3181928268,
+    "aog_prob": 0.034
+   },
+   "backlog": {
+    "mean": 153442.80819282678,
+    "aog_prob": 0.061
+   },
+   "crunch": {
+    "mean": 156998.3181928268,
+    "aog_prob": 0.034
+   },
+   "stress": {
+    "mean": 158509.97370820184,
+    "aog_prob": 0.127
+   }
+  },
+  "stress": {
+   "base": {
+    "mean": 153585.5492238726,
+    "aog_prob": 0.001
+   },
+   "backlog": {
+    "mean": 153609.8992238726,
+    "aog_prob": 0.015
+   },
+   "crunch": {
+    "mean": 157185.5492238726,
+    "aog_prob": 0.001
+   },
+   "stress": {
+    "mean": 158279.5945049866,
+    "aog_prob": 0.049
+   }
+  }
+ },
+ "budgets": {
+  "FY2026": 47000.0,
+  "FY2027": 95500.0,
+  "FY2028": 48500.0
+ },
+ "shops": {
+  "MTU-ZH": "MTU Maintenance 珠海"
+ },
+ "company": {
+  "id": "ana",
+  "name": "ANA（ANA ウイングス運航）",
+  "contract": {
+   "description": "ANA（ANA ウイングス運航） の契約工場のみ（工場の選び直しは契約更新時の入札ユースケース）",
+   "contract_type": "tm",
+   "renewal": "2032 年末",
+   "source": "MTU と ANA の契約延長（2032 年末まで、737NG 47 機・約 100 基、工場入場は珠海） https://www.mtu.de/newsroom/press/latest-press-releases/press-release-detail/mtu-maintenance-and-all-nippon-airways-sign-cfm56-7b-mro-contract/ 。料金体系は非公表（ここでは実費精算と仮定）"
+  },
+  "sources": {
+   "aircraft": "ANA 決算資料 FY2024 末（737-800 39 機、所有 26・リース 13） https://www.ana.co.jp/group/investors/data/kessan/pdf/2025_04_2.pdf",
+   "engines": "no_source: 予備エンジン数は非公表。業界の目安（取付エンジンの約 10%）",
+   "subfleets": {
+    "ANAウイングス": "推定：幹線からローカル線・那覇–離島まで、1 日 4.5〜6 回。機種別の稼働実績は非公表 https://www.anawings.co.jp/fleet/"
+   },
+   "wear": "推力型式 -7B24 は ANA Fact Book https://www.ana.co.jp/ir/kessan_info/annual/pdf/10f/10f_07.pdf 。-7B24 の整備後の余裕 70〜80℃、劣化は同上（Aircraft Commerce 58 号）",
+   "severity": "区間の長さによる劣化の係数（1 回あたり ≒ (0.65 + 0.2 × 飛行時間) ÷ 1.05）。Ackert の飛行時間あたりの係数表から換算した近似 https://www.aircraftmonitor.com/uploads/1/5/9/9/15993320/engine_mx_concepts_for_financiers___v2.pdf",
+   "contract": "MTU と ANA の契約延長（2032 年末まで、737NG 47 機・約 100 基、工場入場は珠海） https://www.mtu.de/newsroom/press/latest-press-releases/press-release-detail/mtu-maintenance-and-all-nippon-airways-sign-cfm56-7b-mro-contract/ 。料金体系は非公表（ここでは実費精算と仮定）",
+   "transition": "737-8 30 機、受領は遅れを重ね 2026 年 10 月以降 https://www.aviationwire.jp/archives/335931 。受領の間隔は no_source",
+   "quotes": "2020 年の例（コア性能回復 2.0M$＋寿命部品 2.0M$、コア＋LPT 3.0M$＋寿命部品 3.0M$）を性能回復 年 4.5〜6.5%・寿命部品 年 5〜8% で 2026 年に外挿（推定） https://www.istat.org/Portals/0/Ackert_ISTAT_LearningLab_pdf.pdf 。工期は現状のオーバーホール 90〜120 日、軽作業 約 45 日 https://www.aerfin.com/latest/insights/inside-the-engine-mro-supply-chain-why-repair-delays-are-rising-and-whats-driving-them/",
+   "leases": "中長期 80〜90k$/月、短期は 10 万ドル前後〜＋使用量料金 https://www.iba.aero/resources/articles/iba-engine-value-and-lease-rate-update/",
+   "llp_kits": "no_source（公開の根拠なし）",
+   "spares": "no_source"
+  }
+ },
+ "actuals": {
+  "as_of": "2027-09",
+  "months": 12,
+  "inductions": [
+   {
+    "esn": "A-124",
+    "month": "2026-10",
+    "t": 0,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-137",
+    "month": "2026-10",
+    "t": 0,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-164",
+    "month": "2026-10",
+    "t": 0,
+    "shop": "MTU-ZH",
+    "workscope": "CORE",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-182",
+    "month": "2026-10",
+    "t": 0,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-115",
+    "month": "2026-11",
+    "t": 1,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-186",
+    "month": "2026-11",
+    "t": 1,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-135",
+    "month": "2027-01",
+    "t": 3,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-153",
+    "month": "2027-02",
+    "t": 4,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-130",
+    "month": "2027-03",
+    "t": 5,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-118",
+    "month": "2027-06",
+    "t": 8,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-178",
+    "month": "2027-06",
+    "t": 8,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-108",
+    "month": "2027-07",
+    "t": 9,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-121",
+    "month": "2027-08",
+    "t": 10,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-165",
+    "month": "2027-08",
+    "t": 10,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   },
+   {
+    "esn": "A-105",
+    "month": "2027-09",
+    "t": 11,
+    "shop": "MTU-ZH",
+    "workscope": "FULL",
+    "reason": "planned"
+   }
+  ],
+  "returns": [
+   {
+    "esn": "A-124",
+    "month": "2027-03",
+    "t": 5,
+    "cost_k": 13924
+   },
+   {
+    "esn": "A-137",
+    "month": "2027-03",
+    "t": 5,
+    "cost_k": 13173
+   },
+   {
+    "esn": "A-164",
+    "month": "2027-03",
+    "t": 5,
+    "cost_k": 7557
+   },
+   {
+    "esn": "A-182",
+    "month": "2027-03",
+    "t": 5,
+    "cost_k": 10491
+   },
+   {
+    "esn": "A-115",
+    "month": "2027-04",
+    "t": 6,
+    "cost_k": 10491
+   },
+   {
+    "esn": "A-186",
+    "month": "2027-04",
+    "t": 6,
+    "cost_k": 10491
+   },
+   {
+    "esn": "A-135",
+    "month": "2027-06",
+    "t": 8,
+    "cost_k": 10491
+   },
+   {
+    "esn": "A-153",
+    "month": "2027-07",
+    "t": 9,
+    "cost_k": 12206
+   },
+   {
+    "esn": "A-130",
+    "month": "2027-08",
+    "t": 10,
+    "cost_k": 12509
+   }
+  ],
+  "unscheduled_in_shop": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1,
+   1,
+   1,
+   1,
+   0
+  ],
+  "kit_quotes": [
+   {
+    "month": "2026-10",
+    "t": 0,
+    "esn": "A-118",
+    "lead_months": 10
+   },
+   {
+    "month": "2026-10",
+    "t": 0,
+    "esn": "A-178",
+    "lead_months": 13
+   },
+   {
+    "month": "2026-11",
+    "t": 1,
+    "esn": "A-108",
+    "lead_months": 13
+   },
+   {
+    "month": "2026-12",
+    "t": 2,
+    "esn": "A-121",
+    "lead_months": 12
+   },
+   {
+    "month": "2026-12",
+    "t": 2,
+    "esn": "A-165",
+    "lead_months": 12
+   },
+   {
+    "month": "2027-01",
+    "t": 3,
+    "esn": "A-105",
+    "lead_months": 14
+   },
+   {
+    "month": "2027-02",
+    "t": 4,
+    "esn": "A-163",
+    "lead_months": 10
+   },
+   {
+    "month": "2027-04",
+    "t": 6,
+    "esn": "A-107",
+    "lead_months": 13
+   },
+   {
+    "month": "2027-06",
+    "t": 8,
+    "esn": "A-113",
+    "lead_months": 11
+   },
+   {
+    "month": "2027-07",
+    "t": 9,
+    "esn": "A-134",
+    "lead_months": 10
+   },
+   {
+    "month": "2027-09",
+    "t": 11,
+    "esn": "A-103",
+    "lead_months": 12
+   },
+   {
+    "month": "2027-09",
+    "t": 11,
+    "esn": "A-145",
+    "lead_months": 14
+   }
+  ],
+  "streams": {
+   "weeks_per_month": 4,
+   "change_week": 6,
+   "quoted_tat_weeks": [
+    14.5,
+    14.2,
+    14.4,
+    13.8,
+    15.1,
+    15.1,
+    14.5,
+    15.3,
+    14.8,
+    13.7,
+    14.7,
+    13.7,
+    15.1,
+    14.4,
+    14.3,
+    13.9,
+    15.4,
+    14.3,
+    14.1,
+    14.2,
+    14.9,
+    14.7,
+    14.8,
+    14.8,
+    16.1,
+    14.1,
+    14.0,
+    13.8,
+    14.9,
+    15.3,
+    14.3,
+    13.8,
+    13.8,
+    15.0,
+    15.0,
+    14.9,
+    13.9,
+    14.6,
+    14.5,
+    14.6,
+    15.1,
+    14.6,
+    15.0,
+    14.5,
+    14.7,
+    14.9,
+    13.3,
+    14.2
+   ],
+   "slot_lead_weeks": [
+    7.4,
+    7.2,
+    7.7,
+    9.8,
+    7.0,
+    9.2,
+    6.0,
+    7.6,
+    8.2,
+    8.7,
+    8.9,
+    9.0,
+    7.6,
+    7.4,
+    9.0,
+    7.8,
+    6.5,
+    6.6,
+    6.9,
+    8.6,
+    8.2,
+    8.8,
+    7.5,
+    8.2,
+    8.8,
+    7.6,
+    8.5,
+    7.2,
+    7.6,
+    7.5,
+    6.6,
+    8.6,
+    7.4,
+    8.0,
+    8.6,
+    8.5,
+    8.8,
+    7.9,
+    7.5,
+    7.9,
+    6.0,
+    6.3,
+    6.4,
+    6.8,
+    8.5,
+    6.9,
+    7.5,
+    9.6
+   ],
+   "kit_lead_weeks": [
+    34.1,
+    35.7,
+    33.2,
+    34.3,
+    33.2,
+    34.1,
+    53.2,
+    49.4,
+    52.6,
+    52.3,
+    51.1,
+    49.8,
+    52.1,
+    51.2,
+    52.3,
+    52.0,
+    54.4,
+    51.6,
+    50.4,
+    52.2,
+    52.3,
+    54.0,
+    53.2,
+    52.5,
+    54.2,
+    50.2,
+    51.0,
+    50.6,
+    51.4,
+    49.9,
+    52.9,
+    51.6,
+    49.8,
+    50.4,
+    52.4,
+    53.2,
+    55.0,
+    56.3,
+    52.6,
+    50.5,
+    48.8,
+    52.4,
+    50.7,
+    51.3,
+    51.0,
+    51.7,
+    53.6,
+    52.2
+   ],
+   "note": "合成データ。工場・サプライヤーの週次の回答値。混雑は見積もりと枠回答に先に出るという仮定（出典なし）"
+  },
+  "meta": {
+   "synthetic": true,
+   "truth_world": "crunch",
+   "scenario": 0,
+   "seed": 42,
+   "executed_plan": "base",
+   "note": "合成データ。正解の世界は検証用にここだけに書き、追跡には使わない。"
+  }
+ },
+ "timeline": [
+  {
+   "k": 1,
+   "as_of": "2026-10",
+   "posterior": {
+    "base": 0.11855996091950537,
+    "backlog": 0.05927998045975268,
+    "crunch": 0.5118915029393316,
+    "stress": 0.3102685556814104
+   },
+   "observed": {
+    "tat_excess": null,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 11.5,
+    "_kit_n": 2
+   },
+   "expected": {
+    "base": {
+     "forced": 0.0075,
+     "unsched": 0.2325,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "forced": 0.0075,
+     "unsched": 0.2325,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "forced": 0.0075,
+     "unsched": 0.2325,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "forced": 0.0175,
+     "unsched": 0.3475,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 158137.93630939984,
+    "aog_prob": 0.05223824393393751
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.8,
+    "crunch": 1.0,
+    "stress": 1.0
+   },
+   "executed": "base",
+   "exceptions": [],
+   "switch": {
+    "backlog": {
+     "late_kits": 1,
+     "saving": -837.2492507440072,
+     "aog_delta": -0.04231360445301901,
+     "by_world": {
+      "base": {
+       "saving": -841.378360264207,
+       "aog_delta": -0.023,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -813.3683602641977,
+       "aog_delta": -0.04,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": -841.378360264207,
+       "aog_delta": -0.023,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": -833.4217780636682,
+       "aog_delta": -0.082,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-135",
+       "from": {
+        "month": "2027-01",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": 3,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-130",
+       "from": {
+        "month": "2027-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 1,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2026-11"
+       },
+       "decide_t": -11,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      }
+     ],
+     "first_change": "2027-01",
+     "decide_by": "2027-01",
+     "overdue": 1
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 408.1853657644712,
+     "aog_delta": 0.01221729121684698,
+     "by_world": {
+      "base": {
+       "saving": -2459.6805496833986,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2466.6105496833916,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1140.3194503166014,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 845.4152982626983,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 3,
+     "saving": -1288.2244950115978,
+     "aog_delta": -0.03551543353479327,
+     "by_world": {
+      "base": {
+       "saving": -3546.911580729211,
+       "aog_delta": -0.023,
+       "late_kits": 2
+      },
+      "backlog": {
+       "saving": -3533.701580729219,
+       "aog_delta": -0.03,
+       "late_kits": 2
+      },
+      "crunch": {
+       "saving": -846.911580729211,
+       "aog_delta": -0.023,
+       "late_kits": 3
+      },
+      "stress": {
+       "saving": -724.2054985220602,
+       "aog_delta": -0.062,
+       "late_kits": 3
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-135",
+       "from": {
+        "month": "2027-01",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": 3,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-01",
+     "decide_by": "2026-10",
+     "overdue": 3
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 0.0,
+     "committed": 44878.599458508346,
+     "to_come": 60660.7590606195,
+     "budget": 47000.0,
+     "total": 105539.35851912785,
+     "p10": 90819.29293767383,
+     "p50": 105475.97936838659,
+     "p90": 120611.8781529631,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 105478.3640072044,
+      "backlog": 105478.3640072044,
+      "crunch": 105478.3640072044,
+      "stress": 105674.95019296688
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122432.22617094102,
+     "budget": 95500.0,
+     "total": 122432.22617094102,
+     "p10": 105236.84302358089,
+     "p50": 122117.34701783428,
+     "p90": 139252.70692897504,
+     "p_over": 0.988,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61223.0873310302,
+     "budget": 48500.0,
+     "total": 61223.0873310302,
+     "p10": 51768.54459727059,
+     "p50": 60691.73960481573,
+     "p90": 70604.04597120426,
+     "p_over": 0.9705,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 4,
+   "returned": 0,
+   "planned_by_now": 4
+  },
+  {
+   "k": 2,
+   "as_of": "2026-11",
+   "posterior": {
+    "base": 0.010147095251426224,
+    "backlog": 0.005073547625713112,
+    "crunch": 0.6305219770953052,
+    "stress": 0.3542573800275555
+   },
+   "observed": {
+    "tat_excess": null,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 12.0,
+    "_kit_n": 3
+   },
+   "expected": {
+    "base": {
+     "forced": 0.0225,
+     "unsched": 0.32625,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "forced": 0.0225,
+     "unsched": 0.32625,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "forced": 0.0225,
+     "unsched": 0.32625,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "forced": 0.0325,
+     "unsched": 0.575,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159360.28272699192,
+    "aog_prob": 0.05492693656253731
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.8571428571428571,
+    "crunch": 1.0,
+    "stress": 1.0
+   },
+   "executed": "base",
+   "exceptions": [],
+   "switch": {
+    "backlog": {
+     "late_kits": 1,
+     "saving": -850.6062858444511,
+     "aog_delta": -0.04291451649592881,
+     "by_world": {
+      "base": {
+       "saving": -850.9981008419127,
+       "aog_delta": -0.023,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -825.7681008419022,
+       "aog_delta": -0.038,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": -850.9981008419127,
+       "aog_delta": -0.023,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": -850.2534180046932,
+       "aog_delta": -0.079,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-135",
+       "from": {
+        "month": "2027-01",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": 3,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-130",
+       "from": {
+        "month": "2027-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 2,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2026-12"
+       },
+       "decide_t": -10,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      }
+     ],
+     "first_change": "2027-01",
+     "decide_by": "2027-01",
+     "overdue": 1
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 981.0180040079902,
+     "aog_delta": 0.012155985565919614,
+     "by_world": {
+      "base": {
+       "saving": -2459.6805496833986,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2466.6105496833916,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1140.3194503166014,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 845.4152982626983,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 4,
+     "saving": -1744.4707597372005,
+     "aog_delta": -0.03685155265445466,
+     "by_world": {
+      "base": {
+       "saving": -4446.911580729211,
+       "aog_delta": -0.023,
+       "late_kits": 3
+      },
+      "backlog": {
+       "saving": -4433.701580729219,
+       "aog_delta": -0.03,
+       "late_kits": 3
+      },
+      "crunch": {
+       "saving": -1746.911580729211,
+       "aog_delta": -0.023,
+       "late_kits": 4
+      },
+      "stress": {
+       "saving": -1624.2054985220602,
+       "aog_delta": -0.062,
+       "late_kits": 4
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-135",
+       "from": {
+        "month": "2027-01",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": 3,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-01",
+     "decide_by": "2026-11",
+     "overdue": 4
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 0.0,
+     "committed": 69066.2422976355,
+     "to_come": 36481.763816686725,
+     "budget": 47000.0,
+     "total": 105548.00611432223,
+     "p10": 91228.91701233105,
+     "p50": 105696.30887259528,
+     "p90": 120843.92163003472,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 105478.3640072044,
+      "backlog": 105478.3640072044,
+      "crunch": 105478.3640072044,
+      "stress": 105674.95019296688
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122462.35604765586,
+     "budget": 95500.0,
+     "total": 122462.35604765586,
+     "p10": 105530.44571555684,
+     "p50": 122142.71600078387,
+     "p90": 139086.28230523795,
+     "p_over": 0.992,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61230.952149322584,
+     "budget": 48500.0,
+     "total": 61230.952149322584,
+     "p10": 52574.96834410679,
+     "p50": 61122.55094217554,
+     "p90": 71105.50195351127,
+     "p_over": 0.973,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 6,
+   "returned": 0,
+   "planned_by_now": 6
+  },
+  {
+   "k": 3,
+   "as_of": "2026-12",
+   "posterior": {
+    "base": 0.0018006351841866144,
+    "backlog": 0.0009003175920933072,
+    "crunch": 0.6620080986969874,
+    "stress": 0.33529094852673264
+   },
+   "observed": {
+    "tat_excess": null,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 12.0,
+    "_kit_n": 5
+   },
+   "expected": {
+    "base": {
+     "forced": 0.0325,
+     "unsched": 0.415,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "forced": 0.0325,
+     "unsched": 0.415,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "forced": 0.0325,
+     "unsched": 0.415,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "forced": 0.0925,
+     "unsched": 0.7566666666666666,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159427.19031781206,
+    "aog_prob": 0.0531892191912597
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.8571428571428571,
+    "crunch": 1.0,
+    "stress": 1.0
+   },
+   "executed": "base",
+   "exceptions": [],
+   "switch": {
+    "backlog": {
+     "late_kits": 1,
+     "saving": -837.6824911489572,
+     "aog_delta": -0.04011334313874477,
+     "by_world": {
+      "base": {
+       "saving": -830.7713385162351,
+       "aog_delta": -0.023,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -805.41133851622,
+       "aog_delta": -0.038,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": -830.7713385162351,
+       "aog_delta": -0.023,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": -851.4518391898309,
+       "aog_delta": -0.07400000000000001,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-135",
+       "from": {
+        "month": "2027-01",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": 3,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-130",
+       "from": {
+        "month": "2027-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 3,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-01"
+       },
+       "decide_t": -9,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      }
+     ],
+     "first_change": "2027-01",
+     "decide_by": "2027-01",
+     "overdue": 1
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 1031.7110882544555,
+     "aog_delta": 0.012017147596712956,
+     "by_world": {
+      "base": {
+       "saving": -2459.6805496833986,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2466.6105496833916,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1140.3194503166014,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 845.4152982626983,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 5,
+     "saving": -2610.619163837888,
+     "aog_delta": -0.036082649215687226,
+     "by_world": {
+      "base": {
+       "saving": -4446.911580729211,
+       "aog_delta": -0.023,
+       "late_kits": 3
+      },
+      "backlog": {
+       "saving": -4433.701580729219,
+       "aog_delta": -0.03,
+       "late_kits": 3
+      },
+      "crunch": {
+       "saving": -2646.911580729211,
+       "aog_delta": -0.023,
+       "late_kits": 5
+      },
+      "stress": {
+       "saving": -2524.20549852206,
+       "aog_delta": -0.062,
+       "late_kits": 5
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-135",
+       "from": {
+        "month": "2027-01",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": 3,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-01",
+     "decide_by": "2027-01",
+     "overdue": 5
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 0.0,
+     "committed": 69066.2422976355,
+     "to_come": 36478.03527826045,
+     "budget": 47000.0,
+     "total": 105544.27757589595,
+     "p10": 91610.13190726077,
+     "p50": 105673.48375025575,
+     "p90": 120730.82942180973,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 105478.3640072044,
+      "backlog": 105478.3640072044,
+      "crunch": 105478.3640072044,
+      "stress": 105674.95019296688
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122449.36510617618,
+     "budget": 95500.0,
+     "total": 122449.36510617618,
+     "p10": 105789.93997448178,
+     "p50": 122005.27963394963,
+     "p90": 139667.3082986888,
+     "p_over": 0.989,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61227.56111672223,
+     "budget": 48500.0,
+     "total": 61227.56111672223,
+     "p10": 52768.70141770745,
+     "p50": 60908.085197969354,
+     "p90": 70598.46809274584,
+     "p_over": 0.973,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 6,
+   "returned": 0,
+   "planned_by_now": 6
+  },
+  {
+   "k": 4,
+   "as_of": "2027-01",
+   "posterior": {
+    "base": 0.0005586924157332966,
+    "backlog": 0.0002793462078666483,
+    "crunch": 0.6719388198675034,
+    "stress": 0.3272231415088968
+   },
+   "observed": {
+    "tat_excess": null,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 12.333333333333334,
+    "_kit_n": 6
+   },
+   "expected": {
+    "base": {
+     "forced": 0.05,
+     "unsched": 0.478125,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "forced": 0.05,
+     "unsched": 0.478125,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "forced": 0.05,
+     "unsched": 0.478125,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "forced": 0.125,
+     "unsched": 0.846875,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159430.76346083824,
+    "aog_prob": 0.05247427958163922
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.75,
+    "crunch": 1.0,
+    "stress": 0.8571428571428571
+   },
+   "executed": "base",
+   "exceptions": [],
+   "switch": {
+    "backlog": {
+     "late_kits": 1,
+     "saving": -843.9485108711593,
+     "aog_delta": -0.03143783153183248,
+     "by_world": {
+      "base": {
+       "saving": -847.1700539167214,
+       "aog_delta": -0.019,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -825.8800539167132,
+       "aog_delta": -0.031,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": -847.1700539167214,
+       "aog_delta": -0.019,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": -837.3431335162604,
+       "aog_delta": -0.057,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-130",
+       "from": {
+        "month": "2027-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 4,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-02"
+       },
+       "decide_t": -8,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      }
+     ],
+     "first_change": "2027-02",
+     "decide_by": "2027-02",
+     "overdue": 1
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 1040.8011123233257,
+     "aog_delta": 0.011965014926300584,
+     "by_world": {
+      "base": {
+       "saving": -2459.6805496833986,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2466.6105496833916,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1140.3194503166014,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 845.4152982626983,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 5,
+     "saving": -2612.1918100951198,
+     "aog_delta": -0.031109491005492117,
+     "by_world": {
+      "base": {
+       "saving": -4479.979176752298,
+       "aog_delta": -0.019,
+       "late_kits": 3
+      },
+      "backlog": {
+       "saving": -4461.249176752288,
+       "aog_delta": -0.027,
+       "late_kits": 3
+      },
+      "crunch": {
+       "saving": -2679.9791767522984,
+       "aog_delta": -0.019,
+       "late_kits": 5
+      },
+      "stress": {
+       "saving": -2468.2258034863626,
+       "aog_delta": -0.056,
+       "late_kits": 5
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-153",
+       "from": {
+        "month": "2027-02",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": 4,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-02"
+      },
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-02",
+     "decide_by": "2027-01",
+     "overdue": 5
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 0.0,
+     "committed": 81229.2314638161,
+     "to_come": 24313.46009267076,
+     "budget": 47000.0,
+     "total": 105542.69155648687,
+     "p10": 91213.95812181523,
+     "p50": 105126.33411038651,
+     "p90": 120553.36469354286,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 105478.3640072044,
+      "backlog": 105478.3640072044,
+      "crunch": 105478.3640072044,
+      "stress": 105674.95019296688
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122443.83911100766,
+     "budget": 95500.0,
+     "total": 122443.83911100766,
+     "p10": 105770.07030037601,
+     "p50": 121950.5586600767,
+     "p90": 139018.31454733916,
+     "p_over": 0.9905,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61226.11866316371,
+     "budget": 48500.0,
+     "total": 61226.11866316371,
+     "p10": 52456.64153009115,
+     "p50": 60780.292959503335,
+     "p90": 70708.1728002179,
+     "p_over": 0.9675,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 7,
+   "returned": 0,
+   "planned_by_now": 7
+  },
+  {
+   "k": 5,
+   "as_of": "2027-02",
+   "posterior": {
+    "base": 0.0018405928694617264,
+    "backlog": 0.0009202964347308632,
+    "crunch": 0.6766986431724136,
+    "stress": 0.3205404675233939
+   },
+   "observed": {
+    "tat_excess": null,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 12.0,
+    "_kit_n": 7
+   },
+   "expected": {
+    "base": {
+     "forced": 0.0675,
+     "unsched": 0.5195000000000001,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "forced": 0.0675,
+     "unsched": 0.5195000000000001,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "forced": 0.0675,
+     "unsched": 0.5195000000000001,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "forced": 0.15,
+     "unsched": 0.8965000000000001,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159408.81185734598,
+    "aog_prob": 0.05190634689966463
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.6666666666666666,
+    "crunch": 1.0,
+    "stress": 0.75
+   },
+   "executed": "base",
+   "exceptions": [],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 1035.8451563932672,
+     "aog_delta": 0.01192876458374875,
+     "by_world": {
+      "base": {
+       "saving": -2459.6805496833986,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2466.6105496833916,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1140.3194503166014,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 845.4152982626983,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 6,
+     "saving": -3584.040645255044,
+     "aog_delta": 9.202964347308641e-07,
+     "by_world": {
+      "base": {
+       "saving": -4554.662417331128,
+       "aog_delta": 0.0,
+       "late_kits": 3
+      },
+      "backlog": {
+       "saving": -4553.762417331134,
+       "aog_delta": 0.0010000000000000009,
+       "late_kits": 3
+      },
+      "crunch": {
+       "saving": -3654.6624173311284,
+       "aog_delta": 0.0,
+       "late_kits": 6
+      },
+      "stress": {
+       "saving": -3426.592168516974,
+       "aog_delta": 0.0,
+       "late_kits": 6
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-04",
+     "overdue": 6
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 0.0,
+     "committed": 93290.0228435681,
+     "to_come": 12251.354991529242,
+     "budget": 47000.0,
+     "total": 105541.37783509734,
+     "p10": 90564.27477166211,
+     "p50": 104902.91982981055,
+     "p90": 120443.33599309977,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 105478.3640072044,
+      "backlog": 105478.3640072044,
+      "crunch": 105478.3640072044,
+      "stress": 105674.95019296688
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122439.26185425432,
+     "budget": 95500.0,
+     "total": 122439.26185425432,
+     "p10": 104596.48125689432,
+     "p50": 121149.75150023801,
+     "p90": 138837.65030027487,
+     "p_over": 0.99,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61224.92385931559,
+     "budget": 48500.0,
+     "total": 61224.92385931559,
+     "p10": 52158.20052004288,
+     "p50": 60579.34618754199,
+     "p90": 70457.25099301059,
+     "p_over": 0.9735,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 8,
+   "returned": 0,
+   "planned_by_now": 8
+  },
+  {
+   "k": 6,
+   "as_of": "2027-03",
+   "posterior": {
+    "base": 0.0022043475830956557,
+    "backlog": 0.0005510868957739145,
+    "crunch": 0.8104339874996118,
+    "stress": 0.1868105780215185
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 12.0,
+    "_kit_n": 7
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 0.0,
+     "forced": 0.09,
+     "unsched": 0.5416666666666665,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "forced": 0.09,
+     "unsched": 0.5416666666666665,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 0.0,
+     "forced": 0.09,
+     "unsched": 0.5416666666666665,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "forced": 0.1675,
+     "unsched": 0.9304166666666667,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159246.1212392098,
+    "aog_prob": 0.04026409311268336
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.6,
+    "crunch": 1.0,
+    "stress": 0.7777777777777778
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 1075.3048520543477,
+     "aog_delta": 0.011124169989503755,
+     "by_world": {
+      "base": {
+       "saving": -2459.6805496833986,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2466.6105496833916,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1140.3194503166014,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 845.4152982626983,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 6,
+     "saving": -3617.0157684044034,
+     "aog_delta": 5.51086895773915e-07,
+     "by_world": {
+      "base": {
+       "saving": -5454.662417331128,
+       "aog_delta": 0.0,
+       "late_kits": 4
+      },
+      "backlog": {
+       "saving": -5453.762417331134,
+       "aog_delta": 0.0010000000000000009,
+       "late_kits": 4
+      },
+      "crunch": {
+       "saving": -3654.6624173311284,
+       "aog_delta": 0.0,
+       "late_kits": 6
+      },
+      "stress": {
+       "saving": -3426.592168516974,
+       "aog_delta": 0.0,
+       "late_kits": 6
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 6,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-04"
+       },
+       "decide_t": -6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-04",
+     "overdue": 6
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 45145.0,
+     "committed": 60636.48892768939,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 105781.48892768938,
+     "p10": 97823.94014759408,
+     "p50": 105877.0726904342,
+     "p90": 115401.05600132102,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 105744.76454869607,
+      "backlog": 105744.76454869607,
+      "crunch": 105744.76454869607,
+      "stress": 105941.35073445854
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122347.66438276759,
+     "budget": 95500.0,
+     "total": 122347.66438276759,
+     "p10": 106125.57497671267,
+     "p50": 122075.88713124138,
+     "p90": 139005.39861710093,
+     "p_over": 0.9945,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61201.01412094849,
+     "budget": 48500.0,
+     "total": 61201.01412094849,
+     "p10": 52874.06590684687,
+     "p50": 61207.258239209084,
+     "p90": 70711.93244269592,
+     "p_over": 0.983,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 9,
+   "returned": 4,
+   "planned_by_now": 9
+  },
+  {
+   "k": 7,
+   "as_of": "2027-04",
+   "posterior": {
+    "base": 0.0017168445369012601,
+    "backlog": 2.7524323761165554e-05,
+    "crunch": 0.984437867723464,
+    "stress": 0.01381776341587353
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.0,
+    "kit_lead": 12.125,
+    "_kit_n": 8
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 0.46042424242424246,
+     "forced": 0.105,
+     "unsched": 0.5635714285714285,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "tat_excess": 1.0,
+     "forced": 0.105,
+     "unsched": 0.5635714285714285,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 0.46042424242424246,
+     "forced": 0.105,
+     "unsched": 0.5635714285714285,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "tat_excess": 1.0,
+     "forced": 0.21,
+     "unsched": 0.9653571428571428,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159042.8920036345,
+    "aog_prob": 0.02520272342797998
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.5454545454545454,
+    "crunch": 0.9,
+    "stress": 0.6363636363636364
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 1134.259034711888,
+     "aog_delta": 0.01012452501668543,
+     "by_world": {
+      "base": {
+       "saving": -2455.374339290429,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -2462.4343392904266,
+       "aog_delta": 0.016,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1144.625660709571,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 848.8684057490609,
+       "aog_delta": 0.019000000000000003,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 6,
+     "saving": -3634.497088453627,
+     "aog_delta": 4.1508338895142956e-05,
+     "by_world": {
+      "base": {
+       "saving": -6332.604670298228,
+       "aog_delta": 0.0,
+       "late_kits": 5
+      },
+      "backlog": {
+       "saving": -6332.55467029821,
+       "aog_delta": 0.0020000000000000018,
+       "late_kits": 5
+      },
+      "crunch": {
+       "saving": -3632.6046702982276,
+       "aog_delta": 0.0,
+       "late_kits": 6
+      },
+      "stress": {
+       "saving": -3428.7094155179802,
+       "aog_delta": 0.0030000000000000027,
+       "late_kits": 6
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 7,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-05"
+       },
+       "decide_t": -5,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-04",
+     "overdue": 6
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 66127.0,
+     "committed": 36414.8380909746,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 102541.8380909746,
+     "p10": 97296.03741984512,
+     "p50": 102161.0668487145,
+     "p90": 108225.69191213974,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 102539.1217095689,
+      "backlog": 102539.1217095689,
+      "crunch": 102539.1217095689,
+      "stress": 102735.70789533138
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122229.17401040383,
+     "budget": 95500.0,
+     "total": 122229.17401040383,
+     "p10": 105970.0953445768,
+     "p50": 121999.49391615175,
+     "p90": 139829.28308818076,
+     "p_over": 0.995,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61170.084513872505,
+     "budget": 48500.0,
+     "total": 61170.084513872505,
+     "p10": 52456.64153009115,
+     "p50": 60732.807315218495,
+     "p90": 70916.50640552443,
+     "p_over": 0.976,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 9,
+   "returned": 6,
+   "planned_by_now": 9
+  },
+  {
+   "k": 8,
+   "as_of": "2027-05",
+   "posterior": {
+    "base": 0.001596107948022628,
+    "backlog": 0.00017127392860548992,
+    "crunch": 0.9152075631983894,
+    "stress": 0.08302505492498258
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.125,
+    "kit_lead": 12.125,
+    "_kit_n": 8
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 0.8694666134610269,
+     "forced": 0.195,
+     "unsched": 0.585,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "tat_excess": 1.4604242424242424,
+     "forced": 0.195,
+     "unsched": 0.585,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 0.8694666134610269,
+     "forced": 0.195,
+     "unsched": 0.585,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "tat_excess": 1.4613766233766232,
+     "forced": 0.3575,
+     "unsched": 0.9896875,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159126.93977545024,
+    "aog_prob": 0.0312267765309742
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.5,
+    "crunch": 0.9,
+    "stress": 0.5384615384615384
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 1,
+     "saving": 1123.7974135674642,
+     "aog_delta": 0.011163549686449998,
+     "by_world": {
+      "base": {
+       "saving": -1541.1804198630562,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "backlog": {
+       "saving": -1550.6304198630387,
+       "aog_delta": 0.017,
+       "late_kits": 1
+      },
+      "crunch": {
+       "saving": 1158.8195801369438,
+       "aog_delta": 0.010000000000000002,
+       "late_kits": 1
+      },
+      "stress": {
+       "saving": 794.4883913013618,
+       "aog_delta": 0.024000000000000007,
+       "late_kits": 1
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-118",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-07",
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 6,
+     "saving": -3841.60018064602,
+     "aog_delta": 0.001498321603478501,
+     "by_world": {
+      "base": {
+       "saving": -3845.7759491174656,
+       "aog_delta": 0.0010000000000000009,
+       "late_kits": 4
+      },
+      "backlog": {
+       "saving": -3846.355949117482,
+       "aog_delta": 0.0020000000000000018,
+       "late_kits": 4
+      },
+      "crunch": {
+       "saving": -3845.7759491174656,
+       "aog_delta": 0.0010000000000000009,
+       "late_kits": 6
+      },
+      "stress": {
+       "saving": -3795.4794715770695,
+       "aog_delta": 0.006999999999999992,
+       "late_kits": 6
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-178",
+       "from": {
+        "month": "2027-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-108",
+       "from": {
+        "month": "2027-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 8,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-06"
+       },
+       "decide_t": -4,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": false,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-06",
+     "decide_by": "2027-05",
+     "overdue": 6
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 66127.0,
+     "committed": 36428.44328843933,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 102555.44328843933,
+     "p10": 97227.90795741224,
+     "p50": 102214.53880296576,
+     "p90": 108386.01967885645,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 102539.1217095689,
+      "backlog": 102539.1217095689,
+      "crunch": 102539.1217095689,
+      "stress": 102735.70789533138
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 122276.5771222608,
+     "budget": 95500.0,
+     "total": 122276.5771222608,
+     "p10": 105253.62057816001,
+     "p50": 121797.8270243213,
+     "p90": 138823.4944162954,
+     "p_over": 0.992,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61182.45817423552,
+     "budget": 48500.0,
+     "total": 61182.45817423552,
+     "p10": 52737.50993469732,
+     "p50": 61064.61248264991,
+     "p90": 70937.01328464999,
+     "p_over": 0.9795,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 9,
+   "returned": 6,
+   "planned_by_now": 9
+  },
+  {
+   "k": 9,
+   "as_of": "2027-06",
+   "posterior": {
+    "base": 0.002335987751685593,
+    "backlog": 0.00044369535092129113,
+    "crunch": 0.8588318298197603,
+    "stress": 0.13838848707763296
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.2222222222222222,
+    "kit_lead": 12.0,
+    "_kit_n": 9
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 1.1148839285714285,
+     "forced": 0.2375,
+     "unsched": 0.5991666666666667,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "tat_excess": 1.869466613461027,
+     "forced": 0.2375,
+     "unsched": 0.5991666666666667,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 1.1148839285714285,
+     "forced": 0.2375,
+     "unsched": 0.5991666666666667,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "tat_excess": 1.869905559989359,
+     "forced": 0.41,
+     "unsched": 1.0075,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159187.02497032165,
+    "aog_prob": 0.03604911597812342
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.5714285714285714,
+    "crunch": 0.75,
+    "stress": 0.4375
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 0,
+     "saving": 712.1412978275755,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": -176.95288703669212,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": -176.95288703669212,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 723.0471129633079,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 662.3187928489933,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-09",
+     "decide_by": "2027-07",
+     "overdue": 0
+    },
+    "stress": {
+     "late_kits": 6,
+     "saving": -4754.268447748552,
+     "aog_delta": 0.0033878781289346195,
+     "by_world": {
+      "base": {
+       "saving": -3861.2425227491767,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 4
+      },
+      "backlog": {
+       "saving": -3873.8025227491744,
+       "aog_delta": 0.011000000000000003,
+       "late_kits": 4
+      },
+      "crunch": {
+       "saving": -4761.242522749177,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 6
+      },
+      "stress": {
+       "saving": -4728.884823662724,
+       "aog_delta": 0.011999999999999997,
+       "late_kits": 6
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-121",
+       "from": {
+        "month": "2027-08",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 9,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-07"
+       },
+       "decide_t": -3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-08",
+     "decide_by": "2027-07",
+     "overdue": 6
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 76618.0,
+     "committed": 24284.601565870496,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 100902.6015658705,
+     "p10": 97046.1051040064,
+     "p50": 100667.54477179298,
+     "p90": 105311.75914585657,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 100881.45244006408,
+      "backlog": 100881.45244006408,
+      "crunch": 100881.45244006408,
+      "stress": 101034.27675553298
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 24417.669387255075,
+     "to_come": 97896.8285799036,
+     "budget": 95500.0,
+     "total": 122314.49796715868,
+     "p10": 105252.08421223328,
+     "p50": 121914.60040839006,
+     "p90": 139234.27380363762,
+     "p_over": 0.9885,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61192.356673238275,
+     "budget": 48500.0,
+     "total": 61192.356673238275,
+     "p10": 52666.205936699764,
+     "p50": 60805.49988922486,
+     "p90": 71185.71971091437,
+     "p_over": 0.9755,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 11,
+   "returned": 7,
+   "planned_by_now": 11
+  },
+  {
+   "k": 10,
+   "as_of": "2027-07",
+   "posterior": {
+    "base": 0.004613268364212474,
+    "backlog": 0.0010731828949284527,
+    "crunch": 0.8329418020120606,
+    "stress": 0.1613717467287985
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.3,
+    "kit_lead": 11.8,
+    "_kit_n": 10
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 1.1345575396825396,
+     "forced": 0.2775,
+     "unsched": 0.61275,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "tat_excess": 2.1148839285714285,
+     "forced": 0.2775,
+     "unsched": 0.61275,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 1.1345575396825396,
+     "forced": 0.2775,
+     "unsched": 0.61275,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "tat_excess": 2.1191904761904765,
+     "forced": 0.49,
+     "unsched": 1.014,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159194.0847956609,
+    "aog_prob": 0.03806187880619897
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.6,
+    "crunch": 0.6923076923076923,
+    "stress": 0.4117647058823529
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 0,
+     "saving": 708.1294717373286,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": -176.95288703669212,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": -176.95288703669212,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 723.0471129633079,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 662.3187928489933,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-09",
+     "decide_by": "2027-07",
+     "overdue": 0
+    },
+    "stress": {
+     "late_kits": 5,
+     "saving": -3849.97527300453,
+     "aog_delta": 0.004108564536423664,
+     "by_world": {
+      "base": {
+       "saving": -2958.793367096863,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 3
+      },
+      "backlog": {
+       "saving": -2971.8033670968725,
+       "aog_delta": 0.012000000000000004,
+       "late_kits": 3
+      },
+      "crunch": {
+       "saving": -3858.7933670968923,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 5
+      },
+      "stress": {
+       "saving": -3835.7766362013645,
+       "aog_delta": 0.015,
+       "late_kits": 5
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-09",
+     "decide_by": "2027-07",
+     "overdue": 5
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 88824.0,
+     "committed": 12231.31593706721,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 101055.31593706721,
+     "p10": 99006.9119365057,
+     "p50": 100770.72888963841,
+     "p90": 103920.53640327307,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 101034.9995256191,
+      "backlog": 101034.9995256191,
+      "crunch": 101034.9995256191,
+      "stress": 101160.89771944762
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 36802.880657512826,
+     "to_come": 85527.35955304715,
+     "budget": 95500.0,
+     "total": 122330.24021055998,
+     "p10": 105968.13042202783,
+     "p50": 121850.42611421325,
+     "p90": 140105.6869818941,
+     "p_over": 0.991,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61196.465879692645,
+     "budget": 48500.0,
+     "total": 61196.465879692645,
+     "p10": 52655.163065963374,
+     "p50": 61061.81021151547,
+     "p90": 70937.01328464999,
+     "p_over": 0.9775,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 12,
+   "returned": 8,
+   "planned_by_now": 12
+  },
+  {
+   "k": 11,
+   "as_of": "2027-08",
+   "posterior": {
+    "base": 0.004595194980581868,
+    "backlog": 0.0010981517443168346,
+    "crunch": 0.8296785891353697,
+    "stress": 0.16462806413973152
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.36363636363636365,
+    "kit_lead": 11.8,
+    "_kit_n": 10
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 1.1391865079365078,
+     "forced": 0.2975,
+     "unsched": 0.6229545454545454,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "tat_excess": 2.13455753968254,
+     "forced": 0.2975,
+     "unsched": 0.6229545454545454,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 1.1391865079365078,
+     "forced": 0.2975,
+     "unsched": 0.6229545454545454,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "tat_excess": 2.1400585317460314,
+     "forced": 0.525,
+     "unsched": 1.0188636363636363,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159197.99821478658,
+    "aog_prob": 0.038345702766787296
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.6470588235294118,
+    "crunch": 0.7333333333333333,
+    "stress": 0.42105263157894735
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 0,
+     "saving": 707.9255151320216,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": -176.95288703669212,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": -176.95288703669212,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 723.0471129633079,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 662.3187928489933,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": true,
+       "decide_by": "2027-07"
+      }
+     ],
+     "first_change": "2027-09",
+     "decide_by": null,
+     "overdue": 1
+    },
+    "stress": {
+     "late_kits": 5,
+     "saving": -3849.8944421485207,
+     "aog_delta": 0.004151146351259676,
+     "by_world": {
+      "base": {
+       "saving": -2958.793367096863,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 3
+      },
+      "backlog": {
+       "saving": -2971.8033670968725,
+       "aog_delta": 0.012000000000000004,
+       "late_kits": 3
+      },
+      "crunch": {
+       "saving": -3858.7933670968923,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 5
+      },
+      "stress": {
+       "saving": -3835.7766362013645,
+       "aog_delta": 0.015,
+       "late_kits": 5
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-105",
+       "from": {
+        "month": "2027-09",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 9,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": true,
+       "decide_by": "2027-07"
+      },
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-09",
+     "decide_by": "2027-09",
+     "overdue": 6
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 101333.0,
+     "committed": 0.0,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 101333.0,
+     "p10": 101333.0,
+     "p50": 101333.0,
+     "p90": 101333.0,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 101333.0,
+      "backlog": 101333.0,
+      "crunch": 101333.0,
+      "stress": 101333.0
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 61435.655883021594,
+     "to_come": 60896.81472227144,
+     "budget": 95500.0,
+     "total": 122332.47060529303,
+     "p10": 105970.0953445768,
+     "p50": 121797.8270243213,
+     "p90": 138323.04654069265,
+     "p_over": 0.9925,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61197.04808085668,
+     "budget": 48500.0,
+     "total": 61197.04808085668,
+     "p10": 52768.70141770745,
+     "p50": 60580.635526483806,
+     "p90": 70296.69611965869,
+     "p_over": 0.9735,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 14,
+   "returned": 9,
+   "planned_by_now": 14
+  },
+  {
+   "k": 12,
+   "as_of": "2027-09",
+   "posterior": {
+    "base": 0.002272658612843554,
+    "backlog": 0.0005469434595248433,
+    "crunch": 0.835548711081927,
+    "stress": 0.16163168684570456
+   },
+   "observed": {
+    "tat_excess": 0.0,
+    "forced": 0.0,
+    "unsched": 0.3333333333333333,
+    "kit_lead": 12.0,
+    "_kit_n": 12
+   },
+   "expected": {
+    "base": {
+     "tat_excess": 1.14421626984127,
+     "forced": 0.335,
+     "unsched": 0.629375,
+     "kit_lead": 8.0
+    },
+    "backlog": {
+     "tat_excess": 2.139186507936508,
+     "forced": 0.335,
+     "unsched": 0.629375,
+     "kit_lead": 8.0
+    },
+    "crunch": {
+     "tat_excess": 1.14421626984127,
+     "forced": 0.335,
+     "unsched": 0.629375,
+     "kit_lead": 12.0
+    },
+    "stress": {
+     "tat_excess": 2.1470982142857142,
+     "forced": 0.575,
+     "unsched": 1.0225,
+     "kit_lead": 12.0
+    }
+   },
+   "keep": {
+    "mean": 159215.02262674406,
+    "aog_prob": 0.03807344256822632
+   },
+   "follow": {
+    "base": 1.0,
+    "backlog": 0.6666666666666666,
+    "crunch": 0.6875,
+    "stress": 0.4
+   },
+   "executed": "base",
+   "exceptions": [
+    {
+     "esn": "A-124",
+     "kind": "費用超過",
+     "detail": "請求 13,924 k$ ／ 見込み 12,057 k$（+15%）",
+     "severity": "warn"
+    }
+   ],
+   "switch": {
+    "backlog": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "crunch": {
+     "late_kits": 0,
+     "saving": 0.0,
+     "aog_delta": 0.0,
+     "by_world": {
+      "base": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "backlog": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "crunch": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      },
+      "stress": {
+       "saving": 0.0,
+       "aog_delta": 0.0,
+       "late_kits": 0
+      }
+     },
+     "changes": [],
+     "first_change": null,
+     "decide_by": null,
+     "overdue": 0
+    },
+    "stress": {
+     "late_kits": 5,
+     "saving": -4565.57522199231,
+     "aog_delta": 0.003945049676743702,
+     "by_world": {
+      "base": {
+       "saving": -3681.8404800602,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 4
+      },
+      "backlog": {
+       "saving": -3694.7204800601758,
+       "aog_delta": 0.012000000000000004,
+       "late_kits": 4
+      },
+      "crunch": {
+       "saving": -4581.8404800602,
+       "aog_delta": 0.0019999999999999983,
+       "late_kits": 5
+      },
+      "stress": {
+       "saving": -4496.865429050376,
+       "aog_delta": 0.013999999999999999,
+       "late_kits": 5
+      }
+     },
+     "changes": [
+      {
+       "esn": "A-163",
+       "from": {
+        "month": "2027-10",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 14,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-12"
+       },
+       "decide_t": 11,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2027-09"
+      },
+      {
+       "esn": "A-107",
+       "from": {
+        "month": "2027-12",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 12,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-10"
+       },
+       "decide_t": 0,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-10"
+      },
+      {
+       "esn": "A-134",
+       "from": {
+        "month": "2028-03",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 13,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2027-11"
+       },
+       "decide_t": 1,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2026-11"
+      },
+      {
+       "esn": "A-103",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 20,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-06"
+       },
+       "decide_t": 17,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-03"
+      },
+      {
+       "esn": "A-145",
+       "from": {
+        "month": "2028-05",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 15,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-01"
+       },
+       "decide_t": 3,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-01"
+      },
+      {
+       "esn": "A-133",
+       "from": {
+        "month": "2028-06",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 18,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-04"
+       },
+       "decide_t": 6,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-04"
+      },
+      {
+       "esn": "A-127",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 19,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-05"
+       },
+       "decide_t": 7,
+       "reason": "LLP キット発注 12 か月前",
+       "new_kit": true,
+       "overdue": true,
+       "decide_by": "2027-05"
+      },
+      {
+       "esn": "A-151",
+       "from": {
+        "month": "2028-07",
+        "shop": "MTU-ZH",
+        "workscope": "FULL"
+       },
+       "to": {
+        "t": 22,
+        "shop": "MTU-ZH",
+        "workscope": "FULL",
+        "month": "2028-08"
+       },
+       "decide_t": 19,
+       "reason": "工場の枠予約 3 か月前",
+       "new_kit": false,
+       "overdue": false,
+       "decide_by": "2028-05"
+      }
+     ],
+     "first_change": "2027-10",
+     "decide_by": "2027-09",
+     "overdue": 5
+    }
+   },
+   "forecast": {
+    "FY2026": {
+     "invoiced": 101333.0,
+     "committed": 0.0,
+     "to_come": 0.0,
+     "budget": 47000.0,
+     "total": 101333.0,
+     "p10": 101333.0,
+     "p50": 101333.0,
+     "p90": 101333.0,
+     "p_over": 1.0,
+     "by_world": {
+      "base": 101333.0,
+      "backlog": 101333.0,
+      "crunch": 101333.0,
+      "stress": 101333.0
+     }
+    },
+    "FY2027": {
+     "invoiced": 0.0,
+     "committed": 73428.06558238599,
+     "to_come": 48902.3526725703,
+     "budget": 95500.0,
+     "total": 122330.41825495628,
+     "p10": 105950.44611908714,
+     "p50": 121962.28208386562,
+     "p90": 139259.6374335927,
+     "p_over": 0.993,
+     "by_world": {
+      "base": 122219.7096176999,
+      "backlog": 122219.7096176999,
+      "crunch": 122219.7096176999,
+      "stress": 122904.65351339817
+     }
+    },
+    "FY2028": {
+     "invoiced": 0.0,
+     "committed": 0.0,
+     "to_come": 61196.512354719336,
+     "budget": 48500.0,
+     "total": 61196.512354719336,
+     "p10": 52772.0592675705,
+     "p50": 60944.81337385103,
+     "p90": 71212.99642517621,
+     "p_over": 0.982,
+     "by_world": {
+      "base": 61167.61401823894,
+      "backlog": 61167.61401823894,
+      "crunch": 61167.61401823894,
+      "stress": 61346.40530009936
+     }
+    }
+   },
+   "inducted": 15,
+   "returned": 9,
+   "planned_by_now": 15
+  }
+ ]
+}

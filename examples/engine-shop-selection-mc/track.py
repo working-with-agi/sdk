@@ -41,6 +41,7 @@ from shop_mc import sample
 from shop_mc.model import Plan
 
 import actions
+import cpd
 from baseline import CANDIDATES, DEFAULT_FLEET, DEFAULT_SHOPS
 from decide import CASES, assess
 
@@ -88,11 +89,13 @@ def make_actuals(args) -> int:
         if r["workscope"] in p.llp_workscopes and 0 <= r["deadline_t"] < K and "LLP" in r["deadline_reason"]:
             kits.append({"month": p.month_label(r["deadline_t"]), "t": r["deadline_t"], "esn": r["esn"],
                          "lead_months": int(p.llp_kit_lead_months + rng.integers(-2, 3))})
+    p_base = actions.build(str(args.fleet), str(args.shops), (), "base")
     out = {
         "as_of": p.month_label(K - 1), "months": K,
         "inductions": sorted(ind, key=lambda x: x["t"]), "returns": sorted(ret, key=lambda x: x["t"]),
         "unscheduled_in_shop": [int(round(float(x))) for x in sc.unsched[s, :K]],
         "kit_quotes": sorted(kits, key=lambda x: x["t"]),
+        "streams": cpd.synth_streams(p_base, p, K, rng),
         "meta": {"synthetic": True, "truth_world": args.truth, "scenario": s, "seed": args.seed,
                  "executed_plan": "base",
                  "note": "合成データ。正解の世界は検証用にここだけに書き、追跡には使わない。"},
@@ -202,6 +205,81 @@ def inputs_of(args, b):
         args.fleet = HERE / paths["fleet"] if "fleet" in paths else DEFAULT_FLEET
     if args.shops is None:
         args.shops = HERE / paths["shops"] if "shops" in paths else DEFAULT_SHOPS
+
+
+# ---------------------------------------------------------------- change points
+
+STREAM_WORLD = {"quoted_tat_weeks": "backlog", "slot_lead_weeks": "backlog", "kit_lead_weeks": "crunch"}
+MOVED = 0.5      # a world other than base above this = the Bayes update has moved
+STREAM_WORLD_LABEL = {"backlog": "混雑", "crunch": "逼迫"}
+
+
+def change_points(act, timeline, prior, p0):
+    """CPD on the dense streams against the Bayes world update, month by month."""
+    streams = act.get("streams")
+    if not streams:
+        return None
+    det = cpd.detect_streams(streams)
+    cpd_month = min((d["month"] for d in det.values() if d["month"]), default=None)
+    fired_world = None
+    if cpd_month:
+        fired = [n for n, d in det.items() if d["month"] == cpd_month]
+        fired_world = STREAM_WORLD[max(fired, key=lambda n: abs(det[n]["shift_sigma"] or 0))]
+    bayes_month = None
+    for x in timeline:
+        top = max(x["posterior"], key=x["posterior"].get)
+        if top != "base" and x["posterior"][top] > MOVED:
+            bayes_month = x["k"]; break
+
+    # what earlier detection is worth: the switch to the world's plan, valued at the month
+    # CPD fires against the month the Bayes update moves (deadlines pass in between)
+    def saving_at(k, cand):
+        if k is None or k < 1 or k > len(timeline):
+            return None
+        s = timeline[k - 1]["switch"].get(cand)
+        return None if s is None else s["saving"]
+    value = None
+    if fired_world:
+        v_cpd, v_bayes = saving_at(cpd_month, fired_world), saving_at(bayes_month, fired_world)
+        v_late = saving_at((cpd_month or 0) + 1, fired_world)
+        # worth = what switching at the CPD month gains over switching when Bayes moves
+        # (never switch when it loses: a negative saving counts as 0)
+        pos = lambda v: 0.0 if v is None else max(0.0, v)  # noqa: E731
+        value = {"candidate": fired_world, "at_cpd": v_cpd, "at_bayes": v_bayes, "one_month_late": v_late,
+                 "months_earlier": None if cpd_month is None else (len(timeline) + 1 if bayes_month is None else bayes_month) - cpd_month,
+                 "bayes_never_moved": bayes_month is None,
+                 "worth": pos(v_cpd) - pos(v_bayes),
+                 "first_profitable_month": next((x["k"] for x in timeline if (x["switch"].get(fired_world) or {}).get("saving", 0) > 0), None)}
+
+    # agreement, month by month: CPD fired by k? Bayes moved by k?
+    agree = []
+    for x in timeline:
+        k = x["k"]
+        c = bool(cpd_month and k >= cpd_month)
+        top = max(x["posterior"], key=x["posterior"].get)
+        moved = top != "base" and x["posterior"][top] > MOVED
+        shift = max(abs(x["posterior"][w] - prior[w]) for w in x["posterior"])
+        bmv = bool(moved or shift > 0.25)
+        state = ("both" if c and bmv else "cpd_only" if c else "bayes_only" if bmv else "none")
+        agree.append({"k": k, "as_of": x["as_of"], "cpd": c, "bayes": bmv, "state": state})
+    last = agree[-1]["state"] if agree else "none"
+    verdict = {
+        "both": "変化点と前提の更新が一致している",
+        "cpd_only": "変化点は出たが、4 つの前提のどれにも確率が寄らない：前提（世界）の追加を検討",
+        "bayes_only": "前提の確率が動いたが、先行指標に変化点がない：尤度が強すぎる（TEMPER を見直す）",
+        "none": "変化点なし・前提の確率も動かず：平常",
+    }[last]
+
+    # unscheduled removals: CUSUM against the 3-month MA + 3 sigma alert, +20 % persistent shift
+    lam0 = float(np.mean(act["unscheduled_in_shop"][: act["months"]])) or 0.5
+    arl = cpd.uer_arl(max(0.5, lam0), 0.2, runs=300)
+    return {"streams": {n: {"label": cpd.STREAMS[n][0], "what": cpd.STREAMS[n][1], "world": STREAM_WORLD[n], **d} for n, d in det.items()},
+            "series": {n: streams[n] for n in cpd.STREAMS}, "weeks_per_month": streams["weeks_per_month"],
+            "change_week_truth": streams.get("change_week"),
+            "cpd_month": cpd_month, "cpd_as_of": None if cpd_month is None else p0.month_label(cpd_month - 1),
+            "bayes_month": bayes_month, "bayes_as_of": None if bayes_month is None else p0.month_label(bayes_month - 1),
+            "fired_world": fired_world, "value": value, "agreement": agree, "state": last, "verdict": verdict,
+            "uer_arl": arl, "note": "合成データ。先行指標の週次系列は仮定（出典なし）"}
 
 
 def status(args) -> int:
@@ -347,7 +425,8 @@ def status(args) -> int:
                 by_fy.setdefault(r["fy"], np.zeros(draws))[idx_draw] += eval_sc[w].cost[sidx, i]
         for fy, row in fc.items():
             tot = row["invoiced"] + by_fy.get(fy, np.zeros(draws))
-            row["p10"], row["p50"], row["p90"] = (float(np.percentile(tot, q)) for q in (10, 50, 90))
+            row["p10"], row["p50"], row["p80"], row["p90"] = (float(np.percentile(tot, q)) for q in (10, 50, 80, 90))
+            row["contingency_p80"] = max(0.0, row["p80"] - row["budget"]) if row["budget"] else 0.0  # reserve for an 80 % landing
             row["p_over"] = float((tot > row["budget"]).mean()) if row["budget"] else 0.0
             row["by_world"] = {w: row["invoiced"] + sum(float(exp_cost[w][ev_idx[w][key(r["esn"], r["shop"], r["workscope"], r["t"], r["rush"])]])
                                                          for r in open_rows if r["fy"] == fy) for w in WORLDS}
@@ -362,7 +441,10 @@ def status(args) -> int:
             "planned_by_now": sum(1 for r in C[executed]["rows"] if r["t"] < k),
         })
 
+    cpd_out = change_points(act, timeline, prior, p0)
+
     out = {
+        "cpd": cpd_out,
         "baseline_version": b["version"], "months": [p0.month_label(t) for t in range(p0.horizon)],
         "worlds": {w: {"label": CASES[w][0], "prior": prior[w], "what": CASES[w][2]} for w in WORLDS},
         "candidates": {c: {"label": v["label"], "world": v["world"], "what": v["what"], "feasible": v["feasible"],

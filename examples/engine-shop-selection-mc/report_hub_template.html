@@ -168,12 +168,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -191,7 +191,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -340,6 +340,7 @@ const DATA = /*__DATA__*/null;
       card("budget", worst.over > 0.05 ? "flag" : "ok", "年間計画と予算", worst.over > 0.05 ? `${worst.fy} は予算を超える` : "予算内", fyBars(c, 320, true)),
       card("month", due3 ? "warn" : "ok", "今月からの判断", `3 か月以内に ${due3} 件の判断`, ""),
       card("track", tr && !tr.world_is_base ? "warn" : "ok", "計画の追跡", tr ? (tr.recommend === "switch" ? `乗り換えを推奨：${esc(tr.switch_to)}` : "今の計画を続けてよい") : "実績なし", tr ? trackChart(tr, 320, 70, true) : ""),
+      tr && tr.cpd ? card("cpd", { both: "ok", cpd_only: "warn", bayes_only: "warn", none: "ok" }[tr.cpd.state], "変化点と前提の整合", cpdLine(tr.cpd), cpdChart(tr.cpd, 0, 320, 90, true)) : "",
       card("actions", "ok", "打ち手の効果", "左下ほど安くて安全", scatter(c, 320, 150, true)),
       card("invest", inv ? (inv.recommend.go ? "ok" : "warn") : "", "国内工場の新設（LEAP-1B）", inv ? esc(inv.headline) : "試算中", inv ? breakevenChart(inv.breakeven, 320, 170) : ""),
       c.history ? card("history", histCls(c), "過去の計画との整合", histLine(c), stabilityChart(c.history, 320, 90, true)) : "",
@@ -645,6 +646,9 @@ const DATA = /*__DATA__*/null;
       scatter: ["打ち手や状況ごとに、基準の計画から費用（横）と、エンジンが足りなくなるリスク（縦）がどれだけ動くか", "左ほど安く、下ほど安全。左下（緑）は安くて安全、右上（赤）は高くて危ない。右下は「お金を払ってリスクを下げる」、左上は「安くなるがリスクが上がる」。両端は縮めた目盛り",
         (() => { const a = c.actions.filter((x) => x.aog <= 0.005 && !x.question.includes("部品取り")).sort((x, y) => x.cost - y.cost)[0]; return a ? `最も安くて安全なのは「${a.question}」` : "安くて安全な打ち手はない"; })(), "緑の打ち手は採用を検討。右下の打ち手は、リスクを下げる価値が費用に見合うかを経営で判断する"],
       posterior: ["実績が積み上がるにつれて、「今どの前提（世界）にいそうか」の確率がどう変わったか", "横が時点、縦が確率（合計 100%）。色の面が大きいほど、その前提らしい", t ? `今は「${t.world}」が ${pct(t.world_p)}` : "", "基準以外の色が広がってきたら、右の「乗り換え」の図を見る"],
+      cpdstreams: ["工場とサプライヤーの週次の回答（見積もり工期・枠の回答・キット納期）に、変化点検知（BOCPD と CUSUM）をかけた図", "横が月、線が回答値（週）。赤い縦線＝検知した週。灰色の点線＝合成データに仕込んだ実際の変化（検証用）", t && t.cpd ? cpdLine(t.cpd) : "", "検知した週から、その世界の計画案（混雑対応・逼迫対応）への乗り換えの損得を「計画の追跡」で見る"],
+      cpdagree: ["月ごとに、変化点検知と前提（世界）の確率更新が一致しているか", "緑＝両方が動いた（一致）。黄＝片方だけ：変化点だけなら 4 つの前提のどれにも当てはまらない（前提の追加）、前提だけなら尤度が強すぎる。灰＝どちらも動かず", t && t.cpd ? t.cpd.verdict : "", "黄が続いたら前提の定義（世界の 4 つ）と尤度の重み（TEMPER）を見直す"],
+      cpduer: ["予定外取卸しの率の変化を、CUSUM と今の警報（3 か月平均＋3σ）で検出したときの遅れと誤警報", "小さな持続的な上振れ（+20%）を仕込んで 300 回試したときの成績", "月 1 件前後の水準では 1 年で検出できる確率は低く、CUSUM の方が高いが誤警報も増える", "率の警報は件数ではなく、飛行時間あたりの率と EGT の傾向（密な系列）に載せ替える"],
       switch: ["今から別の計画案に乗り換えたら、どれだけ得か（最も得な乗り換え先）の推移", "線が黄色の帯（0.3 百万ドル）より上に出たら乗り換えが得。帯の中は得でも小さく、乗り換える手間に見合わない", t ? (t.recommend === "switch" ? `${t.switch_to}への乗り換えが得` : "乗り換えても得にならない") : "", "帯を超えたら、変わるエンジンと判断期限を「計画の追跡」ページで確かめる"],
       breakeven: ["補助率（縦）と受託件数（横）の組み合わせごとに、国内工場が得か損か", "緑は得、赤は損。数字は今の価値に直した損得（百万ドル）。横に進むと色が大きく変わり、縦に進んでもあまり変わらない",
         v ? `受託が年 ${Math.round(v.breakeven.breakeven_sv_no_subsidy || 0)} 件を超えると得。補助より受託の件数が決め手` : "", "補助の交渉より先に、どこの受託を取れるか（相手・件数）の見込みを固める"],
@@ -754,6 +758,40 @@ const DATA = /*__DATA__*/null;
       points: q.examples.map((e) => ({ x: e.months, y: e.cost, color: e.cost <= lim(e.months) ? "var(--good)" : "var(--crit)", label: `${e.what}：${e.cost} 百万ドルで +${e.months} か月（${e.cost <= lim(e.months) ? "承認" : "見送り"}）` })),
       yticks: [0, 1, 2, 3], xticks: [0, 6, 12, 18, 24], yfmt: (v) => v + " M$", xlabel: "次の入場が先に延びる月数", ylabel: "追加作業の費用（百万ドル）", aria: "見積もり承認の上限" }, W, H, compact);
   }
+  /* ---------------- change points vs the Bayes update ---------------- */
+  const CPD_STATE = { both: "一致", cpd_only: "変化点のみ", bayes_only: "前提のみ", none: "平常" };
+  const cpdLine = (p) => p.cpd_month
+    ? `先行指標の変化点 ${p.cpd_as_of}（${p.bayes_never_moved ? "前提の確率は 12 か月で動かず" : `前提の更新 ${p.bayes_as_of}`}）`
+    : "変化点なし";
+  function cpdChart(p, j, W = 900, H = 180, compact = false) {
+    const s = p.streams[j], w = p.weeks_per_month, xs = s.ys.map((_, i) => i / w);
+    const vl = [];
+    if (s.week != null) vl.push({ x: s.week / w, color: "var(--crit)", label: `検知 ${s.week + 1} 週目` });
+    if (p.truth_week != null) vl.push({ x: p.truth_week / w, color: "var(--muted)", dash: "4 3", label: "実際の変化（検証用）" });
+    return lineChart({ xs, series: [{ ys: s.ys, color: "var(--accent)" }], vlines: vl,
+      yticks: compact ? [] : [Math.floor(Math.min(...s.ys)), Math.ceil(Math.max(...s.ys))], xticks: compact ? [] : xs.filter((_, i) => i % (3 * w) === 0),
+      xfmt: (v) => `${Math.round(v)} か月`, ylabel: compact ? "" : "週", aria: s.label }, W, H, compact);
+  }
+  function cpdStrip(p) {
+    const col = { both: "var(--good-soft)", cpd_only: "var(--warn)", bayes_only: "var(--warn)", none: "var(--ground)" };
+    return `<div style="display:flex;gap:3px;margin:8px 0">${p.agreement.map((a, i) => `<div title="${p.as_of[i]}：${CPD_STATE[a]}" style="flex:1;height:22px;border-radius:4px;background:${col[a]}"></div>`).join("")}</div>`
+      + `<div class="legend"><span><span class="sw" style="background:var(--good-soft)"></span>一致</span><span><span class="sw" style="background:var(--warn)"></span>片方だけ</span><span><span class="sw" style="background:var(--ground)"></span>平常</span></div>`;
+  }
+  function cpd() {
+    const t = C().track, p = t && t.cpd;
+    if (!p) return panel("変化点と前提の整合", '<p class="hint">先行指標の系列がありません。</p>');
+    const a = p.uer_arl, f = (v) => (v == null ? "—" : (v * 100).toFixed(0) + "%");
+    const worth = p.worth == null ? "" : `。早く気づいた価値：${(p.worth / 1000).toFixed(1)} 百万ドル${p.first_profitable ? `（乗り換えが得になるのは ${p.first_profitable} から）` : "（乗り換えは得にならないので 0）"}`;
+    const head = `<p class="chart-note">${esc(cpdLine(p))}${p.months_earlier != null ? `：先行指標は前提の更新より ${p.months_earlier} か月早い` : ""}${worth}</p>`;
+    const streams = p.streams.map((s, j) => `<div><p class="chart-note">${esc(s.label)}${s.week != null ? `：${s.week + 1} 週目に検知（${s.before.toFixed(1)} → ${s.after.toFixed(1)} 週）` : "：変化なし"}</p>${cpdChart(p, j)}<p class="hint">${esc(s.what)}。BOCPD ${s.bocpd_week != null ? s.bocpd_week + 1 + " 週目" : "なし"}、CUSUM ${s.cusum_week != null ? s.cusum_week + 1 + " 週目" : "なし"}</p></div>`).join("");
+    return panel("", head + `<div class="vgrid">${streams}</div>` + G("cpdstreams"), esc(p.note))
+      + panel("", `<p class="chart-note">${esc(p.verdict)}</p>` + cpdStrip(p) + G("cpdagree"))
+      + panel("", `<p class="chart-note">予定外取卸しの率：CUSUM と「3 か月平均＋3σ」の比較（+20% の持続的な上振れ、月 ${a.setup.lam0_per_month.toFixed(1)} 件の水準、${a.setup.runs} 回試行）</p>`
+        + `<table><thead><tr><th>検出法</th><th>平均の検出遅れ（か月）</th><th>12 か月以内に検出</th><th>誤警報</th><th>見逃し（18 か月）</th></tr></thead><tbody>`
+        + [["CUSUM", a.cusum], ["3 か月平均＋3σ（今の警報）", a.ma3]].map(([n, r]) => `<tr><td>${n}</td><td>${r.mean_delay == null ? "—" : r.mean_delay.toFixed(1)}</td><td>${f(r.p_detect_12m)}</td><td>${f(r.false_alarm_rate)}</td><td>${f(r.missed)}</td></tr>`).join("")
+        + `</tbody></table>` + G("cpduer"), "取卸しは月 1 件前後しかないので、+20% は 1 年ではどちらの方法でもほぼ見えない。CUSUM は検出率が上がるぶん誤警報も増える。");
+  }
+
   function quote() {
     const u = C().usecases;
     return panel("", `<p class="chart-note">追加作業は「延びる月数 × ${(u.value_per_engine_month * 1000).toFixed(0)} 千ドル」まで承認してよい（緑の領域なら承認）</p>` + quoteChart(u) + G("quote")
