@@ -233,7 +233,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 31.3,
+   "llp_remaining": {
+    "core": 9359,
+    "lp": 1705,
+    "fan": 14376
+   }
   },
   {
    "esn": "AT-103",
@@ -248,7 +254,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 8.3,
+   "llp_remaining": {
+    "core": 4971,
+    "lp": 9971,
+    "fan": 19971
+   }
   },
   {
    "esn": "AT-104",
@@ -262,7 +274,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 16.3,
+   "llp_remaining": {
+    "core": 11066,
+    "lp": 5117,
+    "fan": 10363
+   }
   },
   {
    "esn": "AT-111",
@@ -277,7 +295,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 5.3,
+   "llp_remaining": {
+    "core": 7073,
+    "lp": 6354,
+    "fan": 10603
+   }
   },
   {
    "esn": "AT-112",
@@ -292,7 +316,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 3.9,
+   "llp_remaining": {
+    "core": 9983,
+    "lp": 5376,
+    "fan": 15707
+   }
   },
   {
    "esn": "AT-114",
@@ -306,7 +336,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 27.5,
+   "llp_remaining": {
+    "core": 6070,
+    "lp": 11070,
+    "fan": 5039
+   }
   },
   {
    "esn": "AT-119",
@@ -320,7 +356,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 14.2,
+   "llp_remaining": {
+    "core": 8590,
+    "lp": 13590,
+    "fan": 4630
+   }
   },
   {
    "esn": "AT-121",
@@ -335,7 +377,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 4.8,
+   "llp_remaining": {
+    "core": 4623,
+    "lp": 9623,
+    "fan": 19623
+   }
   },
   {
    "esn": "AT-124",
@@ -349,7 +397,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 21.9,
+   "llp_remaining": {
+    "core": 9132,
+    "lp": 3190,
+    "fan": 17282
+   }
   },
   {
    "esn": "AT-125",
@@ -363,7 +417,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 17.9,
+   "llp_remaining": {
+    "core": 4857,
+    "lp": 4674,
+    "fan": 3684
+   }
   },
   {
    "esn": "AT-126",
@@ -378,7 +438,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 3.1,
+   "llp_remaining": {
+    "core": 11048,
+    "lp": 16048,
+    "fan": 18117
+   }
   },
   {
    "esn": "AT-128",
@@ -392,7 +458,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 20.1,
+   "llp_remaining": {
+    "core": 8743,
+    "lp": 5005,
+    "fan": 6683
+   }
   },
   {
    "esn": "AT-129",
@@ -407,7 +479,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 14.6,
+   "llp_remaining": {
+    "core": 8741,
+    "lp": 13741,
+    "fan": 23741
+   }
   },
   {
    "esn": "AT-137",
@@ -422,7 +500,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 26.2,
+   "llp_remaining": {
+    "core": 7887,
+    "lp": 12887,
+    "fan": 22887
+   }
   },
   {
    "esn": "AT-139",
@@ -436,7 +520,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 9.6,
+   "llp_remaining": {
+    "core": 8657,
+    "lp": 13658,
+    "fan": 3081
+   }
   },
   {
    "esn": "AT-142",
@@ -451,7 +541,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 21.7,
+   "llp_remaining": {
+    "core": 10298,
+    "lp": 15298,
+    "fan": 12973
+   }
   },
   {
    "esn": "AT-143",
@@ -465,7 +561,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 7.9,
+   "llp_remaining": {
+    "core": 4539,
+    "lp": 9539,
+    "fan": 2244
+   }
   },
   {
    "esn": "AT-146",
@@ -480,7 +582,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 14.7,
+   "llp_remaining": {
+    "core": 10770,
+    "lp": 15770,
+    "fan": 25770
+   }
   },
   {
    "esn": "AT-155",
@@ -495,7 +603,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 11.6,
+   "llp_remaining": {
+    "core": 10784,
+    "lp": 15784,
+    "fan": 25784
+   }
   },
   {
    "esn": "AT-156",
@@ -509,7 +623,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 6.6,
+   "llp_remaining": {
+    "core": 4511,
+    "lp": 2301,
+    "fan": 9293
+   }
   },
   {
    "esn": "AT-157",
@@ -524,7 +644,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 21.0,
+   "llp_remaining": {
+    "core": 10996,
+    "lp": 15996,
+    "fan": 9471
+   }
   },
   {
    "esn": "AT-158",
@@ -538,7 +664,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 3.6,
+   "llp_remaining": {
+    "core": 11182,
+    "lp": 16182,
+    "fan": 2175
+   }
   },
   {
    "esn": "AT-161",
@@ -553,7 +685,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 5.6,
+   "llp_remaining": {
+    "core": 9208,
+    "lp": 14208,
+    "fan": 24208
+   }
   },
   {
    "esn": "AT-162",
@@ -568,7 +706,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 18.4,
+   "llp_remaining": {
+    "core": 7477,
+    "lp": 12477,
+    "fan": 17510
+   }
   },
   {
    "esn": "AT-163",
@@ -583,7 +727,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 9.7,
+   "llp_remaining": {
+    "core": 9434,
+    "lp": 14434,
+    "fan": 24434
+   }
   },
   {
    "esn": "AT-167",
@@ -598,7 +748,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 22.7,
+   "llp_remaining": {
+    "core": 11631,
+    "lp": 16631,
+    "fan": 26631
+   }
   },
   {
    "esn": "AT-173",
@@ -612,7 +768,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 40.9,
+   "llp_remaining": {
+    "core": 4412,
+    "lp": 5000,
+    "fan": 8017
+   }
   },
   {
    "esn": "AT-176",
@@ -626,7 +788,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 11.5,
+   "llp_remaining": {
+    "core": 7713,
+    "lp": 3312,
+    "fan": 11044
+   }
   },
   {
    "esn": "AT-182",
@@ -640,7 +808,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "LLP"
+   "driver": "LLP",
+   "egt_margin": 41.6,
+   "llp_remaining": {
+    "core": 10555,
+    "lp": 15555,
+    "fan": 2884
+   }
   },
   {
    "esn": "AT-185",
@@ -654,7 +828,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 27.0,
+   "llp_remaining": {
+    "core": 12065,
+    "lp": 3153,
+    "fan": 15605
+   }
   },
   {
    "esn": "AT-191",
@@ -669,7 +849,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 21.4,
+   "llp_remaining": {
+    "core": 12632,
+    "lp": 17632,
+    "fan": 12762
+   }
   },
   {
    "esn": "AT-192",
@@ -684,7 +870,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 13.2,
+   "llp_remaining": {
+    "core": 9972,
+    "lp": 14972,
+    "fan": 24972
+   }
   },
   {
    "esn": "AT-194",
@@ -699,7 +891,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 26.8,
+   "llp_remaining": {
+    "core": 6672,
+    "lp": 11672,
+    "fan": 21672
+   }
   },
   {
    "esn": "AT-196",
@@ -714,7 +912,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 4.3,
+   "llp_remaining": {
+    "core": 5958,
+    "lp": 10958,
+    "fan": 14931
+   }
   },
   {
    "esn": "AT-197",
@@ -729,7 +933,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 18.6,
+   "llp_remaining": {
+    "core": 4007,
+    "lp": 9007,
+    "fan": 11368
+   }
   },
   {
    "esn": "AT-198",
@@ -744,7 +954,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 6.8,
+   "llp_remaining": {
+    "core": 5866,
+    "lp": 7587,
+    "fan": 10704
+   }
   },
   {
    "esn": "AT-200",
@@ -758,7 +974,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 23.1,
+   "llp_remaining": {
+    "core": 7724,
+    "lp": 3866,
+    "fan": 6686
+   }
   },
   {
    "esn": "AT-201",
@@ -773,7 +995,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 36.5,
+   "llp_remaining": {
+    "core": 9320,
+    "lp": 14320,
+    "fan": 24320
+   }
   },
   {
    "esn": "AT-202",
@@ -787,7 +1015,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 28.8,
+   "llp_remaining": {
+    "core": 9444,
+    "lp": 14444,
+    "fan": 5961
+   }
   },
   {
    "esn": "AT-207",
@@ -802,7 +1036,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 6.5,
+   "llp_remaining": {
+    "core": 5966,
+    "lp": 10966,
+    "fan": 20966
+   }
   },
   {
    "esn": "AT-208",
@@ -817,7 +1057,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 19.4,
+   "llp_remaining": {
+    "core": 5906,
+    "lp": 10906,
+    "fan": 20906
+   }
   },
   {
    "esn": "AT-210",
@@ -832,7 +1078,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 15.8,
+   "llp_remaining": {
+    "core": 9737,
+    "lp": 14737,
+    "fan": 14599
+   }
   },
   {
    "esn": "AT-213",
@@ -847,7 +1099,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 20.4,
+   "llp_remaining": {
+    "core": 7354,
+    "lp": 8235,
+    "fan": 10029
+   }
   },
   {
    "esn": "AT-215",
@@ -862,7 +1120,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 25.4,
+   "llp_remaining": {
+    "core": 8429,
+    "lp": 13429,
+    "fan": 14358
+   }
   },
   {
    "esn": "AT-217",
@@ -877,7 +1141,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 8.7,
+   "llp_remaining": {
+    "core": 4651,
+    "lp": 9651,
+    "fan": 19651
+   }
   },
   {
    "esn": "AT-218",
@@ -891,7 +1161,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 17.1,
+   "llp_remaining": {
+    "core": 10115,
+    "lp": 3108,
+    "fan": 4007
+   }
   },
   {
    "esn": "AT-221",
@@ -906,7 +1182,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 16.4,
+   "llp_remaining": {
+    "core": 4501,
+    "lp": 9501,
+    "fan": 19501
+   }
   },
   {
    "esn": "AT-228",
@@ -921,7 +1203,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 5.6,
+   "llp_remaining": {
+    "core": 4476,
+    "lp": 9476,
+    "fan": 19476
+   }
   },
   {
    "esn": "AT-229",
@@ -936,7 +1224,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 11.4,
+   "llp_remaining": {
+    "core": 9857,
+    "lp": 14857,
+    "fan": 24857
+   }
   },
   {
    "esn": "AT-232",
@@ -951,7 +1245,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 28.4,
+   "llp_remaining": {
+    "core": 7324,
+    "lp": 12324,
+    "fan": 22324
+   }
   },
   {
    "esn": "AT-246",
@@ -966,7 +1266,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 27.6,
+   "llp_remaining": {
+    "core": 4091,
+    "lp": 9091,
+    "fan": 19091
+   }
   },
   {
    "esn": "AT-247",
@@ -980,7 +1286,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 21.9,
+   "llp_remaining": {
+    "core": 4988,
+    "lp": 3046,
+    "fan": 17515
+   }
   },
   {
    "esn": "AT-248",
@@ -995,7 +1307,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 16.2,
+   "llp_remaining": {
+    "core": 5349,
+    "lp": 10349,
+    "fan": 20349
+   }
   },
   {
    "esn": "AT-249",
@@ -1009,7 +1327,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 7.1,
+   "llp_remaining": {
+    "core": 7101,
+    "lp": 12101,
+    "fan": 2800
+   }
   },
   {
    "esn": "AT-250",
@@ -1024,7 +1348,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 20.9,
+   "llp_remaining": {
+    "core": 10945,
+    "lp": 15945,
+    "fan": 25945
+   }
   },
   {
    "esn": "AT-251",
@@ -1038,7 +1368,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 28.3,
+   "llp_remaining": {
+    "core": 11706,
+    "lp": 3304,
+    "fan": 7753
+   }
   },
   {
    "esn": "AT-257",
@@ -1053,7 +1389,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 48.9,
+   "llp_remaining": {
+    "core": 11071,
+    "lp": 16071,
+    "fan": 26071
+   }
   },
   {
    "esn": "AT-266",
@@ -1068,7 +1410,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 6.9,
+   "llp_remaining": {
+    "core": 9222,
+    "lp": 14222,
+    "fan": 12230
+   }
   },
   {
    "esn": "AT-268",
@@ -1083,7 +1431,13 @@
    ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 14.9,
+   "llp_remaining": {
+    "core": 7960,
+    "lp": 12960,
+    "fan": 22960
+   }
   },
   {
    "esn": "AT-276",
@@ -1098,7 +1452,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 28.4,
+   "llp_remaining": {
+    "core": 8020,
+    "lp": 7120,
+    "fan": 11719
+   }
   },
   {
    "esn": "AT-278",
@@ -1113,7 +1473,13 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 10.0,
+   "llp_remaining": {
+    "core": 10916,
+    "lp": 15916,
+    "fan": 8886
+   }
   },
   {
    "esn": "AT-280",
@@ -1128,7 +1494,37 @@
    ],
    "watch": false,
    "hazard": 0.01,
-   "driver": "EGT"
+   "driver": "EGT",
+   "egt_margin": 20.7,
+   "llp_remaining": {
+    "core": 9600,
+    "lp": 14600,
+    "fan": 7822
+   }
   }
- ]
+ ],
+ "leases": {
+  "terms": {
+   "note": "合成データ。オペレーティングリースの返却条件（redelivery conditions）の典型例を置いた仮定。個別契約は非公表。",
+   "min_llp_cycles": 3000,
+   "min_llp_source": "no_source: 返却時の寿命部品残り。契約では「受領時と同等」か「最低 ○サイクル」で、3,000〜5,000 サイクルが典型という業界の説明 https://www.iba.aero/resources/articles/",
+   "min_egt_margin": 15,
+   "min_egt_source": "no_source: 返却時の EGT マージン下限（℃）の仮定",
+   "compensation_per_cycle_k": 0.09,
+   "compensation_source": "no_source: LLP の不足分の補償単価。LLP 積立金の相場 80〜120 $/サイクルから",
+   "compensation_per_degc_k": 60,
+   "compensation_degc_source": "no_source: EGT マージン不足の補償（℃あたり）の仮定",
+   "extension_months": 6,
+   "extension_rent_k_per_month": 95,
+   "extension_source": "no_source: 延長時のエンジン相当のリース料（月 85 k$ の +10%）",
+   "notice_months": 6,
+   "notice_source": "no_source: 延長・返却の通知期限（返却の 6 か月前）の仮定",
+   "return_spread_months": [
+    3,
+    23
+   ],
+   "return_source": "no_source: 返却時期は非公表。2 年の窓に散らばる仮定"
+  },
+  "engines": []
+ }
 }

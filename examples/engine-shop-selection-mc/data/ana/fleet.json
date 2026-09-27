@@ -4,7 +4,7 @@
   "name": "ANA（ANA ウイングス運航）",
   "generator": "company.py",
   "lifecycle_seed": 9,
-  "description": "ANA（ANA ウイングス運航）: 737-800 39 機、保有エンジン 86 基。20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る 24 基。",
+  "description": "ANA（ANA ウイングス運航）: 737-800 39 機、保有エンジン 86 基。20 年のライフサイクル・シミュレーション（最初の 5 年は捨てる、定常）から、今後 24 か月に入場期限が来る 22 基。",
   "sources": {
    "aircraft": "ANA 決算資料 FY2024 末（737-800 39 機、所有 26・リース 13） https://www.ana.co.jp/group/investors/data/kessan/pdf/2025_04_2.pdf",
    "engines": "no_source: 予備エンジン数は非公表。業界の目安（取付エンジンの約 10%）",
@@ -40,7 +40,7 @@
    ],
    "norms_by_subfleet": {
     "ANAウイングス": {
-     "visits_per_year": 9.933333333333334,
+     "visits_per_year": 11.266666666666667,
      "cycles_per_year": 1900,
      "fh_per_cycle": 1.2,
      "severity": 0.848
@@ -172,7 +172,7 @@
  },
  "unscheduled_removals": {
   "rate_per_engine_month": 0.004,
-  "background_engines": 62,
+  "background_engines": 64,
   "tat_months": [
    2,
    3,
@@ -207,9 +207,9 @@
  "budget": {
   "fiscal_year_start_month": 4,
   "by_fiscal_year": {
-   "FY2026": 47000.0,
-   "FY2027": 95500.0,
-   "FY2028": 48500.0
+   "FY2026": 57200.0,
+   "FY2027": 116300.0,
+   "FY2028": 59000.0
   }
  },
  "fx": {
@@ -222,31 +222,11 @@
  },
  "engines": [
   {
-   "esn": "A-103",
-   "operator": "ANAウイングス",
-   "window": [
-    16,
-    21
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 34.5,
-   "llp_remaining": {
-    "core": 4978,
-    "lp": 9978,
-    "fan": 14978
-   }
-  },
-  {
    "esn": "A-105",
    "operator": "ANAウイングス",
    "window": [
-    11,
-    16
+    2,
+    7
    ],
    "allowed_workscopes": [
     "FULL"
@@ -254,75 +234,15 @@
    "watch": true,
    "hazard": 0.06,
    "driver": "LLP",
-   "egt_margin": 22.7,
+   "egt_margin": 15.6,
    "llp_remaining": {
-    "core": 9326,
-    "lp": 14326,
-    "fan": 4098
+    "core": 2713,
+    "lp": 7713,
+    "fan": 4131
    }
   },
   {
    "esn": "A-107",
-   "operator": "ANAウイングス",
-   "window": [
-    9,
-    14
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 39.0,
-   "llp_remaining": {
-    "core": 11890,
-    "lp": 16890,
-    "fan": 3862
-   }
-  },
-  {
-   "esn": "A-108",
-   "operator": "ANAウイングス",
-   "window": [
-    4,
-    9
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 38.8,
-   "llp_remaining": {
-    "core": 11522,
-    "lp": 16522,
-    "fan": 2929
-   }
-  },
-  {
-   "esn": "A-113",
-   "operator": "ANAウイングス",
-   "window": [
-    11,
-    16
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 44.8,
-   "llp_remaining": {
-    "core": 12781,
-    "lp": 17781,
-    "fan": 4155
-   }
-  },
-  {
-   "esn": "A-115",
    "operator": "ANAウイングス",
    "window": [
     1,
@@ -331,14 +251,34 @@
    "allowed_workscopes": [
     "FULL"
    ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 32.3,
+   "llp_remaining": {
+    "core": 2467,
+    "lp": 7467,
+    "fan": 3965
+   }
+  },
+  {
+   "esn": "A-115",
+   "operator": "ANAウイングス",
+   "window": [
+    10,
+    15
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
    "watch": true,
    "hazard": 0.06,
-   "driver": "EGT",
-   "egt_margin": 7.1,
+   "driver": "LLP",
+   "egt_margin": 24.7,
    "llp_remaining": {
-    "core": 4657,
-    "lp": 9657,
-    "fan": 14657
+    "core": 4016,
+    "lp": 9016,
+    "fan": 19016
    }
   },
   {
@@ -354,175 +294,15 @@
    "watch": true,
    "hazard": 0.06,
    "driver": "LLP",
-   "egt_margin": 33.1,
+   "egt_margin": 32.3,
    "llp_remaining": {
-    "core": 12149,
-    "lp": 17149,
-    "fan": 3555
+    "core": 6980,
+    "lp": 11980,
+    "fan": 3474
    }
   },
   {
-   "esn": "A-121",
-   "operator": "ANAウイングス",
-   "window": [
-    5,
-    10
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 17.9,
-   "llp_remaining": {
-    "core": 3161,
-    "lp": 8161,
-    "fan": 13161
-   }
-  },
-  {
-   "esn": "A-124",
-   "operator": "ANAウイングス",
-   "window": [
-    0,
-    4
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": true,
-   "hazard": 0.06,
-   "driver": "LLP",
-   "egt_margin": 16.2,
-   "llp_remaining": {
-    "core": 10739,
-    "lp": 15739,
-    "fan": 2165
-   }
-  },
-  {
-   "esn": "A-127",
-   "operator": "ANAウイングス",
-   "window": [
-    16,
-    21
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "EGT",
-   "egt_margin": 16.4,
-   "llp_remaining": {
-    "core": 6927,
-    "lp": 11928,
-    "fan": 16928
-   }
-  },
-  {
-   "esn": "A-130",
-   "operator": "ANAウイングス",
-   "window": [
-    0,
-    5
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 22.7,
-   "llp_remaining": {
-    "core": 2337,
-    "lp": 7337,
-    "fan": 12337
-   }
-  },
-  {
-   "esn": "A-133",
-   "operator": "ANAウイングス",
-   "window": [
-    16,
-    21
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 53.7,
-   "llp_remaining": {
-    "core": 13549,
-    "lp": 18549,
-    "fan": 4939
-   }
-  },
-  {
-   "esn": "A-134",
-   "operator": "ANAウイングス",
-   "window": [
-    13,
-    18
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 41.2,
-   "llp_remaining": {
-    "core": 4461,
-    "lp": 9461,
-    "fan": 14461
-   }
-  },
-  {
-   "esn": "A-135",
-   "operator": "ANAウイングス",
-   "window": [
-    1,
-    6
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 47.2,
-   "llp_remaining": {
-    "core": 11190,
-    "lp": 16190,
-    "fan": 2556
-   }
-  },
-  {
-   "esn": "A-137",
-   "operator": "ANAウイングス",
-   "window": [
-    0,
-    0
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 21.1,
-   "llp_remaining": {
-    "core": 6630,
-    "lp": 1642,
-    "fan": 6642
-   }
-  },
-  {
-   "esn": "A-145",
+   "esn": "A-119",
    "operator": "ANAウイングス",
    "window": [
     14,
@@ -534,55 +314,15 @@
    "watch": false,
    "hazard": 0.01,
    "driver": "LLP",
-   "egt_margin": 49.8,
+   "egt_margin": 37.6,
    "llp_remaining": {
-    "core": 13093,
-    "lp": 18093,
-    "fan": 4527
+    "core": 4524,
+    "lp": 9524,
+    "fan": 19524
    }
   },
   {
-   "esn": "A-151",
-   "operator": "ANAウイングス",
-   "window": [
-    17,
-    22
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 48.8,
-   "llp_remaining": {
-    "core": 13687,
-    "lp": 18687,
-    "fan": 5075
-   }
-  },
-  {
-   "esn": "A-153",
-   "operator": "ANAウイングス",
-   "window": [
-    2,
-    7
-   ],
-   "allowed_workscopes": [
-    "FULL"
-   ],
-   "watch": false,
-   "hazard": 0.01,
-   "driver": "LLP",
-   "egt_margin": 38.0,
-   "llp_remaining": {
-    "core": 2692,
-    "lp": 7692,
-    "fan": 12692
-   }
-  },
-  {
-   "esn": "A-163",
+   "esn": "A-122",
    "operator": "ANAウイングス",
    "window": [
     9,
@@ -594,36 +334,95 @@
    "watch": false,
    "hazard": 0.01,
    "driver": "LLP",
-   "egt_margin": 49.8,
+   "egt_margin": 30.1,
    "llp_remaining": {
-    "core": 12319,
-    "lp": 17319,
-    "fan": 3792
+    "core": 3858,
+    "lp": 8858,
+    "fan": 18858
    }
   },
   {
-   "esn": "A-164",
+   "esn": "A-123",
    "operator": "ANAウイングス",
    "window": [
-    0,
-    2
+    12,
+    17
    ],
    "allowed_workscopes": [
-    "CORE",
     "FULL"
    ],
-   "watch": true,
-   "hazard": 0.06,
-   "driver": "EGT",
-   "egt_margin": 5.2,
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 43.2,
    "llp_remaining": {
-    "core": 8983,
-    "lp": 13983,
-    "fan": 18983
+    "core": 4280,
+    "lp": 9280,
+    "fan": 19280
    }
   },
   {
-   "esn": "A-165",
+   "esn": "A-132",
+   "operator": "ANAウイングス",
+   "window": [
+    18,
+    23
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 39.9,
+   "llp_remaining": {
+    "core": 5273,
+    "lp": 5488,
+    "fan": 15488
+   }
+  },
+  {
+   "esn": "A-133",
+   "operator": "ANAウイングス",
+   "window": [
+    5,
+    10
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 42.3,
+   "llp_remaining": {
+    "core": 3085,
+    "lp": 8085,
+    "fan": 4486
+   }
+  },
+  {
+   "esn": "A-137",
+   "operator": "ANAウイングス",
+   "window": [
+    18,
+    23
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 35.9,
+   "llp_remaining": {
+    "core": 5189,
+    "lp": 10189,
+    "fan": 6585
+   }
+  },
+  {
+   "esn": "A-140",
    "operator": "ANAウイングス",
    "window": [
     6,
@@ -635,19 +434,19 @@
    "watch": false,
    "hazard": 0.01,
    "driver": "LLP",
-   "egt_margin": 40.5,
+   "egt_margin": 33.0,
    "llp_remaining": {
-    "core": 11893,
-    "lp": 16893,
-    "fan": 3369
+    "core": 3367,
+    "lp": 8367,
+    "fan": 4779
    }
   },
   {
-   "esn": "A-178",
+   "esn": "A-145",
    "operator": "ANAウイングス",
    "window": [
-    7,
-    12
+    8,
+    13
    ],
    "allowed_workscopes": [
     "FULL"
@@ -655,19 +454,19 @@
    "watch": false,
    "hazard": 0.01,
    "driver": "LLP",
-   "egt_margin": 49.1,
+   "egt_margin": 38.4,
    "llp_remaining": {
-    "core": 12026,
-    "lp": 17026,
-    "fan": 3434
+    "core": 3687,
+    "lp": 8687,
+    "fan": 5179
    }
   },
   {
-   "esn": "A-182",
+   "esn": "A-151",
    "operator": "ANAウイングス",
    "window": [
     0,
-    0
+    5
    ],
    "allowed_workscopes": [
     "FULL"
@@ -675,19 +474,39 @@
    "watch": false,
    "hazard": 0.01,
    "driver": "LLP",
-   "egt_margin": 43.0,
+   "egt_margin": 29.6,
    "llp_remaining": {
-    "core": 10137,
-    "lp": 15137,
-    "fan": 1501
+    "core": 2385,
+    "lp": 7385,
+    "fan": 3868
    }
   },
   {
-   "esn": "A-186",
+   "esn": "A-155",
    "operator": "ANAウイングス",
    "window": [
-    1,
-    6
+    3,
+    8
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 35.1,
+   "llp_remaining": {
+    "core": 2865,
+    "lp": 7865,
+    "fan": 17865
+   }
+  },
+  {
+   "esn": "A-157",
+   "operator": "ANAウイングス",
+   "window": [
+    4,
+    9
    ],
    "allowed_workscopes": [
     "FULL"
@@ -695,11 +514,151 @@
    "watch": true,
    "hazard": 0.06,
    "driver": "LLP",
-   "egt_margin": 17.2,
+   "egt_margin": 18.9,
    "llp_remaining": {
-    "core": 10104,
-    "lp": 15104,
-    "fan": 2524
+    "core": 3009,
+    "lp": 8009,
+    "fan": 4435
+   }
+  },
+  {
+   "esn": "A-161",
+   "operator": "ANAウイングス",
+   "window": [
+    2,
+    7
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 24.4,
+   "llp_remaining": {
+    "core": 2618,
+    "lp": 7618,
+    "fan": 17618
+   }
+  },
+  {
+   "esn": "A-169",
+   "operator": "ANAウイングス",
+   "window": [
+    0,
+    1
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 24.3,
+   "llp_remaining": {
+    "core": 1704,
+    "lp": 6704,
+    "fan": 16704
+   }
+  },
+  {
+   "esn": "A-176",
+   "operator": "ANAウイングス",
+   "window": [
+    0,
+    4
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 24.4,
+   "llp_remaining": {
+    "core": 2143,
+    "lp": 7143,
+    "fan": 3521
+   }
+  },
+  {
+   "esn": "A-178",
+   "operator": "ANAウイングス",
+   "window": [
+    18,
+    23
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 45.1,
+   "llp_remaining": {
+    "core": 5265,
+    "lp": 10265,
+    "fan": 6679
+   }
+  },
+  {
+   "esn": "A-180",
+   "operator": "ANAウイングス",
+   "window": [
+    0,
+    4
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 14.2,
+   "llp_remaining": {
+    "core": 2146,
+    "lp": 7146,
+    "fan": 17146
+   }
+  },
+  {
+   "esn": "A-181",
+   "operator": "ANAウイングス",
+   "window": [
+    0,
+    3
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": true,
+   "hazard": 0.06,
+   "driver": "LLP",
+   "egt_margin": 15.6,
+   "llp_remaining": {
+    "core": 2038,
+    "lp": 7038,
+    "fan": 17038
+   }
+  },
+  {
+   "esn": "A-185",
+   "operator": "ANAウイングス",
+   "window": [
+    15,
+    20
+   ],
+   "allowed_workscopes": [
+    "FULL"
+   ],
+   "watch": false,
+   "hazard": 0.01,
+   "driver": "LLP",
+   "egt_margin": 37.7,
+   "llp_remaining": {
+    "core": 4752,
+    "lp": 9752,
+    "fan": 6140
    }
   }
  ],
@@ -727,175 +686,7 @@
   },
   "engines": [
    {
-    "esn": "A-103",
-    "lessor": "リース会社 A",
-    "return_t": 5,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
     "esn": "A-105",
-    "lessor": "リース会社 B",
-    "return_t": 5,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-107",
-    "lessor": "リース会社 C",
-    "return_t": 4,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-108",
-    "lessor": "リース会社 A",
-    "return_t": 22,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-113",
-    "lessor": "リース会社 B",
-    "return_t": 18,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-115",
-    "lessor": "リース会社 C",
-    "return_t": 18,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-118",
-    "lessor": "リース会社 A",
-    "return_t": 8,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-121",
-    "lessor": "リース会社 B",
-    "return_t": 21,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-124",
-    "lessor": "リース会社 C",
-    "return_t": 14,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-127",
-    "lessor": "リース会社 A",
-    "return_t": 9,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-130",
-    "lessor": "リース会社 B",
-    "return_t": 6,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-133",
-    "lessor": "リース会社 C",
-    "return_t": 6,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-134",
-    "lessor": "リース会社 A",
-    "return_t": 21,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-135",
-    "lessor": "リース会社 B",
-    "return_t": 18,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-137",
-    "lessor": "リース会社 C",
-    "return_t": 9,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-145",
-    "lessor": "リース会社 A",
-    "return_t": 10,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-151",
-    "lessor": "リース会社 B",
-    "return_t": 17,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-153",
-    "lessor": "リース会社 C",
-    "return_t": 9,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-163",
-    "lessor": "リース会社 A",
-    "return_t": 15,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-164",
-    "lessor": "リース会社 B",
-    "return_t": 6,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-165",
-    "lessor": "リース会社 C",
-    "return_t": 21,
-    "min_llp_cycles": 3000,
-    "min_egt_margin": 15,
-    "extend_option_months": 6
-   },
-   {
-    "esn": "A-178",
     "lessor": "リース会社 A",
     "return_t": 7,
     "min_llp_cycles": 3000,
@@ -903,17 +694,169 @@
     "extend_option_months": 6
    },
    {
-    "esn": "A-182",
+    "esn": "A-107",
     "lessor": "リース会社 B",
+    "return_t": 21,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-115",
+    "lessor": "リース会社 C",
     "return_t": 3,
     "min_llp_cycles": 3000,
     "min_egt_margin": 15,
     "extend_option_months": 6
    },
    {
-    "esn": "A-186",
+    "esn": "A-118",
+    "lessor": "リース会社 A",
+    "return_t": 9,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-119",
+    "lessor": "リース会社 B",
+    "return_t": 5,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-122",
     "lessor": "リース会社 C",
-    "return_t": 11,
+    "return_t": 5,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-123",
+    "lessor": "リース会社 A",
+    "return_t": 4,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-132",
+    "lessor": "リース会社 B",
+    "return_t": 22,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-133",
+    "lessor": "リース会社 C",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-137",
+    "lessor": "リース会社 A",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-140",
+    "lessor": "リース会社 B",
+    "return_t": 8,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-145",
+    "lessor": "リース会社 C",
+    "return_t": 21,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-151",
+    "lessor": "リース会社 A",
+    "return_t": 14,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-155",
+    "lessor": "リース会社 B",
+    "return_t": 9,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-157",
+    "lessor": "リース会社 C",
+    "return_t": 6,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-161",
+    "lessor": "リース会社 A",
+    "return_t": 6,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-169",
+    "lessor": "リース会社 B",
+    "return_t": 21,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-176",
+    "lessor": "リース会社 C",
+    "return_t": 18,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-178",
+    "lessor": "リース会社 A",
+    "return_t": 9,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-180",
+    "lessor": "リース会社 B",
+    "return_t": 10,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-181",
+    "lessor": "リース会社 C",
+    "return_t": 17,
+    "min_llp_cycles": 3000,
+    "min_egt_margin": 15,
+    "extend_option_months": 6
+   },
+   {
+    "esn": "A-185",
+    "lessor": "リース会社 A",
+    "return_t": 9,
     "min_llp_cycles": 3000,
     "min_egt_margin": 15,
     "extend_option_months": 6

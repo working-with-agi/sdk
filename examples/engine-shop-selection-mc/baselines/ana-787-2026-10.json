@@ -29,9 +29,9 @@
   "fleet": "data/ana/787/fleet.json",
   "shops": "data/ana/787/shops.json"
  },
- "created": "2026-09-27T02:55:13+00:00",
+ "created": "2026-09-27T04:01:22+00:00",
  "inputs": {
-  "fleet.json": "2c9cf48f36c55442",
+  "fleet.json": "62ebaac786944ab5",
   "shops.json": "b27bb30741880ec5"
  },
  "settings": {
@@ -263,6 +263,16 @@
  "plan_of_record": {
   "total_cost": 528427.476362776,
   "p90": 618279.3833177005,
+  "committed": 459805.0,
+  "recourse": 68622.47636277604,
+  "recourse_p90": 158474.3833177004,
+  "recourse_parts": {
+   "overrun": 61049.32136277604,
+   "lease": 64.875,
+   "substitute": 0.0,
+   "aog": 308.28,
+   "emergency_kits": 7200.0
+  },
   "aog_prob": 0.1125,
   "by_fiscal_year": {
    "FY2026": {
@@ -2148,6 +2158,16 @@
    "summary": {
     "total_cost": 528427.476362776,
     "p90": 618279.3833177005,
+    "committed": 459805.0,
+    "recourse": 68622.47636277604,
+    "recourse_p90": 158474.3833177004,
+    "recourse_parts": {
+     "overrun": 61049.32136277604,
+     "lease": 64.875,
+     "substitute": 0.0,
+     "aog": 308.28,
+     "emergency_kits": 7200.0
+    },
     "aog_prob": 0.1125,
     "by_fiscal_year": {
      "FY2026": {
@@ -3265,6 +3285,16 @@
    "summary": {
     "total_cost": 532061.1285583337,
     "p90": 622092.8466532528,
+    "committed": 459940.0,
+    "recourse": 72121.12855833379,
+    "recourse_p90": 162152.84665325287,
+    "recourse_parts": {
+     "overrun": 60177.97855833378,
+     "lease": 40.5,
+     "substitute": 0.0,
+     "aog": 202.65,
+     "emergency_kits": 11700.0
+    },
     "aog_prob": 0.0755,
     "by_fiscal_year": {
      "FY2026": {
