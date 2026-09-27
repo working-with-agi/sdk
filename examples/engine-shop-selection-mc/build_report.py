@@ -83,7 +83,11 @@ def track_summary(t: dict) -> dict:
             "posterior": {W[w]["label"]: p for w, p in T["posterior"].items()},
             "switch": [{"to": C[c]["label"], "saving": s["saving"], "aog": s["aog_delta"], "changes": len(s["changes"]),
                         "decide_by": s["decide_by"], "overdue": s["overdue"]} for c, s in sw],
-            "demo": t["actuals"]["meta"].get("synthetic", False)}
+            "demo": t["actuals"]["meta"].get("synthetic", False),
+            # month by month, for the charts
+            "series": [{"as_of": x["as_of"], "posterior": {W[w]["label"]: p for w, p in x["posterior"].items()},
+                        "best_saving": max((v["saving"] for v in x["switch"].values()), default=0)} for x in t["timeline"]],
+            "world_labels": [W[w]["label"] for w in W]}
 
 
 def unsourced(company_id: str) -> list[dict]:
@@ -165,7 +169,8 @@ def company(baseline_path: Path, deltas_path: Path | None, actuals_path: Path | 
         "aog_prob": b["plan_of_record"]["aog_prob"], "total_cost": b["plan_of_record"]["total_cost"],
         "relaxed": b["plan_of_record"].get("relaxed", []),
         "fiscal_years": fy_rows(b), "months": months(b),
-        "plan": [{k: r[k] for k in ("esn", "month", "t", "fy", "workscope", "shop", "exp_cost", "limit", "watch", "deadline_t", "deadline_reason")}
+        "plan": [{k: r[k] for k in ("esn", "month", "t", "fy", "workscope", "shop", "exp_cost", "limit", "watch", "deadline_t", "deadline_reason", "quoted_off_wing")}
+                 | {"earliest_t": b["monthly"]["labels"].index(r["earliest"]), "limit_t": b["monthly"]["labels"].index(r["limit"])}
                  | {"shop_name": names.get(r["shop"], r["shop"]),
                     "decide_by": b["monthly"]["labels"][r["deadline_t"]] if r["deadline_t"] >= 0 else "手配済み（前提）"}
                  for r in b["plan"]],
