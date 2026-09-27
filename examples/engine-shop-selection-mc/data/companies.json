@@ -353,8 +353,8 @@
      "12": 1
     },
     "airframe_checks_source": "no_source: 旧サンプルを機数比で縮小、閑散月に寄せる",
-    "leased": 5,
-    "leased_source": "no_source: リース機数は非公表、5 機の仮定"
+    "leased": 13,
+    "leased_source": "ANA 737-800 39 機（所有 26・リース 13、FY2024 末） https://www.ana.co.jp/group/investors/data/kessan/pdf/2025_04_2.pdf"
    },
    "engines": {
     "installed": 78,

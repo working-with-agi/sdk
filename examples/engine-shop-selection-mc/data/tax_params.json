@@ -1,0 +1,81 @@
+{
+ "note": "合成データ。税引後の物差しを作るための前提。税額を減らす・場所や時期を税のために選ぶものではなく、同じ計画の税引後の費用を並べるだけ。会計方針・税務の扱いは実際の会社のものではなく、税理士・会計士の確認が要る。金額は k$。",
+ "discount_rate": 0.07,
+ "discount_rate_source": {"source": "no_source: 資本コストの仮定（finance.py・invest.py と同じ 7%）", "confidence": "no_source"},
+ "by_country": {
+  "JP": {
+   "FY2026": {
+    "corporate_effective_rate": 0.306,
+    "corporate_effective_rate_source": {"source": "法定実効税率 約 30.62%（東京都・資本金 1 億円超の大法人、外形標準課税適用）。PwC Japan 税務ニュース 2023-12 https://www.pwc.com/jp/ja/knowledge/news/tax-news/2023/assets/pdf/tax-news-20231222.pdf", "confidence": "B"},
+    "defense_surtax": {"share_of_corporate_tax": 0.04, "basic_deduction_yen_m": 5, "effective_add": 0.0093, "applies": true,
+     "source": "防衛特別法人税：法人税額の 4% 相当（基礎控除 500 万円）、2026 年 4 月 1 日以後に開始する事業年度から。実効税率への上乗せは 23.2%×4%≒0.9pt の概算。財務省「令和 7 年度税制改正」 https://www.mof.go.jp/tax_policy/tax_reform/outline/fy2025/07taikou_01.htm、日本経済新聞 2024-12-20", "confidence": "C"},
+    "rate": 0.3153
+   },
+   "FY2027": {
+    "corporate_effective_rate": 0.306,
+    "corporate_effective_rate_source": {"source": "同上（FY2026）", "confidence": "B"},
+    "defense_surtax": {"share_of_corporate_tax": 0.04, "basic_deduction_yen_m": 5, "effective_add": 0.0093, "applies": true, "source": "同上（FY2026）", "confidence": "C"},
+    "rate": 0.3153
+   },
+   "FY2028": {
+    "corporate_effective_rate": 0.306,
+    "corporate_effective_rate_source": {"source": "同上（FY2026）。FY2028 以降の税率は据え置きの仮定", "confidence": "C"},
+    "defense_surtax": {"share_of_corporate_tax": 0.04, "basic_deduction_yen_m": 5, "effective_add": 0.0093, "applies": true, "source": "同上（FY2026）", "confidence": "C"},
+    "rate": 0.3153
+   }
+  }
+ },
+ "depreciation": {
+  "engine": {"years": 10, "method": "定率法", "rate": 0.2, "guarantee_rate": 0.06552, "revised_rate": 0.25,
+   "source": "減価償却資産の耐用年数等に関する省令 別表第一「航空機（主として金属製）10 年」を航空機用エンジン・予備エンジンに当てる。200% 定率法（2012 年 4 月以後取得）の償却率 0.200、保証率 0.06552、改定償却率 0.250（別表第十） https://www.nta.go.jp/taxes/shiraberu/taxanswer/hojin/5404.htm", "confidence": "B"},
+  "shop_building": {"years": 38, "method": "定額法", "rate": 0.027,
+   "source": "別表第一 鉄骨鉄筋コンクリート造・工場用 38 年（建物は 1998 年 4 月以後、定額法のみ）。整備工場の建屋に当てる仮定", "confidence": "C"},
+  "shop_machinery": {"years": 10, "method": "定率法", "rate": 0.2, "guarantee_rate": 0.06552, "revised_rate": 0.25,
+   "source": "別表第二 機械及び装置「航空機整備業用設備」相当 10 年の仮定（試運転設備・部品修理設備）", "confidence": "C"},
+  "capex_split": {"building": 0.3, "machinery": 0.7, "source": "no_source: 国内工場の投資額を建屋 3 割・機械 7 割に分ける仮定", "confidence": "no_source"},
+  "simplification": "定率法は初年度 0.2 の定率、償却額が保証額（取得価額×保証率）を下回った年から改定償却率で残額を均等に落とす。月割り（取得月からの按分）は省略し、取得した年度に 1 年分を計上"
+ },
+ "repair_vs_capital": {
+  "PR": {"repair": 1.0, "capital": 0.0},
+  "CORE": {"repair": 0.6, "capital": 0.4},
+  "FULL": {"repair": 0.45, "capital": 0.55},
+  "rule": "性能回復（清掃・検査・修理）＝修繕費として当期の損金、寿命部品（LLP）の交換＝資本的支出として資産計上・償却",
+  "source": "no_source: 合成の仮定。整備範囲ごとの修繕費／資本的支出の割合は寿命部品キットの価格比からの推定であり、実際の会社の会計方針ではない（法人税基本通達 7-8-1〜7-8-2 の区分は個別判断）",
+  "confidence": "no_source"
+ },
+ "customs": {
+  "repair_reimport_relief": {"non_deductible_share": 0.0, "source": "海外の工場で修理するための輸出・再輸入は関税の減税（関税定率法 11 条 加工又は修繕のため輸出された貨物の減税）。国税庁・税関 https://www.customs.go.jp/tetsuzuki/c-answer/imtsukan/1907_jr.htm", "confidence": "B"},
+  "civil_aircraft_agreement": {"parts_duty": 0.0, "source": "WTO 民間航空機貿易協定により航空機・航空機部品は無税（実行関税率表 第 88 類）", "confidence": "B"},
+  "import_vat": {"neutral": true, "source": "輸入消費税は仕入税額控除で中立（消費税法 30 条）。国際線の課税売上割合により一部控除できない可能性は無視する仮定", "confidence": "C"}
+ },
+ "subsidy": {
+  "compression_bookkeeping": true,
+  "source": "国庫補助金等で取得した固定資産の圧縮記帳（法人税法 42 条）。補助金への課税を償却期間にわたって繰り延べる",
+  "confidence": "B",
+  "share_assumed": 0.25,
+  "share_source": {"source": "data/leap_invest.json の補助率 0〜50% の一様分布の中央値", "confidence": "C"}
+ },
+ "deferred_tax": {
+  "book_method_engine": "定額法 10 年",
+  "source": "no_source: 税効果会計（税務上の定率法と会計上の定額法の差 × 税率 を繰延税金負債の概算とする）。実際の会計方針ではない",
+  "confidence": "C"
+ },
+ "spares": {
+  "engine_value_k": 5500,
+  "engine_value_source": {"source": "no_source: CFM56-7B 中寿命エンジンの市場価値 5.5〜6.5 M$（finance.json と同じ）", "confidence": "no_source"},
+  "residual": "保有の場合、期末の税務簿価で売却できる（売却損益なし）と置く仮定",
+  "residual_confidence": "no_source"
+ },
+ "shops": {
+  "aog_lease_k_per_month": 130,
+  "aog_lease_source": {"source": "no_source: 翼を離れる期間が延びた分は短期リース 130 k$/月で埋める仮定（fleet.json short_term_lease と同じ）", "confidence": "no_source"},
+  "reference_workscope": "FULL"
+ },
+ "observe": [
+  {"what": "法定実効税率の改正（法人税率・地方法人税・事業税率）", "why": "税引後の費用・償却の盾が全年度で動く", "where": "税制改正大綱（毎年 12 月）", "trigger": "実効税率が ±0.5pt 動いたら"},
+  {"what": "防衛特別法人税の開始・税率（法人税額の 4%）", "why": "2026 年 4 月以後開始の事業年度から。税率や基礎控除の変更で上乗せ幅が変わる", "where": "財務省・国税庁", "trigger": "施行時期・率の変更"},
+  {"what": "耐用年数・償却方法の改正（航空機 10 年、定率法の償却率）", "why": "資本的支出の盾の時期が動く", "where": "耐用年数省令の改正", "trigger": "別表の改正"},
+  {"what": "修繕費／資本的支出の区分の税務判断", "why": "整備範囲ごとの割合が変われば当期の損金が動く", "where": "税理士・税務調査の指摘", "trigger": "区分の変更"},
+  {"what": "補助金の採択と圧縮記帳の適用", "why": "国内工場の税引後 NPV が動く", "where": "経産省の公募・採択", "trigger": "採択通知"}
+ ]
+}
