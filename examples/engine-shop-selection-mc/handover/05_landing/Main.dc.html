@@ -14,110 +14,89 @@ body{margin:0;font-family:"Noto Sans JP",sans-serif;background:#f6f4ee;color:#14
 a{color:#1f3d63}a:hover{color:#122744}
 </style>
 </helmet>
-<div style="width: 1280px; min-height: 4400px; box-sizing: border-box; display: flex; flex-direction: column; background: #f6f4ee; color: #141413; font-family: 'Noto Sans JP', sans-serif">
+<div style="width: 1280px; min-height: 4300px; box-sizing: border-box; display: flex; flex-direction: column; background: #f6f4ee; color: #141413; font-family: 'Noto Sans JP', sans-serif">
 
-  <div style="box-sizing: border-box; padding: 96px 96px 80px 96px; display: flex; flex-direction: column; gap: 26px; background: #141413; color: #f6f4ee">
-    <div style="font-size: 12px; letter-spacing: 0.2em; color: #cfcbc0">AETHER PLATFORM　／　エンジン整備（MRO）向け</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 60px; line-height: 1.2; color: #ffffff; max-width: 1000px">AI Assisted Solver</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 500; font-size: 26px; line-height: 1.5; color: #f6f4ee; max-width: 960px">エンジンの入場計画と予備の数を、数理最適化とシミュレーションが解く。AI が前提づくりと説明を支援し、整備計画部門と経営が決める。</div>
-    <div style="display: flex; gap: 14px; margin-top: 10px">
-      <div style="padding: 12px 20px; background: {{accent}}; color: #ffffff; border-radius: 8px; font-size: 14px; font-weight: 700">欠航率 5% 以下を、どの前提でも</div>
-      <div style="padding: 12px 20px; border: 1.5px solid #cfcbc0; color: #f6f4ee; border-radius: 8px; font-size: 14px; font-weight: 700">年次の版と、月次の補正</div>
-      <div style="padding: 12px 20px; border: 1.5px solid #cfcbc0; color: #f6f4ee; border-radius: 8px; font-size: 14px; font-weight: 700">決めるのは人。ソルバーの中身は AI ではない</div>
+  <div style="box-sizing: border-box; padding: 96px 96px 72px 96px; display: flex; flex-direction: column; gap: 24px; background: #141413; color: #f6f4ee">
+    <div style="font-size: 12px; letter-spacing: 0.2em; color: #cfcbc0">エンジン整備（MRO）の計画部門の方へ</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 52px; line-height: 1.25; color: #ffffff; max-width: 1040px">年初の入場計画は、3 か月で古くなる。予備エンジンが足りるかは、最後まで分からない。</div>
+    <div style="font-size: 19px; line-height: 1.75; color: #e8e4d8; max-width: 940px">工場の枠が埋まり、部品の納期回答がずれ、追加作業が出る。便数は増える。その都度、表計算を直し、予備を何基持つかを勘で決めている。</div>
+  </div>
+
+  <div style="box-sizing: border-box; padding: 64px 96px; display: flex; flex-direction: column; gap: 18px; border-bottom: 1px solid #d9d4c7">
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px">
+      <div style="padding: 24px 26px; background: #ffffff; border-left: 4px solid #8a2a2a; border-radius: 0 12px 12px 0; display: flex; flex-direction: column; gap: 8px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 19px">欠航してから気づく</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">工場の遅れが 2 か月重なると、稼働できるエンジンが必要数を割る。分かるのは、そうなってから。</div></div>
+      <div style="padding: 24px 26px; background: #ffffff; border-left: 4px solid #8a2a2a; border-radius: 0 12px 12px 0; display: flex; flex-direction: column; gap: 8px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 19px">買うか借りるかの根拠がない</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">予備を 1 基増やすのか、中寿命機を買うのか、プール契約で済ませるのか。数十億円の差が、担当者の経験で決まる。</div></div>
+      <div style="padding: 24px 26px; background: #ffffff; border-left: 4px solid #8a2a2a; border-radius: 0 12px 12px 0; display: flex; flex-direction: column; gap: 8px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 19px">前提が外れても、誰も気づかない</div><div style="font-size: 14px; line-height: 1.6; color: #2b2a26">劣化率・工期・計画外率は去年の平均のまま。今年が違う年だったと分かるのは、年度末。</div></div>
     </div>
   </div>
 
-  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 20px; border-bottom: 1px solid #d9d4c7">
-    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">MRO の現場で起きていること</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">入場は工場の枠と部品の納期で決まり、前提は毎月ずれる</div>
-    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 6px">
-      <div style="padding: 24px 26px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 8px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 20px">枠と納期が動く</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">工場の混雑、LLP キットの納期回答、追加作業。年初の計画は 3 か月で古くなる。</div></div>
-      <div style="padding: 24px 26px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 8px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 20px">予備エンジンが足りるか分からない</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">便数が増えれば必要数が増える。何基持つか、中寿命機を買うか、プールで済ませるかの根拠が薄い。</div></div>
-      <div style="padding: 24px 26px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 8px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 20px">前提の置き方に決まりがない</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">劣化率・工期・計画外率を、去年の平均で置くのか直近で置くのか。人によって違い、外れても気づかない。</div></div>
-    </div>
-  </div>
-
-  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 20px; background: #ffffff; border-bottom: 1px solid #d9d4c7">
-    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">AI Assisted Solver とは</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">解くのはソルバー、支援するのは AI、決めるのは人</div>
-    <div style="font-size: 17px; line-height: 1.75; color: #2b2a26; max-width: 960px">計画の中身を AI に任せない。再現できて検証できる計算が計画を作り、AI はその前後で人の仕事を軽くする。</div>
-    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 6px">
-      <div style="padding: 26px 28px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 12px; display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #1f3d63">SOLVE　解く</div>
-        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 22px">数理最適化 ＋ シミュレーション</div>
-        <div style="font-size: 14px; line-height: 1.75; color: #2b2a26">エンジンごとの入場月・作業範囲・工場を最適化（シナリオ 40 本）。その計画を 800 通りの将来で検証。予備・購入・プール・中寿命機を 1 手ずつ足し、どの前提でも欠航率 5% 以下になる購入計画を選ぶ。</div>
+  <div style="box-sizing: border-box; padding: 80px 96px 72px 96px; display: flex; flex-direction: column; gap: 22px; background: #ffffff; border-bottom: 1px solid #d9d4c7">
+    <div style="font-size: 12px; letter-spacing: 0.2em; color: {{accent}}; font-weight: 700">AI ASSISTED SOLVER</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 40px; line-height: 1.3; color: {{accent}}; max-width: 1000px">計画はソルバーが解く。前提は毎月学び直す。決めるのは、あなた。</div>
+    <div style="font-size: 17px; line-height: 1.75; color: #2b2a26; max-width: 940px">エンジンの入場計画と予備の数を、数理最適化とシミュレーションが解きます。AI は前提づくりと説明を支援し、整備計画部門と経営が決めます。</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 10px">
+      <div style="padding: 28px 28px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 14px; display: flex; flex-direction: column; gap: 10px">
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 44px; color: #1f3d63; line-height: 1">1</div>
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 21px; line-height: 1.4">どの前提でも壊れない購入計画</div>
+        <div style="font-size: 14px; line-height: 1.75; color: #2b2a26">予備・購入・プール・中寿命機を 1 手ずつ足し、800 通りの将来で試す。楽観でも悲観でも欠航率 5% 以下になる手だけを残す。</div>
       </div>
-      <div style="padding: 26px 28px; background: #efe3f3; border: 2px solid #5b2a7a; border-radius: 12px; display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #5b2a7a">ASSIST　支援する</div>
-        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 22px">AI が前提づくりと説明を担う</div>
-        <div style="font-size: 14px; line-height: 1.75; color: #2b2a26">前提の候補と打ち手の候補を出す。4 つの学習手法の成績を読んで来年の手法を推す。結果を文章にし、PDCA／OODA の症状表に振り分け、会議の論点を話題ごとに整理する。</div>
+      <div style="padding: 28px 28px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 14px; display: flex; flex-direction: column; gap: 10px">
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 44px; color: #1f3d63; line-height: 1">2</div>
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 21px; line-height: 1.4">前提を毎月学び直し、合図を出す</div>
+        <div style="font-size: 14px; line-height: 1.75; color: #2b2a26">劣化率・工期・納期を、4 つの学習手法で並行して更新。答えがばらついた月、3 か月先の欠航率が上がった月に、会議へ合図を出す。</div>
       </div>
-      <div style="padding: 26px 28px; background: #f3e7d3; border: 2px solid #7a3b1e; border-radius: 12px; display: flex; flex-direction: column; gap: 10px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #7a3b1e">DECIDE　決める</div>
-        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 22px">整備計画部門と経営</div>
-        <div style="font-size: 14px; line-height: 1.75; color: #2b2a26">年次の版の承認、購入・便数・投資の決定、月次の見直しで乗り換えるかどうか。判断材料は画面に、決めることと理由は 1 冊のレポートに。</div>
+      <div style="padding: 28px 28px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 14px; display: flex; flex-direction: column; gap: 10px">
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 44px; color: #1f3d63; line-height: 1">3</div>
+        <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 21px; line-height: 1.4">決める人に、1 冊で渡す</div>
+        <div style="font-size: 14px; line-height: 1.75; color: #2b2a26">年次レポートと月次レポートを統合した 1 冊。何を決めるか、理由、判断期限。数字の根拠は画面に、決めることは紙に。</div>
       </div>
     </div>
   </div>
 
-  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 20px; border-bottom: 1px solid #d9d4c7">
-    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">前提の置き方</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">前提を一つの方法で決めない。4 つの手法で学び、統合する</div>
-    <div style="font-size: 17px; line-height: 1.75; color: #2b2a26; max-width: 960px">劣化率・工期・計画外率・需要の伸びを、平均・直近重視・状況別・混合の 4 手法で並行して学ぶ。単純平均で 1 組の前提にし、4 つのばらつきが大きい月は見直しの合図にする。年に 1 回、過去の版に当てて成績を採点し、来年の手法を決める。前提が外れても壊れにくい計画になる。</div>
-  </div>
-
-  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 20px; background: #ffffff; border-bottom: 1px solid #d9d4c7">
-    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">導入後の 1 年</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">年に 1 回の版と、毎月の補正</div>
-    <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 6px">
-      <div style="padding: 20px 22px; background: #f6f4ee; border: 1px dashed #5b5a55; border-radius: 12px; display: flex; flex-direction: column; gap: 12px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #1f3d63">年に 1 回（10 月の版）</div>
-        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
-          <div style="padding: 16px 18px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 10px"><div style="font-size: 16px; font-weight: 700">① 年間見直し</div><div style="font-size: 13px; line-height: 1.65; color: #2b2a26; margin-top: 4px">過去 8 版を解き直して予測の癖を補正し、来年の手法を決める。</div></div>
-          <div style="padding: 16px 18px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 10px"><div style="font-size: 16px; font-weight: 700">② 計画（版）</div><div style="font-size: 13px; line-height: 1.65; color: #2b2a26; margin-top: 4px">ソルバーが解いて 800 通りで検証し、10 月に凍結。入場計画と購入計画。</div></div>
-          <div style="padding: 16px 18px; background: #f3e7d3; border: 2px solid #7a3b1e; border-radius: 10px"><div style="font-size: 16px; font-weight: 700">③ 年次レポート</div><div style="font-size: 13px; line-height: 1.65; color: #2b2a26; margin-top: 4px">経営が承認。年度の整備費と予算、欠航率、購入計画。</div></div>
-        </div>
-      </div>
-      <div style="display: flex; align-items: center; gap: 12px; padding: 0 22px; font-size: 13px; color: #5b5a55"><span style="flex-grow: 1; height: 2px; background: #5b5a55"></span><span>凍結した版を基準に 1 年回す。9 月末に翌年の ① へ</span><span style="flex-grow: 1; height: 2px; background: #5b5a55"></span></div>
-      <div style="padding: 20px 22px; background: #f6f4ee; border: 1px dashed #2f5d3a; border-radius: 12px; display: flex; flex-direction: column; gap: 12px">
-        <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #2f5d3a">毎月（月次会議）× 12</div>
-        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
-          <div style="padding: 16px 18px; background: #e6ebf3; border: 2px solid #1f3d63; border-radius: 10px"><div style="font-size: 16px; font-weight: 700">④ 月次見直し</div><div style="font-size: 13px; line-height: 1.65; color: #2b2a26; margin-top: 4px">実績を基準計画に当て、シナリオの確率を更新。AI が症状表と論点を用意する。</div></div>
-          <div style="padding: 16px 18px; background: #ffffff; border: 2px dashed #1f3d63; border-radius: 10px"><div style="font-size: 16px; font-weight: 700">⑤ 計画修正（必要な月だけ）</div><div style="font-size: 13px; line-height: 1.65; color: #2b2a26; margin-top: 4px">3 か月先の欠航率が 5% を超えそうなとき。乗り換え先と短期リースをソルバーが出す。</div></div>
-          <div style="padding: 16px 18px; background: #f3e7d3; border: 2px solid #7a3b1e; border-radius: 10px"><div style="font-size: 16px; font-weight: 700">⑥ 月次レポート</div><div style="font-size: 13px; line-height: 1.65; color: #2b2a26; margin-top: 4px">今月の判断期限、乗り換えの推奨、3 か月先の見張り。経営向けの 1 枚。</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 20px; border-bottom: 1px solid #d9d4c7">
+  <div style="box-sizing: border-box; padding: 64px 96px; display: flex; flex-direction: column; gap: 18px; border-bottom: 1px solid #d9d4c7">
     <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">見本での結果（合成データ、737-800 / CFM56-7B、2 社）</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">便の計画に合わせると足りない。手を 4 つ足すと欠航 2.4% に</div>
-    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 6px">
-      <div style="padding: 20px 22px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 36px; color: {{accent}}; line-height: 1.1">21.8% → 2.4%</div><div style="font-size: 13px; line-height: 1.6; color: #2b2a26">欠航率。中寿命機 4 基とプール 2 基を足して（上限つき）</div></div>
-      <div style="padding: 20px 22px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 36px; color: {{accent}}; line-height: 1.1">−32 <span style="font-size: 16px; color: #5b5a55">百万ドル</span></div><div style="font-size: 13px; line-height: 1.6; color: #2b2a26">2 年の期待費用。224.7 → 192.6</div></div>
-      <div style="padding: 20px 22px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 36px; color: {{accent}}; line-height: 1.1">+1.5 <span style="font-size: 16px; color: #5b5a55">か月</span></div><div style="font-size: 13px; line-height: 1.6; color: #2b2a26">過去 8 版の検証で見えた、入場時期の予測の癖（早すぎ）。次の版で補正</div></div>
-      <div style="padding: 20px 22px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 36px; color: {{accent}}; line-height: 1.1">±1pt</div><div style="font-size: 13px; line-height: 1.6; color: #2b2a26">乱数の種を 5 つ変えたときの欠航率の揺れ。結論は変わらない</div></div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px">
+      <div style="padding: 22px 24px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 40px; color: {{accent}}; line-height: 1.1">21.8% → 2.4%</div><div style="font-size: 13.5px; line-height: 1.6; color: #2b2a26">欠航率。便の計画に合わせた必要数に対し、中寿命機 4 基とプール 2 基を足して。</div></div>
+      <div style="padding: 22px 24px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 40px; color: {{accent}}; line-height: 1.1">−32 <span style="font-size: 18px; color: #5b5a55">百万ドル</span></div><div style="font-size: 13.5px; line-height: 1.6; color: #2b2a26">2 年の期待費用。入場を減らした分、工場との約束件数は見直しが要る。</div></div>
+      <div style="padding: 22px 24px; background: #ffffff; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 4px"><div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 40px; color: {{accent}}; line-height: 1.1">+1.5 <span style="font-size: 18px; color: #5b5a55">か月</span></div><div style="font-size: 13.5px; line-height: 1.6; color: #2b2a26">過去 8 版の検証で見つかった、入場時期の予測の癖。次の版で補正する。</div></div>
     </div>
-    <div style="font-size: 12.5px; color: #5b5a55">数値はすべて合成データの目安。実データは需要（e-Stat 航空輸送統計速報、各社月次資料）と型式の年表のみ。</div>
   </div>
 
-  <div style="box-sizing: border-box; padding: 72px 96px 88px 96px; display: flex; flex-direction: column; gap: 20px; background: #ffffff">
-    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">用意するもの</div>
-    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 34px; line-height: 1.35; color: {{accent}}">入口はダッシュボード、根拠は詳細レポート、配るのは 1 冊</div>
-    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 6px">
-      <div style="padding: 22px 24px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 18px; font-weight: 700">ダッシュボード</div><div style="font-size: 13.5px; line-height: 1.65; color: #2b2a26">年次と月次を暦に置き、KPI と不足の見張り、全ページへのリンク。</div></div>
-      <div style="padding: 22px 24px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 18px; font-weight: 700">詳細レポート（対話版）</div><div style="font-size: 13.5px; line-height: 1.65; color: #2b2a26">30 余りの画面。各図に「どう読むか・次にすること」の案内。</div></div>
-      <div style="padding: 22px 24px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 18px; font-weight: 700">統合レポート（A4）</div><div style="font-size: 13.5px; line-height: 1.65; color: #2b2a26">本文 1〜8 章＋付録。年次分と月次分を綴じた、印刷して配る 1 冊。</div></div>
+  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 18px; background: #ffffff; border-bottom: 1px solid #d9d4c7">
+    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">仕組み</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 30px; line-height: 1.35; color: {{accent}}">解くのはソルバー、支援するのは AI、決めるのは人</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 4px">
+      <div style="padding: 22px 24px; background: #e6ebf3; border: 1.5px solid #1f3d63; border-radius: 12px; display: flex; flex-direction: column; gap: 8px"><div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #1f3d63">SOLVE</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">入場月・作業範囲・工場を最適化（シナリオ 40 本）。800 通りの将来で検証。再現でき、検証できる計算。</div></div>
+      <div style="padding: 22px 24px; background: #efe3f3; border: 1.5px solid #5b2a7a; border-radius: 12px; display: flex; flex-direction: column; gap: 8px"><div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #5b2a7a">ASSIST</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">前提と打ち手の候補を出す。4 手法の成績を読んで来年の手法を推す。結果を文章にし、会議の論点を話題ごとに整理する。</div></div>
+      <div style="padding: 22px 24px; background: #f3e7d3; border: 1.5px solid #7a3b1e; border-radius: 12px; display: flex; flex-direction: column; gap: 8px"><div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #7a3b1e">DECIDE</div><div style="font-size: 14px; line-height: 1.7; color: #2b2a26">年次の版の承認、購入・便数・投資、月次の乗り換え。整備計画部門と経営。</div></div>
     </div>
-    <div style="display: flex; gap: 24px; margin-top: 10px; align-items: center">
-      <div style="font-size: 13px; line-height: 1.7; color: #2b2a26; flex-grow: 1">Aether Platform 上のエンジン計画コンポーネント。Secretary.io が会議と版をつなぐ。入力データから計画・検証・レポートまで一括で作り直せる（約 10 分）。既存の整備管理システムとは MCP でつなぐ。</div>
+  </div>
+
+  <div style="box-sizing: border-box; padding: 72px 96px; display: flex; flex-direction: column; gap: 18px; border-bottom: 1px solid #d9d4c7">
+    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">導入後の 1 年</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 30px; line-height: 1.35; color: {{accent}}">年に 1 回の版と、毎月の補正</div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 4px">
+      <div style="padding: 22px 24px; background: #ffffff; border: 1px dashed #5b5a55; border-radius: 12px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #1f3d63">年に 1 回（10 月）</div><div style="font-size: 14px; line-height: 1.8; color: #2b2a26"><b>① 年間見直し</b>　過去 8 版を解き直して予測の癖を補正し、来年の手法を決める<br><b>② 計画（版）</b>　ソルバーが解いて 800 通りで検証し、凍結<br><b>③ 年次レポート</b>　経営が承認</div></div>
+      <div style="padding: 22px 24px; background: #ffffff; border: 1px dashed #2f5d3a; border-radius: 12px; display: flex; flex-direction: column; gap: 10px"><div style="font-size: 12px; font-weight: 700; letter-spacing: 0.12em; color: #2f5d3a">毎月（月次会議）</div><div style="font-size: 14px; line-height: 1.8; color: #2b2a26"><b>④ 月次見直し</b>　実績を当て、シナリオの確率を更新。AI が論点を用意<br><b>⑤ 計画修正</b>　必要な月だけ。3 か月先の欠航率が 5% を超えそうなとき<br><b>⑥ 月次レポート</b>　判断期限・乗り換えの推奨・見張り。経営向け 1 枚</div></div>
+    </div>
+  </div>
+
+  <div style="box-sizing: border-box; padding: 72px 96px 88px 96px; display: flex; flex-direction: column; gap: 18px; background: #ffffff">
+    <div style="font-size: 12px; letter-spacing: 0.18em; color: #5b5a55">用意するもの</div>
+    <div style="font-family: 'Noto Serif JP', serif; font-weight: 700; font-size: 30px; line-height: 1.35; color: {{accent}}">入口はダッシュボード、根拠は詳細レポート、配るのは 1 冊</div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 4px">
+      <div style="padding: 20px 22px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 17px; font-weight: 700">ダッシュボード</div><div style="font-size: 13.5px; line-height: 1.65; color: #2b2a26">年次と月次を暦に置き、KPI と不足の見張り。</div></div>
+      <div style="padding: 20px 22px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 17px; font-weight: 700">詳細レポート</div><div style="font-size: 13.5px; line-height: 1.65; color: #2b2a26">30 余りの画面。各図に「どう読むか・次にすること」。</div></div>
+      <div style="padding: 20px 22px; background: #f6f4ee; border: 1px solid #cfcbc0; border-radius: 12px; display: flex; flex-direction: column; gap: 6px"><div style="font-size: 17px; font-weight: 700">統合レポート（A4）</div><div style="font-size: 13.5px; line-height: 1.65; color: #2b2a26">本文 1〜8 章＋付録。印刷して配る 1 冊。</div></div>
+    </div>
+    <div style="display: flex; gap: 24px; margin-top: 12px; align-items: center">
+      <div style="font-size: 13px; line-height: 1.7; color: #5b5a55; flex-grow: 1">Aether Platform 上のエンジン計画コンポーネント。Secretary.io が会議と版をつなぐ。既存の整備管理システムとは MCP で接続。数値はすべて合成データの目安。実データは需要統計（e-Stat）と型式の年表のみ。</div>
       <div style="padding: 14px 24px; background: {{accent}}; color: #ffffff; border-radius: 8px; font-size: 15px; font-weight: 700; white-space: nowrap">見本を開く</div>
     </div>
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1f3d63","options":["#1f3d63","#7a3b1e","#2f5d3a","#141413"]},"$preview":{"width":1280,"height":4400}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#1f3d63","options":["#1f3d63","#7a3b1e","#2f5d3a","#141413"]},"$preview":{"width":1280,"height":4300}}'>
 class Component extends DCLogic {
 renderVals() {
 return { accent: this.props.accent ?? '#1f3d63' };
