@@ -659,7 +659,7 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 .lead{{padding:22px 20px 8px;max-width:1400px}} .lead h1{{font-size:22px;margin:0 0 8px}} .lead .msg{{font-size:14px;line-height:1.7;margin:0 0 8px}}
 .lead .keys{{margin:0;padding-left:18px;font-size:13.5px;line-height:1.7}}
 .outputs{{padding:10px 20px 6px;max-width:1400px}} .outputs h2{{font-size:17px;margin:8px 0 6px}} .explain{{font-size:13px;line-height:1.75;margin:6px 0 14px}} .explain h3{{font-size:13.5px;margin:12px 0 2px;color:{HEAD}}} .explain p{{margin:0 0 4px}}
-.outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs a{{color:{PORT}}} .cycle svg{{width:100%;height:auto;max-width:1400px}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
+.outs{{border-collapse:collapse;width:100%;font-size:12.5px;margin:6px 0 10px}} .outs th,.outs td{{border:1px solid #e2e8f0;padding:5px 8px;text-align:left;vertical-align:top}} .outs th{{background:#f1f5f9}} .outs code{{font-size:11.5px;background:#f1f5f9;padding:1px 4px;border-radius:3px}} .outs a{{color:{PORT}}} .cycle svg{{width:100%;height:auto;max-width:1400px}} .hero{{margin:10px 0 0;max-width:1400px}} .hero svg{{width:100%;height:auto}}
 #panel{{display:none;border-left:1px solid #e2e8f0;background:#fff;padding:16px 18px;font-size:13px;line-height:1.6;position:sticky;top:56px;align-self:start;max-height:calc(100vh - 56px);overflow:auto}} .stage.open #panel{{display:block}}
 #panel h2{{font-size:16px;margin:0 0 2px}} #panel .cad{{color:{MUTE};font-size:12px;margin-bottom:10px}} #panel h3{{font-size:12.5px;margin:12px 0 4px;color:{HEAD};border-bottom:1px solid #e2e8f0;padding-bottom:2px}}
 #panel ul{{margin:0;padding-left:16px}} #panel .lit{{color:{MUTE};font-size:11.5px}} #panel .chips span{{display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px}}
@@ -691,7 +691,21 @@ svg{{display:block;max-width:100%;height:auto;transition:none}} .hide{{display:n
 <h3>誰が読むか</h3>
 <p>経営は③と⑥（決めることと理由）。整備計画は②と⑤（計画そのもの）。技術と調達は④（ずれと合図）。年間見直し①は技術・整備計画・経営企画が合同で行う。</p>
 </div>
-<table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>判断材料の画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table></section>
+<table class="outs"><thead><tr><th>成果物</th><th>いつ</th><th>誰が</th><th>中身</th><th>判断材料の画面</th><th>統合レポートの章</th></tr></thead><tbody>{out_rows}</tbody></table>
+<h3 style="font-size:15px;margin:18px 0 6px">これを支える道具立て：ダッシュボード・詳細レポート・別画面・図・文書</h3>
+<p class="msg">成果物 ①〜⑥ は、次のページ群がすでに生成する。入口は <a href="index.html">ダッシュボード</a>。年次と月次の計画を暦の上に置き、KPI・不足の見張り・話題ごとの論点を出し、すべての画面と文書へのリンクを持つ。</p>
+<table class="outs tools"><thead><tr><th>道具</th><th>何ができるか</th><th>対応する成果物</th><th>開く</th></tr></thead><tbody>
+<tr><td><b>ダッシュボード</b></td><td>年次の版と月次会議を暦にマッピング、KPI（整備費・欠航率・予算超過確率）、不足の見張りの警告、話題ごとの論点、意思決定 → 判断材料 → 画面の対応表、全リンク</td><td>入口（①〜⑥ すべて）</td><td><a href="index.html">index.html</a></td></tr>
+<tr><td><b>詳細レポート（対話版）</b></td><td>会社ごと・役割ごとに 30 余りの画面。年間計画と予算、エンジン別の明細、購入計画の輪、計画の追跡、変化点、不足の見張り、PDCA／OODA の見直し、過去で検証、客席の需要、税引後・資産、付録（計画の構造・二つの輪）。各図に「何の図か・どう読むか・言えること・次にすること」の案内</td><td>②⑤ の計画そのもの、④ の判断材料、① の採点</td><td><a href="report.html">report.html</a></td></tr>
+<tr><td><b>年間計画レポート</b></td><td>年度ごとの入場・整備費・予算、10 年先の見通しを 1 画面に</td><td>③ 年次レポート</td><td><a href="annual.html">annual.html</a></td></tr>
+<tr><td><b>月次レポート</b></td><td>今月の判断期限、乗り換えの推奨、着地の更新を 1 画面に</td><td>⑥ 月次レポート</td><td><a href="monthly.html">monthly.html</a></td></tr>
+<tr><td><b>計画の追跡（別画面）</b></td><td>実績と計画の差、シナリオの確率、乗り換えの価値と判断期限</td><td>④ 月次見直し・⑤ 計画修正</td><td><a href="track.html">track.html</a></td></tr>
+<tr><td><b>統合レポート（A4・PDF）</b></td><td>本文 1〜8 章＋付録 A〜E。印刷して配る形</td><td>①〜⑥ を綴じたもの</td><td><a href="report_a4.html">report_a4.html</a></td></tr>
+<tr><td><b>図</b></td><td>基本計画（年次、PDCA）と詳細計画（月次、OODA）の 2 頁、分析の全体像（本ページ）、ストラテジーの流れ</td><td>付録 A・B</td><td><a href="plan_basic.html">plan_basic</a> ／ <a href="plan_detail.html">plan_detail</a> ／ <a href="strategy_stack.html">strategy_stack</a></td></tr>
+<tr><td><b>文書</b></td><td>ストーリー（需要から検証まで）、付録（思考の枠組み・文献・シミュレーションの範囲）、概念設計（分析ストラテジー）、要件と対応の記録、README・進め方・実務との距離</td><td>付録・背景</td><td><a href="story.html">story</a> ／ <a href="appendix.html">appendix</a> ／ <a href="design_strategy.html">design</a> ／ <a href="requirements.html">requirements</a></td></tr>
+<tr><td><b>再生成</b></td><td>すべて <code>run_all.sh</code> 一発で、入力データから計画・検証・レポート・ダッシュボード・A4 版まで作り直す（約 10 分）。AI 層は API キーがあれば見直しの文章を生成、なければ規則層に落ちる</td><td>①〜⑥ の更新</td><td>—</td></tr>
+</tbody></table>
+<p class="msg" style="color:#64748b;font-size:12.5px">任意で足せる画面：条件を動かして打ち手の変化を見る画面（what-if）、承認／保留／差し戻しを共有する判断ルーム。今の一括生成には含めていない。</p></section>
 <div class="bar"><b style="font-size:13px;margin-right:6px">見方を切り替える：</b>{tabs}<label><input type="checkbox" id="anim" checked> 動き（流れを表示）</label></div>
 <div style="padding-top:10px">{caps}</div>
 <div class="zoombar">拡大中：<b id="zoomlabel"></b><button type="button" id="zoomout">全体に戻る</button><button type="button" id="prev">▲ 上の行</button><button type="button" id="next">▼ 下の行</button></div>
