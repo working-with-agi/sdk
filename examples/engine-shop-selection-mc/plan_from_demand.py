@@ -38,22 +38,65 @@ UTIL_CAP = 1.10          # an aircraft cannot fly more than +10 % per year of wh
 GROWTH_YEARS = ("FY2023", "FY2025")
 
 
-def derive(D: dict, cid: str) -> dict:
+LONG_YEARS = ("FY2018", "FY2025")     # the long-run trend spans the COVID years, so it is the cautious anchor
+REVIEW_EVERY_MONTHS = 12               # the growth assumption is re-derived with every yearly version (PDCA)
+TRIGGER_PT = 0.03                      # an earlier review when the market's year-on-year strays this far from the assumption
+BLEND_FROM, BLEND_TO = 24, 60          # months: recent trend up to 2 years out, long-run trend from 5 years out
+
+
+def growth_at(months_ahead: int, g_short: float, g_long: float) -> float:
+    """Growth used for a month in the future: the recent trend near, the long-run trend far,
+    a straight blend between."""
+    if months_ahead <= BLEND_FROM:
+        return g_short
+    if months_ahead >= BLEND_TO:
+        return g_long
+    w = (months_ahead - BLEND_FROM) / (BLEND_TO - BLEND_FROM)
+    return g_short * (1 - w) + g_long * w
+
+
+def review_schedule(D: dict, g_short: float, as_of: str) -> dict:
+    """When the growth assumption is next reviewed, and whether the latest data already
+    triggers an earlier one."""
+    months = D["market"]["months"]
+    by = {x["m"]: x for x in months}
+    yoy = []
+    for x in months:
+        prev = by.get(f"{int(x['m'][:4]) - 1}{x['m'][4:]}")
+        if prev:
+            yoy.append({"m": x["m"], "yoy": round(x["rpk"] / prev["rpk"] - 1, 4)})
+    latest = yoy[-1] if yoy else None
+    y, m = (int(v) for v in as_of.split("-"))
+    m2 = y * 12 + (m - 1) + REVIEW_EVERY_MONTHS
+    nxt = f"{m2 // 12}-{m2 % 12 + 1:02d}"
+    trig = bool(latest and abs(latest["yoy"] - g_short) > TRIGGER_PT)
+    return {"every_months": REVIEW_EVERY_MONTHS, "derived_at": as_of, "data_through": months[-1]["m"], "next_review": nxt,
+            "trigger_pt": TRIGGER_PT, "latest_yoy": latest, "triggered": trig,
+            "rule": f"年 1 回（年次の版）に直近の実績で引き直す。市場の前年比が仮定から {TRIGGER_PT:.0%} 以上外れた月があれば、年次を待たず月次会議で見直す",
+            "note": ("直近の前年比は 13 か月分の速報からで、同月比較が取れる月だけ" + (f"。最新 {latest['m']} は {latest['yoy']:+.1%}（仮定 {g_short:+.1%}）" if latest else ""))}
+
+
+def derive(D: dict, cid: str, as_of: str = "2026-10") -> dict:
     mv = demand.market_view(D)
     fi = {c["month"]: c["demand_index"] for c in mv["seasonal"]}
     fy = {f["fy"]: f for f in D["market"]["fiscal_years"]}
     a, b = fy[GROWTH_YEARS[0]], fy[GROWTH_YEARS[1]]
     n = int(GROWTH_YEARS[1][2:]) - int(GROWTH_YEARS[0][2:])
     g = (b["rpk"] / a["rpk"]) ** (1 / n) - 1
+    la, lb = fy[LONG_YEARS[0]], fy[LONG_YEARS[1]]
+    nl = int(LONG_YEARS[1][2:]) - int(LONG_YEARS[0][2:])
+    g_long = (lb["rpk"] / la["rpk"]) ** (1 / nl) - 1
     th = D["assumptions"]["lf_capacity_threshold"]
     C = D["companies"][cid]
     known = [x for x in C["months"] if x["ask"] and x["rpk"]]
     lf_now = sum(x["rpk"] for x in known) / sum(x["ask"] for x in known) if known else b["lf"] / 100
     ask_ratio = lf_now * (1 + g) / th          # ASK next year / ASK now to hold L/F at the threshold with demand grown
     util = min(UTIL_CAP, max(1.0, ask_ratio))
-    return {"flight_index": fi, "demand_growth_per_year": round(g, 4), "utilisation_multiplier": round(util, 4),
+    curve = [{"months_ahead": t, "growth": round(growth_at(t, g, g_long), 4)} for t in (0, 12, 24, 36, 48, 60, 120)]
+    return {"flight_index": fi, "demand_growth_per_year": round(g, 4), "demand_growth_long_run": round(g_long, 4), "growth_by_horizon": curve,
+            "utilisation_multiplier": round(util, 4), "review": review_schedule(D, g, as_of),
             "how": {"flight_index": "市場の月次 RPK ÷ 平均（航空輸送統計速報 13 か月）",
-                    "growth": f"{GROWTH_YEARS[0]}→{GROWTH_YEARS[1]} の市場 RPK の年率（{a['rpk']:,} → {b['rpk']:,} 百万人キロ）",
+                    "growth": f"{GROWTH_YEARS[0]}→{GROWTH_YEARS[1]} の市場 RPK の年率（{a['rpk']:,} → {b['rpk']:,} 百万人キロ）。2 年先まではこの値、5 年先からは長期 {LONG_YEARS[0]}→{LONG_YEARS[1]} の年率 {g_long:+.1%}（コロナをまたぐ）に寄せる",
                     "utilisation": f"利用率 {lf_now:.1%} を閾値 {th:.0%} に戻しつつ需要 +{g:.1%} を運ぶのに要る供給の比 {ask_ratio:.3f}、上限 {UTIL_CAP}",
                     "lf_now": round(lf_now, 4), "ask_ratio": round(ask_ratio, 4)}}
 
@@ -77,7 +120,8 @@ def build_fleet(cid: str, overrides: dict) -> tuple[dict, dict]:
     H = cur["horizon_months"]
     g = float(overrides.get("demand_growth_per_year", 0.0))
     cap = 2 * cfg["aircraft"]["total"]
-    required = [min(cap, int(math.ceil(lifecycle.needed_positions(t) * (1 + g) ** (t / 12)))) for t in range(H)]
+    g_long = float(overrides.get("demand_growth_long_run", g))
+    required = [min(cap, int(math.ceil(lifecycle.needed_positions(t) * (1 + growth_at(t, g, g_long)) ** (t / 12)))) for t in range(H)]
     u = float(overrides["utilisation_multiplier"])
     new = json.loads(json.dumps(cur))
     new["engines"] = [{k: r[k] for k in ("esn", "operator", "window", "allowed_workscopes", "watch", "hazard", "driver", "egt_margin", "llp_remaining")} for r in rows]
@@ -131,7 +175,7 @@ def build(cid: str, do_solve: bool = True, scenarios: int = 40, seed: int = 42, 
     ov = derive(D, cid)
     cur = json.loads((HERE / "data" / cid / "fleet.json").read_text(encoding="utf-8"))
     cur_norms = cur["meta"]["derivation"]["norms_by_subfleet"]
-    new, n_new = build_fleet(cid, {k: ov[k] for k in ("flight_index", "demand_growth_per_year", "utilisation_multiplier")})
+    new, n_new = build_fleet(cid, {k: ov[k] for k in ("flight_index", "demand_growth_per_year", "demand_growth_long_run", "utilisation_multiplier")})
     b = json.loads((HERE / "baselines" / f"{cid}-2026-10.json").read_text(encoding="utf-8"))
     out = {"company": cid, "derived": ov, "current": {"flight_index": cur["meta"]["derivation"]["flight_index"], "subfleets": cur["meta"]["derivation"]["subfleets"]},
            "inputs": compare_inputs(cur, new),
@@ -164,6 +208,8 @@ def main(argv=None) -> int:
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
     d, i, n = out["derived"], out["inputs"], out["norms"]
+    r = d["review"]
+    print(f"{a.company}: growth review every {r['every_months']} mo, next {r['next_review']}, latest yoy {r['latest_yoy']['yoy'] if r['latest_yoy'] else None} -> {'TRIGGERED' if r['triggered'] else 'ok'}; long-run {d['demand_growth_long_run']:+.1%}")
     print(f"{a.company}: growth {d['demand_growth_per_year']:+.1%}/yr, utilisation x{d['utilisation_multiplier']}, due {i['due_now']} -> {i['due_new']} "
           f"(new {i['newly_due']}, gone {i['no_longer_due']}, earlier {i['earlier']}, later {i['later']}, mean shift {i['mean_shift_months']:+.1f} mo); "
           f"norms {n['now']['visits_per_year']:.1f} -> {n['new']['visits_per_year']:.1f} visits/yr, {n['now']['spend_per_year_k']:,.0f} -> {n['new']['spend_per_year_k']:,.0f} k$/yr")

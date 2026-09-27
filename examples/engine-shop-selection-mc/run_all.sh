@@ -27,7 +27,7 @@ for co in jal ana; do
   log "runout $co"; python3 runout.py $co --out "$OUT/runout/$co.json"
   log "demand $co"; python3 demand.py $co --runout "$OUT/runout/$co.json" --out "$OUT/demand/$co.json"
   python3 plan_from_demand.py $co --out "$OUT/demand/$co-plan.json" --scenarios 40 --time-limit 90
-  log "review $co"; python3 review.py $co --track "$OUT/track/$co-track-crunch.json" --roll "$OUT/roll/$co-roll-2027-10.json" --runout "$OUT/runout/$co.json" --history "$OUT/hist/$co-history.json" --out "$OUT/review/$co.json" ${REVIEW_NO_AI:+--no-ai}
+  log "review $co"; python3 review.py $co --track "$OUT/track/$co-track-crunch.json" --roll "$OUT/roll/$co-roll-2027-10.json" --runout "$OUT/runout/$co.json" --history "$OUT/hist/$co-history.json" --plan-from-demand "$OUT/demand/$co-plan.json" --out "$OUT/review/$co.json" ${REVIEW_NO_AI:+--no-ai}
 done
 cp "$OUT/runout/"*.json runout/ 2>/dev/null || true; cp "$OUT/review/"*.json review/ 2>/dev/null || true; cp "$OUT/demand/"*.json demand/ 2>/dev/null || true
 cp "$OUT/multi/"*.json multi/ 2>/dev/null || true

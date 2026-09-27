@@ -16,10 +16,55 @@
    "12": 0.972
   },
   "demand_growth_per_year": 0.0378,
+  "demand_growth_long_run": 0.0154,
+  "growth_by_horizon": [
+   {
+    "months_ahead": 0,
+    "growth": 0.0378
+   },
+   {
+    "months_ahead": 12,
+    "growth": 0.0378
+   },
+   {
+    "months_ahead": 24,
+    "growth": 0.0378
+   },
+   {
+    "months_ahead": 36,
+    "growth": 0.0303
+   },
+   {
+    "months_ahead": 48,
+    "growth": 0.0228
+   },
+   {
+    "months_ahead": 60,
+    "growth": 0.0154
+   },
+   {
+    "months_ahead": 120,
+    "growth": 0.0154
+   }
+  ],
   "utilisation_multiplier": 1.0258,
+  "review": {
+   "every_months": 12,
+   "derived_at": "2026-10",
+   "data_through": "2026-06",
+   "next_review": "2027-10",
+   "trigger_pt": 0.03,
+   "latest_yoy": {
+    "m": "2026-06",
+    "yoy": -0.0306
+   },
+   "triggered": true,
+   "rule": "年 1 回（年次の版）に直近の実績で引き直す。市場の前年比が仮定から 3% 以上外れた月があれば、年次を待たず月次会議で見直す",
+   "note": "直近の前年比は 13 か月分の速報からで、同月比較が取れる月だけ。最新 2026-06 は -3.1%（仮定 +3.8%）"
+  },
   "how": {
    "flight_index": "市場の月次 RPK ÷ 平均（航空輸送統計速報 13 か月）",
-   "growth": "FY2023→FY2025 の市場 RPK の年率（99,354 → 107,001 百万人キロ）",
+   "growth": "FY2023→FY2025 の市場 RPK の年率（99,354 → 107,001 百万人キロ）。2 年先まではこの値、5 年先からは長期 FY2018→FY2025 の年率 +1.5%（コロナをまたぐ）に寄せる",
    "utilisation": "利用率 84.0% を閾値 85% に戻しつつ需要 +3.8% を運ぶのに要る供給の比 1.026、上限 1.1",
    "lf_now": 0.8402,
    "ask_ratio": 1.0258

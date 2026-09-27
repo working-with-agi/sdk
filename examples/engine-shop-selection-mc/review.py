@@ -35,7 +35,7 @@ JP = {"Plan": "つくる", "Do": "回す", "Check": "確かめる", "Act": "直�
 
 
 # ------------------------------------------------------------------ 1. the fact pack
-def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None) -> dict:
+def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, history: dict | None = None, plan_from_demand: dict | None = None) -> dict:
     pr = b["plan_of_record"]
     labels = b["monthly"]["labels"]
     fy = {k: {"spend": v.get("spend", 0.0), "budget": b["budgets"].get(k)} for k, v in pr["by_fiscal_year"].items()}
@@ -82,6 +82,9 @@ def facts(b: dict, track: dict | None, roll: dict | None, runout: dict | None, h
                        "spend_k": T["spend_k"], "residual_value_k": T["residual_value_k"], "green_time_engines": T["green_time_engines"],
                        "heavy_late_engines": T["heavy_late_engines"], "plan_gaps": T["plan_gaps"], "plan_gap_max_months": T.get("plan_gap_max_months", 0), "policies": runout["policies"],
                        "without_runout": runout["without_runout"], "by_year": [{k: y[k] for k in ("year", "visits", "spend_k", "retired", "engines")} for y in runout["by_year"]]}
+    if plan_from_demand:
+        d = plan_from_demand["derived"]
+        F["demand_growth"] = {"short": d["demand_growth_per_year"], "long": d["demand_growth_long_run"], "review": d["review"], "utilisation": d["utilisation_multiplier"]}
     if history:
         fys = [f for v in history["versions"] for f in v["fiscal_years"] if f["months"] >= 6]
         F["history"] = {"fy_inside_range": sum(f["inside"] for f in fys), "fy_scored": len(fys), "stability": history.get("stability")}
@@ -174,6 +177,17 @@ def symptoms(F: dict) -> list[dict]:
                 add("PDCA", "Act", "info", f"{k} の学習は {v['n']} 件の実績（重み {v['weight']:.0%}）", f"事前 {v['prior']:.3g} → 更新 {v['updated']:.3g}", "件数が少ない前提は、他社・他機種の実績で補うか、来年まで動かさない")
         if Rl.get("cpd_reset"):
             add("PDCA", "Act", "ok", f"変化点で学習をリセット（{Rl['cpd_reset']['dropped']} 件を落とした）", "cpd_reset", "")
+    G = F.get("demand_growth")
+    if G:
+        r = G["review"]
+        if r.get("triggered"):
+            add("PDCA", "Act", "warn", f"需要の伸びの仮定（{G['short']:+.1%}/年）から市場の前年比（{r['latest_yoy']['m']} {r['latest_yoy']['yoy']:+.1%}）が {r['trigger_pt']:.0%} 以上外れた",
+                f"次の定期見直し {r['next_review']}、データは {r['data_through']} まで", "年次を待たず、需要の伸びを月次会議で引き直す（必要エンジン数と退役ペースに効く）")
+        else:
+            add("PDCA", "Act", "ok", f"需要の伸びの仮定は {r['derived_at']} に導出、次の見直し {r['next_review']}（{r['every_months']} か月ごと）",
+                f"直近の前年比 {r['latest_yoy']['yoy']:+.1%}（{r['latest_yoy']['m']}）は仮定 {G['short']:+.1%} の範囲内" if r.get("latest_yoy") else "前年比なし", "")
+        if abs(G["short"] - G["long"]) > 0.02:
+            add("PDCA", "Plan", "info", f"直近の伸び {G['short']:+.1%} と長期の伸び {G['long']:+.1%} の差が大きい", "2 年先までは直近、5 年先からは長期に寄せる（growth_by_horizon）", "退役までの列と予備の数は長期の伸びで、窓の中は直近で見る")
     H = F.get("history")
     if H and H["fy_scored"]:
         r = H["fy_inside_range"] / H["fy_scored"]
@@ -244,10 +258,10 @@ def ai_review(F: dict, sym: list[dict]) -> dict:
 
 
 def build(cid: str, baseline_path: Path | None, track_path: Path | None, roll_path: Path | None, runout_path: Path | None,
-          history_path: Path | None = None, use_ai: bool = True) -> dict:
+          history_path: Path | None = None, use_ai: bool = True, plan_path: Path | None = None) -> dict:
     load = lambda p: json.loads(p.read_text(encoding="utf-8")) if p and Path(p).exists() else None  # noqa: E731
     b = load(baseline_path or HERE / "baselines" / f"{cid}-2026-10.json")
-    F = facts(b, load(track_path), load(roll_path), load(runout_path), load(history_path))
+    F = facts(b, load(track_path), load(roll_path), load(runout_path), load(history_path), load(plan_path))
     sym = symptoms(F)
     rev = ai_review(F, sym) if use_ai else {"mode": "rules", "reason": "--no-ai", "text": rules_text(F, sym)}
     return {"company": cid, "facts": F, "symptoms": sym, "coverage": coverage(sym), "review": rev,
@@ -263,10 +277,11 @@ def main(argv=None) -> int:
     ap.add_argument("--roll", type=Path)
     ap.add_argument("--runout", type=Path)
     ap.add_argument("--history", type=Path)
+    ap.add_argument("--plan-from-demand", type=Path, help="plan_from_demand.py output (growth review schedule)")
     ap.add_argument("--out", type=Path)
     ap.add_argument("--no-ai", action="store_true")
     a = ap.parse_args(argv)
-    out = build(a.company, a.baseline, a.track, a.roll, a.runout, a.history, use_ai=not a.no_ai)
+    out = build(a.company, a.baseline, a.track, a.roll, a.runout, a.history, use_ai=not a.no_ai, plan_path=a.plan_from_demand)
     p = a.out or HERE / "review" / f"{a.company}.json"
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(out, ensure_ascii=False, indent=1, default=float), encoding="utf-8")
