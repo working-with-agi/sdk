@@ -85,6 +85,16 @@ def case_problem(p, case: str):
     if case in ("crunch", "stress"):
         lead = 12 if level is None or case == "stress" else int(round(level))
         p = dataclasses.replace(p, llp_kit_lead_months=lead, llp_kits_on_hand=max(1, p.llp_kits_on_hand // 2))
+    if case == "late":
+        # the type's late years: shop capacity migrates to the successor (slots down),
+        # TAT stretches, parts cost more (typelife.py assumptions; level = slot share lost)
+        lost = 0.3 if level is None else level
+        shops = []
+        for k in p.shops:
+            k = dataclasses.replace(k, slots=max(1, int(round(k.slots * (1 - lost)))),
+                                    quotes={w: dataclasses.replace(q, tat=q.tat + 1, price=q.price * 1.05) for w, q in k.quotes.items()})
+            shops.append(k)
+        p = dataclasses.replace(p, shops=shops)
     if case == "stress":
         p = dataclasses.replace(
             p,

@@ -171,12 +171,12 @@ const DATA = /*__DATA__*/null;
     budget: ["exec", "fin", "plan"], month: ["ops", "plan"], track: ["exec", "plan"], actions: ["exec", "fin", "proc"],
     invest: ["exec", "proc", "fin"], history: ["exec", "plan", "tech"], horizon: ["exec"], sources: ["tech"],
     quote: ["plan", "tech", "fin"], trend: ["tech", "plan", "ops"], spares: ["ops", "plan", "exec"], offer: ["proc", "fin"],
-    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"], demand: ["exec", "ops", "fin"], backtest: ["exec", "plan", "tech"],
+    cash: ["fin", "exec"], reliability: ["tech", "exec"], roll: ["exec", "plan", "fin"], cpd: ["tech", "plan", "exec"], fleets: ["exec", "fin", "plan"], resilience: ["exec", "fin", "plan", "ops"], finance: ["exec", "fin", "proc"], tax: ["exec", "fin"], lease: ["plan", "proc", "fin"], mx4: ["fin", "exec", "proc"], loops: ["exec", "plan", "tech"], runout: ["plan", "exec", "fin"], review: ["exec", "plan"], demand: ["exec", "ops", "fin"], backtest: ["exec", "plan", "tech"], playbook: ["exec", "proc", "plan"],
   };
   const VIEWS = {
     summary: { label: "経営サマリー", level: 1 },
     budget: { label: "年間計画と予算", level: 2 }, month: { label: "今月からの判断", level: 2 },
-    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
+    track: { label: "計画の追跡", level: 2 }, cpd: { label: "変化点と前提の整合", level: 2 }, fleets: { label: "機種横断（会社全体）", level: 2 }, resilience: { label: "立て直しの安さ", level: 2 }, finance: { label: "お金の仕組み（税・資金・規模）", level: 2 }, tax: { label: "税引後で比べる", level: 2 }, lease: { label: "リース返却", level: 2 }, mx4: { label: "積立金と機体価値（資産側）", level: 2 }, runout: { label: "退役までの入場列", level: 2 }, demand: { label: "客席の需要（一つ上の層）", level: 2 }, backtest: { label: "過去で検証（バックテスト）", level: 2 }, playbook: { label: "打ち手の順番（実行計画）", level: 2 }, review: { label: "PDCA／OODA の見直し（AI）", level: 2 }, loops: { label: "PDCA と OODA（二つの輪）", level: 2 }, actions: { label: "打ち手の効果", level: 2 },
     invest: { label: "国内工場の新設", level: 2 }, sources: { label: "前提と出典", level: 4 },
     engines: { label: "エンジン別の明細", level: 3 },
     history: { label: "過去の計画との整合", level: 2 }, horizon: { label: "時間軸のつながり", level: 2 },
@@ -194,7 +194,7 @@ const DATA = /*__DATA__*/null;
     $("crumb").querySelectorAll("button").forEach((b) => (b.onclick = () => go(...path.slice(0, +b.dataset.i + 1))));
     $("levels").innerHTML = ["1 結論", "2 ユースケース", "3 明細", "4 前提と出典"].map((l, i) => `<span class="${VIEWS[v].level === i + 1 ? "on" : ""}">${l}</span>`).join("");
     $("title").textContent = `エンジン整備レポート：${C().name}`;
-    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review, demand, backtest })[v]();
+    $("view").innerHTML = ({ summary, budget, month, track, actions, invest, sources, engines, history, horizon, quote, trend, spares, offer, cash, reliability, roll, cpd, fleets, loops, resilience, finance, lease, tax, mx4, runout, review, demand, backtest, playbook })[v]();
     $("view").querySelectorAll("[data-role]").forEach((el) => (el.onclick = () => { role = el.dataset.role; render(); }));
     $("view").querySelectorAll("[data-go]").forEach((el) => (el.onclick = () => go(...path, el.dataset.go)));
   }
@@ -343,6 +343,7 @@ const DATA = /*__DATA__*/null;
     const cards = [
       c.demand ? card("demand", demandCls(c.demand), "客席の需要（一つ上の層）", demandLine(c.demand), seatDemandChart(c.demand, 320, 110, true)) : "",
       c.runout ? card("runout", runoutCls(c.runout), "退役までの入場列", runoutLine(c.runout), runoutYears(c.runout, 320, 110, true)) : "",
+      c.playbook ? card("playbook", c.playbook.verdict.some((v) => v.status === "warn") ? "warn" : "ok", "打ち手の順番（実行計画）", playbookLine(c.playbook), "") : "",
       c.backtest ? card("backtest", backtestCls(c.backtest), "過去で検証（バックテスト）", backtestLine(c.backtest), timingHist(c.backtest.engine, 320, 110, true)) : "",
       c.review ? card("review", reviewCls(c.review), "PDCA／OODA の見直し（AI）", reviewLine(c.review), coverageGrid(c.review, true)) : "",
       c.mx4 ? card("mx4", "ok", "積立金と機体価値（資産側）", mx4Line(c.mx4), mx4Chart(c.mx4, 320, 110, true)) : "",
@@ -375,7 +376,7 @@ const DATA = /*__DATA__*/null;
     const keyOf = (h) => (h.match(/data-go="([a-z]+)"/) || [])[1];
     const all = [...cards, ...extra].filter(Boolean).filter((h) => role === "all" || (CARD_ROLES[keyOf(h)] || []).includes(role));
     // the cards in the order of the three layers, so the page reads top-down: make / decide / verify
-    const GROUPS = [["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["track", "cpd", "actions", "lease", "loops"]],
+    const GROUPS = [["上の層：需要と機材", ["demand"]], ["つくる：計画と予算", ["budget", "runout", "month", "fleets", "engines"]], ["決める：動かす・乗り換える", ["playbook", "track", "cpd", "actions", "lease", "loops"]],
       ["確かめる：決め方の採点", ["review", "backtest", "history", "roll", "horizon", "resilience", "sources"]], ["お金と資産", ["finance", "tax", "mx4", "cash"]],
       ["その場の判断", ["quote", "trend", "spares", "offer", "reliability"]], ["投資", ["invest"]]];
     const grouped = GROUPS.map(([title, keys]) => { const g = all.filter((h) => keys.includes(keyOf(h))).sort((a, b_) => keys.indexOf(keyOf(a)) - keys.indexOf(keyOf(b_))); return g.length ? `<h2 class="group">${title}</h2><div class="cards">${g.join("")}</div>` : ""; }).join("")
@@ -1087,6 +1088,21 @@ const DATA = /*__DATA__*/null;
           + Object.values(R.delivery_delay).filter((d) => typeof d === "object").map((d) => `<tr><td>${d.months} か月</td><td>${d.end}</td><td>+${d.extra_visits}</td><td>${(d.extra_spend_k / 1000).toFixed(1)}</td><td>${d.months_short}</td><td>+${d.known.extra_visits}</td><td>${(d.known.extra_spend_k / 1000).toFixed(1)}</td><td>${d.known.months_short}</td><td><b>${((d.extra_spend_k - d.known.extra_spend_k) / 1000).toFixed(1)} 百万ドル</b></td></tr>`).join("") + `</tbody></table>`, esc(R.delivery_delay.note)) : "")
       + panel("印の付いた機", tbl, "残存価値はハーフライフ換算（mx4_params）。売却・グリーンタイムリースの価格ではない。")
       + panel("エンジンごとの注釈", eng, "なぜその整備範囲か、なぜ入場せずに退役か、を 1 行ずつ。");
+  }
+
+  /* ---------------- the playbook ---------------- */
+  const playbookLine = (P) => { const f = P.steps[P.steps.length - 1]; return `3 段で期待値 ${(-f.delta_vs_base.total_cost / 1000).toFixed(1)} 百万ドル、立て直し費 ${(-f.delta_vs_base.recourse / 1000).toFixed(1)} 百万ドル減、ループ ${P.loop_time.before} → ${P.loop_time.after} か月。欠航リスク ${(f.delta_vs_base.aog_prob * 100) >= 0 ? "+" : ""}${(f.delta_vs_base.aog_prob * 100).toFixed(1)}pt`; };
+  function playbook() {
+    const P = C().playbook;
+    if (!P) return panel("打ち手の順番", '<p class="hint">playbook.py の結果がありません。</p>');
+    const W_ = Object.keys(P.worlds);
+    const head = `<tr><th>段</th>${W_.map((w) => `<th>${esc(P.worlds[w])}<br><span class="hint">重み ${(P.posterior[w] * 100).toFixed(0)}%</span></th>`).join("")}<th>期待値（百万ドル）</th><th>基準との差</th><th>欠航リスク</th><th>立て直し費</th></tr>`;
+    const rows = P.steps.map((st) => `<tr><td><b>${esc(st.label)}</b></td>${W_.map((w) => st.by_world[w] ? `<td>${(st.by_world[w].total_cost / 1000).toFixed(1)}<br><span class="hint">AOG ${pct(st.by_world[w].aog_prob, 1)}${st.actions[w].length ? "・" + st.actions[w].join("+") : ""}</span></td>` : "<td>—</td>").join("")}<td>${(st.expected.total_cost / 1000).toFixed(1)}</td><td>${st.delta_vs_base ? ((st.delta_vs_base.total_cost / 1000) >= 0 ? "+" : "") + (st.delta_vs_base.total_cost / 1000).toFixed(1) : "—"}</td><td>${pct(st.expected.aog_prob, 1)}</td><td>${(st.expected.recourse / 1000).toFixed(1)}</td></tr>`).join("");
+    const plan = P.steps.slice(1).map((st) => `<tr><td><b>${esc(st.label)}</b></td><td>${esc(st.who)}</td><td>${esc(st.when)}</td><td>${esc(st.deadline)}</td><td>${esc(st.trigger)}</td></tr>`).join("");
+    const vd = `<ul>${P.verdict.map((v) => `<li><span style="background:${SEV[v.status]};display:inline-block;width:10px;height:10px;border-radius:2px"></span> ${esc(v.text)}</li>`).join("")}</ul>`;
+    return panel("", `<p class="chart-note">${esc(playbookLine(P))}</p><p>診断：遅いのは工場の数ではなく、部品（LLP キット）の納期と判断のリード。費用を膨らませるのは所見。だから順番は「キット → 契約 → 第二工場の選択権」。新設はしない。</p>` + vd, esc(P.note))
+      + panel("段ごとの効果（前の段の上に重ねる）", `<div class="scroll"><table><thead>${head}</thead><tbody>${rows}</tbody></table></div>`, `ループの時間：${esc(P.loop_time.rule)}`)
+      + panel("誰が・いつ・何を引き金に", `<table><thead><tr><th>段</th><th>誰が</th><th>いつ</th><th>期限</th><th>引き金</th></tr></thead><tbody>${plan}</tbody></table>`, "引き金は「前提の見直しの枠組み」と同じ信号（変化点検知・追跡の例外・枠の回答）。");
   }
 
   /* ---------------- backtest ---------------- */

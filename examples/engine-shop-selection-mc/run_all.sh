@@ -5,7 +5,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 OUT="${OUT:-out}"
-mkdir -p "$OUT/deltas" "$OUT/hist" "$OUT/roll" "$OUT/multi" "$OUT/shop_response" "$OUT/track" "$OUT/runout" "$OUT/review" "$OUT/demand" "$OUT/backtest"
+mkdir -p "$OUT/deltas" "$OUT/hist" "$OUT/roll" "$OUT/multi" "$OUT/shop_response" "$OUT/track" "$OUT/runout" "$OUT/review" "$OUT/demand" "$OUT/backtest" "$OUT/playbook"
 log() { printf '%s %s\n' "$(date +%H:%M:%S)" "$*"; }
 
 log "fleets"; python3 company.py jal ana --all-fleets
@@ -28,9 +28,10 @@ for co in jal ana; do
   log "demand $co"; python3 demand.py $co --runout "$OUT/runout/$co.json" --out "$OUT/demand/$co.json"
   python3 plan_from_demand.py $co --out "$OUT/demand/$co-plan.json" --scenarios 40 --time-limit 90
   log "backtest $co"; python3 backtest.py $co --out "$OUT/backtest/$co.json"
+  log "playbook $co"; python3 playbook.py $co --track "$OUT/track/$co-track-crunch.json" --out "$OUT/playbook/$co.json"
   log "review $co"; python3 review.py $co --track "$OUT/track/$co-track-crunch.json" --roll "$OUT/roll/$co-roll-2027-10.json" --runout "$OUT/runout/$co.json" --history "$OUT/hist/$co-history.json" --plan-from-demand "$OUT/demand/$co-plan.json" --backtest "$OUT/backtest/$co.json" --out "$OUT/review/$co.json" ${REVIEW_NO_AI:+--no-ai}
 done
-cp "$OUT/runout/"*.json runout/ 2>/dev/null || true; cp "$OUT/review/"*.json review/ 2>/dev/null || true; cp "$OUT/demand/"*.json demand/ 2>/dev/null || true; cp "$OUT/backtest/"*.json backtest/ 2>/dev/null || true
+cp "$OUT/runout/"*.json runout/ 2>/dev/null || true; cp "$OUT/review/"*.json review/ 2>/dev/null || true; cp "$OUT/demand/"*.json demand/ 2>/dev/null || true; cp "$OUT/backtest/"*.json backtest/ 2>/dev/null || true; cp "$OUT/playbook/"*.json playbook/ 2>/dev/null || true
 cp "$OUT/multi/"*.json multi/ 2>/dev/null || true
 log "reports"
 python3 build_report.py --deltas-dir "$OUT/deltas" --invest "$OUT/invest.json" --history-dir "$OUT/hist" --roll-dir "$OUT/roll" --runout-dir "$OUT/runout" --review-dir "$OUT/review" --demand-dir "$OUT/demand" --backtest-dir "$OUT/backtest" --html-out "$OUT/report.html"

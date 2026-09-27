@@ -83,6 +83,7 @@ CATALOGUE = {
     "contract_share50": ("契約", "契約工場と超過を折半（分担 50%、+3%）"),
     "contract_pbh": ("契約", "契約工場を時間課金（PBH 型：所見込み期待費用で固定、+5%）"),
     "pool": ("契約", "エンジン・プール契約（+2 台）"),
+    "second_shop": ("契約", "第二工場との枠組み契約（選択権：使った分だけ +10%、枠 3、輸送 +1 か月、年 300 k$）"),
     "substitute": ("運用", "別機種での代替運航"),
     "rotate": ("運用", "ローテーションで寿命を 1 か月延ばす（3 基に 1 基）"),
     "spares": ("資産", "予備エンジン +2 基（長期リース）"),
@@ -102,6 +103,8 @@ CATALOGUE = {
 }
 FIN = {"prepay_discount": 0.03, "prepay_financing": 0.07 * 4 / 12, "tier": 0.03, "escalation_avg": 0.01, "pool_partners": 3,
        "group_pr_discount": 0.10, "group_slots": 2, "engine_value_k": 5500, "rate": 0.07, "reserve_balance_k": 300, "leased_engines": 14}
+SECOND_SHOP = {"slots": 3, "price_premium": 0.10, "extra_transport_months": 1, "extra_transport_k": 40, "fee_k_per_year": 300,
+               "note": "no_source（C）：第二工場の枠組み契約。枠・価格差・輸送・年間の選択権料は仮定"}
 CASES = {"base": "基準", "backlog": "MRO 混雑", "transition": "機材更新（737-8 受領）"}
 REQ = {**ALL_HARD, "kits_on_hand_only": False, "no_new_spares": False}
 
@@ -226,6 +229,14 @@ def apply_action(p, a):
         target = "OEM-ASIA" if "OEM-ASIA" in ids else p.shops[0].id
         return dataclasses.replace(p, shops=[dataclasses.replace(k, slots=k.slots + 2) if k.id == target else k for k in p.shops],
                                    extra_fixed_cost=p.extra_fixed_cost + 400 * p.horizon / 12)
+    if a == "second_shop":
+        # a framework agreement with a second shop: an option, not a build. The plan uses it
+        # only when the contracted shop's slots or lead bind; the fee is paid regardless
+        k0 = p.shops[0]
+        second = dataclasses.replace(k0, id="SECOND", name="第二工場（枠組み契約の選択権）", slots=SECOND_SHOP["slots"],
+                                     transport_months=k0.transport_months + SECOND_SHOP["extra_transport_months"], transport_cost=k0.transport_cost + SECOND_SHOP["extra_transport_k"],
+                                     quotes={w: dataclasses.replace(q, price=q.price * (1 + SECOND_SHOP["price_premium"])) for w, q in k0.quotes.items()})
+        return dataclasses.replace(p, shops=p.shops + [second], extra_fixed_cost=p.extra_fixed_cost + SECOND_SHOP["fee_k_per_year"] * p.horizon / 12)
     if a == "rotate":
         visits = [dataclasses.replace(v, latest=min(p.horizon - 1, v.latest + 1)) if j % 3 == 0 else v for j, v in enumerate(p.visits)]
         moved = sum(1 for j, v in enumerate(p.visits) if j % 3 == 0 and v.latest < p.horizon - 1)
