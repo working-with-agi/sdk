@@ -9,6 +9,18 @@ import type { TerminalOptions, TerminalInstance } from "./types.js";
  *     - {"type": "resize", "cols": 80, "rows": 24}
  *     - {"type": "ping"} → {"type": "pong"}
  */
+/**
+ * Query string that authenticates a browser WebSocket to agiterm-server
+ * (browsers cannot set headers on WebSocket). A Logto access token wins over an API key.
+ */
+export function wsAuthQuery(auth: { accessToken?: string; apiKey?: string }): string {
+  const params = new URLSearchParams();
+  if (auth.accessToken) params.set("token", auth.accessToken);
+  else if (auth.apiKey) params.set("api_key", auth.apiKey);
+  const qs = params.toString();
+  return qs ? `?${qs}` : "";
+}
+
 export class AgiTerminal implements TerminalInstance {
   private ws: WebSocket | null = null;
   private options: TerminalOptions;
@@ -24,13 +36,8 @@ export class AgiTerminal implements TerminalInstance {
     const protocol = endpoint.startsWith("https") ? "wss:" : "ws:";
     const host = endpoint.replace(/^https?:\/\//, "");
 
-    // agisdk WebSocket: /ws/sdk/{session_id}?api_key=xxx
-    const params = new URLSearchParams();
-    if (this.options.apiKey) {
-      params.set("api_key", this.options.apiKey);
-    }
-    const qs = params.toString() ? `?${params.toString()}` : "";
-    const url = `${protocol}//${host}/ws/sdk/${sessionId}${qs}`;
+    // agiterm WebSocket: /ws/sdk/{session_id}?token=<jwt> or ?api_key=xxx
+    const url = `${protocol}//${host}/ws/sdk/${sessionId}${wsAuthQuery(this.options)}`;
 
     this.ws = new WebSocket(url);
     this.ws.binaryType = "arraybuffer";

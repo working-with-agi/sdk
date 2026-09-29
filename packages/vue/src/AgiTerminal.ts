@@ -6,6 +6,7 @@ export const AgiTerminal = defineComponent({
   props: {
     endpoint: { type: String, required: true },
     apiKey: { type: String, default: undefined },
+    accessToken: { type: String, default: undefined },
     sessionId: { type: String, default: undefined },
     theme: { type: [String, Object], default: "dark" },
     fontSize: { type: Number, default: undefined },
@@ -25,6 +26,7 @@ export const AgiTerminal = defineComponent({
         container: containerRef.value,
         endpoint: props.endpoint,
         apiKey: props.apiKey,
+        accessToken: props.accessToken,
         sessionId: props.sessionId,
         theme: props.theme as any,
         fontSize: props.fontSize,

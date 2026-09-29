@@ -18,7 +18,7 @@ import {
   onBeforeUnmount,
   type PropType,
 } from "vue";
-import { resolveTheme } from "@work-with-ai/sdk";
+import { resolveTheme, wsAuthQuery } from "@work-with-ai/sdk";
 import type { TerminalTheme } from "@work-with-ai/sdk";
 import { AgiTerminal } from "./AgiTerminal";
 import PaneLayout from "./PaneLayout.vue";
@@ -29,6 +29,8 @@ const props = defineProps({
   endpoint: { type: String, required: true },
   /** API key */
   apiKey: { type: String, default: undefined },
+  /** Logto access token (JWT); takes precedence over apiKey */
+  accessToken: { type: String, default: undefined },
   /** Main session ID (user-interactive terminal) */
   sessionId: { type: String, default: undefined },
   /** Theme preset or custom theme */
@@ -109,10 +111,7 @@ function buildWsUrl(): string {
   const ep = props.endpoint.replace(/\/$/, "");
   const protocol = ep.startsWith("https") ? "wss:" : "ws:";
   const host = ep.replace(/^https?:\/\//, "");
-  const params = new URLSearchParams();
-  if (props.apiKey) params.set("api_key", props.apiKey);
-  const qs = params.toString() ? `?${params.toString()}` : "";
-  return `${protocol}//${host}/ws/workspace/${props.sessionId}${qs}`;
+  return `${protocol}//${host}/ws/workspace/${props.sessionId}${wsAuthQuery(props)}`;
 }
 
 function connectWorkspace() {
@@ -380,6 +379,7 @@ defineExpose({
         <AgiTerminal
           :endpoint="endpoint"
           :api-key="apiKey"
+          :access-token="accessToken"
           :session-id="sessionId"
           :theme="theme"
           :font-size="fontSize"

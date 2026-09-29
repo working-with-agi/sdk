@@ -50,6 +50,8 @@ export interface TerminalOptions {
   endpoint: string;
   /** API key for authentication */
   apiKey?: string;
+  /** Logto access token (JWT). Sent as `?token=`; takes precedence over apiKey */
+  accessToken?: string;
   /** Session ID to reconnect to (obtained from REST API) */
   sessionId?: string;
   /** Built-in theme preset ("dark" | "light") or custom theme object */
@@ -87,8 +89,18 @@ export interface RenderedTerminalOptions extends TerminalOptions {
 
 // --- REST API Types ---
 
+/** A remote MCP server Claude Code should use in the session (written to the workspace's .mcp.json) */
+export interface McpServerConfig {
+  type?: "http" | "sse";
+  /** https URL (plain http only for localhost) */
+  url: string;
+  /** e.g. { Authorization: "Bearer <short-lived token issued by your service>" } */
+  headers?: Record<string, string>;
+}
+
 export interface CreateSessionParams {
-  user_id: string;
+  /** Required with an API key. With an access token the server uses the token's subject */
+  user_id?: string;
   tool?: string;
   shell?: string;
   cols?: number;
@@ -98,6 +110,8 @@ export interface CreateSessionParams {
   prompt?: string;
   /** CRI runtime handler (e.g. "kata", "kata-fc"). Only used when sandbox=true and CRI is available. */
   runtime_handler?: string;
+  /** Remote MCP servers for Claude Code in this session, keyed by name ([A-Za-z0-9_-]) */
+  mcp_servers?: Record<string, McpServerConfig>;
 }
 
 export interface SessionInfo {
