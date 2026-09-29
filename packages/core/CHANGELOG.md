@@ -1,5 +1,15 @@
 # @working-with-agi/sdk
 
+## 0.4.0
+
+### Minor Changes
+
+- [#4](https://github.com/working-with-agi/sdk/pull/4) [`73f6690`](https://github.com/working-with-agi/sdk/commit/73f6690b663565d23ffd035c22a5f4628ff541e7) Thanks [@kaz-tk](https://github.com/kaz-tk)! - Connect terminals with a Logto access token, and register MCP servers per session.
+
+  - `accessToken` on `AgiTerminal` / `AgiRenderedTerminal` (core, Vue, React, Angular), `WorkWithAI` and `AgiPilot`. It is sent to agiterm-server as `?token=` and takes precedence over `apiKey`. New helper: `wsAuthQuery()`.
+  - `CreateSessionParams.mcp_servers` (`McpServerConfig`): remote MCP servers that Claude Code in the session should use. `user_id` is now optional (with an access token the server uses the token's subject).
+  - `@work-with-ai/vue` now depends on `@xterm/xterm` and its addons, which it imports directly. This fixes the package build.
+
 ## 0.3.0
 
 ### Minor Changes
