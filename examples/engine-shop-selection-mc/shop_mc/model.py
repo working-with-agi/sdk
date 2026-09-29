@@ -86,6 +86,23 @@ class Plan:
     dual_bound: float | None = None
     emergency_kits: int = 0
     """LLP kits bought at a premium because the kits on hand were not enough."""
+    dro_lambda: float | None = None
+    """Price of moving probability mass (per unit of distance) in the DRO objective."""
+
+
+@dataclass(frozen=True)
+class Ambiguity:
+    """Wasserstein ball around the nominal distribution, on a finite support.
+
+    weights   (N,) nominal probability of each support scenario (0 for stressed ones)
+    dist      (N, N) transport distance between support scenarios
+    theta     radius; 0 gives the SAA objective under ``weights``
+    Built by :func:`shop_mc.dro.pool`.
+    """
+
+    weights: np.ndarray
+    dist: np.ndarray
+    theta: float
 
 
 def solve_saa(
@@ -99,8 +116,12 @@ def solve_saa(
     msg: bool = False,
     req: Requirements = Requirements(),
     service_margin: float = 0.5,
+    ambiguity: Ambiguity | None = None,
 ) -> Plan:
     T, N = p.horizon, sc.n
+    if ambiguity is not None and (cvar_weight > 0 or req.service):
+        raise ValueError("the DRO objective is not combined with CVaR or the service chance constraint")
+    w = np.full(N, 1.0 / N) if ambiguity is None else np.asarray(ambiguity.weights, dtype=float)
     opts = sc.options
     prob = pulp.LpProblem("shop_selection_saa", pulp.LpMinimize)
 
@@ -137,7 +158,7 @@ def solve_saa(
         prob += pulp.lpSum(early_llp) <= p.llp_kits_on_hand + K, "llp_kits"
 
     # fiscal-year budget on expected shop-visit spend
-    exp_cost = sc.cost.mean(axis=0)
+    exp_cost = w @ sc.cost
     for fy, budget in (p.budget_by_fy.items() if req.budget else ()):
         spend = [exp_cost[i] * x[i] for i, o in enumerate(opts) if p.fiscal_year(o.month) == fy]
         if spend:
@@ -202,7 +223,22 @@ def solve_saa(
         )
         for s in range(N)
     ]
-    objective = first_stage + pulp.lpSum(scen_cost) / N
+    lam = None
+    if ambiguity is None:
+        objective = first_stage + pulp.lpSum(scen_cost) / N
+    else:
+        # sup over P in the ball of E_P[C] = min_{lam>=0} lam*theta + sum_i w_i max_j (C_j - lam*d_ij)
+        # (finite-support Wasserstein DRO, LP dual); only nominal rows (w_i > 0) are needed
+        lam = pulp.LpVariable("dro_lambda", 0)
+        c = [pulp.LpVariable(f"scen_cost_{s}") for s in range(N)]
+        for s in range(N):
+            prob += c[s] == scen_cost[s], f"scen_cost_{s}"
+        nominal = np.nonzero(w > 0)[0]
+        tau = {i: pulp.LpVariable(f"dro_tau_{i}") for i in nominal}
+        for i in nominal:
+            for j in range(N):
+                prob += tau[i] >= c[j] - float(ambiguity.dist[i, j]) * lam, f"dro_{i}_{j}"
+        objective = first_stage + ambiguity.theta * lam + pulp.lpSum(float(w[i]) * tau[i] for i in nominal)
 
     if req.service and p.max_aog_prob is not None:
         # chance constraint: at most floor(alpha * N) scenarios may have any AOG month
@@ -237,4 +273,5 @@ def solve_saa(
         status=h.modelStatusToString(h.getModelStatus()),
         dual_bound=h.getInfo().mip_dual_bound,
         emergency_kits=round(K.value() or 0),
+        dro_lambda=None if lam is None else (lam.value() or 0.0),
     )
