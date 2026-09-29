@@ -6,6 +6,8 @@ export interface AgiTerminalProps {
   endpoint: string;
   /** API key */
   apiKey?: string;
+  /** Logto access token (JWT); takes precedence over apiKey */
+  accessToken?: string;
   /** Session ID (from REST API createSession) */
   sessionId?: string;
   /** Theme — preset name or custom theme object */
@@ -41,6 +43,7 @@ export const AgiTerminal = forwardRef<AgiTerminalHandle, AgiTerminalProps>(
     {
       endpoint,
       apiKey,
+      accessToken,
       sessionId,
       theme = "dark",
       fontSize,
@@ -66,6 +69,7 @@ export const AgiTerminal = forwardRef<AgiTerminalHandle, AgiTerminalProps>(
         container: containerRef.current,
         endpoint,
         apiKey,
+        accessToken,
         sessionId,
         theme,
         fontSize,
@@ -81,7 +85,7 @@ export const AgiTerminal = forwardRef<AgiTerminalHandle, AgiTerminalProps>(
         terminalRef.current?.dispose();
         terminalRef.current = null;
       };
-    }, [endpoint, apiKey, sessionId]);
+    }, [endpoint, apiKey, accessToken, sessionId]);
 
     // Watch theme changes
     useEffect(() => {

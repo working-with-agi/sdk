@@ -18,7 +18,7 @@ import {
   onBeforeUnmount,
   type PropType,
 } from "vue";
-import { resolveTheme } from "@work-with-ai/sdk";
+import { resolveTheme, wsAuthQuery } from "@work-with-ai/sdk";
 import type { TerminalTheme } from "@work-with-ai/sdk";
 import PaneLayout from "./PaneLayout.vue";
 import type { PaneNode, PaneTerminalHandle } from "./PaneLayout.vue";
@@ -38,6 +38,11 @@ const props = defineProps({
   },
   /** API key for authentication */
   apiKey: {
+    type: String,
+    default: undefined,
+  },
+  /** Logto access token (JWT); takes precedence over apiKey */
+  accessToken: {
     type: String,
     default: undefined,
   },
@@ -142,13 +147,7 @@ function buildWsUrl(): string {
   const host = endpoint.replace(/^https?:\/\//, "");
   const sessionId = props.sessionId ?? "";
 
-  const params = new URLSearchParams();
-  if (props.apiKey) {
-    params.set("api_key", props.apiKey);
-  }
-  const qs = params.toString() ? `?${params.toString()}` : "";
-
-  return `${protocol}//${host}/ws/workspace/${sessionId}${qs}`;
+  return `${protocol}//${host}/ws/workspace/${sessionId}${wsAuthQuery(props)}`;
 }
 
 function connect() {

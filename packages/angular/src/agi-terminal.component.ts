@@ -24,6 +24,8 @@ export class AgiTerminalComponent
 
   @Input({ required: true }) endpoint!: string;
   @Input() apiKey?: string;
+  /** Logto access token (JWT); takes precedence over apiKey */
+  @Input() accessToken?: string;
   @Input() sessionId?: string;
   @Input() theme: "dark" | "light" | Record<string, string> = "dark";
   @Input() fontSize?: number;
@@ -42,6 +44,7 @@ export class AgiTerminalComponent
       container: this.containerRef.nativeElement,
       endpoint: this.endpoint,
       apiKey: this.apiKey,
+      accessToken: this.accessToken,
       sessionId: this.sessionId,
       theme: this.theme,
       fontSize: this.fontSize,

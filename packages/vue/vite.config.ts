@@ -15,11 +15,8 @@ export default defineConfig({
         "vue",
         "pinia",
         "@work-with-ai/sdk",
-        "@xterm/xterm",
-        "@xterm/addon-fit",
-        "@xterm/addon-web-links",
-        "@xterm/addon-webgl",
-        "@xterm/addon-unicode11",
+        // xterm and its addons (and the xterm.css subpath) come from the app's node_modules
+        /^@xterm\//,
         "reconnecting-websocket",
       ],
     },
