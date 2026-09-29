@@ -1,6 +1,6 @@
 {
   "name": "@work-with-ai/react",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "WorkWithAGI React components — AI Terminal",
   "type": "module",
   "main": "dist/index.js",
