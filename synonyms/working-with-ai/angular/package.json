@@ -26,6 +26,11 @@
   ],
   "author": "WorkWithAGI <dev@workwithagi.dev>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/working-with-agi/sdk",
+    "directory": "synonyms/working-with-ai/angular"
+  },
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"

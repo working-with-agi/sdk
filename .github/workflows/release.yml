@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      packages: write
       pull-requests: write
       id-token: write
     steps:
@@ -21,9 +20,11 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
-          registry-url: "https://registry.npmjs.org"
+
+      # Trusted Publishing needs npm >= 11.5.1
+      - run: npm install -g npm@latest
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
@@ -46,60 +47,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish canonical packages to npm
+      - name: Publish to npm (Trusted Publishing, no token)
         if: steps.check.outputs.has_changesets == 'false'
-        run: |
-          for pkg in packages/core packages/react packages/vue packages/angular; do
-            local_ver=$(node -p "require('./$pkg/package.json').version")
-            pkg_name=$(node -p "require('./$pkg/package.json').name")
-            remote_ver=$(npm view "$pkg_name" version 2>/dev/null || echo "0.0.0")
-            if [ "$local_ver" != "$remote_ver" ]; then
-              echo "Publishing $pkg_name@$local_ver (remote: $remote_ver)"
-              cd "$pkg"
-              npm publish --access public --provenance
-              cd -
-            else
-              echo "Skipping $pkg_name@$local_ver (already published)"
-            fi
-          done
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish synonym packages to npm
-        if: steps.check.outputs.has_changesets == 'false'
-        run: |
-          for pkg in synonyms/*/*; do
-            if [ -f "$pkg/package.json" ]; then
-              local_ver=$(node -p "require('./$pkg/package.json').version")
-              pkg_name=$(node -p "require('./$pkg/package.json').name")
-              remote_ver=$(npm view "$pkg_name" version 2>/dev/null || echo "0.0.0")
-              if [ "$local_ver" != "$remote_ver" ]; then
-                echo "Publishing $pkg_name@$local_ver (remote: $remote_ver)"
-                cd "$pkg"
-                npm publish --access public --provenance
-                cd -
-              else
-                echo "Skipping $pkg_name@$local_ver (already published)"
-              fi
-            fi
-          done
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish to GitHub Packages
-        if: steps.check.outputs.has_changesets == 'false'
-        run: |
-          for pkg in packages/*/ synonyms/*/*/; do
-            if [ -f "$pkg/package.json" ]; then
-              local_ver=$(node -p "require('./$pkg/package.json').version")
-              pkg_name=$(node -p "require('./$pkg/package.json').name")
-              remote_ver=$(npm view "$pkg_name" version --registry=https://npm.pkg.github.com/ 2>/dev/null || echo "0.0.0")
-              if [ "$local_ver" != "$remote_ver" ]; then
-                cd "$pkg"
-                npm publish --registry=https://npm.pkg.github.com/
-                cd -
-              fi
-            fi
-          done
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: scripts/publish-npm.sh
