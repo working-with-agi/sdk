@@ -1,5 +1,5 @@
 {
- "note": "幹線 5 航路の需要と、羽田を出て羽田に戻る 737 の 1 日の飛び方（パターン）。旅客は片道・前年度の月平均（千人）、全機種の合計。幹線の主役は大型機（A350・767・787 など）で、737 が運ぶのは share_737 の分（no_source：航路ごとの 737 の分担は仮定）。大型機の座席は年間で一定（基準の搭乗率 wide_lf_base で逆算）、繁忙月は大型機の搭乗率が wide_lf_cap まで上がり、超えた分が 737 に回る。季節の偏りとパターンも仮定。全体の季節の形は市場の季節指数に合うよう正規化する",
+ "note": "幹線 5 航路の需要（全機種の合計）と、羽田を出て羽田に戻る 1 日の飛び方（パターン）、この 5 航路に回る機種と機数。旅客は片道・前年度の月平均（千人）。どの機種をどのパターンに何機入れるかは、機材割当モデル（Fleet Assignment Model）で月ごとに解く。数値はすべて合成（no_source）：機種ごとのこの 5 航路に回る機数（国際線・他の国内線に回る分を除く）、座席、1 ブロック時間の運航費、折り返し時間、季節の偏り、パターンは仮定。737-800 は会社の全機がこの 5 航路と地方路線を分け合う。大型機はこの 5 航路に回る機数だけを持つ",
  "hub": "HND",
  "turnaround_h": 0.83,
  "day_block_cap_h": 15.0,
@@ -24,8 +24,7 @@
     0.98,
     0.98
    ],
-   "share_737": 0.25,
-   "wide_types": "A350-900・767-300ER"
+   "slots_legs_per_day": 22
   },
   {
    "id": "HND-ITM",
@@ -47,8 +46,7 @@
     1.01,
     0.99
    ],
-   "share_737": 0.3,
-   "wide_types": "A350-900・767-300ER・787-8"
+   "slots_legs_per_day": 38
   },
   {
    "id": "HND-FUK",
@@ -70,8 +68,7 @@
     1.0,
     0.99
    ],
-   "share_737": 0.25,
-   "wide_types": "A350-900・767-300ER"
+   "slots_legs_per_day": 22
   },
   {
    "id": "HND-OKA",
@@ -93,8 +90,7 @@
     0.96,
     0.96
    ],
-   "share_737": 0.2,
-   "wide_types": "A350-900・767-300ER"
+   "slots_legs_per_day": 14
   },
   {
    "id": "FUK-OKA",
@@ -116,8 +112,7 @@
     0.97,
     0.97
    ],
-   "share_737": 0.7,
-   "wide_types": "767-300ER（一部）"
+   "slots_legs_per_day": 8
   }
  ],
  "patterns": [
@@ -179,6 +174,12 @@
     "FUK-HND",
     "HND-ITM",
     "ITM-HND"
+   ],
+   "types_excluded": [
+    "A350",
+    "787",
+    "767",
+    "777"
    ]
   },
   {
@@ -192,36 +193,142 @@
     "HND-ITM",
     "ITM-HND"
    ]
+  },
+  {
+   "id": "W1",
+   "name": "新千歳 3 往復",
+   "legs": [
+    "HND-CTS",
+    "CTS-HND",
+    "HND-CTS",
+    "CTS-HND",
+    "HND-CTS",
+    "CTS-HND"
+   ]
+  },
+  {
+   "id": "W2",
+   "name": "福岡 2 往復",
+   "legs": [
+    "HND-FUK",
+    "FUK-HND",
+    "HND-FUK",
+    "FUK-HND"
+   ]
+  },
+  {
+   "id": "W3",
+   "name": "那覇 1 往復＋伊丹 2 往復",
+   "legs": [
+    "HND-OKA",
+    "OKA-HND",
+    "HND-ITM",
+    "ITM-HND",
+    "HND-ITM",
+    "ITM-HND"
+   ]
   }
  ],
  "companies": {
   "jal": {
    "scale": 1.0,
-   "note": "幹線に入れる 737 の機数は年次の版で決める（最初の 12 か月の平均の需要を目標搭乗率で運べる最小の組み合わせ）。残りの 737 は地方路線（会社の 737 の需要から幹線の 737 分を引いた残り）。assignment_demo は航路ベースの試作の割り当て（全旅客を 737 に載せた前提）で、比較用",
-   "assignment_demo": [
-    5,
-    6,
-    5,
-    4,
-    4,
-    4
-   ],
-   "assignment": "version"
+   "note": "A350-900 と 767-300ER がこの 5 航路の主力、787-8 は一部。737-800 は全 56 機（地方路線と分け合う）",
+   "types": [
+    {
+     "type": "737",
+     "name": "737-800",
+     "seats": 165,
+     "fleet_key": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft": null,
+     "cost_per_block_h_k": 3.2,
+     "turnaround_h": 0.83
+    },
+    {
+     "type": "767",
+     "name": "767-300ER",
+     "seats": 261,
+     "fleet_key": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft": 5,
+     "cost_per_block_h_k": 5.6,
+     "turnaround_h": 1.0
+    },
+    {
+     "type": "787",
+     "name": "787-8",
+     "seats": 291,
+     "fleet_key": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft": 1,
+     "cost_per_block_h_k": 5.9,
+     "turnaround_h": 1.0
+    },
+    {
+     "type": "A350",
+     "name": "A350-900",
+     "seats": 369,
+     "fleet_key": null,
+     "engine": "Trent XWB-84",
+     "trunk_aircraft": 5,
+     "cost_per_block_h_k": 6.6,
+     "turnaround_h": 1.0
+    }
+   ]
   },
   "ana": {
    "scale": 0.85,
-   "note": "no_source：同じ航路で旅客を 0.85 倍。幹線の 737 の機数は年次の版で決める",
-   "assignment_demo": [
-    4,
-    4,
-    4,
-    3,
-    3,
-    2
-   ],
-   "assignment": "version"
+   "note": "no_source：同じ航路で旅客を 0.85 倍。777-200 と 787 と 767 がこの 5 航路の主力。737-800 は全 39 機",
+   "types": [
+    {
+     "type": "737",
+     "name": "737-800",
+     "seats": 166,
+     "fleet_key": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft": null,
+     "cost_per_block_h_k": 3.2,
+     "turnaround_h": 0.83
+    },
+    {
+     "type": "767",
+     "name": "767-300ER",
+     "seats": 270,
+     "fleet_key": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft": 3,
+     "cost_per_block_h_k": 5.6,
+     "turnaround_h": 1.0
+    },
+    {
+     "type": "787",
+     "name": "787-9",
+     "seats": 377,
+     "fleet_key": "787",
+     "engine": "Trent 1000",
+     "trunk_aircraft": 3,
+     "cost_per_block_h_k": 6.3,
+     "turnaround_h": 1.0
+    },
+    {
+     "type": "777",
+     "name": "777-200",
+     "seats": 405,
+     "fleet_key": null,
+     "engine": "PW4000-112",
+     "trunk_aircraft": 2,
+     "cost_per_block_h_k": 7.4,
+     "turnaround_h": 1.0
+    }
+   ]
   }
  },
- "wide_lf_base": 0.72,
- "wide_lf_cap": 0.9
+ "pattern_note": "パターンはどの機種でも飛べるが、1 日の時間（飛行時間 ＋ 折り返し）が上限を超える機種では使えない。福岡–那覇は大型機を入れない（types_excluded）",
+ "lease": {
+  "type": "737",
+  "k_per_aircraft_month": 850.0,
+  "note": "no_source：ウェットリースは 737 だけ。リース代（機体・乗員・整備）に、燃料・空港などの運航費は上乗せ（借りる側が払う）"
+ },
+ "fleet_assignment_ref": "Hane, Barnhart, Johnson, Marsten, Nemhauser, Sigismondi (1995) The fleet assignment problem: solving a large-scale integer program. Mathematical Programming 70, 211–232",
+ "slots_note": "no_source：航路ごとの 1 日の便数の上限（往復の片道便の合計）。羽田の発着枠が幹線の縛り。平均 280 席・搭乗率 0.85 で平年の旅客を運べる便数に 1 割の余裕を足した値。会社の旅客の倍率（scale）を掛けて使う"
 }

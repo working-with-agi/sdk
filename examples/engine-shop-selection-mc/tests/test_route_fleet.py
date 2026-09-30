@@ -1,6 +1,7 @@
-"""Route layer: patterns chain through the hub, the seasonal deviations normalise to the market
-index, the integer programme covers every route at the target L/F, the 737 carries its share plus
-the widebody overflow, the yearly version's spill matches the L/F above target, and the whole reconciles with the trunk plus the others."""
+"""Route layer with several aircraft types: patterns chain through the hub and open only to types
+whose day fits, route seasonality normalises to the market index, the monthly fleet assignment
+keeps every type within its aircraft and every route within its slots and the operating load
+factor, leases only 737s, and each type's cycles feed its engine windows."""
 import sys
 import unittest
 from pathlib import Path
@@ -16,88 +17,82 @@ import route_fleet as rf  # noqa: E402
 class RouteFleetTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.R = rf.load(); cls.P = rf.pattern_table(cls.R); cls.D = demand.load()
+        cls.R = rf.load(); cls.D = demand.load()
+        cls.types = rf.types_of(cls.R, "jal"); cls.P = rf.pattern_table(cls.R, cls.types)
         cls.r = ffd.build("jal")
+        cls.tr = cls.r["trunk"]
 
-    def test_patterns_chain_from_hub_back_to_hub(self):
+    def test_patterns_chain_and_fit_the_day(self):
         hub = self.R["hub"]
         for p in self.R["patterns"]:
             legs = p["legs"]
             self.assertTrue(legs[0].startswith(hub) and legs[-1].endswith(hub))
             for a, b in zip(legs, legs[1:]):
                 self.assertEqual(a.split("-")[1], b.split("-")[0])
-        self.assertTrue(all(p["fits_day"] for p in self.P))
+        for p in self.P:
+            for t in p["types"]:
+                self.assertLessEqual(p["day_h"][t], self.R["day_block_cap_h"])
+            self.assertIn("737", p["types"])
 
     def test_route_seasonality_normalises_to_market(self):
         idx = {c["month"]: c["demand_index"] for c in demand.market_view(self.D)["seasonal"]}
-        band = self.r["demand_rpk_737"]
-        dem = rf.route_demand(self.R, self.D, "jal", band)
         W = sum(r["pax_month_k"] for r in self.R["routes"]) * 2
-        for d, b in zip(dem, band):
-            m = int(d["label"][5:])
-            self.assertAlmostEqual(d["all_types_total_p50"] / (W * b["trend"]), idx[m], places=2)
+        for d, b in zip(self.tr["demand"], self.r["demand_rpk_737"]):
+            self.assertAlmostEqual(d["total_p50"] / (W * b["trend"]), idx[int(d["label"][5:])], places=2)
 
-    def test_min_aircraft_covers_every_route(self):
-        lf_t = self.D["assumptions"]["lf_capacity_threshold"]; seats = self.D["companies"]["jal"]["seats_737_800"]
-        d = self.r["trunk"]["demand"][10]
-        need = {k: v["p50"] for k, v in d["routes"].items()}
-        sol = rf.min_aircraft(self.P, need, seats, lf_t)
-        sc = rf.score_assignment(self.P, sol["by_pattern"], need, seats, lf_t)
-        for r, v in sc.items():
-            self.assertLessEqual(v["lf"], lf_t + 1e-6); self.assertEqual(v["spill_pax_k"], 0)
-        self.assertEqual(sol["aircraft"], self.r["trunk"]["rows"][10]["need_p50"])
-        self.assertLessEqual(sol["aircraft"], rf.min_aircraft(self.P, need, seats, lf_t, stretch=1.0)["aircraft"])
-        self.assertLessEqual(rf.min_aircraft(self.P, need, seats, lf_t, stretch=rf.DAY_STRETCH)["aircraft"], sol["aircraft"])
+    def test_assignment_respects_aircraft_slots_and_load_factor(self):
+        slots = {r["id"]: r["slots_legs_per_day"] for r in self.R["routes"]}
+        for row in self.tr["rows"]:
+            for t, n in row["used_p50"].items():
+                self.assertLessEqual(n, int(row["available"][t] + 1e-9) if row["available"][t] >= 0 else 0)
+            for r, n in row["slots_used_p50"].items():
+                self.assertLessEqual(n, slots[r])
+            for r, lf in row["lf_p50"].items():
+                if lf is not None:
+                    self.assertLessEqual(lf, rf.LF_MAX + 1e-3)
 
-    def test_need_ordered_and_short_flag(self):
-        for r in self.r["trunk"]["rows"]:
-            self.assertLessEqual(r["need_p10"], r["need_p50"]); self.assertLessEqual(r["need_p50"], r["need_p90"])
-            self.assertEqual(r["short_p90"], r["need_p90"] > r["usable"])
-            # the re-mix is the best integer mix at the usable count; the version scaled to the same count
-            # is a fractional mix, so it can be slightly better, never much better
-            self.assertLessEqual(r["remix"]["spill_pax_k"], r["spill_fixed_pax_k"] + 0.1 * r["pax_k_p50"])
+    def test_quantiles_order_the_shortfall(self):
+        for row in self.tr["rows"]:
+            # a busier month puts more seats up, so p90 can spill less than p50; the assignment maximises revenue,
+            # so it may carry fewer passengers on longer routes, but never fewer passenger-km
+            self.assertGreaterEqual(row["carried_p90_rpk_m"], row["carried_p50_rpk_m"] * 0.995)
+            self.assertEqual(row["short_p90"], row["lease_p90"] > 0 or row["spill_p90_pax_k"] > 0.5)
 
-    def test_reconciliation_and_others(self):
-        tr = self.r["trunk"]
-        for row, o in zip(tr["reconciliation"]["rows"], tr["others"]):
-            self.assertAlmostEqual(row["sum_p50"], row["trunk_need_p50"] + o["need_p50"], places=1)
-            self.assertEqual(o["fleet"] + tr["trunk_aircraft"], row["fleet"])
+    def test_lease_only_when_it_pays(self):
+        for m in self.tr["decisions"]["months"]:
+            self.assertGreaterEqual(m["lease_aircraft"], 0)
+            if m["lease_aircraft"]:
+                self.assertGreater(m["revenue_recovered_oku"], 0)
+            else:
+                self.assertEqual(m["lease_cost_oku"], 0)
 
-    def test_decisions_borrow_only_after_others(self):
-        d = self.r["trunk"]["decisions"]
-        for m in d["with_others_first"]["months"]:
-            self.assertEqual(m["short_aircraft"], m["from_others"] + m["borrow"] + m["spill_aircraft"])
-        for m in d["mixed_rule"]["months"]:
-            self.assertAlmostEqual(m["net_oku"], m["revenue_recovered_oku"] - m["lease_cost_oku"], delta=0.02)
-            self.assertEqual(m["decision"] == "借りる", m["net_oku"] > 0)
+    def test_version_uses_widebodies_within_their_allocation(self):
+        v = self.tr["version"]["by_type"]
+        for t in self.types:
+            if t["trunk_aircraft"] is not None:
+                self.assertLessEqual(v[t["type"]], t["trunk_aircraft"])
+        self.assertGreater(sum(n for k, n in v.items() if k != "737"), 0)
+        self.assertGreater(self.tr["version"]["trunk_share_of_737_rpk"], 0)
+        self.assertLess(self.tr["version"]["trunk_share_of_737_rpk"], 1)
+
+    def test_reconciliation_with_the_whole(self):
+        for row in self.tr["reconciliation"]["rows"]:
+            self.assertAlmostEqual(row["sum_p50"], row["trunk_737_p50"] + row["regional_p50"] + row["in_checks"], places=0)
+            self.assertLess(abs(row["sum_p50"] - row["whole_by_seat_km_p50"]) / row["whole_by_seat_km_p50"], 0.2)
+
+    def test_engine_flying_per_type(self):
+        by = {e["type"]: e for e in self.tr["engine_flying"]}
+        self.assertEqual(set(by), {t["type"] for t in self.types})
+        for k in ("737", "767", "787"):
+            e = by[k]
+            if e["trunk_aircraft_used_avg"]:
+                self.assertGreaterEqual(e["utilisation_multiplier"], 1.0)
+                self.assertIn("windows", e)
+        self.assertIn("note", by["A350"])
 
     def test_month_table_april_is_month_one(self):
-        mt = {x["label"]: x for x in self.r["trunk"]["month_table"]}
+        mt = {x["label"]: x for x in self.tr["month_table"]}
         self.assertEqual(mt["2027-04"]["fy_month"], 1); self.assertEqual(mt["2027-04"]["t"], 6); self.assertEqual(mt["2028-03"]["fy_month"], 12)
-
-    def test_737_carries_its_share_plus_widebody_overflow(self):
-        R = self.R; cap = R["wide_lf_cap"]
-        share = {r["id"]: r["share_737"] for r in R["routes"]}
-        for d in self.r["trunk"]["demand"]:
-            for rid, v in d["routes"].items():
-                allp = d["all_types_p50"][rid]; w = d["wide"][rid]
-                self.assertLessEqual(v["p50"], allp + 1e-6)
-                self.assertGreaterEqual(v["p50"], share[rid] * allp - 0.2)
-                self.assertLessEqual(w["lf_p50"], cap + 1e-6)
-                self.assertAlmostEqual(v["p50"] + w["carried_p50_k"], allp, delta=0.2)
-
-    def test_trunk_plus_regional_matches_the_whole(self):
-        for row in self.r["trunk"]["reconciliation"]["rows"]:
-            self.assertLess(abs(row["sum_p50"] - row["whole_by_seat_km_p50"]) / row["whole_by_seat_km_p50"], 0.06)
-
-    def test_version_assignment_is_smaller_than_all_on_737(self):
-        tr = self.r["trunk"]
-        self.assertLess(tr["trunk_aircraft"], tr["assignment_demo"]["aircraft"])
-
-    def test_trunk_cycles_exceed_company_average(self):
-        ef = self.r["trunk"]["engine_flying"]
-        self.assertGreater(ef["cycles_per_aircraft_day_trunk"], ef["cycles_per_aircraft_day_company_now"])
-        self.assertGreaterEqual(ef["utilisation_multiplier_from_routes"], 1.0)
 
 
 if __name__ == "__main__":

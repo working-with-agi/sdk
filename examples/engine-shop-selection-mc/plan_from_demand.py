@@ -101,13 +101,14 @@ def derive(D: dict, cid: str, as_of: str = "2026-10") -> dict:
                     "lf_now": round(lf_now, 4), "ask_ratio": round(ask_ratio, 4)}}
 
 
-def build_fleet(cid: str, overrides: dict) -> tuple[dict, dict]:
+def build_fleet(cid: str, overrides: dict, fleet_key: str | None = None) -> tuple[dict, dict]:
     """The same history (20-year simulation, current assumptions, same seed) up to today;
     from today the derived operations: the windows of the same engines re-derived under
     the new utilisation and seasonal shape, the positions the schedule needs with the
-    demand trend. The past is not rewritten -- only the future assumptions change."""
+    demand trend. The past is not rewritten -- only the future assumptions change.
+    fleet_key selects another fleet of the company (787, 767; None = the 737-800)."""
     conf = json.loads(company.CONFIG.read_text(encoding="utf-8"))
-    cfg, common = company.fleet_cfg(conf, cid, None)
+    cfg, common = company.fleet_cfg(conf, cid, fleet_key)
     base_cfg = {**cfg, "contract": {**cfg["contract"], "quotes": {w: q for w, q in common["quotes"].items() if w != "source"}}}
     lifecycle.configure(base_cfg)
     seed = cfg["lifecycle_seed"]
@@ -116,7 +117,8 @@ def build_fleet(cid: str, overrides: dict) -> tuple[dict, dict]:
     # from today: the derived operations
     lifecycle.configure({**base_cfg, **{k: overrides[k] for k in ("flight_index", "utilisation_multiplier")}})
     rows = lifecycle.window(state, T)
-    cur = json.loads((HERE / "data" / cid / "fleet.json").read_text(encoding="utf-8"))
+    fdir = HERE / "data" / cid if not fleet_key or fleet_key == "737" else HERE / "data" / cid / fleet_key
+    cur = json.loads((fdir / "fleet.json").read_text(encoding="utf-8"))
     H = cur["horizon_months"]
     g = float(overrides.get("demand_growth_per_year", 0.0))
     cap = 2 * cfg["aircraft"]["total"]

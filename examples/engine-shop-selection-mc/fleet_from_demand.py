@@ -261,81 +261,117 @@ def month_table(start: str, months: int) -> list[dict]:
 
 
 def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: dict, eng: dict, growth: dict | None, derived: dict, norms: dict) -> dict:
-    """The trunk routes planned by pattern (the 737's share only; widebodies carry the rest), the regional network by seat-km, and the
-    two reconciled: the whole company's need is the trunk's need plus the others', the cycles
-    the engines fly come from the patterns, and the July decision is priced month by month."""
-    checks = {int(k): v for k, v in cfg["aircraft"]["airframe_checks"].items()}
+    """The trunk routes with every aircraft type that flies them (fleet assignment by month), the
+    737's regional network by seat-km, the two reconciled with the seat-km whole, the cycles each
+    type flies handed to build_fleet, and the busy-month decision (lease or spill) by month."""
+    conf = json.loads(company.CONFIG.read_text(encoding="utf-8"))
+    fleets = {f["type"]: f for f in conf["companies"][cid].get("fleets", [])}
     total = cfg["aircraft"]["total"]
-    wait = {e["t"]: math.ceil(max(0, -e["headroom_p90"]) / 2) for e in eng["rows"]}
-    trunk = rf.build(cid, D, rpk, checks, total, wait)
-    n_trunk = trunk["trunk_aircraft"]; n_others = total - n_trunk
-    km = {r["id"]: r["km"] for r in trunk["routes"]}
+    checks737 = {int(k): v for k, v in cfg["aircraft"]["airframe_checks"].items()}
+    R = rf.load()
+    types = rf.types_of(R, cid)
+    rate = {}
+    for ty in types:
+        k = ty["type"]
+        if k == "737" or k not in fleets:
+            rate[k] = {m: n / total for m, n in checks737.items()}                 # types without a fleet entry: the 737's check rate (no_source)
+        else:
+            f = fleets[k]
+            rate[k] = {int(m): n / f["aircraft"]["total"] for m, n in f["aircraft"]["airframe_checks"].items()}
     P = ac["params"]; lf_t = P["lf_target"]
-    # the regional network: the company's 737 RPK minus what the 737 flies on the trunk, by seat-km
-    others = []
-    for b, d, a in zip(rpk, trunk["demand"], ac["rows"]):
-        trunk_rpk = sum(v["p50"] * km[r] for r, v in d["routes"].items()) * 1e3 / 1e6
-        rest = max(0.0, b["p50"] - trunk_rpk)
+    wait = {e["t"]: math.ceil(max(0, -e["headroom_p90"]) / 2) for e in eng["rows"]}
+    avg737 = sum(b["p50"] for b in rpk[:12]) / 12
+    state = {}
+    def set_trunk(v):
+        state["share"] = min(1.0, v / avg737)
+        return round(state["share"], 3)
+    def regional_need(t):
+        return rpk[t]["p50"] * (1 - state["share"]) / lf_t / P["ask_per_aircraft_month"]
+    ctx = {"checks_rate": rate, "fleet_737": total, "engine_wait": wait, "set_trunk_737_rpk": set_trunk, "regional_need": regional_need}
+    trunk = rf.build(cid, D, rpk, ctx)
+    # regional network and the reconciliation with the seat-km whole (737 only)
+    others, recon = [], []
+    for r, b, a in zip(trunk["rows"], rpk, ac["rows"]):
         m = int(b["label"][5:])
-        c_share = checks[m] * n_others / total
-        need = rest / lf_t / P["ask_per_aircraft_month"] + c_share
-        others.append({"t": b["t"], "label": b["label"], "rpk_trunk_737_p50": round(trunk_rpk, 1), "rpk_regional_p50": round(rest, 1), "trunk_share_of_737_rpk": round(trunk_rpk / b["p50"], 3),
-                       "need_p50": round(need, 1), "fleet": n_others, "slack_p50": round(n_others - need, 1), "lf_if_all_fly": round(rest / ((n_others - c_share) * P["ask_per_aircraft_month"]), 3) if n_others > c_share else None})
-    slack = {o["t"]: o["slack_p50"] for o in others}
-    gp = (growth or {}).get("params", {})
-    lv = rf.levers(trunk, slack, D, cid, norms, gp)
-    # reconciliation: trunk need + others need vs the seat-km whole
-    recon = {"rows": [{"t": r["t"], "label": r["label"], "trunk_need_p50": r["need_p50"], "others_need_p50": o["need_p50"], "sum_p50": round(r["need_p50"] + o["need_p50"], 1),
-                       "whole_by_seat_km_p50": a["need_p50"], "fleet": total} for r, o, a in zip(trunk["rows"], others, ac["rows"])],
-             "note": "737 ＝ 幹線の 737 分（パターンで数える）＋ 地方路線（会社の 737 の需要から幹線の 737 分を引いた残り、座席キロで数える）。幹線の旅客の大半は大型機が運ぶので、737 の幹線の機数は少なく、多くは地方路線を飛ぶ。幹線が足りない月に回せるのは地方路線の余りだけ"}
-    # the cycles the engines fly: trunk on its patterns, others at the company average
+        reg = regional_need(r["t"])
+        used = r["used_p50"]["737"]
+        chk = checks737[m]
+        others.append({"t": r["t"], "label": r["label"], "rpk_regional_p50": round(b["p50"] * (1 - state["share"]), 1), "need_p50": round(reg, 1),
+                       "trunk_737_used_p50": used, "trunk_737_available": r["available"]["737"],
+                       "slack_p50": round(r["available"]["737"] - used, 1)})
+        recon.append({"t": r["t"], "label": r["label"], "trunk_737_p50": used, "regional_p50": round(reg, 1), "in_checks": chk, "lease_p50": r["lease_p50"],
+                      "sum_p50": round(used + reg + chk, 1), "whole_by_seat_km_p50": a["need_p50"], "fleet": total})
+    # cycles per type -> utilisation multiplier -> engine windows (types with a fleet file)
     sectors_day = P["sectors_per_day"]
-    blended = (n_trunk * trunk["cycles_per_aircraft_day_trunk"] + n_others * sectors_day) / total
-    u_route = round(min(pfd.UTIL_CAP, max(1.0, blended / sectors_day)), 4)
-    ov = {**derived, "utilisation_multiplier": u_route}
-    new_fleet, n_new = pfd.build_fleet(cid, ov)
-    shift = pfd.compare_inputs(cur, new_fleet)
-    # the July question, two growth rules, and the year-end tally of "borrow when it pays"
+    months = trunk["rows"][:12]
+    eng_types = []
+    for ty in types:
+        k = ty["type"]
+        used = sum(r["used_p50"][k] for r in months) / 12
+        cyc = sum(r["cycles_per_day_p50"][k] for r in months) / 12
+        per_ac = cyc / used if used else 0.0
+        if k == "737":
+            fleet_n, base_day = total, sectors_day
+        elif k in fleets:
+            f = fleets[k]; fleet_n = f["aircraft"]["total"]
+            base_day = sum(x["aircraft"] * x["cycles_per_year"] for x in f["subfleets"]) / fleet_n / 365
+        else:
+            fleet_n, base_day = None, None
+        row = {"type": k, "name": ty["name"], "engine": ty["engine"], "trunk_aircraft_used_avg": round(used, 1), "trunk_cycles_per_aircraft_day": round(per_ac, 2),
+               "fleet_aircraft": fleet_n, "fleet_cycles_per_aircraft_day_now": round(base_day, 2) if base_day else None,
+               "trunk_engines_installed_avg": round(2 * used, 1)}
+        if fleet_n and used:
+            blended = (used * per_ac + (fleet_n - used) * base_day) / fleet_n
+            u = round(min(pfd.UTIL_CAP, max(1.0, blended / base_day)), 4)
+            new_fleet, n_new = pfd.build_fleet(cid, {**derived, "utilisation_multiplier": u}, None if k == "737" else k)
+            cur_k = cur if k == "737" else json.loads((HERE / "data" / cid / k / "fleet.json").read_text(encoding="utf-8"))
+            shift = pfd.compare_inputs(cur_k, new_fleet)
+            row.update({"blended_cycles_per_aircraft_day": round(blended, 2), "utilisation_multiplier": u,
+                        "windows": {x: shift[x] for x in ("due_now", "due_new", "earlier", "newly_due", "mean_shift_months") if x in shift},
+                        "spend_per_year_k": round(n_new["spend_per_year_k"]), "spend_per_year_oku_yen": round(n_new["spend_per_year_k"] * USD_JPY / 1e5, 1)})
+        elif not fleet_n:
+            row["note"] = "エンジン計画のデータがない機種（companies.json に未登録）。サイクルだけ出す"
+        eng_types.append(row)
+    # levers in short months (p90) against the version
+    ver = trunk["version"]["by_type"]
+    levers_ = []
+    for r in trunk["rows"]:
+        if not r["short_p90"] and all(r["used_p90"][k] <= ver[k] for k in ver):
+            continue
+        items = []
+        for ty in types:
+            k = ty["type"]; d = r["used_p90"][k] - ver[k]
+            if d > 0:
+                items.append({"lever": "地方路線から 737 を回す" if k == "737" else f"{ty['name']} を版より多く入れる", "aircraft": d,
+                              "engine_effect": f"{ty['engine']} のサイクルが増える（パターンの便数ぶん）", "limit": f"使える機数 {r['available'][k]}"})
+        if r["lease_p90"]:
+            items.append({"lever": "737 を借りる（ウェットリース）", "aircraft": r["lease_p90"], "cost_k": r["lease_p90"] * R["lease"]["k_per_aircraft_month"], "engine_effect": "自社エンジンに影響なし", "limit": R["lease"]["note"]})
+        if r["spill_p90_pax_k"] > 0.5:
+            items.append({"lever": "見送る（乗せられない旅客）", "pax_k": r["spill_p90_pax_k"], "engine_effect": "なし", "limit": "失う売上は下限"})
+        levers_.append({"label": r["label"], "levers": items})
+    # busy-month decision: the solver leases only where it pays; priced against the no-lease solve
     fy_next = sorted({r["fy"] for r in trunk["rows"]})[1]
-    months_fy = [r["label"] for r in trunk["rows"] if r["fy"] == fy_next]
-    dec_mixed = rf.peak_decision(trunk, D, cid, months_fy, rule="mixed")
-    rpk_recent = demand_rpk(D, cid, derived, cur["start"], cur["horizon_months"], rule="recent")
-    trunk_recent = rf.build(cid, D, rpk_recent, checks, total, wait)
-    dec_recent = rf.peak_decision(trunk_recent, D, cid, months_fy, rule="recent")
-    # first use the other routes' slack (an aircraft moved in costs nothing), borrow only the rest
-    def with_others(dec):
-        rows = []
-        for m in dec["months"]:
-            t = next(r["t"] for r in trunk["rows"] if r["label"] == m["label"])
-            give = min(m["borrow_aircraft"], max(0, math.floor(slack.get(t, 0.0))))
-            rest = m["borrow_aircraft"] - give
-            pays = m["decision"] == "借りる"
-            frac = rest / m["borrow_aircraft"] if m["borrow_aircraft"] else 0.0
-            rows.append({"label": m["label"], "short_aircraft": m["borrow_aircraft"], "from_others": give, "borrow": rest if pays else 0, "spill_aircraft": 0 if pays else rest,
-                         "lease_cost_oku": round(rest * rf.WET_LEASE_K_PER_AC_MONTH * USD_JPY / 1e5, 2) if pays else 0.0,
-                         "lost_revenue_oku": 0.0 if pays else round(m["lost_if_not_oku"] * frac, 2)})
-        return {"months": rows, "aircraft_months_from_others": sum(x["from_others"] for x in rows), "aircraft_months_borrowed": sum(x["borrow"] for x in rows),
-                "aircraft_months_spilled": sum(x["spill_aircraft"] for x in rows), "lease_cost_oku": round(sum(x["lease_cost_oku"] for x in rows), 2),
-                "lost_revenue_oku": round(sum(x["lost_revenue_oku"] for x in rows), 2),
-                "note": "地方路線の余り（p50）から先に回す。残りは、借りて元が取れる月だけ借り、取れない月は見送る（失う収入は回せなかった分の按分、下限）"}
-    def tally(dec):
-        b = [m for m in dec["months"] if m["decision"] == "借りる"]
-        return {"aircraft_months_borrowed": sum(m["borrow_aircraft"] for m in b), "lease_cost_oku": round(sum(m["lease_cost_oku"] for m in b), 2),
-                "revenue_recovered_oku": round(sum(m["revenue_recovered_oku"] for m in b), 2), "net_oku": round(sum(m["net_oku"] for m in b), 2),
-                "lost_if_never_borrow_oku": round(sum(m["lost_if_not_oku"] for m in dec["months"]), 2), "months": [m["label"] for m in b]}
-    peak = max((r for r in trunk["rows"] if r["fy"] == fy_next), key=lambda r: r["need_p50"])
-    return {**trunk, "others": others, "reconciliation": recon, "levers": lv,
-            "engine_flying": {"cycles_per_aircraft_day_trunk": trunk["cycles_per_aircraft_day_trunk"], "cycles_per_aircraft_day_company_now": round(sectors_day, 2),
-                              "blended_cycles_per_aircraft_day": round(blended, 2), "utilisation_multiplier_from_routes": u_route, "utilisation_multiplier_from_demand": derived["utilisation_multiplier"],
-                              "windows": {k: shift[k] for k in ("due_now", "due_new", "earlier", "newly_due", "mean_shift_months") if k in shift},
-                              "spend_per_year_k": round(n_new["spend_per_year_k"]), "visits_per_year": round(n_new["visits_per_year"], 2),
-                              "spend_per_year_oku_yen": round(n_new["spend_per_year_k"] * USD_JPY / 1e5, 1),
-                              "by_pattern": [{"id": p["id"], "cycles_per_day": p["cycles_per_day"], "cycles_per_block_h": p["cycles_per_block_h"], "aircraft": trunk["assignment"][p["id"]]} for p in trunk["patterns"]],
-                              "how": "幹線の機はパターンの便数だけ飛ぶ（短い区間ほど回数が増える）。その他は会社平均。混ぜたサイクル ÷ 今のサイクルを稼働倍率として plan_from_demand.build_fleet に渡し、窓の動きと平年の整備費を出す"},
-            "decisions": {"peak_month": peak["label"], "mixed_rule": dec_mixed, "recent_rule": dec_recent,
-                          "year_end": {"mixed_rule": tally(dec_mixed), "recent_rule": tally(dec_recent)}, "with_others_first": with_others(dec_mixed),
-                          "rules_note": "伸びの規則は 2 年先までは直近の値を使う（plan_from_demand.growth_at）ので、24 か月の窓では混ぜる規則と直近の規則は一致する。差が出るのは 3 年目以降",
-                          "note": f"{fy_next} の各月について「借りるか見送るか」。混ぜる規則（直近と長期の伸びを混ぜる）と直近だけの規則の 2 通り"},
+    dec = []
+    for r in trunk["rows"]:
+        if r["fy"] != fy_next:
+            continue
+        cost = r["lease_p50"] * R["lease"]["k_per_aircraft_month"] * USD_JPY / 1e5
+        rec = (r["no_lease_p50"]["lost_revenue_k"] - r["cost_k_p50"]["lost_revenue"]) * USD_JPY / 1e5
+        dec.append({"label": r["label"], "lease_aircraft": r["lease_p50"], "lease_cost_oku": round(cost, 2), "revenue_recovered_oku": round(rec, 2),
+                    "net_oku": round(rec - cost, 2), "lost_if_not_oku": round(r["no_lease_p50"]["lost_revenue_k"] * USD_JPY / 1e5, 2),
+                    "lost_after_oku": round(r["cost_k_p50"]["lost_revenue"] * USD_JPY / 1e5, 2),
+                    "used": r["used_p50"], "decision": "借りる" if r["lease_p50"] else "借りない"})
+    tally = {"aircraft_months_leased": sum(x["lease_aircraft"] for x in dec), "lease_cost_oku": round(sum(x["lease_cost_oku"] for x in dec), 2),
+             "revenue_recovered_oku": round(sum(x["revenue_recovered_oku"] for x in dec), 2), "net_oku": round(sum(x["net_oku"] for x in dec), 2),
+             "lost_revenue_after_oku": round(sum(x["lost_after_oku"] for x in dec), 2), "lost_if_never_lease_oku": round(sum(x["lost_if_not_oku"] for x in dec), 2),
+             "months_leased": [x["label"] for x in dec if x["lease_aircraft"]]}
+    peak = max((r for r in trunk["rows"] if r["fy"] == fy_next), key=lambda r: r["pax_k_p50"])
+    return {**trunk, "others": others,
+            "reconciliation": {"rows": recon, "note": "737 ＝ 幹線の 737（機材割当）＋ 地方路線（会社の 737 の需要 × 幹線以外の割合、座席キロ）＋ 機体整備。座席キロ一本の全体と比べる"},
+            "engine_flying": eng_types, "levers": levers_,
+            "decisions": {"fiscal_year": fy_next, "peak_month": peak["label"], "months": dec, "year_end": tally,
+                          "note": "借りるかどうかは機材割当の中で決まる（リース費 ＜ 取り戻す売上 のときだけ借りる）。取り戻す売上は、借りない場合に解き直した失う売上との差",
+                          "rules_note": "伸びの規則は 2 年先までは直近の値を使う（plan_from_demand.growth_at）ので、24 か月の窓では混ぜる規則と直近の規則は一致する"},
             "month_table": month_table(cur["start"], cur["horizon_months"])}
 
 
@@ -393,10 +429,12 @@ def main(argv=None) -> int:
     print(f"  engine windows: due {r['engine_flying']['windows']}")
     print(f"  consistency: {r['consistency']['verdict']}")
     tr = r["trunk"]
-    ys = tr["decisions"]["year_end"]
-    print(f"  trunk {tr['trunk_aircraft']} ac: " + ", ".join(f"{x['label']} need {x['need_p50']}/{x['need_p90']} usable {x['usable']}" for x in tr["rows"][6:18]))
-    print(f"  trunk cycles/ac-day {tr['engine_flying']['cycles_per_aircraft_day_trunk']} vs company {tr['engine_flying']['cycles_per_aircraft_day_company_now']}, u {tr['engine_flying']['utilisation_multiplier_from_routes']}, windows {tr['engine_flying']['windows']}, spend {tr['engine_flying']['spend_per_year_oku_yen']} 億円")
-    print(f"  peak {tr['decisions']['peak_month']}; year-end mixed {ys['mixed_rule']}; recent {ys['recent_rule']}")
+    print(f"  trunk version by type {tr['version']['by_type']}, 737 trunk share {tr['version']['trunk_share_of_737_rpk']}")
+    for x in tr["rows"][6:18]:
+        print(f"    {x['label']} used {x['used_p50']} lease p50/p90 {x['lease_p50']}/{x['lease_p90']} spill {x['spill_p50_pax_k']} avail {x['available']}")
+    for e in tr["engine_flying"]:
+        print(f"  {e['name']}: trunk {e['trunk_aircraft_used_avg']} ac, {e['trunk_cycles_per_aircraft_day']} cyc/ac-day, u {e.get('utilisation_multiplier')}, windows {e.get('windows')}, spend {e.get('spend_per_year_oku_yen')}")
+    print(f"  year-end {tr['decisions']['year_end']}")
     return 0
 
 
