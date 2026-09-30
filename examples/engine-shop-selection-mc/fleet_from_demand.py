@@ -39,6 +39,7 @@ from pathlib import Path
 import company
 import demand as demand_mod
 import plan_from_demand as pfd
+import route_fleet as rf
 
 HERE = Path(__file__).resolve().parent
 DAYS = 365 / 12
@@ -58,7 +59,7 @@ def _label(start: str, t: int) -> str:
     return f"{y0 + (m0 - 1 + t) // 12}-{(m0 - 1 + t) % 12 + 1:02d}"
 
 
-def demand_rpk(D: dict, cid: str, derived: dict, start: str, months: int) -> list[dict]:
+def demand_rpk(D: dict, cid: str, derived: dict, start: str, months: int, rule: str = "mixed") -> list[dict]:
     """The company's 737-800 RPK by month with a 10-90 % band.
     Level: the company's share of the market's last fiscal year, times the 737-800 share;
     shape: the market's seasonal index; trend: plan_from_demand's growth by horizon;
@@ -83,7 +84,7 @@ def demand_rpk(D: dict, cid: str, derived: dict, start: str, months: int) -> lis
     out = []
     for t in range(months):
         lab = _label(start, t); m = int(lab[5:])
-        trend = (1 + pfd.growth_at(t, g, gl)) ** (t / 12)
+        trend = (1 + (g if rule == "recent" else pfd.growth_at(t, g, gl))) ** (t / 12)   # "recent": the last 2 years' growth only; "mixed": blended with the long run
         p50 = level * idx[m] * trend
         width = 1.2816 * (sd + 0.02 * (t / 12) ** 0.5)           # 10-90 %: z x (month noise + trend uncertainty growing with sqrt(horizon))
         out.append({"t": t, "label": lab, "fy": _fy(lab), "p10": round(p50 * (1 - width), 1), "p50": round(p50, 1), "p90": round(p50 * (1 + width), 1), "trend": round(trend, 4)})
@@ -250,6 +251,88 @@ def consistency(D: dict, cid: str, ac: dict) -> dict:
                         f"不整合：全機が飛んでも搭乗率 {peak['lf_if_all_fly']:.0%} が要る。737 のシェア {share} は機材 {peak['owned']} 機に対して大きすぎる。目標搭乗率で整合するシェアは {implied}。連載ではシェアを仮定として明示し、こちらの値を検討")}
 
 
+def month_table(start: str, months: int) -> list[dict]:
+    """Model t (start = t 0) against the series' fiscal-year month (April = month 1)."""
+    out = []
+    for t in range(months):
+        lab = _label(start, t); m = int(lab[5:])
+        out.append({"t": t, "label": lab, "fy": _fy(lab), "fy_month": (m - 4) % 12 + 1})
+    return out
+
+
+def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: dict, eng: dict, growth: dict | None, derived: dict, norms: dict) -> dict:
+    """The trunk routes planned by pattern, the rest of the fleet coarsely by seat-km, and the
+    two reconciled: the whole company's need is the trunk's need plus the others', the cycles
+    the engines fly come from the patterns, and the July decision is priced month by month."""
+    checks = {int(k): v for k, v in cfg["aircraft"]["airframe_checks"].items()}
+    total = cfg["aircraft"]["total"]
+    wait = {e["t"]: math.ceil(max(0, -e["headroom_p90"]) / 2) for e in eng["rows"]}
+    trunk = rf.build(cid, D, rpk, checks, total, wait)
+    n_trunk = trunk["trunk_aircraft"]; n_others = total - n_trunk
+    km = {r["id"]: r["km"] for r in trunk["routes"]}
+    P = ac["params"]; lf_t = P["lf_target"]
+    # the other routes: the company's 737 RPK minus the trunk's, by seat-km
+    others = []
+    for b, d, a in zip(rpk, trunk["demand"], ac["rows"]):
+        trunk_rpk = sum(v["p50"] * km[r] for r, v in d["routes"].items()) * 1e3 / 1e6
+        rest = max(0.0, b["p50"] - trunk_rpk)
+        m = int(b["label"][5:])
+        need = rest / lf_t / P["ask_per_aircraft_month"] + checks[m] * n_others / total
+        others.append({"t": b["t"], "label": b["label"], "rpk_trunk_p50": round(trunk_rpk, 1), "rpk_others_p50": round(rest, 1), "trunk_share_of_737_rpk": round(trunk_rpk / b["p50"], 3),
+                       "need_p50": round(need, 1), "fleet": n_others, "slack_p50": round(n_others - need, 1)})
+    slack = {o["t"]: o["slack_p50"] for o in others}
+    gp = (growth or {}).get("params", {})
+    lv = rf.levers(trunk, slack, D, cid, norms, gp)
+    # reconciliation: trunk need + others need vs the seat-km whole
+    recon = {"rows": [{"t": r["t"], "label": r["label"], "trunk_need_p50": r["need_p50"], "others_need_p50": o["need_p50"], "sum_p50": round(r["need_p50"] + o["need_p50"], 1),
+                       "whole_by_seat_km_p50": a["need_p50"], "fleet": total} for r, o, a in zip(trunk["rows"], others, ac["rows"])],
+             "note": "幹線 ＋ その他 と 座席キロ一本の全体が違うのは、幹線の機がパターン上で会社平均より多く飛ぶ（1 日の便数）から。幹線の割り当てが p90 の要る機数を下回る月は、会社全体に余りがあれば回す"}
+    # the cycles the engines fly: trunk on its patterns, others at the company average
+    sectors_day = P["sectors_per_day"]
+    blended = (n_trunk * trunk["cycles_per_aircraft_day_trunk"] + n_others * sectors_day) / total
+    u_route = round(min(pfd.UTIL_CAP, max(1.0, blended / sectors_day)), 4)
+    ov = {**derived, "utilisation_multiplier": u_route}
+    new_fleet, n_new = pfd.build_fleet(cid, ov)
+    shift = pfd.compare_inputs(cur, new_fleet)
+    # the July question, two growth rules, and the year-end tally of "borrow when it pays"
+    fy_next = sorted({r["fy"] for r in trunk["rows"]})[1]
+    months_fy = [r["label"] for r in trunk["rows"] if r["fy"] == fy_next]
+    dec_mixed = rf.peak_decision(trunk, D, cid, months_fy, rule="mixed")
+    rpk_recent = demand_rpk(D, cid, derived, cur["start"], cur["horizon_months"], rule="recent")
+    trunk_recent = rf.build(cid, D, rpk_recent, checks, total, wait)
+    dec_recent = rf.peak_decision(trunk_recent, D, cid, months_fy, rule="recent")
+    # first use the other routes' slack (an aircraft moved in costs nothing), borrow only the rest
+    def with_others(dec):
+        rows = []
+        for m in dec["months"]:
+            t = next(r["t"] for r in trunk["rows"] if r["label"] == m["label"])
+            give = min(m["borrow_aircraft"], max(0, math.floor(slack.get(t, 0.0))))
+            rest = m["borrow_aircraft"] - give
+            rows.append({"label": m["label"], "short_aircraft": m["borrow_aircraft"], "from_others": give, "borrow": rest,
+                         "lease_cost_oku": round(rest * rf.WET_LEASE_K_PER_AC_MONTH * USD_JPY / 1e5, 2)})
+        return {"months": rows, "aircraft_months_from_others": sum(x["from_others"] for x in rows), "aircraft_months_borrowed": sum(x["borrow"] for x in rows),
+                "lease_cost_oku": round(sum(x["lease_cost_oku"] for x in rows), 2), "note": "その他の路線の余り（p50）から先に回し、足りない分だけ借りる"}
+    def tally(dec):
+        b = [m for m in dec["months"] if m["decision"] == "借りる"]
+        return {"aircraft_months_borrowed": sum(m["borrow_aircraft"] for m in b), "lease_cost_oku": round(sum(m["lease_cost_oku"] for m in b), 2),
+                "revenue_recovered_oku": round(sum(m["revenue_recovered_oku"] for m in b), 2), "net_oku": round(sum(m["net_oku"] for m in b), 2),
+                "lost_if_never_borrow_oku": round(sum(m["lost_if_not_oku"] for m in dec["months"]), 2), "months": [m["label"] for m in b]}
+    peak = max((r for r in trunk["rows"] if r["fy"] == fy_next), key=lambda r: r["need_p50"])
+    return {**trunk, "others": others, "reconciliation": recon, "levers": lv,
+            "engine_flying": {"cycles_per_aircraft_day_trunk": trunk["cycles_per_aircraft_day_trunk"], "cycles_per_aircraft_day_company_now": round(sectors_day, 2),
+                              "blended_cycles_per_aircraft_day": round(blended, 2), "utilisation_multiplier_from_routes": u_route, "utilisation_multiplier_from_demand": derived["utilisation_multiplier"],
+                              "windows": {k: shift[k] for k in ("due_now", "due_new", "earlier", "newly_due", "mean_shift_months") if k in shift},
+                              "spend_per_year_k": round(n_new["spend_per_year_k"]), "visits_per_year": round(n_new["visits_per_year"], 2),
+                              "spend_per_year_oku_yen": round(n_new["spend_per_year_k"] * USD_JPY / 1e5, 1),
+                              "by_pattern": [{"id": p["id"], "cycles_per_day": p["cycles_per_day"], "cycles_per_block_h": p["cycles_per_block_h"], "aircraft": trunk["assignment"][p["id"]]} for p in trunk["patterns"]],
+                              "how": "幹線の機はパターンの便数だけ飛ぶ（短い区間ほど回数が増える）。その他は会社平均。混ぜたサイクル ÷ 今のサイクルを稼働倍率として plan_from_demand.build_fleet に渡し、窓の動きと平年の整備費を出す"},
+            "decisions": {"peak_month": peak["label"], "mixed_rule": dec_mixed, "recent_rule": dec_recent,
+                          "year_end": {"mixed_rule": tally(dec_mixed), "recent_rule": tally(dec_recent)}, "with_others_first": with_others(dec_mixed),
+                          "rules_note": "伸びの規則は 2 年先までは直近の値を使う（plan_from_demand.growth_at）ので、24 か月の窓では混ぜる規則と直近の規則は一致する。差が出るのは 3 年目以降",
+                          "note": f"{fy_next} の各月について「借りるか見送るか」。混ぜる規則（直近と長期の伸びを混ぜる）と直近だけの規則の 2 通り"},
+            "month_table": month_table(cur["start"], cur["horizon_months"])}
+
+
 def build(cid: str, out: Path | None = None, runout_path: Path | None = None, shortage_path: Path | None = None, growth_path: Path | None = None, solve: bool = False) -> dict:
     D = demand_mod.load()
     conf = json.loads(company.CONFIG.read_text(encoding="utf-8"))
@@ -269,12 +352,13 @@ def build(cid: str, out: Path | None = None, runout_path: Path | None = None, sh
     norms = {"spend_per_year_k": n_new["spend_per_year_k"], "visits_per_year": n_new["visits_per_year"]}
     lv = levers(D, cid, cfg, ac, norms, growth, runout)
     cons = consistency(D, cid, ac)
+    trunk = route_layer(D, cid, cfg, cur, rpk, ac, eng, growth, derived, norms)
     season = planning_season(D, cid, ac, eng, lv, norms, derived, growth)
     result = {"company": cid, "name": cfg["name"], "start": cur["start"], "horizon_months": cur["horizon_months"],
               "demand_rpk_737": rpk, "aircraft": ac, "long_view": lv_long, "engines": eng,
               "engine_flying": {"cycles_per_aircraft_month": round(ac["params"]["sectors_per_day"] * DAYS * ac["params"]["utilisation_multiplier"], 1), "utilisation_multiplier": derived["utilisation_multiplier"],
                                 "windows": {k: shift[k] for k in ("due_now", "due_new", "earlier", "newly_due", "mean_shift_months") if k in shift}, "norms": {k: round(v, 2) for k, v in norms.items()}},
-              "levers": lv, "planning_season": season, "consistency": cons, "derived": {k: derived[k] for k in ("demand_growth_per_year", "demand_growth_long_run", "utilisation_multiplier")},
+              "levers": lv, "planning_season": season, "consistency": cons, "trunk": trunk, "derived": {k: derived[k] for k in ("demand_growth_per_year", "demand_growth_long_run", "utilisation_multiplier")},
               "assumptions": {"lf_target": D["assumptions"]["lf_threshold_source"], "share_737_800": D["companies"][cid].get("share_source", "no_source"), "band": "no_source: 10〜90% の幅は既知月の残差の標準偏差 ＋ 年 2% × √(年数) を z=1.28 倍",
                               "wet_lease": "no_source: 850 k$/機・月", "dry_lease": "no_source: 250 k$/機・月", "usd_jpy": f"{USD_JPY}（連載の換算に合わせる）",
                               "missing_months": "既知でない月（JAL 2025-09〜12）は市場の季節指数 × シェアで補う"},
@@ -302,6 +386,11 @@ def main(argv=None) -> int:
     print(f"  peak {p['label']}: L/F if all fly {p['lf_if_all_fly']}, need p50 {p['need_p50']} / p90 {p['need_p90']} vs {p['owned']}, engines headroom p50 {p['engines_headroom_p50']} / p90 {p['engines_headroom_p90']}, adding flights {p['adding_flights']}")
     print(f"  engine windows: due {r['engine_flying']['windows']}")
     print(f"  consistency: {r['consistency']['verdict']}")
+    tr = r["trunk"]
+    ys = tr["decisions"]["year_end"]
+    print(f"  trunk {tr['trunk_aircraft']} ac: " + ", ".join(f"{x['label']} need {x['need_p50']}/{x['need_p90']} usable {x['usable']}" for x in tr["rows"][6:18]))
+    print(f"  trunk cycles/ac-day {tr['engine_flying']['cycles_per_aircraft_day_trunk']} vs company {tr['engine_flying']['cycles_per_aircraft_day_company_now']}, u {tr['engine_flying']['utilisation_multiplier_from_routes']}, windows {tr['engine_flying']['windows']}, spend {tr['engine_flying']['spend_per_year_oku_yen']} 億円")
+    print(f"  peak {tr['decisions']['peak_month']}; year-end mixed {ys['mixed_rule']}; recent {ys['recent_rule']}")
     return 0
 
 

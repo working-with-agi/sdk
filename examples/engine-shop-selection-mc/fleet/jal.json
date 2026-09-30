@@ -1372,6 +1372,4656 @@
   "share_that_fits": 0.356,
   "verdict": "整合：全機が飛べば目標の搭乗率で運べる"
  },
+ "trunk": {
+  "routes": [
+   {
+    "id": "HND-CTS",
+    "name": "羽田–新千歳",
+    "pax_month_k": 72.0,
+    "block_h": 1.5,
+    "km": 894
+   },
+   {
+    "id": "HND-ITM",
+    "name": "羽田–伊丹",
+    "pax_month_k": 126.0,
+    "block_h": 1.1,
+    "km": 514
+   },
+   {
+    "id": "HND-FUK",
+    "name": "羽田–福岡",
+    "pax_month_k": 74.0,
+    "block_h": 1.8,
+    "km": 1041
+   },
+   {
+    "id": "HND-OKA",
+    "name": "羽田–那覇",
+    "pax_month_k": 46.0,
+    "block_h": 2.6,
+    "km": 1687
+   },
+   {
+    "id": "FUK-OKA",
+    "name": "福岡–那覇",
+    "pax_month_k": 15.0,
+    "block_h": 1.6,
+    "km": 868
+   }
+  ],
+  "patterns": [
+   {
+    "id": "P1",
+    "name": "新千歳 2 往復＋伊丹 1 往復",
+    "legs": {
+     "HND-CTS": 4,
+     "HND-ITM": 2
+    },
+    "cycles_per_day": 6,
+    "block_h": 8.2,
+    "day_h": 12.3,
+    "fits_day": true,
+    "cycles_per_block_h": 0.73
+   },
+   {
+    "id": "P2",
+    "name": "伊丹 4 往復",
+    "legs": {
+     "HND-ITM": 8
+    },
+    "cycles_per_day": 8,
+    "block_h": 8.8,
+    "day_h": 14.6,
+    "fits_day": true,
+    "cycles_per_block_h": 0.91
+   },
+   {
+    "id": "P3",
+    "name": "福岡 2 往復＋伊丹 1 往復",
+    "legs": {
+     "HND-FUK": 4,
+     "HND-ITM": 2
+    },
+    "cycles_per_day": 6,
+    "block_h": 9.4,
+    "day_h": 13.6,
+    "fits_day": true,
+    "cycles_per_block_h": 0.64
+   },
+   {
+    "id": "P4",
+    "name": "那覇 2 往復",
+    "legs": {
+     "HND-OKA": 4
+    },
+    "cycles_per_day": 4,
+    "block_h": 10.4,
+    "day_h": 12.9,
+    "fits_day": true,
+    "cycles_per_block_h": 0.38
+   },
+   {
+    "id": "P5",
+    "name": "福岡経由の那覇（三角）＋伊丹 1 往復",
+    "legs": {
+     "HND-FUK": 2,
+     "FUK-OKA": 2,
+     "HND-ITM": 2
+    },
+    "cycles_per_day": 6,
+    "block_h": 9.0,
+    "day_h": 13.1,
+    "fits_day": true,
+    "cycles_per_block_h": 0.67
+   },
+   {
+    "id": "P6",
+    "name": "新千歳・福岡・伊丹 各 1 往復",
+    "legs": {
+     "HND-CTS": 2,
+     "HND-FUK": 2,
+     "HND-ITM": 2
+    },
+    "cycles_per_day": 6,
+    "block_h": 8.8,
+    "day_h": 12.9,
+    "fits_day": true,
+    "cycles_per_block_h": 0.68
+   }
+  ],
+  "assignment": {
+   "P1": 5,
+   "P2": 6,
+   "P3": 5,
+   "P4": 4,
+   "P5": 4,
+   "P6": 4
+  },
+  "trunk_aircraft": 28,
+  "demand": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "fy": "FY2026",
+    "routes": {
+     "HND-CTS": {
+      "p10": 145.6,
+      "p50": 153.4,
+      "p90": 161.3
+     },
+     "HND-ITM": {
+      "p10": 262.5,
+      "p50": 276.7,
+      "p90": 290.9
+     },
+     "HND-FUK": {
+      "p10": 154.2,
+      "p50": 162.5,
+      "p90": 170.8
+     },
+     "HND-OKA": {
+      "p10": 94.9,
+      "p50": 100.0,
+      "p90": 105.2
+     },
+     "FUK-OKA": {
+      "p10": 30.9,
+      "p50": 32.6,
+      "p90": 34.3
+     }
+    },
+    "total_p50": 725.2
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "fy": "FY2026",
+    "routes": {
+     "HND-CTS": {
+      "p10": 138.2,
+      "p50": 146.8,
+      "p90": 155.4
+     },
+     "HND-ITM": {
+      "p10": 249.2,
+      "p50": 264.7,
+      "p90": 280.2
+     },
+     "HND-FUK": {
+      "p10": 144.9,
+      "p50": 153.9,
+      "p90": 162.9
+     },
+     "HND-OKA": {
+      "p10": 86.5,
+      "p50": 91.8,
+      "p90": 97.2
+     },
+     "FUK-OKA": {
+      "p10": 28.5,
+      "p50": 30.3,
+      "p90": 32.0
+     }
+    },
+    "total_p50": 687.5
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "fy": "FY2026",
+    "routes": {
+     "HND-CTS": {
+      "p10": 131.8,
+      "p50": 140.4,
+      "p90": 149.1
+     },
+     "HND-ITM": {
+      "p10": 232.9,
+      "p50": 248.3,
+      "p90": 263.6
+     },
+     "HND-FUK": {
+      "p10": 136.8,
+      "p50": 145.8,
+      "p90": 154.8
+     },
+     "HND-OKA": {
+      "p10": 82.5,
+      "p50": 87.9,
+      "p90": 93.3
+     },
+     "FUK-OKA": {
+      "p10": 27.2,
+      "p50": 29.0,
+      "p90": 30.7
+     }
+    },
+    "total_p50": 651.4
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "fy": "FY2026",
+    "routes": {
+     "HND-CTS": {
+      "p10": 129.6,
+      "p50": 138.4,
+      "p90": 147.3
+     },
+     "HND-ITM": {
+      "p10": 222.3,
+      "p50": 237.5,
+      "p90": 252.8
+     },
+     "HND-FUK": {
+      "p10": 129.3,
+      "p50": 138.1,
+      "p90": 147.0
+     },
+     "HND-OKA": {
+      "p10": 76.3,
+      "p50": 81.5,
+      "p90": 86.7
+     },
+     "FUK-OKA": {
+      "p10": 25.1,
+      "p50": 26.9,
+      "p90": 28.6
+     }
+    },
+    "total_p50": 622.4
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "fy": "FY2026",
+    "routes": {
+     "HND-CTS": {
+      "p10": 134.3,
+      "p50": 143.8,
+      "p90": 153.3
+     },
+     "HND-ITM": {
+      "p10": 221.8,
+      "p50": 237.5,
+      "p90": 253.1
+     },
+     "HND-FUK": {
+      "p10": 128.9,
+      "p50": 138.1,
+      "p90": 147.2
+     },
+     "HND-OKA": {
+      "p10": 74.5,
+      "p50": 79.8,
+      "p90": 85.0
+     },
+     "FUK-OKA": {
+      "p10": 24.8,
+      "p50": 26.6,
+      "p90": 28.3
+     }
+    },
+    "total_p50": 625.8
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "fy": "FY2026",
+    "routes": {
+     "HND-CTS": {
+      "p10": 145.0,
+      "p50": 155.6,
+      "p90": 166.1
+     },
+     "HND-ITM": {
+      "p10": 266.7,
+      "p50": 286.2,
+      "p90": 305.5
+     },
+     "HND-FUK": {
+      "p10": 155.1,
+      "p50": 166.4,
+      "p90": 177.7
+     },
+     "HND-OKA": {
+      "p10": 92.7,
+      "p50": 99.4,
+      "p90": 106.1
+     },
+     "FUK-OKA": {
+      "p10": 30.8,
+      "p50": 33.1,
+      "p90": 35.3
+     }
+    },
+    "total_p50": 740.7
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 119.5,
+      "p50": 128.4,
+      "p90": 137.4
+     },
+     "HND-ITM": {
+      "p10": 222.5,
+      "p50": 239.1,
+      "p90": 255.7
+     },
+     "HND-FUK": {
+      "p10": 130.7,
+      "p50": 140.4,
+      "p90": 150.2
+     },
+     "HND-OKA": {
+      "p10": 79.6,
+      "p50": 85.6,
+      "p90": 91.5
+     },
+     "FUK-OKA": {
+      "p10": 26.0,
+      "p50": 27.9,
+      "p90": 29.8
+     }
+    },
+    "total_p50": 621.4
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 133.9,
+      "p50": 144.1,
+      "p90": 154.3
+     },
+     "HND-ITM": {
+      "p10": 239.1,
+      "p50": 257.3,
+      "p90": 275.5
+     },
+     "HND-FUK": {
+      "p10": 141.8,
+      "p50": 152.6,
+      "p90": 163.4
+     },
+     "HND-OKA": {
+      "p10": 87.3,
+      "p50": 93.9,
+      "p90": 100.6
+     },
+     "FUK-OKA": {
+      "p10": 28.5,
+      "p50": 30.6,
+      "p90": 32.8
+     }
+    },
+    "total_p50": 678.5
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 121.2,
+      "p50": 130.6,
+      "p90": 140.0
+     },
+     "HND-ITM": {
+      "p10": 220.9,
+      "p50": 238.1,
+      "p90": 255.2
+     },
+     "HND-FUK": {
+      "p10": 128.4,
+      "p50": 138.4,
+      "p90": 148.4
+     },
+     "HND-OKA": {
+      "p10": 82.3,
+      "p50": 88.6,
+      "p90": 95.0
+     },
+     "FUK-OKA": {
+      "p10": 26.8,
+      "p50": 28.9,
+      "p90": 31.0
+     }
+    },
+    "total_p50": 624.6
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 142.0,
+      "p50": 153.3,
+      "p90": 164.5
+     },
+     "HND-ITM": {
+      "p10": 236.6,
+      "p50": 255.4,
+      "p90": 274.1
+     },
+     "HND-FUK": {
+      "p10": 140.3,
+      "p50": 151.5,
+      "p90": 162.6
+     },
+     "HND-OKA": {
+      "p10": 94.2,
+      "p50": 101.7,
+      "p90": 109.2
+     },
+     "FUK-OKA": {
+      "p10": 30.2,
+      "p50": 32.5,
+      "p90": 34.9
+     }
+    },
+    "total_p50": 694.4
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 169.4,
+      "p50": 183.0,
+      "p90": 196.7
+     },
+     "HND-ITM": {
+      "p10": 266.2,
+      "p50": 287.7,
+      "p90": 309.2
+     },
+     "HND-FUK": {
+      "p10": 161.2,
+      "p50": 174.2,
+      "p90": 187.2
+     },
+     "HND-OKA": {
+      "p10": 112.2,
+      "p50": 121.3,
+      "p90": 130.3
+     },
+     "FUK-OKA": {
+      "p10": 35.9,
+      "p50": 38.8,
+      "p90": 41.7
+     }
+    },
+    "total_p50": 805.0
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 140.9,
+      "p50": 152.5,
+      "p90": 164.1
+     },
+     "HND-ITM": {
+      "p10": 246.6,
+      "p50": 266.9,
+      "p90": 287.1
+     },
+     "HND-FUK": {
+      "p10": 144.9,
+      "p50": 156.7,
+      "p90": 168.6
+     },
+     "HND-OKA": {
+      "p10": 95.4,
+      "p50": 103.3,
+      "p90": 111.1
+     },
+     "FUK-OKA": {
+      "p10": 30.5,
+      "p50": 33.0,
+      "p90": 35.5
+     }
+    },
+    "total_p50": 712.4
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 147.0,
+      "p50": 159.2,
+      "p90": 171.5
+     },
+     "HND-ITM": {
+      "p10": 265.1,
+      "p50": 287.2,
+      "p90": 309.2
+     },
+     "HND-FUK": {
+      "p10": 155.7,
+      "p50": 168.7,
+      "p90": 181.6
+     },
+     "HND-OKA": {
+      "p10": 95.8,
+      "p50": 103.8,
+      "p90": 111.8
+     },
+     "FUK-OKA": {
+      "p10": 31.2,
+      "p50": 33.8,
+      "p90": 36.4
+     }
+    },
+    "total_p50": 752.7
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 140.4,
+      "p50": 152.3,
+      "p90": 164.2
+     },
+     "HND-ITM": {
+      "p10": 253.3,
+      "p50": 274.7,
+      "p90": 296.1
+     },
+     "HND-FUK": {
+      "p10": 147.3,
+      "p50": 159.7,
+      "p90": 172.2
+     },
+     "HND-OKA": {
+      "p10": 87.9,
+      "p50": 95.3,
+      "p90": 102.7
+     },
+     "FUK-OKA": {
+      "p10": 29.0,
+      "p50": 31.4,
+      "p90": 33.9
+     }
+    },
+    "total_p50": 713.4
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 134.2,
+      "p50": 145.7,
+      "p90": 157.2
+     },
+     "HND-ITM": {
+      "p10": 237.3,
+      "p50": 257.6,
+      "p90": 278.0
+     },
+     "HND-FUK": {
+      "p10": 139.4,
+      "p50": 151.3,
+      "p90": 163.3
+     },
+     "HND-OKA": {
+      "p10": 84.0,
+      "p50": 91.2,
+      "p90": 98.4
+     },
+     "FUK-OKA": {
+      "p10": 27.7,
+      "p50": 30.1,
+      "p90": 32.4
+     }
+    },
+    "total_p50": 675.9
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 132.2,
+      "p50": 143.7,
+      "p90": 155.2
+     },
+     "HND-ITM": {
+      "p10": 226.8,
+      "p50": 246.5,
+      "p90": 266.2
+     },
+     "HND-FUK": {
+      "p10": 131.9,
+      "p50": 143.3,
+      "p90": 154.8
+     },
+     "HND-OKA": {
+      "p10": 77.8,
+      "p50": 84.6,
+      "p90": 91.4
+     },
+     "FUK-OKA": {
+      "p10": 25.7,
+      "p50": 27.9,
+      "p90": 30.1
+     }
+    },
+    "total_p50": 646.0
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 137.2,
+      "p50": 149.3,
+      "p90": 161.4
+     },
+     "HND-ITM": {
+      "p10": 226.5,
+      "p50": 246.5,
+      "p90": 266.4
+     },
+     "HND-FUK": {
+      "p10": 131.7,
+      "p50": 143.3,
+      "p90": 154.9
+     },
+     "HND-OKA": {
+      "p10": 76.1,
+      "p50": 82.8,
+      "p90": 89.5
+     },
+     "FUK-OKA": {
+      "p10": 25.3,
+      "p50": 27.6,
+      "p90": 29.8
+     }
+    },
+    "total_p50": 649.5
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "fy": "FY2027",
+    "routes": {
+     "HND-CTS": {
+      "p10": 148.3,
+      "p50": 161.5,
+      "p90": 174.7
+     },
+     "HND-ITM": {
+      "p10": 272.7,
+      "p50": 297.0,
+      "p90": 321.3
+     },
+     "HND-FUK": {
+      "p10": 158.6,
+      "p50": 172.7,
+      "p90": 186.8
+     },
+     "HND-OKA": {
+      "p10": 94.7,
+      "p50": 103.2,
+      "p90": 111.6
+     },
+     "FUK-OKA": {
+      "p10": 31.5,
+      "p50": 34.3,
+      "p90": 37.1
+     }
+    },
+    "total_p50": 768.7
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "fy": "FY2028",
+    "routes": {
+     "HND-CTS": {
+      "p10": 122.3,
+      "p50": 133.3,
+      "p90": 144.3
+     },
+     "HND-ITM": {
+      "p10": 227.6,
+      "p50": 248.2,
+      "p90": 268.7
+     },
+     "HND-FUK": {
+      "p10": 133.7,
+      "p50": 145.7,
+      "p90": 157.8
+     },
+     "HND-OKA": {
+      "p10": 81.4,
+      "p50": 88.8,
+      "p90": 96.1
+     },
+     "FUK-OKA": {
+      "p10": 26.6,
+      "p50": 29.0,
+      "p90": 31.3
+     }
+    },
+    "total_p50": 645.0
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "fy": "FY2028",
+    "routes": {
+     "HND-CTS": {
+      "p10": 137.0,
+      "p50": 149.5,
+      "p90": 162.0
+     },
+     "HND-ITM": {
+      "p10": 244.7,
+      "p50": 267.0,
+      "p90": 289.3
+     },
+     "HND-FUK": {
+      "p10": 145.1,
+      "p50": 158.4,
+      "p90": 171.6
+     },
+     "HND-OKA": {
+      "p10": 89.3,
+      "p50": 97.5,
+      "p90": 105.6
+     },
+     "FUK-OKA": {
+      "p10": 29.1,
+      "p50": 31.8,
+      "p90": 34.4
+     }
+    },
+    "total_p50": 704.2
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "fy": "FY2028",
+    "routes": {
+     "HND-CTS": {
+      "p10": 124.1,
+      "p50": 135.5,
+      "p90": 147.0
+     },
+     "HND-ITM": {
+      "p10": 226.2,
+      "p50": 247.1,
+      "p90": 267.9
+     },
+     "HND-FUK": {
+      "p10": 131.5,
+      "p50": 143.7,
+      "p90": 155.8
+     },
+     "HND-OKA": {
+      "p10": 84.2,
+      "p50": 92.0,
+      "p90": 99.8
+     },
+     "FUK-OKA": {
+      "p10": 27.5,
+      "p50": 30.0,
+      "p90": 32.5
+     }
+    },
+    "total_p50": 648.3
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "fy": "FY2028",
+    "routes": {
+     "HND-CTS": {
+      "p10": 145.5,
+      "p50": 159.1,
+      "p90": 172.6
+     },
+     "HND-ITM": {
+      "p10": 242.4,
+      "p50": 265.0,
+      "p90": 287.6
+     },
+     "HND-FUK": {
+      "p10": 143.8,
+      "p50": 157.2,
+      "p90": 170.6
+     },
+     "HND-OKA": {
+      "p10": 96.6,
+      "p50": 105.5,
+      "p90": 114.5
+     },
+     "FUK-OKA": {
+      "p10": 30.9,
+      "p50": 33.8,
+      "p90": 36.7
+     }
+    },
+    "total_p50": 720.6
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "fy": "FY2028",
+    "routes": {
+     "HND-CTS": {
+      "p10": 173.6,
+      "p50": 190.0,
+      "p90": 206.3
+     },
+     "HND-ITM": {
+      "p10": 272.9,
+      "p50": 298.6,
+      "p90": 324.3
+     },
+     "HND-FUK": {
+      "p10": 165.2,
+      "p50": 180.8,
+      "p90": 196.3
+     },
+     "HND-OKA": {
+      "p10": 115.0,
+      "p50": 125.9,
+      "p90": 136.7
+     },
+     "FUK-OKA": {
+      "p10": 36.8,
+      "p50": 40.3,
+      "p90": 43.8
+     }
+    },
+    "total_p50": 835.6
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "fy": "FY2028",
+    "routes": {
+     "HND-CTS": {
+      "p10": 144.6,
+      "p50": 158.3,
+      "p90": 172.0
+     },
+     "HND-ITM": {
+      "p10": 253.0,
+      "p50": 277.0,
+      "p90": 301.0
+     },
+     "HND-FUK": {
+      "p10": 148.6,
+      "p50": 162.7,
+      "p90": 176.8
+     },
+     "HND-OKA": {
+      "p10": 97.9,
+      "p50": 107.2,
+      "p90": 116.5
+     },
+     "FUK-OKA": {
+      "p10": 31.3,
+      "p50": 34.3,
+      "p90": 37.3
+     }
+    },
+    "total_p50": 739.5
+   }
+  ],
+  "rows": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "fy": "FY2026",
+    "pax_k_p50": 725.2,
+    "need_p10": 30,
+    "need_p50": 30,
+    "need_p90": 33,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 10.0,
+     "HND-FUK": 6.67,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 8,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 1.5,
+    "waiting_engine": 0,
+    "usable": 26.5,
+    "gap_p50": -3.5,
+    "gap_p90": -6.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.092,
+      "spill_pax_k": 34.0
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.656,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.899,
+      "spill_pax_k": 8.9
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.245,
+      "spill_pax_k": 31.7
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.812,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 74.6,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 3,
+      "P5": 3,
+      "P6": 16
+     },
+     "spill_pax_k": 59.9
+    },
+    "lost_revenue_fixed_oku": 13.97
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "fy": "FY2026",
+    "pax_k_p50": 687.5,
+    "need_p10": 28,
+    "need_p50": 30,
+    "need_p90": 31,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 10.0,
+     "HND-FUK": 6.67,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 8,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -4.0,
+    "gap_p90": -5.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.045,
+      "spill_pax_k": 27.4
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.628,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.852,
+      "spill_pax_k": 0.3
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.143,
+      "spill_pax_k": 23.5
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.755,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 51.2,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 4,
+      "P5": 3,
+      "P6": 15
+     },
+     "spill_pax_k": 30.5
+    },
+    "lost_revenue_fixed_oku": 9.67
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "fy": "FY2026",
+    "pax_k_p50": 651.4,
+    "need_p10": 27,
+    "need_p50": 29,
+    "need_p90": 30,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 9.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -1.5,
+    "gap_p90": -2.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 0.999,
+      "spill_pax_k": 21.0
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.589,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.807,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.095,
+      "spill_pax_k": 19.6
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.722,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 40.6,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 4,
+      "P6": 13
+     },
+     "spill_pax_k": 3.4
+    },
+    "lost_revenue_fixed_oku": 7.78
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "fy": "FY2026",
+    "pax_k_p50": 622.4,
+    "need_p10": 26,
+    "need_p50": 27,
+    "need_p90": 29,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 8.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 5.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 2,
+     "P3": 7,
+     "P4": 5,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -1.0,
+    "gap_p90": -3.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 0.985,
+      "spill_pax_k": 19.0
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.563,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.764,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.015,
+      "spill_pax_k": 13.2
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.67,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 32.2,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 13
+     },
+     "spill_pax_k": 2.9
+    },
+    "lost_revenue_fixed_oku": 5.89
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "fy": "FY2026",
+    "pax_k_p50": 625.8,
+    "need_p10": 25,
+    "need_p50": 27,
+    "need_p90": 28,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 8.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 5.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 2,
+     "P3": 7,
+     "P4": 5,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -1.0,
+    "gap_p90": -2.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.023,
+      "spill_pax_k": 24.4
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.563,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.764,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 0.994,
+      "spill_pax_k": 11.5
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.663,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 35.9,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 13
+     },
+     "spill_pax_k": 2.6
+    },
+    "lost_revenue_fixed_oku": 6.18
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "fy": "FY2026",
+    "pax_k_p50": 740.7,
+    "need_p10": 29,
+    "need_p50": 31,
+    "need_p90": 34,
+    "need_by_route_p50": {
+     "HND-CTS": 6.67,
+     "HND-ITM": 10.33,
+     "HND-FUK": 6.67,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 10,
+     "P2": 3,
+     "P3": 8,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -3.5,
+    "gap_p90": -6.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.107,
+      "spill_pax_k": 36.2
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.679,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.921,
+      "spill_pax_k": 12.8
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.238,
+      "spill_pax_k": 31.1
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.824,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 80.1,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 3,
+      "P5": 4,
+      "P6": 16
+     },
+     "spill_pax_k": 54.8
+    },
+    "lost_revenue_fixed_oku": 14.72
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "fy": "FY2027",
+    "pax_k_p50": 621.4,
+    "need_p10": 26,
+    "need_p50": 28,
+    "need_p90": 29,
+    "need_by_route_p50": {
+     "HND-CTS": 5.33,
+     "HND-ITM": 9.33,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 8,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 1.5,
+    "waiting_engine": 0,
+    "usable": 26.5,
+    "gap_p50": -1.5,
+    "gap_p90": -2.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 0.914,
+      "spill_pax_k": 9.0
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.567,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.777,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.066,
+      "spill_pax_k": 17.3
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.695,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 26.3,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 4,
+      "P6": 13
+     },
+     "spill_pax_k": 0.7
+    },
+    "lost_revenue_fixed_oku": 5.58
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "fy": "FY2027",
+    "pax_k_p50": 678.5,
+    "need_p10": 28,
+    "need_p50": 29,
+    "need_p90": 31,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 9.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -1.5,
+    "gap_p90": -3.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.025,
+      "spill_pax_k": 24.7
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.61,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.845,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.169,
+      "spill_pax_k": 25.6
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.762,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 50.3,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 15
+     },
+     "spill_pax_k": 13.6
+    },
+    "lost_revenue_fixed_oku": 9.79
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "fy": "FY2027",
+    "pax_k_p50": 624.6,
+    "need_p10": 25,
+    "need_p50": 28,
+    "need_p90": 29,
+    "need_by_route_p50": {
+     "HND-CTS": 5.33,
+     "HND-ITM": 9.33,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 8,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -2.0,
+    "gap_p90": -3.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 0.929,
+      "spill_pax_k": 11.2
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.565,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.766,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.103,
+      "spill_pax_k": 20.3
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.72,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 31.5,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 4,
+      "P6": 12
+     },
+     "spill_pax_k": 5.2
+    },
+    "lost_revenue_fixed_oku": 6.64
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "fy": "FY2027",
+    "pax_k_p50": 694.4,
+    "need_p10": 28,
+    "need_p50": 29,
+    "need_p90": 33,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 9.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 1.0,
+    "waiting_engine": 0,
+    "usable": 27.0,
+    "gap_p50": -2.0,
+    "gap_p90": -6.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.091,
+      "spill_pax_k": 33.9
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.606,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.839,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.267,
+      "spill_pax_k": 33.4
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.809,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 67.3,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 14
+     },
+     "spill_pax_k": 29.8
+    },
+    "lost_revenue_fixed_oku": 13.0
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "fy": "FY2027",
+    "pax_k_p50": 805.0,
+    "need_p10": 32,
+    "need_p50": 35,
+    "need_p90": 37,
+    "need_by_route_p50": {
+     "HND-CTS": 7.33,
+     "HND-ITM": 11.0,
+     "HND-FUK": 7.0,
+     "HND-OKA": 8.0,
+     "FUK-OKA": 1.67
+    },
+    "need_by_pattern_p50": {
+     "P1": 11,
+     "P2": 3,
+     "P3": 8,
+     "P4": 8,
+     "P5": 5,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -7.5,
+    "gap_p90": -9.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.302,
+      "spill_pax_k": 63.6
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.682,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.964,
+      "spill_pax_k": 20.6
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.511,
+      "spill_pax_k": 53.0
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.966,
+      "spill_pax_k": 4.7
+     }
+    },
+    "spill_fixed_pax_k": 141.9,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 2,
+      "P5": 3,
+      "P6": 17
+     },
+     "spill_pax_k": 107.8
+    },
+    "lost_revenue_fixed_oku": 25.77
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "fy": "FY2027",
+    "pax_k_p50": 712.4,
+    "need_p10": 28,
+    "need_p50": 31,
+    "need_p90": 33,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 10.0,
+     "HND-FUK": 6.67,
+     "HND-OKA": 7.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 8,
+     "P4": 7,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 1.5,
+    "waiting_engine": 0,
+    "usable": 26.5,
+    "gap_p50": -4.5,
+    "gap_p90": -6.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.085,
+      "spill_pax_k": 33.1
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.633,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.867,
+      "spill_pax_k": 3.1
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.286,
+      "spill_pax_k": 35.0
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.822,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 71.2,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 3,
+      "P5": 4,
+      "P6": 14
+     },
+     "spill_pax_k": 55.2
+    },
+    "lost_revenue_fixed_oku": 13.78
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "fy": "FY2027",
+    "pax_k_p50": 752.7,
+    "need_p10": 30,
+    "need_p50": 32,
+    "need_p90": 35,
+    "need_by_route_p50": {
+     "HND-CTS": 6.67,
+     "HND-ITM": 10.33,
+     "HND-FUK": 6.67,
+     "HND-OKA": 7.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 10,
+     "P2": 3,
+     "P3": 8,
+     "P4": 7,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 1.5,
+    "waiting_engine": 0,
+    "usable": 26.5,
+    "gap_p50": -5.5,
+    "gap_p90": -8.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.133,
+      "spill_pax_k": 39.8
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.681,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.934,
+      "spill_pax_k": 15.1
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.293,
+      "spill_pax_k": 35.5
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.842,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 90.4,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 2,
+      "P5": 4,
+      "P6": 16
+     },
+     "spill_pax_k": 80.9
+    },
+    "lost_revenue_fixed_oku": 16.68
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "fy": "FY2027",
+    "pax_k_p50": 713.4,
+    "need_p10": 29,
+    "need_p50": 30,
+    "need_p90": 33,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 10.0,
+     "HND-FUK": 6.67,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 8,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -4.0,
+    "gap_p90": -7.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.084,
+      "spill_pax_k": 32.9
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.652,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.884,
+      "spill_pax_k": 6.1
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.187,
+      "spill_pax_k": 27.0
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.782,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 66.0,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 3,
+      "P5": 3,
+      "P6": 16
+     },
+     "spill_pax_k": 51.6
+    },
+    "lost_revenue_fixed_oku": 12.2
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "fy": "FY2027",
+    "pax_k_p50": 675.9,
+    "need_p10": 27,
+    "need_p50": 29,
+    "need_p90": 31,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 9.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -1.5,
+    "gap_p90": -3.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.037,
+      "spill_pax_k": 26.3
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.611,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.837,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.136,
+      "spill_pax_k": 22.9
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.75,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 49.2,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 15
+     },
+     "spill_pax_k": 11.1
+    },
+    "lost_revenue_fixed_oku": 9.32
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "fy": "FY2027",
+    "pax_k_p50": 646.0,
+    "need_p10": 26,
+    "need_p50": 27,
+    "need_p90": 30,
+    "need_by_route_p50": {
+     "HND-CTS": 5.67,
+     "HND-ITM": 9.33,
+     "HND-FUK": 5.67,
+     "HND-OKA": 5.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 8,
+     "P2": 3,
+     "P3": 6,
+     "P4": 5,
+     "P5": 4,
+     "P6": 1
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -1.0,
+    "gap_p90": -4.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.023,
+      "spill_pax_k": 24.3
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.585,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.793,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.054,
+      "spill_pax_k": 16.3
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.695,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 40.6,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 13
+     },
+     "spill_pax_k": 9.1
+    },
+    "lost_revenue_fixed_oku": 7.38
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "fy": "FY2027",
+    "pax_k_p50": 649.5,
+    "need_p10": 26,
+    "need_p50": 28,
+    "need_p90": 30,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 9.67,
+     "HND-FUK": 6.0,
+     "HND-OKA": 5.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 5,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -2.0,
+    "gap_p90": -4.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.062,
+      "spill_pax_k": 29.9
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.585,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.793,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.031,
+      "spill_pax_k": 14.5
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.687,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 44.4,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 13
+     },
+     "spill_pax_k": 13.1
+    },
+    "lost_revenue_fixed_oku": 7.68
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "fy": "FY2027",
+    "pax_k_p50": 768.7,
+    "need_p10": 30,
+    "need_p50": 33,
+    "need_p90": 35,
+    "need_by_route_p50": {
+     "HND-CTS": 6.67,
+     "HND-ITM": 10.67,
+     "HND-FUK": 7.0,
+     "HND-OKA": 7.0,
+     "FUK-OKA": 1.67
+    },
+    "need_by_pattern_p50": {
+     "P1": 10,
+     "P2": 3,
+     "P3": 8,
+     "P4": 7,
+     "P5": 5,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -5.5,
+    "gap_p90": -7.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.149,
+      "spill_pax_k": 42.1
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.705,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.956,
+      "spill_pax_k": 19.1
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.285,
+      "spill_pax_k": 34.9
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.854,
+      "spill_pax_k": 0.2
+     }
+    },
+    "spill_fixed_pax_k": 96.3,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 2,
+      "P5": 4,
+      "P6": 17
+     },
+     "spill_pax_k": 76.2
+    },
+    "lost_revenue_fixed_oku": 17.49
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "fy": "FY2028",
+    "pax_k_p50": 645.0,
+    "need_p10": 26,
+    "need_p50": 28,
+    "need_p90": 29,
+    "need_by_route_p50": {
+     "HND-CTS": 5.33,
+     "HND-ITM": 9.33,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 8,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 1.5,
+    "waiting_engine": 0,
+    "usable": 26.5,
+    "gap_p50": -1.5,
+    "gap_p90": -2.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 0.949,
+      "spill_pax_k": 13.9
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.589,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.806,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.106,
+      "spill_pax_k": 20.5
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.722,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 34.4,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 14
+     },
+     "spill_pax_k": 7.6
+    },
+    "lost_revenue_fixed_oku": 7.05
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "fy": "FY2028",
+    "pax_k_p50": 704.2,
+    "need_p10": 29,
+    "need_p50": 30,
+    "need_p90": 33,
+    "need_by_route_p50": {
+     "HND-CTS": 6.0,
+     "HND-ITM": 10.0,
+     "HND-FUK": 6.67,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 8,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -2.5,
+    "gap_p90": -5.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.064,
+      "spill_pax_k": 30.1
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.633,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.877,
+      "spill_pax_k": 4.8
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.214,
+      "spill_pax_k": 29.2
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.792,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 64.1,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 15
+     },
+     "spill_pax_k": 30.2
+    },
+    "lost_revenue_fixed_oku": 12.17
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "fy": "FY2028",
+    "pax_k_p50": 648.3,
+    "need_p10": 26,
+    "need_p50": 28,
+    "need_p90": 30,
+    "need_by_route_p50": {
+     "HND-CTS": 5.33,
+     "HND-ITM": 9.33,
+     "HND-FUK": 6.0,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 8,
+     "P2": 3,
+     "P3": 7,
+     "P4": 6,
+     "P5": 4,
+     "P6": 0
+    },
+    "assigned": 28,
+    "in_checks": 2.0,
+    "waiting_engine": 0,
+    "usable": 26.0,
+    "gap_p50": -2.0,
+    "gap_p90": -4.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 0.964,
+      "spill_pax_k": 16.1
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.586,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.795,
+      "spill_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.146,
+      "spill_pax_k": 23.7
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.747,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 39.8,
+    "remix": {
+     "by_pattern": {
+      "P1": 1,
+      "P2": 3,
+      "P3": 0,
+      "P4": 5,
+      "P5": 3,
+      "P6": 14
+     },
+     "spill_pax_k": 11.1
+    },
+    "lost_revenue_fixed_oku": 8.16
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "fy": "FY2028",
+    "pax_k_p50": 720.6,
+    "need_p10": 29,
+    "need_p50": 31,
+    "need_p90": 33,
+    "need_by_route_p50": {
+     "HND-CTS": 6.33,
+     "HND-ITM": 10.0,
+     "HND-FUK": 6.33,
+     "HND-OKA": 7.0,
+     "FUK-OKA": 1.33
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 7,
+     "P5": 4,
+     "P6": 1
+    },
+    "assigned": 28,
+    "in_checks": 1.0,
+    "waiting_engine": 0,
+    "usable": 27.0,
+    "gap_p50": -4.0,
+    "gap_p90": -6.0,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.132,
+      "spill_pax_k": 39.7
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.629,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.87,
+      "spill_pax_k": 3.6
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.314,
+      "spill_pax_k": 37.2
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.842,
+      "spill_pax_k": 0.0
+     }
+    },
+    "spill_fixed_pax_k": 80.5,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 4,
+      "P5": 4,
+      "P6": 14
+     },
+     "spill_pax_k": 46.3
+    },
+    "lost_revenue_fixed_oku": 15.3
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "fy": "FY2028",
+    "pax_k_p50": 835.6,
+    "need_p10": 33,
+    "need_p50": 36,
+    "need_p90": 40,
+    "need_by_route_p50": {
+     "HND-CTS": 7.67,
+     "HND-ITM": 11.33,
+     "HND-FUK": 7.33,
+     "HND-OKA": 8.0,
+     "FUK-OKA": 1.67
+    },
+    "need_by_pattern_p50": {
+     "P1": 11,
+     "P2": 3,
+     "P3": 8,
+     "P4": 8,
+     "P5": 5,
+     "P6": 1
+    },
+    "assigned": 28,
+    "in_checks": 0.5,
+    "waiting_engine": 0,
+    "usable": 27.5,
+    "gap_p50": -8.5,
+    "gap_p90": -12.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.352,
+      "spill_pax_k": 70.6
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.708,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 1.001,
+      "spill_pax_k": 27.2
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.568,
+      "spill_pax_k": 57.6
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 1.004,
+      "spill_pax_k": 6.2
+     }
+    },
+    "spill_fixed_pax_k": 161.6,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 1,
+      "P5": 4,
+      "P6": 17
+     },
+     "spill_pax_k": 127.4
+    },
+    "lost_revenue_fixed_oku": 29.1
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "fy": "FY2028",
+    "pax_k_p50": 739.5,
+    "need_p10": 29,
+    "need_p50": 32,
+    "need_p90": 34,
+    "need_by_route_p50": {
+     "HND-CTS": 6.33,
+     "HND-ITM": 10.33,
+     "HND-FUK": 6.67,
+     "HND-OKA": 7.0,
+     "FUK-OKA": 1.67
+    },
+    "need_by_pattern_p50": {
+     "P1": 9,
+     "P2": 3,
+     "P3": 7,
+     "P4": 7,
+     "P5": 5,
+     "P6": 1
+    },
+    "assigned": 28,
+    "in_checks": 1.5,
+    "waiting_engine": 0,
+    "usable": 26.5,
+    "gap_p50": -5.5,
+    "gap_p90": -7.5,
+    "short_p90": true,
+    "fixed_assignment": {
+     "HND-CTS": {
+      "capacity_pax_k": 140.5,
+      "lf": 1.126,
+      "spill_pax_k": 38.9
+     },
+     "HND-ITM": {
+      "capacity_pax_k": 421.6,
+      "lf": 0.657,
+      "spill_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "capacity_pax_k": 180.7,
+      "lf": 0.901,
+      "spill_pax_k": 9.1
+     },
+     "HND-OKA": {
+      "capacity_pax_k": 80.3,
+      "lf": 1.335,
+      "spill_pax_k": 38.9
+     },
+     "FUK-OKA": {
+      "capacity_pax_k": 40.1,
+      "lf": 0.854,
+      "spill_pax_k": 0.2
+     }
+    },
+    "spill_fixed_pax_k": 87.1,
+    "remix": {
+     "by_pattern": {
+      "P1": 2,
+      "P2": 3,
+      "P3": 0,
+      "P4": 2,
+      "P5": 4,
+      "P6": 15
+     },
+     "spill_pax_k": 73.9
+    },
+    "lost_revenue_fixed_oku": 16.51
+   }
+  ],
+  "cycles_per_aircraft_day_trunk": 6.14,
+  "hub": "HND",
+  "how": {
+   "need": "月ごと・分位ごとに、全航路の旅客を目標搭乗率で運べる最小の機数をパターン上の整数計画で解く（PuLP＋HiGHS）",
+   "usable": "割り当て − 機体整備で止まる機（幹線の按分）− エンジン待ち（羽田で止まる機）",
+   "remix": "割り当て総数を変えずにパターンの組み合わせだけ変えて、乗せられない旅客を最小にする",
+   "attribution": "航路ごとの機数はパターンの機数を便数で按分"
+  },
+  "assumptions": {
+   "routes": "no_source: 旅客・飛行時間は航路ベースのデモの前提、季節の偏りとパターンは仮定",
+   "day_cap_h": 15.0,
+   "turnaround_h": 0.83,
+   "engine_swaps": "エンジンの交換と予備は羽田だけ。エンジン待ちの機は羽田で止まる"
+  },
+  "others": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "rpk_trunk_p50": 645.5,
+    "rpk_others_p50": 155.6,
+    "trunk_share_of_737_rpk": 0.806,
+    "need_p50": 10.1,
+    "fleet": 28,
+    "slack_p50": 17.9
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "rpk_trunk_p50": 608.7,
+    "rpk_others_p50": 150.6,
+    "trunk_share_of_737_rpk": 0.802,
+    "need_p50": 10.3,
+    "fleet": 28,
+    "slack_p50": 17.7
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "rpk_trunk_p50": 578.4,
+    "rpk_others_p50": 141.1,
+    "trunk_share_of_737_rpk": 0.804,
+    "need_p50": 8.3,
+    "fleet": 28,
+    "slack_p50": 19.7
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "rpk_trunk_p50": 550.4,
+    "rpk_others_p50": 137.1,
+    "trunk_share_of_737_rpk": 0.801,
+    "need_p50": 9.6,
+    "fleet": 28,
+    "slack_p50": 18.4
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "rpk_trunk_p50": 552.1,
+    "rpk_others_p50": 139.1,
+    "trunk_share_of_737_rpk": 0.799,
+    "need_p50": 9.7,
+    "fleet": 28,
+    "slack_p50": 18.3
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "rpk_trunk_p50": 655.9,
+    "rpk_others_p50": 162.2,
+    "trunk_share_of_737_rpk": 0.802,
+    "need_p50": 9.5,
+    "fleet": 28,
+    "slack_p50": 18.5
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "rpk_trunk_p50": 552.5,
+    "rpk_others_p50": 134.0,
+    "trunk_share_of_737_rpk": 0.805,
+    "need_p50": 8.9,
+    "fleet": 28,
+    "slack_p50": 19.1
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "rpk_trunk_p50": 604.9,
+    "rpk_others_p50": 144.6,
+    "trunk_share_of_737_rpk": 0.807,
+    "need_p50": 8.5,
+    "fleet": 28,
+    "slack_p50": 19.5
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "rpk_trunk_p50": 557.8,
+    "rpk_others_p50": 132.2,
+    "trunk_share_of_737_rpk": 0.808,
+    "need_p50": 9.3,
+    "fleet": 28,
+    "slack_p50": 18.7
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "rpk_trunk_p50": 625.8,
+    "rpk_others_p50": 141.2,
+    "trunk_share_of_737_rpk": 0.816,
+    "need_p50": 8.8,
+    "fleet": 28,
+    "slack_p50": 19.2
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "rpk_trunk_p50": 731.1,
+    "rpk_others_p50": 158.1,
+    "trunk_share_of_737_rpk": 0.822,
+    "need_p50": 9.2,
+    "fleet": 28,
+    "slack_p50": 18.8
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "rpk_trunk_p50": 639.6,
+    "rpk_others_p50": 147.4,
+    "trunk_share_of_737_rpk": 0.813,
+    "need_p50": 9.6,
+    "fleet": 28,
+    "slack_p50": 18.4
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "rpk_trunk_p50": 670.0,
+    "rpk_others_p50": 161.4,
+    "trunk_share_of_737_rpk": 0.806,
+    "need_p50": 10.4,
+    "fleet": 28,
+    "slack_p50": 17.6
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "rpk_trunk_p50": 631.6,
+    "rpk_others_p50": 156.4,
+    "trunk_share_of_737_rpk": 0.802,
+    "need_p50": 10.6,
+    "fleet": 28,
+    "slack_p50": 17.4
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "rpk_trunk_p50": 600.1,
+    "rpk_others_p50": 146.6,
+    "trunk_share_of_737_rpk": 0.804,
+    "need_p50": 8.6,
+    "fleet": 28,
+    "slack_p50": 19.4
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "rpk_trunk_p50": 571.3,
+    "rpk_others_p50": 142.2,
+    "trunk_share_of_737_rpk": 0.801,
+    "need_p50": 9.9,
+    "fleet": 28,
+    "slack_p50": 18.1
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "rpk_trunk_p50": 573.0,
+    "rpk_others_p50": 144.3,
+    "trunk_share_of_737_rpk": 0.799,
+    "need_p50": 10.0,
+    "fleet": 28,
+    "slack_p50": 18.0
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "rpk_trunk_p50": 680.7,
+    "rpk_others_p50": 168.3,
+    "trunk_share_of_737_rpk": 0.802,
+    "need_p50": 9.8,
+    "fleet": 28,
+    "slack_p50": 18.2
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "rpk_trunk_p50": 573.4,
+    "rpk_others_p50": 139.0,
+    "trunk_share_of_737_rpk": 0.805,
+    "need_p50": 9.2,
+    "fleet": 28,
+    "slack_p50": 18.8
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "rpk_trunk_p50": 627.9,
+    "rpk_others_p50": 149.9,
+    "trunk_share_of_737_rpk": 0.807,
+    "need_p50": 8.8,
+    "fleet": 28,
+    "slack_p50": 19.2
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "rpk_trunk_p50": 579.0,
+    "rpk_others_p50": 137.0,
+    "trunk_share_of_737_rpk": 0.809,
+    "need_p50": 9.6,
+    "fleet": 28,
+    "slack_p50": 18.4
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "rpk_trunk_p50": 649.4,
+    "rpk_others_p50": 146.6,
+    "trunk_share_of_737_rpk": 0.816,
+    "need_p50": 9.1,
+    "fleet": 28,
+    "slack_p50": 18.9
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "rpk_trunk_p50": 758.9,
+    "rpk_others_p50": 163.9,
+    "trunk_share_of_737_rpk": 0.822,
+    "need_p50": 9.5,
+    "fleet": 28,
+    "slack_p50": 18.5
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "rpk_trunk_p50": 663.9,
+    "rpk_others_p50": 152.8,
+    "trunk_share_of_737_rpk": 0.813,
+    "need_p50": 9.9,
+    "fleet": 28,
+    "slack_p50": 18.1
+   }
+  ],
+  "reconciliation": {
+   "rows": [
+    {
+     "t": 0,
+     "label": "2026-10",
+     "trunk_need_p50": 30,
+     "others_need_p50": 10.1,
+     "sum_p50": 40.1,
+     "whole_by_seat_km_p50": 47.22,
+     "fleet": 56
+    },
+    {
+     "t": 1,
+     "label": "2026-11",
+     "trunk_need_p50": 30,
+     "others_need_p50": 10.3,
+     "sum_p50": 40.3,
+     "whole_by_seat_km_p50": 45.91,
+     "fleet": 56
+    },
+    {
+     "t": 2,
+     "label": "2026-12",
+     "trunk_need_p50": 29,
+     "others_need_p50": 8.3,
+     "sum_p50": 37.3,
+     "whole_by_seat_km_p50": 40.71,
+     "fleet": 56
+    },
+    {
+     "t": 3,
+     "label": "2027-01",
+     "trunk_need_p50": 27,
+     "others_need_p50": 9.6,
+     "sum_p50": 36.6,
+     "whole_by_seat_km_p50": 41.95,
+     "fleet": 56
+    },
+    {
+     "t": 4,
+     "label": "2027-02",
+     "trunk_need_p50": 27,
+     "others_need_p50": 9.7,
+     "sum_p50": 36.7,
+     "whole_by_seat_km_p50": 42.15,
+     "fleet": 56
+    },
+    {
+     "t": 5,
+     "label": "2027-03",
+     "trunk_need_p50": 31,
+     "others_need_p50": 9.5,
+     "sum_p50": 40.5,
+     "whole_by_seat_km_p50": 46.16,
+     "fleet": 56
+    },
+    {
+     "t": 6,
+     "label": "2027-04",
+     "trunk_need_p50": 28,
+     "others_need_p50": 8.9,
+     "sum_p50": 36.9,
+     "whole_by_seat_km_p50": 40.89,
+     "fleet": 56
+    },
+    {
+     "t": 7,
+     "label": "2027-05",
+     "trunk_need_p50": 29,
+     "others_need_p50": 8.5,
+     "sum_p50": 37.5,
+     "whole_by_seat_km_p50": 42.37,
+     "fleet": 56
+    },
+    {
+     "t": 8,
+     "label": "2027-06",
+     "trunk_need_p50": 28,
+     "others_need_p50": 9.3,
+     "sum_p50": 37.3,
+     "whole_by_seat_km_p50": 42.09,
+     "fleet": 56
+    },
+    {
+     "t": 9,
+     "label": "2027-07",
+     "trunk_need_p50": 29,
+     "others_need_p50": 8.8,
+     "sum_p50": 37.8,
+     "whole_by_seat_km_p50": 44.34,
+     "fleet": 56
+    },
+    {
+     "t": 10,
+     "label": "2027-08",
+     "trunk_need_p50": 35,
+     "others_need_p50": 9.2,
+     "sum_p50": 44.2,
+     "whole_by_seat_km_p50": 50.08,
+     "fleet": 56
+    },
+    {
+     "t": 11,
+     "label": "2027-09",
+     "trunk_need_p50": 31,
+     "others_need_p50": 9.6,
+     "sum_p50": 40.6,
+     "whole_by_seat_km_p50": 46.44,
+     "fleet": 56
+    },
+    {
+     "t": 12,
+     "label": "2027-10",
+     "trunk_need_p50": 32,
+     "others_need_p50": 10.4,
+     "sum_p50": 42.4,
+     "whole_by_seat_km_p50": 48.89,
+     "fleet": 56
+    },
+    {
+     "t": 13,
+     "label": "2027-11",
+     "trunk_need_p50": 30,
+     "others_need_p50": 10.6,
+     "sum_p50": 40.6,
+     "whole_by_seat_km_p50": 47.5,
+     "fleet": 56
+    },
+    {
+     "t": 14,
+     "label": "2027-12",
+     "trunk_need_p50": 29,
+     "others_need_p50": 8.6,
+     "sum_p50": 37.6,
+     "whole_by_seat_km_p50": 42.22,
+     "fleet": 56
+    },
+    {
+     "t": 15,
+     "label": "2028-01",
+     "trunk_need_p50": 27,
+     "others_need_p50": 9.9,
+     "sum_p50": 36.9,
+     "whole_by_seat_km_p50": 43.38,
+     "fleet": 56
+    },
+    {
+     "t": 16,
+     "label": "2028-02",
+     "trunk_need_p50": 28,
+     "others_need_p50": 10.0,
+     "sum_p50": 38.0,
+     "whole_by_seat_km_p50": 43.59,
+     "fleet": 56
+    },
+    {
+     "t": 17,
+     "label": "2028-03",
+     "trunk_need_p50": 33,
+     "others_need_p50": 9.8,
+     "sum_p50": 42.8,
+     "whole_by_seat_km_p50": 47.86,
+     "fleet": 56
+    },
+    {
+     "t": 18,
+     "label": "2028-04",
+     "trunk_need_p50": 28,
+     "others_need_p50": 9.2,
+     "sum_p50": 37.2,
+     "whole_by_seat_km_p50": 42.32,
+     "fleet": 56
+    },
+    {
+     "t": 19,
+     "label": "2028-05",
+     "trunk_need_p50": 30,
+     "others_need_p50": 8.8,
+     "sum_p50": 38.8,
+     "whole_by_seat_km_p50": 43.93,
+     "fleet": 56
+    },
+    {
+     "t": 20,
+     "label": "2028-06",
+     "trunk_need_p50": 28,
+     "others_need_p50": 9.6,
+     "sum_p50": 37.6,
+     "whole_by_seat_km_p50": 43.52,
+     "fleet": 56
+    },
+    {
+     "t": 21,
+     "label": "2028-07",
+     "trunk_need_p50": 31,
+     "others_need_p50": 9.1,
+     "sum_p50": 40.1,
+     "whole_by_seat_km_p50": 45.94,
+     "fleet": 56
+    },
+    {
+     "t": 22,
+     "label": "2028-08",
+     "trunk_need_p50": 36,
+     "others_need_p50": 9.5,
+     "sum_p50": 45.5,
+     "whole_by_seat_km_p50": 51.94,
+     "fleet": 56
+    },
+    {
+     "t": 23,
+     "label": "2028-09",
+     "trunk_need_p50": 32,
+     "others_need_p50": 9.9,
+     "sum_p50": 41.9,
+     "whole_by_seat_km_p50": 48.08,
+     "fleet": 56
+    }
+   ],
+   "note": "幹線 ＋ その他 と 座席キロ一本の全体が違うのは、幹線の機がパターン上で会社平均より多く飛ぶ（1 日の便数）から。幹線の割り当てが p90 の要る機数を下回る月は、会社全体に余りがあれば回す"
+  },
+  "levers": [
+   {
+    "label": "2026-10",
+    "short_aircraft_p90": 6.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 6.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 14.7 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2026-11",
+    "short_aircraft_p90": 5.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 5.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 20.7 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2026-12",
+    "short_aircraft_p90": 2.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 2.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 37.2 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-01",
+    "short_aircraft_p90": 3.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 3.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 29.3 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-02",
+    "short_aircraft_p90": 2.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 2.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 33.3 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-03",
+    "short_aircraft_p90": 6.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 6.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 25.3 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-04",
+    "short_aircraft_p90": 2.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 2.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 25.6 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-05",
+    "short_aircraft_p90": 3.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 3.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 36.7 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-06",
+    "short_aircraft_p90": 3.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 3.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 26.3 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-07",
+    "short_aircraft_p90": 6.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 6.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 37.5 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-08",
+    "short_aircraft_p90": 9.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 9.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 34.1 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-09",
+    "short_aircraft_p90": 6.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 6.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 16.0 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-10",
+    "short_aircraft_p90": 8.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 8.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 9.5 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-11",
+    "short_aircraft_p90": 7.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 7.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 14.4 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2027-12",
+    "short_aircraft_p90": 3.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 3.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 38.1 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-01",
+    "short_aircraft_p90": 4.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 4.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 31.5 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-02",
+    "short_aircraft_p90": 4.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 4.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 31.3 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-03",
+    "short_aircraft_p90": 7.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 7.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 20.1 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-04",
+    "short_aircraft_p90": 2.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 2.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 26.8 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-05",
+    "short_aircraft_p90": 5.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 5.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 33.9 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-06",
+    "short_aircraft_p90": 4.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 4.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 28.7 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-07",
+    "short_aircraft_p90": 6.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 6.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 34.2 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-08",
+    "short_aircraft_p90": 12.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 12.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 34.2 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-09",
+    "short_aircraft_p90": 7.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 7.5,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 13.2 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   }
+  ],
+  "engine_flying": {
+   "cycles_per_aircraft_day_trunk": 6.14,
+   "cycles_per_aircraft_day_company_now": 5.38,
+   "blended_cycles_per_aircraft_day": 5.76,
+   "utilisation_multiplier_from_routes": 1.0706,
+   "utilisation_multiplier_from_demand": 1.0258,
+   "windows": {
+    "due_now": 40,
+    "due_new": 42,
+    "earlier": 26,
+    "newly_due": 2,
+    "mean_shift_months": -1.19
+   },
+   "spend_per_year_k": 177341,
+   "visits_per_year": 21.98,
+   "spend_per_year_oku_yen": 278.4,
+   "by_pattern": [
+    {
+     "id": "P1",
+     "cycles_per_day": 6,
+     "cycles_per_block_h": 0.73,
+     "aircraft": 5
+    },
+    {
+     "id": "P2",
+     "cycles_per_day": 8,
+     "cycles_per_block_h": 0.91,
+     "aircraft": 6
+    },
+    {
+     "id": "P3",
+     "cycles_per_day": 6,
+     "cycles_per_block_h": 0.64,
+     "aircraft": 5
+    },
+    {
+     "id": "P4",
+     "cycles_per_day": 4,
+     "cycles_per_block_h": 0.38,
+     "aircraft": 4
+    },
+    {
+     "id": "P5",
+     "cycles_per_day": 6,
+     "cycles_per_block_h": 0.67,
+     "aircraft": 4
+    },
+    {
+     "id": "P6",
+     "cycles_per_day": 6,
+     "cycles_per_block_h": 0.68,
+     "aircraft": 4
+    }
+   ],
+   "how": "幹線の機はパターンの便数だけ飛ぶ（短い区間ほど回数が増える）。その他は会社平均。混ぜたサイクル ÷ 今のサイクルを稼働倍率として plan_from_demand.build_fleet に渡し、窓の動きと平年の整備費を出す"
+  },
+  "decisions": {
+   "peak_month": "2027-08",
+   "mixed_rule": {
+    "rule": "mixed",
+    "months": [
+     {
+      "label": "2027-04",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 0.09,
+      "net_oku": -2.58,
+      "lost_if_not_oku": 5.58,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2027-05",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 1.82,
+      "net_oku": -0.85,
+      "lost_if_not_oku": 9.79,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2027-06",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 0.7,
+      "net_oku": -1.97,
+      "lost_if_not_oku": 6.64,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2027-07",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 4.03,
+      "net_oku": 1.36,
+      "lost_if_not_oku": 13.0,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-08",
+      "borrow_aircraft": 8,
+      "lease_cost_oku": 10.68,
+      "revenue_recovered_oku": 14.69,
+      "net_oku": 4.01,
+      "lost_if_not_oku": 25.77,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-09",
+      "borrow_aircraft": 5,
+      "lease_cost_oku": 6.67,
+      "revenue_recovered_oku": 7.43,
+      "net_oku": 0.76,
+      "lost_if_not_oku": 13.78,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-10",
+      "borrow_aircraft": 6,
+      "lease_cost_oku": 8.01,
+      "revenue_recovered_oku": 10.8,
+      "net_oku": 2.79,
+      "lost_if_not_oku": 16.68,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-11",
+      "borrow_aircraft": 4,
+      "lease_cost_oku": 5.34,
+      "revenue_recovered_oku": 6.85,
+      "net_oku": 1.51,
+      "lost_if_not_oku": 12.2,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-12",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 1.48,
+      "net_oku": -1.19,
+      "lost_if_not_oku": 9.32,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2028-01",
+      "borrow_aircraft": 1,
+      "lease_cost_oku": 1.33,
+      "revenue_recovered_oku": 1.21,
+      "net_oku": -0.13,
+      "lost_if_not_oku": 7.38,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2028-02",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 1.73,
+      "net_oku": -0.94,
+      "lost_if_not_oku": 7.68,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2028-03",
+      "borrow_aircraft": 6,
+      "lease_cost_oku": 8.01,
+      "revenue_recovered_oku": 10.12,
+      "net_oku": 2.11,
+      "lost_if_not_oku": 17.49,
+      "decision": "借りる"
+     }
+    ],
+    "note": "借りる機数 ＝ p50 の要る機数 − 使える機数（切り上げ）。取り戻す収入は、割り当てを組み替えた上でさらに n 機足したときに減る乗せられない旅客 × 平均区間 × 単価。費用はウェットリース（no_source）"
+   },
+   "recent_rule": {
+    "rule": "recent",
+    "months": [
+     {
+      "label": "2027-04",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 0.09,
+      "net_oku": -2.58,
+      "lost_if_not_oku": 5.58,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2027-05",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 1.82,
+      "net_oku": -0.85,
+      "lost_if_not_oku": 9.79,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2027-06",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 0.7,
+      "net_oku": -1.97,
+      "lost_if_not_oku": 6.64,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2027-07",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 4.03,
+      "net_oku": 1.36,
+      "lost_if_not_oku": 13.0,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-08",
+      "borrow_aircraft": 8,
+      "lease_cost_oku": 10.68,
+      "revenue_recovered_oku": 14.69,
+      "net_oku": 4.01,
+      "lost_if_not_oku": 25.77,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-09",
+      "borrow_aircraft": 5,
+      "lease_cost_oku": 6.67,
+      "revenue_recovered_oku": 7.43,
+      "net_oku": 0.76,
+      "lost_if_not_oku": 13.78,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-10",
+      "borrow_aircraft": 6,
+      "lease_cost_oku": 8.01,
+      "revenue_recovered_oku": 10.8,
+      "net_oku": 2.79,
+      "lost_if_not_oku": 16.68,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-11",
+      "borrow_aircraft": 4,
+      "lease_cost_oku": 5.34,
+      "revenue_recovered_oku": 6.85,
+      "net_oku": 1.51,
+      "lost_if_not_oku": 12.2,
+      "decision": "借りる"
+     },
+     {
+      "label": "2027-12",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 1.48,
+      "net_oku": -1.19,
+      "lost_if_not_oku": 9.32,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2028-01",
+      "borrow_aircraft": 1,
+      "lease_cost_oku": 1.33,
+      "revenue_recovered_oku": 1.21,
+      "net_oku": -0.13,
+      "lost_if_not_oku": 7.38,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2028-02",
+      "borrow_aircraft": 2,
+      "lease_cost_oku": 2.67,
+      "revenue_recovered_oku": 1.73,
+      "net_oku": -0.94,
+      "lost_if_not_oku": 7.68,
+      "decision": "借りない（見送る）"
+     },
+     {
+      "label": "2028-03",
+      "borrow_aircraft": 6,
+      "lease_cost_oku": 8.01,
+      "revenue_recovered_oku": 10.12,
+      "net_oku": 2.11,
+      "lost_if_not_oku": 17.49,
+      "decision": "借りる"
+     }
+    ],
+    "note": "借りる機数 ＝ p50 の要る機数 − 使える機数（切り上げ）。取り戻す収入は、割り当てを組み替えた上でさらに n 機足したときに減る乗せられない旅客 × 平均区間 × 単価。費用はウェットリース（no_source）"
+   },
+   "year_end": {
+    "mixed_rule": {
+     "aircraft_months_borrowed": 31,
+     "lease_cost_oku": 41.38,
+     "revenue_recovered_oku": 53.92,
+     "net_oku": 12.54,
+     "lost_if_never_borrow_oku": 145.31,
+     "months": [
+      "2027-07",
+      "2027-08",
+      "2027-09",
+      "2027-10",
+      "2027-11",
+      "2028-03"
+     ]
+    },
+    "recent_rule": {
+     "aircraft_months_borrowed": 31,
+     "lease_cost_oku": 41.38,
+     "revenue_recovered_oku": 53.92,
+     "net_oku": 12.54,
+     "lost_if_never_borrow_oku": 145.31,
+     "months": [
+      "2027-07",
+      "2027-08",
+      "2027-09",
+      "2027-10",
+      "2027-11",
+      "2028-03"
+     ]
+    }
+   },
+   "with_others_first": {
+    "months": [
+     {
+      "label": "2027-04",
+      "short_aircraft": 2,
+      "from_others": 2,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-05",
+      "short_aircraft": 2,
+      "from_others": 2,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-06",
+      "short_aircraft": 2,
+      "from_others": 2,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-07",
+      "short_aircraft": 2,
+      "from_others": 2,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-08",
+      "short_aircraft": 8,
+      "from_others": 8,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-09",
+      "short_aircraft": 5,
+      "from_others": 5,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-10",
+      "short_aircraft": 6,
+      "from_others": 6,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-11",
+      "short_aircraft": 4,
+      "from_others": 4,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2027-12",
+      "short_aircraft": 2,
+      "from_others": 2,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2028-01",
+      "short_aircraft": 1,
+      "from_others": 1,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2028-02",
+      "short_aircraft": 2,
+      "from_others": 2,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     },
+     {
+      "label": "2028-03",
+      "short_aircraft": 6,
+      "from_others": 6,
+      "borrow": 0,
+      "lease_cost_oku": 0.0
+     }
+    ],
+    "aircraft_months_from_others": 42,
+    "aircraft_months_borrowed": 0,
+    "lease_cost_oku": 0.0,
+    "note": "その他の路線の余り（p50）から先に回し、足りない分だけ借りる"
+   },
+   "rules_note": "伸びの規則は 2 年先までは直近の値を使う（plan_from_demand.growth_at）ので、24 か月の窓では混ぜる規則と直近の規則は一致する。差が出るのは 3 年目以降",
+   "note": "FY2027 の各月について「借りるか見送るか」。混ぜる規則（直近と長期の伸びを混ぜる）と直近だけの規則の 2 通り"
+  },
+  "month_table": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "fy": "FY2026",
+    "fy_month": 7
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "fy": "FY2026",
+    "fy_month": 8
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "fy": "FY2026",
+    "fy_month": 9
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "fy": "FY2026",
+    "fy_month": 10
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "fy": "FY2026",
+    "fy_month": 11
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "fy": "FY2026",
+    "fy_month": 12
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "fy": "FY2027",
+    "fy_month": 1
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "fy": "FY2027",
+    "fy_month": 2
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "fy": "FY2027",
+    "fy_month": 3
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "fy": "FY2027",
+    "fy_month": 4
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "fy": "FY2027",
+    "fy_month": 5
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "fy": "FY2027",
+    "fy_month": 6
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "fy": "FY2027",
+    "fy_month": 7
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "fy": "FY2027",
+    "fy_month": 8
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "fy": "FY2027",
+    "fy_month": 9
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "fy": "FY2027",
+    "fy_month": 10
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "fy": "FY2027",
+    "fy_month": 11
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "fy": "FY2027",
+    "fy_month": 12
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "fy": "FY2028",
+    "fy_month": 1
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "fy": "FY2028",
+    "fy_month": 2
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "fy": "FY2028",
+    "fy_month": 3
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "fy": "FY2028",
+    "fy_month": 4
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "fy": "FY2028",
+    "fy_month": 5
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "fy": "FY2028",
+    "fy_month": 6
+   }
+  ]
+ },
  "derived": {
   "demand_growth_per_year": 0.0378,
   "demand_growth_long_run": 0.0154,

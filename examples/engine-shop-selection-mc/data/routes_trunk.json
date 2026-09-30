@@ -1,0 +1,25 @@
+{
+ "note": "幹線 5 航路の需要と、羽田を出て羽田に戻る 1 日の飛び方（パターン）。旅客は片道・前年度の月平均（千人）。数値は合成（no_source：航路ごとの季節の偏りとパターンは仮定。旅客・飛行時間は航路ベースのデモの前提に合わせた値）。全体の季節の形は市場の季節指数（航空輸送統計）に合うよう航路ごとの偏りを正規化する",
+ "hub": "HND",
+ "turnaround_h": 0.83,
+ "day_block_cap_h": 15.0,
+ "routes": [
+  {"id": "HND-CTS", "name": "羽田–新千歳", "pax_month_k": 72.0, "block_h": 1.5, "km": 894, "season_dev": [1.02, 1.06, 0.98, 0.94, 0.98, 0.96, 1.04, 1.08, 1.00, 0.98, 0.98, 0.98]},
+  {"id": "HND-ITM", "name": "羽田–伊丹", "pax_month_k": 126.0, "block_h": 1.1, "km": 514, "season_dev": [1.00, 1.00, 1.03, 1.00, 1.00, 1.00, 0.99, 0.97, 1.00, 1.01, 1.01, 0.99]},
+  {"id": "HND-FUK", "name": "羽田–福岡", "pax_month_k": 74.0, "block_h": 1.8, "km": 1041, "season_dev": [0.99, 0.99, 1.02, 1.00, 1.01, 0.99, 1.00, 1.00, 1.00, 1.01, 1.00, 0.99]},
+  {"id": "HND-OKA", "name": "羽田–那覇", "pax_month_k": 46.0, "block_h": 2.6, "km": 1687, "season_dev": [0.94, 0.92, 0.98, 0.98, 1.00, 1.02, 1.08, 1.12, 1.06, 1.00, 0.96, 0.96]},
+  {"id": "FUK-OKA", "name": "福岡–那覇", "pax_month_k": 15.0, "block_h": 1.6, "km": 868, "season_dev": [0.95, 0.94, 1.00, 0.98, 1.00, 1.02, 1.06, 1.10, 1.04, 1.00, 0.97, 0.97]}
+ ],
+ "patterns": [
+  {"id": "P1", "name": "新千歳 2 往復＋伊丹 1 往復", "legs": ["HND-CTS", "CTS-HND", "HND-CTS", "CTS-HND", "HND-ITM", "ITM-HND"]},
+  {"id": "P2", "name": "伊丹 4 往復", "legs": ["HND-ITM", "ITM-HND", "HND-ITM", "ITM-HND", "HND-ITM", "ITM-HND", "HND-ITM", "ITM-HND"]},
+  {"id": "P3", "name": "福岡 2 往復＋伊丹 1 往復", "legs": ["HND-FUK", "FUK-HND", "HND-FUK", "FUK-HND", "HND-ITM", "ITM-HND"]},
+  {"id": "P4", "name": "那覇 2 往復", "legs": ["HND-OKA", "OKA-HND", "HND-OKA", "OKA-HND"]},
+  {"id": "P5", "name": "福岡経由の那覇（三角）＋伊丹 1 往復", "legs": ["HND-FUK", "FUK-OKA", "OKA-FUK", "FUK-HND", "HND-ITM", "ITM-HND"]},
+  {"id": "P6", "name": "新千歳・福岡・伊丹 各 1 往復", "legs": ["HND-CTS", "CTS-HND", "HND-FUK", "FUK-HND", "HND-ITM", "ITM-HND"]}
+ ],
+ "companies": {
+  "jal": {"scale": 1.0, "assignment": [5, 6, 5, 4, 4, 4], "note": "年次の版の割り当て 28 機（全体 56 機のうち幹線の分）"},
+  "ana": {"scale": 0.85, "assignment": [4, 4, 4, 3, 3, 2], "note": "no_source：同じ航路で旅客を 0.85 倍、割り当て 20 機（全体 39 機のうち幹線の分）"}
+ }
+}
