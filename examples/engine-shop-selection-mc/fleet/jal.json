@@ -1,0 +1,1390 @@
+{
+ "company": "jal",
+ "name": "JAL グループ（JAL・JTA）",
+ "start": "2026-10",
+ "horizon_months": 24,
+ "demand_rpk_737": [
+  {
+   "t": 0,
+   "label": "2026-10",
+   "fy": "FY2026",
+   "p10": 760.0,
+   "p50": 801.1,
+   "p90": 842.2,
+   "trend": 1.0
+  },
+  {
+   "t": 1,
+   "label": "2026-11",
+   "fy": "FY2026",
+   "p10": 714.8,
+   "p50": 759.3,
+   "p90": 803.9,
+   "trend": 1.0031
+  },
+  {
+   "t": 2,
+   "label": "2026-12",
+   "fy": "FY2026",
+   "p10": 675.1,
+   "p50": 719.5,
+   "p90": 763.9,
+   "trend": 1.0062
+  },
+  {
+   "t": 3,
+   "label": "2027-01",
+   "fy": "FY2026",
+   "p10": 643.5,
+   "p50": 687.5,
+   "p90": 731.6,
+   "trend": 1.0093
+  },
+  {
+   "t": 4,
+   "label": "2027-02",
+   "fy": "FY2026",
+   "p10": 645.5,
+   "p50": 691.2,
+   "p90": 736.8,
+   "trend": 1.0124
+  },
+  {
+   "t": 5,
+   "label": "2027-03",
+   "fy": "FY2026",
+   "p10": 762.6,
+   "p50": 818.1,
+   "p90": 873.5,
+   "trend": 1.0156
+  },
+  {
+   "t": 6,
+   "label": "2027-04",
+   "fy": "FY2027",
+   "p10": 638.8,
+   "p50": 686.5,
+   "p90": 734.1,
+   "trend": 1.0187
+  },
+  {
+   "t": 7,
+   "label": "2027-05",
+   "fy": "FY2027",
+   "p10": 696.4,
+   "p50": 749.5,
+   "p90": 802.6,
+   "trend": 1.0219
+  },
+  {
+   "t": 8,
+   "label": "2027-06",
+   "fy": "FY2027",
+   "p10": 640.2,
+   "p50": 690.0,
+   "p90": 739.8,
+   "trend": 1.025
+  },
+  {
+   "t": 9,
+   "label": "2027-07",
+   "fy": "FY2027",
+   "p10": 710.6,
+   "p50": 767.0,
+   "p90": 823.3,
+   "trend": 1.0282
+  },
+  {
+   "t": 10,
+   "label": "2027-08",
+   "fy": "FY2027",
+   "p10": 822.8,
+   "p50": 889.2,
+   "p90": 955.6,
+   "trend": 1.0314
+  },
+  {
+   "t": 11,
+   "label": "2027-09",
+   "fy": "FY2027",
+   "p10": 727.3,
+   "p50": 787.0,
+   "p90": 846.6,
+   "trend": 1.0346
+  },
+  {
+   "t": 12,
+   "label": "2027-10",
+   "fy": "FY2027",
+   "p10": 767.5,
+   "p50": 831.4,
+   "p90": 895.3,
+   "trend": 1.0378
+  },
+  {
+   "t": 13,
+   "label": "2027-11",
+   "fy": "FY2027",
+   "p10": 726.6,
+   "p50": 788.0,
+   "p90": 849.4,
+   "trend": 1.041
+  },
+  {
+   "t": 14,
+   "label": "2027-12",
+   "fy": "FY2027",
+   "p10": 687.7,
+   "p50": 746.7,
+   "p90": 805.6,
+   "trend": 1.0442
+  },
+  {
+   "t": 15,
+   "label": "2028-01",
+   "fy": "FY2027",
+   "p10": 656.5,
+   "p50": 713.5,
+   "p90": 770.6,
+   "trend": 1.0475
+  },
+  {
+   "t": 16,
+   "label": "2028-02",
+   "fy": "FY2027",
+   "p10": 659.3,
+   "p50": 717.3,
+   "p90": 775.3,
+   "trend": 1.0507
+  },
+  {
+   "t": 17,
+   "label": "2028-03",
+   "fy": "FY2027",
+   "p10": 779.6,
+   "p50": 849.0,
+   "p90": 918.4,
+   "trend": 1.054
+  },
+  {
+   "t": 18,
+   "label": "2028-04",
+   "fy": "FY2028",
+   "p10": 653.5,
+   "p50": 712.4,
+   "p90": 771.3,
+   "trend": 1.0572
+  },
+  {
+   "t": 19,
+   "label": "2028-05",
+   "fy": "FY2028",
+   "p10": 712.8,
+   "p50": 777.8,
+   "p90": 842.8,
+   "trend": 1.0605
+  },
+  {
+   "t": 20,
+   "label": "2028-06",
+   "fy": "FY2028",
+   "p10": 655.6,
+   "p50": 716.0,
+   "p90": 776.4,
+   "trend": 1.0638
+  },
+  {
+   "t": 21,
+   "label": "2028-07",
+   "fy": "FY2028",
+   "p10": 728.2,
+   "p50": 796.0,
+   "p90": 863.8,
+   "trend": 1.0671
+  },
+  {
+   "t": 22,
+   "label": "2028-08",
+   "fy": "FY2028",
+   "p10": 843.5,
+   "p50": 922.8,
+   "p90": 1002.2,
+   "trend": 1.0704
+  },
+  {
+   "t": 23,
+   "label": "2028-09",
+   "fy": "FY2028",
+   "p10": 745.9,
+   "p50": 816.7,
+   "p90": 887.6,
+   "trend": 1.0737
+  }
+ ],
+ "aircraft": {
+  "rows": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "fy": "FY2026",
+    "rpk_p50": 801.1,
+    "flying_p50": 44.22,
+    "in_checks": 3,
+    "need_p10": 44.95,
+    "need_p50": 47.22,
+    "need_p90": 49.49,
+    "owned": 56,
+    "gap_p50": 8.78,
+    "gap_p90": 6.51,
+    "short_p90": false,
+    "lf_if_all_fly": 0.709
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "fy": "FY2026",
+    "rpk_p50": 759.3,
+    "flying_p50": 41.91,
+    "in_checks": 4,
+    "need_p10": 43.45,
+    "need_p50": 45.91,
+    "need_p90": 48.37,
+    "owned": 56,
+    "gap_p50": 10.09,
+    "gap_p90": 7.63,
+    "short_p90": false,
+    "lf_if_all_fly": 0.685
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "fy": "FY2026",
+    "rpk_p50": 719.5,
+    "flying_p50": 39.71,
+    "in_checks": 1,
+    "need_p10": 38.26,
+    "need_p50": 40.71,
+    "need_p90": 43.16,
+    "owned": 56,
+    "gap_p50": 15.29,
+    "gap_p90": 12.84,
+    "short_p90": false,
+    "lf_if_all_fly": 0.614
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "fy": "FY2026",
+    "rpk_p50": 687.5,
+    "flying_p50": 37.95,
+    "in_checks": 4,
+    "need_p10": 39.52,
+    "need_p50": 41.95,
+    "need_p90": 44.38,
+    "owned": 56,
+    "gap_p50": 14.05,
+    "gap_p90": 11.62,
+    "short_p90": false,
+    "lf_if_all_fly": 0.62
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "fy": "FY2026",
+    "rpk_p50": 691.2,
+    "flying_p50": 38.15,
+    "in_checks": 4,
+    "need_p10": 39.63,
+    "need_p50": 42.15,
+    "need_p90": 44.67,
+    "owned": 56,
+    "gap_p50": 13.85,
+    "gap_p90": 11.33,
+    "short_p90": false,
+    "lf_if_all_fly": 0.624
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "fy": "FY2026",
+    "rpk_p50": 818.1,
+    "flying_p50": 45.16,
+    "in_checks": 1,
+    "need_p10": 43.09,
+    "need_p50": 46.16,
+    "need_p90": 49.21,
+    "owned": 56,
+    "gap_p50": 9.84,
+    "gap_p90": 6.79,
+    "short_p90": false,
+    "lf_if_all_fly": 0.698
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "fy": "FY2027",
+    "rpk_p50": 686.5,
+    "flying_p50": 37.89,
+    "in_checks": 3,
+    "need_p10": 38.26,
+    "need_p50": 40.89,
+    "need_p90": 43.52,
+    "owned": 56,
+    "gap_p50": 15.11,
+    "gap_p90": 12.48,
+    "short_p90": false,
+    "lf_if_all_fly": 0.608
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "fy": "FY2027",
+    "rpk_p50": 749.5,
+    "flying_p50": 41.37,
+    "in_checks": 1,
+    "need_p10": 39.44,
+    "need_p50": 42.37,
+    "need_p90": 45.3,
+    "owned": 56,
+    "gap_p50": 13.63,
+    "gap_p90": 10.7,
+    "short_p90": false,
+    "lf_if_all_fly": 0.639
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "fy": "FY2027",
+    "rpk_p50": 690.0,
+    "flying_p50": 38.09,
+    "in_checks": 4,
+    "need_p10": 39.34,
+    "need_p50": 42.09,
+    "need_p90": 44.83,
+    "owned": 56,
+    "gap_p50": 13.91,
+    "gap_p90": 11.17,
+    "short_p90": false,
+    "lf_if_all_fly": 0.623
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "fy": "FY2027",
+    "rpk_p50": 767.0,
+    "flying_p50": 42.34,
+    "in_checks": 2,
+    "need_p10": 41.22,
+    "need_p50": 44.34,
+    "need_p90": 47.44,
+    "owned": 56,
+    "gap_p50": 11.66,
+    "gap_p90": 8.56,
+    "short_p90": false,
+    "lf_if_all_fly": 0.666
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "fy": "FY2027",
+    "rpk_p50": 889.2,
+    "flying_p50": 49.08,
+    "in_checks": 1,
+    "need_p10": 46.42,
+    "need_p50": 50.08,
+    "need_p90": 53.75,
+    "owned": 56,
+    "gap_p50": 5.92,
+    "gap_p90": 2.25,
+    "short_p90": false,
+    "lf_if_all_fly": 0.759
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "fy": "FY2027",
+    "rpk_p50": 787.0,
+    "flying_p50": 43.44,
+    "in_checks": 3,
+    "need_p10": 43.14,
+    "need_p50": 46.44,
+    "need_p90": 49.73,
+    "owned": 56,
+    "gap_p50": 9.56,
+    "gap_p90": 6.27,
+    "short_p90": false,
+    "lf_if_all_fly": 0.697
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "fy": "FY2027",
+    "rpk_p50": 831.4,
+    "flying_p50": 45.89,
+    "in_checks": 3,
+    "need_p10": 45.36,
+    "need_p50": 48.89,
+    "need_p90": 52.42,
+    "owned": 56,
+    "gap_p50": 7.11,
+    "gap_p90": 3.58,
+    "short_p90": false,
+    "lf_if_all_fly": 0.736
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "fy": "FY2027",
+    "rpk_p50": 788.0,
+    "flying_p50": 43.5,
+    "in_checks": 4,
+    "need_p10": 44.11,
+    "need_p50": 47.5,
+    "need_p90": 50.88,
+    "owned": 56,
+    "gap_p50": 8.5,
+    "gap_p90": 5.12,
+    "short_p90": false,
+    "lf_if_all_fly": 0.711
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "fy": "FY2027",
+    "rpk_p50": 746.7,
+    "flying_p50": 41.22,
+    "in_checks": 1,
+    "need_p10": 38.96,
+    "need_p50": 42.22,
+    "need_p90": 45.47,
+    "owned": 56,
+    "gap_p50": 13.78,
+    "gap_p90": 10.53,
+    "short_p90": false,
+    "lf_if_all_fly": 0.637
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "fy": "FY2027",
+    "rpk_p50": 713.5,
+    "flying_p50": 39.38,
+    "in_checks": 4,
+    "need_p10": 40.24,
+    "need_p50": 43.38,
+    "need_p90": 46.53,
+    "owned": 56,
+    "gap_p50": 12.62,
+    "gap_p90": 9.47,
+    "short_p90": false,
+    "lf_if_all_fly": 0.644
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "fy": "FY2027",
+    "rpk_p50": 717.3,
+    "flying_p50": 39.59,
+    "in_checks": 4,
+    "need_p10": 40.39,
+    "need_p50": 43.59,
+    "need_p90": 46.79,
+    "owned": 56,
+    "gap_p50": 12.41,
+    "gap_p90": 9.21,
+    "short_p90": false,
+    "lf_if_all_fly": 0.647
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "fy": "FY2027",
+    "rpk_p50": 849.0,
+    "flying_p50": 46.86,
+    "in_checks": 1,
+    "need_p10": 44.03,
+    "need_p50": 47.86,
+    "need_p90": 51.69,
+    "owned": 56,
+    "gap_p50": 8.14,
+    "gap_p90": 4.31,
+    "short_p90": false,
+    "lf_if_all_fly": 0.724
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "fy": "FY2028",
+    "rpk_p50": 712.4,
+    "flying_p50": 39.32,
+    "in_checks": 3,
+    "need_p10": 39.07,
+    "need_p50": 42.32,
+    "need_p90": 45.57,
+    "owned": 56,
+    "gap_p50": 13.68,
+    "gap_p90": 10.43,
+    "short_p90": false,
+    "lf_if_all_fly": 0.631
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "fy": "FY2028",
+    "rpk_p50": 777.8,
+    "flying_p50": 42.93,
+    "in_checks": 1,
+    "need_p10": 40.34,
+    "need_p50": 43.93,
+    "need_p90": 47.52,
+    "owned": 56,
+    "gap_p50": 12.07,
+    "gap_p90": 8.48,
+    "short_p90": false,
+    "lf_if_all_fly": 0.663
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "fy": "FY2028",
+    "rpk_p50": 716.0,
+    "flying_p50": 39.52,
+    "in_checks": 4,
+    "need_p10": 40.19,
+    "need_p50": 43.52,
+    "need_p90": 46.85,
+    "owned": 56,
+    "gap_p50": 12.48,
+    "gap_p90": 9.15,
+    "short_p90": false,
+    "lf_if_all_fly": 0.646
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "fy": "FY2028",
+    "rpk_p50": 796.0,
+    "flying_p50": 43.94,
+    "in_checks": 2,
+    "need_p10": 42.19,
+    "need_p50": 45.94,
+    "need_p90": 49.68,
+    "owned": 56,
+    "gap_p50": 10.06,
+    "gap_p90": 6.32,
+    "short_p90": false,
+    "lf_if_all_fly": 0.692
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "fy": "FY2028",
+    "rpk_p50": 922.8,
+    "flying_p50": 50.94,
+    "in_checks": 1,
+    "need_p10": 47.56,
+    "need_p50": 51.94,
+    "need_p90": 56.32,
+    "owned": 56,
+    "gap_p50": 4.06,
+    "gap_p90": -0.32,
+    "short_p90": true,
+    "lf_if_all_fly": 0.787
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "fy": "FY2028",
+    "rpk_p50": 816.7,
+    "flying_p50": 45.08,
+    "in_checks": 3,
+    "need_p10": 44.17,
+    "need_p50": 48.08,
+    "need_p90": 51.99,
+    "owned": 56,
+    "gap_p50": 7.92,
+    "gap_p90": 4.01,
+    "short_p90": false,
+    "lf_if_all_fly": 0.723
+   }
+  ],
+  "params": {
+   "seats": 165,
+   "stage_km": 770,
+   "lf_target": 0.85,
+   "sectors_per_day": 5.38,
+   "utilisation_multiplier": 1.0258,
+   "ask_per_aircraft_month": 21.31,
+   "ask_per_aircraft_month_at_cap": 22.86,
+   "airframe_checks_by_month": {
+    "1": 4,
+    "2": 4,
+    "3": 1,
+    "4": 3,
+    "5": 1,
+    "6": 4,
+    "7": 2,
+    "8": 1,
+    "9": 3,
+    "10": 3,
+    "11": 4,
+    "12": 1
+   },
+   "aircraft_total": 56
+  },
+  "how": "要る機数 ＝ 需要（RPK）÷ 目標の搭乗率 ÷ 1 機が 1 か月に出せる座席キロ（座席 × 1 日の便数 × 稼働倍率 × 区間距離 × 日数）＋ 機体整備で止まる機"
+ },
+ "long_view": [
+  {
+   "fy": "FY2026",
+   "rpk_737_p50": 8828,
+   "need_p50": 44.2,
+   "fleet_after_exits": 56.0,
+   "gap": 11.8,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2027",
+   "rpk_737_p50": 9161,
+   "need_p50": 45.8,
+   "fleet_after_exits": 56.0,
+   "gap": 10.2,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2028",
+   "rpk_737_p50": 9508,
+   "need_p50": 47.4,
+   "fleet_after_exits": 50.0,
+   "gap": 2.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2029",
+   "rpk_737_p50": 9656,
+   "need_p50": 48.1,
+   "fleet_after_exits": 36.5,
+   "gap": -11.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2030",
+   "rpk_737_p50": 9663,
+   "need_p50": 48.2,
+   "fleet_after_exits": 30.0,
+   "gap": -18.2,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2031",
+   "rpk_737_p50": 9529,
+   "need_p50": 47.5,
+   "fleet_after_exits": 23.5,
+   "gap": -24.0,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2032",
+   "rpk_737_p50": 9675,
+   "need_p50": 48.2,
+   "fleet_after_exits": 16.5,
+   "gap": -31.7,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2033",
+   "rpk_737_p50": 9824,
+   "need_p50": 48.9,
+   "fleet_after_exits": 10.5,
+   "gap": -38.4,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2034",
+   "rpk_737_p50": 9976,
+   "need_p50": 49.7,
+   "fleet_after_exits": 4.5,
+   "gap": -45.2,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2035",
+   "rpk_737_p50": 10129,
+   "need_p50": 50.4,
+   "fleet_after_exits": 0.0,
+   "gap": -50.4,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2036",
+   "rpk_737_p50": 10285,
+   "need_p50": 51.1,
+   "fleet_after_exits": 0.0,
+   "gap": -51.1,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2037",
+   "rpk_737_p50": 10444,
+   "need_p50": 51.9,
+   "fleet_after_exits": 0.0,
+   "gap": -51.9,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2038",
+   "rpk_737_p50": 10604,
+   "need_p50": 52.6,
+   "fleet_after_exits": 0.0,
+   "gap": -52.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2039",
+   "rpk_737_p50": 10768,
+   "need_p50": 53.4,
+   "fleet_after_exits": 0.0,
+   "gap": -53.4,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2040",
+   "rpk_737_p50": 10934,
+   "need_p50": 54.2,
+   "fleet_after_exits": 0.0,
+   "gap": -54.2,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2041",
+   "rpk_737_p50": 11102,
+   "need_p50": 55.0,
+   "fleet_after_exits": 0.0,
+   "gap": -55.0,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2042",
+   "rpk_737_p50": 11273,
+   "need_p50": 55.8,
+   "fleet_after_exits": 0.0,
+   "gap": -55.8,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2043",
+   "rpk_737_p50": 11447,
+   "need_p50": 56.6,
+   "fleet_after_exits": 0.0,
+   "gap": -56.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2044",
+   "rpk_737_p50": 11623,
+   "need_p50": 57.4,
+   "fleet_after_exits": 0.0,
+   "gap": -57.4,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2045",
+   "rpk_737_p50": 11802,
+   "need_p50": 58.3,
+   "fleet_after_exits": 0.0,
+   "gap": -58.3,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  }
+ ],
+ "engines": {
+  "rows": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "installed_p50": 90,
+    "installed_p90": 94,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 94,
+    "owned": 123,
+    "headroom_p50": 29,
+    "headroom_p90": 25,
+    "required_positions_in_plan": 112
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "installed_p50": 84,
+    "installed_p90": 90,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 88,
+    "owned": 123,
+    "headroom_p50": 35,
+    "headroom_p90": 29,
+    "required_positions_in_plan": 106
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "installed_p50": 80,
+    "installed_p90": 86,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 84,
+    "owned": 123,
+    "headroom_p50": 39,
+    "headroom_p90": 33,
+    "required_positions_in_plan": 106
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "installed_p50": 76,
+    "installed_p90": 82,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 80,
+    "owned": 123,
+    "headroom_p50": 43,
+    "headroom_p90": 37,
+    "required_positions_in_plan": 96
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "installed_p50": 78,
+    "installed_p90": 82,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 82,
+    "owned": 123,
+    "headroom_p50": 41,
+    "headroom_p90": 37,
+    "required_positions_in_plan": 96
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "installed_p50": 92,
+    "installed_p90": 98,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 96,
+    "owned": 123,
+    "headroom_p50": 27,
+    "headroom_p90": 21,
+    "required_positions_in_plan": 112
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "installed_p50": 76,
+    "installed_p90": 82,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 80,
+    "owned": 123,
+    "headroom_p50": 43,
+    "headroom_p90": 37,
+    "required_positions_in_plan": 96
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "installed_p50": 84,
+    "installed_p90": 90,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 88,
+    "owned": 123,
+    "headroom_p50": 35,
+    "headroom_p90": 29,
+    "required_positions_in_plan": 108
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "installed_p50": 78,
+    "installed_p90": 82,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 82,
+    "owned": 123,
+    "headroom_p50": 41,
+    "headroom_p90": 37,
+    "required_positions_in_plan": 94
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "installed_p50": 86,
+    "installed_p90": 92,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 90,
+    "owned": 123,
+    "headroom_p50": 33,
+    "headroom_p90": 27,
+    "required_positions_in_plan": 108
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "installed_p50": 100,
+    "installed_p90": 106,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 104,
+    "owned": 123,
+    "headroom_p50": 19,
+    "headroom_p90": 13,
+    "required_positions_in_plan": 112
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "installed_p50": 88,
+    "installed_p90": 94,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 92,
+    "owned": 123,
+    "headroom_p50": 31,
+    "headroom_p90": 25,
+    "required_positions_in_plan": 108
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "installed_p50": 92,
+    "installed_p90": 100,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 96,
+    "owned": 123,
+    "headroom_p50": 27,
+    "headroom_p90": 19,
+    "required_positions_in_plan": 112
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "installed_p50": 88,
+    "installed_p90": 94,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 92,
+    "owned": 123,
+    "headroom_p50": 31,
+    "headroom_p90": 25,
+    "required_positions_in_plan": 106
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "installed_p50": 84,
+    "installed_p90": 90,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 88,
+    "owned": 123,
+    "headroom_p50": 35,
+    "headroom_p90": 29,
+    "required_positions_in_plan": 106
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "installed_p50": 80,
+    "installed_p90": 86,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 84,
+    "owned": 123,
+    "headroom_p50": 39,
+    "headroom_p90": 33,
+    "required_positions_in_plan": 96
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "installed_p50": 80,
+    "installed_p90": 86,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 84,
+    "owned": 123,
+    "headroom_p50": 39,
+    "headroom_p90": 33,
+    "required_positions_in_plan": 96
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "installed_p50": 94,
+    "installed_p90": 102,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 98,
+    "owned": 123,
+    "headroom_p50": 25,
+    "headroom_p90": 17,
+    "required_positions_in_plan": 112
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "installed_p50": 80,
+    "installed_p90": 86,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 84,
+    "owned": 123,
+    "headroom_p50": 39,
+    "headroom_p90": 33,
+    "required_positions_in_plan": 96
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "installed_p50": 86,
+    "installed_p90": 94,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 90,
+    "owned": 123,
+    "headroom_p50": 33,
+    "headroom_p90": 25,
+    "required_positions_in_plan": 108
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "installed_p50": 80,
+    "installed_p90": 86,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 84,
+    "owned": 123,
+    "headroom_p50": 39,
+    "headroom_p90": 33,
+    "required_positions_in_plan": 94
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "installed_p50": 88,
+    "installed_p90": 96,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 92,
+    "owned": 123,
+    "headroom_p50": 31,
+    "headroom_p90": 23,
+    "required_positions_in_plan": 108
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "installed_p50": 102,
+    "installed_p90": 112,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 106,
+    "owned": 123,
+    "headroom_p50": 17,
+    "headroom_p90": 7,
+    "required_positions_in_plan": 112
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "installed_p50": 92,
+    "installed_p90": 98,
+    "spares_buffer": 4,
+    "spares_short_lease": 0,
+    "need_total_p50": 96,
+    "owned": 123,
+    "headroom_p50": 27,
+    "headroom_p90": 21,
+    "required_positions_in_plan": 108
+   }
+  ],
+  "owned": 123,
+  "installed_now": 112,
+  "spares_buffer": 4,
+  "spares_short_lease": 0,
+  "worst": {
+   "label": "2028-08",
+   "headroom_p90": 7,
+   "headroom_p50": 17
+  },
+  "how": "要るエンジン ＝ 飛ぶ機数 × 2 ＋ 予備（計画の緩衝 ＋ 不足の見張りが求めた短期リース）。持っているのは所有エンジン数。計画側の必要基数（required_positions）を横に並べて突き合わせる"
+ },
+ "engine_flying": {
+  "cycles_per_aircraft_month": 167.9,
+  "utilisation_multiplier": 1.0258,
+  "windows": {
+   "due_now": 40,
+   "due_new": 41,
+   "earlier": 11,
+   "newly_due": 1,
+   "mean_shift_months": -1.0
+  },
+  "norms": {
+   "spend_per_year_k": 169920.35,
+   "visits_per_year": 21.06
+  }
+ },
+ "levers": {
+  "short_months": [
+   {
+    "label": "2028-08",
+    "short_aircraft_p90": 0.32,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 0.32,
+      "cost_k": 72,
+      "engine_effect": "エンジン・サイクル +52（入場の前倒し 0.00 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.32,
+      "cost_k": 152,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 0.32,
+      "cost_k": 554,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   }
+  ],
+  "long_months": [
+   {
+    "label": "2026-10",
+    "idle_aircraft_p50": 8.78,
+    "carrying_cost_k": 2195
+   },
+   {
+    "label": "2026-11",
+    "idle_aircraft_p50": 10.09,
+    "carrying_cost_k": 2522
+   },
+   {
+    "label": "2026-12",
+    "idle_aircraft_p50": 15.29,
+    "carrying_cost_k": 3822
+   },
+   {
+    "label": "2027-01",
+    "idle_aircraft_p50": 14.05,
+    "carrying_cost_k": 3512
+   },
+   {
+    "label": "2027-02",
+    "idle_aircraft_p50": 13.85,
+    "carrying_cost_k": 3462
+   },
+   {
+    "label": "2027-03",
+    "idle_aircraft_p50": 9.84,
+    "carrying_cost_k": 2460
+   },
+   {
+    "label": "2027-04",
+    "idle_aircraft_p50": 15.11,
+    "carrying_cost_k": 3778
+   },
+   {
+    "label": "2027-05",
+    "idle_aircraft_p50": 13.63,
+    "carrying_cost_k": 3408
+   },
+   {
+    "label": "2027-06",
+    "idle_aircraft_p50": 13.91,
+    "carrying_cost_k": 3478
+   },
+   {
+    "label": "2027-07",
+    "idle_aircraft_p50": 11.66,
+    "carrying_cost_k": 2915
+   },
+   {
+    "label": "2027-08",
+    "idle_aircraft_p50": 5.92,
+    "carrying_cost_k": 1480
+   },
+   {
+    "label": "2027-09",
+    "idle_aircraft_p50": 9.56,
+    "carrying_cost_k": 2390
+   },
+   {
+    "label": "2027-10",
+    "idle_aircraft_p50": 7.11,
+    "carrying_cost_k": 1778
+   },
+   {
+    "label": "2027-11",
+    "idle_aircraft_p50": 8.5,
+    "carrying_cost_k": 2125
+   },
+   {
+    "label": "2027-12",
+    "idle_aircraft_p50": 13.78,
+    "carrying_cost_k": 3445
+   },
+   {
+    "label": "2028-01",
+    "idle_aircraft_p50": 12.62,
+    "carrying_cost_k": 3155
+   },
+   {
+    "label": "2028-02",
+    "idle_aircraft_p50": 12.41,
+    "carrying_cost_k": 3102
+   },
+   {
+    "label": "2028-03",
+    "idle_aircraft_p50": 8.14,
+    "carrying_cost_k": 2035
+   },
+   {
+    "label": "2028-04",
+    "idle_aircraft_p50": 13.68,
+    "carrying_cost_k": 3420
+   },
+   {
+    "label": "2028-05",
+    "idle_aircraft_p50": 12.07,
+    "carrying_cost_k": 3018
+   },
+   {
+    "label": "2028-06",
+    "idle_aircraft_p50": 12.48,
+    "carrying_cost_k": 3120
+   },
+   {
+    "label": "2028-07",
+    "idle_aircraft_p50": 10.06,
+    "carrying_cost_k": 2515
+   },
+   {
+    "label": "2028-08",
+    "idle_aircraft_p50": 4.06,
+    "carrying_cost_k": 1015
+   },
+   {
+    "label": "2028-09",
+    "idle_aircraft_p50": 7.92,
+    "carrying_cost_k": 1980
+   }
+  ],
+  "params": {
+   "usd_jpy": 157.0,
+   "wet_lease_k_per_ac_month": 850.0,
+   "dry_lease_k_per_ac_month": 250.0,
+   "maintenance_k_per_cycle_both_engines": 1.373,
+   "revenue_k_per_aircraft_month": 1731,
+   "run_cycles": 11753,
+   "cost_per_visit_k": 8067
+  },
+  "note": "足りない月（p90）の打ち手を、費用（k$）とエンジン側への影響で同じ表に。余る月は遊ぶ機の維持費。単価は仮定（no_source）"
+ },
+ "planning_season": {
+  "as_of": "4 月（年度の始まり）に需要の見込みから計画を固める時点の数字",
+  "fiscal_years": {
+   "FY2026": {
+    "months": 6,
+    "need_p50_max": 47.22,
+    "need_p90_max": 49.49,
+    "owned": 56,
+    "short_months_p90": [],
+    "avg_gap_p50": 11.98
+   },
+   "FY2027": {
+    "months": 12,
+    "need_p50_max": 50.08,
+    "need_p90_max": 53.75,
+    "owned": 56,
+    "short_months_p90": [],
+    "avg_gap_p50": 11.03
+   },
+   "FY2028": {
+    "months": 6,
+    "need_p50_max": 51.94,
+    "need_p90_max": 56.32,
+    "owned": 56,
+    "short_months_p90": [
+     "2028-08"
+    ],
+    "avg_gap_p50": 10.05
+   }
+  },
+  "maintenance": {
+   "spend_per_year_k": 169920,
+   "spend_per_year_oku_yen": 266.8,
+   "demand_growth": 0.0378,
+   "added_by_growth_k": 6423,
+   "added_by_growth_oku_yen": 10.1,
+   "how": "平年の整備費 × 需要の伸び（入場も費用もエンジン・サイクルに比例、plan_from_demand の按分）"
+  },
+  "peak_month": {
+   "label": "2027-08",
+   "lf_if_all_fly": 0.759,
+   "need_p50": 50.08,
+   "need_p90": 53.75,
+   "owned": 56,
+   "engines_headroom_p50": 19,
+   "engines_headroom_p90": 13,
+   "engines_short_p90": 0,
+   "adding_flights": {
+    "add_aircraft": 1,
+    "revenue_oku_yen": 2.65,
+    "binding": "エンジン"
+   },
+   "levers": null
+  },
+  "note": "連載の数字（搭乗率 93%、エンジン 1.4 基不足、増便の損得 −4.2 億円）はこの計算の peak_month と突き合わせる。食い違えばこちらに合わせる"
+ },
+ "consistency": {
+  "share_737_800": 0.33,
+  "share_source": "no_source: 737-800 56 機が国内線 ASK に占める割合の仮定（C）",
+  "peak_lf_if_all_fly": 0.787,
+  "peak_label": "2028-08",
+  "fits_fleet": true,
+  "share_that_fits": 0.356,
+  "verdict": "整合：全機が飛べば目標の搭乗率で運べる"
+ },
+ "derived": {
+  "demand_growth_per_year": 0.0378,
+  "demand_growth_long_run": 0.0154,
+  "utilisation_multiplier": 1.0258
+ },
+ "assumptions": {
+  "lf_target": "no_source: 利用率がこの水準を超える月は満席便が多く、乗せられなかった需要（スピル）が出ていると見なす（C）",
+  "share_737_800": "no_source: 737-800 56 機が国内線 ASK に占める割合の仮定（C）",
+  "band": "no_source: 10〜90% の幅は既知月の残差の標準偏差 ＋ 年 2% × √(年数) を z=1.28 倍",
+  "wet_lease": "no_source: 850 k$/機・月",
+  "dry_lease": "no_source: 250 k$/機・月",
+  "usd_jpy": "157.0（連載の換算に合わせる）",
+  "missing_months": "既知でない月（JAL 2025-09〜12）は市場の季節指数 × シェアで補う"
+ },
+ "note": "需要 → 何機 → 何基。要る機数は p10/p50/p90、機数の判定は p90、費用は p50。数値はすべて合成データ"
+}

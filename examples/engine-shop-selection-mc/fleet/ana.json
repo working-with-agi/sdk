@@ -1,0 +1,2080 @@
+{
+ "company": "ana",
+ "name": "ANA（ANA ウイングス運航）",
+ "start": "2026-10",
+ "horizon_months": 24,
+ "demand_rpk_737": [
+  {
+   "t": 0,
+   "label": "2026-10",
+   "fy": "FY2026",
+   "p10": 644.9,
+   "p50": 679.7,
+   "p90": 714.6,
+   "trend": 1.0
+  },
+  {
+   "t": 1,
+   "label": "2026-11",
+   "fy": "FY2026",
+   "p10": 606.5,
+   "p50": 644.3,
+   "p90": 682.1,
+   "trend": 1.0031
+  },
+  {
+   "t": 2,
+   "label": "2026-12",
+   "fy": "FY2026",
+   "p10": 572.8,
+   "p50": 610.5,
+   "p90": 648.1,
+   "trend": 1.0062
+  },
+  {
+   "t": 3,
+   "label": "2027-01",
+   "fy": "FY2026",
+   "p10": 546.0,
+   "p50": 583.4,
+   "p90": 620.8,
+   "trend": 1.0093
+  },
+  {
+   "t": 4,
+   "label": "2027-02",
+   "fy": "FY2026",
+   "p10": 547.7,
+   "p50": 586.4,
+   "p90": 625.2,
+   "trend": 1.0124
+  },
+  {
+   "t": 5,
+   "label": "2027-03",
+   "fy": "FY2026",
+   "p10": 647.0,
+   "p50": 694.1,
+   "p90": 741.2,
+   "trend": 1.0156
+  },
+  {
+   "t": 6,
+   "label": "2027-04",
+   "fy": "FY2027",
+   "p10": 542.0,
+   "p50": 582.4,
+   "p90": 622.9,
+   "trend": 1.0187
+  },
+  {
+   "t": 7,
+   "label": "2027-05",
+   "fy": "FY2027",
+   "p10": 590.9,
+   "p50": 635.9,
+   "p90": 681.0,
+   "trend": 1.0219
+  },
+  {
+   "t": 8,
+   "label": "2027-06",
+   "fy": "FY2027",
+   "p10": 543.2,
+   "p50": 585.4,
+   "p90": 627.7,
+   "trend": 1.025
+  },
+  {
+   "t": 9,
+   "label": "2027-07",
+   "fy": "FY2027",
+   "p10": 603.0,
+   "p50": 650.8,
+   "p90": 698.6,
+   "trend": 1.0282
+  },
+  {
+   "t": 10,
+   "label": "2027-08",
+   "fy": "FY2027",
+   "p10": 698.2,
+   "p50": 754.5,
+   "p90": 810.8,
+   "trend": 1.0314
+  },
+  {
+   "t": 11,
+   "label": "2027-09",
+   "fy": "FY2027",
+   "p10": 617.1,
+   "p50": 667.7,
+   "p90": 718.3,
+   "trend": 1.0346
+  },
+  {
+   "t": 12,
+   "label": "2027-10",
+   "fy": "FY2027",
+   "p10": 651.2,
+   "p50": 705.4,
+   "p90": 759.7,
+   "trend": 1.0378
+  },
+  {
+   "t": 13,
+   "label": "2027-11",
+   "fy": "FY2027",
+   "p10": 616.5,
+   "p50": 668.6,
+   "p90": 720.7,
+   "trend": 1.041
+  },
+  {
+   "t": 14,
+   "label": "2027-12",
+   "fy": "FY2027",
+   "p10": 583.5,
+   "p50": 633.5,
+   "p90": 683.6,
+   "trend": 1.0442
+  },
+  {
+   "t": 15,
+   "label": "2028-01",
+   "fy": "FY2027",
+   "p10": 557.0,
+   "p50": 605.4,
+   "p90": 653.8,
+   "trend": 1.0475
+  },
+  {
+   "t": 16,
+   "label": "2028-02",
+   "fy": "FY2027",
+   "p10": 559.4,
+   "p50": 608.6,
+   "p90": 657.8,
+   "trend": 1.0507
+  },
+  {
+   "t": 17,
+   "label": "2028-03",
+   "fy": "FY2027",
+   "p10": 661.4,
+   "p50": 720.4,
+   "p90": 779.3,
+   "trend": 1.054
+  },
+  {
+   "t": 18,
+   "label": "2028-04",
+   "fy": "FY2028",
+   "p10": 554.5,
+   "p50": 604.5,
+   "p90": 654.4,
+   "trend": 1.0572
+  },
+  {
+   "t": 19,
+   "label": "2028-05",
+   "fy": "FY2028",
+   "p10": 604.8,
+   "p50": 660.0,
+   "p90": 715.1,
+   "trend": 1.0605
+  },
+  {
+   "t": 20,
+   "label": "2028-06",
+   "fy": "FY2028",
+   "p10": 556.3,
+   "p50": 607.5,
+   "p90": 658.8,
+   "trend": 1.0638
+  },
+  {
+   "t": 21,
+   "label": "2028-07",
+   "fy": "FY2028",
+   "p10": 617.8,
+   "p50": 675.4,
+   "p90": 732.9,
+   "trend": 1.0671
+  },
+  {
+   "t": 22,
+   "label": "2028-08",
+   "fy": "FY2028",
+   "p10": 715.7,
+   "p50": 783.0,
+   "p90": 850.3,
+   "trend": 1.0704
+  },
+  {
+   "t": 23,
+   "label": "2028-09",
+   "fy": "FY2028",
+   "p10": 632.8,
+   "p50": 693.0,
+   "p90": 753.1,
+   "trend": 1.0737
+  }
+ ],
+ "aircraft": {
+  "rows": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "fy": "FY2026",
+    "rpk_p50": 679.7,
+    "flying_p50": 39.51,
+    "in_checks": 2,
+    "need_p10": 39.49,
+    "need_p50": 41.51,
+    "need_p90": 43.54,
+    "owned": 39,
+    "gap_p50": -2.51,
+    "gap_p90": -4.54,
+    "short_p90": true,
+    "lf_if_all_fly": 0.908
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "fy": "FY2026",
+    "rpk_p50": 644.3,
+    "flying_p50": 37.45,
+    "in_checks": 3,
+    "need_p10": 38.26,
+    "need_p50": 40.45,
+    "need_p90": 42.65,
+    "owned": 39,
+    "gap_p50": -1.45,
+    "gap_p90": -3.65,
+    "short_p90": true,
+    "lf_if_all_fly": 0.884
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "fy": "FY2026",
+    "rpk_p50": 610.5,
+    "flying_p50": 35.49,
+    "in_checks": 1,
+    "need_p10": 34.3,
+    "need_p50": 36.49,
+    "need_p90": 38.67,
+    "owned": 39,
+    "gap_p50": 2.51,
+    "gap_p90": 0.33,
+    "short_p90": false,
+    "lf_if_all_fly": 0.794
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "fy": "FY2026",
+    "rpk_p50": 583.4,
+    "flying_p50": 33.91,
+    "in_checks": 3,
+    "need_p10": 34.74,
+    "need_p50": 36.91,
+    "need_p90": 39.09,
+    "owned": 39,
+    "gap_p50": 2.09,
+    "gap_p90": -0.09,
+    "short_p90": true,
+    "lf_if_all_fly": 0.801
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "fy": "FY2026",
+    "rpk_p50": 586.4,
+    "flying_p50": 34.09,
+    "in_checks": 3,
+    "need_p10": 34.84,
+    "need_p50": 37.09,
+    "need_p90": 39.34,
+    "owned": 39,
+    "gap_p50": 1.91,
+    "gap_p90": -0.34,
+    "short_p90": true,
+    "lf_if_all_fly": 0.805
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "fy": "FY2026",
+    "rpk_p50": 694.1,
+    "flying_p50": 40.35,
+    "in_checks": 1,
+    "need_p10": 38.61,
+    "need_p50": 41.35,
+    "need_p90": 44.09,
+    "owned": 39,
+    "gap_p50": -2.35,
+    "gap_p90": -5.09,
+    "short_p90": true,
+    "lf_if_all_fly": 0.903
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "fy": "FY2027",
+    "rpk_p50": 582.4,
+    "flying_p50": 33.86,
+    "in_checks": 2,
+    "need_p10": 33.51,
+    "need_p50": 35.86,
+    "need_p90": 38.21,
+    "owned": 39,
+    "gap_p50": 3.14,
+    "gap_p90": 0.79,
+    "short_p90": false,
+    "lf_if_all_fly": 0.778
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "fy": "FY2027",
+    "rpk_p50": 635.9,
+    "flying_p50": 36.97,
+    "in_checks": 1,
+    "need_p10": 35.35,
+    "need_p50": 37.97,
+    "need_p90": 40.59,
+    "owned": 39,
+    "gap_p50": 1.03,
+    "gap_p90": -1.59,
+    "short_p90": true,
+    "lf_if_all_fly": 0.827
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "fy": "FY2027",
+    "rpk_p50": 585.4,
+    "flying_p50": 34.03,
+    "in_checks": 3,
+    "need_p10": 34.58,
+    "need_p50": 37.03,
+    "need_p90": 39.49,
+    "owned": 39,
+    "gap_p50": 1.97,
+    "gap_p90": -0.49,
+    "short_p90": true,
+    "lf_if_all_fly": 0.803
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "fy": "FY2027",
+    "rpk_p50": 650.8,
+    "flying_p50": 37.83,
+    "in_checks": 2,
+    "need_p10": 37.05,
+    "need_p50": 39.83,
+    "need_p90": 42.61,
+    "owned": 39,
+    "gap_p50": -0.83,
+    "gap_p90": -3.61,
+    "short_p90": true,
+    "lf_if_all_fly": 0.869
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "fy": "FY2027",
+    "rpk_p50": 754.5,
+    "flying_p50": 43.86,
+    "in_checks": 1,
+    "need_p10": 41.59,
+    "need_p50": 44.86,
+    "need_p90": 48.13,
+    "owned": 39,
+    "gap_p50": -5.86,
+    "gap_p90": -9.13,
+    "short_p90": true,
+    "lf_if_all_fly": 0.981
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "fy": "FY2027",
+    "rpk_p50": 667.7,
+    "flying_p50": 38.81,
+    "in_checks": 2,
+    "need_p10": 37.87,
+    "need_p50": 40.81,
+    "need_p90": 43.76,
+    "owned": 39,
+    "gap_p50": -1.81,
+    "gap_p90": -4.76,
+    "short_p90": true,
+    "lf_if_all_fly": 0.892
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "fy": "FY2027",
+    "rpk_p50": 705.4,
+    "flying_p50": 41.01,
+    "in_checks": 2,
+    "need_p10": 39.86,
+    "need_p50": 43.01,
+    "need_p90": 46.16,
+    "owned": 39,
+    "gap_p50": -4.01,
+    "gap_p90": -7.16,
+    "short_p90": true,
+    "lf_if_all_fly": 0.942
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "fy": "FY2027",
+    "rpk_p50": 668.6,
+    "flying_p50": 38.87,
+    "in_checks": 3,
+    "need_p10": 38.84,
+    "need_p50": 41.87,
+    "need_p90": 44.9,
+    "owned": 39,
+    "gap_p50": -2.87,
+    "gap_p90": -5.9,
+    "short_p90": true,
+    "lf_if_all_fly": 0.918
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "fy": "FY2027",
+    "rpk_p50": 633.5,
+    "flying_p50": 36.83,
+    "in_checks": 1,
+    "need_p10": 34.92,
+    "need_p50": 37.83,
+    "need_p90": 40.74,
+    "owned": 39,
+    "gap_p50": 1.17,
+    "gap_p90": -1.74,
+    "short_p90": true,
+    "lf_if_all_fly": 0.824
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "fy": "FY2027",
+    "rpk_p50": 605.4,
+    "flying_p50": 35.19,
+    "in_checks": 3,
+    "need_p10": 35.38,
+    "need_p50": 38.19,
+    "need_p90": 41.01,
+    "owned": 39,
+    "gap_p50": 0.81,
+    "gap_p90": -2.01,
+    "short_p90": true,
+    "lf_if_all_fly": 0.831
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "fy": "FY2027",
+    "rpk_p50": 608.6,
+    "flying_p50": 35.38,
+    "in_checks": 3,
+    "need_p10": 35.52,
+    "need_p50": 38.38,
+    "need_p90": 41.24,
+    "owned": 39,
+    "gap_p50": 0.62,
+    "gap_p90": -2.24,
+    "short_p90": true,
+    "lf_if_all_fly": 0.835
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "fy": "FY2027",
+    "rpk_p50": 720.4,
+    "flying_p50": 41.88,
+    "in_checks": 1,
+    "need_p10": 39.45,
+    "need_p50": 42.88,
+    "need_p90": 46.3,
+    "owned": 39,
+    "gap_p50": -3.88,
+    "gap_p90": -7.3,
+    "short_p90": true,
+    "lf_if_all_fly": 0.937
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "fy": "FY2028",
+    "rpk_p50": 604.5,
+    "flying_p50": 35.14,
+    "in_checks": 2,
+    "need_p10": 34.23,
+    "need_p50": 37.14,
+    "need_p90": 40.04,
+    "owned": 39,
+    "gap_p50": 1.86,
+    "gap_p90": -1.04,
+    "short_p90": true,
+    "lf_if_all_fly": 0.807
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "fy": "FY2028",
+    "rpk_p50": 660.0,
+    "flying_p50": 38.37,
+    "in_checks": 1,
+    "need_p10": 36.16,
+    "need_p50": 39.37,
+    "need_p90": 42.57,
+    "owned": 39,
+    "gap_p50": -0.37,
+    "gap_p90": -3.57,
+    "short_p90": true,
+    "lf_if_all_fly": 0.858
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "fy": "FY2028",
+    "rpk_p50": 607.5,
+    "flying_p50": 35.31,
+    "in_checks": 3,
+    "need_p10": 35.34,
+    "need_p50": 38.31,
+    "need_p90": 41.3,
+    "owned": 39,
+    "gap_p50": 0.69,
+    "gap_p90": -2.3,
+    "short_p90": true,
+    "lf_if_all_fly": 0.834
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "fy": "FY2028",
+    "rpk_p50": 675.4,
+    "flying_p50": 39.26,
+    "in_checks": 2,
+    "need_p10": 37.91,
+    "need_p50": 41.26,
+    "need_p90": 44.6,
+    "owned": 39,
+    "gap_p50": -2.26,
+    "gap_p90": -5.6,
+    "short_p90": true,
+    "lf_if_all_fly": 0.902
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "fy": "FY2028",
+    "rpk_p50": 783.0,
+    "flying_p50": 45.52,
+    "in_checks": 1,
+    "need_p10": 42.6,
+    "need_p50": 46.52,
+    "need_p90": 50.43,
+    "owned": 39,
+    "gap_p50": -7.52,
+    "gap_p90": -11.43,
+    "short_p90": true,
+    "lf_if_all_fly": 1.018
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "fy": "FY2028",
+    "rpk_p50": 693.0,
+    "flying_p50": 40.28,
+    "in_checks": 2,
+    "need_p10": 38.79,
+    "need_p50": 42.28,
+    "need_p90": 45.78,
+    "owned": 39,
+    "gap_p50": -3.28,
+    "gap_p90": -6.78,
+    "short_p90": true,
+    "lf_if_all_fly": 0.925
+   }
+  ],
+  "params": {
+   "seats": 166,
+   "stage_km": 770,
+   "lf_target": 0.85,
+   "sectors_per_day": 5.21,
+   "utilisation_multiplier": 1.0,
+   "ask_per_aircraft_month": 20.24,
+   "ask_per_aircraft_month_at_cap": 22.26,
+   "airframe_checks_by_month": {
+    "1": 3,
+    "2": 3,
+    "3": 1,
+    "4": 2,
+    "5": 1,
+    "6": 3,
+    "7": 2,
+    "8": 1,
+    "9": 2,
+    "10": 2,
+    "11": 3,
+    "12": 1
+   },
+   "aircraft_total": 39
+  },
+  "how": "要る機数 ＝ 需要（RPK）÷ 目標の搭乗率 ÷ 1 機が 1 か月に出せる座席キロ（座席 × 1 日の便数 × 稼働倍率 × 区間距離 × 日数）＋ 機体整備で止まる機"
+ },
+ "long_view": [
+  {
+   "fy": "FY2026",
+   "rpk_737_p50": 7490,
+   "need_p50": 38.3,
+   "fleet_after_exits": 39.0,
+   "gap": 0.7,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2027",
+   "rpk_737_p50": 7773,
+   "need_p50": 39.7,
+   "fleet_after_exits": 39.0,
+   "gap": -0.7,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2028",
+   "rpk_737_p50": 8067,
+   "need_p50": 41.1,
+   "fleet_after_exits": 33.0,
+   "gap": -8.1,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2029",
+   "rpk_737_p50": 8193,
+   "need_p50": 41.7,
+   "fleet_after_exits": 17.0,
+   "gap": -24.7,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2030",
+   "rpk_737_p50": 8199,
+   "need_p50": 41.7,
+   "fleet_after_exits": 10.5,
+   "gap": -31.2,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2031",
+   "rpk_737_p50": 8085,
+   "need_p50": 41.2,
+   "fleet_after_exits": 4.5,
+   "gap": -36.7,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2032",
+   "rpk_737_p50": 8209,
+   "need_p50": 41.8,
+   "fleet_after_exits": 0.0,
+   "gap": -41.8,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2033",
+   "rpk_737_p50": 8336,
+   "need_p50": 42.4,
+   "fleet_after_exits": 0.0,
+   "gap": -42.4,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2034",
+   "rpk_737_p50": 8464,
+   "need_p50": 43.0,
+   "fleet_after_exits": 0.0,
+   "gap": -43.0,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2035",
+   "rpk_737_p50": 8594,
+   "need_p50": 43.6,
+   "fleet_after_exits": 0.0,
+   "gap": -43.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2036",
+   "rpk_737_p50": 8727,
+   "need_p50": 44.3,
+   "fleet_after_exits": 0.0,
+   "gap": -44.3,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2037",
+   "rpk_737_p50": 8861,
+   "need_p50": 44.9,
+   "fleet_after_exits": 0.0,
+   "gap": -44.9,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2038",
+   "rpk_737_p50": 8998,
+   "need_p50": 45.6,
+   "fleet_after_exits": 0.0,
+   "gap": -45.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2039",
+   "rpk_737_p50": 9136,
+   "need_p50": 46.3,
+   "fleet_after_exits": 0.0,
+   "gap": -46.3,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2040",
+   "rpk_737_p50": 9277,
+   "need_p50": 46.9,
+   "fleet_after_exits": 0.0,
+   "gap": -46.9,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2041",
+   "rpk_737_p50": 9420,
+   "need_p50": 47.6,
+   "fleet_after_exits": 0.0,
+   "gap": -47.6,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2042",
+   "rpk_737_p50": 9565,
+   "need_p50": 48.3,
+   "fleet_after_exits": 0.0,
+   "gap": -48.3,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2043",
+   "rpk_737_p50": 9712,
+   "need_p50": 49.0,
+   "fleet_after_exits": 0.0,
+   "gap": -49.0,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2044",
+   "rpk_737_p50": 9862,
+   "need_p50": 49.8,
+   "fleet_after_exits": 0.0,
+   "gap": -49.8,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  },
+  {
+   "fy": "FY2045",
+   "rpk_737_p50": 10014,
+   "need_p50": 50.5,
+   "fleet_after_exits": 0.0,
+   "gap": -50.5,
+   "note": "退役後の機数は退役までの入場列（runout）の退役エンジン数 ÷ 2。置き換え機は含まない"
+  }
+ ],
+ "engines": {
+  "rows": [
+   {
+    "t": 0,
+    "label": "2026-10",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 78
+   },
+   {
+    "t": 1,
+    "label": "2026-11",
+    "installed_p50": 76,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 79,
+    "owned": 86,
+    "headroom_p50": 7,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 74
+   },
+   {
+    "t": 2,
+    "label": "2026-12",
+    "installed_p50": 72,
+    "installed_p90": 76,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 75,
+    "owned": 86,
+    "headroom_p50": 11,
+    "headroom_p90": 7,
+    "required_positions_in_plan": 74
+   },
+   {
+    "t": 3,
+    "label": "2027-01",
+    "installed_p50": 68,
+    "installed_p90": 74,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 71,
+    "owned": 86,
+    "headroom_p50": 15,
+    "headroom_p90": 9,
+    "required_positions_in_plan": 66
+   },
+   {
+    "t": 4,
+    "label": "2027-02",
+    "installed_p50": 70,
+    "installed_p90": 74,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 73,
+    "owned": 86,
+    "headroom_p50": 13,
+    "headroom_p90": 9,
+    "required_positions_in_plan": 66
+   },
+   {
+    "t": 5,
+    "label": "2027-03",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 78
+   },
+   {
+    "t": 6,
+    "label": "2027-04",
+    "installed_p50": 68,
+    "installed_p90": 74,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 71,
+    "owned": 86,
+    "headroom_p50": 15,
+    "headroom_p90": 9,
+    "required_positions_in_plan": 68
+   },
+   {
+    "t": 7,
+    "label": "2027-05",
+    "installed_p50": 74,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 77,
+    "owned": 86,
+    "headroom_p50": 9,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 76
+   },
+   {
+    "t": 8,
+    "label": "2027-06",
+    "installed_p50": 70,
+    "installed_p90": 74,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 73,
+    "owned": 86,
+    "headroom_p50": 13,
+    "headroom_p90": 9,
+    "required_positions_in_plan": 66
+   },
+   {
+    "t": 9,
+    "label": "2027-07",
+    "installed_p50": 76,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 79,
+    "owned": 86,
+    "headroom_p50": 7,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 74
+   },
+   {
+    "t": 10,
+    "label": "2027-08",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 78
+   },
+   {
+    "t": 11,
+    "label": "2027-09",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 76
+   },
+   {
+    "t": 12,
+    "label": "2027-10",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 78
+   },
+   {
+    "t": 13,
+    "label": "2027-11",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 74
+   },
+   {
+    "t": 14,
+    "label": "2027-12",
+    "installed_p50": 74,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 77,
+    "owned": 86,
+    "headroom_p50": 9,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 74
+   },
+   {
+    "t": 15,
+    "label": "2028-01",
+    "installed_p50": 72,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 75,
+    "owned": 86,
+    "headroom_p50": 11,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 66
+   },
+   {
+    "t": 16,
+    "label": "2028-02",
+    "installed_p50": 72,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 75,
+    "owned": 86,
+    "headroom_p50": 11,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 66
+   },
+   {
+    "t": 17,
+    "label": "2028-03",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 78
+   },
+   {
+    "t": 18,
+    "label": "2028-04",
+    "installed_p50": 72,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 75,
+    "owned": 86,
+    "headroom_p50": 11,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 68
+   },
+   {
+    "t": 19,
+    "label": "2028-05",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 76
+   },
+   {
+    "t": 20,
+    "label": "2028-06",
+    "installed_p50": 72,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 75,
+    "owned": 86,
+    "headroom_p50": 11,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 66
+   },
+   {
+    "t": 21,
+    "label": "2028-07",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 74
+   },
+   {
+    "t": 22,
+    "label": "2028-08",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 78
+   },
+   {
+    "t": 23,
+    "label": "2028-09",
+    "installed_p50": 78,
+    "installed_p90": 78,
+    "spares_buffer": 3,
+    "spares_short_lease": 0,
+    "need_total_p50": 81,
+    "owned": 86,
+    "headroom_p50": 5,
+    "headroom_p90": 5,
+    "required_positions_in_plan": 76
+   }
+  ],
+  "owned": 86,
+  "installed_now": 78,
+  "spares_buffer": 3,
+  "spares_short_lease": 0,
+  "worst": {
+   "label": "2026-10",
+   "headroom_p90": 5,
+   "headroom_p50": 5
+  },
+  "how": "要るエンジン ＝ 飛ぶ機数 × 2 ＋ 予備（計画の緩衝 ＋ 不足の見張りが求めた短期リース）。持っているのは所有エンジン数。計画側の必要基数（required_positions）を横に並べて突き合わせる"
+ },
+ "engine_flying": {
+  "cycles_per_aircraft_month": 158.5,
+  "utilisation_multiplier": 1.0,
+  "windows": {
+   "due_now": 24,
+   "due_new": 24,
+   "earlier": 0,
+   "newly_due": 0,
+   "mean_shift_months": 0.0
+  },
+  "norms": {
+   "spend_per_year_k": 95526.67,
+   "visits_per_year": 9.93
+  }
+ },
+ "levers": {
+  "short_months": [
+   {
+    "label": "2026-10",
+    "short_aircraft_p90": 4.54,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.7,
+      "cost_k": 686,
+      "engine_effect": "エンジン・サイクル +586（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.84,
+      "cost_k": 714,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 4.54,
+      "cost_k": 7462,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2026-11",
+    "short_aircraft_p90": 3.65,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.6,
+      "cost_k": 667,
+      "engine_effect": "エンジン・サイクル +570（入場の前倒し 0.03 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.05,
+      "cost_k": 42,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 3.65,
+      "cost_k": 5999,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-01",
+    "short_aircraft_p90": 0.09,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 0.09,
+      "cost_k": 17,
+      "engine_effect": "エンジン・サイクル +14（入場の前倒し 0.00 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 0.09,
+      "cost_k": 148,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-02",
+    "short_aircraft_p90": 0.34,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 0.34,
+      "cost_k": 63,
+      "engine_effect": "エンジン・サイクル +54（入場の前倒し 0.00 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 0.34,
+      "cost_k": 559,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-03",
+    "short_aircraft_p90": 5.09,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.8,
+      "cost_k": 704,
+      "engine_effect": "エンジン・サイクル +602（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 1.29,
+      "cost_k": 1096,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 5.09,
+      "cost_k": 8366,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-05",
+    "short_aircraft_p90": 1.59,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 1.59,
+      "cost_k": 295,
+      "engine_effect": "エンジン・サイクル +252（入場の前倒し 0.02 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 1.59,
+      "cost_k": 2613,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-06",
+    "short_aircraft_p90": 0.49,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 0.49,
+      "cost_k": 91,
+      "engine_effect": "エンジン・サイクル +78（入場の前倒し 0.00 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 0.49,
+      "cost_k": 805,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-07",
+    "short_aircraft_p90": 3.61,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.61,
+      "cost_k": 669,
+      "engine_effect": "エンジン・サイクル +572（入場の前倒し 0.03 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 3.61,
+      "cost_k": 5934,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-08",
+    "short_aircraft_p90": 9.13,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.8,
+      "cost_k": 704,
+      "engine_effect": "エンジン・サイクル +602（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 5.33,
+      "cost_k": 4530,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 9.13,
+      "cost_k": 15007,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-09",
+    "short_aircraft_p90": 4.76,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.7,
+      "cost_k": 686,
+      "engine_effect": "エンジン・サイクル +586（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 1.06,
+      "cost_k": 901,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 4.76,
+      "cost_k": 7824,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-10",
+    "short_aircraft_p90": 7.16,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.7,
+      "cost_k": 686,
+      "engine_effect": "エンジン・サイクル +586（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 3.46,
+      "cost_k": 2941,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 7.16,
+      "cost_k": 11769,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-11",
+    "short_aircraft_p90": 5.9,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.6,
+      "cost_k": 667,
+      "engine_effect": "エンジン・サイクル +570（入場の前倒し 0.03 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 2.3,
+      "cost_k": 1955,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 5.9,
+      "cost_k": 9698,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2027-12",
+    "short_aircraft_p90": 1.74,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 1.74,
+      "cost_k": 322,
+      "engine_effect": "エンジン・サイクル +276（入場の前倒し 0.02 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 1.74,
+      "cost_k": 2860,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-01",
+    "short_aircraft_p90": 2.01,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 2.01,
+      "cost_k": 373,
+      "engine_effect": "エンジン・サイクル +319（入場の前倒し 0.02 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 2.01,
+      "cost_k": 875,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 2.01,
+      "cost_k": 3304,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-02",
+    "short_aircraft_p90": 2.24,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 2.24,
+      "cost_k": 415,
+      "engine_effect": "エンジン・サイクル +355（入場の前倒し 0.02 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 2.24,
+      "cost_k": 975,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 2.24,
+      "cost_k": 3682,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-03",
+    "short_aircraft_p90": 7.3,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.8,
+      "cost_k": 704,
+      "engine_effect": "エンジン・サイクル +602（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 3.5,
+      "cost_k": 2975,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 6.0,
+      "cost_k": 2612,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 7.3,
+      "cost_k": 11999,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-04",
+    "short_aircraft_p90": 1.04,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 1.04,
+      "cost_k": 193,
+      "engine_effect": "エンジン・サイクル +165（入場の前倒し 0.01 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 1.04,
+      "cost_k": 453,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 1.04,
+      "cost_k": 1709,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-05",
+    "short_aircraft_p90": 3.57,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.57,
+      "cost_k": 662,
+      "engine_effect": "エンジン・サイクル +566（入場の前倒し 0.03 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 3.57,
+      "cost_k": 1554,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 3.57,
+      "cost_k": 5868,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-06",
+    "short_aircraft_p90": 2.3,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 2.3,
+      "cost_k": 426,
+      "engine_effect": "エンジン・サイクル +364（入場の前倒し 0.02 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 2.3,
+      "cost_k": 1001,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 2.3,
+      "cost_k": 3780,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-07",
+    "short_aircraft_p90": 5.6,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.7,
+      "cost_k": 686,
+      "engine_effect": "エンジン・サイクル +586（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 1.9,
+      "cost_k": 1615,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 5.6,
+      "cost_k": 2438,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 5.6,
+      "cost_k": 9205,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-08",
+    "short_aircraft_p90": 11.43,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.8,
+      "cost_k": 704,
+      "engine_effect": "エンジン・サイクル +602（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 7.63,
+      "cost_k": 6485,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 6.0,
+      "cost_k": 2612,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 11.43,
+      "cost_k": 18787,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   },
+   {
+    "label": "2028-09",
+    "short_aircraft_p90": 6.78,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.7,
+      "cost_k": 686,
+      "engine_effect": "エンジン・サイクル +586（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 3.08,
+      "cost_k": 2618,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 6.0,
+      "cost_k": 2612,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 6.78,
+      "cost_k": 11144,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   }
+  ],
+  "long_months": [
+   {
+    "label": "2026-12",
+    "idle_aircraft_p50": 2.51,
+    "carrying_cost_k": 628
+   },
+   {
+    "label": "2027-01",
+    "idle_aircraft_p50": 2.09,
+    "carrying_cost_k": 522
+   },
+   {
+    "label": "2027-02",
+    "idle_aircraft_p50": 1.91,
+    "carrying_cost_k": 478
+   },
+   {
+    "label": "2027-04",
+    "idle_aircraft_p50": 3.14,
+    "carrying_cost_k": 785
+   },
+   {
+    "label": "2027-05",
+    "idle_aircraft_p50": 1.03,
+    "carrying_cost_k": 258
+   },
+   {
+    "label": "2027-06",
+    "idle_aircraft_p50": 1.97,
+    "carrying_cost_k": 492
+   },
+   {
+    "label": "2027-12",
+    "idle_aircraft_p50": 1.17,
+    "carrying_cost_k": 292
+   },
+   {
+    "label": "2028-04",
+    "idle_aircraft_p50": 1.86,
+    "carrying_cost_k": 465
+   }
+  ],
+  "params": {
+   "usd_jpy": 157.0,
+   "wet_lease_k_per_ac_month": 850.0,
+   "dry_lease_k_per_ac_month": 250.0,
+   "maintenance_k_per_cycle_both_engines": 1.17,
+   "revenue_k_per_aircraft_month": 1644,
+   "run_cycles": 16446,
+   "cost_per_visit_k": 9617
+  },
+  "note": "足りない月（p90）の打ち手を、費用（k$）とエンジン側への影響で同じ表に。余る月は遊ぶ機の維持費。単価は仮定（no_source）"
+ },
+ "planning_season": {
+  "as_of": "4 月（年度の始まり）に需要の見込みから計画を固める時点の数字",
+  "fiscal_years": {
+   "FY2026": {
+    "months": 6,
+    "need_p50_max": 41.51,
+    "need_p90_max": 44.09,
+    "owned": 39,
+    "short_months_p90": [
+     "2026-10",
+     "2026-11",
+     "2027-01",
+     "2027-02",
+     "2027-03"
+    ],
+    "avg_gap_p50": 0.03
+   },
+   "FY2027": {
+    "months": 12,
+    "need_p50_max": 44.86,
+    "need_p90_max": 48.13,
+    "owned": 39,
+    "short_months_p90": [
+     "2027-05",
+     "2027-06",
+     "2027-07",
+     "2027-08",
+     "2027-09",
+     "2027-10",
+     "2027-11",
+     "2027-12",
+     "2028-01",
+     "2028-02",
+     "2028-03"
+    ],
+    "avg_gap_p50": -0.88
+   },
+   "FY2028": {
+    "months": 6,
+    "need_p50_max": 46.52,
+    "need_p90_max": 50.43,
+    "owned": 39,
+    "short_months_p90": [
+     "2028-04",
+     "2028-05",
+     "2028-06",
+     "2028-07",
+     "2028-08",
+     "2028-09"
+    ],
+    "avg_gap_p50": -1.81
+   }
+  },
+  "maintenance": {
+   "spend_per_year_k": 95527,
+   "spend_per_year_oku_yen": 150.0,
+   "demand_growth": 0.0378,
+   "added_by_growth_k": 3611,
+   "added_by_growth_oku_yen": 5.7,
+   "how": "平年の整備費 × 需要の伸び（入場も費用もエンジン・サイクルに比例、plan_from_demand の按分）"
+  },
+  "peak_month": {
+   "label": "2027-08",
+   "lf_if_all_fly": 0.981,
+   "need_p50": 44.86,
+   "need_p90": 48.13,
+   "owned": 39,
+   "engines_headroom_p50": 5,
+   "engines_headroom_p90": 5,
+   "engines_short_p90": 0,
+   "adding_flights": {
+    "add_aircraft": 0,
+    "revenue_oku_yen": 0.0,
+    "binding": "エンジン"
+   },
+   "levers": {
+    "label": "2027-08",
+    "short_aircraft_p90": 9.13,
+    "levers": [
+     {
+      "lever": "1 機あたりの飛び方を増やす",
+      "aircraft": 3.8,
+      "cost_k": 704,
+      "engine_effect": "エンジン・サイクル +602（入場の前倒し 0.04 件分）",
+      "limit": "稼働の上限 ×1.1"
+     },
+     {
+      "lever": "機体を短期で借りる（ウェットリース）",
+      "aircraft": 5.33,
+      "cost_k": 4530,
+      "engine_effect": "自社エンジンに影響なし（借りた機のエンジンは貸し手）",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "退役を遅らせる",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "晩年のエンジンの入場が 1 回増える可能性（型式の時計）",
+      "limit": "その年に退役する機（runout の退役エンジン ÷ 2）まで"
+     },
+     {
+      "lever": "見送る（乗せられない需要）",
+      "aircraft": 9.13,
+      "cost_k": 15007,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の座席キロ × 搭乗率 0.85 × 単価 15.0 円"
+     }
+    ]
+   }
+  },
+  "note": "連載の数字（搭乗率 93%、エンジン 1.4 基不足、増便の損得 −4.2 億円）はこの計算の peak_month と突き合わせる。食い違えばこちらに合わせる"
+ },
+ "consistency": {
+  "share_737_800": 0.28,
+  "share_source": "no_source: 737-800 39 機が国内線 ASK に占める割合の仮定（C）",
+  "peak_lf_if_all_fly": 1.018,
+  "peak_label": "2028-08",
+  "fits_fleet": false,
+  "share_that_fits": 0.234,
+  "verdict": "不整合：全機が飛んでも搭乗率 102% が要る。737 のシェア 0.28 は機材 39 機に対して大きすぎる。目標搭乗率で整合するシェアは 0.234。連載ではシェアを仮定として明示し、こちらの値を検討"
+ },
+ "derived": {
+  "demand_growth_per_year": 0.0378,
+  "demand_growth_long_run": 0.0154,
+  "utilisation_multiplier": 1.0
+ },
+ "assumptions": {
+  "lf_target": "no_source: 利用率がこの水準を超える月は満席便が多く、乗せられなかった需要（スピル）が出ていると見なす（C）",
+  "share_737_800": "no_source: 737-800 39 機が国内線 ASK に占める割合の仮定（C）",
+  "band": "no_source: 10〜90% の幅は既知月の残差の標準偏差 ＋ 年 2% × √(年数) を z=1.28 倍",
+  "wet_lease": "no_source: 850 k$/機・月",
+  "dry_lease": "no_source: 250 k$/機・月",
+  "usd_jpy": "157.0（連載の換算に合わせる）",
+  "missing_months": "既知でない月（JAL 2025-09〜12）は市場の季節指数 × シェアで補う"
+ },
+ "note": "需要 → 何機 → 何基。要る機数は p10/p50/p90、機数の判定は p90、費用は p50。数値はすべて合成データ"
+}

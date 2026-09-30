@@ -29,6 +29,7 @@ for co in jal ana; do
   log "demand $co"; python3 demand.py $co --runout "$OUT/runout/$co.json" --out "$OUT/demand/$co.json"
   python3 plan_from_demand.py $co --out "$OUT/demand/$co-plan.json" --scenarios 40 --time-limit 90
   python3 growth_plan.py $co --demand "$OUT/demand/$co.json" --runout "$OUT/runout/$co.json" --out "$OUT/growth/$co.json"
+  python3 fleet_from_demand.py $co --runout "$OUT/runout/$co.json" --shortage "$OUT/shortage/$co.json" --growth "$OUT/growth/$co.json" --out "$OUT/fleet/$co.json"
   log "backtest $co"; python3 backtest.py $co --out "$OUT/backtest/$co.json"
   log "purchase $co"; python3 purchase_loop.py $co --track "$OUT/track/$co-track-crunch.json" --from-shortage "$OUT/shortage/$co.json" --out "$OUT/purchase/$co.json"
   log "playbook $co"; python3 playbook.py $co --track "$OUT/track/$co-track-crunch.json" --out "$OUT/playbook/$co.json"
@@ -36,7 +37,7 @@ for co in jal ana; do
   python3 topics.py $co --review "$OUT/review/$co.json" --playbook "$OUT/playbook/$co.json" --track "$OUT/track/$co-track-crunch.json" --out "$OUT/topics/$co.json" ${REVIEW_NO_AI:+--no-ai}
 done
 cp "$OUT/runout/"*.json runout/ 2>/dev/null || true; cp "$OUT/review/"*.json review/ 2>/dev/null || true; cp "$OUT/demand/"*.json demand/ 2>/dev/null || true; cp "$OUT/backtest/"*.json backtest/ 2>/dev/null || true; cp "$OUT/playbook/"*.json playbook/ 2>/dev/null || true; cp "$OUT/topics/"*.json topics/ 2>/dev/null || true; cp "$OUT/growth/"*.json growth/ 2>/dev/null || true; cp "$OUT/shortage/"*.json shortage/ 2>/dev/null || true; cp "$OUT/purchase/"*.json purchase/ 2>/dev/null || true
-cp "$OUT/multi/"*.json multi/ 2>/dev/null || true
+cp "$OUT/multi/"*.json multi/ 2>/dev/null || true; cp "$OUT/fleet/"*.json fleet/ 2>/dev/null || true
 log "reports"
 python3 build_report.py --deltas-dir "$OUT/deltas" --invest "$OUT/invest.json" --history-dir "$OUT/hist" --roll-dir "$OUT/roll" --runout-dir "$OUT/runout" --review-dir "$OUT/review" --demand-dir "$OUT/demand" --backtest-dir "$OUT/backtest" --html-out "$OUT/report.html"
 python3 build_monthly.py --html-out "$OUT/monthly.html"
