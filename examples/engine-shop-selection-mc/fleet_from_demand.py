@@ -261,7 +261,7 @@ def month_table(start: str, months: int) -> list[dict]:
 
 
 def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: dict, eng: dict, growth: dict | None, derived: dict, norms: dict) -> dict:
-    """The trunk routes planned by pattern, the rest of the fleet coarsely by seat-km, and the
+    """The trunk routes planned by pattern (the 737's share only; widebodies carry the rest), the regional network by seat-km, and the
     two reconciled: the whole company's need is the trunk's need plus the others', the cycles
     the engines fly come from the patterns, and the July decision is priced month by month."""
     checks = {int(k): v for k, v in cfg["aircraft"]["airframe_checks"].items()}
@@ -271,33 +271,23 @@ def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: di
     n_trunk = trunk["trunk_aircraft"]; n_others = total - n_trunk
     km = {r["id"]: r["km"] for r in trunk["routes"]}
     P = ac["params"]; lf_t = P["lf_target"]
-    # the other routes: the 28 aircraft outside the trunk are not idle. They fly the regional network
-    # at the company's seasonal shape, fully used at the year's peak month (fleets are sized to the
-    # peak); the residual "company 737 RPK minus trunk" is also kept, because the 737 share (no_source)
-    # under-states the demand once the trunk's passengers are all put on the 737.
-    idx = {c["month"]: c["demand_index"] for c in demand_mod.market_view(D)["seasonal"]}
-    peak_idx = max(idx.values())
+    # the regional network: the company's 737 RPK minus what the 737 flies on the trunk, by seat-km
     others = []
     for b, d, a in zip(rpk, trunk["demand"], ac["rows"]):
         trunk_rpk = sum(v["p50"] * km[r] for r, v in d["routes"].items()) * 1e3 / 1e6
         rest = max(0.0, b["p50"] - trunk_rpk)
         m = int(b["label"][5:])
-        need_res = rest / lf_t / P["ask_per_aircraft_month"] + checks[m] * n_others / total
-        flying = (n_others - checks[m] * n_others / total) * idx[m] / peak_idx * b["trend"] / rpk[0]["trend"]
-        need = flying + checks[m] * n_others / total
-        others.append({"t": b["t"], "label": b["label"], "rpk_trunk_p50": round(trunk_rpk, 1), "rpk_others_p50": round(flying * P["ask_per_aircraft_month"] * lf_t, 1),
-                       "need_p50": round(need, 1), "fleet": n_others, "slack_p50": round(n_others - need, 1),
-                       "residual": {"rpk_others_p50": round(rest, 1), "need_p50": round(need_res, 1), "trunk_share_of_737_rpk": round(trunk_rpk / b["p50"], 3)}})
-    implied_rpk = [o["rpk_trunk_p50"] + o["rpk_others_p50"] for o in others]
-    implied_share = round(D["companies"][cid]["share_737_800_of_domestic_ask"] * sum(implied_rpk) / sum(b["p50"] for b in rpk), 3)
+        c_share = checks[m] * n_others / total
+        need = rest / lf_t / P["ask_per_aircraft_month"] + c_share
+        others.append({"t": b["t"], "label": b["label"], "rpk_trunk_737_p50": round(trunk_rpk, 1), "rpk_regional_p50": round(rest, 1), "trunk_share_of_737_rpk": round(trunk_rpk / b["p50"], 3),
+                       "need_p50": round(need, 1), "fleet": n_others, "slack_p50": round(n_others - need, 1), "lf_if_all_fly": round(rest / ((n_others - c_share) * P["ask_per_aircraft_month"]), 3) if n_others > c_share else None})
     slack = {o["t"]: o["slack_p50"] for o in others}
     gp = (growth or {}).get("params", {})
     lv = rf.levers(trunk, slack, D, cid, norms, gp)
     # reconciliation: trunk need + others need vs the seat-km whole
     recon = {"rows": [{"t": r["t"], "label": r["label"], "trunk_need_p50": r["need_p50"], "others_need_p50": o["need_p50"], "sum_p50": round(r["need_p50"] + o["need_p50"], 1),
                        "whole_by_seat_km_p50": a["need_p50"], "fleet": total} for r, o, a in zip(trunk["rows"], others, ac["rows"])],
-             "implied_share_737_800": implied_share,
-             "note": "その他の路線の 28 機は遊んでいない：会社の季節の形で飛び、繁忙月には全機が使われるとして置く（機材は繁忙期に合わせて持つ）。幹線 ＋ その他 の需要から逆算した 737 のシェアが implied_share_737_800（no_source の 0.33 より大きい）。会社の需要から幹線分を引いた残り（residual）は参考に残す。幹線が足りない月に回せるのは、その他の路線の余り（繁忙月以外）だけ"}
+             "note": "737 ＝ 幹線の 737 分（パターンで数える）＋ 地方路線（会社の 737 の需要から幹線の 737 分を引いた残り、座席キロで数える）。幹線の旅客の大半は大型機が運ぶので、737 の幹線の機数は少なく、多くは地方路線を飛ぶ。幹線が足りない月に回せるのは地方路線の余りだけ"}
     # the cycles the engines fly: trunk on its patterns, others at the company average
     sectors_day = P["sectors_per_day"]
     blended = (n_trunk * trunk["cycles_per_aircraft_day_trunk"] + n_others * sectors_day) / total
@@ -319,10 +309,15 @@ def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: di
             t = next(r["t"] for r in trunk["rows"] if r["label"] == m["label"])
             give = min(m["borrow_aircraft"], max(0, math.floor(slack.get(t, 0.0))))
             rest = m["borrow_aircraft"] - give
-            rows.append({"label": m["label"], "short_aircraft": m["borrow_aircraft"], "from_others": give, "borrow": rest,
-                         "lease_cost_oku": round(rest * rf.WET_LEASE_K_PER_AC_MONTH * USD_JPY / 1e5, 2)})
+            pays = m["decision"] == "借りる"
+            frac = rest / m["borrow_aircraft"] if m["borrow_aircraft"] else 0.0
+            rows.append({"label": m["label"], "short_aircraft": m["borrow_aircraft"], "from_others": give, "borrow": rest if pays else 0, "spill_aircraft": 0 if pays else rest,
+                         "lease_cost_oku": round(rest * rf.WET_LEASE_K_PER_AC_MONTH * USD_JPY / 1e5, 2) if pays else 0.0,
+                         "lost_revenue_oku": 0.0 if pays else round(m["lost_if_not_oku"] * frac, 2)})
         return {"months": rows, "aircraft_months_from_others": sum(x["from_others"] for x in rows), "aircraft_months_borrowed": sum(x["borrow"] for x in rows),
-                "lease_cost_oku": round(sum(x["lease_cost_oku"] for x in rows), 2), "note": "その他の路線の余り（p50）から先に回し、足りない分だけ借りる"}
+                "aircraft_months_spilled": sum(x["spill_aircraft"] for x in rows), "lease_cost_oku": round(sum(x["lease_cost_oku"] for x in rows), 2),
+                "lost_revenue_oku": round(sum(x["lost_revenue_oku"] for x in rows), 2),
+                "note": "地方路線の余り（p50）から先に回す。残りは、借りて元が取れる月だけ借り、取れない月は見送る（失う収入は回せなかった分の按分、下限）"}
     def tally(dec):
         b = [m for m in dec["months"] if m["decision"] == "借りる"]
         return {"aircraft_months_borrowed": sum(m["borrow_aircraft"] for m in b), "lease_cost_oku": round(sum(m["lease_cost_oku"] for m in b), 2),

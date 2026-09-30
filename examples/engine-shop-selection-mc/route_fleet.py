@@ -9,7 +9,8 @@ normalised so the whole follows the market's seasonal index) and six patterns.
 
 For each month and each demand quantile the smallest number of aircraft that carries every
 route's passengers at the target load factor is a small integer programme over the patterns
-(PuLP + HiGHS). The yearly version's fixed assignment (5/6/5/4/4/4 = 28 for jal) is scored
+(PuLP + HiGHS). The 737 carries only its share of each trunk route (the widebodies carry the rest, up to their
+L/F cap). The yearly version's assignment (the smallest mix for the first 12 months) is scored
 against the same demand: load factor per route, spilled passengers, aircraft usable after
 airframe checks and engine waits (engine swaps and spares are at the hub only, so an aircraft
 waiting for an engine sits at HND). Levers for a short month: move aircraft in from the other
@@ -67,23 +68,35 @@ def pattern_table(R: dict) -> list[dict]:
 
 
 def route_demand(R: dict, D: dict, cid: str, band: list[dict]) -> list[dict]:
-    """Passengers per route per month, both directions, p10/p50/p90. The route's seasonal deviation
-    is normalised each month so the passenger-weighted whole equals the market's seasonal index;
-    the trend and the band's relative width come from the company-level demand band."""
+    """Passengers per route per month, both directions, p10/p50/p90, split by aircraft type.
+    The route's seasonal deviation is normalised each month so the passenger-weighted whole equals
+    the market's seasonal index; the trend and the band's relative width come from the company-level
+    band. The widebodies (A350, 767, 787) carry the route's non-737 share; their seats are fixed over
+    the year (sized at the base L/F), so in a busy month their L/F rises to the cap and the overflow
+    moves to the 737. What the 737 must carry is the 737 share plus that overflow."""
     mv = demand_mod.market_view(D)
     idx = {c["month"]: c["demand_index"] for c in mv["seasonal"]}
     scale = R["companies"][cid]["scale"]
+    lf_base, lf_cap = R["wide_lf_base"], R["wide_lf_cap"]
     w = {r["id"]: r["pax_month_k"] for r in R["routes"]}
     W = sum(w.values())
     out = []
     for b in band:
         m = int(b["label"][5:])
         norm = sum(w[r["id"]] * r["season_dev"][m - 1] for r in R["routes"]) / W
-        rows = {}
+        rows, alls, wide = {}, {}, {}
         for r in R["routes"]:
-            base = r["pax_month_k"] * 2 * scale * idx[m] * r["season_dev"][m - 1] / norm * b["trend"]   # thousand pax, both directions
-            rows[r["id"]] = {"p10": round(base * b["p10"] / b["p50"], 1), "p50": round(base, 1), "p90": round(base * b["p90"] / b["p50"], 1)}
-        out.append({"t": b["t"], "label": b["label"], "fy": b["fy"], "routes": rows, "total_p50": round(sum(v["p50"] for v in rows.values()), 1)})
+            base = r["pax_month_k"] * 2 * scale
+            seats_wide = (1 - r["share_737"]) * base / lf_base                     # thousand seats a month, fixed
+            tot = base * idx[m] * r["season_dev"][m - 1] / norm * b["trend"]
+            q = {"p10": tot * b["p10"] / b["p50"], "p50": tot, "p90": tot * b["p90"] / b["p50"]}
+            carried = {k: min((1 - r["share_737"]) * v, seats_wide * lf_cap) for k, v in q.items()}
+            rows[r["id"]] = {k: round(q[k] - carried[k], 1) for k in q}
+            alls[r["id"]] = round(tot, 1)
+            wide[r["id"]] = {"seats_k": round(seats_wide, 1), "carried_p50_k": round(carried["p50"], 1), "lf_p50": round(carried["p50"] / seats_wide, 3) if seats_wide else None,
+                             "overflow_to_737_p50_k": round(max(0.0, (1 - r["share_737"]) * tot - carried["p50"]), 1)}
+        out.append({"t": b["t"], "label": b["label"], "fy": b["fy"], "routes": rows, "total_p50": round(sum(v["p50"] for v in rows.values()), 1),
+                    "all_types_p50": alls, "all_types_total_p50": round(sum(alls.values()), 1), "wide": wide})
     return out
 
 
@@ -120,11 +133,12 @@ def per_route(P: list[dict], xs: dict[str, int]) -> dict[str, float]:
     return {r: round(v, 2) for r, v in bh.items()}
 
 
-def score_assignment(P: list[dict], xs: dict[str, int], need_pax: dict[str, float], seats: int, lf_t: float) -> dict:
-    """The fixed assignment against the month's demand: L/F and spill per route."""
+def score_assignment(P: list[dict], xs: dict[str, int], need_pax: dict[str, float], seats: int, lf_t: float, available: float = 1.0) -> dict:
+    """The fixed assignment against the month's demand: L/F and spill per route. `available` is the
+    share of the assigned aircraft that can fly (checks and engine waits take the rest pro rata)."""
     out = {}
     for r, pax in need_pax.items():
-        cap = sum(xs.get(p["id"], 0) * p["legs"].get(r, 0) for p in P) * seats * DAYS / 1e3
+        cap = sum(xs.get(p["id"], 0) * p["legs"].get(r, 0) for p in P) * seats * DAYS / 1e3 * available
         lf = pax / cap if cap else float("inf")
         out[r] = {"capacity_pax_k": round(cap, 1), "lf": round(lf, 3), "spill_pax_k": round(max(0.0, pax - cap * lf_t), 1)}
     return out
@@ -136,9 +150,13 @@ def build(cid: str, D: dict, band: list[dict], checks_by_month: dict[int, int], 
     C = D["companies"][cid]; lf_t = D["assumptions"]["lf_capacity_threshold"]
     seats, yld = C["seats_737_800"], C["yield_yen_per_rpk"]
     km = {r["id"]: r["km"] for r in R["routes"]}
-    assign = dict(zip((p["id"] for p in P), R["companies"][cid]["assignment"]))
-    n_trunk = sum(assign.values())
     dem = route_demand(R, D, cid, band)
+    # the yearly version: the smallest pattern mix that carries the first 12 months' average 737 demand
+    first = dem[:12]
+    avg = {r: sum(d["routes"][r]["p50"] for d in first) / len(first) for r in first[0]["routes"]}
+    version = min_aircraft(P, avg, seats, lf_t)
+    assign = version["by_pattern"]
+    n_trunk = sum(assign.values())
     rows = []
     for d in dem:
         m = int(d["label"][5:])
@@ -146,7 +164,7 @@ def build(cid: str, D: dict, band: list[dict], checks_by_month: dict[int, int], 
         checks = round(checks_by_month[m] * n_trunk / fleet_total, 1)             # the trunk's share of the airframe checks
         wait = (engine_wait_by_t or {}).get(d["t"], 0)
         usable = round(n_trunk - checks - wait, 1)
-        fixed = score_assignment(P, assign, {r: v["p50"] for r, v in d["routes"].items()}, seats, lf_t)
+        fixed = score_assignment(P, assign, {r: v["p50"] for r, v in d["routes"].items()}, seats, lf_t, available=math.floor(usable) / n_trunk)
         remix = min_aircraft(P, {r: v["p50"] for r, v in d["routes"].items()}, seats, lf_t, fixed_total=int(math.floor(usable)))
         spill_fixed = sum(v["spill_pax_k"] for v in fixed.values())
         spill_remix = sum(remix["spill_pax_k"].values())
@@ -160,14 +178,19 @@ def build(cid: str, D: dict, band: list[dict], checks_by_month: dict[int, int], 
                      "lost_revenue_fixed_oku": round(sum(v["spill_pax_k"] * km[r] * yld * 1e3 / 1e8 for r, v in fixed.items()), 2)})
     # cycles: the trunk's aircraft fly their patterns; the others fly the company average
     cyc_trunk_day = sum(assign[p["id"]] * p["cycles_per_day"] for p in P) / n_trunk
-    return {"routes": [{k: r[k] for k in ("id", "name", "pax_month_k", "block_h", "km")} for r in R["routes"]], "patterns": P, "assignment": assign,
+    demo = dict(zip((p["id"] for p in P), R["companies"][cid]["assignment_demo"]))
+    return {"routes": [{k: r[k] for k in ("id", "name", "pax_month_k", "block_h", "km", "share_737", "wide_types")} for r in R["routes"]], "patterns": P, "assignment": assign,
+            "assignment_how": "年次の版：最初の 12 か月の 737 の需要（平均・p50）を目標搭乗率で運べる最小のパターンの組み合わせ",
+            "assignment_demo": {"by_pattern": demo, "aircraft": sum(demo.values()), "note": "試作の割り当て（全旅客を 737 に載せた前提）。比較用"},
             "trunk_aircraft": n_trunk, "demand": dem, "rows": rows,
             "cycles_per_aircraft_day_trunk": round(cyc_trunk_day, 2), "hub": R["hub"],
             "how": {"need": "月ごと・分位ごとに、全航路の旅客を目標搭乗率で運べる最小の機数をパターン上の整数計画で解く（PuLP＋HiGHS）",
                     "usable": "割り当て − 機体整備で止まる機（幹線の按分）− エンジン待ち（羽田で止まる機）",
+                    "types": "幹線の旅客は大型機と 737 で分ける。737 が運ぶのは 737 の分担 ＋ 大型機が搭乗率の上限を超えてあふれた分",
                     "remix": "割り当て総数を変えずにパターンの組み合わせだけ変えて、乗せられない旅客を最小にする",
                     "attribution": "航路ごとの機数はパターンの機数を便数で按分"},
-            "assumptions": {"routes": "no_source: 旅客・飛行時間は航路ベースのデモの前提、季節の偏りとパターンは仮定", "day_cap_h": R["day_block_cap_h"], "turnaround_h": R["turnaround_h"],
+            "assumptions": {"routes": "no_source: 旅客・飛行時間は航路ベースのデモの前提、季節の偏り・パターン・737 の分担は仮定",
+                            "wide_lf": {"base": R["wide_lf_base"], "cap": R["wide_lf_cap"]}, "day_cap_h": R["day_block_cap_h"], "turnaround_h": R["turnaround_h"],
                             "engine_swaps": "エンジンの交換と予備は羽田だけ。エンジン待ちの機は羽田で止まる"}}
 
 
