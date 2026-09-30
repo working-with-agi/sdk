@@ -4,7 +4,7 @@
   "commit": false,
   "fixed": [],
   "linked": [
-    ["@working-with-agi/sdk", "@working-with-agi/react", "@working-with-agi/vue", "@working-with-agi/angular"]
+    ["@work-with-ai/sdk", "@work-with-ai/react", "@work-with-ai/vue", "@work-with-ai/angular"]
   ],
   "access": "public",
   "baseBranch": "main",
