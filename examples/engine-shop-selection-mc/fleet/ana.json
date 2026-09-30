@@ -4708,241 +4708,337 @@
     "t": 0,
     "label": "2026-10",
     "rpk_trunk_p50": 548.7,
-    "rpk_others_p50": 131.0,
-    "trunk_share_of_737_rpk": 0.807,
-    "need_p50": 8.6,
+    "rpk_others_p50": 288.2,
+    "need_p50": 17.7,
     "fleet": 19,
-    "slack_p50": 10.4
+    "slack_p50": 1.3,
+    "residual": {
+     "rpk_others_p50": 131.0,
+     "need_p50": 8.6,
+     "trunk_share_of_737_rpk": 0.807
+    }
    },
    {
     "t": 1,
     "label": "2026-11",
     "rpk_trunk_p50": 517.4,
-    "rpk_others_p50": 126.9,
-    "trunk_share_of_737_rpk": 0.803,
-    "need_p50": 8.8,
+    "rpk_others_p50": 265.7,
+    "need_p50": 16.9,
     "fleet": 19,
-    "slack_p50": 10.2
+    "slack_p50": 2.1,
+    "residual": {
+     "rpk_others_p50": 126.9,
+     "need_p50": 8.8,
+     "trunk_share_of_737_rpk": 0.803
+    }
    },
    {
     "t": 2,
     "label": "2026-12",
     "rpk_trunk_p50": 491.5,
-    "rpk_others_p50": 119.0,
-    "trunk_share_of_737_rpk": 0.805,
-    "need_p50": 7.4,
+    "rpk_others_p50": 265.8,
+    "need_p50": 15.9,
     "fleet": 19,
-    "slack_p50": 11.6
+    "slack_p50": 3.1,
+    "residual": {
+     "rpk_others_p50": 119.0,
+     "need_p50": 7.4,
+     "trunk_share_of_737_rpk": 0.805
+    }
    },
    {
     "t": 3,
     "label": "2027-01",
     "rpk_trunk_p50": 467.9,
-    "rpk_others_p50": 115.5,
-    "trunk_share_of_737_rpk": 0.802,
-    "need_p50": 8.2,
+    "rpk_others_p50": 240.6,
+    "need_p50": 15.4,
     "fleet": 19,
-    "slack_p50": 10.8
+    "slack_p50": 3.6,
+    "residual": {
+     "rpk_others_p50": 115.5,
+     "need_p50": 8.2,
+     "trunk_share_of_737_rpk": 0.802
+    }
    },
    {
     "t": 4,
     "label": "2027-02",
     "rpk_trunk_p50": 469.3,
-    "rpk_others_p50": 117.1,
-    "trunk_share_of_737_rpk": 0.8,
-    "need_p50": 8.3,
+    "rpk_others_p50": 241.9,
+    "need_p50": 15.5,
     "fleet": 19,
-    "slack_p50": 10.7
+    "slack_p50": 3.5,
+    "residual": {
+     "rpk_others_p50": 117.1,
+     "need_p50": 8.3,
+     "trunk_share_of_737_rpk": 0.8
+    }
    },
    {
     "t": 5,
     "label": "2027-03",
     "rpk_trunk_p50": 557.4,
-    "rpk_others_p50": 136.7,
-    "trunk_share_of_737_rpk": 0.803,
-    "need_p50": 8.4,
+    "rpk_others_p50": 302.2,
+    "need_p50": 18.1,
     "fleet": 19,
-    "slack_p50": 10.6
+    "slack_p50": 0.9,
+    "residual": {
+     "rpk_others_p50": 136.7,
+     "need_p50": 8.4,
+     "trunk_share_of_737_rpk": 0.803
+    }
    },
    {
     "t": 6,
     "label": "2027-04",
     "rpk_trunk_p50": 469.6,
-    "rpk_others_p50": 112.8,
-    "trunk_share_of_737_rpk": 0.806,
-    "need_p50": 7.5,
+    "rpk_others_p50": 246.9,
+    "need_p50": 15.3,
     "fleet": 19,
-    "slack_p50": 11.5
+    "slack_p50": 3.7,
+    "residual": {
+     "rpk_others_p50": 112.8,
+     "need_p50": 7.5,
+     "trunk_share_of_737_rpk": 0.806
+    }
    },
    {
     "t": 7,
     "label": "2027-05",
     "rpk_trunk_p50": 514.1,
-    "rpk_others_p50": 121.8,
-    "trunk_share_of_737_rpk": 0.809,
-    "need_p50": 7.6,
+    "rpk_others_p50": 276.9,
+    "need_p50": 16.6,
     "fleet": 19,
-    "slack_p50": 11.4
+    "slack_p50": 2.4,
+    "residual": {
+     "rpk_others_p50": 121.8,
+     "need_p50": 7.6,
+     "trunk_share_of_737_rpk": 0.809
+    }
    },
    {
     "t": 8,
     "label": "2027-06",
     "rpk_trunk_p50": 474.3,
-    "rpk_others_p50": 111.1,
-    "trunk_share_of_737_rpk": 0.81,
-    "need_p50": 7.9,
+    "rpk_others_p50": 241.5,
+    "need_p50": 15.5,
     "fleet": 19,
-    "slack_p50": 11.1
+    "slack_p50": 3.5,
+    "residual": {
+     "rpk_others_p50": 111.1,
+     "need_p50": 7.9,
+     "trunk_share_of_737_rpk": 0.81
+    }
    },
    {
     "t": 9,
     "label": "2027-07",
     "rpk_trunk_p50": 531.9,
-    "rpk_others_p50": 118.9,
-    "trunk_share_of_737_rpk": 0.817,
-    "need_p50": 7.9,
+    "rpk_others_p50": 275.9,
+    "need_p50": 17.0,
     "fleet": 19,
-    "slack_p50": 11.1
+    "slack_p50": 2.0,
+    "residual": {
+     "rpk_others_p50": 118.9,
+     "need_p50": 7.9,
+     "trunk_share_of_737_rpk": 0.817
+    }
    },
    {
     "t": 10,
     "label": "2027-08",
     "rpk_trunk_p50": 621.5,
-    "rpk_others_p50": 133.0,
-    "trunk_share_of_737_rpk": 0.824,
-    "need_p50": 8.2,
+    "rpk_others_p50": 328.5,
+    "need_p50": 19.6,
     "fleet": 19,
-    "slack_p50": 10.8
+    "slack_p50": -0.6,
+    "residual": {
+     "rpk_others_p50": 133.0,
+     "need_p50": 8.2,
+     "trunk_share_of_737_rpk": 0.824
+    }
    },
    {
     "t": 11,
     "label": "2027-09",
     "rpk_trunk_p50": 543.7,
-    "rpk_others_p50": 124.0,
-    "trunk_share_of_737_rpk": 0.814,
-    "need_p50": 8.2,
+    "rpk_others_p50": 283.1,
+    "need_p50": 17.4,
     "fleet": 19,
-    "slack_p50": 10.8
+    "slack_p50": 1.6,
+    "residual": {
+     "rpk_others_p50": 124.0,
+     "need_p50": 8.2,
+     "trunk_share_of_737_rpk": 0.814
+    }
    },
    {
     "t": 12,
     "label": "2027-10",
     "rpk_trunk_p50": 569.5,
-    "rpk_others_p50": 135.9,
-    "trunk_share_of_737_rpk": 0.807,
-    "need_p50": 8.9,
+    "rpk_others_p50": 299.0,
+    "need_p50": 18.4,
     "fleet": 19,
-    "slack_p50": 10.1
+    "slack_p50": 0.6,
+    "residual": {
+     "rpk_others_p50": 135.9,
+     "need_p50": 8.9,
+     "trunk_share_of_737_rpk": 0.807
+    }
    },
    {
     "t": 13,
     "label": "2027-11",
     "rpk_trunk_p50": 537.0,
-    "rpk_others_p50": 131.6,
-    "trunk_share_of_737_rpk": 0.803,
-    "need_p50": 9.1,
+    "rpk_others_p50": 275.8,
+    "need_p50": 17.5,
     "fleet": 19,
-    "slack_p50": 9.9
+    "slack_p50": 1.5,
+    "residual": {
+     "rpk_others_p50": 131.6,
+     "need_p50": 9.1,
+     "trunk_share_of_737_rpk": 0.803
+    }
    },
    {
     "t": 14,
     "label": "2027-12",
     "rpk_trunk_p50": 510.1,
-    "rpk_others_p50": 123.4,
-    "trunk_share_of_737_rpk": 0.805,
-    "need_p50": 7.7,
+    "rpk_others_p50": 275.8,
+    "need_p50": 16.5,
     "fleet": 19,
-    "slack_p50": 11.3
+    "slack_p50": 2.5,
+    "residual": {
+     "rpk_others_p50": 123.4,
+     "need_p50": 7.7,
+     "trunk_share_of_737_rpk": 0.805
+    }
    },
    {
     "t": 15,
     "label": "2028-01",
     "rpk_trunk_p50": 485.5,
-    "rpk_others_p50": 119.9,
-    "trunk_share_of_737_rpk": 0.802,
-    "need_p50": 8.4,
+    "rpk_others_p50": 249.7,
+    "need_p50": 16.0,
     "fleet": 19,
-    "slack_p50": 10.6
+    "slack_p50": 3.0,
+    "residual": {
+     "rpk_others_p50": 119.9,
+     "need_p50": 8.4,
+     "trunk_share_of_737_rpk": 0.802
+    }
    },
    {
     "t": 16,
     "label": "2028-02",
     "rpk_trunk_p50": 487.0,
-    "rpk_others_p50": 121.6,
-    "trunk_share_of_737_rpk": 0.8,
-    "need_p50": 8.5,
+    "rpk_others_p50": 251.0,
+    "need_p50": 16.1,
     "fleet": 19,
-    "slack_p50": 10.5
+    "slack_p50": 2.9,
+    "residual": {
+     "rpk_others_p50": 121.6,
+     "need_p50": 8.5,
+     "trunk_share_of_737_rpk": 0.8
+    }
    },
    {
     "t": 17,
     "label": "2028-03",
     "rpk_trunk_p50": 578.5,
-    "rpk_others_p50": 141.9,
-    "trunk_share_of_737_rpk": 0.803,
-    "need_p50": 8.7,
+    "rpk_others_p50": 313.6,
+    "need_p50": 18.7,
     "fleet": 19,
-    "slack_p50": 10.3
+    "slack_p50": 0.3,
+    "residual": {
+     "rpk_others_p50": 141.9,
+     "need_p50": 8.7,
+     "trunk_share_of_737_rpk": 0.803
+    }
    },
    {
     "t": 18,
     "label": "2028-04",
     "rpk_trunk_p50": 487.4,
-    "rpk_others_p50": 117.1,
-    "trunk_share_of_737_rpk": 0.806,
-    "need_p50": 7.8,
+    "rpk_others_p50": 256.2,
+    "need_p50": 15.9,
     "fleet": 19,
-    "slack_p50": 11.2
+    "slack_p50": 3.1,
+    "residual": {
+     "rpk_others_p50": 117.1,
+     "need_p50": 7.8,
+     "trunk_share_of_737_rpk": 0.806
+    }
    },
    {
     "t": 19,
     "label": "2028-05",
     "rpk_trunk_p50": 533.7,
-    "rpk_others_p50": 126.3,
-    "trunk_share_of_737_rpk": 0.809,
-    "need_p50": 7.8,
+    "rpk_others_p50": 287.3,
+    "need_p50": 17.2,
     "fleet": 19,
-    "slack_p50": 11.2
+    "slack_p50": 1.8,
+    "residual": {
+     "rpk_others_p50": 126.3,
+     "need_p50": 7.8,
+     "trunk_share_of_737_rpk": 0.809
+    }
    },
    {
     "t": 20,
     "label": "2028-06",
     "rpk_trunk_p50": 492.1,
-    "rpk_others_p50": 115.4,
-    "trunk_share_of_737_rpk": 0.81,
-    "need_p50": 8.2,
+    "rpk_others_p50": 250.6,
+    "need_p50": 16.0,
     "fleet": 19,
-    "slack_p50": 10.8
+    "slack_p50": 3.0,
+    "residual": {
+     "rpk_others_p50": 115.4,
+     "need_p50": 8.2,
+     "trunk_share_of_737_rpk": 0.81
+    }
    },
    {
     "t": 21,
     "label": "2028-07",
     "rpk_trunk_p50": 552.0,
-    "rpk_others_p50": 123.4,
-    "trunk_share_of_737_rpk": 0.817,
-    "need_p50": 8.1,
+    "rpk_others_p50": 286.3,
+    "need_p50": 17.6,
     "fleet": 19,
-    "slack_p50": 10.9
+    "slack_p50": 1.4,
+    "residual": {
+     "rpk_others_p50": 123.4,
+     "need_p50": 8.1,
+     "trunk_share_of_737_rpk": 0.817
+    }
    },
    {
     "t": 22,
     "label": "2028-08",
     "rpk_trunk_p50": 645.1,
-    "rpk_others_p50": 137.9,
-    "trunk_share_of_737_rpk": 0.824,
-    "need_p50": 8.5,
+    "rpk_others_p50": 340.9,
+    "need_p50": 20.3,
     "fleet": 19,
-    "slack_p50": 10.5
+    "slack_p50": -1.3,
+    "residual": {
+     "rpk_others_p50": 137.9,
+     "need_p50": 8.5,
+     "trunk_share_of_737_rpk": 0.824
+    }
    },
    {
     "t": 23,
     "label": "2028-09",
     "rpk_trunk_p50": 564.2,
-    "rpk_others_p50": 128.8,
-    "trunk_share_of_737_rpk": 0.814,
-    "need_p50": 8.5,
+    "rpk_others_p50": 293.8,
+    "need_p50": 18.0,
     "fleet": 19,
-    "slack_p50": 10.5
+    "slack_p50": 1.0,
+    "residual": {
+     "rpk_others_p50": 128.8,
+     "need_p50": 8.5,
+     "trunk_share_of_737_rpk": 0.814
+    }
    }
   ],
   "reconciliation": {
@@ -4951,8 +5047,8 @@
      "t": 0,
      "label": "2026-10",
      "trunk_need_p50": 27,
-     "others_need_p50": 8.6,
-     "sum_p50": 35.6,
+     "others_need_p50": 17.7,
+     "sum_p50": 44.7,
      "whole_by_seat_km_p50": 41.51,
      "fleet": 39
     },
@@ -4960,8 +5056,8 @@
      "t": 1,
      "label": "2026-11",
      "trunk_need_p50": 25,
-     "others_need_p50": 8.8,
-     "sum_p50": 33.8,
+     "others_need_p50": 16.9,
+     "sum_p50": 41.9,
      "whole_by_seat_km_p50": 40.45,
      "fleet": 39
     },
@@ -4969,8 +5065,8 @@
      "t": 2,
      "label": "2026-12",
      "trunk_need_p50": 24,
-     "others_need_p50": 7.4,
-     "sum_p50": 31.4,
+     "others_need_p50": 15.9,
+     "sum_p50": 39.9,
      "whole_by_seat_km_p50": 36.49,
      "fleet": 39
     },
@@ -4978,8 +5074,8 @@
      "t": 3,
      "label": "2027-01",
      "trunk_need_p50": 23,
-     "others_need_p50": 8.2,
-     "sum_p50": 31.2,
+     "others_need_p50": 15.4,
+     "sum_p50": 38.4,
      "whole_by_seat_km_p50": 36.91,
      "fleet": 39
     },
@@ -4987,8 +5083,8 @@
      "t": 4,
      "label": "2027-02",
      "trunk_need_p50": 22,
-     "others_need_p50": 8.3,
-     "sum_p50": 30.3,
+     "others_need_p50": 15.5,
+     "sum_p50": 37.5,
      "whole_by_seat_km_p50": 37.09,
      "fleet": 39
     },
@@ -4996,8 +5092,8 @@
      "t": 5,
      "label": "2027-03",
      "trunk_need_p50": 27,
-     "others_need_p50": 8.4,
-     "sum_p50": 35.4,
+     "others_need_p50": 18.1,
+     "sum_p50": 45.1,
      "whole_by_seat_km_p50": 41.35,
      "fleet": 39
     },
@@ -5005,8 +5101,8 @@
      "t": 6,
      "label": "2027-04",
      "trunk_need_p50": 23,
-     "others_need_p50": 7.5,
-     "sum_p50": 30.5,
+     "others_need_p50": 15.3,
+     "sum_p50": 38.3,
      "whole_by_seat_km_p50": 35.86,
      "fleet": 39
     },
@@ -5014,8 +5110,8 @@
      "t": 7,
      "label": "2027-05",
      "trunk_need_p50": 25,
-     "others_need_p50": 7.6,
-     "sum_p50": 32.6,
+     "others_need_p50": 16.6,
+     "sum_p50": 41.6,
      "whole_by_seat_km_p50": 37.97,
      "fleet": 39
     },
@@ -5023,8 +5119,8 @@
      "t": 8,
      "label": "2027-06",
      "trunk_need_p50": 23,
-     "others_need_p50": 7.9,
-     "sum_p50": 30.9,
+     "others_need_p50": 15.5,
+     "sum_p50": 38.5,
      "whole_by_seat_km_p50": 37.03,
      "fleet": 39
     },
@@ -5032,8 +5128,8 @@
      "t": 9,
      "label": "2027-07",
      "trunk_need_p50": 26,
-     "others_need_p50": 7.9,
-     "sum_p50": 33.9,
+     "others_need_p50": 17.0,
+     "sum_p50": 43.0,
      "whole_by_seat_km_p50": 39.83,
      "fleet": 39
     },
@@ -5041,8 +5137,8 @@
      "t": 10,
      "label": "2027-08",
      "trunk_need_p50": 30,
-     "others_need_p50": 8.2,
-     "sum_p50": 38.2,
+     "others_need_p50": 19.6,
+     "sum_p50": 49.6,
      "whole_by_seat_km_p50": 44.86,
      "fleet": 39
     },
@@ -5050,8 +5146,8 @@
      "t": 11,
      "label": "2027-09",
      "trunk_need_p50": 27,
-     "others_need_p50": 8.2,
-     "sum_p50": 35.2,
+     "others_need_p50": 17.4,
+     "sum_p50": 44.4,
      "whole_by_seat_km_p50": 40.81,
      "fleet": 39
     },
@@ -5059,8 +5155,8 @@
      "t": 12,
      "label": "2027-10",
      "trunk_need_p50": 28,
-     "others_need_p50": 8.9,
-     "sum_p50": 36.9,
+     "others_need_p50": 18.4,
+     "sum_p50": 46.4,
      "whole_by_seat_km_p50": 43.01,
      "fleet": 39
     },
@@ -5068,8 +5164,8 @@
      "t": 13,
      "label": "2027-11",
      "trunk_need_p50": 26,
-     "others_need_p50": 9.1,
-     "sum_p50": 35.1,
+     "others_need_p50": 17.5,
+     "sum_p50": 43.5,
      "whole_by_seat_km_p50": 41.87,
      "fleet": 39
     },
@@ -5077,8 +5173,8 @@
      "t": 14,
      "label": "2027-12",
      "trunk_need_p50": 25,
-     "others_need_p50": 7.7,
-     "sum_p50": 32.7,
+     "others_need_p50": 16.5,
+     "sum_p50": 41.5,
      "whole_by_seat_km_p50": 37.83,
      "fleet": 39
     },
@@ -5086,8 +5182,8 @@
      "t": 15,
      "label": "2028-01",
      "trunk_need_p50": 24,
-     "others_need_p50": 8.4,
-     "sum_p50": 32.4,
+     "others_need_p50": 16.0,
+     "sum_p50": 40.0,
      "whole_by_seat_km_p50": 38.19,
      "fleet": 39
     },
@@ -5095,8 +5191,8 @@
      "t": 16,
      "label": "2028-02",
      "trunk_need_p50": 24,
-     "others_need_p50": 8.5,
-     "sum_p50": 32.5,
+     "others_need_p50": 16.1,
+     "sum_p50": 40.1,
      "whole_by_seat_km_p50": 38.38,
      "fleet": 39
     },
@@ -5104,8 +5200,8 @@
      "t": 17,
      "label": "2028-03",
      "trunk_need_p50": 28,
-     "others_need_p50": 8.7,
-     "sum_p50": 36.7,
+     "others_need_p50": 18.7,
+     "sum_p50": 46.7,
      "whole_by_seat_km_p50": 42.88,
      "fleet": 39
     },
@@ -5113,8 +5209,8 @@
      "t": 18,
      "label": "2028-04",
      "trunk_need_p50": 24,
-     "others_need_p50": 7.8,
-     "sum_p50": 31.8,
+     "others_need_p50": 15.9,
+     "sum_p50": 39.9,
      "whole_by_seat_km_p50": 37.14,
      "fleet": 39
     },
@@ -5122,8 +5218,8 @@
      "t": 19,
      "label": "2028-05",
      "trunk_need_p50": 26,
-     "others_need_p50": 7.8,
-     "sum_p50": 33.8,
+     "others_need_p50": 17.2,
+     "sum_p50": 43.2,
      "whole_by_seat_km_p50": 39.37,
      "fleet": 39
     },
@@ -5131,8 +5227,8 @@
      "t": 20,
      "label": "2028-06",
      "trunk_need_p50": 24,
-     "others_need_p50": 8.2,
-     "sum_p50": 32.2,
+     "others_need_p50": 16.0,
+     "sum_p50": 40.0,
      "whole_by_seat_km_p50": 38.31,
      "fleet": 39
     },
@@ -5140,8 +5236,8 @@
      "t": 21,
      "label": "2028-07",
      "trunk_need_p50": 27,
-     "others_need_p50": 8.1,
-     "sum_p50": 35.1,
+     "others_need_p50": 17.6,
+     "sum_p50": 44.6,
      "whole_by_seat_km_p50": 41.26,
      "fleet": 39
     },
@@ -5149,8 +5245,8 @@
      "t": 22,
      "label": "2028-08",
      "trunk_need_p50": 31,
-     "others_need_p50": 8.5,
-     "sum_p50": 39.5,
+     "others_need_p50": 20.3,
+     "sum_p50": 51.3,
      "whole_by_seat_km_p50": 46.52,
      "fleet": 39
     },
@@ -5158,13 +5254,14 @@
      "t": 23,
      "label": "2028-09",
      "trunk_need_p50": 28,
-     "others_need_p50": 8.5,
-     "sum_p50": 36.5,
+     "others_need_p50": 18.0,
+     "sum_p50": 46.0,
      "whole_by_seat_km_p50": 42.28,
      "fleet": 39
     }
    ],
-   "note": "幹線 ＋ その他 と 座席キロ一本の全体が違うのは、幹線の機がパターン上で会社平均より多く飛ぶ（1 日の便数）から。幹線の割り当てが p90 の要る機数を下回る月は、会社全体に余りがあれば回す"
+   "implied_share_737_800": 0.345,
+   "note": "その他の路線の 28 機は遊んでいない：会社の季節の形で飛び、繁忙月には全機が使われるとして置く（機材は繁忙期に合わせて持つ）。幹線 ＋ その他 の需要から逆算した 737 のシェアが implied_share_737_800（no_source の 0.33 より大きい）。会社の需要から幹線分を引いた残り（residual）は参考に残す。幹線が足りない月に回せるのは、その他の路線の余り（繁忙月以外）だけ"
   },
   "levers": [
    {
@@ -5173,7 +5270,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 9.0,
+      "aircraft": 1.3,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5187,22 +5284,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 6,
+      "cost_k": 5100,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 5.7,
+      "cost_k": 11221,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5214,7 +5311,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 8.5,
+      "aircraft": 2.1,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5228,22 +5325,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 4,
+      "cost_k": 3400,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 3.4,
+      "cost_k": 6589,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5255,7 +5352,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 6.5,
+      "aircraft": 3.1,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5269,22 +5366,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 1,
+      "cost_k": 850,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 0.4,
+      "cost_k": 767,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5296,7 +5393,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 6.5,
+      "aircraft": 3.6,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5310,9 +5407,9 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 2.9,
+      "cost_k": 629,
+      "engine_effect": "エンジン・サイクル +538（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
@@ -5337,7 +5434,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 6.5,
+      "aircraft": 3.5,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5351,9 +5448,9 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3.0,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
@@ -5378,7 +5475,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 9.5,
+      "aircraft": 0.9,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5392,22 +5489,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 6,
+      "cost_k": 5100,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 5.6,
+      "cost_k": 10981,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5419,7 +5516,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 5.0,
+      "aircraft": 3.7,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5433,22 +5530,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 1,
+      "cost_k": 217,
+      "engine_effect": "エンジン・サイクル +186（入場の前倒し 0.01 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 1,
+      "cost_k": 850,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 0.3,
+      "cost_k": 600,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5460,7 +5557,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 7.5,
+      "aircraft": 2.4,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5474,22 +5571,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 3,
+      "cost_k": 2550,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 2.1,
+      "cost_k": 4092,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5501,7 +5598,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 6.5,
+      "aircraft": 3.5,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5515,9 +5612,9 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3.0,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
@@ -5542,7 +5639,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 9.0,
+      "aircraft": 2.0,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5556,22 +5653,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 4,
+      "cost_k": 868,
+      "engine_effect": "エンジン・サイクル +742（入場の前倒し 0.05 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 3,
+      "cost_k": 2550,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 3.0,
+      "cost_k": 5845,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5583,7 +5680,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 10.8,
+      "aircraft": 0.0,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5597,22 +5694,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 1.7,
-      "cost_k": 369,
-      "engine_effect": "エンジン・サイクル +315（入場の前倒し 0.02 件分）",
+      "aircraft": 4,
+      "cost_k": 868,
+      "engine_effect": "エンジン・サイクル +742（入場の前倒し 0.05 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 9,
+      "cost_k": 7650,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 8.5,
+      "cost_k": 16950,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5624,7 +5721,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 9.0,
+      "aircraft": 1.6,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5638,22 +5735,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 5,
+      "cost_k": 4250,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 4.4,
+      "cost_k": 8780,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5665,7 +5762,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 10.0,
+      "aircraft": 0.6,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5679,22 +5776,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 1,
+      "cost_k": 217,
+      "engine_effect": "エンジン・サイクル +186（入場の前倒し 0.01 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 9,
+      "cost_k": 7650,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 8.4,
+      "cost_k": 16975,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5706,7 +5803,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 9.9,
+      "aircraft": 1.5,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5720,22 +5817,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.6,
-      "cost_k": 130,
-      "engine_effect": "エンジン・サイクル +111（入場の前倒し 0.01 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 6,
+      "cost_k": 5100,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 6.0,
+      "cost_k": 11438,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5747,7 +5844,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 7.5,
+      "aircraft": 2.5,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5761,22 +5858,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 3,
+      "cost_k": 2550,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 3.0,
+      "cost_k": 5845,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5788,7 +5885,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 7.5,
+      "aircraft": 3.0,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5802,22 +5899,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 2,
+      "cost_k": 1700,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 1.5,
+      "cost_k": 2891,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5829,7 +5926,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 7.5,
+      "aircraft": 2.9,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -5843,22 +5940,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 2,
+      "cost_k": 1700,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 1.6,
+      "cost_k": 3093,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -5870,212 +5967,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 10.3,
-      "cost_k": 0,
-      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
-      "limit": "その他の路線の余り（p50）まで"
-     },
-     {
-      "lever": "パターンの組み替え",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
-      "limit": "乗せられない旅客を 0.0 千人減らす（機数は変えない）"
-     },
-     {
-      "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.2,
-      "cost_k": 43,
-      "engine_effect": "エンジン・サイクル +37（入場の前倒し 0.00 件分）",
-      "limit": "1 日 ×1.1（乗員・門限）"
-     },
-     {
-      "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "自社エンジンに影響なし",
-      "limit": "no_source: 850 k$/機・月"
-     },
-     {
-      "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "なし",
-      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
-     }
-    ]
-   },
-   {
-    "label": "2028-04",
-    "short_aircraft_p90": 7.0,
-    "levers": [
-     {
-      "lever": "その他の路線から回す",
-      "aircraft": 7.0,
-      "cost_k": 0,
-      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
-      "limit": "その他の路線の余り（p50）まで"
-     },
-     {
-      "lever": "パターンの組み替え",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
-      "limit": "乗せられない旅客を 3.7 千人減らす（機数は変えない）"
-     },
-     {
-      "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
-      "limit": "1 日 ×1.1（乗員・門限）"
-     },
-     {
-      "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "自社エンジンに影響なし",
-      "limit": "no_source: 850 k$/機・月"
-     },
-     {
-      "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "なし",
-      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
-     }
-    ]
-   },
-   {
-    "label": "2028-05",
-    "short_aircraft_p90": 8.5,
-    "levers": [
-     {
-      "lever": "その他の路線から回す",
-      "aircraft": 8.5,
-      "cost_k": 0,
-      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
-      "limit": "その他の路線の余り（p50）まで"
-     },
-     {
-      "lever": "パターンの組み替え",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
-      "limit": "乗せられない旅客を 0.4 千人減らす（機数は変えない）"
-     },
-     {
-      "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
-      "limit": "1 日 ×1.1（乗員・門限）"
-     },
-     {
-      "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "自社エンジンに影響なし",
-      "limit": "no_source: 850 k$/機・月"
-     },
-     {
-      "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "なし",
-      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
-     }
-    ]
-   },
-   {
-    "label": "2028-06",
-    "short_aircraft_p90": 7.5,
-    "levers": [
-     {
-      "lever": "その他の路線から回す",
-      "aircraft": 7.5,
-      "cost_k": 0,
-      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
-      "limit": "その他の路線の余り（p50）まで"
-     },
-     {
-      "lever": "パターンの組み替え",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
-      "limit": "乗せられない旅客を 0.0 千人減らす（機数は変えない）"
-     },
-     {
-      "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
-      "limit": "1 日 ×1.1（乗員・門限）"
-     },
-     {
-      "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "自社エンジンに影響なし",
-      "limit": "no_source: 850 k$/機・月"
-     },
-     {
-      "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "なし",
-      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
-     }
-    ]
-   },
-   {
-    "label": "2028-07",
-    "short_aircraft_p90": 10.0,
-    "levers": [
-     {
-      "lever": "その他の路線から回す",
-      "aircraft": 10.0,
-      "cost_k": 0,
-      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
-      "limit": "その他の路線の余り（p50）まで"
-     },
-     {
-      "lever": "パターンの組み替え",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
-      "limit": "乗せられない旅客を 4.4 千人減らす（機数は変えない）"
-     },
-     {
-      "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
-      "limit": "1 日 ×1.1（乗員・門限）"
-     },
-     {
-      "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
-      "engine_effect": "自社エンジンに影響なし",
-      "limit": "no_source: 850 k$/機・月"
-     },
-     {
-      "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "なし",
-      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
-     }
-    ]
-   },
-   {
-    "label": "2028-08",
-    "short_aircraft_p90": 13.5,
-    "levers": [
-     {
-      "lever": "その他の路線から回す",
-      "aircraft": 10.5,
+      "aircraft": 0.3,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -6096,15 +5988,220 @@
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 1,
-      "cost_k": 850,
+      "aircraft": 9,
+      "cost_k": 7650,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 1.0,
-      "cost_k": 2028,
+      "aircraft": 8.2,
+      "cost_k": 16347,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-04",
+    "short_aircraft_p90": 7.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 3.1,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 3.7 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 2,
+      "cost_k": 1700,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 1.9,
+      "cost_k": 3684,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-05",
+    "short_aircraft_p90": 8.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 1.8,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 0.4 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 5,
+      "cost_k": 4250,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 4.7,
+      "cost_k": 9274,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-06",
+    "short_aircraft_p90": 7.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 3.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 0.0 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 3,
+      "cost_k": 2550,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 2.5,
+      "cost_k": 4902,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-07",
+    "short_aircraft_p90": 10.0,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 1.4,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 4.4 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 3,
+      "cost_k": 651,
+      "engine_effect": "エンジン・サイクル +557（入場の前倒し 0.03 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 6,
+      "cost_k": 5100,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 5.6,
+      "cost_k": 11053,
+      "engine_effect": "なし",
+      "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
+     }
+    ]
+   },
+   {
+    "label": "2028-08",
+    "short_aircraft_p90": 13.5,
+    "levers": [
+     {
+      "lever": "その他の路線から回す",
+      "aircraft": 0.0,
+      "cost_k": 0,
+      "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
+      "limit": "その他の路線の余り（p50）まで"
+     },
+     {
+      "lever": "パターンの組み替え",
+      "aircraft": 0,
+      "cost_k": 0,
+      "engine_effect": "短い区間のパターンが増えればサイクルが増える",
+      "limit": "乗せられない旅客を 0.0 千人減らす（機数は変えない）"
+     },
+     {
+      "lever": "1 日の飛び方を伸ばす",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
+      "limit": "1 日 ×1.1（乗員・門限）"
+     },
+     {
+      "lever": "機体を借りる（ウェットリース）",
+      "aircraft": 12,
+      "cost_k": 10200,
+      "engine_effect": "自社エンジンに影響なし",
+      "limit": "no_source: 850 k$/機・月"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "aircraft": 11.5,
+      "cost_k": 23324,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -6116,7 +6213,7 @@
     "levers": [
      {
       "lever": "その他の路線から回す",
-      "aircraft": 10.0,
+      "aircraft": 1.0,
       "cost_k": 0,
       "engine_effect": "会社全体のサイクルは変わらない（飛ぶ場所が変わるだけ）",
       "limit": "その他の路線の余り（p50）まで"
@@ -6130,22 +6227,22 @@
      },
      {
       "lever": "1 日の飛び方を伸ばす",
-      "aircraft": 0.0,
-      "cost_k": 0,
-      "engine_effect": "エンジン・サイクル +0（入場の前倒し 0.00 件分）",
+      "aircraft": 2,
+      "cost_k": 434,
+      "engine_effect": "エンジン・サイクル +371（入場の前倒し 0.02 件分）",
       "limit": "1 日 ×1.1（乗員・門限）"
      },
      {
       "lever": "機体を借りる（ウェットリース）",
-      "aircraft": 0,
-      "cost_k": 0,
+      "aircraft": 7,
+      "cost_k": 5950,
       "engine_effect": "自社エンジンに影響なし",
       "limit": "no_source: 850 k$/機・月"
      },
      {
       "lever": "見送る（乗せられない旅客）",
-      "aircraft": 0.0,
-      "cost_k": 0,
+      "aircraft": 7.0,
+      "cost_k": 14141,
       "engine_effect": "なし",
       "limit": "失う売上 ＝ 機数 × 1 機の月の旅客 × 平均区間 × 単価（下限）"
      }
@@ -6487,91 +6584,91 @@
      {
       "label": "2027-04",
       "short_aircraft": 4,
-      "from_others": 4,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
-     },
-     {
-      "label": "2027-05",
-      "short_aircraft": 6,
-      "from_others": 6,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
-     },
-     {
-      "label": "2027-06",
-      "short_aircraft": 5,
-      "from_others": 5,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
-     },
-     {
-      "label": "2027-07",
-      "short_aircraft": 7,
-      "from_others": 7,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
-     },
-     {
-      "label": "2027-08",
-      "short_aircraft": 11,
-      "from_others": 10,
+      "from_others": 3,
       "borrow": 1,
       "lease_cost_oku": 1.33
      },
      {
+      "label": "2027-05",
+      "short_aircraft": 6,
+      "from_others": 2,
+      "borrow": 4,
+      "lease_cost_oku": 5.34
+     },
+     {
+      "label": "2027-06",
+      "short_aircraft": 5,
+      "from_others": 3,
+      "borrow": 2,
+      "lease_cost_oku": 2.67
+     },
+     {
+      "label": "2027-07",
+      "short_aircraft": 7,
+      "from_others": 2,
+      "borrow": 5,
+      "lease_cost_oku": 6.67
+     },
+     {
+      "label": "2027-08",
+      "short_aircraft": 11,
+      "from_others": 0,
+      "borrow": 11,
+      "lease_cost_oku": 14.68
+     },
+     {
       "label": "2027-09",
       "short_aircraft": 8,
-      "from_others": 8,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 1,
+      "borrow": 7,
+      "lease_cost_oku": 9.34
      },
      {
       "label": "2027-10",
       "short_aircraft": 9,
-      "from_others": 9,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 0,
+      "borrow": 9,
+      "lease_cost_oku": 12.01
      },
      {
       "label": "2027-11",
       "short_aircraft": 8,
-      "from_others": 8,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 1,
+      "borrow": 7,
+      "lease_cost_oku": 9.34
      },
      {
       "label": "2027-12",
       "short_aircraft": 6,
-      "from_others": 6,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 2,
+      "borrow": 4,
+      "lease_cost_oku": 5.34
      },
      {
       "label": "2028-01",
       "short_aircraft": 6,
-      "from_others": 6,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 3,
+      "borrow": 3,
+      "lease_cost_oku": 4.0
      },
      {
       "label": "2028-02",
       "short_aircraft": 6,
-      "from_others": 6,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 2,
+      "borrow": 4,
+      "lease_cost_oku": 5.34
      },
      {
       "label": "2028-03",
       "short_aircraft": 9,
-      "from_others": 9,
-      "borrow": 0,
-      "lease_cost_oku": 0.0
+      "from_others": 0,
+      "borrow": 9,
+      "lease_cost_oku": 12.01
      }
     ],
-    "aircraft_months_from_others": 84,
-    "aircraft_months_borrowed": 1,
-    "lease_cost_oku": 1.33,
+    "aircraft_months_from_others": 19,
+    "aircraft_months_borrowed": 66,
+    "lease_cost_oku": 88.07,
     "note": "その他の路線の余り（p50）から先に回し、足りない分だけ借りる"
    },
    "rules_note": "伸びの規則は 2 年先までは直近の値を使う（plan_from_demand.growth_at）ので、24 か月の窓では混ぜる規則と直近の規則は一致する。差が出るのは 3 年目以降",

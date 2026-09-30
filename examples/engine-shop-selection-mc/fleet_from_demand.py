@@ -271,22 +271,33 @@ def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: di
     n_trunk = trunk["trunk_aircraft"]; n_others = total - n_trunk
     km = {r["id"]: r["km"] for r in trunk["routes"]}
     P = ac["params"]; lf_t = P["lf_target"]
-    # the other routes: the company's 737 RPK minus the trunk's, by seat-km
+    # the other routes: the 28 aircraft outside the trunk are not idle. They fly the regional network
+    # at the company's seasonal shape, fully used at the year's peak month (fleets are sized to the
+    # peak); the residual "company 737 RPK minus trunk" is also kept, because the 737 share (no_source)
+    # under-states the demand once the trunk's passengers are all put on the 737.
+    idx = {c["month"]: c["demand_index"] for c in demand_mod.market_view(D)["seasonal"]}
+    peak_idx = max(idx.values())
     others = []
     for b, d, a in zip(rpk, trunk["demand"], ac["rows"]):
         trunk_rpk = sum(v["p50"] * km[r] for r, v in d["routes"].items()) * 1e3 / 1e6
         rest = max(0.0, b["p50"] - trunk_rpk)
         m = int(b["label"][5:])
-        need = rest / lf_t / P["ask_per_aircraft_month"] + checks[m] * n_others / total
-        others.append({"t": b["t"], "label": b["label"], "rpk_trunk_p50": round(trunk_rpk, 1), "rpk_others_p50": round(rest, 1), "trunk_share_of_737_rpk": round(trunk_rpk / b["p50"], 3),
-                       "need_p50": round(need, 1), "fleet": n_others, "slack_p50": round(n_others - need, 1)})
+        need_res = rest / lf_t / P["ask_per_aircraft_month"] + checks[m] * n_others / total
+        flying = (n_others - checks[m] * n_others / total) * idx[m] / peak_idx * b["trend"] / rpk[0]["trend"]
+        need = flying + checks[m] * n_others / total
+        others.append({"t": b["t"], "label": b["label"], "rpk_trunk_p50": round(trunk_rpk, 1), "rpk_others_p50": round(flying * P["ask_per_aircraft_month"] * lf_t, 1),
+                       "need_p50": round(need, 1), "fleet": n_others, "slack_p50": round(n_others - need, 1),
+                       "residual": {"rpk_others_p50": round(rest, 1), "need_p50": round(need_res, 1), "trunk_share_of_737_rpk": round(trunk_rpk / b["p50"], 3)}})
+    implied_rpk = [o["rpk_trunk_p50"] + o["rpk_others_p50"] for o in others]
+    implied_share = round(D["companies"][cid]["share_737_800_of_domestic_ask"] * sum(implied_rpk) / sum(b["p50"] for b in rpk), 3)
     slack = {o["t"]: o["slack_p50"] for o in others}
     gp = (growth or {}).get("params", {})
     lv = rf.levers(trunk, slack, D, cid, norms, gp)
     # reconciliation: trunk need + others need vs the seat-km whole
     recon = {"rows": [{"t": r["t"], "label": r["label"], "trunk_need_p50": r["need_p50"], "others_need_p50": o["need_p50"], "sum_p50": round(r["need_p50"] + o["need_p50"], 1),
                        "whole_by_seat_km_p50": a["need_p50"], "fleet": total} for r, o, a in zip(trunk["rows"], others, ac["rows"])],
-             "note": "幹線 ＋ その他 と 座席キロ一本の全体が違うのは、幹線の機がパターン上で会社平均より多く飛ぶ（1 日の便数）から。幹線の割り当てが p90 の要る機数を下回る月は、会社全体に余りがあれば回す"}
+             "implied_share_737_800": implied_share,
+             "note": "その他の路線の 28 機は遊んでいない：会社の季節の形で飛び、繁忙月には全機が使われるとして置く（機材は繁忙期に合わせて持つ）。幹線 ＋ その他 の需要から逆算した 737 のシェアが implied_share_737_800（no_source の 0.33 より大きい）。会社の需要から幹線分を引いた残り（residual）は参考に残す。幹線が足りない月に回せるのは、その他の路線の余り（繁忙月以外）だけ"}
     # the cycles the engines fly: trunk on its patterns, others at the company average
     sectors_day = P["sectors_per_day"]
     blended = (n_trunk * trunk["cycles_per_aircraft_day_trunk"] + n_others * sectors_day) / total
