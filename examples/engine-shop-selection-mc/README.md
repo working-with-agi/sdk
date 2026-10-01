@@ -489,6 +489,12 @@ python3 fleet_from_demand.py jal --out fleet/jal.json     # ana も同じ。--ru
 
 エンジンは機種ごとに見る。幹線のパターンで飛ぶ機の 1 日の便数と、機種全体のふだんの便数（`companies.json` の subfleets）を混ぜた稼働倍率を、`plan_from_demand.build_fleet(..., fleet_key)` に渡し、窓の動きと平年の整備費を出す（737・767・787。A350 と 777 はエンジン計画のデータがないのでサイクルだけ）。`fleet/<company>.json` の `trunk` に入る。
 
+ブラウザのデモには、解を前もって出したファイルを渡す（ページの中では解かない）：
+
+```bash
+python3 export_trunk_assignment.py jal --label "Company A" --out trunk_assignment.json   # 月 × 分位の機種別の割当・枠・搭乗率・乗れない旅客・費用、約 30 KB
+```
+
 ### 前提の見直しの枠組み（`data/assumptions_review.json`）
 
 16 の前提を 7 層（需要・機材・運航・工場と供給・エンジン・お金・決め方）で並べ、出所・周期・早める引き金・影響先・担当を一枚にする。周期は遅い輪（年次の版・月次会議）、引き金は速い輪（変化点・閾値）。`review.py` が期限切れと引き金を判定して症状表に載せ、レポート「PDCA／OODA の見直し」に一覧を出す。
