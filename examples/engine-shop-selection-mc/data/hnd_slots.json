@@ -1,0 +1,121 @@
+{
+ "note": "羽田空港の国内線発着枠と、幹線（羽田–新千歳・伊丹・福岡・那覇）の便数。1 枠 ＝ 1 日 1 往復。会社は既存の ID（jal・ana）で持ち、他社は合計だけ持つ",
+ "airport": "HND",
+ "domestic_slots_total": 465,
+ "hourly_movements_max": 90,
+ "allocation": {
+  "jal": 183.5,
+  "ana": 172.5,
+  "others": 109.0
+ },
+ "allocation_breakdown": {
+  "jal": {
+   "free": 168,
+   "regional": 12.5,
+   "other": 3
+  },
+  "ana": {
+   "free": 151,
+   "regional": 17.5,
+   "other": 4
+  },
+  "how": "国交省資料の内訳表の読み取り（自由枠、地方関連の枠、暫定使用ほか）。地方関連の枠は幹線に使えない"
+ },
+ "rules": {
+  "regional_slots_not_on_trunk": true,
+  "small_route_rule": "1 便・3 便ルール：便数が 3 便以下・1 便以下の路線の枠は転用が制限される",
+  "use_it_or_lose_it": "配分された枠は使わなければ回収の対象",
+  "use_min_share": 0.98,
+  "use_min_share_source": "no_source：月平均で幹線の枠の 98% 以上を使う（1 日 1 往復程度の運休まで）",
+  "reallocation": {
+   "every_years": 5,
+   "last": 2019,
+   "last_recovered": 19,
+   "last_redistributed": 16,
+   "last_net": {
+    "jal": -3,
+    "ana": -1
+   },
+   "2025": "据え置き",
+   "next": 2028,
+   "evaluation_years": "FY2023〜FY2027",
+   "recovery_share_approx": 0.05
+  }
+ },
+ "trunk_frequencies": {
+  "unit": "1 日の往復便数",
+  "as_of_2023_03": {
+   "HND-CTS": {
+    "jal": 16,
+    "ana": 17,
+    "others": 19.6
+   },
+   "HND-FUK": {
+    "jal": 17,
+    "ana": 19,
+    "others": 21
+   },
+   "HND-OKA": {
+    "jal": 12,
+    "ana": 13,
+    "others": 9
+   },
+   "HND-ITM": {
+    "jal": 15,
+    "ana": 15,
+    "others": 0
+   }
+  },
+  "as_of_2026": {
+   "HND-CTS": {
+    "jal": 17,
+    "ana": 17
+   },
+   "HND-FUK": {
+    "jal": 17,
+    "ana": 19
+   },
+   "HND-OKA": {
+    "jal": 12,
+    "ana": 13
+   },
+   "HND-ITM": {
+    "jal": 15,
+    "ana": 15
+   }
+  },
+  "winter_2026": {
+   "HND-CTS": {
+    "jal": 18
+   },
+   "HND-FUK": {
+    "jal": 18,
+    "ana": 20
+   },
+   "HND-ITM": {
+    "ana": 14
+   }
+  },
+  "FUK-OKA": {
+   "jal": 6,
+   "jal_seasonal": 7,
+   "ana": 9,
+   "others": 7,
+   "note": "福岡空港の便。羽田の枠ではない"
+  },
+  "others_note": "他社は 2023-03 の値（2026 は未確認のため据え置き）",
+  "flex_round_trips": 2,
+  "flex_source": "no_source：月ごとに路線の便数を ±2 往復まで動かせる（枠の合計の中で）"
+ },
+ "sources": {
+  "allocation": "https://www.mlit.go.jp/policy/shingikai/content/001733529.pdf（2024-03-14、配分は 2023-05 時点）",
+  "frequencies_2023": "https://www.mlit.go.jp/policy/shingikai/content/001733529.pdf（21 ページ、2023-03-01〜25 の 1 日あたり往復便数）",
+  "rules": "https://www.mlit.go.jp/policy/shingikai/content/001733529.pdf（35 ページ：地方枠、1 便・3 便ルール）",
+  "frequencies_2026": "報道（2026 年の運航計画）。このリポジトリでは原典を未確認"
+ },
+ "share_model": {
+  "alpha": 1.0,
+  "how": "自社の需要 ＝ 路線全体の旅客 × 自社便数^α ÷ (自社便数^α ＋ 他社便数^α)。α=1 は便数に比例",
+  "alpha_source": "no_source（便数シェアの S 字カーブでは α は 1 より大きいとされることが多い）"
+ }
+}

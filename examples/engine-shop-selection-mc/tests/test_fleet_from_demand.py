@@ -16,7 +16,7 @@ import fleet_from_demand as ffd  # noqa: E402
 class FleetFromDemandTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.r = {c: ffd.build(c) for c in ("jal", "ana")}
+        cls.r = {c: ffd.build(c, routes=False) for c in ("jal", "ana")}   # the route layer has its own tests
 
     def test_labels_and_fiscal_years(self):
         self.assertEqual(ffd._label("2026-10", 0), "2026-10")

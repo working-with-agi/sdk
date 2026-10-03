@@ -1,30 +1,26 @@
 #!/usr/bin/env python3
-"""Route layer with several aircraft types: demand per trunk route -> which type flies which
-day pattern -> aircraft per type -> engines per type.
+"""Airline layer on the trunk routes: route demand -> which aircraft type flies which day pattern
+-> aircraft per type -> engines per type, inside the slots the airport layer gives.
 
-An aircraft that flies is somewhere else afterwards, so the unit of planning is a pattern: a
-day's chain of legs that leaves the hub (HND) and returns to it, the next leg departing from
-where the previous one landed. `data/routes_trunk.json` holds the five trunk routes (one-way
-monthly passengers of all types, block hours, a seasonal deviation per route normalised so the
-whole follows the market's seasonal index), the patterns, and per company the aircraft types
-that fly them: seats, cost per block hour, turnaround, and how many aircraft of each widebody
-type these routes get (the rest flies international or other domestic routes). The 737-800
-shares its whole fleet between the trunk and the regional network.
+An aircraft that flies is somewhere else afterwards, so the unit of planning is a pattern: a day's
+chain of legs that leaves the hub (HND) and returns to it. `data/routes_trunk.json` holds the five
+trunk routes with the whole market's passengers (2024, public), block hours, a seasonal deviation
+per route normalised so the whole follows the market's seasonal index, the patterns, and per
+company the aircraft types (seats, cost per block hour, turnaround, how many may fly the trunk).
+
+The airport layer (airport_slots.py) supplies, per company: the round trips a day it flies on the
+four hub trunk routes (its slots there), the per-route bounds, the use-it-or-lose-it floor, and the
+share of each route's passengers its frequencies win against the other carriers.
 
 Each month is a fleet assignment problem (Hane et al. 1995, reduced to day patterns): integer
-aircraft per (type, pattern) within each type's available aircraft, 737 wet-lease aircraft,
-and spilled passengers, minimising operating cost + lease + lost revenue, with every route's
-capacity at the target load factor covering what is carried, and the legs a day on each route
-within the hub's slots (the slots are what makes the widebodies worth flying on the trunk). Solved with PuLP + HiGHS for the
-p10/p50/p90 demand. A pattern is open to a type only if its day (block + turnarounds) fits.
+aircraft per (type, pattern), 737 wet-lease aircraft and spilled passengers, minimising operating
+cost + lease + lost revenue; every route carries at most its seats x the operating load factor, its
+round trips stay within the bounds, and the hub routes use their slots. Solved with PuLP + HiGHS
+for p10/p50/p90 demand. The yearly version solves the first 12 months' average at the planning load
+factor; its frequencies feed back into the share (a few fixed-point rounds), so a slot scenario
+moves demand as well as capacity.
 
-The yearly version is the same problem on the first 12 months' average demand with the 737
-unconstrained; the 737's trunk share of that solution fixes how much of the company's 737
-demand is regional. In a month the 737 may use on the trunk what the regional network and the
-airframe checks leave. Cycles per type come from the patterns flown; each type's utilisation
-multiplier goes to plan_from_demand.build_fleet (types with a fleet file: 737, 767, 787).
-
-Everything is synthetic; the route inputs are flagged no_source in the data file.
+Everything is synthetic except the inputs with a source in the data files.
 """
 
 from __future__ import annotations
@@ -35,13 +31,15 @@ from pathlib import Path
 
 import pulp
 
+import airport_slots as ap
 import demand as demand_mod
 
 HERE = Path(__file__).resolve().parent
 ROUTES = HERE / "data" / "routes_trunk.json"
 DAYS = 365 / 12
 USD_JPY = 157.0
-LF_MAX = 0.95          # the load factor a flight can reach in operation (booked out); the plan uses the target (0.85)
+MIP_GAP = 0.002          # relative optimality gap accepted from the solver
+MIP_TIME_S = 15          # time limit per monthly solve (a feasible solution found by then is used)
 
 
 def load() -> dict:
@@ -61,7 +59,7 @@ def pattern_table(R: dict, types: list[dict] | None = None) -> list[dict]:
     """Legs per route, block hours, cycles per day, and which types can fly each pattern."""
     ids = {r["id"] for r in R["routes"]}
     bh = {r["id"]: r["block_h"] for r in R["routes"]}
-    types = types or [{"type": "737", "turnaround_h": R.get("turnaround_h", 0.83)}]
+    types = types or [{"type": "737", "turnaround_h": 0.83}]
     out = []
     for p in R["patterns"]:
         legs = {}
@@ -75,72 +73,75 @@ def pattern_table(R: dict, types: list[dict] | None = None) -> list[dict]:
     return out
 
 
-def route_demand(R: dict, D: dict, cid: str, band: list[dict]) -> list[dict]:
-    """Passengers per route per month, both directions, all types, p10/p50/p90. The route's seasonal
-    deviation is normalised each month so the passenger-weighted whole equals the market's seasonal
-    index; the trend and the band's relative width come from the company-level band."""
+def route_demand(R: dict, D: dict, band: list[dict], share: dict[str, float], to_start: float) -> list[dict]:
+    """The company's passengers per route per month, both directions, p10/p50/p90: the market's 2024
+    passengers grown to the start (to_start), times the company's share, the seasonal shape and the
+    trend; the band's relative width comes from the company-level band."""
     idx = {c["month"]: c["demand_index"] for c in demand_mod.market_view(D)["seasonal"]}
-    scale = R["companies"][cid]["scale"]
-    w = {r["id"]: r["pax_month_k"] for r in R["routes"]}
+    w = {r["id"]: r["market_pax_2024"] for r in R["routes"]}
     W = sum(w.values())
     out = []
     for b in band:
         m = int(b["label"][5:])
         norm = sum(w[r["id"]] * r["season_dev"][m - 1] for r in R["routes"]) / W
-        rows = {}
+        rows, market = {}, {}
         for r in R["routes"]:
-            tot = r["pax_month_k"] * 2 * scale * idx[m] * r["season_dev"][m - 1] / norm * b["trend"]
+            mk = r["market_pax_2024"] / 12 / 1e3 * to_start * idx[m] * r["season_dev"][m - 1] / norm * b["trend"]   # thousand pax a month, both directions
+            tot = mk * share[r["id"]]
+            market[r["id"]] = round(mk, 1)
             rows[r["id"]] = {"p10": round(tot * b["p10"] / b["p50"], 1), "p50": round(tot, 1), "p90": round(tot * b["p90"] / b["p50"], 1)}
-        out.append({"t": b["t"], "label": b["label"], "fy": b["fy"], "routes": rows, "total_p50": round(sum(v["p50"] for v in rows.values()), 1)})
+        out.append({"t": b["t"], "label": b["label"], "fy": b["fy"], "routes": rows, "market_p50": market, "total_p50": round(sum(v["p50"] for v in rows.values()), 1)})
     return out
 
 
-def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict[str, float | None], lf_t: float, yld: float,
-           lease: bool = True, stretch: float = 1.0, cid: str | None = None, lf_cap: float | None = None) -> dict:
-    """One month's fleet assignment. avail[type] None = unconstrained. Returns aircraft per (type,
-    pattern), lease aircraft per pattern, carried and spilled passengers per route, costs (k$)."""
+def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict[str, float | None], lf_cap: float, yld: float,
+           slots: dict, lease: bool = True) -> dict:
+    """One month's fleet assignment. avail[type] None = unconstrained. slots: {"bounds": {route: (lo, hi)}
+    round trips a day, "budget": hub trunk round trips, "use_min": floor share of the budget}."""
     km = {r["id"]: r["km"] for r in R["routes"]}
     T = {t["type"]: t for t in types}
     prob = pulp.LpProblem("fam", pulp.LpMinimize)
-    x = {(t, p["id"]): pulp.LpVariable(f"x_{t}_{p['id']}", lowBound=0, cat="Integer") for p in P for t in p["types"]}
+    x = {(t, p["id"]): pulp.LpVariable(f"x_{t.replace('-', '_')}_{p['id']}", lowBound=0, cat="Integer") for p in P for t in p["types"]}
     lt = R["lease"]["type"]
     l = {p["id"]: pulp.LpVariable(f"l_{p['id']}", lowBound=0, cat="Integer") for p in P if lease and lt in p["types"]}
     c = {r: pulp.LpVariable(f"c_{r.replace('-', '_')}", lowBound=0, upBound=pax[r]) for r in pax}
     bh = {p["id"]: p["block_h"] for p in P}
     op = pulp.lpSum(x[k] * T[k[0]]["cost_per_block_h_k"] * bh[k[1]] * DAYS for k in x)
-    ls = pulp.lpSum(v * (R["lease"]["k_per_aircraft_month"] + T[lt]["cost_per_block_h_k"] * bh[k] * DAYS) for k, v in l.items())   # lease on top of the operating cost
+    ls = pulp.lpSum(v * (R["lease"]["k_per_aircraft_month"] + T[lt]["cost_per_block_h_k"] * bh[k] * DAYS) for k, v in l.items())
     rev = {r: km[r] * yld / USD_JPY for r in pax}                                  # k$ per thousand passengers
-    spill = pulp.lpSum((pax[r] - c[r]) * rev[r] for r in pax)
-    prob += op + ls + spill
+    prob += op + ls + pulp.lpSum((pax[r] - c[r]) * rev[r] for r in pax)
+    legs = {r: pulp.lpSum(x[(t, p["id"])] * p["legs"].get(r, 0) for p in P for t in p["types"]) + pulp.lpSum(l[p["id"]] * p["legs"].get(r, 0) for p in P if p["id"] in l) for r in pax}
     for r in pax:
         seats = pulp.lpSum(x[(t, p["id"])] * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"]) \
             + pulp.lpSum(l[p["id"]] * T[lt]["seats"] * p["legs"].get(r, 0) for p in P if p["id"] in l)
-        prob += seats * DAYS * stretch / 1e3 * (lf_cap or lf_t) >= c[r]
-    scale = R["companies"][cid]["scale"] if cid else 1.0
-    for r in R["routes"]:                                                            # hub slots: legs a day on the route
-        rid = r["id"]
-        prob += pulp.lpSum(x[(t, p["id"])] * p["legs"].get(rid, 0) for p in P for t in p["types"]) \
-            + pulp.lpSum(l[p["id"]] * p["legs"].get(rid, 0) for p in P if p["id"] in l) <= math.floor(r["slots_legs_per_day"] * scale + 1e-9)
+        prob += seats * DAYS / 1e3 * lf_cap >= c[r]
+        lo, hi = slots["bounds"][r]
+        prob += legs[r] <= 2 * hi
+        prob += legs[r] >= 2 * math.ceil(lo - 1e-9)
+    hub = [r for r in pax if r in ap.HUB_ROUTES]
+    prob += pulp.lpSum(legs[r] for r in hub) <= 2 * slots["budget"]
+    prob += pulp.lpSum(legs[r] for r in hub) >= 2 * math.floor(slots["budget"] * slots["use_min"])
     for t in T:
         if avail.get(t) is not None:
             prob += pulp.lpSum(v for k, v in x.items() if k[0] == t) <= max(0, math.floor(avail[t] + 1e-9))
-    prob.solve(pulp.HiGHS(msg=False))
+    prob.solve(pulp.HiGHS(msg=False, gapRel=MIP_GAP, timeLimit=MIP_TIME_S))
+    if prob.sol_status not in (pulp.LpSolutionOptimal, pulp.LpSolutionIntegerFeasible):
+        raise RuntimeError(f"fleet assignment: no feasible solution ({pulp.LpStatus[prob.status]})")
     xs = {k: int(round(v.value() or 0)) for k, v in x.items()}
     ls_ = {k: int(round(v.value() or 0)) for k, v in l.items()}
     by_type = {t: sum(v for k, v in xs.items() if k[0] == t) for t in T}
     carried = {r: round(c[r].value() or 0, 1) for r in pax}
     sp = {r: round(pax[r] - carried[r], 1) for r in pax}
-    cap = {}
-    for r in pax:
-        s = sum(xs[(t, p["id"])] * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"]) + sum(ls_.get(p["id"], 0) * T[lt]["seats"] * p["legs"].get(r, 0) for p in P)
-        cap[r] = s * DAYS * stretch / 1e3
-    seats_by_type_route = {t: {r: round(sum(xs.get((t, p["id"]), 0) * T[t]["seats"] * p["legs"].get(r, 0) for p in P if t in p["types"]) * DAYS / 1e3, 1) for r in pax} for t in T}
+    legs_v = {r: sum(xs.get((t, p["id"]), 0) * p["legs"].get(r, 0) for p in P for t in p["types"]) + sum(ls_.get(p["id"], 0) * p["legs"].get(r, 0) for p in P) for r in pax}
+    cap = {r: (sum(xs.get((t, p["id"]), 0) * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"]) + sum(ls_.get(p["id"], 0) * T[lt]["seats"] * p["legs"].get(r, 0) for p in P)) * DAYS / 1e3 for r in pax}
     cyc = {t: sum(xs.get((t, p["id"]), 0) * p["cycles_per_day"] for p in P if t in p["types"]) for t in T}
     return {"by_type": by_type, "by_type_pattern": {f"{k[0]}:{k[1]}": v for k, v in xs.items() if v}, "lease": sum(ls_.values()), "lease_by_pattern": {k: v for k, v in ls_.items() if v},
             "carried_pax_k": carried, "spill_pax_k": sp, "spill_total_pax_k": round(sum(sp.values()), 1),
-            "lf": {r: round(carried[r] / cap[r], 3) if cap[r] else None for r in pax}, "seats_k_by_type": seats_by_type_route,
+            "round_trips": {r: legs_v[r] / 2 for r in pax}, "seats_k": {r: round(v, 1) for r, v in cap.items()},
+            "avg_seats": {r: round(cap[r] * 1e3 / DAYS / legs_v[r]) if legs_v[r] else None for r in pax},
+            "lf": {r: round(carried[r] / cap[r], 3) if cap[r] else None for r in pax},
             "cycles_per_day_by_type": cyc, "lease_cycles_per_day": sum(ls_.get(p["id"], 0) * p["cycles_per_day"] for p in P),
-            "slots_used": {r["id"]: sum(xs.get((t, p["id"]), 0) * p["legs"].get(r["id"], 0) for p in P for t in p["types"]) + sum(ls_.get(p["id"], 0) * p["legs"].get(r["id"], 0) for p in P) for r in R["routes"]},
+            "revenue_carried_k": round(sum(carried[r] * rev[r] for r in pax)),
             "cost_k": {"operating": round(pulp.value(op)), "lease": round(pulp.value(ls)) if l else 0, "lost_revenue": round(sum(sp[r] * rev[r] for r in pax))}}
 
 
@@ -155,52 +156,92 @@ def per_route(P: list[dict], by_type_pattern: dict[str, int]) -> dict[str, float
     return {r: round(v, 2) for r, v in out.items()}
 
 
-def build(cid: str, D: dict, band: list[dict], ctx: dict) -> dict:
-    """ctx: checks_rate[type][month] (share of that type's aircraft in airframe checks), regional
-    737 need by t (callable after the version), engine waits by t for the 737, 737 fleet total."""
-    R = load()
+def available(types: list[dict], m: int, fleet_737_free: float) -> dict[str, float]:
+    av = {}
+    for ty in types:
+        k = ty["type"]
+        if ty["trunk_aircraft"] is None:
+            av[k] = fleet_737_free
+        else:
+            av[k] = ty.get("trunk_aircraft_peak", ty["trunk_aircraft"]) if m in ty.get("peak_months", []) else ty["trunk_aircraft"]
+    return av
+
+
+def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, quantiles: tuple = ("p10", "p50", "p90"), detail: bool = True,
+          fiscal_years: set | None = None) -> dict:
+    """ctx: checks_rate (737), regional need by t (callable after the version), engine waits by t,
+    737 fleet total, to_start (2024 -> start growth), set_trunk_737_rpk (fixes the regional split).
+    delta: the hub trunk slots added (+) or taken away (-) by a re-allocation scenario."""
+    R = load(); S = ap.load()
     types = types_of(R, cid)
     P = pattern_table(R, types)
-    lf_t = D["assumptions"]["lf_capacity_threshold"]; yld = D["companies"][cid]["yield_yen_per_rpk"]
+    yld = D["companies"][cid]["yield_yen_per_rpk"]
     km = {r["id"]: r["km"] for r in R["routes"]}
-    dem = route_demand(R, D, cid, band)
-    first = dem[:12]
-    avg = {r: sum(d["routes"][r]["p50"] for d in first) / len(first) for r in first[0]["routes"]}
-    wide_avail = {t["type"]: t["trunk_aircraft"] for t in types if t["trunk_aircraft"] is not None}   # checks are covered by the type's whole fleet
-    version = assign(R, P, types, avg, {**wide_avail, "737": None}, lf_t, yld, lease=False, cid=cid)
-    v737_rpk = sum(version["seats_k_by_type"]["737"][r] * lf_t * km[r] for r in avg) * 1e3 / 1e6     # million RPK a month the 737 flies on the trunk in the version
-    trunk_share = ctx["set_trunk_737_rpk"](v737_rpk)                                                  # the caller fixes the regional split and returns the trunk share
+    slots = {"bounds": ap.bounds(S, cid, delta), "budget": ap.trunk_budget(S, cid, delta), "use_min": S["rules"]["use_min_share"]}
+    # the yearly version, with the share following the frequencies it flies (fixed point)
+    freq = ap.current_freq(S, cid)
+    if delta:
+        scale = slots["budget"] / ap.trunk_budget(S, cid)
+        freq = {r: (v * scale if r in ap.HUB_ROUTES else v) for r, v in freq.items()}
+    rounds = []
+    for _ in range(4):
+        sh = ap.share(S, cid, freq)
+        dem = route_demand(R, D, band, sh, ctx["to_start"])
+        first = dem[:12]
+        avg = {r: sum(d["routes"][r]["p50"] for d in first) / len(first) for r in first[0]["routes"]}
+        av_v = {t["type"]: (None if t["trunk_aircraft"] is None else t["trunk_aircraft"]) for t in types}
+        version = assign(R, P, types, avg, av_v, R["lf_plan"], yld, slots, lease=False)
+        new = version["round_trips"]
+        rounds.append({"freq": dict(new), "share": {r: round(v, 3) for r, v in sh.items()}})
+        if all(abs(new[r] - freq[r]) < 0.01 for r in new):
+            break
+        freq = new
+    v737_rpk = 0.0
+    for k, n in version["by_type_pattern"].items():
+        t, pid = k.split(":")
+        if t == "737":
+            p = next(x for x in P if x["id"] == pid)
+            seats = next(x for x in types if x["type"] == "737")["seats"]
+            v737_rpk += sum(n * c * seats * DAYS * R["lf_plan"] * km[r] for r, c in p["legs"].items()) / 1e6
+    trunk_share = ctx["set_trunk_737_rpk"](v737_rpk) if ctx.get("set_trunk_737_rpk") else None
     rows = []
     for d in dem:
+        if fiscal_years and d["fy"] not in fiscal_years:
+            continue
         m = int(d["label"][5:]); t = d["t"]
-        av = {}
-        for ty in types:
-            k = ty["type"]
-            if ty["trunk_aircraft"] is None:
-                av[k] = ctx["fleet_737"] * (1 - ctx["checks_rate"][k][m]) - ctx["regional_need"](t) - ctx["engine_wait"].get(t, 0)
-            else:
-                av[k] = ty["trunk_aircraft"]                                             # the widebody fleet (international included) covers its checks
-        sol = {q: assign(R, P, types, {r: v[q] for r, v in d["routes"].items()}, av, lf_t, yld, cid=cid, lf_cap=LF_MAX) for q in ("p10", "p50", "p90")}
-        nolease = assign(R, P, types, {r: v["p50"] for r, v in d["routes"].items()}, av, lf_t, yld, lease=False, cid=cid, lf_cap=LF_MAX)
+        free737 = ctx["fleet_737"] * (1 - ctx["checks_rate"][m]) - ctx["regional_need"](t) - ctx["engine_wait"].get(t, 0)
+        av = available(types, m, free737)
+        sol = {q: assign(R, P, types, {r: v[q] for r, v in d["routes"].items()}, av, R["lf_ops"], yld, slots) for q in quantiles}
         s = sol["p50"]
-        rows.append({"t": t, "label": d["label"], "fy": d["fy"], "pax_k_p50": d["total_p50"],
-                     "available": {k: round(v, 1) for k, v in av.items()},
-                     "used_p50": s["by_type"], "used_p90": sol["p90"]["by_type"], "used_p10": sol["p10"]["by_type"],
-                     "lease_p10": sol["p10"]["lease"], "lease_p50": s["lease"], "lease_p90": sol["p90"]["lease"],
-                     "spill_p50_pax_k": s["spill_total_pax_k"], "spill_p90_pax_k": sol["p90"]["spill_total_pax_k"],
-                     "carried_p50_pax_k": round(sum(s["carried_pax_k"].values()), 1), "carried_p90_pax_k": round(sum(sol["p90"]["carried_pax_k"].values()), 1),
-                     "carried_p50_rpk_m": round(sum(v * km[r] for r, v in s["carried_pax_k"].items()) / 1e3, 1), "carried_p90_rpk_m": round(sum(v * km[r] for r, v in sol["p90"]["carried_pax_k"].items()) / 1e3, 1),
-                     "short_p90": sol["p90"]["lease"] > 0 or sol["p90"]["spill_total_pax_k"] > 0.5,
-                     "lf_p50": s["lf"], "slots_used_p50": s["slots_used"], "by_type_pattern_p50": s["by_type_pattern"], "aircraft_by_route_p50": per_route(P, s["by_type_pattern"]),
-                     "cost_k_p50": s["cost_k"], "cycles_per_day_p50": s["cycles_per_day_by_type"], "lease_cycles_per_day_p50": s["lease_cycles_per_day"],
-                     "no_lease_p50": {"spill_pax_k": nolease["spill_total_pax_k"], "lost_revenue_k": nolease["cost_k"]["lost_revenue"], "by_type": nolease["by_type"]}})
-    return {"routes": [{k: r[k] for k in ("id", "name", "pax_month_k", "block_h", "km")} for r in R["routes"]], "patterns": P, "types": types,
-            "version": {"by_type": version["by_type"], "by_type_pattern": version["by_type_pattern"], "lf": version["lf"], "trunk_737_rpk_million": round(v737_rpk, 1),
-                        "trunk_share_of_737_rpk": trunk_share, "how": "最初の 12 か月の平均の需要（p50）で解いた機材割当。大型機はこの 5 航路に回る機数（整備で止まる分を年平均で引く）まで、737 は上限なし。737 の幹線分がこれで決まり、残りが地方路線"},
+        row = {"t": t, "label": d["label"], "fy": d["fy"], "pax_k_p50": d["total_p50"], "available": {k: round(v, 1) for k, v in av.items()},
+               "used_p50": s["by_type"], "lease_p50": s["lease"], "spill_p50_pax_k": s["spill_total_pax_k"],
+               "carried_p50_pax_k": round(sum(s["carried_pax_k"].values()), 1),
+               "carried_p50_rpk_m": round(sum(v * km[r] for r, v in s["carried_pax_k"].items()) / 1e3, 1),
+               "revenue_carried_oku_p50": round(s["revenue_carried_k"] * USD_JPY / 1e5, 2),
+               "round_trips_p50": s["round_trips"], "avg_seats_p50": s["avg_seats"], "lf_p50": s["lf"], "spill_by_route_p50": s["spill_pax_k"],
+               "by_type_pattern_p50": s["by_type_pattern"], "aircraft_by_route_p50": per_route(P, s["by_type_pattern"]),
+               "cost_k_p50": s["cost_k"], "cycles_per_day_p50": s["cycles_per_day_by_type"], "lease_cycles_per_day_p50": s["lease_cycles_per_day"]}
+        for q in quantiles:
+            if q != "p50":
+                row.update({f"used_{q}": sol[q]["by_type"], f"lease_{q}": sol[q]["lease"], f"spill_{q}_pax_k": sol[q]["spill_total_pax_k"],
+                            f"carried_{q}_rpk_m": round(sum(v * km[r] for r, v in sol[q]["carried_pax_k"].items()) / 1e3, 1)})
+        if "p90" in sol:
+            row["short_p90"] = sol["p90"]["lease"] > 0 or sol["p90"]["spill_total_pax_k"] > 0.5
+            row["spill_by_route_p90"] = sol["p90"]["spill_pax_k"]
+        if detail:
+            nolease = assign(R, P, types, {r: v["p50"] for r, v in d["routes"].items()}, av, R["lf_ops"], yld, slots, lease=False)
+            row["no_lease_p50"] = {"spill_pax_k": nolease["spill_total_pax_k"], "lost_revenue_k": nolease["cost_k"]["lost_revenue"], "by_type": nolease["by_type"]}
+        rows.append(row)
+    return {"routes": [{k: r[k] for k in ("id", "name", "market_pax_2024", "market_lf_2024", "block_h", "km", "slot_airport")} for r in R["routes"]], "patterns": P, "types": types,
+            "airport": {**ap.summary(S, cid), "delta": delta, "budget": slots["budget"], "bounds": slots["bounds"], "use_min": slots["use_min"]},
+            "version": {"by_type": version["by_type"], "by_type_pattern": version["by_type_pattern"], "round_trips": version["round_trips"], "avg_seats": version["avg_seats"],
+                        "lf": version["lf"], "share_rounds": rounds, "share": rounds[-1]["share"], "trunk_737_rpk_million": round(v737_rpk, 1), "trunk_share_of_737_rpk": trunk_share,
+                        "how": f"最初の 12 か月の平均の需要（p50）を搭乗率 {R['lf_plan']} で運ぶ機材割当。便数が変わると需要の取り分も変わるので、取り分と便数が落ち着くまで解き直す。737 の幹線分がこれで決まり、残りが地方路線"},
             "demand": dem, "rows": rows, "hub": R["hub"],
-            "how": {"assignment": "月ごと・分位ごとに、機種 × パターンの機数（整数）・737 のウェットリース・乗せられない旅客を、運航費 ＋ リース費 ＋ 失う売上 が最小になるよう解く（機材割当モデル、PuLP＋HiGHS）。各航路は目標搭乗率で運べる座席の範囲で運ぶ",
-                    "lf": f"年次の版は目標搭乗率 {0.85} で立てる。月の運航では 1 便に {LF_MAX} まで乗せられる（それを超えた旅客が乗せられない旅客）",
-                    "available": "大型機：この 5 航路に回る機数（機体整備は国際線を含む機種全体でまかなう）。737：全機 − 機体整備 − 地方路線に要る機数 − エンジン待ち（羽田で止まる機）",
+            "how": {"assignment": f"月ごと・分位ごとに、機種 × パターンの機数（整数）・737 のウェットリース・乗せられない旅客を、運航費 ＋ リース費 ＋ 失う売上 が最小になるよう解く（機材割当モデル、PuLP＋HiGHS）。各航路は座席 × 月平均の搭乗率 {R['lf_ops']} まで運ぶ",
+                    "slots": "空港側の層（airport_slots.py）：羽田の 4 幹線の往復便数の合計は幹線の枠以内、かつ枠の 98% 以上を使う（使わない枠は回収の対象）。路線ごとの便数は今の ±2 往復（再配分シナリオでは幅を広げる）。福岡–那覇は福岡空港の便で、今の便数と季節便の範囲",
+                    "share": "自社の需要 ＝ 路線全体の旅客（2024 年の公開値を 2026-10 まで伸ばす）× 便数の比率",
+                    "available": "大型機：幹線に回せる上限（機種の国内線の機数 − 他の路線・整備、根拠は routes_trunk.json）。737：全機 − 機体整備 − 地方路線に要る機数 − エンジン待ち",
                     "attribution": "航路ごとの機数はパターンの機数を便数で按分", "reference": R.get("fleet_assignment_ref")},
-            "assumptions": {"routes": "no_source: 旅客・飛行時間は航路ベースのデモの前提。機種ごとの座席・運航費・この 5 航路に回る機数、季節の偏り、パターンは仮定",
-                            "lease": R["lease"], "day_cap_h": R["day_block_cap_h"], "engine_swaps": "エンジンの交換と予備は羽田だけ。エンジン待ちの機は羽田で止まる"}}
+            "assumptions": {"sources": R.get("sources"), "lf_plan": R["lf_plan"], "lf_ops": R["lf_ops"], "lf_note": R.get("lf_note"),
+                            "lease": R["lease"], "day_cap_h": R["day_block_cap_h"], "maintenance": R.get("maintenance_note")}}

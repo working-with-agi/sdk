@@ -1,5 +1,5 @@
 {
- "note": "幹線 5 航路の需要（全機種の合計）と、羽田を出て羽田に戻る 1 日の飛び方（パターン）、この 5 航路に回る機種と機数。旅客は片道・前年度の月平均（千人）。どの機種をどのパターンに何機入れるかは、機材割当モデル（Fleet Assignment Model）で月ごとに解く。数値はすべて合成（no_source）：機種ごとのこの 5 航路に回る機数（国際線・他の国内線に回る分を除く）、座席、1 ブロック時間の運航費、折り返し時間、季節の偏り、パターンは仮定。737-800 は会社の全機がこの 5 航路と地方路線を分け合う。大型機はこの 5 航路に回る機数だけを持つ",
+ "note": "幹線 5 航路の需要と、1 日の飛び方（パターン）、会社ごとの機種。旅客は路線全体（全社・両方向）の 2024 暦年の公開値。自社の需要は便数の比率で分ける（airport_slots.py・data/hnd_slots.json）。季節の偏り・パターン・運航費・折り返しは仮定（no_source）",
  "hub": "HND",
  "turnaround_h": 0.83,
  "day_block_cap_h": 15.0,
@@ -7,7 +7,6 @@
   {
    "id": "HND-CTS",
    "name": "羽田–新千歳",
-   "pax_month_k": 72.0,
    "block_h": 1.5,
    "km": 894,
    "season_dev": [
@@ -24,12 +23,13 @@
     0.98,
     0.98
    ],
-   "slots_legs_per_day": 22
+   "market_pax_2024": 9512671,
+   "market_lf_2024": 0.8009999999999999,
+   "slot_airport": "HND"
   },
   {
    "id": "HND-ITM",
    "name": "羽田–伊丹",
-   "pax_month_k": 126.0,
    "block_h": 1.1,
    "km": 514,
    "season_dev": [
@@ -46,12 +46,13 @@
     1.01,
     0.99
    ],
-   "slots_legs_per_day": 38
+   "market_pax_2024": 4922956,
+   "market_lf_2024": 0.7659999999999999,
+   "slot_airport": "HND"
   },
   {
    "id": "HND-FUK",
    "name": "羽田–福岡",
-   "pax_month_k": 74.0,
    "block_h": 1.8,
    "km": 1041,
    "season_dev": [
@@ -68,12 +69,13 @@
     1.0,
     0.99
    ],
-   "slots_legs_per_day": 22
+   "market_pax_2024": 8912874,
+   "market_lf_2024": 0.789,
+   "slot_airport": "HND"
   },
   {
    "id": "HND-OKA",
    "name": "羽田–那覇",
-   "pax_month_k": 46.0,
    "block_h": 2.6,
    "km": 1687,
    "season_dev": [
@@ -90,12 +92,13 @@
     0.96,
     0.96
    ],
-   "slots_legs_per_day": 14
+   "market_pax_2024": 6635608,
+   "market_lf_2024": 0.8290000000000001,
+   "slot_airport": "HND"
   },
   {
    "id": "FUK-OKA",
    "name": "福岡–那覇",
-   "pax_month_k": 15.0,
    "block_h": 1.6,
    "km": 868,
    "season_dev": [
@@ -112,7 +115,9 @@
     0.97,
     0.97
    ],
-   "slots_legs_per_day": 8
+   "market_pax_2024": 2163805,
+   "market_lf_2024": 0.746,
+   "slot_airport": "FUK"
   }
  ],
  "patterns": [
@@ -179,7 +184,10 @@
     "A350",
     "787",
     "767",
-    "777"
+    "777",
+    "777-300",
+    "777-300ER",
+    "787-10"
    ]
   },
   {
@@ -227,12 +235,46 @@
     "HND-ITM",
     "ITM-HND"
    ]
+  },
+  {
+   "id": "W4",
+   "name": "伊丹 3 往復",
+   "legs": [
+    "HND-ITM",
+    "ITM-HND",
+    "HND-ITM",
+    "ITM-HND",
+    "HND-ITM",
+    "ITM-HND"
+   ]
+  },
+  {
+   "id": "W5",
+   "name": "那覇 1 往復＋新千歳 1 往復",
+   "legs": [
+    "HND-OKA",
+    "OKA-HND",
+    "HND-CTS",
+    "CTS-HND"
+   ]
+  },
+  {
+   "id": "W6",
+   "name": "福岡 1 往復＋新千歳 2 往復",
+   "legs": [
+    "HND-FUK",
+    "FUK-HND",
+    "HND-CTS",
+    "CTS-HND",
+    "HND-CTS",
+    "CTS-HND"
+   ]
   }
  ],
  "companies": {
   "jal": {
-   "scale": 1.0,
-   "note": "A350-900 と 767-300ER がこの 5 航路の主力、787-8 は一部。737-800 は全 56 機（地方路線と分け合う）",
+   "note": "幹線に回る機数は、機種の国内線の機数から他の路線・整備で止まる分を引いた上限。実際に何機使うかは機材割当が決める",
+   "fleet_source": "機材数は各社の公表値（2026-03-31）。このリポジトリでは原典を未確認",
    "types": [
     {
      "type": "737",
@@ -240,9 +282,11 @@
      "seats": 165,
      "fleet_key": "737",
      "engine": "CFM56-7B",
+     "fleet_total": 56,
      "trunk_aircraft": null,
      "cost_per_block_h_k": 3.2,
-     "turnaround_h": 0.83
+     "turnaround_h": 0.83,
+     "trunk_basis": "全機を地方路線と分け合う。機数はこのリポジトリの 56 機（JTA を含む）。公表値の 62 機との差は別会社の機材の扱い"
     },
     {
      "type": "767",
@@ -250,35 +294,60 @@
      "seats": 261,
      "fleet_key": "767",
      "engine": "CF6-80C2",
-     "trunk_aircraft": 5,
+     "fleet_total": 24,
+     "trunk_aircraft": 10,
      "cost_per_block_h_k": 5.6,
-     "turnaround_h": 1.0
+     "turnaround_h": 1.0,
+     "trunk_basis": "27 機のうち貨物 3 機を除く 24 機。鹿児島・熊本・広島など大きい地方路線にも回るので、幹線の上限は約 4 割の 10 機（no_source）"
     },
     {
      "type": "787",
-     "name": "787-8",
+     "name": "787-8（国内線仕様）",
      "seats": 291,
      "fleet_key": "787",
      "engine": "GEnx-1B",
-     "trunk_aircraft": 1,
+     "fleet_total": 4,
+     "trunk_aircraft": 3,
      "cost_per_block_h_k": 5.9,
-     "turnaround_h": 1.0
+     "turnaround_h": 1.0,
+     "trunk_basis": "国内線仕様 4 機のうち 1 機は整備・予備（no_source）"
     },
     {
      "type": "A350",
-     "name": "A350-900",
-     "seats": 369,
+     "name": "A350-900（国内線仕様）",
+     "seats": 380,
      "fleet_key": null,
      "engine": "Trent XWB-84",
-     "trunk_aircraft": 5,
+     "fleet_total": 17,
+     "trunk_aircraft": 15,
      "cost_per_block_h_k": 6.6,
-     "turnaround_h": 1.0
+     "turnaround_h": 1.0,
+     "trunk_basis": "国内線仕様 17 機（369／391 席、平均 380）は 4 幹線すべてに投入。2 機は整備・予備（no_source）"
+    },
+    {
+     "type": "777-300ER",
+     "name": "777-300ER（臨時）",
+     "seats": 244,
+     "fleet_key": null,
+     "engine": "GE90-115B",
+     "fleet_total": 9,
+     "trunk_aircraft": 0,
+     "trunk_aircraft_peak": 2,
+     "peak_months": [
+      8,
+      12,
+      1,
+      3
+     ],
+     "cost_per_block_h_k": 8.0,
+     "turnaround_h": 1.1,
+     "trunk_basis": "国際線機。繁忙月（8・12・1・3 月）に 2 機まで臨時で幹線に入れる（no_source）"
     }
    ]
   },
   "ana": {
-   "scale": 0.85,
-   "note": "no_source：同じ航路で旅客を 0.85 倍。777-200 と 787 と 767 がこの 5 航路の主力。737-800 は全 39 機",
+   "note": "同上",
+   "fleet_source": "機材数は各社の公表値（2026-03-31）。このリポジトリでは原典を未確認",
    "types": [
     {
      "type": "737",
@@ -286,49 +355,89 @@
      "seats": 166,
      "fleet_key": "737",
      "engine": "CFM56-7B",
+     "fleet_total": 39,
      "trunk_aircraft": null,
      "cost_per_block_h_k": 3.2,
-     "turnaround_h": 0.83
+     "turnaround_h": 0.83,
+     "trunk_basis": "全機を地方路線と分け合う"
+    },
+    {
+     "type": "A321neo",
+     "name": "A321neo",
+     "seats": 194,
+     "fleet_key": null,
+     "engine": "PW1100G",
+     "fleet_total": 22,
+     "trunk_aircraft": 8,
+     "cost_per_block_h_k": 3.6,
+     "turnaround_h": 0.83,
+     "trunk_basis": "大半は地方路線。幹線の上限 8 機（no_source）"
     },
     {
      "type": "767",
-     "name": "767-300ER",
+     "name": "767-300",
      "seats": 270,
      "fleet_key": "767",
      "engine": "CF6-80C2",
-     "trunk_aircraft": 3,
+     "fleet_total": 15,
+     "trunk_aircraft": 6,
      "cost_per_block_h_k": 5.6,
-     "turnaround_h": 1.0
+     "turnaround_h": 1.0,
+     "trunk_basis": "大きい地方路線と分け合う。幹線の上限 6 機（no_source）"
     },
     {
-     "type": "787",
-     "name": "787-9",
-     "seats": 377,
-     "fleet_key": "787",
-     "engine": "Trent 1000",
-     "trunk_aircraft": 3,
-     "cost_per_block_h_k": 6.3,
-     "turnaround_h": 1.0
+     "type": "787-10",
+     "name": "787-10",
+     "seats": 429,
+     "fleet_key": null,
+     "engine": "Trent 1000-TEN",
+     "fleet_total": 10,
+     "trunk_aircraft": 8,
+     "cost_per_block_h_k": 7.0,
+     "turnaround_h": 1.0,
+     "trunk_basis": "国内線仕様（429 席）。2 機は整備・予備（no_source）"
     },
     {
-     "type": "777",
+     "type": "777-200",
      "name": "777-200",
-     "seats": 405,
+     "seats": 400,
      "fleet_key": null,
      "engine": "PW4000-112",
-     "trunk_aircraft": 2,
+     "fleet_total": 10,
+     "trunk_aircraft": 8,
      "cost_per_block_h_k": 7.4,
-     "turnaround_h": 1.0
+     "turnaround_h": 1.0,
+     "trunk_basis": "392／405 席（平均 400）。2 機は整備・予備（no_source）"
+    },
+    {
+     "type": "777-300",
+     "name": "777-300",
+     "seats": 514,
+     "fleet_key": null,
+     "engine": "PW4000-112",
+     "fleet_total": 16,
+     "trunk_aircraft": 6,
+     "cost_per_block_h_k": 8.2,
+     "turnaround_h": 1.1,
+     "trunk_basis": "公表 16 機の扱いは要確認。幹線の上限 6 機（no_source）"
     }
    ]
   }
  },
- "pattern_note": "パターンはどの機種でも飛べるが、1 日の時間（飛行時間 ＋ 折り返し）が上限を超える機種では使えない。福岡–那覇は大型機を入れない（types_excluded）",
+ "pattern_note": "パターンはどの機種でも飛べるが、1 日の時間（飛行時間 ＋ 折り返し）が上限を超える機種では使えない。福岡–那覇は 737 系だけ（types_excluded）",
  "lease": {
   "type": "737",
   "k_per_aircraft_month": 850.0,
-  "note": "no_source：ウェットリースは 737 だけ。リース代（機体・乗員・整備）に、燃料・空港などの運航費は上乗せ（借りる側が払う）"
+  "note": "no_source：ウェットリースは 737 だけ。リース代（機体・乗員・整備）に、燃料・空港などの運航費は上乗せ（借りる側が払う）。借りても羽田の枠がなければ飛べない"
  },
  "fleet_assignment_ref": "Hane, Barnhart, Johnson, Marsten, Nemhauser, Sigismondi (1995) The fleet assignment problem: solving a large-scale integer program. Mathematical Programming 70, 211–232",
- "slots_note": "no_source：航路ごとの 1 日の便数の上限（往復の片道便の合計）。羽田の発着枠が幹線の縛り。平均 280 席・搭乗率 0.85 で平年の旅客を運べる便数に 1 割の余裕を足した値。会社の旅客の倍率（scale）を掛けて使う"
+ "sources": {
+  "market_pax_2024": "https://www.mlit.go.jp/report/press/content/001876790.pdf（2025-03-19、令和 6 年路線別輸送実績）",
+  "slots": "data/hnd_slots.json を参照"
+ },
+ "lf_plan": 0.8,
+ "lf_ops": 0.88,
+ "lf_note": "年次の版は搭乗率 0.80（2024 年の幹線の座席利用率 75〜83% の中ほど）で立てる。月の運航では月平均 0.88 まで（日ごとの波があるので、月平均 0.88 で繁忙日は満席）。どちらも no_source",
+ "base_year_growth": "2024 暦年の旅客を、需要の伸び（plan_from_demand）で 2026-10 まで伸ばす",
+ "maintenance_note": "エンジンの交換は羽田の格納庫で行い、予備エンジンも羽田に置く。エンジンの工場整備は別の場所（成田の整備工場）"
 }
