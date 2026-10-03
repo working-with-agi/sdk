@@ -39,6 +39,8 @@ ROUTES = HERE / "data" / "routes_trunk.json"
 DAYS = 365 / 12
 USD_JPY = 157.0
 MIP_GAP = 0.002          # relative optimality gap accepted from the solver
+CANCEL_K_PER_ROUND_TRIP_MONTH = 5000.0   # penalty for flying fewer round trips than the slots/bounds ask (k$ per round trip a day, a month): only when no aircraft can fly them.
+                                         # About a month of what one hub round trip is worth a year in the slot scenarios (10-13 oku yen); assumption
 MIP_TIME_S = 15          # time limit per monthly solve (a feasible solution found by then is used)
 
 
@@ -95,7 +97,7 @@ def route_demand(R: dict, D: dict, band: list[dict], share: dict[str, float], to
 
 
 def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict[str, float | None], lf_cap: float, yld: float,
-           slots: dict, lease: bool = True) -> dict:
+           slots: dict, lease: bool = True, gap: float = MIP_GAP, time_s: float = MIP_TIME_S) -> dict:
     """One month's fleet assignment. avail[type] None = unconstrained. slots: {"bounds": {route: (lo, hi)}
     round trips a day, "budget": hub trunk round trips, "use_min": floor share of the budget}."""
     km = {r["id"]: r["km"] for r in R["routes"]}
@@ -109,7 +111,10 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
     op = pulp.lpSum(x[k] * T[k[0]]["cost_per_block_h_k"] * bh[k[1]] * DAYS for k in x)
     ls = pulp.lpSum(v * (R["lease"]["k_per_aircraft_month"] + T[lt]["cost_per_block_h_k"] * bh[k] * DAYS) for k, v in l.items())
     rev = {r: km[r] * yld / USD_JPY for r in pax}                                  # k$ per thousand passengers
-    prob += op + ls + pulp.lpSum((pax[r] - c[r]) * rev[r] for r in pax)
+    hub = [r for r in pax if r in ap.HUB_ROUTES]
+    cut = {r: pulp.LpVariable(f"u_{r.replace('-', '_')}", lowBound=0) for r in pax}                 # round trips a day below the route's floor (cancelled)
+    cut_hub = pulp.LpVariable("u_hub", lowBound=0)                                                  # round trips a day below the slot-use floor
+    prob += op + ls + pulp.lpSum((pax[r] - c[r]) * rev[r] for r in pax) + CANCEL_K_PER_ROUND_TRIP_MONTH * (pulp.lpSum(cut.values()) + cut_hub)
     legs = {r: pulp.lpSum(x[(t, p["id"])] * p["legs"].get(r, 0) for p in P for t in p["types"]) + pulp.lpSum(l[p["id"]] * p["legs"].get(r, 0) for p in P if p["id"] in l) for r in pax}
     for r in pax:
         seats = pulp.lpSum(x[(t, p["id"])] * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"]) \
@@ -117,14 +122,13 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
         prob += seats * DAYS / 1e3 * lf_cap >= c[r]
         lo, hi = slots["bounds"][r]
         prob += legs[r] <= 2 * hi
-        prob += legs[r] >= 2 * math.ceil(lo - 1e-9)
-    hub = [r for r in pax if r in ap.HUB_ROUTES]
+        prob += legs[r] + 2 * cut[r] >= 2 * math.ceil(lo - 1e-9)
     prob += pulp.lpSum(legs[r] for r in hub) <= 2 * slots["budget"]
-    prob += pulp.lpSum(legs[r] for r in hub) >= 2 * math.floor(slots["budget"] * slots["use_min"])
+    prob += pulp.lpSum(legs[r] for r in hub) + 2 * cut_hub >= 2 * math.floor(slots["budget"] * slots["use_min"])
     for t in T:
         if avail.get(t) is not None:
             prob += pulp.lpSum(v for k, v in x.items() if k[0] == t) <= max(0, math.floor(avail[t] + 1e-9))
-    prob.solve(pulp.HiGHS(msg=False, gapRel=MIP_GAP, timeLimit=MIP_TIME_S))
+    prob.solve(pulp.HiGHS(msg=False, gapRel=gap, timeLimit=time_s))
     if prob.sol_status not in (pulp.LpSolutionOptimal, pulp.LpSolutionIntegerFeasible):
         raise RuntimeError(f"fleet assignment: no feasible solution ({pulp.LpStatus[prob.status]})")
     xs = {k: int(round(v.value() or 0)) for k, v in x.items()}
@@ -142,6 +146,7 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
             "lf": {r: round(carried[r] / cap[r], 3) if cap[r] else None for r in pax},
             "cycles_per_day_by_type": cyc, "lease_cycles_per_day": sum(ls_.get(p["id"], 0) * p["cycles_per_day"] for p in P),
             "revenue_carried_k": round(sum(carried[r] * rev[r] for r in pax)),
+            "cancelled_round_trips": round(sum(v.value() or 0 for v in cut.values()) + (cut_hub.value() or 0), 2),
             "cost_k": {"operating": round(pulp.value(op)), "lease": round(pulp.value(ls)) if l else 0, "lost_revenue": round(sum(sp[r] * rev[r] for r in pax))}}
 
 
@@ -190,7 +195,7 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
         first = dem[:12]
         avg = {r: sum(d["routes"][r]["p50"] for d in first) / len(first) for r in first[0]["routes"]}
         av_v = {t["type"]: (None if t["trunk_aircraft"] is None else t["trunk_aircraft"]) for t in types}
-        version = assign(R, P, types, avg, av_v, R["lf_plan"], yld, slots, lease=False)
+        version = assign(R, P, types, avg, av_v, R["lf_plan"], yld, slots, lease=False, gap=0.0, time_s=120)   # the yearly version: solved to optimality so the frequencies (and share) are unique
         new = version["round_trips"]
         rounds.append({"freq": dict(new), "share": {r: round(v, 3) for r, v in sh.items()}})
         if all(abs(new[r] - freq[r]) < 0.01 for r in new):

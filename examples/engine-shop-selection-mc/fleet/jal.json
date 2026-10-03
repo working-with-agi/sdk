@@ -1882,16 +1882,15 @@
     "777-300ER": 0
    },
    "by_type_pattern": {
+    "A350:P1": 1,
     "A350:P3": 3,
     "A350:P4": 4,
     "737:P5": 6,
-    "A350:P6": 1,
     "787:W1": 1,
-    "A350:W1": 1,
     "A350:W3": 3,
     "787:W5": 1,
     "787:W6": 1,
-    "A350:W6": 3
+    "A350:W6": 4
    },
    "round_trips": {
     "HND-CTS": 16.0,
@@ -2942,60 +2941,59 @@
      "777-300ER": 0
     },
     "lease_p50": 0,
-    "spill_p50_pax_k": 7.2,
-    "carried_p50_pax_k": 1081.6,
-    "carried_p50_rpk_m": 1092.4,
-    "revenue_carried_oku_p50": 163.86,
+    "spill_p50_pax_k": 9.6,
+    "carried_p50_pax_k": 1079.2,
+    "carried_p50_rpk_m": 1092.7,
+    "revenue_carried_oku_p50": 163.91,
     "round_trips_p50": {
-     "HND-CTS": 16.0,
+     "HND-CTS": 15.0,
      "HND-ITM": 16.0,
      "HND-FUK": 17.0,
      "HND-OKA": 12.0,
-     "FUK-OKA": 6.0
+     "FUK-OKA": 7.0
     },
     "avg_seats_p50": {
-     "HND-CTS": 329,
-     "HND-ITM": 294,
+     "HND-CTS": 348,
+     "HND-ITM": 286,
      "HND-FUK": 291,
      "HND-OKA": 362,
      "FUK-OKA": 165
     },
     "lf_p50": {
-     "HND-CTS": 0.876,
+     "HND-CTS": 0.88,
      "HND-ITM": 0.88,
      "HND-FUK": 0.88,
      "HND-OKA": 0.875,
-     "FUK-OKA": 0.88
+     "FUK-OKA": 0.83
     },
     "spill_by_route_p50": {
-     "HND-CTS": 0.0,
-     "HND-ITM": 1.9,
+     "HND-CTS": 0.9,
+     "HND-ITM": 8.7,
      "HND-FUK": 0.0,
      "HND-OKA": 0.0,
-     "FUK-OKA": 5.3
+     "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
-     "787:P1": 1,
-     "A350:P3": 3,
+     "A350:P3": 2,
      "A350:P4": 4,
-     "737:P5": 6,
-     "A350:W1": 1,
+     "737:P5": 7,
+     "A350:P6": 1,
+     "787:W1": 1,
      "A350:W3": 3,
      "737:W5": 1,
-     "737:W6": 1,
-     "A350:W6": 4
+     "A350:W6": 5
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 5.5,
-     "HND-ITM": 5.33,
      "HND-FUK": 5.67,
+     "HND-ITM": 5.33,
      "HND-OKA": 5.5,
-     "FUK-OKA": 2.0
+     "FUK-OKA": 2.33,
+     "HND-CTS": 5.17
     },
     "cost_k_p50": {
-     "operating": 37770,
+     "operating": 37855,
      "lease": 0,
-     "lost_revenue": 533
+     "lost_revenue": 504
     },
     "cycles_per_day_p50": {
      "737": 46,
@@ -3065,81 +3063,77 @@
      "777-300ER": 0
     },
     "lease_p50": 0,
-    "spill_p50_pax_k": 3.7,
-    "carried_p50_pax_k": 1028.9,
-    "carried_p50_rpk_m": 1031.9,
-    "revenue_carried_oku_p50": 154.78,
+    "spill_p50_pax_k": 2.4,
+    "carried_p50_pax_k": 1030.2,
+    "carried_p50_rpk_m": 1032.5,
+    "revenue_carried_oku_p50": 154.88,
     "round_trips_p50": {
      "HND-CTS": 15.0,
-     "HND-ITM": 17.0,
+     "HND-ITM": 16.0,
      "HND-FUK": 17.0,
      "HND-OKA": 11.0,
      "FUK-OKA": 6.0
     },
     "avg_seats_p50": {
      "HND-CTS": 337,
-     "HND-ITM": 266,
+     "HND-ITM": 286,
      "HND-FUK": 279,
      "HND-OKA": 360,
      "FUK-OKA": 165
     },
     "lf_p50": {
      "HND-CTS": 0.875,
-     "HND-ITM": 0.88,
+     "HND-ITM": 0.875,
      "HND-FUK": 0.875,
      "HND-OKA": 0.88,
      "FUK-OKA": 0.88
     },
     "spill_by_route_p50": {
      "HND-CTS": 0.0,
-     "HND-ITM": 1.3,
+     "HND-ITM": 0.0,
      "HND-FUK": 0.0,
      "HND-OKA": 1.1,
      "FUK-OKA": 1.3
     },
     "by_type_pattern_p50": {
-     "A350:P3": 2,
-     "A350:P4": 3,
+     "737:P1": 1,
+     "A350:P4": 5,
      "737:P5": 6,
-     "737:P6": 1,
-     "A350:W1": 3,
-     "A350:W2": 2,
-     "737:W3": 1,
-     "A350:W3": 3,
-     "A350:W5": 1,
-     "737:W6": 1,
-     "A350:W6": 1
+     "A350:P6": 9,
+     "A350:W1": 1,
+     "737:W2": 1,
+     "737:W5": 1
     },
     "aircraft_by_route_p50": {
-     "HND-FUK": 6.33,
-     "HND-ITM": 5.67,
-     "HND-OKA": 4.83,
-     "FUK-OKA": 2.0,
-     "HND-CTS": 5.17
+     "HND-CTS": 5.17,
+     "HND-ITM": 5.33,
+     "HND-OKA": 5.5,
+     "HND-FUK": 6.0,
+     "FUK-OKA": 2.0
     },
     "cost_k_p50": {
-     "operating": 35685,
+     "operating": 35698,
      "lease": 0,
-     "lost_revenue": 349
+     "lost_revenue": 285
     },
     "cycles_per_day_p50": {
-     "737": 54,
+     "737": 50,
      "767": 0,
      "787": 0,
-     "A350": 78,
+     "A350": 80,
      "777-300ER": 0
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 11,
+     "737": 10,
      "767": 0,
      "787": 0,
      "A350": 13,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 1.5,
-    "carried_p10_rpk_m": 973.2,
+    "spill_p10_pax_k": 1.6,
+    "carried_p10_rpk_m": 973.0,
     "used_p90": {
      "737": 8,
      "767": 0,
@@ -3186,7 +3180,7 @@
      "737": 11,
      "767": 0,
      "787": 0,
-     "A350": 13,
+     "A350": 14,
      "777-300ER": 0
     },
     "lease_p50": 0,
@@ -3223,20 +3217,20 @@
      "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
-     "A350:P1": 1,
-     "A350:P4": 5,
+     "A350:P3": 3,
      "737:P5": 6,
      "737:P6": 4,
-     "A350:P6": 6,
+     "A350:W3": 2,
+     "A350:W5": 8,
      "737:W6": 1,
      "A350:W6": 1
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 5.33,
-     "HND-ITM": 5.67,
-     "HND-OKA": 5.0,
      "HND-FUK": 6.0,
-     "FUK-OKA": 2.0
+     "HND-ITM": 5.67,
+     "FUK-OKA": 2.0,
+     "HND-CTS": 6.67,
+     "HND-OKA": 4.67
     },
     "cost_k_p50": {
      "operating": 34228,
@@ -3252,17 +3246,17 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 11,
+     "737": 12,
      "767": 0,
      "787": 0,
      "A350": 12,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 4.4,
-    "carried_p10_rpk_m": 917.6,
+    "spill_p10_pax_k": 4.5,
+    "carried_p10_rpk_m": 918.4,
     "used_p90": {
-     "737": 8,
+     "737": 9,
      "767": 1,
      "787": 0,
      "A350": 15,
@@ -3280,13 +3274,13 @@
      "FUK-OKA": 2.0
     },
     "no_lease_p50": {
-     "spill_pax_k": 0.1,
-     "lost_revenue_k": 9,
+     "spill_pax_k": 0.0,
+     "lost_revenue_k": 0,
      "by_type": {
       "737": 11,
       "767": 0,
       "787": 0,
-      "A350": 13,
+      "A350": 14,
       "777-300ER": 0
      }
     }
@@ -3307,20 +3301,20 @@
      "737": 12,
      "767": 0,
      "787": 0,
-     "A350": 13,
+     "A350": 12,
      "777-300ER": 0
     },
     "lease_p50": 0,
-    "spill_p50_pax_k": 1.1,
-    "carried_p50_pax_k": 932.5,
-    "carried_p50_rpk_m": 932.3,
-    "revenue_carried_oku_p50": 139.85,
+    "spill_p50_pax_k": 5.0,
+    "carried_p50_pax_k": 928.6,
+    "carried_p50_rpk_m": 929.0,
+    "revenue_carried_oku_p50": 139.34,
     "round_trips_p50": {
      "HND-CTS": 16.0,
      "HND-ITM": 17.0,
      "HND-FUK": 15.0,
      "HND-OKA": 11.0,
-     "FUK-OKA": 6.0
+     "FUK-OKA": 5.0
     },
     "avg_seats_p50": {
      "HND-CTS": 299,
@@ -3334,41 +3328,41 @@
      "HND-ITM": 0.875,
      "HND-FUK": 0.88,
      "HND-OKA": 0.878,
-     "FUK-OKA": 0.799
+     "FUK-OKA": 0.881
     },
     "spill_by_route_p50": {
      "HND-CTS": 0.0,
      "HND-ITM": 0.0,
      "HND-FUK": 1.1,
      "HND-OKA": 0.0,
-     "FUK-OKA": 0.0
+     "FUK-OKA": 3.9
     },
     "by_type_pattern_p50": {
-     "737:P1": 1,
+     "A350:P1": 1,
      "A350:P3": 3,
-     "A350:P4": 1,
-     "737:P5": 6,
-     "737:P6": 1,
-     "737:W4": 1,
-     "A350:W4": 1,
-     "737:W5": 3,
-     "A350:W5": 6,
-     "A350:W6": 2
+     "A350:P4": 4,
+     "737:P5": 5,
+     "A350:P6": 2,
+     "737:W1": 1,
+     "A350:W1": 2,
+     "737:W2": 1,
+     "737:W4": 2,
+     "737:W5": 3
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 6.83,
+     "HND-CTS": 5.83,
      "HND-ITM": 5.67,
-     "HND-FUK": 5.0,
+     "HND-FUK": 5.33,
      "HND-OKA": 5.5,
-     "FUK-OKA": 2.0
+     "FUK-OKA": 1.67
     },
     "cost_k_p50": {
-     "operating": 32753,
+     "operating": 32441,
      "lease": 0,
-     "lost_revenue": 109
+     "lost_revenue": 433
     },
     "cycles_per_day_p50": {
-     "737": 66,
+     "737": 64,
      "767": 0,
      "787": 0,
      "A350": 64,
@@ -3379,12 +3373,12 @@
      "737": 13,
      "767": 0,
      "787": 0,
-     "A350": 10,
+     "A350": 11,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 0.8,
-    "carried_p10_rpk_m": 872.9,
+    "spill_p10_pax_k": 2.4,
+    "carried_p10_rpk_m": 871.4,
     "used_p90": {
      "737": 10,
      "767": 0,
@@ -3428,115 +3422,112 @@
      "777-300ER": 0
     },
     "used_p50": {
-     "737": 11,
-     "767": 0,
-     "787": 1,
-     "A350": 12,
-     "777-300ER": 0
-    },
-    "lease_p50": 0,
-    "spill_p50_pax_k": 0.6,
-    "carried_p50_pax_k": 936.5,
-    "carried_p50_rpk_m": 932.6,
-    "revenue_carried_oku_p50": 139.89,
-    "round_trips_p50": {
-     "HND-CTS": 16.0,
-     "HND-ITM": 17.0,
-     "HND-FUK": 15.0,
-     "HND-OKA": 11.0,
-     "FUK-OKA": 6.0
-    },
-    "avg_seats_p50": {
-     "HND-CTS": 307,
-     "HND-ITM": 241,
-     "HND-FUK": 280,
-     "HND-OKA": 313,
-     "FUK-OKA": 165
-    },
-    "lf_p50": {
-     "HND-CTS": 0.878,
-     "HND-ITM": 0.873,
-     "HND-FUK": 0.88,
-     "HND-OKA": 0.88,
-     "FUK-OKA": 0.789
-    },
-    "spill_by_route_p50": {
-     "HND-CTS": 0.0,
-     "HND-ITM": 0.0,
-     "HND-FUK": 0.6,
-     "HND-OKA": 0.0,
-     "FUK-OKA": 0.0
-    },
-    "by_type_pattern_p50": {
-     "737:P1": 1,
-     "A350:P3": 2,
-     "A350:P4": 2,
-     "737:P5": 6,
-     "A350:W1": 3,
-     "A350:W2": 2,
-     "737:W3": 2,
-     "A350:W3": 2,
-     "737:W5": 1,
-     "787:W5": 1,
-     "A350:W5": 1,
-     "737:W6": 1
-    },
-    "aircraft_by_route_p50": {
-     "HND-CTS": 5.83,
-     "HND-ITM": 5.67,
-     "HND-FUK": 5.67,
-     "HND-OKA": 4.83,
-     "FUK-OKA": 2.0
-    },
-    "cost_k_p50": {
-     "operating": 32888,
-     "lease": 0,
-     "lost_revenue": 60
-    },
-    "cycles_per_day_p50": {
-     "737": 64,
-     "767": 0,
-     "787": 4,
-     "A350": 62,
-     "777-300ER": 0
-    },
-    "lease_cycles_per_day_p50": 0,
-    "used_p10": {
      "737": 14,
      "767": 0,
      "787": 0,
      "A350": 11,
      "777-300ER": 0
     },
+    "lease_p50": 0,
+    "spill_p50_pax_k": 6.2,
+    "carried_p50_pax_k": 930.9,
+    "carried_p50_rpk_m": 928.0,
+    "revenue_carried_oku_p50": 139.19,
+    "round_trips_p50": {
+     "HND-CTS": 18.0,
+     "HND-ITM": 14.0,
+     "HND-FUK": 15.0,
+     "HND-OKA": 13.0,
+     "FUK-OKA": 5.0
+    },
+    "avg_seats_p50": {
+     "HND-CTS": 272,
+     "HND-ITM": 288,
+     "HND-FUK": 280,
+     "HND-OKA": 264,
+     "FUK-OKA": 165
+    },
+    "lf_p50": {
+     "HND-CTS": 0.88,
+     "HND-ITM": 0.88,
+     "HND-FUK": 0.88,
+     "HND-OKA": 0.88,
+     "FUK-OKA": 0.881
+    },
+    "spill_by_route_p50": {
+     "HND-CTS": 0.0,
+     "HND-ITM": 1.8,
+     "HND-FUK": 0.6,
+     "HND-OKA": 0.5,
+     "FUK-OKA": 3.3
+    },
+    "by_type_pattern_p50": {
+     "737:P1": 1,
+     "A350:P3": 2,
+     "A350:P4": 1,
+     "737:P5": 5,
+     "737:W2": 1,
+     "A350:W3": 3,
+     "737:W5": 7,
+     "A350:W5": 1,
+     "A350:W6": 4
+    },
+    "aircraft_by_route_p50": {
+     "HND-CTS": 7.33,
+     "HND-ITM": 4.67,
+     "HND-FUK": 5.33,
+     "HND-OKA": 6.0,
+     "FUK-OKA": 1.67
+    },
+    "cost_k_p50": {
+     "operating": 32464,
+     "lease": 0,
+     "lost_revenue": 502
+    },
+    "cycles_per_day_p50": {
+     "737": 68,
+     "767": 0,
+     "787": 0,
+     "A350": 62,
+     "777-300ER": 0
+    },
+    "lease_cycles_per_day_p50": 0,
+    "used_p10": {
+     "737": 15,
+     "767": 0,
+     "787": 0,
+     "A350": 10,
+     "777-300ER": 0
+    },
     "lease_p10": 0,
-    "spill_p10_pax_k": 0.4,
-    "carried_p10_rpk_m": 871.1,
+    "spill_p10_pax_k": 1.9,
+    "carried_p10_rpk_m": 870.4,
     "used_p90": {
      "737": 10,
      "767": 0,
      "787": 0,
-     "A350": 15,
+     "A350": 14,
      "777-300ER": 0
     },
     "lease_p90": 0,
-    "spill_p90_pax_k": 0.4,
-    "carried_p90_rpk_m": 994.5,
-    "short_p90": false,
+    "spill_p90_pax_k": 1.1,
+    "carried_p90_rpk_m": 994.3,
+    "short_p90": true,
     "spill_by_route_p90": {
-     "HND-CTS": 0.4,
-     "HND-ITM": 0.0,
+     "HND-CTS": 0.0,
+     "HND-ITM": 1.1,
      "HND-FUK": 0.0,
      "HND-OKA": 0.0,
      "FUK-OKA": 0.0
     },
     "no_lease_p50": {
-     "spill_pax_k": 6.2,
-     "lost_revenue_k": 502,
+     "spill_pax_k": 3.9,
+     "lost_revenue_k": 333,
      "by_type": {
-      "737": 13,
+      "737": 11,
       "767": 0,
-      "787": 0,
-      "A350": 12,
+      "787": 1,
+      "A350": 13,
       "777-300ER": 0
      }
     }
@@ -3626,13 +3617,13 @@
     "used_p10": {
      "737": 9,
      "767": 0,
-     "787": 0,
+     "787": 1,
      "A350": 15,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 3.2,
-    "carried_p10_rpk_m": 1038.5,
+    "spill_p10_pax_k": 4.6,
+    "carried_p10_rpk_m": 1037.2,
     "used_p90": {
      "737": 6,
      "767": 0,
@@ -3716,23 +3707,23 @@
      "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
-     "737:P1": 1,
      "A350:P3": 2,
      "A350:P4": 4,
      "737:P5": 6,
-     "737:P6": 2,
      "A350:P6": 3,
      "A350:W1": 2,
      "737:W2": 1,
      "A350:W3": 1,
-     "737:W5": 2
+     "737:W4": 1,
+     "737:W5": 2,
+     "737:W6": 2
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 5.33,
-     "HND-ITM": 5.33,
      "HND-FUK": 6.0,
+     "HND-ITM": 5.33,
      "HND-OKA": 5.33,
-     "FUK-OKA": 2.0
+     "FUK-OKA": 2.0,
+     "HND-CTS": 5.33
     },
     "cost_k_p50": {
      "operating": 33030,
@@ -3748,15 +3739,15 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 15,
+     "737": 14,
      "767": 0,
      "787": 0,
      "A350": 11,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 4.7,
-    "carried_p10_rpk_m": 871.2,
+    "spill_p10_pax_k": 6.4,
+    "carried_p10_rpk_m": 871.4,
     "used_p90": {
      "737": 10,
      "767": 0,
@@ -3782,7 +3773,7 @@
       "737": 12,
       "767": 0,
       "787": 0,
-      "A350": 13,
+      "A350": 14,
       "777-300ER": 0
      }
     }
@@ -3801,9 +3792,9 @@
     },
     "used_p50": {
      "737": 9,
-     "767": 0,
-     "787": 1,
-     "A350": 14,
+     "767": 1,
+     "787": 0,
+     "A350": 15,
      "777-300ER": 0
     },
     "lease_p50": 0,
@@ -3819,17 +3810,17 @@
      "FUK-OKA": 6.0
     },
     "avg_seats_p50": {
-     "HND-CTS": 331,
+     "HND-CTS": 329,
      "HND-ITM": 294,
      "HND-FUK": 261,
-     "HND-OKA": 372,
+     "HND-OKA": 369,
      "FUK-OKA": 165
     },
     "lf_p50": {
-     "HND-CTS": 0.869,
+     "HND-CTS": 0.874,
      "HND-ITM": 0.877,
      "HND-FUK": 0.871,
-     "HND-OKA": 0.871,
+     "HND-OKA": 0.878,
      "FUK-OKA": 0.88
     },
     "spill_by_route_p50": {
@@ -3841,45 +3832,47 @@
     },
     "by_type_pattern_p50": {
      "A350:P1": 1,
-     "A350:P3": 4,
      "A350:P4": 4,
      "737:P5": 6,
      "737:W1": 1,
-     "A350:W1": 3,
      "737:W2": 2,
-     "A350:W3": 2,
-     "787:W5": 1
+     "A350:W2": 2,
+     "A350:W3": 1,
+     "A350:W4": 2,
+     "767:W5": 1,
+     "A350:W5": 1,
+     "A350:W6": 4
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 5.17,
+     "HND-CTS": 5.33,
      "HND-ITM": 5.0,
-     "HND-FUK": 6.67,
-     "HND-OKA": 5.17,
+     "HND-OKA": 5.33,
+     "HND-FUK": 7.33,
      "FUK-OKA": 2.0
     },
     "cost_k_p50": {
-     "operating": 35825,
+     "operating": 35751,
      "lease": 0,
      "lost_revenue": 133
     },
     "cycles_per_day_p50": {
      "737": 50,
-     "767": 0,
-     "787": 4,
+     "767": 4,
+     "787": 0,
      "A350": 76,
      "777-300ER": 0
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 12,
+     "737": 11,
      "767": 0,
      "787": 0,
-     "A350": 12,
+     "A350": 14,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 1.0,
-    "carried_p10_rpk_m": 953.4,
+    "spill_p10_pax_k": 0.3,
+    "carried_p10_rpk_m": 954.6,
     "used_p90": {
      "737": 8,
      "767": 0,
@@ -3899,10 +3892,10 @@
      "FUK-OKA": 5.5
     },
     "no_lease_p50": {
-     "spill_pax_k": 1.8,
-     "lost_revenue_k": 153,
+     "spill_pax_k": 1.6,
+     "lost_revenue_k": 133,
      "by_type": {
-      "737": 10,
+      "737": 9,
       "767": 1,
       "787": 0,
       "A350": 15,
@@ -3926,7 +3919,7 @@
      "737": 11,
      "767": 0,
      "787": 0,
-     "A350": 14,
+     "A350": 13,
      "777-300ER": 0
     },
     "lease_p50": 0,
@@ -3964,19 +3957,18 @@
     },
     "by_type_pattern_p50": {
      "737:P1": 4,
-     "A350:P4": 1,
+     "A350:P1": 4,
+     "A350:P3": 2,
+     "A350:P4": 5,
      "737:P5": 6,
      "737:P6": 1,
-     "A350:W1": 1,
-     "A350:W2": 4,
-     "A350:W3": 3,
-     "A350:W5": 5
+     "A350:W2": 2
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 6.5,
+     "HND-CTS": 5.67,
      "HND-ITM": 5.67,
-     "HND-OKA": 4.5,
-     "HND-FUK": 6.33,
+     "HND-FUK": 5.67,
+     "HND-OKA": 5.0,
      "FUK-OKA": 2.0
     },
     "cost_k_p50": {
@@ -4006,7 +3998,7 @@
      "737": 11,
      "767": 0,
      "787": 0,
-     "A350": 14,
+     "A350": 15,
      "777-300ER": 0
     },
     "lease_p90": 0,
@@ -4086,21 +4078,20 @@
     },
     "by_type_pattern_p50": {
      "737:P1": 1,
-     "A350:P4": 4,
+     "A350:P4": 3,
      "737:P5": 7,
-     "A350:P6": 4,
      "737:W1": 1,
-     "A350:W2": 1,
-     "A350:W3": 2,
+     "A350:W2": 2,
+     "A350:W3": 4,
      "737:W5": 1,
      "A350:W5": 1,
-     "A350:W6": 3
+     "A350:W6": 5
     },
     "aircraft_by_route_p50": {
      "HND-CTS": 6.0,
      "HND-ITM": 5.33,
-     "HND-OKA": 5.67,
-     "HND-FUK": 5.67,
+     "HND-OKA": 5.33,
+     "HND-FUK": 6.0,
      "FUK-OKA": 2.33
     },
     "cost_k_p50": {
@@ -4117,15 +4108,15 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 12,
+     "737": 11,
      "767": 0,
      "787": 0,
      "A350": 14,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 1.1,
-    "carried_p10_rpk_m": 980.1,
+    "spill_p10_pax_k": 1.5,
+    "carried_p10_rpk_m": 979.9,
     "used_p90": {
      "737": 7,
      "767": 0,
@@ -4145,10 +4136,10 @@
      "FUK-OKA": 0.0
     },
     "no_lease_p50": {
-     "spill_pax_k": 5.9,
-     "lost_revenue_k": 290,
+     "spill_pax_k": 0.0,
+     "lost_revenue_k": 0,
      "by_type": {
-      "737": 9,
+      "737": 10,
       "767": 0,
       "787": 0,
       "A350": 15,
@@ -4209,20 +4200,21 @@
      "FUK-OKA": 5.9
     },
     "by_type_pattern_p50": {
+     "A350:P3": 2,
      "787:P4": 1,
      "A350:P4": 5,
      "737:P5": 7,
-     "A350:P6": 2,
+     "A350:W1": 2,
      "787:W2": 1,
      "787:W3": 1,
      "A350:W3": 1,
-     "A350:W6": 7
+     "A350:W6": 5
     },
     "aircraft_by_route_p50": {
-     "HND-OKA": 6.67,
      "HND-FUK": 6.33,
-     "FUK-OKA": 2.33,
      "HND-ITM": 4.33,
+     "HND-OKA": 6.67,
+     "FUK-OKA": 2.33,
      "HND-CTS": 5.33
     },
     "cost_k_p50": {
@@ -4361,15 +4353,15 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 11,
+     "737": 10,
      "767": 0,
      "787": 0,
      "A350": 14,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 1.7,
-    "carried_p10_rpk_m": 1002.0,
+    "spill_p10_pax_k": 2.2,
+    "carried_p10_rpk_m": 1001.9,
     "used_p90": {
      "737": 7,
      "767": 1,
@@ -4389,10 +4381,10 @@
      "FUK-OKA": 1.2
     },
     "no_lease_p50": {
-     "spill_pax_k": 0.4,
-     "lost_revenue_k": 58,
+     "spill_pax_k": 0.1,
+     "lost_revenue_k": 10,
      "by_type": {
-      "737": 9,
+      "737": 8,
       "767": 0,
       "787": 1,
       "A350": 15,
@@ -4490,8 +4482,8 @@
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 3.6,
-    "carried_p10_rpk_m": 1049.1,
+    "spill_p10_pax_k": 3.4,
+    "carried_p10_rpk_m": 1048.9,
     "used_p90": {
      "737": 7,
      "767": 0,
@@ -4698,23 +4690,21 @@
      "FUK-OKA": 0.7
     },
     "by_type_pattern_p50": {
-     "A350:P3": 1,
+     "A350:P1": 4,
+     "A350:P3": 4,
      "A350:P4": 4,
      "737:P5": 6,
-     "A350:W2": 1,
-     "A350:W3": 1,
-     "A350:W4": 2,
+     "A350:P6": 1,
      "737:W5": 1,
-     "A350:W5": 1,
-     "737:W6": 2,
-     "A350:W6": 5
+     "A350:W5": 2,
+     "737:W6": 2
     },
     "aircraft_by_route_p50": {
-     "HND-FUK": 6.0,
+     "HND-CTS": 5.83,
      "HND-ITM": 5.0,
-     "HND-OKA": 5.33,
-     "FUK-OKA": 2.0,
-     "HND-CTS": 5.67
+     "HND-FUK": 5.67,
+     "HND-OKA": 5.5,
+     "FUK-OKA": 2.0
     },
     "cost_k_p50": {
      "operating": 35466,
@@ -4761,10 +4751,10 @@
      "spill_pax_k": 0.7,
      "lost_revenue_k": 58,
      "by_type": {
-      "737": 10,
+      "737": 11,
       "767": 0,
       "787": 0,
-      "A350": 15,
+      "A350": 14,
       "777-300ER": 0
      }
     }
@@ -4789,59 +4779,59 @@
      "777-300ER": 0
     },
     "lease_p50": 0,
-    "spill_p50_pax_k": 2.3,
-    "carried_p50_pax_k": 966.5,
-    "carried_p50_rpk_m": 967.1,
-    "revenue_carried_oku_p50": 145.06,
+    "spill_p50_pax_k": 1.6,
+    "carried_p50_pax_k": 967.2,
+    "carried_p50_rpk_m": 967.8,
+    "revenue_carried_oku_p50": 145.17,
     "round_trips_p50": {
-     "HND-CTS": 17.0,
+     "HND-CTS": 18.0,
      "HND-ITM": 15.0,
-     "HND-FUK": 16.0,
+     "HND-FUK": 15.0,
      "HND-OKA": 12.0,
      "FUK-OKA": 6.0
     },
     "avg_seats_p50": {
-     "HND-CTS": 291,
+     "HND-CTS": 272,
      "HND-ITM": 280,
-     "HND-FUK": 273,
+     "HND-FUK": 294,
      "HND-OKA": 308,
      "FUK-OKA": 165
     },
     "lf_p50": {
-     "HND-CTS": 0.872,
+     "HND-CTS": 0.88,
      "HND-ITM": 0.88,
-     "HND-FUK": 0.88,
+     "HND-FUK": 0.873,
      "HND-OKA": 0.87,
      "FUK-OKA": 0.829
     },
     "spill_by_route_p50": {
-     "HND-CTS": 0.0,
+     "HND-CTS": 0.1,
      "HND-ITM": 1.5,
-     "HND-FUK": 0.8,
+     "HND-FUK": 0.0,
      "HND-OKA": 0.0,
      "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
-     "A350:P3": 3,
+     "737:P1": 1,
+     "A350:P3": 4,
      "737:P5": 6,
-     "737:P6": 1,
-     "A350:P6": 2,
+     "A350:P6": 1,
+     "737:W1": 1,
      "A350:W4": 1,
      "737:W5": 4,
-     "A350:W5": 8,
-     "737:W6": 1
+     "A350:W5": 8
     },
     "aircraft_by_route_p50": {
-     "HND-FUK": 5.33,
+     "HND-CTS": 8.0,
      "HND-ITM": 5.0,
+     "HND-FUK": 5.0,
      "FUK-OKA": 2.0,
-     "HND-CTS": 7.67,
      "HND-OKA": 6.0
     },
     "cost_k_p50": {
-     "operating": 33928,
+     "operating": 33932,
      "lease": 0,
-     "lost_revenue": 153
+     "lost_revenue": 82
     },
     "cycles_per_day_p50": {
      "737": 64,
@@ -4852,15 +4842,15 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 12,
+     "737": 13,
      "767": 0,
      "787": 0,
-     "A350": 12,
+     "A350": 11,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 4.5,
-    "carried_p10_rpk_m": 887.2,
+    "spill_p10_pax_k": 5.6,
+    "carried_p10_rpk_m": 887.9,
     "used_p90": {
      "737": 9,
      "767": 0,
@@ -4880,13 +4870,13 @@
      "FUK-OKA": 0.9
     },
     "no_lease_p50": {
-     "spill_pax_k": 1.5,
-     "lost_revenue_k": 74,
+     "spill_pax_k": 0.0,
+     "lost_revenue_k": 0,
      "by_type": {
-      "737": 11,
+      "737": 10,
       "767": 0,
-      "787": 0,
-      "A350": 13,
+      "787": 1,
+      "A350": 15,
       "777-300ER": 0
      }
     }
@@ -4944,22 +4934,23 @@
      "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
+     "A350:P1": 2,
      "737:P3": 1,
+     "A350:P3": 3,
      "A350:P4": 4,
      "737:P5": 6,
-     "A350:P6": 6,
      "737:W1": 3,
-     "A350:W1": 1,
-     "A350:W2": 1,
-     "A350:W3": 1,
-     "737:W5": 1
+     "A350:W4": 1,
+     "737:W5": 1,
+     "A350:W5": 1,
+     "A350:W6": 2
     },
     "aircraft_by_route_p50": {
-     "HND-FUK": 5.67,
+     "HND-CTS": 6.67,
      "HND-ITM": 5.0,
-     "HND-OKA": 4.83,
-     "FUK-OKA": 2.0,
-     "HND-CTS": 6.5
+     "HND-FUK": 5.33,
+     "HND-OKA": 5.0,
+     "FUK-OKA": 2.0
     },
     "cost_k_p50": {
      "operating": 33727,
@@ -4985,7 +4976,7 @@
     "spill_p10_pax_k": 1.6,
     "carried_p10_rpk_m": 889.0,
     "used_p90": {
-     "737": 9,
+     "737": 10,
      "767": 0,
      "787": 0,
      "A350": 15,
@@ -5003,8 +4994,8 @@
      "FUK-OKA": 0.3
     },
     "no_lease_p50": {
-     "spill_pax_k": 4.2,
-     "lost_revenue_k": 226,
+     "spill_pax_k": 2.5,
+     "lost_revenue_k": 179,
      "by_type": {
       "737": 11,
       "767": 0,
@@ -5067,15 +5058,15 @@
      "FUK-OKA": 8.7
     },
     "by_type_pattern_p50": {
-     "A350:P3": 2,
+     "A350:P3": 1,
      "A350:P4": 4,
      "737:P5": 6,
-     "A350:W1": 1,
+     "A350:P6": 1,
      "787:W2": 1,
      "787:W3": 1,
      "A350:W3": 3,
      "787:W6": 1,
-     "A350:W6": 5
+     "A350:W6": 6
     },
     "aircraft_by_route_p50": {
      "HND-FUK": 6.33,
@@ -5098,15 +5089,15 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 8,
+     "737": 9,
      "767": 0,
-     "787": 1,
+     "787": 0,
      "A350": 15,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 3.6,
-    "carried_p10_rpk_m": 1061.1,
+    "spill_p10_pax_k": 5.2,
+    "carried_p10_rpk_m": 1059.7,
     "used_p90": {
      "737": 7,
      "767": 0,
@@ -5153,7 +5144,7 @@
      "737": 12,
      "767": 0,
      "787": 0,
-     "A350": 13,
+     "A350": 14,
      "777-300ER": 0
     },
     "lease_p50": 0,
@@ -5190,23 +5181,23 @@
      "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
-     "737:P1": 2,
-     "A350:P3": 3,
-     "737:P4": 1,
      "A350:P4": 2,
      "737:P5": 6,
-     "A350:P6": 3,
-     "A350:W1": 1,
+     "737:W1": 1,
+     "A350:W2": 3,
+     "737:W3": 1,
      "A350:W3": 1,
-     "737:W5": 3,
-     "A350:W5": 3
+     "A350:W4": 2,
+     "737:W5": 4,
+     "A350:W5": 3,
+     "A350:W6": 3
     },
     "aircraft_by_route_p50": {
-     "HND-CTS": 6.33,
+     "HND-OKA": 6.17,
+     "HND-FUK": 6.0,
+     "FUK-OKA": 2.0,
      "HND-ITM": 5.33,
-     "HND-FUK": 5.0,
-     "HND-OKA": 6.33,
-     "FUK-OKA": 2.0
+     "HND-CTS": 6.5
     },
     "cost_k_p50": {
      "operating": 34068,
@@ -5225,7 +5216,7 @@
      "737": 13,
      "767": 0,
      "787": 0,
-     "A350": 11,
+     "A350": 12,
      "777-300ER": 0
     },
     "lease_p10": 0,
@@ -5250,10 +5241,10 @@
      "FUK-OKA": 3.2
     },
     "no_lease_p50": {
-     "spill_pax_k": 6.2,
+     "spill_pax_k": 2.7,
      "lost_revenue_k": 435,
      "by_type": {
-      "737": 12,
+      "737": 10,
       "767": 0,
       "787": 0,
       "A350": 14,
@@ -5274,71 +5265,73 @@
      "777-300ER": 0
     },
     "used_p50": {
-     "737": 8,
+     "737": 9,
      "767": 0,
      "787": 0,
      "A350": 15,
      "777-300ER": 0
     },
     "lease_p50": 0,
-    "spill_p50_pax_k": 10.3,
-    "carried_p50_pax_k": 1046.0,
-    "carried_p50_rpk_m": 1056.9,
-    "revenue_carried_oku_p50": 158.53,
+    "spill_p50_pax_k": 6.5,
+    "carried_p50_pax_k": 1049.8,
+    "carried_p50_rpk_m": 1059.5,
+    "revenue_carried_oku_p50": 158.93,
     "round_trips_p50": {
-     "HND-CTS": 15.0,
-     "HND-ITM": 17.0,
+     "HND-CTS": 18.0,
+     "HND-ITM": 16.0,
      "HND-FUK": 16.0,
      "HND-OKA": 11.0,
      "FUK-OKA": 6.0
     },
     "avg_seats_p50": {
-     "HND-CTS": 337,
-     "HND-ITM": 266,
+     "HND-CTS": 284,
+     "HND-ITM": 286,
      "HND-FUK": 299,
      "HND-OKA": 380,
      "FUK-OKA": 165
     },
     "lf_p50": {
-     "HND-CTS": 0.88,
-     "HND-ITM": 0.88,
+     "HND-CTS": 0.875,
+     "HND-ITM": 0.877,
      "HND-FUK": 0.88,
      "HND-OKA": 0.88,
      "FUK-OKA": 0.88
     },
     "spill_by_route_p50": {
-     "HND-CTS": 1.9,
-     "HND-ITM": 1.9,
+     "HND-CTS": 0.0,
+     "HND-ITM": 0.0,
      "HND-FUK": 1.6,
      "HND-OKA": 1.2,
      "FUK-OKA": 3.7
     },
     "by_type_pattern_p50": {
-     "A350:P3": 2,
+     "737:P1": 1,
+     "A350:P3": 3,
      "A350:P4": 4,
      "737:P5": 6,
-     "737:W1": 1,
+     "737:W1": 2,
+     "A350:W1": 2,
+     "A350:W2": 1,
      "A350:W3": 3,
-     "737:W4": 1,
-     "A350:W6": 6
+     "A350:W6": 2
     },
     "aircraft_by_route_p50": {
-     "HND-FUK": 5.33,
-     "HND-ITM": 5.67,
+     "HND-CTS": 6.0,
+     "HND-ITM": 5.33,
+     "HND-FUK": 5.67,
      "HND-OKA": 5.0,
-     "FUK-OKA": 2.0,
-     "HND-CTS": 5.0
+     "FUK-OKA": 2.0
     },
     "cost_k_p50": {
-     "operating": 36244,
+     "operating": 36513,
      "lease": 0,
-     "lost_revenue": 915
+     "lost_revenue": 659
     },
     "cycles_per_day_p50": {
-     "737": 48,
+     "737": 54,
      "767": 0,
      "787": 0,
-     "A350": 82,
+     "A350": 80,
      "777-300ER": 0
     },
     "lease_cycles_per_day_p50": 0,
@@ -5350,8 +5343,8 @@
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 0.3,
-    "carried_p10_rpk_m": 977.0,
+    "spill_p10_pax_k": 4.2,
+    "carried_p10_rpk_m": 974.2,
     "used_p90": {
      "737": 6,
      "767": 0,
@@ -5371,10 +5364,10 @@
      "FUK-OKA": 8.4
     },
     "no_lease_p50": {
-     "spill_pax_k": 6.5,
-     "lost_revenue_k": 659,
+     "spill_pax_k": 10.3,
+     "lost_revenue_k": 915,
      "by_type": {
-      "737": 9,
+      "737": 8,
       "767": 0,
       "787": 0,
       "A350": 15,
@@ -5435,21 +5428,25 @@
      "FUK-OKA": 0.6
     },
     "by_type_pattern_p50": {
+     "737:P1": 1,
+     "A350:P1": 2,
+     "737:P3": 1,
      "A350:P3": 1,
      "A350:P4": 3,
      "737:P5": 6,
-     "737:P6": 2,
-     "A350:P6": 6,
      "737:W1": 1,
+     "A350:W2": 2,
      "737:W3": 1,
-     "A350:W5": 4
+     "A350:W3": 2,
+     "A350:W5": 2,
+     "A350:W6": 2
     },
     "aircraft_by_route_p50": {
-     "HND-FUK": 5.33,
+     "HND-CTS": 5.33,
      "HND-ITM": 5.67,
-     "HND-OKA": 5.33,
-     "FUK-OKA": 2.0,
-     "HND-CTS": 5.67
+     "HND-FUK": 6.0,
+     "HND-OKA": 5.0,
+     "FUK-OKA": 2.0
     },
     "cost_k_p50": {
      "operating": 34114,
@@ -5465,10 +5462,10 @@
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 14,
+     "737": 13,
      "767": 0,
      "787": 0,
-     "A350": 10,
+     "A350": 11,
      "777-300ER": 0
     },
     "lease_p10": 0,
@@ -5590,12 +5587,12 @@
      "737": 11,
      "767": 0,
      "787": 0,
-     "A350": 13,
+     "A350": 14,
      "777-300ER": 0
     },
     "lease_p10": 0,
-    "spill_p10_pax_k": 4.5,
-    "carried_p10_rpk_m": 1002.7,
+    "spill_p10_pax_k": 4.1,
+    "carried_p10_rpk_m": 1001.9,
     "used_p90": {
      "737": 7,
      "767": 0,
@@ -5680,12 +5677,11 @@
     },
     "by_type_pattern_p50": {
      "787:P3": 2,
-     "A350:P3": 1,
      "A350:P4": 7,
      "737:P5": 7,
-     "A350:W1": 1,
+     "A350:P6": 1,
      "787:W4": 1,
-     "A350:W6": 6
+     "A350:W6": 7
     },
     "aircraft_by_route_p50": {
      "HND-FUK": 6.33,
@@ -5761,8 +5757,8 @@
     },
     "used_p50": {
      "737": 7,
-     "767": 1,
-     "787": 2,
+     "767": 2,
+     "787": 1,
      "A350": 15,
      "777-300ER": 0
     },
@@ -5779,17 +5775,17 @@
      "FUK-OKA": 7.0
     },
     "avg_seats_p50": {
-     "HND-CTS": 360,
+     "HND-CTS": 358,
      "HND-ITM": 286,
      "HND-FUK": 291,
-     "HND-OKA": 357,
+     "HND-OKA": 355,
      "FUK-OKA": 165
     },
     "lf_p50": {
-     "HND-CTS": 0.872,
+     "HND-CTS": 0.877,
      "HND-ITM": 0.88,
      "HND-FUK": 0.874,
-     "HND-OKA": 0.871,
+     "HND-OKA": 0.877,
      "FUK-OKA": 0.865
     },
     "spill_by_route_p50": {
@@ -5800,15 +5796,15 @@
      "FUK-OKA": 0.0
     },
     "by_type_pattern_p50": {
-     "A350:P3": 3,
+     "A350:P3": 2,
      "A350:P4": 3,
      "737:P5": 7,
-     "A350:W1": 1,
+     "A350:P6": 1,
      "A350:W3": 3,
-     "767:W5": 1,
-     "787:W5": 2,
+     "767:W5": 2,
+     "787:W5": 1,
      "A350:W5": 1,
-     "A350:W6": 4
+     "A350:W6": 5
     },
     "aircraft_by_route_p50": {
      "HND-FUK": 5.67,
@@ -5818,23 +5814,23 @@
      "HND-CTS": 5.67
     },
     "cost_k_p50": {
-     "operating": 39340,
+     "operating": 39265,
      "lease": 0,
      "lost_revenue": 334
     },
     "cycles_per_day_p50": {
      "737": 42,
-     "767": 4,
-     "787": 8,
+     "767": 8,
+     "787": 4,
      "A350": 82,
      "777-300ER": 0
     },
     "lease_cycles_per_day_p50": 0,
     "used_p10": {
-     "737": 10,
+     "737": 9,
      "767": 0,
      "787": 0,
-     "A350": 14,
+     "A350": 15,
      "777-300ER": 0
     },
     "lease_p10": 0,
@@ -5938,9 +5934,9 @@
     "label": "2027-02",
     "rpk_regional_p50": 584.2,
     "need_p50": 32.2,
-    "trunk_737_used_p50": 11,
+    "trunk_737_used_p50": 14,
     "trunk_737_available": 19.8,
-    "slack_p50": 8.8
+    "slack_p50": 5.8
    },
    {
     "t": 5,
@@ -6073,9 +6069,9 @@
     "label": "2028-05",
     "rpk_regional_p50": 657.3,
     "need_p50": 36.3,
-    "trunk_737_used_p50": 8,
+    "trunk_737_used_p50": 9,
     "trunk_737_available": 18.7,
-    "slack_p50": 10.7
+    "slack_p50": 9.7
    },
    {
     "t": 20,
@@ -6163,11 +6159,11 @@
     {
      "t": 4,
      "label": "2027-02",
-     "trunk_737_p50": 11,
+     "trunk_737_p50": 14,
      "regional_p50": 32.2,
      "in_checks": 4,
      "lease_p50": 0,
-     "sum_p50": 47.2,
+     "sum_p50": 50.2,
      "whole_by_seat_km_p50": 42.15,
      "fleet": 56
     },
@@ -6328,11 +6324,11 @@
     {
      "t": 19,
      "label": "2028-05",
-     "trunk_737_p50": 8,
+     "trunk_737_p50": 9,
      "regional_p50": 36.3,
      "in_checks": 1,
      "lease_p50": 0,
-     "sum_p50": 45.3,
+     "sum_p50": 46.3,
      "whole_by_seat_km_p50": 43.93,
      "fleet": 56
     },
@@ -6409,13 +6405,13 @@
     "type": "767",
     "name": "767-300ER",
     "engine": "CF6-80C2",
-    "trunk_aircraft_used_avg": 0.1,
+    "trunk_aircraft_used_avg": 0.2,
     "trunk_cycles_per_aircraft_day": 4.0,
     "fleet_aircraft": 27,
     "fleet_cycles_per_aircraft_day_now": 3.01,
-    "trunk_engines_installed_avg": 0.2,
+    "trunk_engines_installed_avg": 0.3,
     "blended_cycles_per_aircraft_day": 3.02,
-    "utilisation_multiplier": 1.001,
+    "utilisation_multiplier": 1.002,
     "windows": {
      "due_now": 20,
      "due_new": 20,
@@ -6423,7 +6419,7 @@
      "newly_due": 0,
      "mean_shift_months": 0.0
     },
-    "spend_per_year_k": 51318,
+    "spend_per_year_k": 51369,
     "spend_per_year_oku_yen": 80.6
    },
    {
@@ -6431,21 +6427,21 @@
     "name": "787-8（国内線仕様）",
     "engine": "GEnx-1B",
     "trunk_aircraft_used_avg": 0.8,
-    "trunk_cycles_per_aircraft_day": 5.0,
+    "trunk_cycles_per_aircraft_day": 5.11,
     "fleet_aircraft": 52,
     "fleet_cycles_per_aircraft_day_now": 1.78,
-    "trunk_engines_installed_avg": 1.7,
+    "trunk_engines_installed_avg": 1.5,
     "blended_cycles_per_aircraft_day": 1.83,
-    "utilisation_multiplier": 1.029,
+    "utilisation_multiplier": 1.027,
     "windows": {
      "due_now": 26,
      "due_new": 26,
-     "earlier": 6,
+     "earlier": 5,
      "newly_due": 0,
      "mean_shift_months": -1.0
     },
-    "spend_per_year_k": 125161,
-    "spend_per_year_oku_yen": 196.5
+    "spend_per_year_k": 124917,
+    "spend_per_year_oku_yen": 196.1
    },
    {
     "type": "A350",
@@ -6515,7 +6511,7 @@
     "levers": [
      {
       "lever": "地方路線から 737 を回す",
-      "aircraft": 2,
+      "aircraft": 3,
       "engine_effect": "CFM56-7B のサイクルが増える（パターンの便数ぶん）",
       "limit": "使える機数 21.4"
      },
@@ -6555,6 +6551,15 @@
       "aircraft": 4,
       "engine_effect": "CFM56-7B のサイクルが増える（パターンの便数ぶん）",
       "limit": "使える機数 19.8"
+     },
+     {
+      "lever": "見送る（乗せられない旅客）",
+      "pax_k": 1.1,
+      "by_route": {
+       "HND-ITM": 1.1
+      },
+      "engine_effect": "なし",
+      "limit": "失う売上は下限"
      }
     ]
    },
@@ -6797,7 +6802,7 @@
     "levers": [
      {
       "lever": "地方路線から 737 を回す",
-      "aircraft": 3,
+      "aircraft": 4,
       "engine_effect": "CFM56-7B のサイクルが増える（パターンの便数ぶん）",
       "limit": "使える機数 18.5"
      },
@@ -6985,15 +6990,15 @@
      "label": "2027-05",
      "lease_aircraft": 0,
      "lease_cost_oku": 0.0,
-     "revenue_recovered_oku": 0.03,
-     "net_oku": 0.03,
-     "lost_if_not_oku": 0.24,
+     "revenue_recovered_oku": 0.0,
+     "net_oku": 0.0,
+     "lost_if_not_oku": 0.21,
      "lost_after_oku": 0.21,
      "used": {
       "737": 9,
-      "767": 0,
-      "787": 1,
-      "A350": 14,
+      "767": 1,
+      "787": 0,
+      "A350": 15,
       "777-300ER": 0
      },
      "decision": "借りない"
@@ -7010,7 +7015,7 @@
       "737": 11,
       "767": 0,
       "787": 0,
-      "A350": 14,
+      "A350": 13,
       "777-300ER": 0
      },
      "decision": "借りない"
@@ -7019,9 +7024,9 @@
      "label": "2027-07",
      "lease_aircraft": 0,
      "lease_cost_oku": 0.0,
-     "revenue_recovered_oku": 0.46,
-     "net_oku": 0.46,
-     "lost_if_not_oku": 0.46,
+     "revenue_recovered_oku": 0.0,
+     "net_oku": 0.0,
+     "lost_if_not_oku": 0.0,
      "lost_after_oku": 0.0,
      "used": {
       "737": 10,
@@ -7053,9 +7058,9 @@
      "label": "2027-09",
      "lease_aircraft": 0,
      "lease_cost_oku": 0.0,
-     "revenue_recovered_oku": 0.01,
-     "net_oku": 0.01,
-     "lost_if_not_oku": 0.09,
+     "revenue_recovered_oku": -0.07,
+     "net_oku": -0.07,
+     "lost_if_not_oku": 0.02,
      "lost_after_oku": 0.08,
      "used": {
       "737": 8,
@@ -7121,10 +7126,10 @@
      "label": "2028-01",
      "lease_aircraft": 0,
      "lease_cost_oku": 0.0,
-     "revenue_recovered_oku": -0.12,
-     "net_oku": -0.12,
-     "lost_if_not_oku": 0.12,
-     "lost_after_oku": 0.24,
+     "revenue_recovered_oku": -0.13,
+     "net_oku": -0.13,
+     "lost_if_not_oku": 0.0,
+     "lost_after_oku": 0.13,
      "used": {
       "737": 12,
       "767": 0,
@@ -7138,9 +7143,9 @@
      "label": "2028-02",
      "lease_aircraft": 0,
      "lease_cost_oku": 0.0,
-     "revenue_recovered_oku": 0.07,
-     "net_oku": 0.07,
-     "lost_if_not_oku": 0.35,
+     "revenue_recovered_oku": 0.0,
+     "net_oku": 0.0,
+     "lost_if_not_oku": 0.28,
      "lost_after_oku": 0.28,
      "used": {
       "737": 11,
@@ -7172,10 +7177,10 @@
    "year_end": {
     "aircraft_months_leased": 0,
     "lease_cost_oku": 0.0,
-    "revenue_recovered_oku": 0.5,
-    "net_oku": 0.5,
-    "lost_revenue_after_oku": 15.32,
-    "lost_if_never_lease_oku": 15.82,
+    "revenue_recovered_oku": -0.15,
+    "net_oku": -0.15,
+    "lost_revenue_after_oku": 15.21,
+    "lost_if_never_lease_oku": 15.07,
     "months_leased": []
    },
    "note": "借りるかどうかは機材割当の中で決まる（リース費 ＜ 取り戻す売上 のときだけ借りる）。借りた機体も羽田の枠がなければ飛べない",
@@ -7201,23 +7206,23 @@
       "HND-OKA": 0.333,
       "FUK-OKA": 0.238
      },
-     "pax_k": 10987.0,
-     "revenue_oku": 1691.2,
-     "lost_revenue_oku": 30.65,
-     "operating_cost_oku": 608.6,
+     "pax_k": 10992.5,
+     "revenue_oku": 1691.7,
+     "lost_revenue_oku": 30.23,
+     "operating_cost_oku": 608.9,
      "lease_aircraft_months": 0,
      "aircraft_used_avg": {
       "737": 6.8,
       "767": 0.0,
       "787": 0.2,
-      "A350": 14.2,
+      "A350": 14.4,
       "777-300ER": 0.0
      },
      "engine_737": {
       "trunk_aircraft_used_avg": 6.8,
-      "trunk_cycles_per_aircraft_day": 5.8,
+      "trunk_cycles_per_aircraft_day": 5.83,
       "blended_cycles_per_aircraft_day": 5.43,
-      "utilisation_multiplier": 1.0096,
+      "utilisation_multiplier": 1.0102,
       "windows": {
        "due_now": 40,
        "due_new": 40,
@@ -7225,13 +7230,13 @@
        "newly_due": 0,
        "mean_shift_months": -1.0
       },
-      "spend_per_year_oku_yen": 262.6
+      "spend_per_year_oku_yen": 262.7
      },
      "vs_base": {
-      "pax_k": -1366.5,
-      "revenue_oku": -187.3,
-      "operating_cost_oku": -74.8,
-      "margin_oku": -112.5
+      "pax_k": -1361.7,
+      "revenue_oku": -187.0,
+      "operating_cost_oku": -74.4,
+      "margin_oku": -112.6
      }
     },
     {
@@ -7251,31 +7256,31 @@
       "HND-OKA": 0.333,
       "FUK-OKA": 0.273
      },
-     "pax_k": 11592.0,
-     "revenue_oku": 1764.8,
-     "lost_revenue_oku": 25.11,
-     "operating_cost_oku": 639.5,
+     "pax_k": 11595.2,
+     "revenue_oku": 1765.1,
+     "lost_revenue_oku": 24.81,
+     "operating_cost_oku": 639.8,
      "lease_aircraft_months": 0,
      "aircraft_used_avg": {
-      "737": 8.1,
-      "767": 0.0,
-      "787": 0.4,
+      "737": 8.0,
+      "767": 0.1,
+      "787": 0.3,
       "A350": 14.2,
       "777-300ER": 0.0
      },
      "engine_737": {
-      "trunk_aircraft_used_avg": 8.1,
-      "trunk_cycles_per_aircraft_day": 5.9,
-      "blended_cycles_per_aircraft_day": 5.45,
-      "utilisation_multiplier": 1.0139,
+      "trunk_aircraft_used_avg": 8.0,
+      "trunk_cycles_per_aircraft_day": 5.94,
+      "blended_cycles_per_aircraft_day": 5.46,
+      "utilisation_multiplier": 1.0148,
       "windows": null,
       "spend_per_year_oku_yen": null
      },
      "vs_base": {
-      "pax_k": -761.5,
-      "revenue_oku": -113.7,
-      "operating_cost_oku": -43.9,
-      "margin_oku": -69.8
+      "pax_k": -759.0,
+      "revenue_oku": -113.6,
+      "operating_cost_oku": -43.5,
+      "margin_oku": -70.1
      }
     },
     {
@@ -7301,25 +7306,25 @@
      "operating_cost_oku": 663.7,
      "lease_aircraft_months": 0,
      "aircraft_used_avg": {
-      "737": 8.2,
+      "737": 8.1,
       "767": 0.2,
       "787": 0.9,
-      "A350": 14.0,
+      "A350": 14.2,
       "777-300ER": 0.0
      },
      "engine_737": {
-      "trunk_aircraft_used_avg": 8.2,
-      "trunk_cycles_per_aircraft_day": 5.86,
-      "blended_cycles_per_aircraft_day": 5.45,
-      "utilisation_multiplier": 1.0129,
+      "trunk_aircraft_used_avg": 8.1,
+      "trunk_cycles_per_aircraft_day": 5.92,
+      "blended_cycles_per_aircraft_day": 5.46,
+      "utilisation_multiplier": 1.0144,
       "windows": null,
       "spend_per_year_oku_yen": null
      },
      "vs_base": {
-      "pax_k": -412.8,
-      "revenue_oku": -51.9,
-      "operating_cost_oku": -19.7,
-      "margin_oku": -32.2
+      "pax_k": -413.5,
+      "revenue_oku": -52.1,
+      "operating_cost_oku": -19.6,
+      "margin_oku": -32.5
      }
     },
     {
@@ -7339,14 +7344,14 @@
       "HND-OKA": 0.353,
       "FUK-OKA": 0.273
      },
-     "pax_k": 12353.5,
-     "revenue_oku": 1878.5,
-     "lost_revenue_oku": 15.33,
-     "operating_cost_oku": 683.4,
+     "pax_k": 12354.2,
+     "revenue_oku": 1878.7,
+     "lost_revenue_oku": 15.21,
+     "operating_cost_oku": 683.3,
      "lease_aircraft_months": 0,
      "aircraft_used_avg": {
       "737": 9.2,
-      "767": 0.1,
+      "767": 0.2,
       "787": 0.8,
       "A350": 14.3,
       "777-300ER": 0.0
@@ -7376,44 +7381,44 @@
      "delta_round_trips": 3,
      "budget": 64,
      "version_round_trips": {
-      "HND-CTS": 16.0,
+      "HND-CTS": 15.0,
       "HND-ITM": 17.0,
       "HND-FUK": 19.0,
       "HND-OKA": 12.0,
       "FUK-OKA": 7.0
      },
      "share": {
-      "HND-CTS": 0.304,
+      "HND-CTS": 0.291,
       "HND-ITM": 0.531,
       "HND-FUK": 0.322,
       "HND-OKA": 0.353,
       "FUK-OKA": 0.304
      },
-     "pax_k": 12744.2,
-     "revenue_oku": 1930.9,
-     "lost_revenue_oku": 17.18,
-     "operating_cost_oku": 704.7,
+     "pax_k": 12626.3,
+     "revenue_oku": 1914.5,
+     "lost_revenue_oku": 14.06,
+     "operating_cost_oku": 699.5,
      "lease_aircraft_months": 0,
      "aircraft_used_avg": {
-      "737": 10.2,
+      "737": 10.8,
       "767": 0.2,
       "787": 0.8,
-      "A350": 14.2,
+      "A350": 14.3,
       "777-300ER": 0.0
      },
      "engine_737": {
-      "trunk_aircraft_used_avg": 10.2,
-      "trunk_cycles_per_aircraft_day": 5.76,
-      "blended_cycles_per_aircraft_day": 5.45,
-      "utilisation_multiplier": 1.0128,
+      "trunk_aircraft_used_avg": 10.8,
+      "trunk_cycles_per_aircraft_day": 5.64,
+      "blended_cycles_per_aircraft_day": 5.43,
+      "utilisation_multiplier": 1.0094,
       "windows": null,
       "spend_per_year_oku_yen": null
      },
      "vs_base": {
-      "pax_k": 390.7,
-      "revenue_oku": 52.4,
-      "operating_cost_oku": 21.3,
-      "margin_oku": 31.1
+      "pax_k": 272.1,
+      "revenue_oku": 35.8,
+      "operating_cost_oku": 16.2,
+      "margin_oku": 19.6
      }
     },
     {
@@ -7422,48 +7427,48 @@
      "version_round_trips": {
       "HND-CTS": 15.0,
       "HND-ITM": 18.0,
-      "HND-FUK": 20.0,
-      "HND-OKA": 13.0,
+      "HND-FUK": 19.0,
+      "HND-OKA": 14.0,
       "FUK-OKA": 7.0
      },
      "share": {
       "HND-CTS": 0.291,
-      "HND-ITM": 0.531,
+      "HND-ITM": 0.545,
       "HND-FUK": 0.322,
       "HND-OKA": 0.389,
       "FUK-OKA": 0.304
      },
-     "pax_k": 12903.2,
-     "revenue_oku": 1983.8,
-     "lost_revenue_oku": 13.42,
-     "operating_cost_oku": 723.1,
+     "pax_k": 12972.9,
+     "revenue_oku": 1988.9,
+     "lost_revenue_oku": 14.42,
+     "operating_cost_oku": 725.5,
      "lease_aircraft_months": 0,
      "aircraft_used_avg": {
-      "737": 11.1,
-      "767": 0.2,
-      "787": 0.9,
-      "A350": 14.2,
+      "737": 10.8,
+      "767": 0.3,
+      "787": 1.0,
+      "A350": 14.4,
       "777-300ER": 0.0
      },
      "engine_737": {
-      "trunk_aircraft_used_avg": 11.1,
-      "trunk_cycles_per_aircraft_day": 5.65,
-      "blended_cycles_per_aircraft_day": 5.43,
-      "utilisation_multiplier": 1.0101,
+      "trunk_aircraft_used_avg": 10.8,
+      "trunk_cycles_per_aircraft_day": 5.71,
+      "blended_cycles_per_aircraft_day": 5.44,
+      "utilisation_multiplier": 1.0118,
       "windows": {
        "due_now": 40,
        "due_new": 40,
-       "earlier": 6,
+       "earlier": 7,
        "newly_due": 0,
        "mean_shift_months": -1.0
       },
-      "spend_per_year_oku_yen": 262.7
+      "spend_per_year_oku_yen": 263.1
      },
      "vs_base": {
-      "pax_k": 549.7,
-      "revenue_oku": 105.3,
-      "operating_cost_oku": 39.7,
-      "margin_oku": 65.6
+      "pax_k": 618.7,
+      "revenue_oku": 110.2,
+      "operating_cost_oku": 42.2,
+      "margin_oku": 68.0
      }
     }
    ],
