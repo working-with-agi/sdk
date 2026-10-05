@@ -82,10 +82,10 @@
 `tests/` は作業前から存在（`test_shop_mc.py`）。`python -m unittest discover -s tests -v` → `Ran 18 tests in 7.104s` / `FAILED (errors=1)`。失敗は既存の `test_shop_mc.ShopMcTest.test_fixed_price_shop_never_bills_overrun`（`tests/test_shop_mc.py:55` `StopIteration`：OEM-NET の PR オプションが現在の `data/shop_quotes.json` に無い）。単独実行でも同じ。新規 `tests/test_theory.py` は 10 件 `OK`（0.11 s）。
 
 **16. 合成データの注記 — PARTIAL**
-`report_hub_template.html:153`（冒頭 hint）、:596、:662 に「合成データ」。note 草稿 `note_draft.md:25` に冒頭注記（引用ブロック）。Slides はリポジトリ外で確認不可。
+`report_hub_template.html:153`（冒頭 hint）、:596、:662 に「合成データ」。note 草稿 `note_draft.md:25`（非公開側へ移した） に冒頭注記（引用ブロック）。Slides はリポジトリ外で確認不可。
 
 **17. note 草稿の語句 — PARTIAL**
-「年 20〜30」なし、「年 10〜30」あり（`note_draft.md:29`）。「メタ」は本文にはないが、引き継ぎヘッダー（:5, :7, :13）に依頼原文と禁止ルールの引用として残る。投稿時にヘッダーを落とす前提なら問題ないが、機械的に grep すると引っかかる。加えて :59「6 か月目に検知」は生成値（CPD 月 2、ベイズは動かず）と合わない（README:281 と同じ旧記述）。
+「年 20〜30」なし、「年 10〜30」あり（`note_draft.md:29`、非公開側へ移した）。「メタ」は本文にはないが、引き継ぎヘッダー（:5, :7, :13）に依頼原文と禁止ルールの引用として残る。投稿時にヘッダーを落とす前提なら問題ないが、機械的に grep すると引っかかる。加えて :59「6 か月目に検知」は生成値（CPD 月 2、ベイズは動かず）と合わない（README:281 と同じ旧記述）。
 
 ## 直すべき順
 
