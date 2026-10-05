@@ -37,7 +37,6 @@
 | REQUIREMENTS.md | 要望の一覧（59 件）と対応状況、見本と実務の距離 |
 | PRACTICE.md | 実務との照合（出典付き） |
 | PROCESS.md | 業務プロセス（P1〜P11）と道具の対応 |
-| note_draft.md | note 投稿の下書き（需要・羽田の枠・機材・エンジンをひと続きで解く話。試算の断りは必ず残す） |
 
 コード一式：リポジトリ `working-with-agi/sdk`、ブランチ `claude/aircraft-engine-repair-optimization-8oww5m`、`examples/engine-shop-selection-mc/`
 
