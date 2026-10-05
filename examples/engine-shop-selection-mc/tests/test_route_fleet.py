@@ -68,7 +68,32 @@ class RouteFleetTest(unittest.TestCase):
                 self.assertLessEqual(n, hi + 1e-9); self.assertGreaterEqual(n, int(lo - 1e-9) if lo == int(lo) else int(lo) + 1)
             for r, lf in row["lf_p50"].items():
                 if lf is not None:
-                    self.assertLessEqual(lf, self.R["lf_ops"] + 1e-3)
+                    self.assertLessEqual(lf, 1.0 + 1e-6)
+
+    def test_spill_curve(self):
+        cv = rf.spill_cv(self.R)
+        prev = 0.0
+        for x in (0.2, 0.5, 0.8, 1.0, 1.3, 2.0, 4.0):
+            g = rf.carried_share(x, cv)
+            self.assertLessEqual(g, min(1.0, x) + 1e-9)      # never more than the demand or the seats
+            self.assertGreaterEqual(g, prev)                  # more seats never carry fewer
+            prev = g
+        self.assertLess(rf.carried_share(1.0, cv), 0.95)       # seats = mean demand still leaves seats empty
+
+    def test_band_means_keep_the_month(self):
+        pax = {"HND-CTS": 300.0}
+        legs = {"HND-CTS": {"peak": 20, "off": 14}}
+        mu = rf.band_means(self.R, pax, legs)
+        total = (mu[("HND-CTS", "peak")] * 20 + mu[("HND-CTS", "off")] * 14) * rf.DAYS / 1e3
+        self.assertAlmostEqual(total, 300.0, places=6)
+        self.assertGreater(mu[("HND-CTS", "peak")], mu[("HND-CTS", "off")])
+
+    def test_fare_taper_keeps_the_average_yield(self):
+        f = rf.fare_yen(self.R, 15.0)
+        w = {r["id"]: r["market_pax_2024"] * r["km"] for r in self.R["routes"]}
+        km = {r["id"]: r["km"] for r in self.R["routes"]}
+        self.assertAlmostEqual(sum(w[r] * f[r] / km[r] for r in w) / sum(w.values()), 15.0, places=6)
+        self.assertGreater(f["HND-ITM"] / km["HND-ITM"], f["HND-OKA"] / km["HND-OKA"])
 
     def test_quantiles_carry_more_in_a_busier_month(self):
         for row in self.tr["rows"]:

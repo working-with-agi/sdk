@@ -104,8 +104,8 @@
    "note": "福岡空港の便。羽田の枠ではない"
   },
   "others_note": "他社は 2023-03 の値（2026 は未確認のため据え置き）",
-  "flex_round_trips": 2,
-  "flex_source": "no_source：月ごとに路線の便数を ±2 往復まで動かせる（枠の合計の中で）"
+  "flex_round_trips": 1,
+  "flex_source": "no_source：月ごとに路線の便数を ±1 往復まで動かせる（枠の合計の中で）。2024 年の座席利用率に合う幅として選んだ"
  },
  "sources": {
   "allocation": "https://www.mlit.go.jp/policy/shingikai/content/001733529.pdf（2024-03-14、配分は 2023-05 時点）",

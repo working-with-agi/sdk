@@ -24,7 +24,7 @@ types = rf.types_of(R, cid)
 A = tr["airport"]
 doc = {"schema": "trunk_assignment/2", "company": label, "start": J["start"], "fy_start_month": 4,
        "unit": {"pax": "千人（往復合計）", "money": "億円", "usd_jpy": 157, "frequency": "1 日の往復便数"},
-       "assumptions": {"lf_plan": R["lf_plan"], "lf_ops": R["lf_ops"], "lease_k_per_aircraft_month": R["lease"]["k_per_aircraft_month"], "sources": R.get("sources")},
+       "assumptions": {"spill_model": R["spill_model"], "fare_taper": R.get("fare_taper"), "cost_model": R.get("cost_model"), "lease_k_per_aircraft_month": R["lease"]["k_per_aircraft_month"], "sources": R.get("sources")},
        "airport": {"hub_trunk_round_trips": A["budget"], "use_min": A["use_min"], "bounds": A["bounds"], "share_now": A["share_now"], "competitor_freq": A["competitor_freq"]},
        "types": [{k: t.get(k) for k in ("type", "name", "seats", "engine", "fleet_total", "trunk_aircraft", "cost_per_block_h_k", "turnaround_h")} for t in types],
        "routes": [{k: r[k] for k in ("id", "name", "km", "block_h", "market_pax_2024", "market_lf_2024", "slot_airport")} for r in R["routes"]],
@@ -37,6 +37,7 @@ for r, d, o, x in zip(tr["rows"], tr["demand"], tr["others"], tr["reconciliation
         "available": r["available"], "regional_737": o["need_p50"], "checks_737": x["in_checks"],
         "q": {q: {"used": r[f"used_{q}"], "lease": r[f"lease_{q}"], "spill_pax": r[f"spill_{q}_pax_k"]} for q in ("p10", "p50", "p90")},
         "p50": {"by_type_pattern": r["by_type_pattern_p50"], "round_trips": r["round_trips_p50"], "avg_seats": r["avg_seats_p50"], "lf": r["lf_p50"],
+                "legs_by_type": r["legs_by_type_p50"], "legs_by_band": r["legs_band_p50"],
                 "spill_by_route": r["spill_by_route_p50"], "lost_revenue_oku": round(r["cost_k_p50"]["lost_revenue"] * 157 / 1e5, 2),
                 "lease_cost_oku": round(r["cost_k_p50"]["lease"] * 157 / 1e5, 2), "no_lease_lost_revenue_oku": round(r["no_lease_p50"]["lost_revenue_k"] * 157 / 1e5, 2)}})
 doc["year_end"] = tr["decisions"]["year_end"]
