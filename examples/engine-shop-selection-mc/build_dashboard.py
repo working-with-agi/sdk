@@ -39,7 +39,7 @@ LOOPS = [
         ("structure", "計画の構造（基本計画と詳細計画・輪と段階）", "report"), ("loops", "PDCA と OODA（二つの輪）", "report"),
         ("a4", "A4 版レポート（印刷用、付録つき）", "a4")]),
 ]
-FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）"), ("strategy_stack.html", "図：あるべき分析ストラテジー（流れ）"), ("strategy_matrix.html", "図：あるべき分析ストラテジー（層 × 流れ、右端があるべき結果）"), ("strategy_concept.html", "全体像（ランディングページ）"), ("strategy_grid.html", "全体像の図（5 部門 × 入力・処理・出力、行をクリックで詳細）")]
+FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）"), ("strategy_stack.html", "図：あるべき分析ストラテジー（流れ）"), ("strategy_matrix.html", "図：あるべき分析ストラテジー（層 × 流れ、右端があるべき結果）"), ("strategy_concept.html", "全体像（ランディングページ）"), ("strategy_grid.html", "全体像の図（5 部門 × 入力・処理・出力、行をクリックで詳細）"), ("route_opt.html", "図：路線の容量の最適化（何を選び、誰が応じ、何を最大にするか、fig_route_opt.py）")]
 DOCS = [("story.html", "ストーリー：需要から検証まで", "handover/04_docs/story_需要から検証まで.md"),
         ("story_topdown.html", "経営と政治から、空港の路線、そして機体へ（どの路線から増やすか、それが機材とエンジンにどう返るか）", "handover/04_docs/story_経営から路線と機体へ.md"),
         ("story_linear.html", "リニアができたら何が変わるか（航空会社は政府に何を求めるか。根拠：旅客・羽田の枠・空港・整備・主義・炭素）", "handover/04_docs/story_リニアで何が変わるか.md"),
