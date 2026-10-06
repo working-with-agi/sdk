@@ -29,20 +29,20 @@
   "before": {
    "base": {
     "jal": {
-     "margin_oku": 1188.1,
-     "carried_pax_k": 12181.4,
+     "margin_oku": 1187.7,
+     "carried_pax_k": 12194.7,
      "carried_by_route_pax_k": {
-      "HND-CTS": 3806.7,
-      "HND-ITM": 2246.4,
-      "HND-FUK": 2650.3,
-      "HND-OKA": 2915.8,
-      "FUK-OKA": 562.2
+      "HND-CTS": 3374.2,
+      "HND-ITM": 2308.0,
+      "HND-FUK": 2986.2,
+      "HND-OKA": 2927.1,
+      "FUK-OKA": 599.2
      },
-     "spill_pax_k": 1819.4,
+     "spill_pax_k": 1777.0,
      "round_trips": {
-      "HND-CTS": 18.0,
+      "HND-CTS": 16.0,
       "HND-ITM": 14.0,
-      "HND-FUK": 16.0,
+      "HND-FUK": 18.0,
       "HND-OKA": 13.0,
       "FUK-OKA": 5.0
      },
@@ -56,81 +56,81 @@
       "777-300ER": 0
      },
      "aircraft_used_avg": {
-      "737": 5.1,
-      "767": 3.0,
+      "737": 5.4,
+      "767": 2.6,
       "787": 3.0,
       "A350": 13.0,
       "777-300ER": 0.0
      },
      "lease_aircraft_months": 0,
-     "co2_kt": 1322.0,
+     "co2_kt": 1326.6,
      "block_h_by_type": {
-      "737": 16699,
-      "767": 9137,
-      "787": 10372,
-      "A350": 46379,
+      "737": 17794,
+      "767": 8596,
+      "787": 10463,
+      "A350": 46562,
       "777-300ER": 0
      },
      "engines": {
       "737": {
-       "utilisation_multiplier": 1.0105,
-       "spend_per_year_oku_yen": 262.8
+       "utilisation_multiplier": 1.0111,
+       "spend_per_year_oku_yen": 263.0
       },
       "767": {
-       "utilisation_multiplier": 1.106,
-       "spend_per_year_oku_yen": 89.0
+       "utilisation_multiplier": 1.0948,
+       "spend_per_year_oku_yen": 88.1
       },
       "787": {
-       "utilisation_multiplier": 1.1367,
-       "spend_per_year_oku_yen": 217.1
+       "utilisation_multiplier": 1.1349,
+       "spend_per_year_oku_yen": 216.7
       }
      }
     },
     "ana": {
-     "margin_oku": 1272.0,
-     "carried_pax_k": 13835.8,
+     "margin_oku": 1294.3,
+     "carried_pax_k": 13926.2,
      "carried_by_route_pax_k": {
-      "HND-CTS": 3750.2,
-      "HND-ITM": 2450.1,
-      "HND-FUK": 3369.4,
-      "HND-OKA": 3177.6,
-      "FUK-OKA": 1088.5
+      "HND-CTS": 3443.3,
+      "HND-ITM": 2523.8,
+      "HND-FUK": 3577.6,
+      "HND-OKA": 3280.3,
+      "FUK-OKA": 1101.2
      },
-     "spill_pax_k": 1244.4,
+     "spill_pax_k": 1146.2,
      "round_trips": {
-      "HND-CTS": 17.0,
+      "HND-CTS": 16.0,
       "HND-ITM": 14.0,
       "HND-FUK": 20.0,
-      "HND-OKA": 13.0,
+      "HND-OKA": 14.0,
       "FUK-OKA": 9.0
      },
      "hub_round_trips": 64.0,
      "hub_budget": 64,
      "by_type": {
       "737": 0,
-      "A321neo": 8,
-      "767": 5,
+      "A321neo": 5,
+      "767": 6,
       "787-10": 8,
-      "777-200": 6,
+      "777-200": 8,
       "777-300": 0
      },
      "aircraft_used_avg": {
       "737": 0.0,
-      "A321neo": 5.8,
-      "767": 5.1,
+      "A321neo": 4.9,
+      "767": 5.0,
       "787-10": 8.0,
-      "777-200": 6.6,
-      "777-300": 1.5
+      "777-200": 7.2,
+      "777-300": 1.8
      },
      "lease_aircraft_months": 0,
-     "co2_kt": 1526.7,
+     "co2_kt": 1588.7,
      "block_h_by_type": {
       "737": 0,
-      "A321neo": 19163,
-      "767": 16413,
-      "787-10": 28786,
-      "777-200": 21766,
-      "777-300": 5390
+      "A321neo": 16152,
+      "767": 15792,
+      "787-10": 29540,
+      "777-200": 23980,
+      "777-300": 6759
      },
      "engines": {
       "737": {
@@ -138,8 +138,8 @@
        "spend_per_year_oku_yen": null
       },
       "767": {
-       "utilisation_multiplier": 1.1742,
-       "spend_per_year_oku_yen": 70.4
+       "utilisation_multiplier": 1.1708,
+       "spend_per_year_oku_yen": 70.2
       }
      }
     }
@@ -152,247 +152,68 @@
      "market_round_trips_added": 6.3,
      "airport_cost_oku": 372.0,
      "market": {
-      "new_pax_k": 121.4,
-      "pax_per_oku": 0.33,
+      "new_pax_k": 73.8,
+      "pax_per_oku": 0.2,
       "by_company": {
        "jal": {
-        "pax_k": 70.5,
-        "margin_oku": -7.8
+        "pax_k": 69.6,
+        "margin_oku": -9.3
        },
        "ana": {
-        "pax_k": 6.5,
-        "margin_oku": -17.7
+        "pax_k": -22.8,
+        "margin_oku": -11.9
        }
       },
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 1.1,
-         "767": -0.2,
-         "787": 0.0,
-         "A350": 0.0,
-         "777-300ER": 0.0
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
-         "737": 3558,
-         "767": 6,
-         "787": 61,
-         "A350": -170,
-         "777-300ER": 0
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.6
-         },
-         "767": {
-          "utilisation_multiplier": -0.002,
-          "spend_oku": -0.1
-         },
-         "787": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.0
-         }
-        },
-        "co2_kt": 25.9
-       },
-       "ana": {
-        "aircraft_used_avg": {
-         "737": 0.0,
-         "A321neo": 0.0,
-         "767": 0.3,
-         "787-10": 0.0,
-         "777-200": -0.3,
-         "777-300": 0.0
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
-         "737": 0,
-         "A321neo": 0,
-         "767": 2154,
-         "787-10": 335,
-         "777-200": -894,
-         "777-300": 304
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0,
-          "spend_oku": 0
-         },
-         "767": {
-          "utilisation_multiplier": 0.044,
-          "spend_oku": 2.7
-         }
-        },
-        "co2_kt": 29.7
-       }
-      },
-      "round_trips": {
-       "jal": {
-        "HND-CTS": 20.0,
-        "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
-        "HND-OKA": 13.0,
-        "FUK-OKA": 6.0
-       },
-       "ana": {
-        "HND-CTS": 19.0,
-        "HND-ITM": 14.0,
-        "HND-FUK": 20.0,
-        "HND-OKA": 13.0,
-        "FUK-OKA": 9.0
-       }
-      }
-     },
-     "airline": {
-      "to": "jal",
-      "by_company": {
-       "jal": {
-        "pax_k": 542.7,
-        "margin_oku": 42.6
-       },
-       "ana": {
-        "pax_k": -235.9,
-        "margin_oku": -34.0
-       }
-      },
-      "pax_net_two_k": 306.8,
-      "aircraft": {
-       "jal": {
-        "aircraft_used_avg": {
-         "737": 1.1,
-         "767": 0.7,
-         "787": 0.0,
-         "A350": 0.0,
-         "777-300ER": 0.0
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
-         "737": 3832,
-         "767": 2708,
-         "787": 12,
-         "A350": -809,
-         "777-300ER": 0
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.6
-         },
-         "767": {
-          "utilisation_multiplier": 0.018,
-          "spend_oku": 1.5
-         },
-         "787": {
-          "utilisation_multiplier": -0.004,
-          "spend_oku": -0.7
-         }
-        },
-        "co2_kt": 59.6
-       },
-       "ana": {
-        "aircraft_used_avg": {
-         "737": 0.0,
-         "A321neo": 0.0,
+         "737": 0.8,
          "767": 0.2,
-         "787-10": 0.0,
-         "777-200": -0.2,
-         "777-300": 0.0
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
-         "737": 0,
-         "A321neo": -274,
-         "767": 724,
-         "787-10": 31,
-         "777-200": -845,
-         "777-300": 170
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0,
-          "spend_oku": 0
-         },
-         "767": {
-          "utilisation_multiplier": 0.015,
-          "spend_oku": 0.9
-         }
-        },
-        "co2_kt": -3.6
-       }
-      }
-     }
-    },
-    {
-     "airport": "FUK",
-     "route": "HND-FUK",
-     "share_two_companies": 0.632,
-     "market_round_trips_added": 6.3,
-     "airport_cost_oku": 532.0,
-     "market": {
-      "new_pax_k": 353.7,
-      "pax_per_oku": 0.66,
-      "by_company": {
-       "jal": {
-        "pax_k": 190.2,
-        "margin_oku": 8.5
-       },
-       "ana": {
-        "pax_k": 33.2,
-        "margin_oku": -6.9
-       }
-      },
-      "aircraft": {
-       "jal": {
-        "aircraft_used_avg": {
-         "737": 0.9,
-         "767": 0.0,
          "787": 0.0,
          "A350": 0.0,
          "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 3011,
-         "767": 1157,
-         "787": -78,
-         "A350": -389,
+         "737": 2737,
+         "767": 669,
+         "787": 19,
+         "A350": -262,
          "777-300ER": 0
         },
         "engines": {
          "737": {
           "utilisation_multiplier": 0.002,
-          "spend_oku": 0.5
-         },
-         "767": {
-          "utilisation_multiplier": 0.004,
           "spend_oku": 0.4
          },
+         "767": {
+          "utilisation_multiplier": 0.006,
+          "spend_oku": 0.5
+         },
          "787": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.0
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.4
          }
         },
-        "co2_kt": 34.2
+        "co2_kt": 28.0
        },
        "ana": {
         "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": 0.4,
-         "767": 0.8,
+         "A321neo": 0.1,
+         "767": 0.7,
          "787-10": 0.0,
-         "777-200": 0.0,
-         "777-300": -0.3
+         "777-200": -0.2,
+         "777-300": -0.5
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 1368,
-         "767": 2281,
-         "787-10": -139,
-         "777-200": -146,
-         "777-300": -1028
+         "A321neo": 273,
+         "767": 4040,
+         "787-10": -158,
+         "777-200": -364,
+         "777-300": -1698
         },
         "engines": {
          "737": {
@@ -400,11 +221,11 @@
           "spend_oku": 0
          },
          "767": {
-          "utilisation_multiplier": 0.009,
-          "spend_oku": 0.6
+          "utilisation_multiplier": 0.063,
+          "spend_oku": 3.8
          }
         },
-        "co2_kt": 16.6
+        "co2_kt": 15.5
        }
       },
       "round_trips": {
@@ -416,10 +237,10 @@
         "FUK-OKA": 6.0
        },
        "ana": {
-        "HND-CTS": 17.0,
+        "HND-CTS": 18.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 22.0,
-        "HND-OKA": 13.0,
+        "HND-FUK": 20.0,
+        "HND-OKA": 14.0,
         "FUK-OKA": 9.0
        }
       }
@@ -428,65 +249,65 @@
       "to": "jal",
       "by_company": {
        "jal": {
-        "pax_k": 571.6,
-        "margin_oku": 47.9
+        "pax_k": 532.7,
+        "margin_oku": 18.6
        },
        "ana": {
-        "pax_k": -174.2,
-        "margin_oku": -24.5
+        "pax_k": -254.2,
+        "margin_oku": -17.5
        }
       },
-      "pax_net_two_k": 397.4,
+      "pax_net_two_k": 278.5,
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 1.2,
-         "767": 0.7,
+         "737": -0.2,
+         "767": 1.4,
          "787": 0.0,
          "A350": 0.0,
          "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 4106,
-         "767": 3176,
-         "787": -54,
-         "A350": -511,
+         "737": -821,
+         "767": 4799,
+         "787": 25,
+         "A350": 85,
          "777-300ER": 0
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.6
+          "utilisation_multiplier": -0.001,
+          "spend_oku": -0.2
          },
          "767": {
-          "utilisation_multiplier": 0.02,
-          "spend_oku": 1.7
+          "utilisation_multiplier": 0.048,
+          "spend_oku": 3.9
          },
          "787": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.0
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.4
          }
         },
-        "co2_kt": 74.1
+        "co2_kt": 74.4
        },
        "ana": {
         "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": 0.1,
-         "767": 0.1,
+         "A321neo": 0.0,
+         "767": 0.5,
          "787-10": 0.0,
-         "777-200": 0.0,
+         "777-200": -0.2,
          "777-300": -0.2
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 273,
-         "767": 286,
-         "787-10": -231,
-         "777-200": -195,
-         "777-300": -329
+         "A321neo": 0,
+         "767": 1588,
+         "787-10": 79,
+         "777-200": -948,
+         "777-300": -816
         },
         "engines": {
          "737": {
@@ -494,11 +315,190 @@
           "spend_oku": 0
          },
          "767": {
-          "utilisation_multiplier": 0.003,
-          "spend_oku": 0.2
+          "utilisation_multiplier": 0.028,
+          "spend_oku": 1.7
          }
         },
-        "co2_kt": -9.7
+        "co2_kt": -13.2
+       }
+      }
+     }
+    },
+    {
+     "airport": "FUK",
+     "route": "HND-FUK",
+     "share_two_companies": 0.632,
+     "market_round_trips_added": 6.3,
+     "airport_cost_oku": 532.0,
+     "market": {
+      "new_pax_k": 244.3,
+      "pax_per_oku": 0.46,
+      "by_company": {
+       "jal": {
+        "pax_k": 152.5,
+        "margin_oku": 7.1
+       },
+       "ana": {
+        "pax_k": 1.8,
+        "margin_oku": -4.8
+       }
+      },
+      "aircraft": {
+       "jal": {
+        "aircraft_used_avg": {
+         "737": 0.8,
+         "767": 0.4,
+         "787": 0.0,
+         "A350": 0.0,
+         "777-300ER": 0.0
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 2463,
+         "767": 1344,
+         "787": -24,
+         "A350": -280,
+         "777-300ER": 0
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.4
+         },
+         "767": {
+          "utilisation_multiplier": 0.007,
+          "spend_oku": 0.6
+         },
+         "787": {
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.4
+         }
+        },
+        "co2_kt": 35.9
+       },
+       "ana": {
+        "aircraft_used_avg": {
+         "737": 0.0,
+         "A321neo": 1.0,
+         "767": 0.8,
+         "787-10": 0.0,
+         "777-200": -0.4,
+         "777-300": -0.4
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 0,
+         "A321neo": 3284,
+         "767": 2713,
+         "787-10": 92,
+         "777-200": -1776,
+         "777-300": -1783
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0,
+          "spend_oku": 0
+         },
+         "767": {
+          "utilisation_multiplier": 0.009,
+          "spend_oku": 0.6
+         }
+        },
+        "co2_kt": -11.5
+       }
+      },
+      "round_trips": {
+       "jal": {
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
+        "HND-FUK": 20.0,
+        "HND-OKA": 13.0,
+        "FUK-OKA": 6.0
+       },
+       "ana": {
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
+        "HND-FUK": 22.0,
+        "HND-OKA": 14.0,
+        "FUK-OKA": 9.0
+       }
+      }
+     },
+     "airline": {
+      "to": "jal",
+      "by_company": {
+       "jal": {
+        "pax_k": 530.4,
+        "margin_oku": 61.4
+       },
+       "ana": {
+        "pax_k": -220.9,
+        "margin_oku": -30.0
+       }
+      },
+      "pax_net_two_k": 309.5,
+      "aircraft": {
+       "jal": {
+        "aircraft_used_avg": {
+         "737": 1.5,
+         "767": 0.5,
+         "787": 0.0,
+         "A350": 0.0,
+         "777-300ER": 0.0
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 4927,
+         "767": 1850,
+         "787": -18,
+         "A350": 249,
+         "777-300ER": 0
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0.003,
+          "spend_oku": 0.8
+         },
+         "767": {
+          "utilisation_multiplier": 0.014,
+          "spend_oku": 1.2
+         },
+         "787": {
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.4
+         }
+        },
+        "co2_kt": 73.8
+       },
+       "ana": {
+        "aircraft_used_avg": {
+         "737": 0.0,
+         "A321neo": 0.9,
+         "767": -0.2,
+         "787-10": 0.0,
+         "777-200": -0.2,
+         "777-300": -0.3
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 0,
+         "A321neo": 2737,
+         "767": -134,
+         "787-10": -6,
+         "777-200": -1131,
+         "777-300": -1467
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0,
+          "spend_oku": 0
+         },
+         "767": {
+          "utilisation_multiplier": -0.0,
+          "spend_oku": 0.0
+         }
+        },
+        "co2_kt": -42.4
        }
       }
      }
@@ -510,68 +510,68 @@
      "market_round_trips_added": 5.4,
      "airport_cost_oku": 263.3,
      "market": {
-      "new_pax_k": 323.8,
-      "pax_per_oku": 1.23,
+      "new_pax_k": 250.1,
+      "pax_per_oku": 0.95,
       "by_company": {
        "jal": {
-        "pax_k": 188.1,
-        "margin_oku": -9.5
+        "pax_k": 145.3,
+        "margin_oku": -13.9
        },
        "ana": {
-        "pax_k": 50.0,
-        "margin_oku": -34.0
+        "pax_k": 38.6,
+        "margin_oku": -33.3
        }
       },
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 0.3,
-         "767": 0.8,
+         "737": 0.0,
+         "767": 1.0,
          "787": 0.0,
          "A350": 0.0,
          "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 1095,
-         "767": 4149,
-         "787": 760,
-         "A350": -1819,
+         "737": 0,
+         "767": 4471,
+         "787": 700,
+         "A350": -1375,
          "777-300ER": 0
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": 0.001,
-          "spend_oku": 0.2
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": -0.031,
-          "spend_oku": -2.5
+          "utilisation_multiplier": -0.023,
+          "spend_oku": -1.8
          },
          "787": {
-          "utilisation_multiplier": -0.049,
-          "spend_oku": -9.3
+          "utilisation_multiplier": -0.047,
+          "spend_oku": -8.9
          }
         },
-        "co2_kt": 54.1
+        "co2_kt": 58.3
        },
        "ana": {
         "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": -0.1,
-         "767": 0.7,
+         "A321neo": 0.3,
+         "767": 0.8,
          "787-10": 0.0,
-         "777-200": 0.6,
-         "777-300": -0.2
+         "777-200": 0.1,
+         "777-300": -0.1
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": -548,
-         "767": 3315,
-         "787-10": 183,
-         "777-200": 1618,
-         "777-300": -967
+         "A321neo": 1222,
+         "767": 4964,
+         "787-10": -608,
+         "777-200": -389,
+         "777-300": -1491
         },
         "engines": {
          "737": {
@@ -579,26 +579,26 @@
           "spend_oku": 0
          },
          "767": {
-          "utilisation_multiplier": -0.043,
-          "spend_oku": -2.6
+          "utilisation_multiplier": -0.073,
+          "spend_oku": -4.4
          }
         },
-        "co2_kt": 64.2
+        "co2_kt": 34.5
        }
       },
       "round_trips": {
        "jal": {
-        "HND-CTS": 18.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
+        "HND-FUK": 18.0,
         "HND-OKA": 15.0,
         "FUK-OKA": 5.0
        },
        "ana": {
-        "HND-CTS": 17.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
         "HND-FUK": 20.0,
-        "HND-OKA": 15.0,
+        "HND-OKA": 16.0,
         "FUK-OKA": 9.0
        }
       }
@@ -607,15 +607,15 @@
       "to": "jal",
       "by_company": {
        "jal": {
-        "pax_k": 520.5,
-        "margin_oku": 41.9
+        "pax_k": 541.8,
+        "margin_oku": 40.8
        },
        "ana": {
-        "pax_k": -292.4,
-        "margin_oku": -56.6
+        "pax_k": -259.6,
+        "margin_oku": -57.2
        }
       },
-      "pax_net_two_k": 228.1,
+      "pax_net_two_k": 282.2,
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
@@ -628,9 +628,9 @@
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "767": 6905,
-         "787": 791,
-         "A350": -103,
+         "767": 7695,
+         "787": 572,
+         "A350": -675,
          "777-300ER": 0
         },
         "engines": {
@@ -639,33 +639,33 @@
           "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": 0.039,
-          "spend_oku": 3.1
+          "utilisation_multiplier": 0.018,
+          "spend_oku": 1.5
          },
          "787": {
-          "utilisation_multiplier": -0.049,
-          "spend_oku": -9.3
+          "utilisation_multiplier": -0.038,
+          "spend_oku": -7.2
          }
         },
-        "co2_kt": 123.8
+        "co2_kt": 122.5
        },
        "ana": {
         "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": 0.0,
-         "767": 0.2,
+         "A321neo": 0.1,
+         "767": 0.5,
          "787-10": 0.0,
-         "777-200": -0.1,
-         "777-300": -0.2
+         "777-200": -0.2,
+         "777-300": -0.3
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 0,
-         "767": 949,
-         "787-10": 67,
-         "777-200": -304,
-         "777-300": -906
+         "A321neo": 273,
+         "767": 3255,
+         "787-10": -444,
+         "777-200": -1368,
+         "777-300": -1813
         },
         "engines": {
          "737": {
@@ -673,11 +673,11 @@
           "spend_oku": 0
          },
          "767": {
-          "utilisation_multiplier": -0.007,
-          "spend_oku": -0.4
+          "utilisation_multiplier": -0.058,
+          "spend_oku": -3.5
          }
         },
-        "co2_kt": -12.4
+        "co2_kt": -26.9
        }
       }
      }
@@ -689,68 +689,68 @@
      "market_round_trips_added": 4.0,
      "airport_cost_oku": null,
      "market": {
-      "new_pax_k": 312.8,
+      "new_pax_k": 291.2,
       "pax_per_oku": null,
       "by_company": {
        "jal": {
-        "pax_k": 185.1,
-        "margin_oku": 8.6
+        "pax_k": 211.8,
+        "margin_oku": 12.7
        },
        "ana": {
-        "pax_k": 127.7,
-        "margin_oku": 4.2
+        "pax_k": 79.4,
+        "margin_oku": 7.4
        }
       },
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 1.1,
-         "767": 0.0,
+         "737": 0.6,
+         "767": 0.4,
          "787": 0.0,
          "A350": 0.0,
          "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 3832,
-         "767": -1186,
-         "787": 67,
-         "A350": 256,
+         "737": 1916,
+         "767": -341,
+         "787": -6,
+         "A350": 718,
          "777-300ER": 0
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.6
+          "utilisation_multiplier": 0.001,
+          "spend_oku": 0.3
          },
          "767": {
-          "utilisation_multiplier": -0.002,
-          "spend_oku": -0.1
+          "utilisation_multiplier": 0.015,
+          "spend_oku": 1.3
          },
          "787": {
-          "utilisation_multiplier": -0.004,
-          "spend_oku": -0.7
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
          }
         },
-        "co2_kt": 16.7
+        "co2_kt": 23.1
        },
        "ana": {
         "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": 0.7,
-         "767": -0.4,
+         "A321neo": 1.3,
+         "767": 0.1,
          "787-10": 0.0,
          "777-200": -0.3,
-         "777-300": 0.0
+         "777-300": -0.3
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 2189,
-         "767": -718,
-         "787-10": 159,
-         "777-200": -523,
-         "777-300": 304
+         "A321neo": 4106,
+         "767": -906,
+         "787-10": -60,
+         "777-200": -468,
+         "777-300": -1065
         },
         "engines": {
          "737": {
@@ -758,26 +758,26 @@
           "spend_oku": 0
          },
          "767": {
-          "utilisation_multiplier": 0.018,
-          "spend_oku": 1.1
+          "utilisation_multiplier": -0.002,
+          "spend_oku": -0.1
          }
         },
-        "co2_kt": 4.0
+        "co2_kt": -21.4
        }
       },
       "round_trips": {
        "jal": {
-        "HND-CTS": 18.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 16.0,
-        "HND-FUK": 16.0,
+        "HND-FUK": 18.0,
         "HND-OKA": 13.0,
         "FUK-OKA": 6.0
        },
        "ana": {
-        "HND-CTS": 17.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 16.0,
         "HND-FUK": 20.0,
-        "HND-OKA": 13.0,
+        "HND-OKA": 14.0,
         "FUK-OKA": 9.0
        }
       }
@@ -786,65 +786,65 @@
       "to": "jal",
       "by_company": {
        "jal": {
-        "pax_k": 559.4,
-        "margin_oku": 36.8
+        "pax_k": 546.9,
+        "margin_oku": 41.3
        },
        "ana": {
-        "pax_k": -254.8,
-        "margin_oku": -17.1
+        "pax_k": -261.7,
+        "margin_oku": -21.4
        }
       },
-      "pax_net_two_k": 304.6,
+      "pax_net_two_k": 285.2,
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 1.4,
-         "767": 0.5,
+         "737": 1.0,
+         "767": 1.0,
          "787": 0.0,
          "A350": 0.0,
          "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 4653,
-         "767": 487,
-         "787": -18,
-         "A350": -255,
+         "737": 3285,
+         "767": 510,
+         "787": -73,
+         "A350": 657,
          "777-300ER": 0
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": 0.003,
-          "spend_oku": 0.8
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.5
          },
          "767": {
-          "utilisation_multiplier": 0.022,
-          "spend_oku": 1.8
+          "utilisation_multiplier": 0.024,
+          "spend_oku": 2.0
          },
          "787": {
           "utilisation_multiplier": 0.0,
           "spend_oku": 0.0
          }
         },
-        "co2_kt": 39.7
+        "co2_kt": 45.7
        },
        "ana": {
         "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": 1.0,
-         "767": -0.3,
+         "A321neo": 1.3,
+         "767": -0.6,
          "787-10": 0.0,
-         "777-200": -0.2,
-         "777-300": -0.4
+         "777-200": -0.3,
+         "777-300": -0.3
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 3011,
-         "767": -1065,
-         "787-10": 61,
-         "777-200": -596,
-         "777-300": -1412
+         "A321neo": 4106,
+         "767": -2378,
+         "787-10": -109,
+         "777-200": -553,
+         "777-300": -1065
         },
         "engines": {
          "737": {
@@ -852,11 +852,11 @@
           "spend_oku": 0
          },
          "767": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.1
+          "utilisation_multiplier": -0.019,
+          "spend_oku": -1.1
          }
         },
-        "co2_kt": -41.6
+        "co2_kt": -48.3
        }
       }
      }
@@ -866,17 +866,17 @@
     {
      "step": 1,
      "airport": "OKA",
-     "new_pax_k": 323.8,
+     "new_pax_k": 250.1,
      "airport_cost_oku": 263.3,
-     "pax_per_oku": 1.23,
+     "pax_per_oku": 0.95,
      "by_company": {
       "jal": {
-       "pax_k": 188.1,
-       "margin_oku": -9.5
+       "pax_k": 145.3,
+       "margin_oku": -13.9
       },
       "ana": {
-       "pax_k": 50.0,
-       "margin_oku": -34.0
+       "pax_k": 38.6,
+       "margin_oku": -33.3
       }
      },
      "extra": {
@@ -889,84 +889,84 @@
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": 121.4,
-       "pax_per_oku": 0.33
+       "new_pax_k": 73.8,
+       "pax_per_oku": 0.2
       },
       "FUK": {
-       "new_pax_k": 353.7,
-       "pax_per_oku": 0.66
+       "new_pax_k": 244.3,
+       "pax_per_oku": 0.46
       },
       "OKA": {
-       "new_pax_k": 323.8,
-       "pax_per_oku": 1.23
+       "new_pax_k": 250.1,
+       "pax_per_oku": 0.95
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 18.0,
+       "HND-CTS": 16.0,
        "HND-ITM": 14.0,
-       "HND-FUK": 16.0,
+       "HND-FUK": 18.0,
        "HND-OKA": 15.0,
        "FUK-OKA": 5.0
       },
       "ana": {
-       "HND-CTS": 17.0,
+       "HND-CTS": 16.0,
        "HND-ITM": 14.0,
        "HND-FUK": 20.0,
-       "HND-OKA": 15.0,
+       "HND-OKA": 16.0,
        "FUK-OKA": 9.0
       }
      },
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 0.3,
-        "767": 0.8,
+        "737": 0.0,
+        "767": 1.0,
         "787": 0.0,
         "A350": 0.0,
         "777-300ER": 0.0
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 1095,
-        "767": 4149,
-        "787": 760,
-        "A350": -1819,
+        "737": 0,
+        "767": 4471,
+        "787": 700,
+        "A350": -1375,
         "777-300ER": 0
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 0.001,
-         "spend_oku": 0.2
+         "utilisation_multiplier": 0.0,
+         "spend_oku": 0.0
         },
         "767": {
-         "utilisation_multiplier": -0.031,
-         "spend_oku": -2.5
+         "utilisation_multiplier": -0.023,
+         "spend_oku": -1.8
         },
         "787": {
-         "utilisation_multiplier": -0.049,
-         "spend_oku": -9.3
+         "utilisation_multiplier": -0.047,
+         "spend_oku": -8.9
         }
        },
-       "co2_kt": 54.1
+       "co2_kt": 58.3
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": -0.1,
-        "767": 0.7,
+        "A321neo": 0.3,
+        "767": 0.8,
         "787-10": 0.0,
-        "777-200": 0.6,
-        "777-300": -0.2
+        "777-200": 0.1,
+        "777-300": -0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": -548,
-        "767": 3315,
-        "787-10": 183,
-        "777-200": 1618,
-        "777-300": -967
+        "A321neo": 1222,
+        "767": 4964,
+        "787-10": -608,
+        "777-200": -389,
+        "777-300": -1491
        },
        "engines": {
         "737": {
@@ -974,29 +974,29 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.043,
-         "spend_oku": -2.6
+         "utilisation_multiplier": -0.073,
+         "spend_oku": -4.4
         }
        },
-       "co2_kt": 64.2
+       "co2_kt": 34.5
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1178.6,
-       "carried_pax_k": 12369.5,
+       "margin_oku": 1173.8,
+       "carried_pax_k": 12340.0,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3857.4,
-        "HND-ITM": 2403.3,
-        "HND-FUK": 2637.4,
-        "HND-OKA": 2870.9,
-        "FUK-OKA": 600.5
+        "HND-CTS": 3469.4,
+        "HND-ITM": 2352.3,
+        "HND-FUK": 3072.4,
+        "HND-OKA": 2847.8,
+        "FUK-OKA": 598.1
        },
-       "spill_pax_k": 1627.1,
+       "spill_pax_k": 1627.5,
        "round_trips": {
-        "HND-CTS": 18.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
+        "HND-FUK": 18.0,
         "HND-OKA": 15.0,
         "FUK-OKA": 5.0
        },
@@ -1011,18 +1011,18 @@
        },
        "aircraft_used_avg": {
         "737": 5.4,
-        "767": 3.8,
+        "767": 3.6,
         "787": 3.0,
         "A350": 13.0,
         "777-300ER": 0.0
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1376.1,
+       "co2_kt": 1384.9,
        "block_h_by_type": {
         "737": 17794,
-        "767": 13286,
-        "787": 11132,
-        "A350": 44560,
+        "767": 13067,
+        "787": 11163,
+        "A350": 45187,
         "777-300ER": 0
        },
        "engines": {
@@ -1031,8 +1031,8 @@
          "spend_per_year_oku_yen": 263.0
         },
         "767": {
-         "utilisation_multiplier": 1.0751,
-         "spend_per_year_oku_yen": 86.5
+         "utilisation_multiplier": 1.0721,
+         "spend_per_year_oku_yen": 86.3
         },
         "787": {
          "utilisation_multiplier": 1.0881,
@@ -1041,50 +1041,50 @@
        }
       },
       "ana": {
-       "margin_oku": 1238.0,
-       "carried_pax_k": 13885.8,
+       "margin_oku": 1261.0,
+       "carried_pax_k": 13964.8,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3732.8,
-        "HND-ITM": 2539.9,
-        "HND-FUK": 3480.4,
-        "HND-OKA": 3043.5,
-        "FUK-OKA": 1089.2
+        "HND-CTS": 3577.0,
+        "HND-ITM": 2630.4,
+        "HND-FUK": 3575.5,
+        "HND-OKA": 3088.4,
+        "FUK-OKA": 1093.5
        },
-       "spill_pax_k": 1177.4,
+       "spill_pax_k": 1071.0,
        "round_trips": {
-        "HND-CTS": 17.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
         "HND-FUK": 20.0,
-        "HND-OKA": 15.0,
+        "HND-OKA": 16.0,
         "FUK-OKA": 9.0
        },
        "hub_round_trips": 66.0,
        "hub_budget": 66,
        "by_type": {
         "737": 0,
-        "A321neo": 8,
+        "A321neo": 6,
         "767": 6,
         "787-10": 8,
-        "777-200": 6,
+        "777-200": 8,
         "777-300": 0
        },
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 5.7,
+        "A321neo": 5.2,
         "767": 5.8,
         "787-10": 8.0,
-        "777-200": 7.2,
-        "777-300": 1.3
+        "777-200": 7.3,
+        "777-300": 1.7
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1590.9,
+       "co2_kt": 1623.2,
        "block_h_by_type": {
         "737": 0,
-        "A321neo": 18615,
-        "767": 19728,
-        "787-10": 28969,
-        "777-200": 23384,
-        "777-300": 4423
+        "A321neo": 17374,
+        "767": 20756,
+        "787-10": 28932,
+        "777-200": 23591,
+        "777-300": 5268
        },
        "engines": {
         "737": {
@@ -1092,8 +1092,8 @@
          "spend_per_year_oku_yen": null
         },
         "767": {
-         "utilisation_multiplier": 1.1307,
-         "spend_per_year_oku_yen": 67.8
+         "utilisation_multiplier": 1.0978,
+         "spend_per_year_oku_yen": 65.8
         }
        }
       }
@@ -1102,17 +1102,17 @@
     {
      "step": 2,
      "airport": "OKA",
-     "new_pax_k": 263.6,
+     "new_pax_k": 341.9,
      "airport_cost_oku": 263.3,
-     "pax_per_oku": 1.0,
+     "pax_per_oku": 1.3,
      "by_company": {
       "jal": {
-       "pax_k": 131.1,
-       "margin_oku": -6.2
+       "pax_k": 147.6,
+       "margin_oku": -5.8
       },
       "ana": {
-       "pax_k": 62.7,
-       "margin_oku": -14.4
+       "pax_k": 103.8,
+       "margin_oku": -9.4
       }
      },
      "extra": {
@@ -1125,84 +1125,84 @@
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": -82.4,
-       "pax_per_oku": -0.22
+       "new_pax_k": 0.0,
+       "pax_per_oku": 0.0
       },
       "FUK": {
-       "new_pax_k": 21.7,
-       "pax_per_oku": 0.04
+       "new_pax_k": 80.4,
+       "pax_per_oku": 0.15
       },
       "OKA": {
-       "new_pax_k": 263.6,
-       "pax_per_oku": 1.0
+       "new_pax_k": 341.9,
+       "pax_per_oku": 1.3
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 18.0,
+       "HND-CTS": 16.0,
        "HND-ITM": 14.0,
-       "HND-FUK": 16.0,
+       "HND-FUK": 18.0,
        "HND-OKA": 17.0,
        "FUK-OKA": 5.0
       },
       "ana": {
-       "HND-CTS": 17.0,
+       "HND-CTS": 16.0,
        "HND-ITM": 14.0,
        "HND-FUK": 20.0,
-       "HND-OKA": 17.0,
+       "HND-OKA": 18.0,
        "FUK-OKA": 9.0
       }
      },
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 0.1,
-        "767": 2.0,
+        "737": -0.2,
+        "767": 2.3,
         "787": 0.0,
         "A350": -0.3,
         "777-300ER": 0.2
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 274,
-        "767": 9557,
-        "787": 919,
-        "A350": -3692,
+        "737": -547,
+        "767": 10068,
+        "787": 828,
+        "A350": -3583,
         "777-300ER": 633
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 0.0,
-         "spend_oku": 0.0
+         "utilisation_multiplier": -0.0,
+         "spend_oku": -0.1
         },
         "767": {
-         "utilisation_multiplier": -0.037,
-         "spend_oku": -3.0
+         "utilisation_multiplier": -0.035,
+         "spend_oku": -2.8
         },
         "787": {
-         "utilisation_multiplier": -0.058,
-         "spend_oku": -11.0
+         "utilisation_multiplier": -0.056,
+         "spend_oku": -10.6
         }
        },
-       "co2_kt": 118.6
+       "co2_kt": 121.3
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 0.5,
-        "767": 0.9,
+        "A321neo": 1.3,
+        "767": 1.0,
         "787-10": 0.0,
         "777-200": 0.5,
-        "777-300": -0.4
+        "777-300": -0.6
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 2537,
-        "767": 5864,
-        "787-10": -942,
-        "777-200": 1326,
-        "777-300": -1776
+        "A321neo": 5894,
+        "767": 5962,
+        "787-10": -1928,
+        "777-200": 1095,
+        "777-300": -3334
        },
        "engines": {
         "737": {
@@ -1210,29 +1210,29 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.081,
-         "spend_oku": -4.9
+         "utilisation_multiplier": -0.086,
+         "spend_oku": -5.1
         }
        },
-       "co2_kt": 83.1
+       "co2_kt": 48.9
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1172.4,
-       "carried_pax_k": 12500.6,
+       "margin_oku": 1168.0,
+       "carried_pax_k": 12487.6,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3821.7,
-        "HND-ITM": 2406.1,
-        "HND-FUK": 2811.6,
-        "HND-OKA": 2889.6,
-        "FUK-OKA": 571.6
+        "HND-CTS": 3493.6,
+        "HND-ITM": 2425.6,
+        "HND-FUK": 3112.4,
+        "HND-OKA": 2874.6,
+        "FUK-OKA": 581.4
        },
-       "spill_pax_k": 1492.8,
+       "spill_pax_k": 1476.7,
        "round_trips": {
-        "HND-CTS": 18.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
+        "HND-FUK": 18.0,
         "HND-OKA": 17.0,
         "FUK-OKA": 5.0
        },
@@ -1247,28 +1247,28 @@
        },
        "aircraft_used_avg": {
         "737": 5.2,
-        "767": 5.0,
+        "767": 4.9,
         "787": 3.0,
         "A350": 12.7,
         "777-300ER": 0.2
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1440.6,
+       "co2_kt": 1447.9,
        "block_h_by_type": {
-        "737": 16973,
-        "767": 18694,
+        "737": 17247,
+        "767": 18664,
         "787": 11291,
-        "A350": 42687,
+        "A350": 42979,
         "777-300ER": 633
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0106,
-         "spend_per_year_oku_yen": 262.8
+         "utilisation_multiplier": 1.0108,
+         "spend_per_year_oku_yen": 262.9
         },
         "767": {
-         "utilisation_multiplier": 1.0688,
-         "spend_per_year_oku_yen": 86.0
+         "utilisation_multiplier": 1.0596,
+         "spend_per_year_oku_yen": 85.3
         },
         "787": {
          "utilisation_multiplier": 1.0791,
@@ -1277,50 +1277,50 @@
        }
       },
       "ana": {
-       "margin_oku": 1223.6,
-       "carried_pax_k": 13948.5,
+       "margin_oku": 1251.6,
+       "carried_pax_k": 14068.6,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3784.3,
-        "HND-ITM": 2598.2,
-        "HND-FUK": 3642.8,
-        "HND-OKA": 2878.7,
-        "FUK-OKA": 1044.5
+        "HND-CTS": 3590.7,
+        "HND-ITM": 2783.3,
+        "HND-FUK": 3706.3,
+        "HND-OKA": 2873.1,
+        "FUK-OKA": 1115.2
        },
-       "spill_pax_k": 1101.7,
+       "spill_pax_k": 939.2,
        "round_trips": {
-        "HND-CTS": 17.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
         "HND-FUK": 20.0,
-        "HND-OKA": 17.0,
+        "HND-OKA": 18.0,
         "FUK-OKA": 9.0
        },
        "hub_round_trips": 68.0,
        "hub_budget": 68,
        "by_type": {
         "737": 0,
-        "A321neo": 8,
+        "A321neo": 7,
         "767": 6,
         "787-10": 8,
-        "777-200": 7,
+        "777-200": 8,
         "777-300": 0
        },
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 6.3,
+        "A321neo": 6.2,
         "767": 6.0,
         "787-10": 8.0,
-        "777-200": 7.1,
-        "777-300": 1.1
+        "777-200": 7.7,
+        "777-300": 1.2
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1609.8,
+       "co2_kt": 1637.6,
        "block_h_by_type": {
         "737": 0,
-        "A321neo": 21700,
-        "767": 22277,
-        "787-10": 27844,
-        "777-200": 23092,
-        "777-300": 3614
+        "A321neo": 22046,
+        "767": 21754,
+        "787-10": 27612,
+        "777-200": 25075,
+        "777-300": 3425
        },
        "engines": {
         "737": {
@@ -1328,8 +1328,8 @@
          "spend_per_year_oku_yen": null
         },
         "767": {
-         "utilisation_multiplier": 1.0929,
-         "spend_per_year_oku_yen": 65.5
+         "utilisation_multiplier": 1.0853,
+         "spend_per_year_oku_yen": 65.1
         }
        }
       }
@@ -1338,17 +1338,17 @@
     {
      "step": 3,
      "airport": "OKA",
-     "new_pax_k": 305.9,
+     "new_pax_k": 173.8,
      "airport_cost_oku": 263.3,
-     "pax_per_oku": 1.16,
+     "pax_per_oku": 0.66,
      "by_company": {
       "jal": {
-       "pax_k": 19.3,
+       "pax_k": 17.2,
        "margin_oku": -10.5
       },
       "ana": {
-       "pax_k": 205.6,
-       "margin_oku": -4.2
+       "pax_k": 110.6,
+       "margin_oku": 0.4
       }
      },
      "extra": {
@@ -1361,84 +1361,84 @@
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": 28.7,
-       "pax_per_oku": 0.08
+       "new_pax_k": 37.0,
+       "pax_per_oku": 0.1
       },
       "FUK": {
-       "new_pax_k": 9.5,
-       "pax_per_oku": 0.02
+       "new_pax_k": 61.9,
+       "pax_per_oku": 0.12
       },
       "OKA": {
-       "new_pax_k": 305.9,
-       "pax_per_oku": 1.16
+       "new_pax_k": 173.8,
+       "pax_per_oku": 0.66
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 18.0,
+       "HND-CTS": 16.0,
        "HND-ITM": 14.0,
-       "HND-FUK": 16.0,
+       "HND-FUK": 18.0,
        "HND-OKA": 19.0,
        "FUK-OKA": 5.0
       },
       "ana": {
-       "HND-CTS": 17.0,
+       "HND-CTS": 16.0,
        "HND-ITM": 14.0,
        "HND-FUK": 20.0,
-       "HND-OKA": 19.0,
+       "HND-OKA": 20.0,
        "FUK-OKA": 9.0
       }
      },
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 1.1,
-        "767": 2.8,
+        "737": 0.8,
+        "767": 3.1,
         "787": 0.0,
-        "A350": -1.3,
+        "A350": -1.2,
         "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 4471,
-        "767": 12666,
-        "787": 596,
-        "A350": -7707,
+        "737": 3060,
+        "767": 12915,
+        "787": 536,
+        "A350": -6874,
         "777-300ER": 1265
        },
        "engines": {
         "737": {
          "utilisation_multiplier": -0.006,
-         "spend_oku": -1.5
+         "spend_oku": -1.7
         },
         "767": {
-         "utilisation_multiplier": -0.034,
-         "spend_oku": -2.7
+         "utilisation_multiplier": -0.026,
+         "spend_oku": -2.1
         },
         "787": {
          "utilisation_multiplier": -0.038,
          "spend_oku": -7.2
         }
        },
-       "co2_kt": 136.9
+       "co2_kt": 144.8
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 1.1,
-        "767": 0.9,
-        "787-10": -0.2,
-        "777-200": 1.3,
-        "777-300": -0.6
+        "A321neo": 2.3,
+        "767": 1.0,
+        "787-10": 0.0,
+        "777-200": 0.8,
+        "777-300": -1.0
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 6582,
-        "767": 4599,
-        "787-10": -2159,
-        "777-200": 3997,
-        "777-300": -2409
+        "A321neo": 10858,
+        "767": 5037,
+        "787-10": -2232,
+        "777-200": 2300,
+        "777-300": -4672
        },
        "engines": {
         "737": {
@@ -1446,29 +1446,29 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.036,
-         "spend_oku": -2.1
+         "utilisation_multiplier": -0.06,
+         "spend_oku": -3.6
         }
        },
-       "co2_kt": 113.0
+       "co2_kt": 58.5
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1161.9,
-       "carried_pax_k": 12519.9,
+       "margin_oku": 1157.5,
+       "carried_pax_k": 12504.8,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3821.7,
-        "HND-ITM": 2453.4,
-        "HND-FUK": 2798.6,
-        "HND-OKA": 2893.1,
+        "HND-CTS": 3493.6,
+        "HND-ITM": 2442.6,
+        "HND-FUK": 3116.7,
+        "HND-OKA": 2898.8,
         "FUK-OKA": 553.1
        },
-       "spill_pax_k": 1471.0,
+       "spill_pax_k": 1457.0,
        "round_trips": {
-        "HND-CTS": 18.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
+        "HND-FUK": 18.0,
         "HND-OKA": 19.0,
         "FUK-OKA": 5.0
        },
@@ -1483,51 +1483,51 @@
        },
        "aircraft_used_avg": {
         "737": 6.2,
-        "767": 5.8,
+        "767": 5.7,
         "787": 3.0,
-        "A350": 11.7,
+        "A350": 11.8,
         "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1458.9,
+       "co2_kt": 1471.4,
        "block_h_by_type": {
-        "737": 21170,
-        "767": 21803,
-        "787": 10968,
-        "A350": 38672,
+        "737": 20854,
+        "767": 21511,
+        "787": 10999,
+        "A350": 39688,
         "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0046,
+         "utilisation_multiplier": 1.0049,
          "spend_per_year_oku_yen": 261.3
         },
         "767": {
-         "utilisation_multiplier": 1.0717,
-         "spend_per_year_oku_yen": 86.3
+         "utilisation_multiplier": 1.0687,
+         "spend_per_year_oku_yen": 86.0
         },
         "787": {
-         "utilisation_multiplier": 1.0989,
-         "spend_per_year_oku_yen": 209.9
+         "utilisation_multiplier": 1.0971,
+         "spend_per_year_oku_yen": 209.5
         }
        }
       },
       "ana": {
-       "margin_oku": 1219.4,
-       "carried_pax_k": 14154.1,
+       "margin_oku": 1252.0,
+       "carried_pax_k": 14179.2,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3700.8,
-        "HND-ITM": 2801.3,
-        "HND-FUK": 3842.8,
-        "HND-OKA": 2753.8,
-        "FUK-OKA": 1055.4
+        "HND-CTS": 3590.4,
+        "HND-ITM": 2869.7,
+        "HND-FUK": 3753.3,
+        "HND-OKA": 2849.2,
+        "FUK-OKA": 1116.6
        },
-       "spill_pax_k": 885.9,
+       "spill_pax_k": 806.5,
        "round_trips": {
-        "HND-CTS": 17.0,
+        "HND-CTS": 16.0,
         "HND-ITM": 14.0,
         "HND-FUK": 20.0,
-        "HND-OKA": 19.0,
+        "HND-OKA": 20.0,
         "FUK-OKA": 9.0
        },
        "hub_round_trips": 70.0,
@@ -1542,21 +1542,21 @@
        },
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 6.9,
+        "A321neo": 7.2,
         "767": 6.0,
-        "787-10": 7.8,
-        "777-200": 7.9,
-        "777-300": 0.9
+        "787-10": 8.0,
+        "777-200": 8.0,
+        "777-300": 0.8
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1639.7,
+       "co2_kt": 1647.2,
        "block_h_by_type": {
         "737": 0,
-        "A321neo": 25745,
-        "767": 21012,
-        "787-10": 26627,
-        "777-200": 25763,
-        "777-300": 2981
+        "A321neo": 27010,
+        "767": 20829,
+        "787-10": 27308,
+        "777-200": 26280,
+        "777-300": 2087
        },
        "engines": {
         "737": {
@@ -1564,8 +1564,8 @@
          "spend_per_year_oku_yen": null
         },
         "767": {
-         "utilisation_multiplier": 1.1385,
-         "spend_per_year_oku_yen": 68.3
+         "utilisation_multiplier": 1.1106,
+         "spend_per_year_oku_yen": 66.6
         }
        }
       }
@@ -1574,17 +1574,17 @@
     {
      "step": 4,
      "airport": "CTS",
-     "new_pax_k": 114.1,
+     "new_pax_k": 99.5,
      "airport_cost_oku": 372.0,
-     "pax_per_oku": 0.31,
+     "pax_per_oku": 0.27,
      "by_company": {
       "jal": {
-       "pax_k": 49.9,
-       "margin_oku": -13.6
+       "pax_k": 80.7,
+       "margin_oku": -11.8
       },
       "ana": {
-       "pax_k": 22.5,
-       "margin_oku": -19.7
+       "pax_k": -17.6,
+       "margin_oku": -20.7
       }
      },
      "extra": {
@@ -1599,84 +1599,84 @@
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": 114.1,
-       "pax_per_oku": 0.31
+       "new_pax_k": 99.5,
+       "pax_per_oku": 0.27
       },
       "FUK": {
-       "new_pax_k": 10.1,
-       "pax_per_oku": 0.02
+       "new_pax_k": -51.1,
+       "pax_per_oku": -0.1
       },
       "OKA": {
-       "new_pax_k": 52.8,
-       "pax_per_oku": 0.2
+       "new_pax_k": -110.7,
+       "pax_per_oku": -0.42
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 20.0,
+       "HND-CTS": 18.0,
        "HND-ITM": 14.0,
-       "HND-FUK": 16.0,
+       "HND-FUK": 18.0,
        "HND-OKA": 19.0,
        "FUK-OKA": 5.0
       },
       "ana": {
-       "HND-CTS": 19.0,
+       "HND-CTS": 18.0,
        "HND-ITM": 14.0,
        "HND-FUK": 20.0,
-       "HND-OKA": 19.0,
+       "HND-OKA": 20.0,
        "FUK-OKA": 9.0
       }
      },
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 1.3,
-        "767": 3.2,
+        "737": 1.0,
+        "767": 3.5,
         "787": 0.0,
-        "A350": -0.9,
+        "A350": -0.8,
         "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 4976,
-        "767": 14138,
-        "787": 116,
-        "A350": -6722,
+        "737": 3881,
+        "767": 14162,
+        "787": 311,
+        "A350": -6236,
         "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.005,
-         "spend_oku": -1.3
+         "utilisation_multiplier": -0.006,
+         "spend_oku": -1.5
         },
         "767": {
-         "utilisation_multiplier": -0.031,
-         "spend_oku": -2.5
+         "utilisation_multiplier": -0.021,
+         "spend_oku": -1.7
         },
         "787": {
          "utilisation_multiplier": -0.045,
          "spend_oku": -8.6
         }
        },
-       "co2_kt": 176.4
+       "co2_kt": 180.4
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 1.4,
-        "767": 0.9,
+        "A321neo": 2.3,
+        "767": 1.0,
         "787-10": 0.0,
-        "777-200": 1.4,
-        "777-300": -0.7
+        "777-200": 0.8,
+        "777-300": -1.0
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 7062,
-        "767": 5499,
-        "787-10": -1009,
-        "777-200": 4490,
-        "777-300": -2659
+        "A321neo": 10943,
+        "767": 6017,
+        "787-10": -1545,
+        "777-200": 2300,
+        "777-300": -4429
        },
        "engines": {
         "737": {
@@ -1684,29 +1684,29 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.033,
-         "spend_oku": -2.0
+         "utilisation_multiplier": -0.007,
+         "spend_oku": -0.4
         }
        },
-       "co2_kt": 156.2
+       "co2_kt": 93.4
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1148.3,
-       "carried_pax_k": 12569.8,
+       "margin_oku": 1145.7,
+       "carried_pax_k": 12585.5,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3864.0,
-        "HND-ITM": 2448.3,
-        "HND-FUK": 2783.3,
-        "HND-OKA": 2892.8,
+        "HND-CTS": 3564.7,
+        "HND-ITM": 2448.9,
+        "HND-FUK": 3095.1,
+        "HND-OKA": 2895.4,
         "FUK-OKA": 581.4
        },
-       "spill_pax_k": 1405.2,
+       "spill_pax_k": 1393.0,
        "round_trips": {
-        "HND-CTS": 20.0,
+        "HND-CTS": 18.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
+        "HND-FUK": 18.0,
         "HND-OKA": 19.0,
         "FUK-OKA": 5.0
        },
@@ -1721,18 +1721,18 @@
        },
        "aircraft_used_avg": {
         "737": 6.4,
-        "767": 6.2,
+        "767": 6.1,
         "787": 3.0,
-        "A350": 12.1,
+        "A350": 12.2,
         "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1498.4,
+       "co2_kt": 1507.0,
        "block_h_by_type": {
         "737": 21675,
-        "767": 23275,
-        "787": 10488,
-        "A350": 39657,
+        "767": 22758,
+        "787": 10774,
+        "A350": 40326,
         "777-300ER": 1265
        },
        "engines": {
@@ -1741,31 +1741,31 @@
          "spend_per_year_oku_yen": 261.5
         },
         "767": {
-         "utilisation_multiplier": 1.0747,
-         "spend_per_year_oku_yen": 86.5
+         "utilisation_multiplier": 1.0737,
+         "spend_per_year_oku_yen": 86.4
         },
         "787": {
-         "utilisation_multiplier": 1.0917,
-         "spend_per_year_oku_yen": 208.5
+         "utilisation_multiplier": 1.0899,
+         "spend_per_year_oku_yen": 208.1
         }
        }
       },
       "ana": {
-       "margin_oku": 1199.7,
-       "carried_pax_k": 14176.6,
+       "margin_oku": 1231.3,
+       "carried_pax_k": 14161.6,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3799.5,
-        "HND-ITM": 2754.5,
-        "HND-FUK": 3725.7,
-        "HND-OKA": 2790.0,
-        "FUK-OKA": 1106.9
+        "HND-CTS": 3592.3,
+        "HND-ITM": 2842.3,
+        "HND-FUK": 3797.4,
+        "HND-OKA": 2834.2,
+        "FUK-OKA": 1095.4
        },
-       "spill_pax_k": 863.4,
+       "spill_pax_k": 840.8,
        "round_trips": {
-        "HND-CTS": 19.0,
+        "HND-CTS": 18.0,
         "HND-ITM": 14.0,
         "HND-FUK": 20.0,
-        "HND-OKA": 19.0,
+        "HND-OKA": 20.0,
         "FUK-OKA": 9.0
        },
        "hub_round_trips": 72.0,
@@ -1787,14 +1787,14 @@
         "777-300": 0.8
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1682.9,
+       "co2_kt": 1682.1,
        "block_h_by_type": {
         "737": 0,
-        "A321neo": 26225,
-        "767": 21912,
-        "787-10": 27777,
-        "777-200": 26256,
-        "777-300": 2731
+        "A321neo": 27095,
+        "767": 21809,
+        "787-10": 27995,
+        "777-200": 26280,
+        "777-300": 2330
        },
        "engines": {
         "737": {
@@ -1802,8 +1802,8 @@
          "spend_per_year_oku_yen": null
         },
         "767": {
-         "utilisation_multiplier": 1.141,
-         "spend_per_year_oku_yen": 68.4
+         "utilisation_multiplier": 1.1639,
+         "spend_per_year_oku_yen": 69.8
         }
        }
       }
@@ -1811,110 +1811,112 @@
     },
     {
      "step": 5,
-     "airport": "OKA",
-     "new_pax_k": 16.7,
-     "airport_cost_oku": 263.3,
-     "pax_per_oku": 0.06,
+     "airport": "FUK",
+     "new_pax_k": 16.9,
+     "airport_cost_oku": 532.0,
+     "pax_per_oku": 0.03,
      "by_company": {
       "jal": {
-       "pax_k": -109.6,
-       "margin_oku": -8.8
+       "pax_k": 20.9,
+       "margin_oku": -5.5
       },
       "ana": {
-       "pax_k": 121.9,
-       "margin_oku": -7.6
+       "pax_k": -10.2,
+       "margin_oku": -27.1
       }
      },
      "extra": {
       "jal": {
-       "OKA": 8,
-       "CTS": 2
+       "OKA": 6,
+       "CTS": 2,
+       "FUK": 2
       },
       "ana": {
-       "OKA": 8,
-       "CTS": 2
+       "OKA": 6,
+       "CTS": 2,
+       "FUK": 2
       }
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": -109.1,
-       "pax_per_oku": -0.29
+       "new_pax_k": -17.3,
+       "pax_per_oku": -0.05
       },
       "FUK": {
-       "new_pax_k": -46.1,
-       "pax_per_oku": -0.09
+       "new_pax_k": 16.9,
+       "pax_per_oku": 0.03
       },
       "OKA": {
-       "new_pax_k": 16.7,
-       "pax_per_oku": 0.06
+       "new_pax_k": -53.2,
+       "pax_per_oku": -0.2
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 20.0,
-       "HND-ITM": 14.0,
-       "HND-FUK": 16.0,
-       "HND-OKA": 21.0,
-       "FUK-OKA": 6.0
-      },
-      "ana": {
-       "HND-CTS": 19.0,
+       "HND-CTS": 18.0,
        "HND-ITM": 14.0,
        "HND-FUK": 20.0,
-       "HND-OKA": 21.0,
+       "HND-OKA": 19.0,
+       "FUK-OKA": 5.0
+      },
+      "ana": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 14.0,
+       "HND-FUK": 22.0,
+       "HND-OKA": 20.0,
        "FUK-OKA": 9.0
       }
      },
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 5.4,
-        "767": 0.9,
+        "737": 1.7,
+        "767": 4.2,
         "787": 0.0,
-        "A350": -1.6,
-        "777-300ER": 0.2
+        "A350": -1.8,
+        "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 20263,
-        "767": 5682,
-        "787": 286,
-        "A350": -8808,
-        "777-300ER": 633
+        "737": 6412,
+        "767": 16327,
+        "787": 256,
+        "A350": -8249,
+        "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.01,
-         "spend_oku": -2.7
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -2.3
         },
         "767": {
-         "utilisation_multiplier": -0.054,
-         "spend_oku": -4.4
+         "utilisation_multiplier": 0.002,
+         "spend_oku": 0.2
         },
         "787": {
-         "utilisation_multiplier": -0.034,
-         "spend_oku": -6.6
+         "utilisation_multiplier": -0.016,
+         "spend_oku": -3.1
         }
        },
-       "co2_kt": 106.1
+       "co2_kt": 196.9
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 2.0,
-        "767": 0.9,
+        "A321neo": 2.8,
+        "767": 1.0,
         "787-10": 0.0,
-        "777-200": 1.4,
-        "777-300": -0.3
+        "777-200": 0.8,
+        "777-300": -0.5
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 10147,
-        "767": 5262,
-        "787-10": -1015,
-        "777-200": 4514,
-        "777-300": -1923
+        "A321neo": 12355,
+        "767": 6132,
+        "787-10": -1618,
+        "777-200": 2336,
+        "777-300": -3096
        },
        "engines": {
         "737": {
@@ -1922,88 +1924,88 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.023,
-         "spend_oku": -1.4
+         "utilisation_multiplier": -0.027,
+         "spend_oku": -1.6
         }
        },
-       "co2_kt": 194.4
+       "co2_kt": 138.8
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1139.5,
-       "carried_pax_k": 12460.2,
+       "margin_oku": 1140.2,
+       "carried_pax_k": 12606.4,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3881.2,
-        "HND-ITM": 2410.4,
-        "HND-FUK": 2737.0,
-        "HND-OKA": 2818.1,
-        "FUK-OKA": 613.5
+        "HND-CTS": 3575.3,
+        "HND-ITM": 2403.2,
+        "HND-FUK": 3192.1,
+        "HND-OKA": 2858.6,
+        "FUK-OKA": 577.2
        },
-       "spill_pax_k": 1607.9,
+       "spill_pax_k": 1378.0,
        "round_trips": {
-        "HND-CTS": 20.0,
+        "HND-CTS": 18.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 16.0,
-        "HND-OKA": 21.0,
-        "FUK-OKA": 6.0
+        "HND-FUK": 20.0,
+        "HND-OKA": 19.0,
+        "FUK-OKA": 5.0
        },
        "hub_round_trips": 71.0,
        "hub_budget": 71,
        "by_type": {
-        "737": 14,
-        "767": 0,
+        "737": 5,
+        "767": 7,
         "787": 3,
-        "A350": 12,
+        "A350": 13,
         "777-300ER": 0
        },
        "aircraft_used_avg": {
-        "737": 10.5,
-        "767": 3.9,
+        "737": 7.1,
+        "767": 6.8,
         "787": 3.0,
-        "A350": 11.4,
-        "777-300ER": 0.2
+        "A350": 11.2,
+        "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1428.1,
+       "co2_kt": 1523.5,
        "block_h_by_type": {
-        "737": 36962,
-        "767": 14819,
-        "787": 10658,
-        "A350": 37571,
-        "777-300ER": 633
+        "737": 24206,
+        "767": 24923,
+        "787": 10719,
+        "A350": 38313,
+        "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0,
-         "spend_per_year_oku_yen": 260.1
+         "utilisation_multiplier": 1.0024,
+         "spend_per_year_oku_yen": 260.7
         },
         "767": {
-         "utilisation_multiplier": 1.0516,
-         "spend_per_year_oku_yen": 84.6
+         "utilisation_multiplier": 1.0972,
+         "spend_per_year_oku_yen": 88.3
         },
         "787": {
-         "utilisation_multiplier": 1.1025,
-         "spend_per_year_oku_yen": 210.5
+         "utilisation_multiplier": 1.1187,
+         "spend_per_year_oku_yen": 213.6
         }
        }
       },
       "ana": {
-       "margin_oku": 1192.1,
-       "carried_pax_k": 14298.5,
+       "margin_oku": 1204.2,
+       "carried_pax_k": 14151.4,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3749.0,
-        "HND-ITM": 2810.2,
-        "HND-FUK": 3804.0,
-        "HND-OKA": 2836.6,
-        "FUK-OKA": 1098.7
+        "HND-CTS": 3592.8,
+        "HND-ITM": 2804.0,
+        "HND-FUK": 3805.3,
+        "HND-OKA": 2834.2,
+        "FUK-OKA": 1115.1
        },
-       "spill_pax_k": 733.4,
+       "spill_pax_k": 818.6,
        "round_trips": {
-        "HND-CTS": 19.0,
+        "HND-CTS": 18.0,
         "HND-ITM": 14.0,
-        "HND-FUK": 20.0,
-        "HND-OKA": 21.0,
+        "HND-FUK": 22.0,
+        "HND-OKA": 20.0,
         "FUK-OKA": 9.0
        },
        "hub_round_trips": 74.0,
@@ -2018,21 +2020,21 @@
        },
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 7.8,
+        "A321neo": 7.7,
         "767": 6.0,
         "787-10": 8.0,
         "777-200": 8.0,
-        "777-300": 1.2
+        "777-300": 1.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1721.1,
+       "co2_kt": 1727.5,
        "block_h_by_type": {
         "737": 0,
-        "A321neo": 29310,
-        "767": 21675,
-        "787-10": 27771,
-        "777-200": 26280,
-        "777-300": 3467
+        "A321neo": 28507,
+        "767": 21924,
+        "787-10": 27922,
+        "777-200": 26316,
+        "777-300": 3663
        },
        "engines": {
         "737": {
@@ -2040,8 +2042,8 @@
          "spend_per_year_oku_yen": null
         },
         "767": {
-         "utilisation_multiplier": 1.1512,
-         "spend_per_year_oku_yen": 69.0
+         "utilisation_multiplier": 1.1436,
+         "spend_per_year_oku_yen": 68.6
         }
        }
       }
@@ -2050,83 +2052,86 @@
    ],
    "end_extra": {
     "jal": {
-     "OKA": 8,
-     "CTS": 2
+     "OKA": 6,
+     "CTS": 2,
+     "FUK": 2
     },
     "ana": {
-     "OKA": 8,
-     "CTS": 2
+     "OKA": 6,
+     "CTS": 2,
+     "FUK": 2
     }
    },
    "end_others": {
-    "HND-OKA": 5.76,
-    "HND-CTS": 2.3058823529411767
+    "HND-OKA": 4.32,
+    "HND-CTS": 2.3058823529411767,
+    "HND-FUK": 2.3333333333333335
    },
    "end_fleet": [
     {
      "a350_added": 0,
      "by_company": {
       "jal": {
-       "pax_k": 278.8,
-       "margin_oku": -48.6
+       "pax_k": 411.7,
+       "margin_oku": -47.5
       },
       "ana": {
-       "pax_k": 462.7,
-       "margin_oku": -79.9
+       "pax_k": 225.2,
+       "margin_oku": -90.1
       }
      },
-     "a_margin_change_net_oku": -48.6,
+     "a_margin_change_net_oku": -47.5,
      "ownership_oku": 0.0,
      "aircraft": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 5.4,
-        "767": 0.9,
+        "737": 1.7,
+        "767": 4.2,
         "787": 0.0,
-        "A350": -1.6,
-        "777-300ER": 0.2
+        "A350": -1.8,
+        "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 20263,
-        "767": 5682,
-        "787": 286,
-        "A350": -8808,
-        "777-300ER": 633
+        "737": 6412,
+        "767": 16327,
+        "787": 256,
+        "A350": -8249,
+        "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.01,
-         "spend_oku": -2.7
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -2.3
         },
         "767": {
-         "utilisation_multiplier": -0.054,
-         "spend_oku": -4.4
+         "utilisation_multiplier": 0.002,
+         "spend_oku": 0.2
         },
         "787": {
-         "utilisation_multiplier": -0.034,
-         "spend_oku": -6.6
+         "utilisation_multiplier": -0.016,
+         "spend_oku": -3.1
         }
        },
-       "co2_kt": 106.1
+       "co2_kt": 196.9
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 2.0,
-        "767": 0.9,
+        "A321neo": 2.8,
+        "767": 1.0,
         "787-10": 0.0,
-        "777-200": 1.4,
-        "777-300": -0.3
+        "777-200": 0.8,
+        "777-300": -0.5
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 10147,
-        "767": 5262,
-        "787-10": -1015,
-        "777-200": 4514,
-        "777-300": -1923
+        "A321neo": 12355,
+        "767": 6132,
+        "787-10": -1618,
+        "777-200": 2336,
+        "777-300": -3096
        },
        "engines": {
         "737": {
@@ -2134,11 +2139,11 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.023,
-         "spend_oku": -1.4
+         "utilisation_multiplier": -0.027,
+         "spend_oku": -1.6
         }
        },
-       "co2_kt": 194.4
+       "co2_kt": 138.8
       }
      }
     },
@@ -2146,66 +2151,66 @@
      "a350_added": 2,
      "by_company": {
       "jal": {
-       "pax_k": 292.3,
-       "margin_oku": -48.2
+       "pax_k": 455.4,
+       "margin_oku": -44.9
       },
       "ana": {
-       "pax_k": 462.7,
-       "margin_oku": -79.9
+       "pax_k": 225.2,
+       "margin_oku": -90.1
       }
      },
-     "a_margin_change_net_oku": -89.6,
+     "a_margin_change_net_oku": -86.3,
      "ownership_oku": 41.4,
      "aircraft": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 5.3,
-        "767": 0.7,
+        "737": 1.6,
+        "767": 3.4,
         "787": 0.0,
-        "A350": -1.2,
-        "777-300ER": 0.2
+        "A350": -0.9,
+        "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 19990,
-        "767": 4733,
-        "787": 420,
-        "A350": -7817,
-        "777-300ER": 633
+        "737": 6138,
+        "767": 13262,
+        "787": 463,
+        "A350": -5214,
+        "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.01,
-         "spend_oku": -2.7
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -2.4
         },
         "767": {
-         "utilisation_multiplier": -0.058,
-         "spend_oku": -4.6
+         "utilisation_multiplier": -0.008,
+         "spend_oku": -0.6
         },
         "787": {
-         "utilisation_multiplier": -0.034,
-         "spend_oku": -6.6
+         "utilisation_multiplier": -0.031,
+         "spend_oku": -5.8
         }
        },
-       "co2_kt": 109.2
+       "co2_kt": 205.1
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 2.0,
-        "767": 0.9,
+        "A321neo": 2.8,
+        "767": 1.0,
         "787-10": 0.0,
-        "777-200": 1.4,
-        "777-300": -0.3
+        "777-200": 0.8,
+        "777-300": -0.5
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 10147,
-        "767": 5262,
-        "787-10": -1015,
-        "777-200": 4514,
-        "777-300": -1923
+        "A321neo": 12355,
+        "767": 6132,
+        "787-10": -1618,
+        "777-200": 2336,
+        "777-300": -3096
        },
        "engines": {
         "737": {
@@ -2213,11 +2218,11 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.023,
-         "spend_oku": -1.4
+         "utilisation_multiplier": -0.027,
+         "spend_oku": -1.6
         }
        },
-       "co2_kt": 194.4
+       "co2_kt": 138.8
       }
      }
     },
@@ -2225,66 +2230,66 @@
      "a350_added": 4,
      "by_company": {
       "jal": {
-       "pax_k": 297.4,
-       "margin_oku": -48.1
+       "pax_k": 463.4,
+       "margin_oku": -44.2
       },
       "ana": {
-       "pax_k": 462.7,
-       "margin_oku": -79.9
+       "pax_k": 225.2,
+       "margin_oku": -90.1
       }
      },
-     "a_margin_change_net_oku": -131.0,
+     "a_margin_change_net_oku": -127.1,
      "ownership_oku": 82.9,
      "aircraft": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 5.3,
-        "767": 0.5,
+        "737": 1.6,
+        "767": 3.2,
         "787": 0.0,
-        "A350": -1.1,
-        "777-300ER": 0.2
+        "A350": -0.8,
+        "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 19990,
-        "767": 4100,
-        "787": 420,
-        "A350": -7184,
-        "777-300ER": 633
+        "737": 6138,
+        "767": 12629,
+        "787": 463,
+        "A350": -4581,
+        "777-300ER": 1265
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.01,
-         "spend_oku": -2.7
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -2.4
         },
         "767": {
-         "utilisation_multiplier": -0.06,
-         "spend_oku": -4.8
+         "utilisation_multiplier": -0.01,
+         "spend_oku": -0.8
         },
         "787": {
-         "utilisation_multiplier": -0.034,
-         "spend_oku": -6.6
+         "utilisation_multiplier": -0.031,
+         "spend_oku": -5.8
         }
        },
-       "co2_kt": 110.8
+       "co2_kt": 206.8
       },
       "ana": {
        "aircraft_used_avg": {
         "737": 0.0,
-        "A321neo": 2.0,
-        "767": 0.9,
+        "A321neo": 2.8,
+        "767": 1.0,
         "787-10": 0.0,
-        "777-200": 1.4,
-        "777-300": -0.3
+        "777-200": 0.8,
+        "777-300": -0.5
        },
        "lease_aircraft_months": 0,
        "block_h": {
         "737": 0,
-        "A321neo": 10147,
-        "767": 5262,
-        "787-10": -1015,
-        "777-200": 4514,
-        "777-300": -1923
+        "A321neo": 12355,
+        "767": 6132,
+        "787-10": -1618,
+        "777-200": 2336,
+        "777-300": -3096
        },
        "engines": {
         "737": {
@@ -2292,11 +2297,11 @@
          "spend_oku": 0
         },
         "767": {
-         "utilisation_multiplier": -0.023,
-         "spend_oku": -1.4
+         "utilisation_multiplier": -0.027,
+         "spend_oku": -1.6
         }
        },
-       "co2_kt": 194.4
+       "co2_kt": 138.8
       }
      }
     }
@@ -2305,19 +2310,19 @@
   "after_66_rule": {
    "base": {
     "jal": {
-     "margin_oku": 1161.9,
-     "carried_pax_k": 11860.3,
+     "margin_oku": 1139.3,
+     "carried_pax_k": 11834.0,
      "carried_by_route_pax_k": {
-      "HND-CTS": 3781.9,
-      "HND-ITM": 1539.7,
-      "HND-FUK": 2865.9,
-      "HND-OKA": 2929.7,
+      "HND-CTS": 3608.3,
+      "HND-ITM": 1597.8,
+      "HND-FUK": 2956.4,
+      "HND-OKA": 2928.4,
       "FUK-OKA": 743.1
      },
-     "spill_pax_k": 1419.8,
+     "spill_pax_k": 1376.8,
      "round_trips": {
-      "HND-CTS": 18.0,
-      "HND-ITM": 12.0,
+      "HND-CTS": 17.0,
+      "HND-ITM": 13.0,
       "HND-FUK": 18.0,
       "HND-OKA": 13.0,
       "FUK-OKA": 7.0
@@ -2325,36 +2330,36 @@
      "hub_round_trips": 61.0,
      "hub_budget": 61,
      "by_type": {
-      "737": 7,
-      "767": 2,
+      "737": 8,
+      "767": 1,
       "787": 3,
       "A350": 13,
       "777-300ER": 0
      },
      "aircraft_used_avg": {
-      "737": 7.2,
-      "767": 1.7,
+      "737": 7.5,
+      "767": 1.3,
       "787": 3.0,
       "A350": 13.0,
-      "777-300ER": 0.1
+      "777-300ER": 0.2
      },
      "lease_aircraft_months": 0,
-     "co2_kt": 1317.5,
+     "co2_kt": 1312.3,
      "block_h_by_type": {
-      "737": 23597,
-      "767": 5718,
-      "787": 10299,
-      "A350": 46033,
-      "777-300ER": 201
+      "737": 24199,
+      "767": 3820,
+      "787": 10347,
+      "A350": 46860,
+      "777-300ER": 402
      },
      "engines": {
       "737": {
-       "utilisation_multiplier": 1.0149,
-       "spend_per_year_oku_yen": 263.9
+       "utilisation_multiplier": 1.0154,
+       "spend_per_year_oku_yen": 264.1
       },
       "767": {
-       "utilisation_multiplier": 1.0612,
-       "spend_per_year_oku_yen": 85.4
+       "utilisation_multiplier": 1.0469,
+       "spend_per_year_oku_yen": 84.3
       },
       "787": {
        "utilisation_multiplier": 1.1349,
@@ -2363,19 +2368,19 @@
      }
     },
     "ana": {
-     "margin_oku": 1230.5,
-     "carried_pax_k": 13219.4,
+     "margin_oku": 1228.7,
+     "carried_pax_k": 13201.9,
      "carried_by_route_pax_k": {
-      "HND-CTS": 3899.5,
-      "HND-ITM": 1654.1,
-      "HND-FUK": 3300.9,
-      "HND-OKA": 3275.9,
-      "FUK-OKA": 1089.0
+      "HND-CTS": 3514.2,
+      "HND-ITM": 1818.5,
+      "HND-FUK": 3439.7,
+      "HND-OKA": 3278.7,
+      "FUK-OKA": 1150.8
      },
-     "spill_pax_k": 1049.9,
+     "spill_pax_k": 917.7,
      "round_trips": {
-      "HND-CTS": 18.0,
-      "HND-ITM": 12.0,
+      "HND-CTS": 16.0,
+      "HND-ITM": 14.0,
       "HND-FUK": 20.0,
       "HND-OKA": 14.0,
       "FUK-OKA": 10.0
@@ -2383,39 +2388,39 @@
      "hub_round_trips": 64.0,
      "hub_budget": 64,
      "by_type": {
-      "737": 2,
+      "737": 3,
       "A321neo": 8,
-      "767": 2,
+      "767": 1,
       "787-10": 8,
       "777-200": 7,
       "777-300": 0
      },
      "aircraft_used_avg": {
-      "737": 0.1,
-      "A321neo": 8.0,
-      "767": 4.2,
+      "737": 0.2,
+      "A321neo": 7.7,
+      "767": 3.8,
       "787-10": 8.0,
-      "777-200": 6.2,
-      "777-300": 0.8
+      "777-200": 6.8,
+      "777-300": 0.7
      },
      "lease_aircraft_months": 0,
-     "co2_kt": 1464.0,
+     "co2_kt": 1484.7,
      "block_h_by_type": {
-      "737": 274,
-      "A321neo": 26280,
-      "767": 13523,
-      "787-10": 29711,
-      "777-200": 20787,
-      "777-300": 2719
+      "737": 474,
+      "A321neo": 25112,
+      "767": 12288,
+      "787-10": 29845,
+      "777-200": 23141,
+      "777-300": 2531
      },
      "engines": {
       "737": {
-       "utilisation_multiplier": 1.0003,
-       "spend_per_year_oku_yen": 150.0
+       "utilisation_multiplier": 1.0006,
+       "spend_per_year_oku_yen": 150.1
       },
       "767": {
-       "utilisation_multiplier": 1.1415,
-       "spend_per_year_oku_yen": 68.5
+       "utilisation_multiplier": 1.1547,
+       "spend_per_year_oku_yen": 69.3
       }
      }
     }
@@ -2428,68 +2433,34 @@
      "market_round_trips_added": 6.3,
      "airport_cost_oku": 372.0,
      "market": {
-      "new_pax_k": 19.9,
-      "pax_per_oku": 0.05,
+      "new_pax_k": -94.9,
+      "pax_per_oku": -0.26,
       "by_company": {
        "jal": {
-        "pax_k": 31.8,
-        "margin_oku": -10.8
+        "pax_k": 33.6,
+        "margin_oku": -11.9
        },
        "ana": {
-        "pax_k": -19.2,
-        "margin_oku": -18.0
+        "pax_k": -93.8,
+        "margin_oku": -10.7
        }
       },
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 0.2,
-         "767": 1.0,
-         "787": 0.0,
-         "A350": -0.2,
-         "777-300ER": 0.0
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
-         "737": 401,
-         "767": 1965,
-         "787": 103,
-         "A350": -280,
-         "777-300ER": 0
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.1
-         },
-         "767": {
-          "utilisation_multiplier": 0.012,
-          "spend_oku": 1.0
-         },
-         "787": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.4
-         }
-        },
-        "co2_kt": 31.7
-       },
-       "ana": {
-        "aircraft_used_avg": {
          "737": 0.0,
-         "A321neo": 0.0,
-         "767": 0.7,
-         "787-10": 0.0,
-         "777-200": 0.4,
-         "777-300": -0.6
+         "767": 1.2,
+         "787": 0.0,
+         "A350": -0.5,
+         "777-300ER": 0.3
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 0,
-         "767": 2731,
-         "787-10": 219,
-         "777-200": 1204,
-         "777-300": -1770
+         "767": 3048,
+         "787": 86,
+         "A350": -1819,
+         "777-300ER": 802
         },
         "engines": {
          "737": {
@@ -2497,27 +2468,61 @@
           "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": 0.044,
-          "spend_oku": 2.6
+          "utilisation_multiplier": 0.022,
+          "spend_oku": 1.8
+         },
+         "787": {
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
          }
         },
-        "co2_kt": 30.4
+        "co2_kt": 36.2
+       },
+       "ana": {
+        "aircraft_used_avg": {
+         "737": -0.1,
+         "A321neo": 0.3,
+         "767": 0.9,
+         "787-10": 0.0,
+         "777-200": -0.6,
+         "777-300": -0.4
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": -206,
+         "A321neo": 1046,
+         "767": 3742,
+         "787-10": 133,
+         "777-200": -2233,
+         "777-300": -1266
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0.001,
+          "spend_oku": 0.0
+         },
+         "767": {
+          "utilisation_multiplier": 0.038,
+          "spend_oku": 2.2
+         }
+        },
+        "co2_kt": -9.5
        }
       },
       "round_trips": {
        "jal": {
-        "HND-CTS": 20.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 19.0,
+        "HND-ITM": 13.0,
         "HND-FUK": 18.0,
         "HND-OKA": 13.0,
         "FUK-OKA": 7.0
        },
        "ana": {
-        "HND-CTS": 20.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 18.0,
+        "HND-ITM": 14.0,
         "HND-FUK": 20.0,
         "HND-OKA": 14.0,
-        "FUK-OKA": 10.0
+        "FUK-OKA": 9.0
        }
       }
      },
@@ -2525,77 +2530,77 @@
       "to": "jal",
       "by_company": {
        "jal": {
-        "pax_k": 523.9,
-        "margin_oku": 40.2
+        "pax_k": 512.5,
+        "margin_oku": 16.3
        },
        "ana": {
-        "pax_k": -286.7,
-        "margin_oku": -31.1
+        "pax_k": -241.9,
+        "margin_oku": -18.2
        }
       },
-      "pax_net_two_k": 237.2,
+      "pax_net_two_k": 270.6,
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 0.0,
-         "767": 1.1,
+         "737": 0.2,
+         "767": 0.9,
          "787": 0.0,
          "A350": 0.0,
          "777-300ER": -0.1
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 201,
-         "767": 3742,
-         "787": 207,
-         "A350": 432,
+         "737": 937,
+         "767": 3309,
+         "787": 159,
+         "A350": 103,
          "777-300ER": -201
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.5
+          "utilisation_multiplier": 0.005,
+          "spend_oku": 1.2
          },
          "767": {
-          "utilisation_multiplier": 0.04,
-          "spend_oku": 3.2
+          "utilisation_multiplier": 0.036,
+          "spend_oku": 2.8
          },
          "787": {
           "utilisation_multiplier": 0.002,
           "spend_oku": 0.4
          }
         },
-        "co2_kt": 69.6
+        "co2_kt": 61.3
        },
        "ana": {
         "aircraft_used_avg": {
-         "737": -0.1,
+         "737": 0.0,
          "A321neo": 0.0,
-         "767": 0.3,
+         "767": 0.4,
          "787-10": 0.0,
-         "777-200": 0.0,
-         "777-300": -0.6
+         "777-200": -0.6,
+         "777-300": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": -274,
+         "737": 0,
          "A321neo": 0,
-         "767": 1156,
-         "787-10": 219,
-         "777-200": 183,
-         "777-300": -1770
+         "767": 1619,
+         "787-10": 36,
+         "777-200": -1752,
+         "777-300": 0
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": -1.0,
-          "spend_oku": -150.0
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": 0.016,
-          "spend_oku": 0.9
+          "utilisation_multiplier": 0.021,
+          "spend_oku": 1.2
          }
         },
-        "co2_kt": -19.6
+        "co2_kt": -10.4
        }
       }
      }
@@ -2607,68 +2612,34 @@
      "market_round_trips_added": 6.3,
      "airport_cost_oku": 532.0,
      "market": {
-      "new_pax_k": 531.2,
-      "pax_per_oku": 1.0,
+      "new_pax_k": 302.9,
+      "pax_per_oku": 0.57,
       "by_company": {
        "jal": {
-        "pax_k": 196.8,
-        "margin_oku": 7.4
+        "pax_k": 123.6,
+        "margin_oku": 6.9
        },
        "ana": {
-        "pax_k": 138.7,
-        "margin_oku": -2.2
+        "pax_k": 67.7,
+        "margin_oku": -1.0
        }
       },
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": -0.2,
-         "767": 1.3,
+         "737": 0.0,
+         "767": 1.0,
          "787": 0.0,
          "A350": -0.2,
          "777-300ER": 0.1
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": -603,
-         "767": 3772,
-         "787": 7,
-         "A350": -919,
-         "777-300ER": 371
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": -0.0,
-          "spend_oku": -0.1
-         },
-         "767": {
-          "utilisation_multiplier": 0.024,
-          "spend_oku": 2.0
-         },
-         "787": {
-          "utilisation_multiplier": 0.002,
-          "spend_oku": 0.4
-         }
-        },
-        "co2_kt": 48.8
-       },
-       "ana": {
-        "aircraft_used_avg": {
-         "737": 0.0,
-         "A321neo": 0.0,
-         "767": 1.3,
-         "787-10": 0.0,
-         "777-200": 0.7,
-         "777-300": -0.6
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
          "737": 0,
-         "A321neo": 0,
-         "767": 2975,
-         "787-10": -91,
-         "777-200": 2457,
-         "777-300": -2129
+         "767": 3474,
+         "787": -73,
+         "A350": -1418,
+         "777-300ER": 571
         },
         "engines": {
          "737": {
@@ -2676,24 +2647,58 @@
           "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": -0.006,
-          "spend_oku": -0.4
+          "utilisation_multiplier": 0.028,
+          "spend_oku": 2.3
+         },
+         "787": {
+          "utilisation_multiplier": 0.002,
+          "spend_oku": 0.4
          }
         },
-        "co2_kt": 46.9
+        "co2_kt": 42.8
+       },
+       "ana": {
+        "aircraft_used_avg": {
+         "737": 0.0,
+         "A321neo": 0.3,
+         "767": 1.2,
+         "787-10": 0.0,
+         "777-200": -0.2,
+         "777-300": -0.5
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 74,
+         "A321neo": 1168,
+         "767": 4125,
+         "787-10": -286,
+         "777-200": -845,
+         "777-300": -1898
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
+         },
+         "767": {
+          "utilisation_multiplier": 0.031,
+          "spend_oku": 1.8
+         }
+        },
+        "co2_kt": 6.6
        }
       },
       "round_trips": {
        "jal": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 17.0,
+        "HND-ITM": 13.0,
         "HND-FUK": 20.0,
         "HND-OKA": 13.0,
         "FUK-OKA": 7.0
        },
        "ana": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
         "HND-FUK": 22.0,
         "HND-OKA": 14.0,
         "FUK-OKA": 10.0
@@ -2704,77 +2709,77 @@
       "to": "jal",
       "by_company": {
        "jal": {
-        "pax_k": 579.7,
-        "margin_oku": 46.9
+        "pax_k": 561.1,
+        "margin_oku": 62.1
        },
        "ana": {
-        "pax_k": -175.2,
-        "margin_oku": -19.9
+        "pax_k": -196.4,
+        "margin_oku": -27.9
        }
       },
-      "pax_net_two_k": 404.5,
+      "pax_net_two_k": 364.7,
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": -0.1,
-         "767": 2.4,
+         "737": -0.3,
+         "767": 1.9,
          "787": 0.0,
          "A350": -0.2,
-         "777-300ER": -0.1
+         "777-300ER": -0.2
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": -402,
-         "767": 6686,
-         "787": 19,
-         "A350": -846,
-         "777-300ER": -201
+         "737": -803,
+         "767": 6893,
+         "787": 104,
+         "A350": -608,
+         "777-300ER": -402
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": -0.0,
-          "spend_oku": 0.0
+          "utilisation_multiplier": -0.001,
+          "spend_oku": -0.2
          },
          "767": {
-          "utilisation_multiplier": 0.04,
-          "spend_oku": 3.2
+          "utilisation_multiplier": 0.065,
+          "spend_oku": 5.2
          },
          "787": {
           "utilisation_multiplier": 0.002,
           "spend_oku": 0.4
          }
         },
-        "co2_kt": 86.1
+        "co2_kt": 87.3
        },
        "ana": {
         "aircraft_used_avg": {
-         "737": 0.0,
-         "A321neo": 0.0,
+         "737": -0.1,
+         "A321neo": 0.3,
          "767": 0.5,
          "787-10": 0.0,
-         "777-200": 0.1,
-         "777-300": -0.6
+         "777-200": -0.6,
+         "777-300": -0.4
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 0,
-         "A321neo": 0,
-         "767": 1332,
-         "787-10": -116,
-         "777-200": 596,
-         "777-300": -1813
+         "737": -200,
+         "A321neo": 1095,
+         "767": 2221,
+         "787-10": -104,
+         "777-200": -1843,
+         "777-300": -1266
         },
         "engines": {
          "737": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.0
+          "utilisation_multiplier": -0.0,
+          "spend_oku": -0.1
          },
          "767": {
-          "utilisation_multiplier": 0.005,
-          "spend_oku": 0.3
+          "utilisation_multiplier": 0.024,
+          "spend_oku": 1.4
          }
         },
-        "co2_kt": -12.6
+        "co2_kt": -29.8
        }
       }
      }
@@ -2786,68 +2791,34 @@
      "market_round_trips_added": 5.4,
      "airport_cost_oku": 263.3,
      "market": {
-      "new_pax_k": 186.0,
-      "pax_per_oku": 0.71,
+      "new_pax_k": 3.0,
+      "pax_per_oku": 0.01,
       "by_company": {
        "jal": {
-        "pax_k": 100.3,
-        "margin_oku": -12.5
+        "pax_k": 47.1,
+        "margin_oku": -18.4
        },
        "ana": {
-        "pax_k": 36.5,
-        "margin_oku": -31.8
+        "pax_k": -44.9,
+        "margin_oku": -32.3
        }
       },
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 0.1,
-         "767": 1.2,
+         "737": 0.0,
+         "767": 1.4,
          "787": 0.0,
          "A350": -0.3,
          "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
-         "737": 201,
-         "767": 3888,
-         "787": 840,
-         "A350": -1132,
-         "777-300ER": 0
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.1
-         },
-         "767": {
-          "utilisation_multiplier": 0.032,
-          "spend_oku": 2.5
-         },
-         "787": {
-          "utilisation_multiplier": -0.052,
-          "spend_oku": -9.9
-         }
-        },
-        "co2_kt": 57.0
-       },
-       "ana": {
-        "aircraft_used_avg": {
-         "737": 0.0,
-         "A321neo": 0.0,
-         "767": 1.0,
-         "787-10": 0.0,
-         "777-200": 0.6,
-         "777-300": -0.6
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
          "737": 0,
-         "A321neo": 0,
-         "767": 4776,
-         "787-10": -1138,
-         "777-200": 2914,
-         "777-300": -2171
+         "767": 4709,
+         "787": 408,
+         "A350": -1393,
+         "777-300ER": 0
         },
         "engines": {
          "737": {
@@ -2855,24 +2826,58 @@
           "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": -0.025,
-          "spend_oku": -1.5
+          "utilisation_multiplier": 0.039,
+          "spend_oku": 3.1
+         },
+         "787": {
+          "utilisation_multiplier": -0.034,
+          "spend_oku": -6.5
          }
         },
-        "co2_kt": 66.8
+        "co2_kt": 57.3
+       },
+       "ana": {
+        "aircraft_used_avg": {
+         "737": 0.0,
+         "A321neo": 0.3,
+         "767": 1.2,
+         "787-10": 0.0,
+         "777-200": -0.1,
+         "777-300": -0.5
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 0,
+         "A321neo": 1156,
+         "767": 5250,
+         "787-10": -1010,
+         "777-200": 201,
+         "777-300": -1898
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
+         },
+         "767": {
+          "utilisation_multiplier": -0.042,
+          "spend_oku": -2.6
+         }
+        },
+        "co2_kt": 34.1
        }
       },
       "round_trips": {
        "jal": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 17.0,
+        "HND-ITM": 13.0,
         "HND-FUK": 18.0,
         "HND-OKA": 15.0,
         "FUK-OKA": 7.0
        },
        "ana": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
         "HND-FUK": 20.0,
         "HND-OKA": 16.0,
         "FUK-OKA": 10.0
@@ -2883,65 +2888,31 @@
       "to": "jal",
       "by_company": {
        "jal": {
-        "pax_k": 499.3,
-        "margin_oku": 40.4
+        "pax_k": 488.7,
+        "margin_oku": 41.3
        },
        "ana": {
-        "pax_k": -248.0,
-        "margin_oku": -54.7
+        "pax_k": -339.2,
+        "margin_oku": -55.8
        }
       },
-      "pax_net_two_k": 251.3,
+      "pax_net_two_k": 149.5,
       "aircraft": {
        "jal": {
         "aircraft_used_avg": {
-         "737": 0.2,
-         "767": 1.7,
+         "737": 0.0,
+         "767": 2.0,
          "787": 0.0,
          "A350": 0.0,
-         "777-300ER": 0.1
-        },
-        "lease_aircraft_months": 0,
-        "block_h": {
-         "737": 401,
-         "767": 5591,
-         "787": 651,
-         "A350": 748,
-         "777-300ER": 201
-        },
-        "engines": {
-         "737": {
-          "utilisation_multiplier": 0.0,
-          "spend_oku": 0.1
-         },
-         "767": {
-          "utilisation_multiplier": 0.04,
-          "spend_oku": 3.2
-         },
-         "787": {
-          "utilisation_multiplier": -0.047,
-          "spend_oku": -8.9
-         }
-        },
-        "co2_kt": 124.1
-       },
-       "ana": {
-        "aircraft_used_avg": {
-         "737": 0.0,
-         "A321neo": 0.0,
-         "767": 0.1,
-         "787-10": 0.0,
-         "777-200": 0.3,
-         "777-300": -0.6
+         "777-300ER": 0.0
         },
         "lease_aircraft_months": 0,
         "block_h": {
          "737": 0,
-         "A321neo": 0,
-         "767": 1515,
-         "787-10": -803,
-         "777-200": 1770,
-         "777-300": -1898
+         "767": 6807,
+         "787": 439,
+         "A350": 274,
+         "777-300ER": 0
         },
         "engines": {
          "737": {
@@ -2949,11 +2920,45 @@
           "spend_oku": 0.0
          },
          "767": {
-          "utilisation_multiplier": -0.024,
-          "spend_oku": -1.5
+          "utilisation_multiplier": 0.067,
+          "spend_oku": 5.4
+         },
+         "787": {
+          "utilisation_multiplier": -0.034,
+          "spend_oku": -6.5
          }
         },
-        "co2_kt": 1.3
+        "co2_kt": 123.8
+       },
+       "ana": {
+        "aircraft_used_avg": {
+         "737": 0.0,
+         "A321neo": 0.3,
+         "767": 0.4,
+         "787-10": 0.0,
+         "777-200": -0.2,
+         "777-300": -0.6
+        },
+        "lease_aircraft_months": 0,
+        "block_h": {
+         "737": 0,
+         "A321neo": 1162,
+         "767": 1892,
+         "787-10": -450,
+         "777-200": -487,
+         "777-300": -2215
+        },
+        "engines": {
+         "737": {
+          "utilisation_multiplier": 0.0,
+          "spend_oku": 0.0
+         },
+         "767": {
+          "utilisation_multiplier": -0.041,
+          "spend_oku": -2.5
+         }
+        },
+        "co2_kt": -33.8
        }
       }
      }
@@ -2963,17 +2968,17 @@
     {
      "step": 1,
      "airport": "FUK",
-     "new_pax_k": 531.2,
+     "new_pax_k": 302.9,
      "airport_cost_oku": 532.0,
-     "pax_per_oku": 1.0,
+     "pax_per_oku": 0.57,
      "by_company": {
       "jal": {
-       "pax_k": 196.8,
-       "margin_oku": 7.4
+       "pax_k": 123.6,
+       "margin_oku": 6.9
       },
       "ana": {
-       "pax_k": 138.7,
-       "margin_oku": -2.2
+       "pax_k": 67.7,
+       "margin_oku": -1.0
       }
      },
      "extra": {
@@ -2986,29 +2991,29 @@
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": 19.9,
-       "pax_per_oku": 0.05
+       "new_pax_k": -94.9,
+       "pax_per_oku": -0.26
       },
       "FUK": {
-       "new_pax_k": 531.2,
-       "pax_per_oku": 1.0
+       "new_pax_k": 302.9,
+       "pax_per_oku": 0.57
       },
       "OKA": {
-       "new_pax_k": 186.0,
-       "pax_per_oku": 0.71
+       "new_pax_k": 3.0,
+       "pax_per_oku": 0.01
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 18.0,
-       "HND-ITM": 12.0,
+       "HND-CTS": 17.0,
+       "HND-ITM": 13.0,
        "HND-FUK": 20.0,
        "HND-OKA": 13.0,
        "FUK-OKA": 7.0
       },
       "ana": {
-       "HND-CTS": 18.0,
-       "HND-ITM": 12.0,
+       "HND-CTS": 16.0,
+       "HND-ITM": 14.0,
        "HND-FUK": 22.0,
        "HND-OKA": 14.0,
        "FUK-OKA": 10.0
@@ -3017,53 +3022,19 @@
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": -0.2,
-        "767": 1.3,
+        "737": 0.0,
+        "767": 1.0,
         "787": 0.0,
         "A350": -0.2,
         "777-300ER": 0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": -603,
-        "767": 3772,
-        "787": 7,
-        "A350": -919,
-        "777-300ER": 371
-       },
-       "engines": {
-        "737": {
-         "utilisation_multiplier": -0.0,
-         "spend_oku": -0.1
-        },
-        "767": {
-         "utilisation_multiplier": 0.024,
-         "spend_oku": 2.0
-        },
-        "787": {
-         "utilisation_multiplier": 0.002,
-         "spend_oku": 0.4
-        }
-       },
-       "co2_kt": 48.8
-      },
-      "ana": {
-       "aircraft_used_avg": {
-        "737": 0.0,
-        "A321neo": 0.0,
-        "767": 1.3,
-        "787-10": 0.0,
-        "777-200": 0.7,
-        "777-300": -0.6
-       },
-       "lease_aircraft_months": 0,
-       "block_h": {
         "737": 0,
-        "A321neo": 0,
-        "767": 2975,
-        "787-10": -91,
-        "777-200": 2457,
-        "777-300": -2129
+        "767": 3474,
+        "787": -73,
+        "A350": -1418,
+        "777-300ER": 571
        },
        "engines": {
         "737": {
@@ -3071,28 +3042,62 @@
          "spend_oku": 0.0
         },
         "767": {
-         "utilisation_multiplier": -0.006,
-         "spend_oku": -0.4
+         "utilisation_multiplier": 0.028,
+         "spend_oku": 2.3
+        },
+        "787": {
+         "utilisation_multiplier": 0.002,
+         "spend_oku": 0.4
         }
        },
-       "co2_kt": 46.9
+       "co2_kt": 42.8
+      },
+      "ana": {
+       "aircraft_used_avg": {
+        "737": 0.0,
+        "A321neo": 0.3,
+        "767": 1.2,
+        "787-10": 0.0,
+        "777-200": -0.2,
+        "777-300": -0.5
+       },
+       "lease_aircraft_months": 0,
+       "block_h": {
+        "737": 74,
+        "A321neo": 1168,
+        "767": 4125,
+        "787-10": -286,
+        "777-200": -845,
+        "777-300": -1898
+       },
+       "engines": {
+        "737": {
+         "utilisation_multiplier": 0.0,
+         "spend_oku": 0.0
+        },
+        "767": {
+         "utilisation_multiplier": 0.031,
+         "spend_oku": 1.8
+        }
+       },
+       "co2_kt": 6.6
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1169.3,
-       "carried_pax_k": 12057.1,
+       "margin_oku": 1146.2,
+       "carried_pax_k": 11957.6,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3826.0,
-        "HND-ITM": 1568.4,
-        "HND-FUK": 2987.0,
+        "HND-CTS": 3565.5,
+        "HND-ITM": 1634.7,
+        "HND-FUK": 3081.7,
         "HND-OKA": 2932.6,
         "FUK-OKA": 743.1
        },
-       "spill_pax_k": 1228.9,
+       "spill_pax_k": 1259.1,
        "round_trips": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 17.0,
+        "HND-ITM": 13.0,
         "HND-FUK": 20.0,
         "HND-OKA": 13.0,
         "FUK-OKA": 7.0
@@ -3100,36 +3105,36 @@
        "hub_round_trips": 63.0,
        "hub_budget": 63,
        "by_type": {
-        "737": 7,
-        "767": 3,
+        "737": 8,
+        "767": 2,
         "787": 3,
         "A350": 13,
         "777-300ER": 0
        },
        "aircraft_used_avg": {
-        "737": 7.0,
-        "767": 3.0,
+        "737": 7.5,
+        "767": 2.3,
         "787": 3.0,
         "A350": 12.8,
-        "777-300ER": 0.2
+        "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1366.3,
+       "co2_kt": 1355.1,
        "block_h_by_type": {
-        "737": 22994,
-        "767": 9490,
-        "787": 10306,
-        "A350": 45114,
-        "777-300ER": 572
+        "737": 24199,
+        "767": 7294,
+        "787": 10274,
+        "A350": 45442,
+        "777-300ER": 973
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0144,
-         "spend_per_year_oku_yen": 263.8
+         "utilisation_multiplier": 1.0154,
+         "spend_per_year_oku_yen": 264.1
         },
         "767": {
-         "utilisation_multiplier": 1.0855,
-         "spend_per_year_oku_yen": 87.4
+         "utilisation_multiplier": 1.0754,
+         "spend_per_year_oku_yen": 86.6
         },
         "787": {
          "utilisation_multiplier": 1.1367,
@@ -3138,19 +3143,19 @@
        }
       },
       "ana": {
-       "margin_oku": 1228.3,
-       "carried_pax_k": 13358.1,
+       "margin_oku": 1227.7,
+       "carried_pax_k": 13269.6,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3838.5,
-        "HND-ITM": 1655.1,
-        "HND-FUK": 3459.3,
-        "HND-OKA": 3261.5,
-        "FUK-OKA": 1143.7
+        "HND-CTS": 3573.3,
+        "HND-ITM": 1881.9,
+        "HND-FUK": 3426.4,
+        "HND-OKA": 3262.4,
+        "FUK-OKA": 1125.6
        },
-       "spill_pax_k": 878.8,
+       "spill_pax_k": 817.6,
        "round_trips": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
         "HND-FUK": 22.0,
         "HND-OKA": 14.0,
         "FUK-OKA": 10.0
@@ -3158,39 +3163,39 @@
        "hub_round_trips": 66.0,
        "hub_budget": 66,
        "by_type": {
-        "737": 2,
+        "737": 3,
         "A321neo": 8,
         "767": 6,
         "787-10": 8,
-        "777-200": 5,
+        "777-200": 3,
         "777-300": 0
        },
        "aircraft_used_avg": {
-        "737": 0.1,
+        "737": 0.2,
         "A321neo": 8.0,
-        "767": 5.5,
+        "767": 5.0,
         "787-10": 8.0,
-        "777-200": 6.9,
+        "777-200": 6.6,
         "777-300": 0.2
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1510.9,
+       "co2_kt": 1491.3,
        "block_h_by_type": {
-        "737": 274,
+        "737": 548,
         "A321neo": 26280,
-        "767": 16498,
-        "787-10": 29620,
-        "777-200": 23244,
-        "777-300": 590
+        "767": 16413,
+        "787-10": 29559,
+        "777-200": 22296,
+        "777-300": 633
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0003,
-         "spend_per_year_oku_yen": 150.0
+         "utilisation_multiplier": 1.0006,
+         "spend_per_year_oku_yen": 150.1
         },
         "767": {
-         "utilisation_multiplier": 1.1356,
-         "spend_per_year_oku_yen": 68.1
+         "utilisation_multiplier": 1.186,
+         "spend_per_year_oku_yen": 71.1
         }
        }
       }
@@ -3199,17 +3204,17 @@
     {
      "step": 2,
      "airport": "FUK",
-     "new_pax_k": 335.7,
+     "new_pax_k": 317.1,
      "airport_cost_oku": 532.0,
-     "pax_per_oku": 0.63,
+     "pax_per_oku": 0.6,
      "by_company": {
       "jal": {
-       "pax_k": 146.1,
-       "margin_oku": 1.5
+       "pax_k": 111.5,
+       "margin_oku": 0.8
       },
       "ana": {
-       "pax_k": 65.9,
-       "margin_oku": -6.4
+       "pax_k": 88.8,
+       "margin_oku": -5.3
       }
      },
      "extra": {
@@ -3222,29 +3227,29 @@
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": -85.6,
-       "pax_per_oku": -0.23
+       "new_pax_k": -5.7,
+       "pax_per_oku": -0.02
       },
       "FUK": {
-       "new_pax_k": 335.7,
-       "pax_per_oku": 0.63
+       "new_pax_k": 317.1,
+       "pax_per_oku": 0.6
       },
       "OKA": {
-       "new_pax_k": 74.0,
+       "new_pax_k": 74.4,
        "pax_per_oku": 0.28
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 18.0,
-       "HND-ITM": 12.0,
+       "HND-CTS": 17.0,
+       "HND-ITM": 13.0,
        "HND-FUK": 22.0,
        "HND-OKA": 13.0,
        "FUK-OKA": 7.0
       },
       "ana": {
-       "HND-CTS": 18.0,
-       "HND-ITM": 12.0,
+       "HND-CTS": 16.0,
+       "HND-ITM": 14.0,
        "HND-FUK": 24.0,
        "HND-OKA": 14.0,
        "FUK-OKA": 10.0
@@ -3253,19 +3258,53 @@
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": -0.2,
-        "767": 2.1,
+        "737": -0.3,
+        "767": 2.3,
         "787": 0.0,
-        "A350": -0.2,
-        "777-300ER": 0.2
+        "A350": -0.9,
+        "777-300ER": 0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": -603,
-        "767": 5828,
-        "787": 7,
-        "A350": -919,
-        "777-300ER": 943
+        "737": -803,
+        "767": 8390,
+        "787": 110,
+        "A350": -3254,
+        "777-300ER": 742
+       },
+       "engines": {
+        "737": {
+         "utilisation_multiplier": -0.001,
+         "spend_oku": -0.2
+        },
+        "767": {
+         "utilisation_multiplier": 0.081,
+         "spend_oku": 6.4
+        },
+        "787": {
+         "utilisation_multiplier": 0.002,
+         "spend_oku": 0.4
+        }
+       },
+       "co2_kt": 89.3
+      },
+      "ana": {
+       "aircraft_used_avg": {
+        "737": -0.1,
+        "A321neo": 0.3,
+        "767": 2.2,
+        "787-10": 0.0,
+        "777-200": -0.6,
+        "777-300": -0.5
+       },
+       "lease_aircraft_months": 0,
+       "block_h": {
+        "737": -200,
+        "A321neo": 1168,
+        "767": 7392,
+        "787-10": -116,
+        "777-200": -1989,
+        "777-300": -1582
        },
        "engines": {
         "737": {
@@ -3273,62 +3312,28 @@
          "spend_oku": -0.1
         },
         "767": {
-         "utilisation_multiplier": 0.03,
-         "spend_oku": 2.5
-        },
-        "787": {
-         "utilisation_multiplier": 0.002,
-         "spend_oku": 0.4
+         "utilisation_multiplier": 0.057,
+         "spend_oku": 3.4
         }
        },
-       "co2_kt": 96.3
-      },
-      "ana": {
-       "aircraft_used_avg": {
-        "737": 0.1,
-        "A321neo": 0.0,
-        "767": 1.8,
-        "787-10": 0.0,
-        "777-200": 0.6,
-        "777-300": -0.4
-       },
-       "lease_aircraft_months": 0,
-       "block_h": {
-        "737": 547,
-        "A321neo": 0,
-        "767": 4399,
-        "787-10": -195,
-        "777-200": 1642,
-        "777-300": -1137
-       },
-       "engines": {
-        "737": {
-         "utilisation_multiplier": 0.001,
-         "spend_oku": 0.1
-        },
-        "767": {
-         "utilisation_multiplier": 0.005,
-         "spend_oku": 0.2
-        }
-       },
-       "co2_kt": 80.1
+       "co2_kt": 44.4
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1170.8,
-       "carried_pax_k": 12203.2,
+       "margin_oku": 1147.0,
+       "carried_pax_k": 12069.1,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3826.0,
-        "HND-ITM": 1568.1,
-        "HND-FUK": 3133.4,
-        "HND-OKA": 2932.6,
+        "HND-CTS": 3545.1,
+        "HND-ITM": 1658.7,
+        "HND-FUK": 3192.4,
+        "HND-OKA": 2929.8,
         "FUK-OKA": 743.1
        },
-       "spill_pax_k": 1087.7,
+       "spill_pax_k": 1152.5,
        "round_trips": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 17.0,
+        "HND-ITM": 13.0,
         "HND-FUK": 22.0,
         "HND-OKA": 13.0,
         "FUK-OKA": 7.0
@@ -3337,35 +3342,35 @@
        "hub_budget": 65,
        "by_type": {
         "737": 7,
-        "767": 4,
+        "767": 3,
         "787": 3,
         "A350": 13,
         "777-300ER": 0
        },
        "aircraft_used_avg": {
-        "737": 7.0,
-        "767": 3.8,
+        "737": 7.2,
+        "767": 3.6,
         "787": 3.0,
-        "A350": 12.8,
+        "A350": 12.1,
         "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1413.8,
+       "co2_kt": 1401.6,
        "block_h_by_type": {
-        "737": 22994,
-        "767": 11546,
-        "787": 10306,
-        "A350": 45114,
+        "737": 23396,
+        "767": 12210,
+        "787": 10457,
+        "A350": 43606,
         "777-300ER": 1144
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0144,
-         "spend_per_year_oku_yen": 263.8
+         "utilisation_multiplier": 1.0147,
+         "spend_per_year_oku_yen": 263.9
         },
         "767": {
-         "utilisation_multiplier": 1.0915,
-         "spend_per_year_oku_yen": 87.9
+         "utilisation_multiplier": 1.1274,
+         "spend_per_year_oku_yen": 90.7
         },
         "787": {
          "utilisation_multiplier": 1.1367,
@@ -3374,19 +3379,19 @@
        }
       },
       "ana": {
-       "margin_oku": 1221.9,
-       "carried_pax_k": 13424.0,
+       "margin_oku": 1222.4,
+       "carried_pax_k": 13358.4,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3849.6,
-        "HND-ITM": 1650.2,
-        "HND-FUK": 3565.5,
-        "HND-OKA": 3272.5,
-        "FUK-OKA": 1086.2
+        "HND-CTS": 3605.5,
+        "HND-ITM": 1895.5,
+        "HND-FUK": 3492.2,
+        "HND-OKA": 3267.9,
+        "FUK-OKA": 1097.3
        },
-       "spill_pax_k": 786.5,
+       "spill_pax_k": 702.4,
        "round_trips": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
         "HND-FUK": 24.0,
         "HND-OKA": 14.0,
         "FUK-OKA": 10.0
@@ -3398,35 +3403,35 @@
         "A321neo": 8,
         "767": 6,
         "787-10": 8,
-        "777-200": 5,
+        "777-200": 4,
         "777-300": 0
        },
        "aircraft_used_avg": {
-        "737": 0.2,
+        "737": 0.1,
         "A321neo": 8.0,
         "767": 6.0,
         "787-10": 8.0,
-        "777-200": 6.8,
-        "777-300": 0.4
+        "777-200": 6.2,
+        "777-300": 0.2
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1544.1,
+       "co2_kt": 1529.1,
        "block_h_by_type": {
-        "737": 821,
+        "737": 274,
         "A321neo": 26280,
-        "767": 17922,
-        "787-10": 29516,
-        "777-200": 22429,
-        "777-300": 1582
+        "767": 19680,
+        "787-10": 29729,
+        "777-200": 21152,
+        "777-300": 949
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.001,
-         "spend_per_year_oku_yen": 150.1
+         "utilisation_multiplier": 1.0003,
+         "spend_per_year_oku_yen": 150.0
         },
         "767": {
-         "utilisation_multiplier": 1.1461,
-         "spend_per_year_oku_yen": 68.7
+         "utilisation_multiplier": 1.212,
+         "spend_per_year_oku_yen": 72.7
         }
        }
       }
@@ -3434,203 +3439,205 @@
     },
     {
      "step": 3,
-     "airport": "FUK",
-     "new_pax_k": 19.0,
-     "airport_cost_oku": 532.0,
-     "pax_per_oku": 0.04,
+     "airport": "OKA",
+     "new_pax_k": 161.2,
+     "airport_cost_oku": 263.3,
+     "pax_per_oku": 0.61,
      "by_company": {
       "jal": {
-       "pax_k": -8.5,
-       "margin_oku": -1.8
+       "pax_k": 84.7,
+       "margin_oku": -15.6
       },
       "ana": {
-       "pax_k": 20.5,
-       "margin_oku": -11.4
+       "pax_k": 33.8,
+       "margin_oku": -35.8
       }
      },
      "extra": {
       "jal": {
-       "FUK": 6
+       "FUK": 4,
+       "OKA": 2
       },
       "ana": {
-       "FUK": 6
+       "FUK": 4,
+       "OKA": 2
       }
      },
      "candidates": {
       "CTS": {
-       "new_pax_k": -76.1,
-       "pax_per_oku": -0.2
+       "new_pax_k": -125.3,
+       "pax_per_oku": -0.34
       },
       "FUK": {
-       "new_pax_k": 19.0,
-       "pax_per_oku": 0.04
+       "new_pax_k": -37.2,
+       "pax_per_oku": -0.07
       },
       "OKA": {
-       "new_pax_k": 9.2,
-       "pax_per_oku": 0.04
+       "new_pax_k": 161.2,
+       "pax_per_oku": 0.61
       }
      },
      "round_trips": {
       "jal": {
-       "HND-CTS": 18.0,
-       "HND-ITM": 12.0,
-       "HND-FUK": 24.0,
-       "HND-OKA": 13.0,
+       "HND-CTS": 17.0,
+       "HND-ITM": 13.0,
+       "HND-FUK": 22.0,
+       "HND-OKA": 15.0,
        "FUK-OKA": 7.0
       },
       "ana": {
-       "HND-CTS": 18.0,
-       "HND-ITM": 12.0,
-       "HND-FUK": 26.0,
-       "HND-OKA": 14.0,
+       "HND-CTS": 16.0,
+       "HND-ITM": 14.0,
+       "HND-FUK": 24.0,
+       "HND-OKA": 16.0,
        "FUK-OKA": 10.0
       }
      },
      "aircraft_total": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 1.9,
-        "767": 1.5,
+        "737": -0.5,
+        "767": 3.7,
         "787": 0.0,
-        "A350": -0.6,
-        "777-300ER": 0.2
+        "A350": -1.3,
+        "777-300ER": 0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 5743,
-        "767": 3541,
-        "787": -36,
-        "A350": -2306,
-        "777-300ER": 943
+        "737": -1205,
+        "767": 13530,
+        "787": 311,
+        "A350": -4398,
+        "777-300ER": 742
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.003,
-         "spend_oku": -0.7
+         "utilisation_multiplier": -0.001,
+         "spend_oku": -0.3
         },
         "767": {
-         "utilisation_multiplier": 0.006,
-         "spend_oku": 0.5
+         "utilisation_multiplier": 0.128,
+         "spend_oku": 10.3
         },
         "787": {
-         "utilisation_multiplier": 0.002,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -1.7
         }
        },
-       "co2_kt": 81.9
+       "co2_kt": 152.0
       },
       "ana": {
        "aircraft_used_avg": {
-        "737": 0.7,
-        "A321neo": 0.0,
-        "767": 1.8,
+        "737": -0.1,
+        "A321neo": 0.3,
+        "767": 2.2,
         "787-10": 0.0,
         "777-200": 0.7,
-        "777-300": -0.4
+        "777-300": -0.7
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 2190,
-        "A321neo": 12,
-        "767": 4606,
-        "787-10": -195,
-        "777-200": 2117,
-        "777-300": -1137
+        "737": -200,
+        "A321neo": 1168,
+        "767": 7538,
+        "787-10": -700,
+        "777-200": 3194,
+        "777-300": -2531
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 0.003,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.0,
+         "spend_oku": -0.1
         },
         "767": {
-         "utilisation_multiplier": 0.012,
-         "spend_oku": 0.7
+         "utilisation_multiplier": 0.052,
+         "spend_oku": 3.1
         }
        },
-       "co2_kt": 106.7
+       "co2_kt": 124.2
       }
      },
      "state": {
       "jal": {
-       "margin_oku": 1169.0,
-       "carried_pax_k": 12194.7,
+       "margin_oku": 1131.4,
+       "carried_pax_k": 12153.8,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3812.8,
-        "HND-ITM": 1543.0,
-        "HND-FUK": 3163.2,
-        "HND-OKA": 2932.6,
+        "HND-CTS": 3558.5,
+        "HND-ITM": 1664.1,
+        "HND-FUK": 3187.8,
+        "HND-OKA": 3000.3,
         "FUK-OKA": 743.1
        },
-       "spill_pax_k": 1100.5,
+       "spill_pax_k": 1063.6,
        "round_trips": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
-        "HND-FUK": 24.0,
-        "HND-OKA": 13.0,
+        "HND-CTS": 17.0,
+        "HND-ITM": 13.0,
+        "HND-FUK": 22.0,
+        "HND-OKA": 15.0,
         "FUK-OKA": 7.0
        },
        "hub_round_trips": 67.0,
        "hub_budget": 67,
        "by_type": {
         "737": 7,
-        "767": 5,
+        "767": 4,
         "787": 3,
         "A350": 13,
         "777-300ER": 0
        },
        "aircraft_used_avg": {
-        "737": 9.1,
-        "767": 3.2,
+        "737": 7.0,
+        "767": 5.0,
         "787": 3.0,
-        "A350": 12.4,
+        "A350": 11.7,
         "777-300ER": 0.3
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1399.4,
+       "co2_kt": 1464.3,
        "block_h_by_type": {
-        "737": 29340,
-        "767": 9259,
-        "787": 10263,
-        "A350": 43727,
+        "737": 22994,
+        "767": 17350,
+        "787": 10658,
+        "A350": 42462,
         "777-300ER": 1144
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0121,
-         "spend_per_year_oku_yen": 263.2
+         "utilisation_multiplier": 1.0144,
+         "spend_per_year_oku_yen": 263.8
         },
         "767": {
-         "utilisation_multiplier": 1.0671,
-         "spend_per_year_oku_yen": 85.9
+         "utilisation_multiplier": 1.1753,
+         "spend_per_year_oku_yen": 94.6
         },
         "787": {
-         "utilisation_multiplier": 1.1367,
-         "spend_per_year_oku_yen": 217.1
+         "utilisation_multiplier": 1.1259,
+         "spend_per_year_oku_yen": 215.0
         }
        }
       },
       "ana": {
-       "margin_oku": 1210.5,
-       "carried_pax_k": 13444.5,
+       "margin_oku": 1186.6,
+       "carried_pax_k": 13392.2,
        "carried_by_route_pax_k": {
-        "HND-CTS": 3827.4,
-        "HND-ITM": 1635.0,
-        "HND-FUK": 3660.2,
-        "HND-OKA": 3272.5,
-        "FUK-OKA": 1049.4
+        "HND-CTS": 3625.8,
+        "HND-ITM": 1895.6,
+        "HND-FUK": 3496.6,
+        "HND-OKA": 3275.8,
+        "FUK-OKA": 1098.4
        },
-       "spill_pax_k": 743.9,
+       "spill_pax_k": 632.0,
        "round_trips": {
-        "HND-CTS": 18.0,
-        "HND-ITM": 12.0,
-        "HND-FUK": 26.0,
-        "HND-OKA": 14.0,
+        "HND-CTS": 16.0,
+        "HND-ITM": 14.0,
+        "HND-FUK": 24.0,
+        "HND-OKA": 16.0,
         "FUK-OKA": 10.0
        },
        "hub_round_trips": 70.0,
        "hub_budget": 70,
        "by_type": {
-        "737": 4,
+        "737": 3,
         "A321neo": 8,
         "767": 6,
         "787-10": 8,
@@ -3638,31 +3645,31 @@
         "777-300": 0
        },
        "aircraft_used_avg": {
-        "737": 0.8,
+        "737": 0.1,
         "A321neo": 8.0,
         "767": 6.0,
         "787-10": 8.0,
-        "777-200": 6.9,
-        "777-300": 0.4
+        "777-200": 7.5,
+        "777-300": 0.0
        },
        "lease_aircraft_months": 0,
-       "co2_kt": 1570.7,
+       "co2_kt": 1608.9,
        "block_h_by_type": {
-        "737": 2464,
-        "A321neo": 26292,
-        "767": 18129,
-        "787-10": 29516,
-        "777-200": 22904,
-        "777-300": 1582
+        "737": 274,
+        "A321neo": 26280,
+        "767": 19826,
+        "787-10": 29145,
+        "777-200": 26335,
+        "777-300": 0
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 1.0029,
-         "spend_per_year_oku_yen": 150.4
+         "utilisation_multiplier": 1.0003,
+         "spend_per_year_oku_yen": 150.0
         },
         "767": {
-         "utilisation_multiplier": 1.1537,
-         "spend_per_year_oku_yen": 69.2
+         "utilisation_multiplier": 1.2069,
+         "spend_per_year_oku_yen": 72.4
         }
        }
       }
@@ -3673,108 +3680,111 @@
      "stop": true,
      "candidates": {
       "CTS": {
-       "new_pax_k": -207.1,
-       "pax_per_oku": -0.56
+       "new_pax_k": -195.5,
+       "pax_per_oku": -0.53
       },
       "FUK": {
-       "new_pax_k": -400.9,
-       "pax_per_oku": -0.75
+       "new_pax_k": -91.4,
+       "pax_per_oku": -0.17
       },
       "OKA": {
-       "new_pax_k": -378.2,
-       "pax_per_oku": -1.44
+       "new_pax_k": -36.3,
+       "pax_per_oku": -0.14
       }
      }
     }
    ],
    "end_extra": {
     "jal": {
-     "FUK": 6
+     "FUK": 4,
+     "OKA": 2
     },
     "ana": {
-     "FUK": 6
+     "FUK": 4,
+     "OKA": 2
     }
    },
    "end_others": {
-    "HND-FUK": 7.0
+    "HND-FUK": 4.666666666666667,
+    "HND-OKA": 1.44
    },
    "end_fleet": [
     {
      "a350_added": 0,
      "by_company": {
       "jal": {
-       "pax_k": 334.4,
-       "margin_oku": 7.1
+       "pax_k": 319.8,
+       "margin_oku": -7.9
       },
       "ana": {
-       "pax_k": 225.1,
-       "margin_oku": -20.0
+       "pax_k": 190.3,
+       "margin_oku": -42.1
       }
      },
-     "a_margin_change_net_oku": 7.1,
+     "a_margin_change_net_oku": -7.9,
      "ownership_oku": 0.0,
      "aircraft": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 1.9,
-        "767": 1.5,
+        "737": -0.5,
+        "767": 3.7,
         "787": 0.0,
-        "A350": -0.6,
-        "777-300ER": 0.2
+        "A350": -1.3,
+        "777-300ER": 0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 5743,
-        "767": 3541,
-        "787": -36,
-        "A350": -2306,
-        "777-300ER": 943
+        "737": -1205,
+        "767": 13530,
+        "787": 311,
+        "A350": -4398,
+        "777-300ER": 742
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.003,
-         "spend_oku": -0.7
+         "utilisation_multiplier": -0.001,
+         "spend_oku": -0.3
         },
         "767": {
-         "utilisation_multiplier": 0.006,
-         "spend_oku": 0.5
+         "utilisation_multiplier": 0.128,
+         "spend_oku": 10.3
         },
         "787": {
-         "utilisation_multiplier": 0.002,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -1.7
         }
        },
-       "co2_kt": 81.9
+       "co2_kt": 152.0
       },
       "ana": {
        "aircraft_used_avg": {
-        "737": 0.7,
-        "A321neo": 0.0,
-        "767": 1.8,
+        "737": -0.1,
+        "A321neo": 0.3,
+        "767": 2.2,
         "787-10": 0.0,
         "777-200": 0.7,
-        "777-300": -0.4
+        "777-300": -0.7
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 2190,
-        "A321neo": 12,
-        "767": 4606,
-        "787-10": -195,
-        "777-200": 2117,
-        "777-300": -1137
+        "737": -200,
+        "A321neo": 1168,
+        "767": 7538,
+        "787-10": -700,
+        "777-200": 3194,
+        "777-300": -2531
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 0.003,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.0,
+         "spend_oku": -0.1
         },
         "767": {
-         "utilisation_multiplier": 0.012,
-         "spend_oku": 0.7
+         "utilisation_multiplier": 0.052,
+         "spend_oku": 3.1
         }
        },
-       "co2_kt": 106.7
+       "co2_kt": 124.2
       }
      }
     },
@@ -3782,78 +3792,78 @@
      "a350_added": 2,
      "by_company": {
       "jal": {
-       "pax_k": 355.5,
-       "margin_oku": 7.7
+       "pax_k": 407.2,
+       "margin_oku": -4.4
       },
       "ana": {
-       "pax_k": 225.1,
-       "margin_oku": -20.0
+       "pax_k": 190.3,
+       "margin_oku": -42.1
       }
      },
-     "a_margin_change_net_oku": -33.7,
+     "a_margin_change_net_oku": -45.8,
      "ownership_oku": 41.4,
      "aircraft": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 1.9,
-        "767": 0.7,
+        "737": -0.5,
+        "767": 2.4,
         "787": 0.0,
-        "A350": -0.1,
-        "777-300ER": 0.2
+        "A350": 0.0,
+        "777-300ER": 0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 5743,
-        "767": 1570,
-        "787": -36,
-        "A350": -335,
-        "777-300ER": 943
+        "737": -1205,
+        "767": 8955,
+        "787": 213,
+        "A350": 274,
+        "777-300ER": 742
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.003,
-         "spend_oku": -0.7
+         "utilisation_multiplier": -0.001,
+         "spend_oku": -0.3
         },
         "767": {
-         "utilisation_multiplier": -0.003,
-         "spend_oku": -0.2
+         "utilisation_multiplier": 0.08,
+         "spend_oku": 6.4
         },
         "787": {
-         "utilisation_multiplier": 0.002,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -1.7
         }
        },
-       "co2_kt": 86.9
+       "co2_kt": 163.9
       },
       "ana": {
        "aircraft_used_avg": {
-        "737": 0.7,
-        "A321neo": 0.0,
-        "767": 1.8,
+        "737": -0.1,
+        "A321neo": 0.3,
+        "767": 2.2,
         "787-10": 0.0,
         "777-200": 0.7,
-        "777-300": -0.4
+        "777-300": -0.7
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 2190,
-        "A321neo": 12,
-        "767": 4606,
-        "787-10": -195,
-        "777-200": 2117,
-        "777-300": -1137
+        "737": -200,
+        "A321neo": 1168,
+        "767": 7538,
+        "787-10": -700,
+        "777-200": 3194,
+        "777-300": -2531
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 0.003,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.0,
+         "spend_oku": -0.1
         },
         "767": {
-         "utilisation_multiplier": 0.012,
-         "spend_oku": 0.7
+         "utilisation_multiplier": 0.052,
+         "spend_oku": 3.1
         }
        },
-       "co2_kt": 106.7
+       "co2_kt": 124.2
       }
      }
     },
@@ -3861,78 +3871,78 @@
      "a350_added": 4,
      "by_company": {
       "jal": {
-       "pax_k": 355.5,
-       "margin_oku": 7.7
+       "pax_k": 423.2,
+       "margin_oku": -3.7
       },
       "ana": {
-       "pax_k": 225.1,
-       "margin_oku": -20.0
+       "pax_k": 190.3,
+       "margin_oku": -42.1
       }
      },
-     "a_margin_change_net_oku": -75.2,
+     "a_margin_change_net_oku": -86.6,
      "ownership_oku": 82.9,
      "aircraft": {
       "jal": {
        "aircraft_used_avg": {
-        "737": 1.9,
-        "767": 0.7,
+        "737": -0.5,
+        "767": 1.9,
         "787": 0.0,
-        "A350": -0.1,
-        "777-300ER": 0.2
+        "A350": 0.4,
+        "777-300ER": 0.1
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 5743,
-        "767": 1570,
-        "787": -36,
-        "A350": -335,
-        "777-300ER": 943
+        "737": -1205,
+        "767": 7525,
+        "787": 189,
+        "A350": 1728,
+        "777-300ER": 742
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": -0.003,
-         "spend_oku": -0.7
+         "utilisation_multiplier": -0.001,
+         "spend_oku": -0.3
         },
         "767": {
-         "utilisation_multiplier": -0.003,
-         "spend_oku": -0.2
+         "utilisation_multiplier": 0.064,
+         "spend_oku": 5.1
         },
         "787": {
-         "utilisation_multiplier": 0.002,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.009,
+         "spend_oku": -1.7
         }
        },
-       "co2_kt": 86.9
+       "co2_kt": 167.6
       },
       "ana": {
        "aircraft_used_avg": {
-        "737": 0.7,
-        "A321neo": 0.0,
-        "767": 1.8,
+        "737": -0.1,
+        "A321neo": 0.3,
+        "767": 2.2,
         "787-10": 0.0,
         "777-200": 0.7,
-        "777-300": -0.4
+        "777-300": -0.7
        },
        "lease_aircraft_months": 0,
        "block_h": {
-        "737": 2190,
-        "A321neo": 12,
-        "767": 4606,
-        "787-10": -195,
-        "777-200": 2117,
-        "777-300": -1137
+        "737": -200,
+        "A321neo": 1168,
+        "767": 7538,
+        "787-10": -700,
+        "777-200": 3194,
+        "777-300": -2531
        },
        "engines": {
         "737": {
-         "utilisation_multiplier": 0.003,
-         "spend_oku": 0.4
+         "utilisation_multiplier": -0.0,
+         "spend_oku": -0.1
         },
         "767": {
-         "utilisation_multiplier": 0.012,
-         "spend_oku": 0.7
+         "utilisation_multiplier": 0.052,
+         "spend_oku": 3.1
         }
        },
-       "co2_kt": 106.7
+       "co2_kt": 124.2
       }
      }
     }
@@ -3941,5 +3951,5 @@
  },
  "how": "両社（会社 A・B）をそれぞれの機材で解く（他の航空会社は便数だけ動く）。1 歩 ＝ 羽田と対向空港の両方に容量を足す。market：両社に 2 往復ずつ、他の航空会社には両社の合計の取り分を保つ分。市場として新しく運べる旅客 ≈（会社 A ＋ 会社 B の増えた旅客、全路線）÷ 両社の合計の取り分。airline：会社 A だけに 4 往復（会社 B は相手の便が増えた分だけ取り分を失う）。各社は相手の足した往復と他の航空会社の分を競争相手の便として見る。羽田の他の路線の便数は各社の基準の世界の値に固定し、足した路線は足した分だけ増える。空港の費用は市場の往復 ×（羽田 ＋ 対向空港）の 1 日 1 往復あたりの費用（中央値）。path は market の歩を最大 5 回、毎回 1 億円あたりの新しい旅客が最も多い路線を選び、どの路線でも増えなくなったら止める。end_fleet は path の終わりで会社 A の A350 を 0・2・4 機足したとき（1 機 月 1,100 千ドルの所有費、no_source）。伊丹は 1 歩の参考だけ。リニアの後は航空に 66% 残り、両社とも空いた伊丹の枠を他の幹線に移さない世界",
  "caveat": "他の航空会社の機材は解いていない（便数だけ）。会社 B の運航費は 2024 年の搭乗率に合わせきれていない（RMSE 0.13）。会社 B のエンジン整備費は 767 だけ。両社の解は同時の均衡ではなく、相手の便数を与えたときのそれぞれの最適。乗れなかった旅客の振り替えは入れていない。費用は空港側だけ",
- "elapsed_s": 46.3
+ "elapsed_s": 44.9
 }
