@@ -1,0 +1,697 @@
+{
+ "company": "jal",
+ "fiscal_year": "FY2030",
+ "base": {
+  "margin_oku": 1188.1,
+  "carried_pax_k": 12181.4,
+  "spill_pax_k": 1819.4,
+  "spill_by_route_pax_k": {
+   "HND-CTS": 168.8,
+   "HND-ITM": 764.9,
+   "HND-FUK": 577.2,
+   "HND-OKA": 215.6,
+   "FUK-OKA": 92.9
+  }
+ },
+ "linear_osaka": {
+  "rows": [
+   {
+    "air_keeps": 0.66,
+    "cells": {
+     "stay/stay": {
+      "round_trips": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 12.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 13.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1161.9,
+      "margin_change_oku": -26.2,
+      "carried_pax_k": 11860.3,
+      "spill_pax_k": 1419.8,
+      "carried_change_pax_k": -321.1,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0149,
+        "spend_per_year_oku_yen": 263.9,
+        "spend_change_oku": 1.1
+       },
+       "767": {
+        "utilisation_multiplier": 1.0612,
+        "spend_per_year_oku_yen": 85.4,
+        "spend_change_oku": -3.6
+       },
+       "787": {
+        "utilisation_multiplier": 1.1349,
+        "spend_per_year_oku_yen": 216.7,
+        "spend_change_oku": -0.4
+       }
+      }
+     },
+     "stay/move": {
+      "round_trips": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 12.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 13.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1082.7,
+      "margin_change_oku": -105.4,
+      "carried_pax_k": 11479.4,
+      "spill_pax_k": 1444.0,
+      "carried_change_pax_k": -702.0,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0141,
+        "spend_per_year_oku_yen": 263.7,
+        "spend_change_oku": 0.9
+       },
+       "767": {
+        "utilisation_multiplier": 1.0856,
+        "spend_per_year_oku_yen": 87.4,
+        "spend_change_oku": -1.6
+       },
+       "787": {
+        "utilisation_multiplier": 1.1025,
+        "spend_per_year_oku_yen": 210.5,
+        "spend_change_oku": -6.6
+       }
+      }
+     },
+     "move/stay": {
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 5.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 5.0
+      },
+      "margin_oku": 1161.2,
+      "margin_change_oku": -26.9,
+      "carried_pax_k": 11803.4,
+      "spill_pax_k": 1454.6,
+      "carried_change_pax_k": -378.0,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0103,
+        "spend_per_year_oku_yen": 262.7,
+        "spend_change_oku": -0.1
+       },
+       "767": {
+        "utilisation_multiplier": 1.0606,
+        "spend_per_year_oku_yen": 85.4,
+        "spend_change_oku": -3.6
+       },
+       "787": {
+        "utilisation_multiplier": 1.0719,
+        "spend_per_year_oku_yen": 204.7,
+        "spend_change_oku": -12.4
+       }
+      }
+     },
+     "move/move": {
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 8.0,
+       "HND-FUK": 19.0,
+       "HND-OKA": 14.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1073.6,
+      "margin_change_oku": -114.5,
+      "carried_pax_k": 11342.7,
+      "spill_pax_k": 1693.8,
+      "carried_change_pax_k": -838.7,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.013,
+        "spend_per_year_oku_yen": 263.4,
+        "spend_change_oku": 0.6
+       },
+       "767": {
+        "utilisation_multiplier": 1.074,
+        "spend_per_year_oku_yen": 86.4,
+        "spend_change_oku": -2.6
+       },
+       "787": {
+        "utilisation_multiplier": 1.0845,
+        "spend_per_year_oku_yen": 207.1,
+        "spend_change_oku": -10.0
+       }
+      }
+     }
+    },
+    "best_response": {
+     "stay": "stay",
+     "move": "stay"
+    },
+    "value_of_moving_slots_oku": {
+     "stay": -0.7,
+     "move": -9.1
+    }
+   },
+   {
+    "air_keeps": 0.46,
+    "cells": {
+     "stay/stay": {
+      "round_trips": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 12.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 13.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1135.9,
+      "margin_change_oku": -52.2,
+      "carried_pax_k": 11560.0,
+      "spill_pax_k": 1165.5,
+      "carried_change_pax_k": -621.4,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.022,
+        "spend_per_year_oku_yen": 265.8,
+        "spend_change_oku": 3.0
+       },
+       "767": {
+        "utilisation_multiplier": 1.0162,
+        "spend_per_year_oku_yen": 81.8,
+        "spend_change_oku": -7.2
+       },
+       "787": {
+        "utilisation_multiplier": 1.1259,
+        "spend_per_year_oku_yen": 215.0,
+        "spend_change_oku": -2.1
+       }
+      }
+     },
+     "stay/move": {
+      "round_trips": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 12.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 13.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1068.3,
+      "margin_change_oku": -119.8,
+      "carried_pax_k": 11324.2,
+      "spill_pax_k": 1165.2,
+      "carried_change_pax_k": -857.2,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0153,
+        "spend_per_year_oku_yen": 264.0,
+        "spend_change_oku": 1.2
+       },
+       "767": {
+        "utilisation_multiplier": 1.0683,
+        "spend_per_year_oku_yen": 86.0,
+        "spend_change_oku": -3.0
+       },
+       "787": {
+        "utilisation_multiplier": 1.1025,
+        "spend_per_year_oku_yen": 210.5,
+        "spend_change_oku": -6.6
+       }
+      }
+     },
+     "move/stay": {
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 5.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 5.0
+      },
+      "margin_oku": 1162.4,
+      "margin_change_oku": -25.7,
+      "carried_pax_k": 11751.9,
+      "spill_pax_k": 1181.3,
+      "carried_change_pax_k": -429.5,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0103,
+        "spend_per_year_oku_yen": 262.7,
+        "spend_change_oku": -0.1
+       },
+       "767": {
+        "utilisation_multiplier": 1.0677,
+        "spend_per_year_oku_yen": 85.9,
+        "spend_change_oku": -3.1
+       },
+       "787": {
+        "utilisation_multiplier": 1.0827,
+        "spend_per_year_oku_yen": 206.8,
+        "spend_change_oku": -10.3
+       }
+      }
+     },
+     "move/move": {
+      "round_trips": {
+       "HND-CTS": 19.0,
+       "HND-ITM": 7.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 17.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1077.7,
+      "margin_change_oku": -110.4,
+      "carried_pax_k": 11275.5,
+      "spill_pax_k": 1501.2,
+      "carried_change_pax_k": -905.9,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0117,
+        "spend_per_year_oku_yen": 263.1,
+        "spend_change_oku": 0.3
+       },
+       "767": {
+        "utilisation_multiplier": 1.0758,
+        "spend_per_year_oku_yen": 86.6,
+        "spend_change_oku": -2.4
+       },
+       "787": {
+        "utilisation_multiplier": 1.0827,
+        "spend_per_year_oku_yen": 206.8,
+        "spend_change_oku": -10.3
+       }
+      }
+     }
+    },
+    "best_response": {
+     "stay": "move",
+     "move": "move"
+    },
+    "value_of_moving_slots_oku": {
+     "stay": 26.5,
+     "move": 9.4
+    }
+   },
+   {
+    "air_keeps": 0.22,
+    "cells": {
+     "stay/stay": {
+      "round_trips": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 11.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 13.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1072.6,
+      "margin_change_oku": -115.5,
+      "carried_pax_k": 10928.9,
+      "spill_pax_k": 1102.1,
+      "carried_change_pax_k": -1252.5,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0231,
+        "spend_per_year_oku_yen": 266.1,
+        "spend_change_oku": 3.3
+       },
+       "767": {
+        "utilisation_multiplier": 1.0141,
+        "spend_per_year_oku_yen": 81.6,
+        "spend_change_oku": -7.4
+       },
+       "787": {
+        "utilisation_multiplier": 1.1025,
+        "spend_per_year_oku_yen": 210.5,
+        "spend_change_oku": -6.6
+       }
+      }
+     },
+     "stay/move": {
+      "round_trips": {
+       "HND-CTS": 18.0,
+       "HND-ITM": 12.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 13.0,
+       "FUK-OKA": 7.0
+      },
+      "margin_oku": 1025.3,
+      "margin_change_oku": -162.8,
+      "carried_pax_k": 10878.7,
+      "spill_pax_k": 865.0,
+      "carried_change_pax_k": -1302.7,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0222,
+        "spend_per_year_oku_yen": 265.8,
+        "spend_change_oku": 3.0
+       },
+       "767": {
+        "utilisation_multiplier": 1.0243,
+        "spend_per_year_oku_yen": 82.4,
+        "spend_change_oku": -6.6
+       },
+       "787": {
+        "utilisation_multiplier": 1.0971,
+        "spend_per_year_oku_yen": 209.5,
+        "spend_change_oku": -7.6
+       }
+      }
+     },
+     "move/stay": {
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 5.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 5.0
+      },
+      "margin_oku": 1136.1,
+      "margin_change_oku": -52.0,
+      "carried_pax_k": 11515.8,
+      "spill_pax_k": 1043.3,
+      "carried_change_pax_k": -665.6,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0103,
+        "spend_per_year_oku_yen": 262.7,
+        "spend_change_oku": -0.1
+       },
+       "767": {
+        "utilisation_multiplier": 1.0677,
+        "spend_per_year_oku_yen": 85.9,
+        "spend_change_oku": -3.1
+       },
+       "787": {
+        "utilisation_multiplier": 1.0827,
+        "spend_per_year_oku_yen": 206.8,
+        "spend_change_oku": -10.3
+       }
+      }
+     },
+     "move/move": {
+      "round_trips": {
+       "HND-CTS": 19.0,
+       "HND-ITM": 6.0,
+       "HND-FUK": 18.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 6.0
+      },
+      "margin_oku": 1070.7,
+      "margin_change_oku": -117.4,
+      "carried_pax_k": 11202.0,
+      "spill_pax_k": 1031.5,
+      "carried_change_pax_k": -979.4,
+      "engines": {
+       "737": {
+        "utilisation_multiplier": 1.0113,
+        "spend_per_year_oku_yen": 263.0,
+        "spend_change_oku": 0.2
+       },
+       "767": {
+        "utilisation_multiplier": 1.0808,
+        "spend_per_year_oku_yen": 87.0,
+        "spend_change_oku": -2.0
+       },
+       "787": {
+        "utilisation_multiplier": 1.0791,
+        "spend_per_year_oku_yen": 206.1,
+        "spend_change_oku": -11.0
+       }
+      }
+     }
+    },
+    "best_response": {
+     "stay": "move",
+     "move": "move"
+    },
+    "value_of_moving_slots_oku": {
+     "stay": 63.5,
+     "move": 45.4
+    }
+   }
+  ],
+  "how": "セルは「会社 A が空いた枠を他の幹線に移すか／移さないか」×「他社も移すか／移さないか」。差し引きの変化は、リニアがない基準（同じ年度）から。羽田–伊丹の需要は air_keeps 倍。空いた枠を幹線で使わない分は幹線の外（他の路線）に回るとして、枠を使う下限は外す"
+ },
+ "rail_airports": {
+  "airports": [
+   {
+    "airport": "成田（参考）",
+    "access_min": 60,
+    "access_fare_yen": 2000,
+    "extra_cost_one_way_yen": 3460,
+    "routes": {
+     "HND-CTS": {
+      "fare_yen": 14681,
+      "extra_cost_share": 0.24,
+      "would_still_fly": 0.67,
+      "spill_pax_k": 168.8,
+      "captured_pax_k": 113.1
+     },
+     "HND-FUK": {
+      "fare_yen": 15842,
+      "extra_cost_share": 0.22,
+      "would_still_fly": 0.69,
+      "spill_pax_k": 577.2,
+      "captured_pax_k": 400.7
+     },
+     "HND-OKA": {
+      "fare_yen": 20167,
+      "extra_cost_share": 0.17,
+      "would_still_fly": 0.76,
+      "spill_pax_k": 215.6,
+      "captured_pax_k": 163.8
+     }
+    },
+    "captured_pax_k": 677.6,
+    "note": "no_source: 都心から 60 分、運賃は在来線特急と京成の間をとった概数"
+   },
+   {
+    "airport": "中部（リニアで名古屋、名鉄）",
+    "access_min": 85,
+    "access_fare_yen": 13430,
+    "extra_cost_one_way_yen": 16522,
+    "routes": {
+     "HND-CTS": {
+      "fare_yen": 14681,
+      "extra_cost_share": 1.13,
+      "would_still_fly": 0.0,
+      "spill_pax_k": 168.8,
+      "captured_pax_k": 0.0
+     },
+     "HND-FUK": {
+      "fare_yen": 15842,
+      "extra_cost_share": 1.04,
+      "would_still_fly": 0.0,
+      "spill_pax_k": 577.2,
+      "captured_pax_k": 0.0
+     },
+     "HND-OKA": {
+      "fare_yen": 20167,
+      "extra_cost_share": 0.82,
+      "would_still_fly": 0.0,
+      "spill_pax_k": 215.6,
+      "captured_pax_k": 0.0
+     }
+    },
+    "captured_pax_k": 0,
+    "note": "リニア品川–名古屋 最速約 40 分（国交省）＋乗り換え 10 分（no_source）＋名鉄ミュースカイ 28 分・1,430 円（名鉄）。リニアの運賃は東海道新幹線の東京–名古屋に +700 円（JR 東海 2010）として 12,000 円（no_source の概数）。中部の発着は 2024 年度 9.5 万回、容量の基準は 13 万回（会社資料）"
+   },
+   {
+    "airport": "山梨（リニア、空港は仮定）",
+    "access_min": 40,
+    "access_fare_yen": 4000,
+    "extra_cost_one_way_yen": 4153,
+    "routes": {
+     "HND-CTS": {
+      "fare_yen": 14681,
+      "extra_cost_share": 0.28,
+      "would_still_fly": 0.6,
+      "spill_pax_k": 168.8,
+      "captured_pax_k": 101.9
+     },
+     "HND-FUK": {
+      "fare_yen": 15842,
+      "extra_cost_share": 0.26,
+      "would_still_fly": 0.63,
+      "spill_pax_k": 577.2,
+      "captured_pax_k": 365.4
+     },
+     "HND-OKA": {
+      "fare_yen": 20167,
+      "extra_cost_share": 0.21,
+      "would_still_fly": 0.71,
+      "spill_pax_k": 215.6,
+      "captured_pax_k": 153.4
+     }
+    },
+    "captured_pax_k": 620.7,
+    "note": "リニア品川–山梨県駅 約 25 分（山梨県）＋駅から空港 15 分（no_source）。運賃 4,000 円は no_source。空港そのものと横田空域の調整は仮定"
+   }
+  ],
+  "value_of_time": 3919,
+  "elasticity": -1.4,
+  "how": "片道の追加費用 ＝ アクセスの時間差 × 時間価値 ＋ 運賃差。航空運賃に対する比で、運賃と同じ直線の需要曲線（弾力性 e）に当てて、羽田で乗れなかった旅客のうち、その空港からなら飛ぶ割合を出す。便を飛ばす費用と機材は解いていない（ふるい分け）"
+ },
+ "itami_smaller": {
+  "land_value_oku": [
+   3396,
+   6774
+  ],
+  "extra_cost_one_way_yen": 2960,
+  "rows": [
+   {
+    "air_keeps": 0.66,
+    "itami_pax_million": 13.32,
+    "extra_cost_oku_per_year": 394.1,
+    "passenger_cost_pv_oku": 6815
+   },
+   {
+    "air_keeps": 0.46,
+    "itami_pax_million": 12.33,
+    "extra_cost_oku_per_year": 364.8,
+    "passenger_cost_pv_oku": 6308
+   },
+   {
+    "air_keeps": 0.22,
+    "itami_pax_million": 11.14,
+    "extra_cost_oku_per_year": 329.7,
+    "passenger_cost_pv_oku": 5701
+   }
+  ],
+  "annuity_30y_4pct": 17.29,
+  "monte_carlo": {
+   "draws": 20000,
+   "p_land_exceeds_loss": 0.313,
+   "net_oku_p10_p50_p90": [
+    -3082,
+    -874,
+    1408
+   ],
+   "land_oku_p10_p50_p90": [
+    3851,
+    5422,
+    7331
+   ],
+   "passenger_loss_pv_oku_p10_p50_p90": [
+    4856,
+    6314,
+    7911
+   ],
+   "years": 30,
+   "discount_rate": 0.04,
+   "how": "不確かな入力（航空に残る割合・地価・使える割合・追加の時間と運賃・時間価値・伊丹の旅客数）を幅の中で一様に引き、土地の値 − 旅客の損（現在価値）が正になる確率を出す。運営費の節約・騒音の解消・跡地の造成費・関西の追加の容量は入れていない"
+  },
+  "how": "土地の値 ＝ 面積 × 使える割合 × 地価（幅）。旅客の損 ＝ 伊丹に残る旅客 × 片道の追加費用（時間 × 時間価値 ＋ 運賃差）を 30 年・4% で現在価値に。空港の運営費・跡地の造成費・関西の追加の容量は入れていない（ふるい分け）"
+ },
+ "facts": {
+  "note": "地上の交通で空港の容量を動かす 3 つの場合の前提。原典で確かめた値には source、確かめていない値には no_source",
+  "status": "checked",
+  "value_of_time_yen_per_hour": {
+   "value": 3919,
+   "range": [
+    3631,
+    4398
+   ],
+   "source": "国土交通省 航空局 費用対効果分析マニュアル Ver.5（令和8年3月）国内航空旅客の時間価値：選好接近法 3,919 円/時、所得接近法 3,631 円/時。上限の 4,398 円/時は国総研の空港アクセス選択モデル（業務・居住地側）"
+  },
+  "linear_osaka": {
+   "air_keeps": [
+    0.66,
+    0.46,
+    0.22
+   ],
+   "air_keeps_source": "国交省 中央新幹線小委員会 第9回（2010-10-20）資料 p.16–18 https://www.mlit.go.jp/common/000144961.pdf：東京都–大阪府の航空はリニアなし 336 万人/年、リニアあり 221 万人（0.66、航空の便数は固定）。感度：伊丹・関空とも便数半減で 156 万人（0.46）、伊丹廃止・関空半減で 73 万人（0.22）。2045 年に近畿圏まで開業の前提。JR 東海（2010、https://www.mlit.go.jp/common/000114078.pdf）は東京圏–大阪圏の新幹線シェアを開業後「100% 程度」と想定",
+   "linear": {
+    "tokyo_osaka_min": 67,
+    "fare_plus_yen": {
+     "nagoya": 700,
+     "osaka": 1000
+    },
+    "fare_source": "JR 東海 2010 年資料（仮に東京～名古屋 +700 円、東京～大阪 +1,000 円）",
+    "trains_per_hour_max": 8
+   },
+   "share_now": "2015 年 全国幹線旅客純流動調査：東京都→大阪府 航空 18.6%、鉄道 72.3%",
+   "rival_moves_to": {
+    "HND-CTS": 3,
+    "HND-FUK": 2,
+    "HND-OKA": 6
+   },
+   "rival_note": "no_source: 他社も空いた枠を、会社 A と同じ対向空港の余地まで新千歳・福岡・那覇に移す"
+  },
+  "rail_airports": {
+   "elasticity": -1.4,
+   "haneda_access_min": 30,
+   "haneda_access_fare_yen": 500,
+   "haneda_note": "no_source: 都心（品川）から羽田まで 30 分・500 円の概数",
+   "airports": [
+    {
+     "name": "成田（参考）",
+     "access_min": 60,
+     "access_fare_yen": 2000,
+     "note": "no_source: 都心から 60 分、運賃は在来線特急と京成の間をとった概数"
+    },
+    {
+     "name": "中部（リニアで名古屋、名鉄）",
+     "access_min": 85,
+     "access_fare_yen": 13430,
+     "note": "リニア品川–名古屋 最速約 40 分（国交省）＋乗り換え 10 分（no_source）＋名鉄ミュースカイ 28 分・1,430 円（名鉄）。リニアの運賃は東海道新幹線の東京–名古屋に +700 円（JR 東海 2010）として 12,000 円（no_source の概数）。中部の発着は 2024 年度 9.5 万回、容量の基準は 13 万回（会社資料）"
+    },
+    {
+     "name": "山梨（リニア、空港は仮定）",
+     "access_min": 40,
+     "access_fare_yen": 4000,
+     "note": "リニア品川–山梨県駅 約 25 分（山梨県）＋駅から空港 15 分（no_source）。運賃 4,000 円は no_source。空港そのものと横田空域の調整は仮定"
+    }
+   ]
+  },
+  "itami_smaller": {
+   "itami_pax_million_per_year": 15.0,
+   "itami_pax_note": "no_source: 伊丹の年間旅客 約 1,500 万人の概数",
+   "share_on_tokyo_route": 0.33,
+   "share_note": "羽田–伊丹 2024 年 492 万人（国交省、routes_trunk.json）÷ 約 1,500 万人",
+   "extra_access_min": 30,
+   "extra_access_fare_yen": 1000,
+   "area_ha": 311,
+   "area_source": "大阪府（伊丹空港の面積 311 ha、運用 7–21 時、年 13.5 万回・1 日 370 回）",
+   "usable_share": 0.6,
+   "land_price_yen_m2": [
+    182000,
+    363000
+   ],
+   "land_source": "2025 年地価公示（国土数値情報）：伊丹市 住宅地の中央値 182,000 円/m²・商業地の中央値 305,000 円/m²、豊中市蛍池 住宅地 248,000・商業地 363,000 円/m²",
+   "ranges": {
+    "air_keeps": [
+     0.22,
+     0.66
+    ],
+    "land_price_yen_m2": [
+     182000,
+     363000
+    ],
+    "usable_share": [
+     0.5,
+     0.8
+    ],
+    "extra_access_min": [
+     20,
+     40
+    ],
+    "extra_access_fare_yen": [
+     500,
+     1500
+    ],
+    "value_of_time_yen_per_hour": [
+     3631,
+     4398
+    ],
+    "itami_pax_million_per_year": [
+     13.5,
+     16.5
+    ]
+   },
+   "ranges_note": "航空に残る割合は国交省の予測と感度（0.22〜0.66）、地価は 2025 年地価公示、時間価値は国の値。使える割合・追加の時間と運賃・旅客数の幅は no_source",
+   "discount_rate": 0.04,
+   "years": 30,
+   "kansai_kobe": "関西 3 空港懇談会（2022-09）：関空は 2030 年代前半に年 30 万回を目指す（2024 年度の実績 約 19.9 万回、二次情報）。神戸は国内線 1 日 80 → 120 回、国際線は 2030 年前後に定期便で 1 日最大 40 回",
+   "history": "伊丹の廃止は 2008 年に大阪府知事が検討を表明（報道）。2010 年 7 月の中央新幹線小委員会で大阪府副知事が「リニア開業後に伊丹空港をなくすという方向」と発言（議事録）"
+  }
+ },
+ "note": "数値は合成データと公開値の混合。p50。2・3 はふるい分けの計算"
+}

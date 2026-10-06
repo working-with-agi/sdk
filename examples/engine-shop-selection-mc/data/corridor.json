@@ -1,16 +1,31 @@
 {
- "note": "地上の交通で空港の容量を動かす 3 つの場合の前提。status が pending のものは原典で確かめる前の仮の値",
- "status": "pending",
+ "note": "地上の交通で空港の容量を動かす 3 つの場合の前提。原典で確かめた値には source、確かめていない値には no_source",
+ "status": "checked",
  "value_of_time_yen_per_hour": {
   "value": 3919,
-  "source": "国土交通省 航空局 費用対効果分析マニュアル 別冊 各種原単位（令和8年2月）表6 国内旅客 https://www.mlit.go.jp/koku/content/001980895.pdf"
+  "range": [
+   3631,
+   4398
+  ],
+  "source": "国土交通省 航空局 費用対効果分析マニュアル Ver.5（令和8年3月）国内航空旅客の時間価値：選好接近法 3,919 円/時、所得接近法 3,631 円/時。上限の 4,398 円/時は国総研の空港アクセス選択モデル（業務・居住地側）"
  },
  "linear_osaka": {
   "air_keeps": [
-   0.5,
-   0.3
+   0.66,
+   0.46,
+   0.22
   ],
-  "air_keeps_source": "pending: リニア新大阪開業後に羽田–伊丹の航空に残る割合",
+  "air_keeps_source": "国交省 中央新幹線小委員会 第9回（2010-10-20）資料 p.16–18 https://www.mlit.go.jp/common/000144961.pdf：東京都–大阪府の航空はリニアなし 336 万人/年、リニアあり 221 万人（0.66、航空の便数は固定）。感度：伊丹・関空とも便数半減で 156 万人（0.46）、伊丹廃止・関空半減で 73 万人（0.22）。2045 年に近畿圏まで開業の前提。JR 東海（2010、https://www.mlit.go.jp/common/000114078.pdf）は東京圏–大阪圏の新幹線シェアを開業後「100% 程度」と想定",
+  "linear": {
+   "tokyo_osaka_min": 67,
+   "fare_plus_yen": {
+    "nagoya": 700,
+    "osaka": 1000
+   },
+   "fare_source": "JR 東海 2010 年資料（仮に東京～名古屋 +700 円、東京～大阪 +1,000 円）",
+   "trains_per_hour_max": 8
+  },
+  "share_now": "2015 年 全国幹線旅客純流動調査：東京都→大阪府 航空 18.6%、鉄道 72.3%",
   "rival_moves_to": {
    "HND-CTS": 3,
    "HND-FUK": 2,
@@ -21,48 +36,52 @@
  "rail_airports": {
   "elasticity": -1.4,
   "haneda_access_min": 30,
-  "haneda_access_fare_yen": 600,
+  "haneda_access_fare_yen": 500,
+  "haneda_note": "no_source: 都心（品川）から羽田まで 30 分・500 円の概数",
   "airports": [
    {
     "name": "成田（参考）",
     "access_min": 60,
-    "access_fare_yen": 1500,
-    "note": "pending"
+    "access_fare_yen": 2000,
+    "note": "no_source: 都心から 60 分、運賃は在来線特急と京成の間をとった概数"
    },
    {
     "name": "中部（リニアで名古屋、名鉄）",
     "access_min": 85,
-    "access_fare_yen": 13000,
-    "note": "pending"
+    "access_fare_yen": 13430,
+    "note": "リニア品川–名古屋 最速約 40 分（国交省）＋乗り換え 10 分（no_source）＋名鉄ミュースカイ 28 分・1,430 円（名鉄）。リニアの運賃は東海道新幹線の東京–名古屋に +700 円（JR 東海 2010）として 12,000 円（no_source の概数）。中部の発着は 2024 年度 9.5 万回、容量の基準は 13 万回（会社資料）"
    },
    {
     "name": "山梨（リニア、空港は仮定）",
     "access_min": 40,
     "access_fare_yen": 4000,
-    "note": "pending"
+    "note": "リニア品川–山梨県駅 約 25 分（山梨県）＋駅から空港 15 分（no_source）。運賃 4,000 円は no_source。空港そのものと横田空域の調整は仮定"
    }
   ]
  },
  "itami_smaller": {
   "itami_pax_million_per_year": 15.0,
-  "share_on_tokyo_route": 0.35,
+  "itami_pax_note": "no_source: 伊丹の年間旅客 約 1,500 万人の概数",
+  "share_on_tokyo_route": 0.33,
+  "share_note": "羽田–伊丹 2024 年 492 万人（国交省、routes_trunk.json）÷ 約 1,500 万人",
   "extra_access_min": 30,
   "extra_access_fare_yen": 1000,
-  "area_ha": 300,
+  "area_ha": 311,
+  "area_source": "大阪府（伊丹空港の面積 311 ha、運用 7–21 時、年 13.5 万回・1 日 370 回）",
   "usable_share": 0.6,
   "land_price_yen_m2": [
-   150000,
-   300000
+   182000,
+   363000
   ],
-  "note": "pending",
+  "land_source": "2025 年地価公示（国土数値情報）：伊丹市 住宅地の中央値 182,000 円/m²・商業地の中央値 305,000 円/m²、豊中市蛍池 住宅地 248,000・商業地 363,000 円/m²",
   "ranges": {
    "air_keeps": [
-    0.2,
-    0.6
+    0.22,
+    0.66
    ],
    "land_price_yen_m2": [
-    150000,
-    300000
+    182000,
+    363000
    ],
    "usable_share": [
     0.5,
@@ -77,16 +96,18 @@
     1500
    ],
    "value_of_time_yen_per_hour": [
-    3135,
-    4703
+    3631,
+    4398
    ],
    "itami_pax_million_per_year": [
     13.5,
     16.5
    ]
   },
+  "ranges_note": "航空に残る割合は国交省の予測と感度（0.22〜0.66）、地価は 2025 年地価公示、時間価値は国の値。使える割合・追加の時間と運賃・旅客数の幅は no_source",
   "discount_rate": 0.04,
   "years": 30,
-  "ranges_note": "pending: 幅は仮。時間価値は国の値 ±20%"
+  "kansai_kobe": "関西 3 空港懇談会（2022-09）：関空は 2030 年代前半に年 30 万回を目指す（2024 年度の実績 約 19.9 万回、二次情報）。神戸は国内線 1 日 80 → 120 回、国際線は 2030 年前後に定期便で 1 日最大 40 回",
+  "history": "伊丹の廃止は 2008 年に大阪府知事が検討を表明（報道）。2010 年 7 月の中央新幹線小委員会で大阪府副知事が「リニア開業後に伊丹空港をなくすという方向」と発言（議事録）"
  }
 }
