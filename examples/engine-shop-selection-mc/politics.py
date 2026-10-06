@@ -19,8 +19,9 @@ HERE = Path(__file__).resolve().parent
 NUMBER_AXES = ("airline", "passengers", "user_cost", "public")
 
 
-def numbers() -> dict:
-    """The model outputs each lever's number axes come from (FY2030, company A, p50)."""
+def numbers(world: str = "before") -> dict:
+    """The model outputs each lever's number axes come from (FY2030, company A, p50). world "after":
+    the Haneda expansion is valued in the world after the Linear (66 % of the air demand stays)."""
     load = lambda n: json.loads((HERE / "fleet" / n).read_text(encoding="utf-8"))  # noqa: E731
     inv, far, cap, cor = load("investment_jal.json"), load("fares_jal.json"), load("capacity_jal.json"), load("corridor_jal.json")
     fr = {(r["fiscal_year"], r["elasticity"]): r["vs_today_fares"] for r in far["rows"] if r["elasticity"]}
@@ -46,6 +47,12 @@ def numbers() -> dict:
         "itami_shrink": {"airline": 0.0, "passengers": 0.0, "user_cost": -it["rows"][0]["extra_cost_oku_per_year"],
                          "public": round(mc["land_oku_p10_p50_p90"][1] - mc["kix_kobe"]["capacity_cost_oku_p10_p50_p90"][1], 1)},
     }
+    if world == "after":
+        w = cor["linear_world"]["rows"][0]
+        for k in ("hnd20", "hnd20_cts_fuk"):
+            lev = "hnd_only" if k == "hnd20" else "hnd_dest"
+            nums[lev]["airline"] = w["expansion"][k]["gain_oku_per_year"]
+            nums[lev]["passengers"] = w["expansion"][k]["pax_added_k"] / 10
     notes = {"slot_gain": "業界全体では移し替え（一社の得は他社の損）", "linear_rule": "取り合いの目減りを避けた分（二社の合計、66% の場合）",
              "hnd_only": "旅客の多くは他社から移る取り分。公費は会社 A が使う容量ぶん", "hnd_dest": "同上",
              "rail_airport": "公費は内陸の空港の例（静岡空港 全体 約 1,900 億円）。航空会社の利益は測っていない",
@@ -53,12 +60,31 @@ def numbers() -> dict:
     return {"values": nums, "notes": notes, "fiscal_year": fy}
 
 
+LINEAR_ONLY = ("linear_rule", "itami_shrink", "rail_airport")   # levers that exist only once the Linear runs
+
+
 def build(out: Path | None = None) -> dict:
+    after = build_world("after")
+    res = {"before": build_world("before", scale=after["scale"]), "after": after}           # one scale for both worlds, so a red line means the same thing
+    change = {}
+    for i in res["after"]["isms"]:
+        b, a = res["before"]["isms"][i], res["after"]["isms"][i]
+        change[i] = {"name": a["name"], "top3_before": b["top3"], "top3_after": a["top3"],
+                     "new_in_top3": [k for k in a["top3"] if k not in b["top3"]], "dropped": [k for k in b["top3"] if k not in a["top3"]]}
+    res["change"] = change
+    if out:
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+    return res
+
+
+def build_world(world: str = "before", scale: dict | None = None) -> dict:
     P = json.loads((HERE / "data" / "politics.json").read_text(encoding="utf-8"))
-    N = numbers()
-    levers = P["levers"]
+    N = numbers(world)
+    levers = {k: v for k, v in P["levers"].items() if world == "after" or k not in LINEAR_ONLY}
     raw = {k: {a: (N["values"].get(k, {}).get(a) if N["values"].get(k, {}).get(a) is not None else levers[k].get(a)) for a in NUMBER_AXES} for k in levers}
-    scale = {a: max(abs(raw[k][a]) for k in levers if raw[k][a] is not None and not (k in N["values"] and N["values"][k].get(a) is None and a in levers[k])) or 1.0 for a in NUMBER_AXES}
+    if scale is None:
+        scale = {a: max(abs(raw[k][a]) for k in levers if raw[k][a] is not None and not (k in N["values"] and N["values"][k].get(a) is None and a in levers[k])) or 1.0 for a in NUMBER_AXES}
     score = {}
     for k, L in levers.items():
         sc = {}
@@ -112,17 +138,18 @@ def build(out: Path | None = None) -> dict:
     res = {"fiscal_year": N["fiscal_year"], "raw": raw, "scale": scale, "scores": score, "number_notes": N["notes"], "isms": isms, "agreement": agree,
            "consensus": [a["lever"] for a in agree if a["not_excluded"] == n and a["in_top3"] >= n // 2],
            "contested": [a["lever"] for a in agree if a["excluded_by"] and a["in_top3"] >= 1],
-           "assumptions": {"weights_and_scores": "data/politics.json（no_source）", "how": P["how"]}}
-    if out:
-        out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
+           "world": world, "assumptions": {"weights_and_scores": "data/politics.json（no_source）", "how": P["how"],
+                                            "world": "before：リニアの前（伊丹を縮める・リニア後の配分の規則・鉄道でつなぐ新空港はない）。after：リニアの後（羽田の拡張はリニア後の世界で評価）"}}
     return res
 
 
 def main(argv=None) -> int:
     a = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     a.add_argument("--out", type=Path)
-    r = build(a.parse_args(argv).out)
+    R = build(a.parse_args(argv).out)
+    for i, c in R["change"].items():
+        print(f"{c['name']}: before {c['top3_before']} -> after {c['top3_after']}")
+    r = R["after"]
     for i, v in r["isms"].items():
         print(f"{v['name']}: top3 {v['top3']} excluded {v['excluded']} p(top3) {v['top3_probability']}")
     print("consensus", r["consensus"], "contested", r["contested"])

@@ -143,6 +143,33 @@ def game_robustness(C: dict, years_ahead: int, settings: tuple = ((3.5, 0.5), (3
     return {"settings": out, "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。最後の 1 通りは、両社の 2024 年の搭乗率に合わせた路線ごとの運賃の水準（fare_taper.route_adjust_fitted）で両社を解いたもの。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"}
 
 
+def linear_world(s: dict, C: dict, years_ahead: int) -> dict:
+    """The world after the Linear (both companies move their freed slots, the rule's case): what the
+    Haneda expansion is worth there, against the world before it."""
+    S = ap.load()
+    cid = s["cid"]
+    cur = ap.current_freq(S, cid)
+    rival_itm = ap.competitor_freq(S, cid)["HND-ITM"]
+    pre = cs.run(s, years_ahead, dest=True, windows=False)
+    out = []
+    for keep in C["linear_osaka"]["air_keeps"][:2]:
+        rival = {"HND-ITM": -(1 - keep) * rival_itm, **C["linear_osaka"]["rival_moves_to"]}
+        def corridor(extra=None):
+            capx = ap.destination_caps(S, cid, extra=extra)
+            b = {"HND-ITM": (0, cur["HND-ITM"] + 1), **{r: (cur[r] - 1, capx[r]) for r in ("HND-CTS", "HND-FUK", "HND-OKA")}}
+            return {"market_scale": {"HND-ITM": keep}, "bounds": b, "use_min": 0.0, "rival_shift": rival}
+        base = cs.run(s, years_ahead, dest=True, corridor=corridor())
+        rows = {}
+        for k, delta, extra in (("hnd20", 20, None), ("hnd20_cts_fuk", 20, {"CTS": 4, "FUK": 4})):
+            r = cs.run(s, years_ahead, delta=delta, dest=extra or True, windows=False, corridor=corridor(extra))
+            rows[k] = {"gain_oku_per_year": round(r["margin_oku"] - base["margin_oku"], 1), "pax_added_k": round(r["carried_pax_k"] - base["carried_pax_k"], 1),
+                       "round_trips": r["version_round_trips"], "unusable_round_trips": r["unusable_round_trips"]}
+        out.append({"air_keeps": keep, "base_margin_oku": base["margin_oku"], "vs_before_oku": round(base["margin_oku"] - pre["margin_oku"], 1),
+                    "base_round_trips": base["version_round_trips"], "expansion": rows,
+                    "engines": {e["type"]: {"utilisation_multiplier": e.get("utilisation_multiplier"), "spend_per_year_oku_yen": e.get("spend_per_year_oku_yen")} for e in base["engines"] if e["type"] in ("737", "767", "787")}})
+    return {"rows": out, "how": "リニアの後の世界：羽田–伊丹の需要は air_keeps 倍、両社とも空いた枠を新千歳・福岡・那覇に移した状態（配分の規則で移す場合）。そこで羽田 +20 往復（対向空港そのまま／新千歳・福岡 各 +4 往復）の増分を出す"}
+
+
 def rail_airports(s: dict, C: dict, base: dict) -> dict:
     """Screening: of Haneda's spilled passengers on the long trunk routes, how many fly from an
     airport reached by rail, given the extra access cost against the air fare."""
@@ -254,6 +281,7 @@ def build(cid: str, out: Path | None = None, years_ahead: int = 3, log=print) ->
                   quantiles=("p50",), detail=False, fiscal_years={s["fy"]}, dest=True)
     base["spill_by_route_pax_k"] = {r: round(sum(x["spill_by_route_p50"][r] for x in tr["rows"]), 1) for r in tr["rows"][0]["spill_by_route_p50"]}
     lin = linear_osaka(s, C, years_ahead, base)
+    world = linear_world(s, C, years_ahead)
     if log:
         log(f"  [{time.time() - t0:4.0f}s] linear_osaka done")
     game = linear_game(C, years_ahead)
@@ -264,7 +292,7 @@ def build(cid: str, out: Path | None = None, years_ahead: int = 3, log=print) ->
         log(f"  [{time.time() - t0:4.0f}s] robustness done")
     res = {"company": cid, "linear_game": game, "fiscal_year": cs.fy_after(s["fy"], years_ahead), "base": {"margin_oku": base["margin_oku"], "carried_pax_k": base["carried_pax_k"],
                                                                                          "spill_pax_k": base["spill_pax_k"], "spill_by_route_pax_k": base["spill_by_route_pax_k"]},
-           "linear_osaka": lin, "rail_airports": rail_airports(s, C, base), "itami_smaller": itami_smaller(C, lin),
+           "linear_osaka": lin, "linear_world": world, "rail_airports": rail_airports(s, C, base), "itami_smaller": itami_smaller(C, lin),
            "facts": C, "note": "数値は合成データと公開値の混合。p50。2・3 はふるい分けの計算"}
     if out:
         out.parent.mkdir(parents=True, exist_ok=True)

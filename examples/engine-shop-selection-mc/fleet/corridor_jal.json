@@ -936,6 +936,115 @@
   ],
   "how": "セルは「会社 A が空いた枠を他の幹線に移すか／移さないか」×「他社も移すか／移さないか」。差し引きの変化は、リニアがない基準（同じ年度）から。羽田–伊丹の需要は air_keeps 倍。空いた枠を幹線で使わない分は幹線の外（他の路線）に回るとして、枠を使う下限は外す"
  },
+ "linear_world": {
+  "rows": [
+   {
+    "air_keeps": 0.66,
+    "base_margin_oku": 1073.6,
+    "vs_before_oku": -114.5,
+    "base_round_trips": {
+     "HND-CTS": 20.0,
+     "HND-ITM": 8.0,
+     "HND-FUK": 19.0,
+     "HND-OKA": 14.0,
+     "FUK-OKA": 7.0
+    },
+    "expansion": {
+     "hnd20": {
+      "gain_oku_per_year": 119.0,
+      "pax_added_k": 1626.3,
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 19.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 8
+     },
+     "hnd20_cts_fuk": {
+      "gain_oku_per_year": 190.7,
+      "pax_added_k": 2640.8,
+      "round_trips": {
+       "HND-CTS": 24.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 23.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 0
+     }
+    },
+    "engines": {
+     "737": {
+      "utilisation_multiplier": 1.013,
+      "spend_per_year_oku_yen": 263.4
+     },
+     "767": {
+      "utilisation_multiplier": 1.074,
+      "spend_per_year_oku_yen": 86.4
+     },
+     "787": {
+      "utilisation_multiplier": 1.0845,
+      "spend_per_year_oku_yen": 207.1
+     }
+    }
+   },
+   {
+    "air_keeps": 0.46,
+    "base_margin_oku": 1077.7,
+    "vs_before_oku": -110.4,
+    "base_round_trips": {
+     "HND-CTS": 19.0,
+     "HND-ITM": 7.0,
+     "HND-FUK": 18.0,
+     "HND-OKA": 17.0,
+     "FUK-OKA": 7.0
+    },
+    "expansion": {
+     "hnd20": {
+      "gain_oku_per_year": 90.6,
+      "pax_added_k": 1343.5,
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 19.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 8
+     },
+     "hnd20_cts_fuk": {
+      "gain_oku_per_year": 163.6,
+      "pax_added_k": 2366.9,
+      "round_trips": {
+       "HND-CTS": 24.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 23.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 0
+     }
+    },
+    "engines": {
+     "737": {
+      "utilisation_multiplier": 1.0117,
+      "spend_per_year_oku_yen": 263.1
+     },
+     "767": {
+      "utilisation_multiplier": 1.0758,
+      "spend_per_year_oku_yen": 86.6
+     },
+     "787": {
+      "utilisation_multiplier": 1.0827,
+      "spend_per_year_oku_yen": 206.8
+     }
+    }
+   }
+  ],
+  "how": "リニアの後の世界：羽田–伊丹の需要は air_keeps 倍、両社とも空いた枠を新千歳・福岡・那覇に移した状態（配分の規則で移す場合）。そこで羽田 +20 往復（対向空港そのまま／新千歳・福岡 各 +4 往復）の増分を出す"
+ },
  "rail_airports": {
   "airports": [
    {

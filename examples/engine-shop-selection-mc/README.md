@@ -542,12 +542,16 @@ python3 corridor_scenarios.py jal --out fleet/corridor_jal.json
 ```
 python3 calibrate_costs.py ana          # 係数の格子と、路線ごとの搭乗率のずれ（--write で routes_trunk.json に書く）
 
+### リニアができたら何が変わるか（`handover/04_docs/story_リニアで何が変わるか.md`）
+
+問いを一つに絞った文書。リニアが新大阪まで来たとき、旅客（航空に残る割合）、航空会社の差し引き、羽田の枠の取り合い（両社を解いたゲーム）、羽田の拡張の価値（リニアの後の世界で解き直す、`corridor_scenarios.linear_world`）、伊丹を縮める選択肢、首都圏の空港、整備（767 が軽くなる）が、それぞれどう変わるかを並べ、主義ごとに選ぶ手がリニアの前と後でどう変わるか（`politics.py` の `before`・`after`・`change`）に落とす。
+
 ### 政治の目線：主義ごとに選ぶ手（`politics.py`、`data/politics.json`）
 
 政策の手（運賃・大型機・再配分・リニア後の配分の規則・運用の見直し・羽田の拡張・対向空港との組・鉄道でつなぐ新空港・伊丹を縮める）を、六つの立場（市場・効率、利用者・生活者、地方・国土の均衡、環境・騒音、財政規律、安全保障・日米の運用）の重みと赤線で並べる。数値の軸（航空会社の利益・運べる旅客・利用者の負担・公費）はモデルの出力から、数値にできない軸（地方・騒音と環境・日米の調整）は −2〜+2 の判断で置く（no_source）。重みを揺らして、上位 3 に残る確率も出す。
 
 ```bash
-python3 politics.py --out fleet/politics.json
+python3 politics.py --out fleet/politics.json   # before（リニアの前）・after（後）・change（主義ごとの上位の変化）
 ```
 
 ### ストーリー：エンジン整備の最適化から、空港の容量まで

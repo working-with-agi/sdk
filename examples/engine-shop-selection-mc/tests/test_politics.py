@@ -13,7 +13,8 @@ import politics  # noqa: E402
 class PoliticsTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.r = politics.build()
+        cls.R = politics.build()
+        cls.r = cls.R["after"]
 
     def test_scores_on_scale(self):
         for k, sc in self.r["scores"].items():
@@ -32,6 +33,12 @@ class PoliticsTest(unittest.TestCase):
         n = len(self.r["isms"])
         for a in self.r["agreement"]:
             self.assertEqual(a["not_excluded"] + len(a["excluded_by"]), n)
+
+
+    def test_before_has_no_linear_levers(self):
+        for k in politics.LINEAR_ONLY:
+            self.assertNotIn(k, self.R["before"]["scores"])
+            self.assertIn(k, self.R["after"]["scores"])
 
 
 if __name__ == "__main__":
