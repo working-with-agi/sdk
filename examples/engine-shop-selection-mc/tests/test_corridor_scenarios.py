@@ -45,5 +45,20 @@ class CorridorTest(unittest.TestCase):
         self.assertTrue(0.0 <= k["p_shortfall"] <= 1.0)
 
 
+class GameTest(unittest.TestCase):
+    def test_game_shape(self):
+        C = cor.load()
+        C["linear_osaka"]["air_keeps"] = [0.46]
+        g = cor.linear_game(C, 3)
+        r = g["rows"][0]
+        self.assertEqual(set(r["cells"]), {"stay/stay", "stay/move", "move/stay", "move/move"})
+        for k in r["nash"]:
+            a, b = k.split("/")
+            for x in ("stay", "move"):
+                self.assertGreaterEqual(r["cells"][k]["a"], r["cells"][f"{x}/{b}"]["a"] - 1e-9)
+                self.assertGreaterEqual(r["cells"][k]["b"], r["cells"][f"{a}/{x}"]["b"] - 1e-9)
+        self.assertEqual(r["joint_best"], max(r["cells"], key=lambda k: r["cells"][k]["sum"]))
+
+
 if __name__ == "__main__":
     unittest.main()

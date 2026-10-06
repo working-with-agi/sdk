@@ -75,6 +75,38 @@ def linear_osaka(s: dict, C: dict, years_ahead: int, base: dict) -> dict:
     return {"rows": rows, "how": "セルは「会社 A が空いた枠を他の幹線に移すか／移さないか」×「他社も移すか／移さないか」。差し引きの変化は、リニアがない基準（同じ年度）から。羽田–伊丹の需要は air_keeps 倍。空いた枠を幹線で使わない分は幹線の外（他の路線）に回るとして、枠を使う下限は外す"}
 
 
+def linear_game(C: dict, years_ahead: int, cids: tuple = ("jal", "ana")) -> dict:
+    """Both companies' payoffs for the Linear-to-Osaka slot game, each solved with its own fleet and
+    slots, the other's move entering as a shift of the other carriers' frequencies. Pure-strategy
+    equilibria and the pair that leaves the two together best off (by the sum of their margins)."""
+    sol = {}
+    for cid in cids:
+        s = cs.setup(cid)
+        base = cs.run(s, years_ahead, dest=True)
+        sol[cid] = linear_osaka(s, C, years_ahead, base)
+    a, b = cids
+    acts = ("stay", "move")
+    rows = []
+    for i, keep in enumerate(C["linear_osaka"]["air_keeps"]):
+        ra, rb = sol[a]["rows"][i], sol[b]["rows"][i]
+        cells = {}
+        for x in acts:
+            for y in acts:
+                pa = ra["cells"][f"{x}/{y}"]["margin_change_oku"]                   # A plays x, B plays y
+                pb = rb["cells"][f"{y}/{x}"]["margin_change_oku"]
+                cells[f"{x}/{y}"] = {"a": pa, "b": pb, "sum": round(pa + pb, 1),
+                                     "spill_pax_k": {"a": ra["cells"][f"{x}/{y}"]["spill_pax_k"], "b": rb["cells"][f"{y}/{x}"]["spill_pax_k"]}}
+        nash = [k for k, v in cells.items()
+                if all(v["a"] >= cells[f"{x2}/{k.split('/')[1]}"]["a"] - 1e-9 for x2 in acts)
+                and all(v["b"] >= cells[f"{k.split('/')[0]}/{y2}"]["b"] - 1e-9 for y2 in acts)]
+        best = max(cells, key=lambda k: cells[k]["sum"])
+        dilemma = any(all(cells[best][w] > cells[n][w] for w in ("a", "b")) for n in nash if n != best)
+        rows.append({"air_keeps": keep, "cells": cells, "nash": nash, "joint_best": best, "dilemma": dilemma})
+    return {"companies": {"a": a, "b": b}, "rows": rows,
+            "how": "セルは「A の手/B の手」。各社の損得は、その会社の機材と枠で機材割当を解いた差し引きの変化（リニアがない同じ年度から）。相手が移すことは、他社の便数の移動（伊丹 −(1−残る割合)×相手の便数、新千歳・福岡・那覇に +3・+2・+6 往復、no_source）として入る。均衡は純粋戦略のナッシュ均衡、joint_best は二社の合計が最大のセル。dilemma は、均衡より両社とも得なセルがあること",
+            "caveat": "会社 B の運航費の係数は会社 A のように 2024 年の搭乗率に合わせていない。737 の需要の割合（0.28）が機材に対して大きすぎる問題も残る"}
+
+
 def rail_airports(s: dict, C: dict, base: dict) -> dict:
     """Screening: of Haneda's spilled passengers on the long trunk routes, how many fly from an
     airport reached by rail, given the extra access cost against the air fare."""
@@ -188,7 +220,10 @@ def build(cid: str, out: Path | None = None, years_ahead: int = 3, log=print) ->
     lin = linear_osaka(s, C, years_ahead, base)
     if log:
         log(f"  [{time.time() - t0:4.0f}s] linear_osaka done")
-    res = {"company": cid, "fiscal_year": cs.fy_after(s["fy"], years_ahead), "base": {"margin_oku": base["margin_oku"], "carried_pax_k": base["carried_pax_k"],
+    game = linear_game(C, years_ahead)
+    if log:
+        log(f"  [{time.time() - t0:4.0f}s] linear_game done")
+    res = {"company": cid, "linear_game": game, "fiscal_year": cs.fy_after(s["fy"], years_ahead), "base": {"margin_oku": base["margin_oku"], "carried_pax_k": base["carried_pax_k"],
                                                                                          "spill_pax_k": base["spill_pax_k"], "spill_by_route_pax_k": base["spill_by_route_pax_k"]},
            "linear_osaka": lin, "rail_airports": rail_airports(s, C, base), "itami_smaller": itami_smaller(C, lin),
            "facts": C, "note": "数値は合成データと公開値の混合。p50。2・3 はふるい分けの計算"}
@@ -209,6 +244,8 @@ def main(argv=None) -> int:
         print(f" air keeps {x['air_keeps']}: best response {x['best_response']} value of moving {x['value_of_moving_slots_oku']}")
         for k, c in x["cells"].items():
             print(f"   {k}: Δmargin {c['margin_change_oku']} carried {c['carried_change_pax_k']} spill {c['spill_pax_k']} rt {c['round_trips']} engines {c['engines']}")
+    for g in r["linear_game"]["rows"]:
+        print(f" game keeps {g['air_keeps']}: nash {g['nash']} joint best {g['joint_best']} dilemma {g['dilemma']} " + str({k: (v['a'], v['b'], v['sum']) for k, v in g['cells'].items()}))
     for a_ in r["rail_airports"]["airports"]:
         print(f" {a_['airport']}: extra {a_['extra_cost_one_way_yen']} yen, captured {a_['captured_pax_k']} k  " + str({k: v['would_still_fly'] for k, v in a_['routes'].items()}))
     i = r["itami_smaller"]
