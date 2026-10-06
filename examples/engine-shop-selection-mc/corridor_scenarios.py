@@ -118,6 +118,9 @@ def itami_smaller(C: dict, linear: dict) -> dict:
     for r in rows:
         r["passenger_cost_pv_oku"] = round(r["extra_cost_oku_per_year"] * A)
     mc = itami_monte_carlo(C)
+    C50 = json.loads(json.dumps(C)); C50["itami_smaller"]["years"] = 50
+    mc50 = itami_monte_carlo(C50)
+    mc["years_50"] = {"steps": mc50.get("steps"), "p_all_items": mc50.get("p_all_items"), "net_all_items_oku_p10_p50_p90": mc50.get("net_all_items_oku_p10_p50_p90")}
     return {"land_value_oku": [round(land_lo), round(land_hi)], "extra_cost_one_way_yen": round(extra), "rows": rows, "annuity_30y_4pct": round(A, 2),
             "monte_carlo": mc,
             "how": "土地の値 ＝ 面積 × 使える割合 × 地価（幅）。旅客の損 ＝ 伊丹に残る旅客 × 片道の追加費用（時間 × 時間価値 ＋ 運賃差）を 30 年・4% で現在価値に。空港の運営費・跡地の造成費・関西の追加の容量は入れていない（ふるい分け）"}
