@@ -515,6 +515,14 @@ python3 export_trunk_assignment.py jal --label "Company A" --out trunk_assignmen
 python3 capacity_scenarios.py jal --out fleet/capacity_jal.json   # 約 40 秒
 ```
 
+### 運賃をどこまで上げるか（`fare_scenarios.py`）
+
+羽田のキャップの下で便を増やせないとき、もう一つの手は運賃。月ごとの機材割当（`route_fleet.price`）が、路線ごとの運賃を今の 0.8〜1.5 倍（0.05 刻み）から選び、売上 − 運航費 − リース費 が最大になるようにする。運賃を上げると旅客が減り、同じ枠を小さい機体で飛べるので運航費が下がり、乗れない旅客も減る。需要は今の運賃を通る直線（そこでの弾力性 e、no_source。参考：市場全体が一緒に動くと約 −0.8、他社が据え置くと路線で約 −1.4）。弾力性一定の曲線は、需要が非弾力的だと運賃を際限なく上げてしまうので使わない。弾力性 −0.8・−1.1・−1.4 と年度（FY+0・+3）で、今の運賃と比べる。羽田の枠 +20 往復と運賃の組み合わせも出す。
+
+```bash
+python3 fare_scenarios.py jal --out fleet/fares_jal.json   # 約 4 分
+```
+
 ### 前提の見直しの枠組み（`data/assumptions_review.json`）
 
 16 の前提を 7 層（需要・機材・運航・工場と供給・エンジン・お金・決め方）で並べ、出所・周期・早める引き金・影響先・担当を一枚にする。周期は遅い輪（年次の版・月次会議）、引き金は速い輪（変化点・閾値）。`review.py` が期限切れと引き金を判定して症状表に載せ、レポート「PDCA／OODA の見直し」に一覧を出す。

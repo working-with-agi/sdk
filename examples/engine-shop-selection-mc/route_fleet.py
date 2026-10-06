@@ -149,9 +149,17 @@ def route_demand(R: dict, D: dict, band: list[dict], share: dict[str, float], to
 
 
 def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict[str, float | None], mu: dict[str, float], yld: float,
-           slots: dict, lease: bool = True, gap: float = MIP_GAP, time_s: float = MIP_TIME_S) -> dict:
+           slots: dict, lease: bool = True, gap: float = MIP_GAP, time_s: float = MIP_TIME_S,
+           fare_mult: dict[str, float] | None = None, elasticity: float = 0.0) -> dict:
     """One month's fleet assignment. avail[type] None = unconstrained. slots: {"bounds": {route: (lo, hi)}
-    round trips a day, "budget": hub trunk round trips, "use_min": floor share of the budget}."""
+    round trips a day, "budget": hub trunk round trips, "use_min": floor share of the budget}.
+    fare_mult: the route's fare times this; its passengers (and the mean per flight) follow a linear
+    demand curve through today's fare with the given elasticity there: x (1 + elasticity (m - 1)).
+    (Constant elasticity would make an inelastic market raise fares without end.)"""
+    if fare_mult:
+        f = {r: max(0.0, 1 + elasticity * (fare_mult.get(r, 1.0) - 1)) for r in pax}
+        pax = {r: v * f[r] for r, v in pax.items()}
+        mu = {k: v * f[k[0]] for k, v in mu.items()}
     km = {r["id"]: r["km"] for r in R["routes"]}
     T = {t["type"]: t for t in types}
     prob = pulp.LpProblem("fam", pulp.LpMinimize)
@@ -163,7 +171,7 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
     op = pulp.lpSum(x[k] * T[k[0]]["cost_per_block_h_k"] * bh[k[1]] * DAYS for k in x)
     ls = pulp.lpSum(v * (R["lease"]["k_per_aircraft_month"] + T[lt]["cost_per_block_h_k"] * bh[k] * DAYS) for k, v in l.items())
     fare = fare_yen(R, yld)
-    rev = {r: fare[r] / USD_JPY for r in pax}                                      # k$ per thousand passengers
+    rev = {r: fare[r] * (fare_mult or {}).get(r, 1.0) / USD_JPY for r in pax}       # k$ per thousand passengers
     hub = [r for r in pax if r in ap.HUB_ROUTES]
     cut = {r: pulp.LpVariable(f"u_{r.replace('-', '_')}", lowBound=0) for r in pax}                 # round trips a day below the route's floor (cancelled)
     cut_hub = pulp.LpVariable("u_hub", lowBound=0)                                                  # round trips a day below the slot-use floor
@@ -210,7 +218,43 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
             "cycles_per_day_by_type": cyc, "lease_cycles_per_day": sum(ls_.get(p["id"], 0) * p["cycles_per_day"] for p in P),
             "revenue_carried_k": round(sum(carried[r] * rev[r] for r in pax)),
             "cancelled_round_trips": round(sum(v.value() or 0 for v in cut.values()) + (cut_hub.value() or 0), 2),
-            "cost_k": {"operating": round(pulp.value(op)), "lease": round(pulp.value(ls)) if l else 0, "lost_revenue": round(sum(sp[r] * rev[r] for r in pax))}}
+            "cost_k": {"operating": round(pulp.value(op)), "lease": round(pulp.value(ls)) if l else 0, "lost_revenue": round(sum(sp[r] * rev[r] for r in pax))},
+            "fare_mult": {r: (fare_mult or {}).get(r, 1.0) for r in pax}, "pax_after_fare_k": {r: round(v, 1) for r, v in pax.items()}}
+
+
+def margin_k(sol: dict) -> float:
+    """What the month earns on the trunk: revenue carried - operating cost - lease (k$)."""
+    return sol["revenue_carried_k"] - sol["cost_k"]["operating"] - sol["cost_k"]["lease"]
+
+
+def price(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict, mu: dict, yld: float, slots: dict,
+          elasticity: float, lo: float = 0.8, hi: float = 1.5, step: float = 0.05, passes: int = 3) -> dict:
+    """The fares that earn the most in one month, route by route (coordinate ascent on a grid of
+    multipliers of today's fare, each candidate re-solving the fleet assignment so the aircraft and
+    their gauge follow the passengers the fare leaves)."""
+    cache = {}
+    def solve(m):
+        key = tuple(round(m[r], 3) for r in sorted(m))
+        if key not in cache:
+            cache[key] = assign(R, P, types, pax, avail, mu, yld, slots, fare_mult=m, elasticity=elasticity)
+        return cache[key]
+    m = {r: 1.0 for r in pax}
+    best = solve(m)
+    for _ in range(passes):
+        moved = False
+        for r in pax:
+            for d in (step, -step):
+                while lo - 1e-9 <= m[r] + d <= hi + 1e-9:
+                    cand = {**m, r: round(m[r] + d, 3)}
+                    sol = solve(cand)
+                    if margin_k(sol) > margin_k(best) + 1e-6:
+                        m, best, moved = cand, sol, True
+                    else:
+                        break
+        if not moved:
+            break
+    best["fare_search_solves"] = len(cache)
+    return best
 
 
 def per_route(P: list[dict], by_type_pattern: dict[str, int]) -> dict[str, float]:
@@ -236,13 +280,15 @@ def available(types: list[dict], m: int, fleet_737_free: float) -> dict[str, flo
 
 
 def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, quantiles: tuple = ("p10", "p50", "p90"), detail: bool = True,
-          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool = False) -> dict:
+          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool = False, fares: dict | None = None) -> dict:
     """ctx: checks_rate (737), regional need by t (callable after the version), engine waits by t,
     737 fleet total, to_start (2024 -> start growth), set_trunk_737_rpk (fixes the regional split).
     delta: the hub trunk slots added (+) or taken away (-) by a re-allocation scenario.
     overrides: {type: {field: value}} laid over the company's types (e.g. more widebodies on the trunk).
     dest: lay the destination airports' caps over the per-route bounds; the hub slots above their sum
-    cannot be flown (reported as unusable)."""
+    cannot be flown (reported as unusable).
+    fares: {"elasticity": e, optional "lo"/"hi"/"step"} -- each month's p50 assignment also sets the fare
+    by route (price); the yearly version keeps today's fares."""
     R = load(); S = ap.load()
     types = [{**t, **(overrides or {}).get(t["type"], {})} for t in types_of(R, cid)]
     P = pattern_table(R, types)
@@ -291,7 +337,8 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
         free737 = ctx["fleet_737"] * (1 - ctx["checks_rate"][m]) - ctx["regional_need"](t) - ctx["engine_wait"].get(t, 0)
         av = available(types, m, free737)
         mu_q = {q: band_means(R, {r: v[q] for r, v in d["routes"].items()}, version["legs_band"]) for q in quantiles}
-        sol = {q: assign(R, P, types, {r: v[q] for r, v in d["routes"].items()}, av, mu_q[q], yld, slots) for q in quantiles}
+        sol = {q: (price(R, P, types, {r: v[q] for r, v in d["routes"].items()}, av, mu_q[q], yld, slots, **fares) if fares and q == "p50" else
+                   assign(R, P, types, {r: v[q] for r, v in d["routes"].items()}, av, mu_q[q], yld, slots)) for q in quantiles}
         s = sol["p50"]
         row = {"t": t, "label": d["label"], "fy": d["fy"], "pax_k_p50": d["total_p50"], "available": {k: round(v, 1) for k, v in av.items()},
                "used_p50": s["by_type"], "lease_p50": s["lease"], "spill_p50_pax_k": s["spill_total_pax_k"],
@@ -300,7 +347,8 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
                "revenue_carried_oku_p50": round(s["revenue_carried_k"] * USD_JPY / 1e5, 2),
                "round_trips_p50": s["round_trips"], "avg_seats_p50": s["avg_seats"], "lf_p50": s["lf"], "legs_by_type_p50": s["legs_by_type"], "legs_band_p50": s["legs_band"], "spill_by_route_p50": s["spill_pax_k"],
                "by_type_pattern_p50": s["by_type_pattern"], "aircraft_by_route_p50": per_route(P, s["by_type_pattern"]),
-               "cost_k_p50": s["cost_k"], "cycles_per_day_p50": s["cycles_per_day_by_type"], "lease_cycles_per_day_p50": s["lease_cycles_per_day"]}
+               "cost_k_p50": s["cost_k"], "cycles_per_day_p50": s["cycles_per_day_by_type"], "lease_cycles_per_day_p50": s["lease_cycles_per_day"],
+               "fare_mult_p50": s["fare_mult"], "pax_after_fare_k_p50": s["pax_after_fare_k"], "carried_by_route_p50": s["carried_pax_k"]}
         for q in quantiles:
             if q != "p50":
                 row.update({f"used_{q}": sol[q]["by_type"], f"lease_{q}": sol[q]["lease"], f"spill_{q}_pax_k": sol[q]["spill_total_pax_k"],

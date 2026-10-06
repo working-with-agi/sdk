@@ -65,10 +65,12 @@ def setup(cid: str) -> dict:
     return {"cid": cid, "D": D, "cfg": cfg, "rpk": rpk, "ac": ac, "eng": eng, "derived": derived, "ectx": ectx, "fy": fy, "types": types}
 
 
-def run(s: dict, years_ahead: float = 0.0, delta: float = 0.0, overrides: dict | None = None, dest: bool = False, windows: bool = True) -> dict:
-    """One fiscal year (p50) under one setting: the trunk's economics and each type's engines."""
+def run(s: dict, years_ahead: float = 0.0, delta: float = 0.0, overrides: dict | None = None, dest: bool = False, windows: bool = True,
+        fares: dict | None = None) -> dict:
+    """One fiscal year (p50) under one setting: the trunk's economics and each type's engines.
+    fares: {"elasticity": e} sets each month's fares by route (route_fleet.price)."""
     ctx, _ = ffd.trunk_context(s["cid"], s["cfg"], s["rpk"], s["ac"], s["eng"], s["derived"], years_ahead)
-    tr = rf.build(s["cid"], s["D"], s["rpk"], ctx, delta=delta, quantiles=("p50",), detail=False, fiscal_years={s["fy"]}, overrides=overrides, dest=dest)
+    tr = rf.build(s["cid"], s["D"], s["rpk"], ctx, delta=delta, quantiles=("p50",), detail=False, fiscal_years={s["fy"]}, overrides=overrides, dest=dest, fares=fares)
     rows = tr["rows"]
     types = [t["type"] for t in tr["types"]]
     ectx = {**s["ectx"], "types": tr["types"]}
@@ -79,7 +81,14 @@ def run(s: dict, years_ahead: float = 0.0, delta: float = 0.0, overrides: dict |
     lease = sum(r["cost_k_p50"].get("lease", 0) for r in rows) * oku
     caps = tr["airport"]["destination_caps"] or {}
     vrt = tr["version"]["round_trips"]
-    return {"years_ahead": years_ahead, "fiscal_year": fy_after(s["fy"], years_ahead), "delta_round_trips": delta, "dest_caps": dest,
+    routes = list(rows[0]["fare_mult_p50"])
+    peak = sorted(rows, key=lambda r: r["pax_k_p50"])
+    fare = {"by_route": {r: round(sum(x["fare_mult_p50"][r] * x["carried_by_route_p50"][r] for x in rows) / max(1e-9, sum(x["carried_by_route_p50"][r] for x in rows)), 3) for r in routes},
+            "busiest_3_months": {r: round(sum(x["fare_mult_p50"][r] for x in peak[-3:]) / 3, 3) for r in routes},
+            "quietest_3_months": {r: round(sum(x["fare_mult_p50"][r] for x in peak[:3]) / 3, 3) for r in routes},
+            "by_month": {x["label"]: x["fare_mult_p50"] for x in rows},
+            "demand_after_fare_pax_k": round(sum(sum(x["pax_after_fare_k_p50"].values()) for x in rows), 1)} if fares else None
+    return {"years_ahead": years_ahead, "fares": fares, "fare": fare, "fiscal_year": fy_after(s["fy"], years_ahead), "delta_round_trips": delta, "dest_caps": dest,
             "hub_budget": tr["airport"]["hub_budget"], "flyable_budget": tr["airport"]["budget"], "unusable_round_trips": tr["airport"]["unusable_round_trips"],
             "version_round_trips": vrt, "version_by_type": tr["version"]["by_type"],
             "destination_at_cap": [r for r, c in caps.items() if vrt.get(r, 0) >= c - 1e-6 and c < ap.bounds(ap.load(), s["cid"], delta)[r][1]],

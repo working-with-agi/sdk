@@ -1,0 +1,1809 @@
+{
+ "company": "jal",
+ "elasticities": [
+  -0.8,
+  -1.1,
+  -1.4
+ ],
+ "rows": [
+  {
+   "years_ahead": 0,
+   "fiscal_year": "FY2027",
+   "elasticity": null,
+   "lift": 0,
+   "fares": null,
+   "fare": null,
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 17.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 18.0,
+    "HND-OKA": 12.0,
+    "FUK-OKA": 6.0
+   },
+   "version_by_type": {
+    "737": 6,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 12585.7,
+   "carried_pax_k": 11350.9,
+   "spill_pax_k": 1234.8,
+   "revenue_oku": 1766.4,
+   "lost_revenue_oku": 166.8,
+   "operating_cost_oku": 702.8,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1063.5,
+   "aircraft_used_avg": {
+    "737": 5.9,
+    "767": 3.3,
+    "787": 3.0,
+    "A350": 11.8,
+    "777-300ER": 0.0
+   },
+   "lf_avg": {
+    "HND-CTS": 0.741,
+    "HND-ITM": 0.853,
+    "HND-FUK": 0.824,
+    "HND-OKA": 0.778,
+    "FUK-OKA": 0.85
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 5.9,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 5.45,
+     "utilisation_multiplier": 1.0122,
+     "utilisation_uncapped": 1.012,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 7,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 263.2
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 3.3,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 3.38,
+     "utilisation_multiplier": 1.1223,
+     "utilisation_uncapped": 1.122,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 23,
+      "earlier": 18,
+      "newly_due": 3,
+      "mean_shift_months": -1.72
+     },
+     "spend_per_year_oku_yen": 90.3
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 5.94,
+     "blended_cycles_per_aircraft_day": 2.02,
+     "utilisation_multiplier": 1.1349,
+     "utilisation_uncapped": 1.135,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 216.7
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 11.8,
+     "trunk_cycles_per_aircraft_day": 5.11,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.0,
+     "trunk_cycles_per_aircraft_day": 0.0,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": null
+  },
+  {
+   "years_ahead": 0,
+   "fiscal_year": "FY2027",
+   "elasticity": -0.8,
+   "lift": 0,
+   "fares": {
+    "elasticity": -0.8
+   },
+   "fare": {
+    "by_route": {
+     "HND-CTS": 1.244,
+     "HND-ITM": 1.446,
+     "HND-FUK": 1.372,
+     "HND-OKA": 1.238,
+     "FUK-OKA": 1.202
+    },
+    "busiest_3_months": {
+     "HND-CTS": 1.233,
+     "HND-ITM": 1.467,
+     "HND-FUK": 1.35,
+     "HND-OKA": 1.217,
+     "FUK-OKA": 1.233
+    },
+    "quietest_3_months": {
+     "HND-CTS": 1.25,
+     "HND-ITM": 1.417,
+     "HND-FUK": 1.4,
+     "HND-OKA": 1.283,
+     "FUK-OKA": 1.183
+    },
+    "by_month": {
+     "2027-04": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.4,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.2
+     },
+     "2027-05": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.3,
+      "FUK-OKA": 1.2
+     },
+     "2027-06": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.4,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.3,
+      "FUK-OKA": 1.2
+     },
+     "2027-07": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.1
+     },
+     "2027-08": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.15
+     },
+     "2027-09": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.25
+     },
+     "2027-10": {
+      "HND-CTS": 1.3,
+      "HND-ITM": 1.5,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.25
+     },
+     "2027-11": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.3,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.25
+     },
+     "2027-12": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.2
+     },
+     "2028-01": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.3,
+      "FUK-OKA": 1.15
+     },
+     "2028-02": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.2
+     },
+     "2028-03": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.3
+     }
+    },
+    "demand_after_fare_pax_k": 9395.1
+   },
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 17.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 18.0,
+    "HND-OKA": 12.0,
+    "FUK-OKA": 6.0
+   },
+   "version_by_type": {
+    "737": 6,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 12585.7,
+   "carried_pax_k": 8925.4,
+   "spill_pax_k": 469.7,
+   "revenue_oku": 1804.2,
+   "lost_revenue_oku": 90.1,
+   "operating_cost_oku": 616.5,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1187.7,
+   "aircraft_used_avg": {
+    "737": 10.8,
+    "767": 6.6,
+    "787": 3.0,
+    "A350": 3.8,
+    "777-300ER": 0.5
+   },
+   "lf_avg": {
+    "HND-CTS": 0.757,
+    "HND-ITM": 0.872,
+    "HND-FUK": 0.82,
+    "HND-OKA": 0.743,
+    "FUK-OKA": 0.74
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 10.8,
+     "trunk_cycles_per_aircraft_day": 5.97,
+     "blended_cycles_per_aircraft_day": 5.49,
+     "utilisation_multiplier": 1.021,
+     "utilisation_uncapped": 1.021,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 9,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 265.5
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 6.6,
+     "trunk_cycles_per_aircraft_day": 5.27,
+     "blended_cycles_per_aircraft_day": 3.56,
+     "utilisation_multiplier": 1.1822,
+     "utilisation_uncapped": 1.182,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 24,
+      "earlier": 19,
+      "newly_due": 4,
+      "mean_shift_months": -2.32
+     },
+     "spend_per_year_oku_yen": 95.2
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 5.44,
+     "blended_cycles_per_aircraft_day": 1.99,
+     "utilisation_multiplier": 1.1187,
+     "utilisation_uncapped": 1.119,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 29,
+      "earlier": 18,
+      "newly_due": 3,
+      "mean_shift_months": -1.33
+     },
+     "spend_per_year_oku_yen": 213.6
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 3.8,
+     "trunk_cycles_per_aircraft_day": 4.4,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.5,
+     "trunk_cycles_per_aircraft_day": 5.33,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": {
+    "revenue_oku": 37.8,
+    "operating_cost_oku": -86.3,
+    "margin_oku": 124.2,
+    "carried_pax_k": -2425.5,
+    "spill_pax_k": -765.1
+   }
+  },
+  {
+   "years_ahead": 0,
+   "fiscal_year": "FY2027",
+   "elasticity": -1.1,
+   "lift": 0,
+   "fares": {
+    "elasticity": -1.1
+   },
+   "fare": {
+    "by_route": {
+     "HND-CTS": 1.053,
+     "HND-ITM": 1.25,
+     "HND-FUK": 1.169,
+     "HND-OKA": 1.041,
+     "FUK-OKA": 1.027
+    },
+    "busiest_3_months": {
+     "HND-CTS": 1.05,
+     "HND-ITM": 1.25,
+     "HND-FUK": 1.183,
+     "HND-OKA": 1.05,
+     "FUK-OKA": 1.0
+    },
+    "quietest_3_months": {
+     "HND-CTS": 1.067,
+     "HND-ITM": 1.25,
+     "HND-FUK": 1.167,
+     "HND-OKA": 1.0,
+     "FUK-OKA": 1.05
+    },
+    "by_month": {
+     "2027-04": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.05
+     },
+     "2027-05": {
+      "HND-CTS": 1.1,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2027-06": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.05
+     },
+     "2027-07": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 0.95
+     },
+     "2027-08": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.05
+     },
+     "2027-09": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 0.95
+     },
+     "2027-10": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 0.95
+     },
+     "2027-11": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2027-12": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2028-01": {
+      "HND-CTS": 1.1,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.05
+     },
+     "2028-02": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.25,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.05
+     },
+     "2028-03": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.0
+     }
+    },
+    "demand_after_fare_pax_k": 10905.7
+   },
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 17.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 18.0,
+    "HND-OKA": 12.0,
+    "FUK-OKA": 6.0
+   },
+   "version_by_type": {
+    "737": 6,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 12585.7,
+   "carried_pax_k": 10264.6,
+   "spill_pax_k": 641.2,
+   "revenue_oku": 1765.6,
+   "lost_revenue_oku": 105.3,
+   "operating_cost_oku": 669.4,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1096.2,
+   "aircraft_used_avg": {
+    "737": 8.3,
+    "767": 3.5,
+    "787": 3.0,
+    "A350": 9.1,
+    "777-300ER": 0.6
+   },
+   "lf_avg": {
+    "HND-CTS": 0.751,
+    "HND-ITM": 0.859,
+    "HND-FUK": 0.806,
+    "HND-OKA": 0.755,
+    "FUK-OKA": 0.819
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 8.3,
+     "trunk_cycles_per_aircraft_day": 6.08,
+     "blended_cycles_per_aircraft_day": 5.48,
+     "utilisation_multiplier": 1.0194,
+     "utilisation_uncapped": 1.019,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 8,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 265.1
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 3.5,
+     "trunk_cycles_per_aircraft_day": 5.71,
+     "blended_cycles_per_aircraft_day": 3.36,
+     "utilisation_multiplier": 1.1162,
+     "utilisation_uncapped": 1.116,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 23,
+      "earlier": 18,
+      "newly_due": 3,
+      "mean_shift_months": -1.67
+     },
+     "spend_per_year_oku_yen": 89.8
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 5.83,
+     "blended_cycles_per_aircraft_day": 2.01,
+     "utilisation_multiplier": 1.1313,
+     "utilisation_uncapped": 1.131,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.6
+     },
+     "spend_per_year_oku_yen": 216.0
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 9.1,
+     "trunk_cycles_per_aircraft_day": 4.77,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.6,
+     "trunk_cycles_per_aircraft_day": 5.71,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": {
+    "revenue_oku": -0.8,
+    "operating_cost_oku": -33.4,
+    "margin_oku": 32.7,
+    "carried_pax_k": -1086.3,
+    "spill_pax_k": -593.6
+   }
+  },
+  {
+   "years_ahead": 0,
+   "fiscal_year": "FY2027",
+   "elasticity": -1.4,
+   "lift": 0,
+   "fares": {
+    "elasticity": -1.4
+   },
+   "fare": {
+    "by_route": {
+     "HND-CTS": 0.966,
+     "HND-ITM": 1.137,
+     "HND-FUK": 1.057,
+     "HND-OKA": 0.959,
+     "FUK-OKA": 0.984
+    },
+    "busiest_3_months": {
+     "HND-CTS": 0.983,
+     "HND-ITM": 1.15,
+     "HND-FUK": 1.117,
+     "HND-OKA": 0.983,
+     "FUK-OKA": 0.983
+    },
+    "quietest_3_months": {
+     "HND-CTS": 0.983,
+     "HND-ITM": 1.15,
+     "HND-FUK": 1.033,
+     "HND-OKA": 0.95,
+     "FUK-OKA": 1.0
+    },
+    "by_month": {
+     "2027-04": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.0
+     },
+     "2027-05": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.0
+     },
+     "2027-06": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.0
+     },
+     "2027-07": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 0.9
+     },
+     "2027-08": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.05
+     },
+     "2027-09": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 0.95
+     },
+     "2027-10": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 0.95
+     },
+     "2027-11": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.05
+     },
+     "2027-12": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.0
+     },
+     "2028-01": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.0,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.0
+     },
+     "2028-02": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.0,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.0
+     },
+     "2028-03": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 0.95
+     }
+    },
+    "demand_after_fare_pax_k": 12120.3
+   },
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 17.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 18.0,
+    "HND-OKA": 12.0,
+    "FUK-OKA": 6.0
+   },
+   "version_by_type": {
+    "737": 6,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 12585.7,
+   "carried_pax_k": 11235.2,
+   "spill_pax_k": 885.1,
+   "revenue_oku": 1773.0,
+   "lost_revenue_oku": 132.1,
+   "operating_cost_oku": 696.4,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1076.6,
+   "aircraft_used_avg": {
+    "737": 7.0,
+    "767": 2.6,
+    "787": 3.0,
+    "A350": 11.6,
+    "777-300ER": 0.3
+   },
+   "lf_avg": {
+    "HND-CTS": 0.773,
+    "HND-ITM": 0.853,
+    "HND-FUK": 0.805,
+    "HND-OKA": 0.802,
+    "FUK-OKA": 0.853
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 7.0,
+     "trunk_cycles_per_aircraft_day": 6.12,
+     "blended_cycles_per_aircraft_day": 5.47,
+     "utilisation_multiplier": 1.0172,
+     "utilisation_uncapped": 1.017,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 8,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 264.5
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 2.6,
+     "trunk_cycles_per_aircraft_day": 5.94,
+     "blended_cycles_per_aircraft_day": 3.29,
+     "utilisation_multiplier": 1.0928,
+     "utilisation_uncapped": 1.093,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 20,
+      "due_new": 23,
+      "earlier": 17,
+      "newly_due": 3,
+      "mean_shift_months": -1.35
+     },
+     "spend_per_year_oku_yen": 88.0
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 2.02,
+     "utilisation_multiplier": 1.1367,
+     "utilisation_uncapped": 1.137,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 217.1
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 11.6,
+     "trunk_cycles_per_aircraft_day": 4.89,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.3,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": {
+    "revenue_oku": 6.6,
+    "operating_cost_oku": -6.4,
+    "margin_oku": 13.1,
+    "carried_pax_k": -115.7,
+    "spill_pax_k": -349.7
+   }
+  },
+  {
+   "years_ahead": 3,
+   "fiscal_year": "FY2030",
+   "elasticity": null,
+   "lift": 0,
+   "fares": null,
+   "fare": null,
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 18.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 16.0,
+    "HND-OKA": 13.0,
+    "FUK-OKA": 5.0
+   },
+   "version_by_type": {
+    "737": 5,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 14000.8,
+   "carried_pax_k": 12181.4,
+   "spill_pax_k": 1819.4,
+   "revenue_oku": 1898.2,
+   "lost_revenue_oku": 258.3,
+   "operating_cost_oku": 710.1,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1188.1,
+   "aircraft_used_avg": {
+    "737": 5.1,
+    "767": 3.0,
+    "787": 3.0,
+    "A350": 13.0,
+    "777-300ER": 0.0
+   },
+   "lf_avg": {
+    "HND-CTS": 0.772,
+    "HND-ITM": 0.912,
+    "HND-FUK": 0.88,
+    "HND-OKA": 0.817,
+    "FUK-OKA": 0.918
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 5.1,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 5.44,
+     "utilisation_multiplier": 1.0105,
+     "utilisation_uncapped": 1.01,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 6,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 262.8
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 5.89,
+     "blended_cycles_per_aircraft_day": 3.33,
+     "utilisation_multiplier": 1.106,
+     "utilisation_uncapped": 1.106,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 23,
+      "earlier": 17,
+      "newly_due": 3,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 89.0
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 2.02,
+     "utilisation_multiplier": 1.1367,
+     "utilisation_uncapped": 1.137,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 217.1
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 13.0,
+     "trunk_cycles_per_aircraft_day": 5.08,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.0,
+     "trunk_cycles_per_aircraft_day": 0.0,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": null
+  },
+  {
+   "years_ahead": 3,
+   "fiscal_year": "FY2030",
+   "elasticity": -0.8,
+   "lift": 0,
+   "fares": {
+    "elasticity": -0.8
+   },
+   "fare": {
+    "by_route": {
+     "HND-CTS": 1.212,
+     "HND-ITM": 1.375,
+     "HND-FUK": 1.338,
+     "HND-OKA": 1.241,
+     "FUK-OKA": 1.285
+    },
+    "busiest_3_months": {
+     "HND-CTS": 1.217,
+     "HND-ITM": 1.417,
+     "HND-FUK": 1.367,
+     "HND-OKA": 1.267,
+     "FUK-OKA": 1.3
+    },
+    "quietest_3_months": {
+     "HND-CTS": 1.233,
+     "HND-ITM": 1.35,
+     "HND-FUK": 1.3,
+     "HND-OKA": 1.233,
+     "FUK-OKA": 1.25
+    },
+    "by_month": {
+     "2027-04": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.3,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.25
+     },
+     "2027-05": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.3
+     },
+     "2027-06": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.3,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.25
+     },
+     "2027-07": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.3
+     },
+     "2027-08": {
+      "HND-CTS": 1.25,
+      "HND-ITM": 1.45,
+      "HND-FUK": 1.4,
+      "HND-OKA": 1.3,
+      "FUK-OKA": 1.2
+     },
+     "2027-09": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.4,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.35
+     },
+     "2027-10": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.4,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.35
+     },
+     "2027-11": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.3
+     },
+     "2027-12": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.4,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.2,
+      "FUK-OKA": 1.3
+     },
+     "2028-01": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.3,
+      "HND-OKA": 1.3,
+      "FUK-OKA": 1.25
+     },
+     "2028-02": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.35,
+      "HND-FUK": 1.3,
+      "HND-OKA": 1.3,
+      "FUK-OKA": 1.25
+     },
+     "2028-03": {
+      "HND-CTS": 1.2,
+      "HND-ITM": 1.4,
+      "HND-FUK": 1.35,
+      "HND-OKA": 1.25,
+      "FUK-OKA": 1.35
+     }
+    },
+    "demand_after_fare_pax_k": 10783.7
+   },
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 18.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 16.0,
+    "HND-OKA": 13.0,
+    "FUK-OKA": 5.0
+   },
+   "version_by_type": {
+    "737": 5,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 14000.8,
+   "carried_pax_k": 10241.7,
+   "spill_pax_k": 542.0,
+   "revenue_oku": 2029.9,
+   "lost_revenue_oku": 103.3,
+   "operating_cost_oku": 692.4,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1337.5,
+   "aircraft_used_avg": {
+    "737": 5.1,
+    "767": 5.7,
+    "787": 3.0,
+    "A350": 9.9,
+    "777-300ER": 0.4
+   },
+   "lf_avg": {
+    "HND-CTS": 0.705,
+    "HND-ITM": 0.781,
+    "HND-FUK": 0.777,
+    "HND-OKA": 0.724,
+    "FUK-OKA": 0.792
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 5.1,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 5.44,
+     "utilisation_multiplier": 1.0105,
+     "utilisation_uncapped": 1.01,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 6,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 262.8
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 5.7,
+     "trunk_cycles_per_aircraft_day": 5.79,
+     "blended_cycles_per_aircraft_day": 3.6,
+     "utilisation_multiplier": 1.1936,
+     "utilisation_uncapped": 1.194,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 24,
+      "earlier": 19,
+      "newly_due": 4,
+      "mean_shift_months": -2.47
+     },
+     "spend_per_year_oku_yen": 96.1
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 5.72,
+     "blended_cycles_per_aircraft_day": 2.01,
+     "utilisation_multiplier": 1.1277,
+     "utilisation_uncapped": 1.128,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.5
+     },
+     "spend_per_year_oku_yen": 215.4
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 9.9,
+     "trunk_cycles_per_aircraft_day": 4.96,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.4,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": {
+    "revenue_oku": 131.7,
+    "operating_cost_oku": -17.7,
+    "margin_oku": 149.4,
+    "carried_pax_k": -1939.7,
+    "spill_pax_k": -1277.4
+   }
+  },
+  {
+   "years_ahead": 3,
+   "fiscal_year": "FY2030",
+   "elasticity": -1.1,
+   "lift": 0,
+   "fares": {
+    "elasticity": -1.1
+   },
+   "fare": {
+    "by_route": {
+     "HND-CTS": 1.051,
+     "HND-ITM": 1.217,
+     "HND-FUK": 1.171,
+     "HND-OKA": 1.081,
+     "FUK-OKA": 1.121
+    },
+    "busiest_3_months": {
+     "HND-CTS": 1.067,
+     "HND-ITM": 1.25,
+     "HND-FUK": 1.2,
+     "HND-OKA": 1.117,
+     "FUK-OKA": 1.183
+    },
+    "quietest_3_months": {
+     "HND-CTS": 1.033,
+     "HND-ITM": 1.2,
+     "HND-FUK": 1.15,
+     "HND-OKA": 1.05,
+     "FUK-OKA": 1.117
+    },
+    "by_month": {
+     "2027-04": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2027-05": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.15
+     },
+     "2027-06": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.15
+     },
+     "2027-07": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.0
+     },
+     "2027-08": {
+      "HND-CTS": 1.1,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.15,
+      "FUK-OKA": 1.15
+     },
+     "2027-09": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.05
+     },
+     "2027-10": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.2
+     },
+     "2027-11": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.15
+     },
+     "2027-12": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.15
+     },
+     "2028-01": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2028-02": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.2,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2028-03": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.25,
+      "HND-FUK": 1.2,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.2
+     }
+    },
+    "demand_after_fare_pax_k": 12067.3
+   },
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 18.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 16.0,
+    "HND-OKA": 13.0,
+    "FUK-OKA": 5.0
+   },
+   "version_by_type": {
+    "737": 5,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 14000.8,
+   "carried_pax_k": 11240.1,
+   "spill_pax_k": 827.2,
+   "revenue_oku": 1947.4,
+   "lost_revenue_oku": 139.3,
+   "operating_cost_oku": 707.5,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1239.9,
+   "aircraft_used_avg": {
+    "737": 5.2,
+    "767": 3.3,
+    "787": 3.0,
+    "A350": 12.7,
+    "777-300ER": 0.0
+   },
+   "lf_avg": {
+    "HND-CTS": 0.74,
+    "HND-ITM": 0.817,
+    "HND-FUK": 0.803,
+    "HND-OKA": 0.767,
+    "FUK-OKA": 0.849
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 5.2,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 5.44,
+     "utilisation_multiplier": 1.0108,
+     "utilisation_uncapped": 1.011,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 6,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 262.9
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 3.3,
+     "trunk_cycles_per_aircraft_day": 5.95,
+     "blended_cycles_per_aircraft_day": 3.38,
+     "utilisation_multiplier": 1.1203,
+     "utilisation_uncapped": 1.12,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 23,
+      "earlier": 18,
+      "newly_due": 3,
+      "mean_shift_months": -1.72
+     },
+     "spend_per_year_oku_yen": 90.2
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 2.02,
+     "utilisation_multiplier": 1.1367,
+     "utilisation_uncapped": 1.137,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 217.1
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 12.7,
+     "trunk_cycles_per_aircraft_day": 4.99,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.0,
+     "trunk_cycles_per_aircraft_day": 0.0,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": {
+    "revenue_oku": 49.2,
+    "operating_cost_oku": -2.6,
+    "margin_oku": 51.8,
+    "carried_pax_k": -941.3,
+    "spill_pax_k": -992.2
+   }
+  },
+  {
+   "years_ahead": 3,
+   "fiscal_year": "FY2030",
+   "elasticity": -1.4,
+   "lift": 0,
+   "fares": {
+    "elasticity": -1.4
+   },
+   "fare": {
+    "by_route": {
+     "HND-CTS": 0.985,
+     "HND-ITM": 1.129,
+     "HND-FUK": 1.083,
+     "HND-OKA": 1.014,
+     "FUK-OKA": 1.061
+    },
+    "busiest_3_months": {
+     "HND-CTS": 1.017,
+     "HND-ITM": 1.15,
+     "HND-FUK": 1.117,
+     "HND-OKA": 1.067,
+     "FUK-OKA": 1.1
+    },
+    "quietest_3_months": {
+     "HND-CTS": 0.95,
+     "HND-ITM": 1.1,
+     "HND-FUK": 1.05,
+     "HND-OKA": 0.967,
+     "FUK-OKA": 1.05
+    },
+    "by_month": {
+     "2027-04": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.05
+     },
+     "2027-05": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.1,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.1
+     },
+     "2027-06": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.05
+     },
+     "2027-07": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.0
+     },
+     "2027-08": {
+      "HND-CTS": 1.05,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.15,
+      "HND-OKA": 1.1,
+      "FUK-OKA": 1.1
+     },
+     "2027-09": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.0
+     },
+     "2027-10": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     },
+     "2027-11": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.1
+     },
+     "2027-12": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.05,
+      "HND-OKA": 1.0,
+      "FUK-OKA": 1.05
+     },
+     "2028-01": {
+      "HND-CTS": 0.95,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.05
+     },
+     "2028-02": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.1,
+      "HND-FUK": 1.05,
+      "HND-OKA": 0.95,
+      "FUK-OKA": 1.05
+     },
+     "2028-03": {
+      "HND-CTS": 1.0,
+      "HND-ITM": 1.15,
+      "HND-FUK": 1.1,
+      "HND-OKA": 1.05,
+      "FUK-OKA": 1.1
+     }
+    },
+    "demand_after_fare_pax_k": 13012.3
+   },
+   "delta_round_trips": 0.0,
+   "dest_caps": false,
+   "hub_budget": 61.0,
+   "flyable_budget": 61.0,
+   "unusable_round_trips": 0.0,
+   "version_round_trips": {
+    "HND-CTS": 18.0,
+    "HND-ITM": 14.0,
+    "HND-FUK": 16.0,
+    "HND-OKA": 13.0,
+    "FUK-OKA": 5.0
+   },
+   "version_by_type": {
+    "737": 5,
+    "767": 3,
+    "787": 3,
+    "A350": 13,
+    "777-300ER": 0
+   },
+   "destination_at_cap": [],
+   "demand_pax_k": 14000.8,
+   "carried_pax_k": 11856.1,
+   "spill_pax_k": 1156.2,
+   "revenue_oku": 1919.2,
+   "lost_revenue_oku": 180.9,
+   "operating_cost_oku": 709.8,
+   "lease_cost_oku": 0.0,
+   "lease_aircraft_months": 0,
+   "margin_oku": 1209.4,
+   "aircraft_used_avg": {
+    "737": 5.2,
+    "767": 3.0,
+    "787": 3.0,
+    "A350": 13.0,
+    "777-300ER": 0.0
+   },
+   "lf_avg": {
+    "HND-CTS": 0.783,
+    "HND-ITM": 0.848,
+    "HND-FUK": 0.833,
+    "HND-OKA": 0.809,
+    "FUK-OKA": 0.881
+   },
+   "engines": [
+    {
+     "type": "737",
+     "engine": "CFM56-7B",
+     "trunk_aircraft_used_avg": 5.2,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 5.44,
+     "utilisation_multiplier": 1.0108,
+     "utilisation_uncapped": 1.011,
+     "at_util_cap": false,
+     "windows": {
+      "due_now": 40,
+      "due_new": 40,
+      "earlier": 6,
+      "newly_due": 0,
+      "mean_shift_months": -1.0
+     },
+     "spend_per_year_oku_yen": 262.9
+    },
+    {
+     "type": "767",
+     "engine": "CF6-80C2",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 5.89,
+     "blended_cycles_per_aircraft_day": 3.33,
+     "utilisation_multiplier": 1.106,
+     "utilisation_uncapped": 1.106,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 20,
+      "due_new": 23,
+      "earlier": 17,
+      "newly_due": 3,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 89.0
+    },
+    {
+     "type": "787",
+     "engine": "GEnx-1B",
+     "trunk_aircraft_used_avg": 3.0,
+     "trunk_cycles_per_aircraft_day": 6.0,
+     "blended_cycles_per_aircraft_day": 2.02,
+     "utilisation_multiplier": 1.1367,
+     "utilisation_uncapped": 1.137,
+     "at_util_cap": true,
+     "windows": {
+      "due_now": 26,
+      "due_new": 30,
+      "earlier": 20,
+      "newly_due": 4,
+      "mean_shift_months": -1.65
+     },
+     "spend_per_year_oku_yen": 217.1
+    },
+    {
+     "type": "A350",
+     "engine": "Trent XWB-84",
+     "trunk_aircraft_used_avg": 13.0,
+     "trunk_cycles_per_aircraft_day": 5.03,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    },
+    {
+     "type": "777-300ER",
+     "engine": "GE90-115B",
+     "trunk_aircraft_used_avg": 0.0,
+     "trunk_cycles_per_aircraft_day": 0.0,
+     "blended_cycles_per_aircraft_day": null,
+     "utilisation_multiplier": null,
+     "utilisation_uncapped": null,
+     "at_util_cap": null,
+     "windows": null,
+     "spend_per_year_oku_yen": null
+    }
+   ],
+   "vs_today_fares": {
+    "revenue_oku": 21.0,
+    "operating_cost_oku": -0.3,
+    "margin_oku": 21.3,
+    "carried_pax_k": -325.3,
+    "spill_pax_k": -663.2
+   }
+  }
+ ],
+ "fares_vs_slots": {
+  "years_ahead": 3,
+  "fiscal_year": "FY2030",
+  "lift": 20,
+  "elasticity": -1.1,
+  "slots_today_fares": {
+   "revenue_oku": 427.0,
+   "operating_cost_oku": 222.2,
+   "margin_oku": 204.8,
+   "carried_pax_k": 2661.9,
+   "spill_pax_k": -26.3
+  },
+  "slots_and_fares": {
+   "revenue_oku": 454.5,
+   "operating_cost_oku": 196.6,
+   "margin_oku": 257.9,
+   "carried_pax_k": 1361.5,
+   "spill_pax_k": -969.9
+  },
+  "fares_only": {
+   "revenue_oku": 49.2,
+   "operating_cost_oku": -2.6,
+   "margin_oku": 51.8,
+   "carried_pax_k": -941.3,
+   "spill_pax_k": -992.2
+  },
+  "fare_with_slots": {
+   "HND-CTS": 1.056,
+   "HND-ITM": 1.239,
+   "HND-FUK": 1.165,
+   "HND-OKA": 1.054,
+   "FUK-OKA": 1.077
+  }
+ },
+ "assumptions": {
+  "demand": "直線の需要曲線（今の運賃で弾力性 e）。no_source。参考：市場全体が一緒に動くと約 −0.8、他社が据え置くと路線で約 −1.4（InterVISTAS 2007、原典は未照合）",
+  "search": "月ごと・路線ごとに、今の運賃の 0.8〜1.5 倍（0.05 刻み）から、売上 − 運航費 − リース費 が最大になる運賃を座標ごとに探す。各候補で機材割当を解き直す",
+  "share": "便数の取り分は運賃で変えない（運賃の効き目は弾力性に入れる）",
+  "frequencies": "年次の版（便数）は今の運賃で決めたまま。羽田の枠を使う下限 98% は変わらない"
+ },
+ "note": "数値はすべて合成データ。p50"
+}
