@@ -134,6 +134,9 @@ def summarize(out: Path | None = None) -> dict:
                 continue
             g = json.loads(p.read_text(encoding="utf-8"))
             rows = g["rows"]
+            for r in rows:                                                     # engine types with no engine data in the base (company B's 737) carry no change
+                for c in CIDS:
+                    r["aircraft"][c]["engines"] = {t: e for t, e in r["aircraft"][c]["engines"].items() if g["base"][c]["engines"].get(t, {}).get("utilisation_multiplier") is not None}
             best = {}
             for name, s in SURPLUS.items():
                 ok = [r for r in rows if r["margin_change_oku"]["jal"] >= 0 and r["margin_change_oku"]["ana"] >= 0]

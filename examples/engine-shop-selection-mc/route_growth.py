@@ -81,8 +81,9 @@ def diff(a: dict, b: dict) -> dict:
     return {"aircraft_used_avg": {t: round(b["aircraft_used_avg"].get(t, 0) - a["aircraft_used_avg"].get(t, 0), 1) for t in b["aircraft_used_avg"]},
             "lease_aircraft_months": b["lease_aircraft_months"] - a["lease_aircraft_months"],
             "block_h": {t: b["block_h_by_type"].get(t, 0) - a["block_h_by_type"].get(t, 0) for t in b["block_h_by_type"]},
-            "engines": {t: {"utilisation_multiplier": round((b["engines"][t]["utilisation_multiplier"] or 0) - (a["engines"][t]["utilisation_multiplier"] or 0), 3),
-                            "spend_oku": round((b["engines"][t]["spend_per_year_oku_yen"] or 0) - (a["engines"][t]["spend_per_year_oku_yen"] or 0), 1)} for t in b["engines"]},
+            "engines": {t: {"utilisation_multiplier": round(b["engines"][t]["utilisation_multiplier"] - a["engines"][t]["utilisation_multiplier"], 3),
+                            "spend_oku": round((b["engines"][t]["spend_per_year_oku_yen"] or 0) - (a["engines"][t]["spend_per_year_oku_yen"] or 0), 1)}
+                        for t in b["engines"] if a["engines"][t]["utilisation_multiplier"] is not None and b["engines"][t]["utilisation_multiplier"] is not None},   # types without engine data left out
             "co2_kt": round(b["co2_kt"] - a["co2_kt"], 1)}
 
 
