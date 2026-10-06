@@ -1,26 +1,92 @@
 {
  "note": "地上の交通で空港の容量を動かす 3 つの場合の前提。status が pending のものは原典で確かめる前の仮の値",
  "status": "pending",
- "value_of_time_yen_per_hour": {"value": 3919, "source": "国土交通省 航空局 費用対効果分析マニュアル 別冊 各種原単位（令和8年2月）表6 国内旅客 https://www.mlit.go.jp/koku/content/001980895.pdf"},
+ "value_of_time_yen_per_hour": {
+  "value": 3919,
+  "source": "国土交通省 航空局 費用対効果分析マニュアル 別冊 各種原単位（令和8年2月）表6 国内旅客 https://www.mlit.go.jp/koku/content/001980895.pdf"
+ },
  "linear_osaka": {
-  "air_keeps": [0.5, 0.3],
+  "air_keeps": [
+   0.5,
+   0.3
+  ],
   "air_keeps_source": "pending: リニア新大阪開業後に羽田–伊丹の航空に残る割合",
-  "rival_moves_to": {"HND-CTS": 3, "HND-FUK": 2, "HND-OKA": 6},
+  "rival_moves_to": {
+   "HND-CTS": 3,
+   "HND-FUK": 2,
+   "HND-OKA": 6
+  },
   "rival_note": "no_source: 他社も空いた枠を、会社 A と同じ対向空港の余地まで新千歳・福岡・那覇に移す"
  },
  "rail_airports": {
   "elasticity": -1.4,
-  "haneda_access_min": 30, "haneda_access_fare_yen": 600,
+  "haneda_access_min": 30,
+  "haneda_access_fare_yen": 600,
   "airports": [
-   {"name": "成田（参考）", "access_min": 60, "access_fare_yen": 1500, "note": "pending"},
-   {"name": "中部（リニアで名古屋、名鉄）", "access_min": 85, "access_fare_yen": 13000, "note": "pending"},
-   {"name": "山梨（リニア、空港は仮定）", "access_min": 40, "access_fare_yen": 4000, "note": "pending"}
+   {
+    "name": "成田（参考）",
+    "access_min": 60,
+    "access_fare_yen": 1500,
+    "note": "pending"
+   },
+   {
+    "name": "中部（リニアで名古屋、名鉄）",
+    "access_min": 85,
+    "access_fare_yen": 13000,
+    "note": "pending"
+   },
+   {
+    "name": "山梨（リニア、空港は仮定）",
+    "access_min": 40,
+    "access_fare_yen": 4000,
+    "note": "pending"
+   }
   ]
  },
  "itami_smaller": {
-  "itami_pax_million_per_year": 15.0, "share_on_tokyo_route": 0.35,
-  "extra_access_min": 30, "extra_access_fare_yen": 1000,
-  "area_ha": 300, "usable_share": 0.6, "land_price_yen_m2": [150000, 300000],
-  "note": "pending"
+  "itami_pax_million_per_year": 15.0,
+  "share_on_tokyo_route": 0.35,
+  "extra_access_min": 30,
+  "extra_access_fare_yen": 1000,
+  "area_ha": 300,
+  "usable_share": 0.6,
+  "land_price_yen_m2": [
+   150000,
+   300000
+  ],
+  "note": "pending",
+  "ranges": {
+   "air_keeps": [
+    0.2,
+    0.6
+   ],
+   "land_price_yen_m2": [
+    150000,
+    300000
+   ],
+   "usable_share": [
+    0.5,
+    0.8
+   ],
+   "extra_access_min": [
+    20,
+    40
+   ],
+   "extra_access_fare_yen": [
+    500,
+    1500
+   ],
+   "value_of_time_yen_per_hour": [
+    3135,
+    4703
+   ],
+   "itami_pax_million_per_year": [
+    13.5,
+    16.5
+   ]
+  },
+  "discount_rate": 0.04,
+  "years": 30,
+  "ranges_note": "pending: 幅は仮。時間価値は国の値 ±20%"
  }
 }
