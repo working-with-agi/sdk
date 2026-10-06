@@ -98,6 +98,8 @@ def run(s: dict, years_ahead: float = 0.0, delta: float = 0.0, overrides: dict |
             "revenue_oku": round(revenue, 1), "lost_revenue_oku": round(sum(r["cost_k_p50"]["lost_revenue"] for r in rows) * oku, 1),
             "operating_cost_oku": round(operating, 1), "lease_cost_oku": round(lease, 1), "lease_aircraft_months": sum(r["lease_p50"] for r in rows),
             "margin_oku": round(revenue - operating - lease, 1),
+            "block_h_by_type": {t: round(sum(r["block_h_by_type_p50"].get(t, 0) for r in rows)) for t in types},
+            "carried_by_route_pax_k": {k: round(sum(r["carried_by_route_p50"][k] for r in rows), 1) for k in routes},
             "aircraft_used_avg": {t: round(sum(r["used_p50"][t] for r in rows) / len(rows), 1) for t in types},
             "lf_avg": {k: round(sum((r["lf_p50"][k] or 0) for r in rows) / len(rows), 3) for k in rows[0]["lf_p50"]},
             "engines": [{k: e.get(k) for k in ("type", "engine", "trunk_aircraft_used_avg", "trunk_cycles_per_aircraft_day", "blended_cycles_per_aircraft_day",

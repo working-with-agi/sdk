@@ -227,9 +227,10 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
     lbs = {r: {b: sum((xs.get((t, p["id"]), 0) if t != "_lease" else 0) * p["legs_band"].get(r, {}).get(b, 0) for p in P for t in p["types"])
                   + sum(ls_.get(p["id"], 0) * p["legs_band"].get(r, {}).get(b, 0) for p in P) for b in ("peak", "off")} for r in pax}
     legs_by_type = {t: sum(xs.get((t, p["id"]), 0) * sum(p["legs"].values()) for p in P if t in p["types"]) for t in T}
+    bh_type = {t: round((sum(xs.get((t, p["id"]), 0) * p["block_h"] for p in P if t in p["types"]) + (sum(ls_.get(p["id"], 0) * p["block_h"] for p in P) if t == lt else 0)) * DAYS, 1) for t in T}   # block hours a month
     return {"by_type": by_type, "by_type_pattern": {f"{k[0]}:{k[1]}": v for k, v in xs.items() if v}, "lease": sum(ls_.values()), "lease_by_pattern": {k: v for k, v in ls_.items() if v},
             "carried_pax_k": carried, "spill_pax_k": sp, "spill_total_pax_k": round(sum(sp.values()), 1),
-            "round_trips": {r: legs_v[r] / 2 for r in pax}, "legs_band": lbs, "legs_by_type": legs_by_type, "seats_k": {r: round(v, 1) for r, v in cap.items()},
+            "round_trips": {r: legs_v[r] / 2 for r in pax}, "legs_band": lbs, "legs_by_type": legs_by_type, "block_h_by_type": bh_type, "seats_k": {r: round(v, 1) for r, v in cap.items()},
             "avg_seats": {r: round(cap[r] * 1e3 / DAYS / legs_v[r]) if legs_v[r] else None for r in pax},
             "lf": {r: round(carried[r] / cap[r], 3) if cap[r] else None for r in pax},
             "cycles_per_day_by_type": cyc, "lease_cycles_per_day": sum(ls_.get(p["id"], 0) * p["cycles_per_day"] for p in P),
@@ -373,7 +374,7 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
                "carried_p50_pax_k": round(sum(s["carried_pax_k"].values()), 1),
                "carried_p50_rpk_m": round(sum(v * km[r] for r, v in s["carried_pax_k"].items()) / 1e3, 1),
                "revenue_carried_oku_p50": round(s["revenue_carried_k"] * USD_JPY / 1e5, 2),
-               "round_trips_p50": s["round_trips"], "avg_seats_p50": s["avg_seats"], "lf_p50": s["lf"], "legs_by_type_p50": s["legs_by_type"], "legs_band_p50": s["legs_band"], "spill_by_route_p50": s["spill_pax_k"],
+               "round_trips_p50": s["round_trips"], "avg_seats_p50": s["avg_seats"], "lf_p50": s["lf"], "legs_by_type_p50": s["legs_by_type"], "block_h_by_type_p50": s["block_h_by_type"], "legs_band_p50": s["legs_band"], "spill_by_route_p50": s["spill_pax_k"],
                "by_type_pattern_p50": s["by_type_pattern"], "aircraft_by_route_p50": per_route(P, s["by_type_pattern"]),
                "cost_k_p50": s["cost_k"], "cycles_per_day_p50": s["cycles_per_day_by_type"], "lease_cycles_per_day_p50": s["lease_cycles_per_day"],
                "fare_mult_p50": s["fare_mult"], "pax_after_fare_k_p50": s["pax_after_fare_k"], "carried_by_route_p50": s["carried_pax_k"]}

@@ -1,6 +1,6 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>リニアができたら何が変わるか</title><style>body{margin:0;background:#f6f4ee;color:#141413;font-family:'IBM Plex Sans JP',system-ui,sans-serif;line-height:1.7}main{max-width:880px;margin:0 auto;padding:40px 24px 80px}h1{font-size:28px}h2{font-size:20px;margin-top:36px;border-bottom:1px solid #cfcbc0;padding-bottom:6px}h3{font-size:16px;margin-top:24px}table{border-collapse:collapse;font-size:13px;margin:8px 0}th,td{border:1px solid #cfcbc0;padding:4px 8px;text-align:left}pre{background:#ffffff;border:1px solid #cfcbc0;padding:12px;overflow-x:auto;font-size:12px}code{background:#efece4;padding:0 4px}blockquote{border-left:3px solid #1f3d63;margin:8px 0;padding:4px 12px;color:#5b5a55}a{color:#1f3d63}.top{font-size:12px;color:#5b5a55}</style></head><body><main><p class="top"><a href="index.html">← ダッシュボード</a></p><h1>リニアができたら何が変わるか — 旅客・羽田の枠・空港・整備、そして主義ごとの答え</h1>
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>リニアができたら何が変わるか（旅客・羽田の枠・空港・整備、主義ごとの答え）</title><style>body{margin:0;background:#f6f4ee;color:#141413;font-family:'IBM Plex Sans JP',system-ui,sans-serif;line-height:1.7}main{max-width:880px;margin:0 auto;padding:40px 24px 80px}h1{font-size:28px}h2{font-size:20px;margin-top:36px;border-bottom:1px solid #cfcbc0;padding-bottom:6px}h3{font-size:16px;margin-top:24px}table{border-collapse:collapse;font-size:13px;margin:8px 0}th,td{border:1px solid #cfcbc0;padding:4px 8px;text-align:left}pre{background:#ffffff;border:1px solid #cfcbc0;padding:12px;overflow-x:auto;font-size:12px}code{background:#efece4;padding:0 4px}blockquote{border-left:3px solid #1f3d63;margin:8px 0;padding:4px 12px;color:#5b5a55}a{color:#1f3d63}.top{font-size:12px;color:#5b5a55}</style></head><body><main><p class="top"><a href="index.html">← ダッシュボード</a></p><h1>リニアができたら何が変わるか — 旅客・羽田の枠・空港・整備、そして主義ごとの答え</h1>
 <blockquote>2026-10 時点のまとめ。リニア中央新幹線が新大阪まで開業したとき、国内の幹線の航空と、その整備に何が起きるかを、モデル（会社 A・B の機材割当、FY2030 の需要、p50）と公開資料で追う。最後に、政治の立場（主義）ごとに、選ぶ手がどう変わるかを並べる。</blockquote>
-<blockquote>数値は合成データと公開値の混合。出典と、出典のない仮定（no_source）は <code>data/corridor.json</code>・<code>data/politics.json</code> と各出力にある。詳しい計算は <code>story_エンジンから空港まで.md</code> の 6〜7・11 章と、結果の文書 5.8 節。</blockquote>
+<blockquote>数値は合成データと公開値の混合。出典と、出典のない仮定（no_source）は <code>data/corridor.json</code>・<code>data/politics.json</code>・<code>data/carbon.json</code> と各出力にある。詳しい計算は <code>story_エンジンから空港まで.md</code> の 6〜7・11 章と、結果の文書 5.8 節。</blockquote>
 <blockquote>モデルの置き方：路線の旅客は便数の比率で会社に分かれる（便数を増やした会社が取り分を取る。no_source）。他社の運賃は据え置き。会社 B の運航費は 2024 年の搭乗率に合わせきれていない。リニアの開業は早くても 2037 年だが、ここでは FY2030 の需要と機材にリニアを当てている。</blockquote>
 <blockquote></blockquote>
 <blockquote>用語：差し引きは売上 − 運航費（機体の所有費・着陸料は引かない）。対向空港は羽田の便の向こう側の空港（新千歳・伊丹・福岡・那覇）。キャップは容量の上限。均衡は、どちらの会社も自分だけ手を変えると損をする組み合わせ。「航空に残る割合」は、リニアの後も羽田–伊丹の航空に残る旅客の割合。</blockquote>
@@ -13,6 +13,7 @@
 <li><b>伊丹を縮める選択肢が、初めて現れる。</b> 跡地と運営費・騒音の節約から、旅客の負担・造成費・関西と神戸の容量の手当てを引くと、得になる確率は 9%（30 年）。</li>
 <li><b>首都圏の第 3 の空港として、山梨が候補に入る。</b> リニアで品川から約 25 分。羽田で乗れなかった旅客の 6〜7 割を拾える計算だが、横田空域の調整が先に要る。中部空港はリニアでつないでも東京の旅客には遠すぎる。</li>
 <li><b>整備は、767 が軽くなる。</b> 羽田–伊丹の短い便が減り、767 の整備費は年 2〜7 億円下がる。737 はほとんど変わらない。</li>
+<li><b>炭素を排出量取引で扱うと、リニアで国の CO2 が減るかどうかは、主に上限の置き方で決まる。</b> 上限が効いていれば総量は上限のままで、リニアで余った排出枠は他の部門に回る。今の価格帯（2026 年度 1,700〜4,300 円/t）では、機材の選び方も枠の取り合いもほとんど変わらない（9 章）。</li>
 <li><b>主義の答えの変化は、選べる手が増えたことによる。</b> リニアの後に初めて選べる三つの手（伊丹を縮める・配分の規則・鉄道でつなぐ新空港）が入り、環境は伊丹と配分の規則を、安全保障は配分の規則を上位に入れる。財政規律でも伊丹が上位に入るが、確実な一位ではない。新しい三つの手のうち、どの主義も外さないのは配分の規則だけ。重み・赤線は no_source。</li>
 </ul>
 <h2>1. 前提：いつ、どれだけ移るか</h2>
@@ -95,19 +96,65 @@
 <li><b>安全保障</b>：配分の規則が上位に入る。費用がかからず、日米の調整に触れないから。</li>
 <li><b>リニアの後、一番割れるのは伊丹を縮める手</b>（環境・財政規律が上位、利用者・地方が外す）。<b>新しい三つの手のうち、どの主義も外さないのは配分の規則だけ</b>で、上位に入れるのは環境と安全保障。反対されにくい手として、開業の前に用意しやすい。</li>
 </ul>
-<h2>9. 開業の前に決めておくこと</h2>
+<h2>9. 炭素：排出量取引の下で</h2>
+<p>炭素は税ではなく排出量取引（上限と取引）として扱う。日本では GX-ETS が FY2026 から直接排出 年 10 万 t 以上の事業者に義務になり（対象に航空を含む）、化石燃料の賦課金が FY2028 から、発電事業者への有償オークションが FY2033 から始まる（<code>data/carbon.json</code> の <code>policy</code>）。燃料の側が先に、電気の側が後から値段を負う。国内線の排出に取引と賦課金の両方がかかるのか、どう調整されるのかは確かめていない。</p>
+<p>置き方（<code>carbon_scenarios.py</code>）：</p>
+<ul>
+<li>排出枠の価格を、機種ごとの 1 時間あたりの燃料（no_source）× 3.16 tCO2/t で、1 ブロック時間あたりの運航費に足して、機材割当を解き直す。無償でもらった枠でも、使わなければ売れるので、価格はそのまま効く。</li>
+<li>無償の割当は、リニアがなく価格もない年の自社の排出量 × 無償の割合で、利益に一括で足す。便をどう飛ばしても額は同じなので、利益の水準だけを動かし、どの手を選ぶかには効かない。</li>
+<li>会社 A の幹線は FY2030 で年 約 1,322 千 t、1 人 1 km あたり 約 104 g（国交省の航空 98 g/人km に近い）。</li>
+</ul>
+<table><thead><tr><th>排出枠の価格（円/t）</th><th>会社 A の排出（千 t/年）</th><th>炭素の費用（億円/年）</th><th>無償の割当なしの差し引き</th></tr></thead><tbody>
+<tr><td>0</td><td>1,322</td><td>0</td><td>1,188</td></tr>
+<tr><td>1,700（2026 年度の調整基準）</td><td>1,321</td><td>23</td><td>1,166</td></tr>
+<tr><td>4,300（2026 年度の参考上限）</td><td>1,321</td><td>57</td><td>1,131</td></tr>
+<tr><td>10,000（感度）</td><td>1,320</td><td>132</td><td>1,056</td></tr>
+<tr><td>30,000（感度）</td><td>1,303</td><td>391</td><td>792</td></tr>
+</tbody></table>
+<ul>
+<li><b>今の価格帯では、排出はほとんど減らない。</b> 1 万円/t まで 0.1% 程度。3 万円/t で 1.4% 減るが、それは 767・A350 を 737 に替えて乗せられない旅客を増やすことによる（運ぶ旅客 −0.5%）。燃費のよい機体に替わるのではなく、運ぶ量が減る形。</li>
+<li><b>無償の割当が全部なら、差し引きはほぼ変わらない</b>（1,188 億円前後）。割当が半分なら 4,300 円/t で年 28 億円、なしなら 57 億円減る。</li>
+<li><b>空いた枠を他の幹線に移すかどうか</b>（両社とも移す − 両社とも移さない、会社 A）：66% では 0〜1 万円/t のどの価格でも年 88〜91 億円の損で、排出は 12〜38 千 t 増える。46% では 58〜73 億円の損、74〜112 千 t 増える。</li>
+<li><b>余った排出枠を売る収入は小さい。</b> 両社とも移さない世界で、割当が全部のとき余るのは 66% で 5〜12 千 t（4,300 円/t で 0.3 億円）。枠の取り合いの損（年 88 億円前後）と比べて二桁小さい。</li>
+</ul>
+<p><b>国全体の CO2</b>（会社 A の羽田–伊丹から鉄道に移った旅客の分、同じ価格どうしで比べる。リニアの電気は JR 東海の「航空の約 1/3」を電気の係数の倍率で動かす）：</p>
+<table><thead><tr><th>世界（価格 0）</th><th>航空の変化（千 t）</th><th>リニアの電気（千 t、当時の電気／半分／ゼロ）</th><th>上限が効かない場合の合計</th></tr></thead><tbody>
+<tr><td>66%・両社とも移さない</td><td>−4.5</td><td>12.8 ／ 6.4 ／ 0</td><td>+8.3 ／ +1.9 ／ −4.5</td></tr>
+<tr><td>66%・両社とも移す</td><td>+33.2</td><td>12.8 ／ 6.4 ／ 0</td><td>+46.0 ／ +39.6 ／ +33.2</td></tr>
+<tr><td>46%・両社とも移さない</td><td>−26.1</td><td>20.3 ／ 10.2 ／ 0</td><td>−5.8 ／ −15.9 ／ −26.1</td></tr>
+<tr><td>46%・両社とも移す</td><td>+86.0</td><td>20.3 ／ 10.2 ／ 0</td><td>+106.3 ／ +96.2 ／ +86.0</td></tr>
+</tbody></table>
+<ul>
+<li><b>上限が効いていなければ、66% ではリニアで国の CO2 はむしろ増える。</b> 「両社とも移さない」世界でも、会社 A は羽田–伊丹で空いた 2 往復を、ふだんの幅（±2 往復）の中で福岡に回して羽田の枠を使い切るので、航空の排出はほとんど減らない。そこにリニアの電気が上乗せになる。減るのは、航空に残る割合が小さく、電気がきれいな場合だけ。</li>
+<li><b>上限が効いていれば、国の総量は上限のまま。</b> リニアで航空の排出が減っても、余った排出枠は他の部門に回る。リニアを国の削減にするには、移った分の枠を取り消すか、上限をその分下げる。</li>
+<li>計算した世界では、空いた羽田の枠が幹線の外に出ることはなかった（出た場合は、地方路線を 737 で 1 往復 2.6 時間として数える、no_source）。</li>
+</ul>
+<p><b>枠の取り合いのゲームは、価格で変わるか</b>（両社とも、価格をのせて解き直す）：</p>
+<ul>
+<li><b>0〜1 万円/t では、66% の読み方は変わらない</b>（B だけ移す。二社の合計が最大なのは両社とも移さない。ジレンマなし）。46% は「A だけ移す」と「B だけ移す」の間で入れ替わる。もともと会社 B の置き方しだいで決まらない場合。22% は両社とも移す均衡で、ジレンマのまま。</li>
+<li><b>2 万円/t では 66% に純粋戦略の均衡がなくなり、3 万円/t では 66%・46% とも「両社とも移す」が均衡になって、ジレンマの形になる。</b> 高い価格で機材が小さくなり乗せられない旅客が増えると、相手に取り分を取られる損が小さくなるため、と読める（仮説。月ごとの解の許容誤差の影響も確かめていない）。EU の排出枠の価格（1 t 70〜90 ユーロ前後、約 1.2〜1.5 万円、概算）を超える側の話。</li>
+</ul>
+<p><b>手と主義への意味</b>：</p>
+<ul>
+<li>環境：取る手は「空いた枠の埋め直しを禁止する」ではなく、「上限を下げる／リニアで移った分の排出枠を取り消す」になる。利用者・地方との衝突（空いた枠を使いたい）は、値段で調整できる。</li>
+<li>財政規律：無償の割当は利益の水準を移すだけで、行動を変えない。有償で売る（オークション）なら公費の収入になる。</li>
+<li>航空会社：今の価格帯では、排出枠の値段より羽田の枠の配分の規則のほうがずっと大きく効く。</li>
+</ul>
+<h2>10. 開業の前に決めておくこと</h2>
 <table><thead><tr><th>いつ</th><th>何を</th><th>根拠</th></tr></thead><tbody>
 <tr><td>今〜2028 年の再配分</td><td>1 往復の価値（FY2027 で得る側 7.7〜8.9 億円）の評価。リニア後の空いた枠の配分の規則の考え方</td><td>再配分の値は <code>fleet/jal.json</code> の <code>trunk.slot_scenarios</code>（結果の文書 4 章）、再配分の時期は <code>data/hnd_slots.json</code></td></tr>
 <tr><td>2030 年代前半（関空 年 30 万回の目標、二次情報）</td><td>伊丹を縮める余地。関西・神戸の容量と組で考える</td><td><code>data/corridor.json</code> の <code>timeline</code></td></tr>
 <tr><td>開業前</td><td>空いた羽田の枠の配分の規則と、損をする側への埋め合わせ</td><td>3 章</td></tr>
+<tr><td>開業前（炭素）</td><td>排出量取引の上限に航空と発電がどう入るか、リニアで移った分の排出枠を取り消すか、取引と賦課金の重なりの扱い</td><td>9 章</td></tr>
 <tr><td>開業前（整備）</td><td>羽田–伊丹の短い便が減る分、767 の寿命の減りが遅くなることを、退役と工場の手配の見直しの材料にする（退役の時期そのものはこの計算では出していない）</td><td>7 章</td></tr>
 </tbody></table>
-<h2>10. 確からしさと限界</h2>
+<h2>11. 確からしさと限界</h2>
 <ul>
 <li>航空に残る割合は 2010 年の予測で、2045 年に近畿圏まで開業する前提。モデルは FY2030 の需要と機材に当てているので、開業時（早くても 2037 年）の需要・機材・枠とはずれる。</li>
 <li>路線の旅客は便数の比率で会社に分かれる置き方（no_source）。羽田の拡張の値や、取り合いの結果は、この置き方に寄る。乗れなかった旅客が別の便に移る動き（振り替え）は入れていない。</li>
 <li>会社 B の運航費は 2024 年の搭乗率に合わせきれていない。取り合いの読み方は、会社 B の置き方 6 通りで確かめた範囲。相手が移す往復の数は動かしていない。</li>
 <li>主義の重み・赤線・定性の点数・物差しは no_source。羽田の拡張の旅客の数は会社 A の値で、多くは他社から移る取り分。</li>
+<li>炭素：機種ごとの燃料は目安（no_source）。無償の割当の基準、上限が航空と発電を含めて効くかどうか、取引と賦課金の重なりは置き方。リニアの電気は JR 東海の当時の比（二次情報）を倍率で動かしただけで、建設時の排出は入れていない。国全体の CO2 は会社 A の旅客の分だけ。</li>
 <li>リニアの運賃は 2010 年の仮の置き方。伊丹の運賃の弾力性は、新幹線・リニアとの競合で実際はもっと大きいはず。</li>
 </ul>
 <h2>付録：どこを見れば確かめられるか</h2>
@@ -117,5 +164,6 @@
 <tr><td>伊丹・鉄道でつなぐ空港</td><td><code>corridor_scenarios.py</code></td><td><code>fleet/corridor_jal.json</code> の <code>itami_smaller</code>・<code>rail_airports</code></td></tr>
 <tr><td>主義ごとの手</td><td><code>politics.py</code>・<code>data/politics.json</code></td><td><code>fleet/politics.json</code> の <code>before</code>・<code>after</code>・<code>change</code></td></tr>
 <tr><td>1 往復の価値（再配分）</td><td><code>fleet_from_demand.py</code></td><td><code>fleet/jal.json</code> の <code>trunk.slot_scenarios</code></td></tr>
+<tr><td>炭素（排出量取引）</td><td><code>carbon_scenarios.py</code>・<code>data/carbon.json</code></td><td><code>fleet/carbon_jal.json</code> の <code>rows</code>・<code>refill</code>・<code>system</code>・<code>game</code></td></tr>
 <tr><td>前提と出典</td><td>—</td><td><code>data/corridor.json</code></td></tr>
 </tbody></table></main></body></html>
