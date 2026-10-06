@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import time
 from pathlib import Path
 
@@ -103,6 +104,38 @@ def run(s: dict, years_ahead: float = 0.0, delta: float = 0.0, overrides: dict |
                                                  "utilisation_multiplier", "utilisation_uncapped", "at_util_cap", "windows", "spend_per_year_oku_yen")} for e in engines]}
 
 
+class fx_rate:
+    """Run with another yen per dollar (the costs are in k$, the fares in yen)."""
+    def __init__(self, v: float):
+        self.v = v
+    def __enter__(self):
+        global USD_JPY
+        self.old = (rf.USD_JPY, ffd.USD_JPY, USD_JPY)
+        rf.USD_JPY = ffd.USD_JPY = USD_JPY = self.v
+    def __exit__(self, *exc):
+        global USD_JPY
+        rf.USD_JPY, ffd.USD_JPY, USD_JPY = self.old
+
+
+def sensitivity(s: dict, horizon: int = 5, growth_shift: float = 0.01, fx: tuple = (140.0, 170.0)) -> dict:
+    """The two inputs the results lean on most: the demand growth (the last year under the cap, with
+    the growth +/- growth_shift a year) and the yen per dollar (the first year)."""
+    g = s["derived"]["demand_growth_per_year"]
+    rows = []
+    for dg in (-growth_shift, 0.0, growth_shift):
+        k = horizon * math.log(1 + g + dg) / math.log(1 + g)                 # the same demand as horizon years at g + dg
+        r = run(s, k, windows=False)
+        rows.append({"growth": round(g + dg, 4), "years_equivalent": round(k, 2), "fiscal_year": fy_after(s["fy"], horizon),
+                     **{x: r[x] for x in ("demand_pax_k", "carried_pax_k", "spill_pax_k", "lost_revenue_oku", "revenue_oku", "operating_cost_oku", "margin_oku")}})
+    fxr = []
+    for v in (fx[0], USD_JPY, fx[1]):
+        with fx_rate(v):
+            r = run(s, 0, windows=False)
+        fxr.append({"usd_jpy": v, **{x: r[x] for x in ("revenue_oku", "operating_cost_oku", "margin_oku", "spill_pax_k", "aircraft_used_avg")}})
+    return {"growth": rows, "fx": fxr,
+            "how": "伸び率は、最後の年（+5 年）の需要を伸び率 ±1 ポイントで作り直す（同じ需要になる年数で解く）。為替は最初の年。運賃は円、費用は k$ なので、円安は費用だけを増やす"}
+
+
 def fy_after(fy, years: float) -> str:
     """'FY2027' + 2 -> 'FY2029' (the fiscal year whose demand a years_ahead run stands for)."""
     return f"FY{int(str(fy)[2:]) + round(years)}"
@@ -153,8 +186,10 @@ def build(cid: str, out: Path | None = None, years: tuple = YEARS, widebody_year
             capped = run(s, k, delta=dl, dest=True)
             ex.append({"years_ahead": k, "delta_round_trips": dl, "hub_only": free, "with_destinations": capped})
             note(f"expansion +{k}y +{dl}: unusable {capped['unusable_round_trips']}, at cap {capped['destination_at_cap']}")
+    sens = sensitivity(s)
+    note("sensitivity done")
     dest = ap.load_destinations()
-    result = {"company": cid, "fiscal_year": s["fy"], "demand_growth_per_year": s["derived"]["demand_growth_per_year"],
+    result = {"company": cid, "sensitivity": sens, "fiscal_year": s["fy"], "demand_growth_per_year": s["derived"]["demand_growth_per_year"],
               "years": yrs, "widebody": wb, "expansion": ex,
               "destinations": {k: {f: v[f] for f in ("name", "routes", "capacity", "binding", "headroom_round_trips", "headroom_source")} for k, v in dest["airports"].items()},
               "assumptions": {"widebody_k_per_aircraft_month": f"no_source: {WIDEBODY_K_PER_AIRCRAFT_MONTH:.0f} k$/機・月（A350-900 を 1 機足す所有またはリースの費用）",

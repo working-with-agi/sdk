@@ -57,8 +57,11 @@ def build(cid: str, out: Path | None = None, elasticities: tuple = ELASTICITIES,
     base = next(r for r in rows if r["years_ahead"] == k and r["elasticity"] is None)
     lifted = cs.run(s, k, delta=lift)
     lifted_f = cs.run(s, k, delta=lift, fares={"elasticity": e})
+    lifted_d = cs.run(s, k, delta=lift, dest=True)
+    lifted_df = cs.run(s, k, delta=lift, dest=True, fares={"elasticity": e})
     sub = {"years_ahead": k, "fiscal_year": cs.fy_after(s["fy"], k), "lift": lift, "elasticity": e,
            "slots_today_fares": compare(base, lifted), "slots_and_fares": compare(base, lifted_f),
+           "slots_dest_today_fares": compare(base, lifted_d), "slots_dest_and_fares": compare(base, lifted_df),
            "fares_only": next(r["vs_today_fares"] for r in rows if r["years_ahead"] == k and r["elasticity"] == e),
            "fare_with_slots": lifted_f["fare"]["by_route"]}
     result = {"company": cid, "elasticities": list(elasticities), "rows": rows, "fares_vs_slots": sub,

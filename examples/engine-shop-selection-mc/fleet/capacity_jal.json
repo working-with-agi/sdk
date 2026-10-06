@@ -1,5 +1,90 @@
 {
  "company": "jal",
+ "sensitivity": {
+  "growth": [
+   {
+    "growth": 0.0278,
+    "years_equivalent": 3.7,
+    "fiscal_year": "FY2032",
+    "demand_pax_k": 14366.4,
+    "carried_pax_k": 12357.9,
+    "spill_pax_k": 2008.5,
+    "lost_revenue_oku": 285.7,
+    "revenue_oku": 1927.1,
+    "operating_cost_oku": 710.3,
+    "margin_oku": 1216.8
+   },
+   {
+    "growth": 0.0378,
+    "years_equivalent": 5.0,
+    "fiscal_year": "FY2032",
+    "demand_pax_k": 15079.5,
+    "carried_pax_k": 12676.4,
+    "spill_pax_k": 2403.1,
+    "lost_revenue_oku": 344.1,
+    "revenue_oku": 1978.5,
+    "operating_cost_oku": 705.9,
+    "margin_oku": 1264.1
+   },
+   {
+    "growth": 0.0478,
+    "years_equivalent": 6.29,
+    "fiscal_year": "FY2032",
+    "demand_pax_k": 15820.3,
+    "carried_pax_k": 12969.5,
+    "spill_pax_k": 2850.8,
+    "lost_revenue_oku": 410.8,
+    "revenue_oku": 2025.9,
+    "operating_cost_oku": 688.0,
+    "margin_oku": 1295.3
+   }
+  ],
+  "fx": [
+   {
+    "usd_jpy": 140.0,
+    "revenue_oku": 1765.0,
+    "operating_cost_oku": 628.9,
+    "margin_oku": 1136.1,
+    "spill_pax_k": 1225.9,
+    "aircraft_used_avg": {
+     "737": 6.0,
+     "767": 2.7,
+     "787": 3.0,
+     "A350": 12.4,
+     "777-300ER": 0.1
+    }
+   },
+   {
+    "usd_jpy": 157.0,
+    "revenue_oku": 1766.4,
+    "operating_cost_oku": 702.8,
+    "margin_oku": 1063.5,
+    "spill_pax_k": 1234.8,
+    "aircraft_used_avg": {
+     "737": 5.9,
+     "767": 3.3,
+     "787": 3.0,
+     "A350": 11.8,
+     "777-300ER": 0.0
+    }
+   },
+   {
+    "usd_jpy": 170.0,
+    "revenue_oku": 1757.3,
+    "operating_cost_oku": 755.5,
+    "margin_oku": 1001.8,
+    "spill_pax_k": 1187.1,
+    "aircraft_used_avg": {
+     "737": 5.1,
+     "767": 4.6,
+     "787": 3.0,
+     "A350": 11.4,
+     "777-300ER": 0.0
+    }
+   }
+  ],
+  "how": "伸び率は、最後の年（+5 年）の需要を伸び率 ±1 ポイントで作り直す（同じ需要になる年数で解く）。為替は最初の年。運賃は円、費用は k$ なので、円安は費用だけを増やす"
+ },
  "fiscal_year": "FY2027",
  "demand_growth_per_year": 0.0378,
  "years": [
@@ -9,6 +94,8 @@
    "follow_delta": 0,
    "capped": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -136,6 +223,8 @@
    },
    "follow": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -263,6 +352,8 @@
    },
    "follow_dest": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -395,6 +486,8 @@
    "follow_delta": 2,
    "capped": {
     "years_ahead": 1,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2028",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -522,6 +615,8 @@
    },
    "follow": {
     "years_ahead": 1,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2028",
     "delta_round_trips": 2,
     "dest_caps": false,
@@ -649,6 +744,8 @@
    },
    "follow_dest": {
     "years_ahead": 1,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2028",
     "delta_round_trips": 2,
     "dest_caps": true,
@@ -781,6 +878,8 @@
    "follow_delta": 5,
    "capped": {
     "years_ahead": 2,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2029",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -908,6 +1007,8 @@
    },
    "follow": {
     "years_ahead": 2,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2029",
     "delta_round_trips": 5,
     "dest_caps": false,
@@ -1035,6 +1136,8 @@
    },
    "follow_dest": {
     "years_ahead": 2,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2029",
     "delta_round_trips": 5,
     "dest_caps": true,
@@ -1169,6 +1272,8 @@
    "follow_delta": 7,
    "capped": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -1296,6 +1401,8 @@
    },
    "follow": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 7,
     "dest_caps": false,
@@ -1423,6 +1530,8 @@
    },
    "follow_dest": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 7,
     "dest_caps": true,
@@ -1558,6 +1667,8 @@
    "follow_delta": 10,
    "capped": {
     "years_ahead": 4,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2031",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -1685,6 +1796,8 @@
    },
    "follow": {
     "years_ahead": 4,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2031",
     "delta_round_trips": 10,
     "dest_caps": false,
@@ -1812,6 +1925,8 @@
    },
    "follow_dest": {
     "years_ahead": 4,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2031",
     "delta_round_trips": 10,
     "dest_caps": true,
@@ -1948,6 +2063,8 @@
    "follow_delta": 12,
    "capped": {
     "years_ahead": 5,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2032",
     "delta_round_trips": 0.0,
     "dest_caps": false,
@@ -2075,6 +2192,8 @@
    },
    "follow": {
     "years_ahead": 5,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2032",
     "delta_round_trips": 12,
     "dest_caps": false,
@@ -2202,6 +2321,8 @@
    },
    "follow_dest": {
     "years_ahead": 5,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2032",
     "delta_round_trips": 12,
     "dest_caps": true,
@@ -2337,6 +2458,8 @@
   {
    "years_ahead": 0,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -2476,6 +2599,8 @@
   {
    "years_ahead": 0,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -2615,6 +2740,8 @@
   {
    "years_ahead": 0,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -2754,6 +2881,8 @@
   {
    "years_ahead": 0,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -2887,6 +3016,8 @@
   {
    "years_ahead": 0,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -3026,6 +3157,8 @@
   {
    "years_ahead": 0,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -3165,6 +3298,8 @@
   {
    "years_ahead": 0,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -3304,6 +3439,8 @@
   {
    "years_ahead": 0,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2027",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -3437,6 +3574,8 @@
   {
    "years_ahead": 3,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -3576,6 +3715,8 @@
   {
    "years_ahead": 3,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -3715,6 +3856,8 @@
   {
    "years_ahead": 3,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -3848,6 +3991,8 @@
   {
    "years_ahead": 3,
    "lift": 0,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 0,
    "dest_caps": false,
@@ -3975,6 +4120,8 @@
   {
    "years_ahead": 3,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -4114,6 +4261,8 @@
   {
    "years_ahead": 3,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -4253,6 +4402,8 @@
   {
    "years_ahead": 3,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -4392,6 +4543,8 @@
   {
    "years_ahead": 3,
    "lift": 20,
+   "fares": null,
+   "fare": null,
    "fiscal_year": "FY2030",
    "delta_round_trips": 20,
    "dest_caps": false,
@@ -4529,6 +4682,8 @@
    "delta_round_trips": 10,
    "hub_only": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 10,
     "dest_caps": false,
@@ -4656,6 +4811,8 @@
    },
    "with_destinations": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 10,
     "dest_caps": true,
@@ -4791,6 +4948,8 @@
    "delta_round_trips": 20,
    "hub_only": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 20,
     "dest_caps": false,
@@ -4918,6 +5077,8 @@
    },
    "with_destinations": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 20,
     "dest_caps": true,
@@ -5053,6 +5214,8 @@
    "delta_round_trips": 30,
    "hub_only": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 30,
     "dest_caps": false,
@@ -5180,6 +5343,8 @@
    },
    "with_destinations": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 30,
     "dest_caps": true,
@@ -5316,6 +5481,8 @@
    "delta_round_trips": 45,
    "hub_only": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 45,
     "dest_caps": false,
@@ -5443,6 +5610,8 @@
    },
    "with_destinations": {
     "years_ahead": 0,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2027",
     "delta_round_trips": 45,
     "dest_caps": true,
@@ -5579,6 +5748,8 @@
    "delta_round_trips": 10,
    "hub_only": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 10,
     "dest_caps": false,
@@ -5706,6 +5877,8 @@
    },
    "with_destinations": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 10,
     "dest_caps": true,
@@ -5841,6 +6014,8 @@
    "delta_round_trips": 20,
    "hub_only": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 20,
     "dest_caps": false,
@@ -5968,6 +6143,8 @@
    },
    "with_destinations": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 20,
     "dest_caps": true,
@@ -6103,6 +6280,8 @@
    "delta_round_trips": 30,
    "hub_only": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 30,
     "dest_caps": false,
@@ -6230,6 +6409,8 @@
    },
    "with_destinations": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 30,
     "dest_caps": true,
@@ -6366,6 +6547,8 @@
    "delta_round_trips": 45,
    "hub_only": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 45,
     "dest_caps": false,
@@ -6493,6 +6676,8 @@
    },
    "with_destinations": {
     "years_ahead": 3,
+    "fares": null,
+    "fare": null,
     "fiscal_year": "FY2030",
     "delta_round_trips": 45,
     "dest_caps": true,

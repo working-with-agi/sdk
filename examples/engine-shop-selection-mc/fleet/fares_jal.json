@@ -1784,6 +1784,20 @@
    "carried_pax_k": 1361.5,
    "spill_pax_k": -969.9
   },
+  "slots_dest_today_fares": {
+   "revenue_oku": 266.1,
+   "operating_cost_oku": 143.6,
+   "margin_oku": 122.5,
+   "carried_pax_k": 1601.0,
+   "spill_pax_k": 60.5
+  },
+  "slots_dest_and_fares": {
+   "revenue_oku": 310.6,
+   "operating_cost_oku": 132.1,
+   "margin_oku": 178.5,
+   "carried_pax_k": 514.5,
+   "spill_pax_k": -970.8
+  },
   "fares_only": {
    "revenue_oku": 49.2,
    "operating_cost_oku": -2.6,
