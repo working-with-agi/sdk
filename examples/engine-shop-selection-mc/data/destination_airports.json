@@ -2,30 +2,64 @@
  "note": "羽田の幹線の向こう側の空港（対向空港）の容量。羽田の枠が増えても、向こう側の空港に便を入れる余地がなければ飛べない。容量は公開値、自社が使える余地（headroom）は no_source の仮定",
  "unit_headroom": "自社が今の便数に上乗せできる 1 日の往復便数",
  "airports": {
-  "CTS": {"name": "新千歳", "routes": ["HND-CTS"],
-          "capacity": "日中 1 時間 50 回（2020-03-29 に 42 回から拡大、2017 年に 32 回から 42 回）",
-          "binding": "朝夕の時間帯は夏と年末年始に上限に近い（混雑空港の扱い）",
-          "headroom_round_trips": 3,
-          "headroom_source": "no_source：混む時間帯を外せば数往復は入る、として 3 往復",
-          "sources": ["https://www.nikkei.com/article/DGXMZO47374330W9A710C1EE8000/", "https://ja.wikipedia.org/wiki/%E6%96%B0%E5%8D%83%E6%AD%B3%E7%A9%BA%E6%B8%AF"]},
-  "ITM": {"name": "伊丹", "routes": ["HND-ITM"],
-          "capacity": "1 日 370 回（ジェット 200 回、プロペラ・低騒音機 170 回）、運用 7〜21 時",
-          "binding": "ジェット枠はほぼ使い切っている。増やすには自社の他の伊丹路線からジェット枠を回すしかない",
-          "headroom_round_trips": 1,
-          "headroom_source": "no_source：自社の他の伊丹路線から 1 往復まで回せる",
-          "sources": ["https://www.kansai-airports.co.jp/", "https://www.mlit.go.jp/koku/"]},
-  "FUK": {"name": "福岡", "routes": ["HND-FUK", "FUK-OKA"],
-          "capacity": "第 2 滑走路（2025-03-20）で年 17.6 万回 → 18.8 万回（将来 21.1 万回）、1 時間 40 回 → 45 回",
-          "binding": "混雑空港のまま。増えた枠は国際線に優先して回る",
-          "headroom_round_trips": 2,
-          "headroom_source": "no_source：国内線に回る増枠のうち自社分を 2 往復",
-          "sources": ["https://www.mlit.go.jp/koku/", "https://www.fukuoka-airport.jp/"]},
-  "OKA": {"name": "那覇", "routes": ["HND-OKA", "FUK-OKA"],
-          "capacity": "第 2 滑走路（2020-03-26）で年 13.5 万回 → 24 万回",
-          "binding": "滑走路には余裕がある。駐機場・ターミナルが先に詰まる",
-          "headroom_round_trips": 6,
-          "headroom_source": "no_source：滑走路の余裕のうち自社が使える分を 6 往復",
-          "sources": ["https://ryukyushimpo.jp/", "https://www.aviationwire.jp/"]}
+  "CTS": {
+   "name": "新千歳",
+   "routes": [
+    "HND-CTS"
+   ],
+   "capacity": "日中 1 時間 50 回（2020-03-29 に 42 回から拡大、2017 年に 32 回から 42 回）",
+   "binding": "朝夕の時間帯は夏と年末年始に上限に近い（混雑空港の扱い）",
+   "headroom_round_trips": 3,
+   "headroom_source": "no_source：混む時間帯を外せば数往復は入る、として 3 往復",
+   "sources": [
+    "https://www.nikkei.com/article/DGXMZO47374330W9A710C1EE8000/",
+    "https://ja.wikipedia.org/wiki/%E6%96%B0%E5%8D%83%E6%AD%B3%E7%A9%BA%E6%B8%AF"
+   ]
+  },
+  "ITM": {
+   "name": "伊丹",
+   "routes": [
+    "HND-ITM"
+   ],
+   "capacity": "1 日 370 回（ジェット 200 回、プロペラ・低騒音機 170 回）、運用 7〜21 時",
+   "binding": "ジェット枠はほぼ使い切っている。増やすには自社の他の伊丹路線からジェット枠を回すしかない",
+   "headroom_round_trips": 1,
+   "headroom_source": "no_source：自社の他の伊丹路線から 1 往復まで回せる",
+   "sources": [
+    "https://www.kansai-airports.co.jp/",
+    "https://www.mlit.go.jp/koku/"
+   ]
+  },
+  "FUK": {
+   "name": "福岡",
+   "routes": [
+    "HND-FUK",
+    "FUK-OKA"
+   ],
+   "capacity": "第 2 滑走路（2025-03-20、事業費 約 1,643 億円）で、事業着手時の年 16.4 万回 → 18.8 万回（2019 年に運用の改善で 17.6 万回、将来 21.1 万回）、1 時間 40 回 → 45 回",
+   "binding": "混雑空港のまま。増えた枠は国際線に優先して回る",
+   "headroom_round_trips": 2,
+   "headroom_source": "no_source：国内線に回る増枠のうち自社分を 2 往復",
+   "sources": [
+    "https://www.mlit.go.jp/koku/",
+    "https://www.fukuoka-airport.jp/"
+   ]
+  },
+  "OKA": {
+   "name": "那覇",
+   "routes": [
+    "HND-OKA",
+    "FUK-OKA"
+   ],
+   "capacity": "第 2 滑走路（2020-03-26）で年 13.5 万回 → 24 万回",
+   "binding": "滑走路には余裕がある。駐機場・ターミナルが先に詰まる",
+   "headroom_round_trips": 6,
+   "headroom_source": "no_source：滑走路の余裕のうち自社が使える分を 6 往復",
+   "sources": [
+    "https://ryukyushimpo.jp/",
+    "https://www.aviationwire.jp/"
+   ]
+  }
  },
  "how": "羽田側の路線ごとの上限（今の便数 ± 幅）に、向こう側の上限（今の便数 ＋ 余地）を重ねる。羽田の幹線の枠のうち、向こう側の上限の合計を超える分は使えない枠になる"
 }

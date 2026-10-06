@@ -280,13 +280,14 @@ def available(types: list[dict], m: int, fleet_737_free: float) -> dict[str, flo
 
 
 def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, quantiles: tuple = ("p10", "p50", "p90"), detail: bool = True,
-          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool = False, fares: dict | None = None) -> dict:
+          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool | dict = False, fares: dict | None = None) -> dict:
     """ctx: checks_rate (737), regional need by t (callable after the version), engine waits by t,
     737 fleet total, to_start (2024 -> start growth), set_trunk_737_rpk (fixes the regional split).
     delta: the hub trunk slots added (+) or taken away (-) by a re-allocation scenario.
     overrides: {type: {field: value}} laid over the company's types (e.g. more widebodies on the trunk).
     dest: lay the destination airports' caps over the per-route bounds; the hub slots above their sum
-    cannot be flown (reported as unusable).
+    cannot be flown (reported as unusable). A dict {airport code: round trips} adds that much headroom
+    at those airports (an expansion there).
     fares: {"elasticity": e, optional "lo"/"hi"/"step"} -- each month's p50 assignment also sets the fare
     by route (price); the yearly version keeps today's fares."""
     R = load(); S = ap.load()
@@ -294,7 +295,7 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
     P = pattern_table(R, types)
     yld = D["companies"][cid]["yield_yen_per_rpk"]
     km = {r["id"]: r["km"] for r in R["routes"]}
-    caps = ap.destination_caps(S, cid) if dest else None
+    caps = ap.destination_caps(S, cid, extra=dest if isinstance(dest, dict) else None) if dest else None
     slots = {"bounds": ap.bounds(S, cid, delta, caps), "budget": ap.trunk_budget(S, cid, delta), "use_min": S["rules"]["use_min_share"]}
     budget_hub = slots["budget"]
     reach = sum(slots["bounds"][r][1] for r in ap.HUB_ROUTES)

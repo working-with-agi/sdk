@@ -1,0 +1,357 @@
+{
+ "company": "jal",
+ "fiscal_year": "FY2030",
+ "base_margin_oku": 1188.1,
+ "base_round_trips": {
+  "HND-CTS": 18.0,
+  "HND-ITM": 14.0,
+  "HND-FUK": 16.0,
+  "HND-OKA": 13.0,
+  "FUK-OKA": 5.0
+ },
+ "unit_cost_oku_per_round_trip_day": {
+  "HND": [
+   34.0,
+   34.0
+  ],
+  "CTS": [
+   0.0,
+   50.0
+  ],
+  "FUK": [
+   50.0,
+   50.0
+  ],
+  "OKA": [
+   14.4,
+   14.4
+  ],
+  "ITM": [
+   null,
+   null
+  ]
+ },
+ "project_cost_per_round_trip_day": {
+  "HND_D": 34.0,
+  "NRT_C": 22.8,
+  "FUK_2": 50.0,
+  "OKA_2": 14.4
+ },
+ "annuity_factor": 17.29,
+ "rows": [
+  {
+   "id": "hnd12",
+   "label": "羽田 +12 往復（対向空港の今の余地に収まる）",
+   "delta_round_trips": 12,
+   "destination_extra": {},
+   "round_trips": {
+    "HND-CTS": 20.0,
+    "HND-ITM": 16.0,
+    "HND-FUK": 19.0,
+    "HND-OKA": 16.0,
+    "FUK-OKA": 6.0
+   },
+   "added_round_trips": {
+    "HND": 10.0,
+    "CTS": 2.0,
+    "ITM": 2.0,
+    "FUK": 3.0,
+    "OKA": 3.0
+   },
+   "beyond_today_headroom": {
+    "CTS": 0.0,
+    "ITM": 0.0,
+    "FUK": 0.0,
+    "OKA": 0.0
+   },
+   "unusable_round_trips": 2.0,
+   "gain_oku_per_year": 106.1,
+   "gain_per_added_round_trip_oku": 10.6,
+   "cost_share_oku": [
+    340,
+    340
+   ],
+   "npv_oku": [
+    1495,
+    1495
+   ],
+   "payback_years": [
+    3.2,
+    3.2
+   ],
+   "carried_pax_k": 13527.9,
+   "spill_pax_k": 1890.1,
+   "engines": {
+    "737": {
+     "utilisation_multiplier": 1.0125,
+     "spend_per_year_oku_yen": 263.3,
+     "spend_change_oku": 0.5
+    },
+    "767": {
+     "utilisation_multiplier": 1.2202,
+     "spend_per_year_oku_yen": 98.2,
+     "spend_change_oku": 9.2
+    },
+    "787": {
+     "utilisation_multiplier": 1.1205,
+     "spend_per_year_oku_yen": 214.0,
+     "spend_change_oku": -3.1
+    }
+   }
+  },
+  {
+   "id": "hnd20",
+   "label": "羽田 +20 往復（対向空港はそのまま）",
+   "delta_round_trips": 20,
+   "destination_extra": {},
+   "round_trips": {
+    "HND-CTS": 20.0,
+    "HND-ITM": 16.0,
+    "HND-FUK": 19.0,
+    "HND-OKA": 18.0,
+    "FUK-OKA": 6.0
+   },
+   "added_round_trips": {
+    "HND": 12.0,
+    "CTS": 2.0,
+    "ITM": 2.0,
+    "FUK": 3.0,
+    "OKA": 5.0
+   },
+   "beyond_today_headroom": {
+    "CTS": 0.0,
+    "ITM": 0.0,
+    "FUK": 0.0,
+    "OKA": 0.0
+   },
+   "unusable_round_trips": 8.0,
+   "gain_oku_per_year": 122.5,
+   "gain_per_added_round_trip_oku": 10.2,
+   "cost_share_oku": [
+    408,
+    408
+   ],
+   "npv_oku": [
+    1710,
+    1710
+   ],
+   "payback_years": [
+    3.3,
+    3.3
+   ],
+   "carried_pax_k": 13782.4,
+   "spill_pax_k": 1879.9,
+   "engines": {
+    "737": {
+     "utilisation_multiplier": 1.0135,
+     "spend_per_year_oku_yen": 263.6,
+     "spend_change_oku": 0.8
+    },
+    "767": {
+     "utilisation_multiplier": 1.2098,
+     "spend_per_year_oku_yen": 97.4,
+     "spend_change_oku": 8.4
+    },
+    "787": {
+     "utilisation_multiplier": 1.0863,
+     "spend_per_year_oku_yen": 207.4,
+     "spend_change_oku": -9.7
+    }
+   }
+  },
+  {
+   "id": "hnd20_cts_fuk",
+   "label": "羽田 +20 往復 ＋ 新千歳・福岡 各 +4 往復",
+   "delta_round_trips": 20,
+   "destination_extra": {
+    "CTS": 4,
+    "FUK": 4
+   },
+   "round_trips": {
+    "HND-CTS": 23.0,
+    "HND-ITM": 16.0,
+    "HND-FUK": 23.0,
+    "HND-OKA": 18.0,
+    "FUK-OKA": 7.0
+   },
+   "added_round_trips": {
+    "HND": 19.0,
+    "CTS": 5.0,
+    "ITM": 2.0,
+    "FUK": 7.0,
+    "OKA": 5.0
+   },
+   "beyond_today_headroom": {
+    "CTS": 3.0,
+    "ITM": 0.0,
+    "FUK": 4.0,
+    "OKA": 0.0
+   },
+   "unusable_round_trips": 1.0,
+   "gain_oku_per_year": 196.3,
+   "gain_per_added_round_trip_oku": 10.3,
+   "cost_share_oku": [
+    846,
+    996
+   ],
+   "npv_oku": [
+    2398,
+    2548
+   ],
+   "payback_years": [
+    4.3,
+    5.1
+   ],
+   "carried_pax_k": 14697.1,
+   "spill_pax_k": 1931.4,
+   "engines": {
+    "737": {
+     "utilisation_multiplier": 1.0144,
+     "spend_per_year_oku_yen": 263.8,
+     "spend_change_oku": 1.0
+    },
+    "767": {
+     "utilisation_multiplier": 1.3293,
+     "spend_per_year_oku_yen": 107.0,
+     "spend_change_oku": 18.0
+    },
+    "787": {
+     "utilisation_multiplier": 1.1097,
+     "spend_per_year_oku_yen": 211.9,
+     "spend_change_oku": -5.2
+    }
+   }
+  },
+  {
+   "id": "hnd30_cts_fuk_oka",
+   "label": "羽田 +30 往復 ＋ 新千歳・福岡 各 +6、那覇 +4 往復",
+   "delta_round_trips": 30,
+   "destination_extra": {
+    "CTS": 6,
+    "FUK": 6,
+    "OKA": 4
+   },
+   "round_trips": {
+    "HND-CTS": 25.0,
+    "HND-ITM": 16.0,
+    "HND-FUK": 25.0,
+    "HND-OKA": 20.0,
+    "FUK-OKA": 7.0
+   },
+   "added_round_trips": {
+    "HND": 25.0,
+    "CTS": 7.0,
+    "ITM": 2.0,
+    "FUK": 9.0,
+    "OKA": 7.0
+   },
+   "beyond_today_headroom": {
+    "CTS": 5.0,
+    "ITM": 0.0,
+    "FUK": 6.0,
+    "OKA": 2.0
+   },
+   "unusable_round_trips": 4.0,
+   "gain_oku_per_year": 239.9,
+   "gain_per_added_round_trip_oku": 9.6,
+   "cost_share_oku": [
+    1179,
+    1429
+   ],
+   "npv_oku": [
+    2720,
+    2970
+   ],
+   "payback_years": [
+    4.9,
+    6.0
+   ],
+   "carried_pax_k": 15319.9,
+   "spill_pax_k": 1990.5,
+   "engines": {
+    "737": {
+     "utilisation_multiplier": 1.0169,
+     "spend_per_year_oku_yen": 264.5,
+     "spend_change_oku": 1.7
+    },
+    "767": {
+     "utilisation_multiplier": 1.326,
+     "spend_per_year_oku_yen": 106.7,
+     "spend_change_oku": 17.7
+    },
+    "787": {
+     "utilisation_multiplier": 1.1097,
+     "spend_per_year_oku_yen": 211.9,
+     "spend_change_oku": -5.2
+    }
+   }
+  },
+  {
+   "id": "hnd20_open",
+   "label": "羽田 +20 往復、対向空港の上限なし（参考）",
+   "delta_round_trips": 20,
+   "destination_extra": null,
+   "round_trips": {
+    "HND-CTS": 23.0,
+    "HND-ITM": 17.0,
+    "HND-FUK": 23.0,
+    "HND-OKA": 18.0,
+    "FUK-OKA": 6.0
+   },
+   "added_round_trips": {
+    "HND": 20.0,
+    "CTS": 5.0,
+    "ITM": 3.0,
+    "FUK": 7.0,
+    "OKA": 5.0
+   },
+   "beyond_today_headroom": {
+    "CTS": 3.0,
+    "ITM": 1.0,
+    "FUK": 4.0,
+    "OKA": 0.0
+   },
+   "unusable_round_trips": 0,
+   "gain_oku_per_year": 204.8,
+   "gain_per_added_round_trip_oku": 10.2,
+   "cost_share_oku": [
+    880,
+    1030
+   ],
+   "npv_oku": [
+    2511,
+    2661
+   ],
+   "payback_years": [
+    4.3,
+    5.0
+   ],
+   "carried_pax_k": 14843.3,
+   "spill_pax_k": 1793.1,
+   "engines": {
+    "737": {
+     "utilisation_multiplier": 1.0132,
+     "spend_per_year_oku_yen": 263.5,
+     "spend_change_oku": 0.7
+    },
+    "767": {
+     "utilisation_multiplier": 1.3456,
+     "spend_per_year_oku_yen": 108.3,
+     "spend_change_oku": 19.3
+    },
+    "787": {
+     "utilisation_multiplier": 1.1169,
+     "spend_per_year_oku_yen": 213.3,
+     "spend_change_oku": -3.8
+    }
+   }
+  }
+ ],
+ "assumptions": {
+  "cost": "空港ごとの 1 日 1 往復あたりの費用。羽田は D 滑走路、福岡は第 2 滑走路、那覇は第 2 滑走路の事業費 ÷ 増えた容量。新千歳は運用の見直しで増やしてきたので下限 0、上限は福岡の滑走路。伊丹は増やせない",
+  "share": "会社が使う分（羽田で増えた往復のすべて、対向空港では今の余地を超えた分）に 1 往復あたりの費用を掛けた額。誰が払うかではなく、使う容量が表す費用",
+  "gain": "その年度の差し引き（売上 − 運航費、p50）の増分を 30 年同じとして、割引率 4% で現在価値にする。機体の所有費・本社費・着陸料は引いていない",
+  "source": "data/airport_investment.json"
+ },
+ "note": "数値は合成データと公開値の混合。p50"
+}

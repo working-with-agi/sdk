@@ -73,17 +73,17 @@ def load_destinations() -> dict:
     return json.loads(DEST.read_text(encoding="utf-8"))
 
 
-def destination_caps(S: dict, cid: str, dest: dict | None = None) -> dict[str, float]:
+def destination_caps(S: dict, cid: str, dest: dict | None = None, extra: dict | None = None) -> dict[str, float]:
     """Per hub route, the most round trips a day the airport at the other end lets the company fly:
-    today's frequency + the company's headroom there (no_source). Routes touching two capped
-    airports take the tighter one."""
+    today's frequency + the company's headroom there (no_source) + extra (an expansion scenario,
+    round trips a day by airport code). Routes touching two capped airports take the tighter one."""
     dest = dest or load_destinations()
     cur = current_freq(S, cid)
     out = {}
-    for a in dest["airports"].values():
+    for code, a in dest["airports"].items():
         for r in a["routes"]:
             if r in HUB_ROUTES:
-                out[r] = min(out.get(r, float("inf")), cur[r] + a["headroom_round_trips"])
+                out[r] = min(out.get(r, float("inf")), cur[r] + a["headroom_round_trips"] + (extra or {}).get(code, 0))
     return out
 
 

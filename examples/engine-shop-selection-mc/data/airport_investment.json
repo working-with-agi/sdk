@@ -1,0 +1,25 @@
+{
+ "note": "滑走路の増設・空港の新設にかかった事業費と、増えた発着容量（公開値）。1 日 1 往復 ＝ 年 730 回の発着として、1 日 1 往復ぶんの容量あたりの費用を出す",
+ "projects": {
+  "HND_D": {"name": "羽田 D 滑走路（再拡張事業、2010 年）", "cost_oku": 6700, "movements_before": 303000, "movements_after": 447000,
+            "cost_note": "設計・施工 5,985 億円に、設計変更と物価スライドで約 700 億円増", "capacity_note": "D 滑走路で 41.7 万回、国際線地区の拡張で 44.7 万回",
+            "sources": ["https://xtech.nikkei.com/kn/article/const/news/20101221/544846/", "https://www.pa.ktr.mlit.go.jp/haneda/haneda/01-gaiyou/saikakucho/saikakucho.pdf"]},
+  "NRT_C": {"name": "成田 C 滑走路の新設と B 滑走路の延伸（2029 年 3 月完成予定）", "cost_oku": 5000, "movements_before": 340000, "movements_after": 500000,
+            "cost_note": "用地買収を含む約 5,000 億円", "sources": ["https://www.aviationwire.jp/archives/195015"]},
+  "FUK_2": {"name": "福岡 第 2 滑走路（2025 年）", "cost_oku": 1643, "movements_before": 164000, "movements_after": 188000,
+            "capacity_note": "事業着手時 16.4 万回 → 18.8 万回（運用の改善で 2019 年に 17.6 万回、将来は 21.1 万回）。増えた枠は国際線に優先",
+            "sources": ["https://www.qsr.mlit.go.jp/site_files/file/s_top/jigyo-hyoka/191126/shiryo3%20fukuokakuukou.pdf", "https://www.mlit.go.jp/report/press/content/001855919.pdf"]},
+  "OKA_2": {"name": "那覇 第 2 滑走路（2020 年）", "cost_oku": 2074, "movements_before": 135000, "movements_after": 240000,
+            "benefit_cost": {"cost_oku": 2343, "benefit_oku": 9551, "ratio": 4.1, "when": "2017 年の再評価"},
+            "sources": ["https://www.kantei.go.jp/jp/headline/pdf/20170330/okinawa_nahakuko.pdf", "https://www.dc.ogb.go.jp/Kyoku/information/nahakuukou/zousetugaiyou.html"]},
+  "NGO_new": {"name": "中部国際空港（新設、2005 年）", "cost_oku": 5950, "movements_before": null, "movements_after": null,
+              "cost_note": "当初 7,680 億円から削減", "sources": ["https://www.centrair.jp/corporate/release/pdf/20100209_env.pdf"]}
+ },
+ "without_construction": {
+  "HND_routes_2020": "羽田は 2020 年に飛行経路の見直しで国際線を年約 3.9 万回増やした（滑走路の新設なし） https://www.mlit.go.jp/koku/haneda/archive/sp/news/2019080803.html",
+  "CTS_hourly": "新千歳は 1 時間 32 → 42（2017）→ 50 回（2020）を運用の見直しで増やした https://www.nikkei.com/article/DGXMZO47374330W9A710C1EE8000/",
+  "ITM": "伊丹は市街地にあり、1 日 370 回（ジェット 200 回）の上限は騒音の取り決めによる。増設の計画はない（代わりは関西空港）"
+ },
+ "appraisal": {"discount_rate": 0.04, "years": 30,
+               "note": "国の公共事業の費用便益分析で使う社会的割引率 4% に合わせた。年数 30 年は no_source（滑走路の耐用はもっと長いが、需要の見通しの幅を考えて短めに置く）"}
+}

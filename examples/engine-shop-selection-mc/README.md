@@ -542,6 +542,14 @@ python3 fare_elasticity.py --out fleet/fare_elasticity.json
 python3 doc_critic.py handover/04_docs/fleet_from_demand_結果.md --out review/doc_critic.json --md review/doc_critic.md   # 非公開の下書きは --private
 ```
 
+### 空港への投資と、航空会社に戻るもの（`investment_scenarios.py`、`data/airport_investment.json`）
+
+最近の滑走路の事業（羽田 D、成田 C、福岡・那覇の第 2 滑走路、中部の新設）の事業費と増えた容量から、1 日 1 往復ぶんの容量あたりの費用を出す（羽田 約 34 億円、福岡 約 50 億円、那覇 約 14 億円）。羽田の枠を +n 往復にし、対向空港の余地を空港ごとに広げる案（`route_fleet.build(dest={"CTS": 4, ...})`）で機材割当を解き直し、会社の差し引きの増分、使う容量が表す費用、30 年・割引率 4% の現在価値と回収年数、エンジンへの効きを出す。増分は航空会社の側の値（他社から移る取り分を含む、機体の所有費・着陸料は引かない）。
+
+```bash
+python3 investment_scenarios.py jal --out fleet/investment_jal.json
+```
+
 ### 前提の見直しの枠組み（`data/assumptions_review.json`）
 
 16 の前提を 7 層（需要・機材・運航・工場と供給・エンジン・お金・決め方）で並べ、出所・周期・早める引き金・影響先・担当を一枚にする。周期は遅い輪（年次の版・月次会議）、引き金は速い輪（変化点・閾値）。`review.py` が期限切れと引き金を判定して症状表に載せ、レポート「PDCA／OODA の見直し」に一覧を出す。
