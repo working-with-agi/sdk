@@ -71,6 +71,10 @@
   "gx_bonds": {
    "what": "GX 経済移行債：今後 10 年間に 20 兆円規模の先行投資支援。2050 年までに償還。将来の財源は化石燃料賦課金と発電事業者への有償オークション",
    "source": "経産省・内閣官房 2023-12-25 資料 p.5"
+  },
+  "linear_loan": {
+   "what": "財政投融資 3 兆円（2016・2017 年度に 1.5 兆円ずつ、鉄道・運輸機構を通じて JR 東海に貸付）。名古屋–大阪の開業を最大 8 年前倒し（2045 年→2037 年）する目的",
+   "source": "JR 東海 https://linear-chuo-shinkansen.jr-central.co.jp/sp/plan/kaigyoprocess/pdf/zaiseitoyushi.pdf、日本経済新聞 2016-11 の報道（二次情報）"
   }
  },
  "regional_round_trip_block_h": 2.6,
