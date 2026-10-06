@@ -50,7 +50,7 @@ def _summary(r: dict, base: dict) -> dict:
                         for t in ("737", "767", "787") if t in eng}}
 
 
-def linear_osaka(s: dict, C: dict, years_ahead: int, base: dict) -> dict:
+def linear_osaka(s: dict, C: dict, years_ahead: int, base: dict, overrides: dict | None = None) -> dict:
     """Four cells for each share of the Haneda-Itami market the air keeps."""
     L = C["linear_osaka"]
     S = ap.load()
@@ -68,22 +68,23 @@ def linear_osaka(s: dict, C: dict, years_ahead: int, base: dict) -> dict:
                 cor = {"market_scale": {"HND-ITM": keep}, "bounds": move if own == "move" else freed_bounds, "use_min": 0.0}
                 if riv == "move":
                     cor["rival_shift"] = rival
-                cells[f"{own}/{riv}"] = _summary(cs.run(s, years_ahead, dest=True, corridor=cor), base)
+                cells[f"{own}/{riv}"] = _summary(cs.run(s, years_ahead, dest=True, corridor=cor, overrides=overrides), base)
         best = {riv: max(("stay", "move"), key=lambda o: cells[f"{o}/{riv}"]["margin_oku"]) for riv in ("stay", "move")}
         rows.append({"air_keeps": keep, "cells": cells, "best_response": best,
                      "value_of_moving_slots_oku": {riv: round(cells[f"move/{riv}"]["margin_oku"] - cells[f"stay/{riv}"]["margin_oku"], 1) for riv in ("stay", "move")}})
     return {"rows": rows, "how": "セルは「会社 A が空いた枠を他の幹線に移すか／移さないか」×「他社も移すか／移さないか」。差し引きの変化は、リニアがない基準（同じ年度）から。羽田–伊丹の需要は air_keeps 倍。空いた枠を幹線で使わない分は幹線の外（他の路線）に回るとして、枠を使う下限は外す"}
 
 
-def linear_game(C: dict, years_ahead: int, cids: tuple = ("jal", "ana")) -> dict:
+def linear_game(C: dict, years_ahead: int, cids: tuple = ("jal", "ana"), overrides: dict | None = None) -> dict:
     """Both companies' payoffs for the Linear-to-Osaka slot game, each solved with its own fleet and
     slots, the other's move entering as a shift of the other carriers' frequencies. Pure-strategy
     equilibria and the pair that leaves the two together best off (by the sum of their margins)."""
     sol = {}
     for cid in cids:
         s = cs.setup(cid)
-        base = cs.run(s, years_ahead, dest=True)
-        sol[cid] = linear_osaka(s, C, years_ahead, base)
+        ov = (overrides or {}).get(cid)
+        base = cs.run(s, years_ahead, dest=True, overrides=ov)
+        sol[cid] = linear_osaka(s, C, years_ahead, base, ov)
     a, b = cids
     acts = ("stay", "move")
     rows = []
@@ -100,11 +101,31 @@ def linear_game(C: dict, years_ahead: int, cids: tuple = ("jal", "ana")) -> dict
                 if all(v["a"] >= cells[f"{x2}/{k.split('/')[1]}"]["a"] - 1e-9 for x2 in acts)
                 and all(v["b"] >= cells[f"{k.split('/')[0]}/{y2}"]["b"] - 1e-9 for y2 in acts)]
         best = max(cells, key=lambda k: cells[k]["sum"])
-        dilemma = any(all(cells[best][w] > cells[n][w] for w in ("a", "b")) for n in nash if n != best)
+        dilemma = any(all(cells[k][w] > cells[n][w] for w in ("a", "b")) for n in nash for k in cells if k != n)   # some pair leaves both better off than an equilibrium
         rows.append({"air_keeps": keep, "cells": cells, "nash": nash, "joint_best": best, "dilemma": dilemma})
     return {"companies": {"a": a, "b": b}, "rows": rows,
-            "how": "セルは「A の手/B の手」。各社の損得は、その会社の機材と枠で機材割当を解いた差し引きの変化（リニアがない同じ年度から）。相手が移すことは、他社の便数の移動（伊丹 −(1−残る割合)×相手の便数、新千歳・福岡・那覇に +3・+2・+6 往復、no_source）として入る。均衡は純粋戦略のナッシュ均衡、joint_best は二社の合計が最大のセル。dilemma は、均衡より両社とも得なセルがあること",
+            "how": "セルは「A の手/B の手」。各社の損得は、その会社の機材と枠で機材割当を解いた差し引きの変化（リニアがない同じ年度から）。相手が移すことは、他社の便数の移動（伊丹 −(1−残る割合)×相手の便数、新千歳・福岡・那覇に +3・+2・+6 往復、no_source）として入る。均衡は純粋戦略のナッシュ均衡、joint_best は二社の合計が最大のセル。dilemma は、ある均衡より両社とも得になるセルがあること（囚人のジレンマの形）",
             "caveat": "会社 B の運航費の係数は会社 A のように 2024 年の搭乗率に合わせていない。737 の需要の割合（0.28）が機材に対して大きすぎる問題も残る"}
+
+
+def game_robustness(C: dict, years_ahead: int, settings: tuple = ((3.5, 0.5), (3.5, 0.7), (3.5, 0.9), (4.0, 0.6), (3.0, 0.8))) -> dict:
+    """The same game with company B's operating costs from several (base_737, seat_exponent) pairs,
+    since no pair fits company B's 2024 load factors well: do the readings survive?"""
+    import calibrate_costs as cc
+    R = rf.load()
+    out = []
+    for b, e in settings:
+        ov = {"ana": {t: {"cost_per_block_h_k": c} for t, c in cc.costs(R, "ana", b, e).items()}}
+        g = linear_game(C, years_ahead, overrides=ov)
+        rows = []
+        for r in g["rows"]:
+            n = r["nash"]
+            pareto = any(all(r["cells"][k][w] > r["cells"][x][w] for w in ("a", "b")) for x in n for k in r["cells"] if k != x)
+            rows.append({"air_keeps": r["air_keeps"], "nash": n, "joint_best": r["joint_best"],
+                         "joint_loss_oku": [round(r["cells"][r["joint_best"]]["sum"] - r["cells"][x]["sum"], 1) for x in n],
+                         "both_better_than_an_equilibrium": pareto})
+        out.append({"b_base_737": b, "b_seat_exponent": e, "rows": rows})
+    return {"settings": out, "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"}
 
 
 def rail_airports(s: dict, C: dict, base: dict) -> dict:
@@ -223,6 +244,9 @@ def build(cid: str, out: Path | None = None, years_ahead: int = 3, log=print) ->
     game = linear_game(C, years_ahead)
     if log:
         log(f"  [{time.time() - t0:4.0f}s] linear_game done")
+    game["robustness"] = game_robustness(C, years_ahead)
+    if log:
+        log(f"  [{time.time() - t0:4.0f}s] robustness done")
     res = {"company": cid, "linear_game": game, "fiscal_year": cs.fy_after(s["fy"], years_ahead), "base": {"margin_oku": base["margin_oku"], "carried_pax_k": base["carried_pax_k"],
                                                                                          "spill_pax_k": base["spill_pax_k"], "spill_by_route_pax_k": base["spill_by_route_pax_k"]},
            "linear_osaka": lin, "rail_airports": rail_airports(s, C, base), "itami_smaller": itami_smaller(C, lin),

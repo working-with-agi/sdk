@@ -142,11 +142,211 @@
      "move/move"
     ],
     "joint_best": "stay/move",
-    "dilemma": false
+    "dilemma": true
    }
   ],
-  "how": "セルは「A の手/B の手」。各社の損得は、その会社の機材と枠で機材割当を解いた差し引きの変化（リニアがない同じ年度から）。相手が移すことは、他社の便数の移動（伊丹 −(1−残る割合)×相手の便数、新千歳・福岡・那覇に +3・+2・+6 往復、no_source）として入る。均衡は純粋戦略のナッシュ均衡、joint_best は二社の合計が最大のセル。dilemma は、均衡より両社とも得なセルがあること",
-  "caveat": "会社 B の運航費の係数は会社 A のように 2024 年の搭乗率に合わせていない。737 の需要の割合（0.28）が機材に対して大きすぎる問題も残る"
+  "how": "セルは「A の手/B の手」。各社の損得は、その会社の機材と枠で機材割当を解いた差し引きの変化（リニアがない同じ年度から）。相手が移すことは、他社の便数の移動（伊丹 −(1−残る割合)×相手の便数、新千歳・福岡・那覇に +3・+2・+6 往復、no_source）として入る。均衡は純粋戦略のナッシュ均衡、joint_best は二社の合計が最大のセル。dilemma は、ある均衡より両社とも得になるセルがあること（囚人のジレンマの形）",
+  "caveat": "会社 B の運航費の係数は会社 A のように 2024 年の搭乗率に合わせていない。737 の需要の割合（0.28）が機材に対して大きすぎる問題も残る",
+  "robustness": {
+   "settings": [
+    {
+     "b_base_737": 3.5,
+     "b_seat_exponent": 0.5,
+     "rows": [
+      {
+       "air_keeps": 0.66,
+       "nash": [
+        "stay/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        67.6
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.46,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        135.8
+       ],
+       "both_better_than_an_equilibrium": true
+      },
+      {
+       "air_keeps": 0.22,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/move",
+       "joint_loss_oku": [
+        44.6
+       ],
+       "both_better_than_an_equilibrium": true
+      }
+     ]
+    },
+    {
+     "b_base_737": 3.5,
+     "b_seat_exponent": 0.7,
+     "rows": [
+      {
+       "air_keeps": 0.66,
+       "nash": [
+        "stay/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        66.6
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.46,
+       "nash": [
+        "move/stay"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        47.7
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.22,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/move",
+       "joint_loss_oku": [
+        34.6
+       ],
+       "both_better_than_an_equilibrium": true
+      }
+     ]
+    },
+    {
+     "b_base_737": 3.5,
+     "b_seat_exponent": 0.9,
+     "rows": [
+      {
+       "air_keeps": 0.66,
+       "nash": [
+        "stay/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        64.2
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.46,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        116.5
+       ],
+       "both_better_than_an_equilibrium": true
+      },
+      {
+       "air_keeps": 0.22,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "move/stay",
+       "joint_loss_oku": [
+        17.2
+       ],
+       "both_better_than_an_equilibrium": true
+      }
+     ]
+    },
+    {
+     "b_base_737": 4.0,
+     "b_seat_exponent": 0.6,
+     "rows": [
+      {
+       "air_keeps": 0.66,
+       "nash": [
+        "stay/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        66.5
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.46,
+       "nash": [
+        "move/stay"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        51.6
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.22,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        45.2
+       ],
+       "both_better_than_an_equilibrium": true
+      }
+     ]
+    },
+    {
+     "b_base_737": 3.0,
+     "b_seat_exponent": 0.8,
+     "rows": [
+      {
+       "air_keeps": 0.66,
+       "nash": [
+        "stay/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        66.0
+       ],
+       "both_better_than_an_equilibrium": false
+      },
+      {
+       "air_keeps": 0.46,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        129.2
+       ],
+       "both_better_than_an_equilibrium": true
+      },
+      {
+       "air_keeps": 0.22,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        31.8
+       ],
+       "both_better_than_an_equilibrium": true
+      }
+     ]
+    }
+   ],
+   "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"
+  }
  },
  "fiscal_year": "FY2030",
  "base": {
