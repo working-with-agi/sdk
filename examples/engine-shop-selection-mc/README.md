@@ -529,6 +529,17 @@ python3 fare_scenarios.py jal --out fleet/fares_jal.json   # 約 4 分
 python3 fare_elasticity.py --out fleet/fare_elasticity.json
 ```
 
+### 文書の批判役（`doc_critic.py`、`.claude/agents/doc-critic.md`）
+
+モデルが出すのは数字、文書が出すのは主張。批判役は、主張が根拠を超えているところを指摘する。`review.py` と同じ二層。
+
+- **規則層**（毎回同じ判定）：言い過ぎの語（決まっていた・必ず・明らか・証明・すべて など）、出力（`fleet/*.json`・`data/**/*.json`）に見つからない小数（表示の桁で照合、10 の累乗の単位のずれは許す）、出典も no_source の印もない仮定、文書自身が「未確認」とした箇所、公開リポジトリに置かない語（実在の会社名・メタ）、限界の節・合成データの断り・表の列数。
+- **AI 層**：Claude が本文と指摘表を読み、五つの読み手（査読者・経営者・整備計画の担当者・反対論者・初めての読者）から、言い過ぎと直し案、根拠の弱い数字、抜けている別の説明、直す順番を書く。資格情報がなければ規則層だけ。同じ指示を Claude Code のサブエージェント（`.claude/agents/doc-critic.md`）にも置いたので、API キーなしでもセッションの中で回せる。
+
+```bash
+python3 doc_critic.py handover/04_docs/fleet_from_demand_結果.md --out review/doc_critic.json --md review/doc_critic.md   # 非公開の下書きは --private
+```
+
 ### 前提の見直しの枠組み（`data/assumptions_review.json`）
 
 16 の前提を 7 層（需要・機材・運航・工場と供給・エンジン・お金・決め方）で並べ、出所・周期・早める引き金・影響先・担当を一枚にする。周期は遅い輪（年次の版・月次会議）、引き金は速い輪（変化点・閾値）。`review.py` が期限切れと引き金を判定して症状表に載せ、レポート「PDCA／OODA の見直し」に一覧を出す。

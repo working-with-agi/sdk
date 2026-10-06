@@ -595,4 +595,10 @@
 <li>対応 A：InterVISTAS 2007（IATA）、日本の OD 需要関数（国総研資料 314）、村上 2008、Fu・Oum・Yan 2014、国総研・航空局の需要予測モデルを原典で確認し、値・定義・注意を <code>data/elasticity/literature.json</code> に置いた。Gillen ほか 2003 は原典を取得できず、InterVISTAS の再掲でだけ確認（未確認と明記）。</li>
 <li>対応 B：<code>fare_elasticity.py</code> を追加。国交省の航空輸送統計年報 第3表（路線 × 月、10 路線、2006〜2025 年、2020 年は未取得）、消費者物価指数の航空運賃と総合、景気動向指数、原油（FRED）を <code>data/elasticity/</code> に置き（出典は <code>sources.json</code>）、OLS と 2SLS で推定。テスト 2 件追加。</li>
 <li>結果：公開データの推定は OLS −0.1〜−0.5、2SLS は定まらない（全国の運賃指数の動きが小さく、操作変数が弱い）。座席の弾力性は 0.7。偏りはいずれも 0 に寄せる向きなので、市場全体の弾力性の下限としてだけ使う。採用値は 市場全体 −0.8、路線 −1.4（文献）。<code>fare_scenarios.py</code> の前提の説明を差し替え。結果の文書の 5.5 節に表。</li>
+</ul>
+<h3>144. 文書の批判役 ✅</h3>
+<ul>
+<li>依頼：「文書の批判役も作ってみて」</li>
+<li>対応：<code>doc_critic.py</code> を追加（<code>review.py</code> と同じ二層：規則層＋Claude の批判、資格情報がなければ規則層のみ）。規則層は言い過ぎの語・出力に見つからない数値（表示の桁で照合）・出典のない仮定・未確認の箇所・公開してはいけない語・構成を見る。AI 層の指示は Claude Code のサブエージェント <code>.claude/agents/doc-critic.md</code> にも置いた。テスト 4 件追加。</li>
+<li>試し：結果の文書（<code>handover/04_docs/fleet_from_demand_結果.md</code>）を批判させた（<code>review/doc_critic_fleet_from_demand_結果.md</code>）。規則層 11 件。主な指摘は、運賃と枠の比較で対向空港の上限を入れていない（+204.8 と +122.5）、「縛りは枠」「借りる理由は枠」は据え置きの設定から出る結論、伊丹から上げるのは全路線で同じ弾力性を置いた結果、座席の弾力性 0.7 は逆の因果でも出る、<code>fleet/fares_jal.json</code> の前提の注が古い（「原典は未照合」のまま）、767 の稼働倍率 1.10／1.122 の定義の違い、伸び率・為替の感度がない。古い注は出力を作り直して直した。文書の直しは未着手。</li>
 </ul></main></body></html>
