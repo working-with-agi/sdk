@@ -67,11 +67,11 @@ def setup(cid: str) -> dict:
 
 
 def run(s: dict, years_ahead: float = 0.0, delta: float = 0.0, overrides: dict | None = None, dest: bool = False, windows: bool = True,
-        fares: dict | None = None) -> dict:
+        fares: dict | None = None, corridor: dict | None = None) -> dict:
     """One fiscal year (p50) under one setting: the trunk's economics and each type's engines.
     fares: {"elasticity": e} sets each month's fares by route (route_fleet.price)."""
     ctx, _ = ffd.trunk_context(s["cid"], s["cfg"], s["rpk"], s["ac"], s["eng"], s["derived"], years_ahead)
-    tr = rf.build(s["cid"], s["D"], s["rpk"], ctx, delta=delta, quantiles=("p50",), detail=False, fiscal_years={s["fy"]}, overrides=overrides, dest=dest, fares=fares)
+    tr = rf.build(s["cid"], s["D"], s["rpk"], ctx, delta=delta, quantiles=("p50",), detail=False, fiscal_years={s["fy"]}, overrides=overrides, dest=dest, fares=fares, corridor=corridor)
     rows = tr["rows"]
     types = [t["type"] for t in tr["types"]]
     ectx = {**s["ectx"], "types": tr["types"]}

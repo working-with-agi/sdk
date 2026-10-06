@@ -148,6 +148,19 @@ def route_demand(R: dict, D: dict, band: list[dict], share: dict[str, float], to
     return out
 
 
+def scale_demand(dem: list[dict], scale: dict | None) -> list[dict]:
+    """The route's passengers (every quantile) times scale[route]: a market that shrinks or grows for
+    a reason outside the airline (e.g. the passengers a new rail line takes)."""
+    if not scale:
+        return dem
+    out = []
+    for d in dem:
+        rows = {r: ({q: round(v * scale.get(r, 1.0), 1) for q, v in x.items()}) for r, x in d["routes"].items()}
+        out.append({**d, "routes": rows, "market_p50": {r: round(v * scale.get(r, 1.0), 1) for r, v in d["market_p50"].items()},
+                    "total_p50": round(sum(x["p50"] for x in rows.values()), 1)})
+    return out
+
+
 def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict[str, float | None], mu: dict[str, float], yld: float,
            slots: dict, lease: bool = True, gap: float = MIP_GAP, time_s: float = MIP_TIME_S,
            fare_mult: dict[str, float] | None = None, elasticity: float = 0.0) -> dict:
@@ -280,7 +293,8 @@ def available(types: list[dict], m: int, fleet_737_free: float) -> dict[str, flo
 
 
 def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, quantiles: tuple = ("p10", "p50", "p90"), detail: bool = True,
-          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool | dict = False, fares: dict | None = None) -> dict:
+          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool | dict = False, fares: dict | None = None,
+          corridor: dict | None = None) -> dict:
     """ctx: checks_rate (737), regional need by t (callable after the version), engine waits by t,
     737 fleet total, to_start (2024 -> start growth), set_trunk_737_rpk (fixes the regional split).
     delta: the hub trunk slots added (+) or taken away (-) by a re-allocation scenario.
@@ -289,14 +303,23 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
     cannot be flown (reported as unusable). A dict {airport code: round trips} adds that much headroom
     at those airports (an expansion there).
     fares: {"elasticity": e, optional "lo"/"hi"/"step"} -- each month's p50 assignment also sets the fare
-    by route (price); the yearly version keeps today's fares."""
+    by route (price); the yearly version keeps today's fares.
+    corridor: a change on the ground that moves the trunk, {"market_scale": {route: x} (the route's
+    whole market times x, e.g. passengers moving to rail), "bounds": {route: (lo, hi)} (round trips a
+    day, still under the destination caps), "use_min": floor share of the hub slots (the freed slots
+    go to routes outside the trunk), "rival_shift": {route: round trips} (the other carriers move
+    their slots too)}."""
     R = load(); S = ap.load()
+    cor = corridor or {}
     types = [{**t, **(overrides or {}).get(t["type"], {})} for t in types_of(R, cid)]
     P = pattern_table(R, types)
     yld = D["companies"][cid]["yield_yen_per_rpk"]
     km = {r["id"]: r["km"] for r in R["routes"]}
     caps = ap.destination_caps(S, cid, extra=dest if isinstance(dest, dict) else None) if dest else None
-    slots = {"bounds": ap.bounds(S, cid, delta, caps), "budget": ap.trunk_budget(S, cid, delta), "use_min": S["rules"]["use_min_share"]}
+    slots = {"bounds": ap.bounds(S, cid, delta, caps), "budget": ap.trunk_budget(S, cid, delta), "use_min": cor.get("use_min", S["rules"]["use_min_share"])}
+    for r, (lo, hi) in cor.get("bounds", {}).items():
+        hi = min(hi, caps[r]) if caps and r in caps else hi
+        slots["bounds"][r] = (min(lo, hi), hi)
     budget_hub = slots["budget"]
     reach = sum(slots["bounds"][r][1] for r in ap.HUB_ROUTES)
     if slots["budget"] > reach:                                                              # the other ends cannot take them all
@@ -309,8 +332,8 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
         freq = {r: (v * scale if r in ap.HUB_ROUTES else v) for r, v in freq.items()}
     rounds = []
     for _ in range(6):
-        sh = ap.share(S, cid, freq)
-        dem = route_demand(R, D, band, sh, ctx["to_start"])
+        sh = ap.share(S, cid, freq, comp_delta=cor.get("rival_shift"))
+        dem = scale_demand(route_demand(R, D, band, sh, ctx["to_start"]), cor.get("market_scale"))
         first = dem[:12]
         avg = {r: sum(d["routes"][r]["p50"] for d in first) / len(first) for r in first[0]["routes"]}
         av_v = {t["type"]: (None if t["trunk_aircraft"] is None else t["trunk_aircraft"]) for t in types}

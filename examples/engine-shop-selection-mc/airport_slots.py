@@ -59,9 +59,10 @@ def competitor_freq(S: dict, cid: str) -> dict[str, float]:
     return {r: cur_r[r] + oth[r] for r in cur_r}
 
 
-def share(S: dict, cid: str, freq: dict[str, float], alpha: float | None = None) -> dict[str, float]:
+def share(S: dict, cid: str, freq: dict[str, float], alpha: float | None = None, comp_delta: dict | None = None) -> dict[str, float]:
+    """comp_delta: round trips a day added to (or taken from) the other carriers on a route."""
     a = S["share_model"]["alpha"] if alpha is None else alpha
-    comp = competitor_freq(S, cid)
+    comp = {r: max(0.0, v + (comp_delta or {}).get(r, 0.0)) for r, v in competitor_freq(S, cid).items()}
     return {r: (freq[r] ** a) / (freq[r] ** a + comp[r] ** a) if freq[r] > 0 else 0.0 for r in freq}
 
 
