@@ -144,8 +144,10 @@ def game_robustness(C: dict, years_ahead: int, settings: tuple = ((3.5, 0.5), (3
 
 
 def linear_world(s: dict, C: dict, years_ahead: int) -> dict:
-    """The world after the Linear (both companies move their freed slots, the rule's case): what the
-    Haneda expansion is worth there, against the world before it."""
+    """The world after the Linear, in two cells of the slot game: "stay/stay" (neither company moves its
+    freed slots to the other trunk routes -- they go to routes outside the trunk; the jointly best cell
+    at 66 %, what an allocation rule would aim for) and "move/move" (both move them). In each, what the
+    Haneda expansion is worth, against the world before the Linear."""
     S = ap.load()
     cid = s["cid"]
     cur = ap.current_freq(S, cid)
@@ -153,21 +155,29 @@ def linear_world(s: dict, C: dict, years_ahead: int) -> dict:
     pre = cs.run(s, years_ahead, dest=True, windows=False)
     out = []
     for keep in C["linear_osaka"]["air_keeps"][:2]:
-        rival = {"HND-ITM": -(1 - keep) * rival_itm, **C["linear_osaka"]["rival_moves_to"]}
-        def corridor(extra=None):
-            capx = ap.destination_caps(S, cid, extra=extra)
-            b = {"HND-ITM": (0, cur["HND-ITM"] + 1), **{r: (cur[r] - 1, capx[r]) for r in ("HND-CTS", "HND-FUK", "HND-OKA")}}
-            return {"market_scale": {"HND-ITM": keep}, "bounds": b, "use_min": 0.0, "rival_shift": rival}
-        base = cs.run(s, years_ahead, dest=True, corridor=corridor())
-        rows = {}
-        for k, delta, extra in (("hnd20", 20, None), ("hnd20_cts_fuk", 20, {"CTS": 4, "FUK": 4})):
-            r = cs.run(s, years_ahead, delta=delta, dest=extra or True, windows=False, corridor=corridor(extra))
-            rows[k] = {"gain_oku_per_year": round(r["margin_oku"] - base["margin_oku"], 1), "pax_added_k": round(r["carried_pax_k"] - base["carried_pax_k"], 1),
-                       "round_trips": r["version_round_trips"], "unusable_round_trips": r["unusable_round_trips"]}
-        out.append({"air_keeps": keep, "base_margin_oku": base["margin_oku"], "vs_before_oku": round(base["margin_oku"] - pre["margin_oku"], 1),
-                    "base_round_trips": base["version_round_trips"], "expansion": rows,
-                    "engines": {e["type"]: {"utilisation_multiplier": e.get("utilisation_multiplier"), "spend_per_year_oku_yen": e.get("spend_per_year_oku_yen")} for e in base["engines"] if e["type"] in ("737", "767", "787")}})
-    return {"rows": out, "how": "リニアの後の世界：羽田–伊丹の需要は air_keeps 倍、両社とも空いた枠を新千歳・福岡・那覇に移した状態（配分の規則で移す場合）。そこで羽田 +20 往復（対向空港そのまま／新千歳・福岡 各 +4 往復）の増分を出す"}
+        for cell in ("stay/stay", "move/move"):
+            def corridor(extra=None):
+                capx = ap.destination_caps(S, cid, extra=extra)
+                if cell == "move/move":
+                    b = {"HND-ITM": (0, cur["HND-ITM"] + 1), **{r: (cur[r] - 1, capx[r]) for r in ("HND-CTS", "HND-FUK", "HND-OKA")}}
+                    return {"market_scale": {"HND-ITM": keep}, "bounds": b, "use_min": 0.0,
+                            "rival_shift": {"HND-ITM": -(1 - keep) * rival_itm, **C["linear_osaka"]["rival_moves_to"]}}
+                return {"market_scale": {"HND-ITM": keep}, "bounds": {"HND-ITM": (0, cur["HND-ITM"] + 1)}, "use_min": 0.0}
+            base = cs.run(s, years_ahead, dest=True, corridor=corridor())
+            rows = {}
+            for k, delta, extra in (("hnd20", 20, None), ("hnd20_cts_fuk", 20, {"CTS": 4, "FUK": 4})):
+                cor_x = corridor(extra)
+                if cell == "stay/stay":                                                       # the expansion itself may use the other trunk routes
+                    capx = ap.destination_caps(S, cid, extra=extra)
+                    cor_x["bounds"] = {**cor_x["bounds"], **{r: (cur[r] - 1, capx[r]) for r in ("HND-CTS", "HND-FUK", "HND-OKA")}}
+                r = cs.run(s, years_ahead, delta=delta, dest=extra or True, windows=False, corridor=cor_x)
+                rows[k] = {"gain_oku_per_year": round(r["margin_oku"] - base["margin_oku"], 1), "pax_added_k": round(r["carried_pax_k"] - base["carried_pax_k"], 1),
+                           "round_trips": r["version_round_trips"], "unusable_round_trips": r["unusable_round_trips"],
+                           "itami_round_trips_added": round(r["version_round_trips"]["HND-ITM"] - base["version_round_trips"]["HND-ITM"], 1)}
+            out.append({"air_keeps": keep, "cell": cell, "base_margin_oku": base["margin_oku"], "vs_before_oku": round(base["margin_oku"] - pre["margin_oku"], 1),
+                        "base_round_trips": base["version_round_trips"], "expansion": rows,
+                        "engines": {e["type"]: {"utilisation_multiplier": e.get("utilisation_multiplier"), "spend_per_year_oku_yen": e.get("spend_per_year_oku_yen")} for e in base["engines"] if e["type"] in ("737", "767", "787")}})
+    return {"rows": out, "how": "リニアの後の世界を、取り合いの二つのセルで：stay/stay（両社とも空いた枠を他の幹線に移さない。幹線の外に回る。66% で二社の合計が最大＝配分の規則が目指すセル）と move/move（両社とも移す）。それぞれで羽田 +20 往復（対向空港そのまま／新千歳・福岡 各 +4）の増分と、増えた往復のうち羽田–伊丹に戻る数"}
 
 
 def rail_airports(s: dict, C: dict, base: dict) -> dict:
@@ -266,6 +276,7 @@ def itami_monte_carlo(C: dict, n: int = 20000, seed: int = 7, steps: bool = True
         out["kix_kobe"] = {"itami_movements_to_move_p10_p50_p90": q(need), "room_p10_p50_p90": q(room), "shortfall_p10_p50_p90": q(short),
                            "p_shortfall": round(float((short > 0).mean()), 3), "capacity_cost_oku_p10_p50_p90": q(cap_cost)}
         out["p_all_items"] = st[-1]["p"]
+        out["public_net_oku_p10_p50_p90"] = q(land - prep - drop - cap_cost)                       # what the public side keeps: land less site work, price drop, capacity
         out["net_all_items_oku_p10_p50_p90"] = q(net)
     out["how"] = ("不確かな入力を幅の中で一様に引き、跡地の値 − 旅客の損（現在価値）が正になる確率を出す。steps は最初に入れていなかった項目"
                   "（運営費の節約・騒音の解消・造成費・地価の下落・関西と神戸で足りない容量の手当て）を一つずつ足したときの確率。足した項目の幅は no_source")

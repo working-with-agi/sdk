@@ -1,26 +1,108 @@
 {
  "note": "政策の手を、政治の立場（主義）ごとの価値の重みで並べるための前提。重みと赤線、定性の点数はすべて no_source の置き方で、議論のたたき台。特定の政党や人物の主張を表したものではない",
  "criteria": {
-  "airline": {"name": "航空会社の利益", "unit": "億円/年（会社 A）", "kind": "number"},
-  "passengers": {"name": "運べる旅客", "unit": "万人/年（会社 A）", "kind": "number"},
-  "user_cost": {"name": "利用者の負担（運賃・時間）", "unit": "億円/年（負担が増えると負）", "kind": "number"},
-  "public": {"name": "公費・公有財産", "unit": "億円（一度きり、支出は負、売却益は正）", "kind": "number"},
-  "regional": {"name": "地方のネットワーク", "unit": "−2〜+2（定性）", "kind": "score"},
-  "noise_env": {"name": "騒音・環境", "unit": "−2〜+2（定性）", "kind": "score"},
-  "airspace": {"name": "日米の調整の負担", "unit": "−2〜+2（定性、負担が大きいと負）", "kind": "score"}
+  "airline": {
+   "name": "航空会社の利益",
+   "unit": "億円/年（会社 A）",
+   "kind": "number"
+  },
+  "passengers": {
+   "name": "運べる旅客",
+   "unit": "万人/年（会社 A）",
+   "kind": "number"
+  },
+  "user_cost": {
+   "name": "利用者の負担（運賃・時間）",
+   "unit": "億円/年（負担が増えると負）",
+   "kind": "number"
+  },
+  "public": {
+   "name": "公費・公有財産",
+   "unit": "億円（一度きり、支出は負、売却益は正）",
+   "kind": "number"
+  },
+  "regional": {
+   "name": "地方のネットワーク",
+   "unit": "−2〜+2（定性）",
+   "kind": "score"
+  },
+  "noise_env": {
+   "name": "騒音・環境",
+   "unit": "−2〜+2（定性）",
+   "kind": "score"
+  },
+  "airspace": {
+   "name": "日米の調整の負担",
+   "unit": "−2〜+2（定性、負担が大きいと負）",
+   "kind": "score"
+  }
  },
  "levers": {
-  "fare_hold": {"name": "運賃を上げる（他社は据え置き）", "regional": 0, "noise_env": 0, "airspace": 0},
-  "fare_market": {"name": "運賃を上げる（市場全体で）", "regional": -1, "noise_env": 0, "airspace": 0},
-  "widebody": {"name": "大型機を足す（A350 を 2 機）", "regional": 0, "noise_env": 1, "airspace": 0},
-  "slot_gain": {"name": "再配分で枠を得る（1 往復）", "regional": 0, "noise_env": 0, "airspace": 0},
-  "linear_rule": {"name": "リニア後の空いた枠の配分の規則", "regional": 1, "noise_env": 0, "airspace": 0},
-  "ops_review": {"name": "運用の見直し（飛行経路・時間あたりの枠）", "regional": 1, "noise_env": -1, "airspace": -1,
-                 "airline": 1, "passengers": 1, "user_cost": 0, "public": -0.2, "numbers_note": "モデルで測っていないので、数値の軸も定性の点数（no_source）"},
-  "hnd_only": {"name": "羽田の滑走路だけ（+20 往復）", "regional": 1, "noise_env": -1, "airspace": 0},
-  "hnd_dest": {"name": "羽田 ＋ 新千歳・福岡を組で", "regional": 1, "noise_env": -1, "airspace": 0},
-  "rail_airport": {"name": "鉄道でつないだ新しい空港（山梨・横田）", "regional": 0, "noise_env": -2, "airspace": -2},
-  "itami_shrink": {"name": "伊丹を縮めて関西・神戸へ", "regional": -1, "noise_env": 2, "airspace": 0}
+  "fare_hold": {
+   "name": "運賃を上げる（他社は据え置き）",
+   "regional": 0,
+   "noise_env": 0,
+   "airspace": 0
+  },
+  "fare_market": {
+   "name": "運賃を上げる（市場全体で）",
+   "regional": -1,
+   "noise_env": 0,
+   "airspace": 0
+  },
+  "widebody": {
+   "name": "大型機を足す（A350 を 2 機）",
+   "regional": 0,
+   "noise_env": 1,
+   "airspace": 0
+  },
+  "slot_gain": {
+   "name": "再配分で枠を得る（1 往復）",
+   "regional": 0,
+   "noise_env": 0,
+   "airspace": 0
+  },
+  "linear_rule": {
+   "name": "リニア後の空いた枠の配分の規則（二社の合計が最大の組み合わせに寄せる）",
+   "regional": 1,
+   "noise_env": 0,
+   "airspace": 0
+  },
+  "ops_review": {
+   "name": "運用の見直し（飛行経路・時間あたりの枠）",
+   "regional": 1,
+   "noise_env": -1,
+   "airspace": -1,
+   "airline": 1,
+   "passengers": 1,
+   "user_cost": 0,
+   "public": -0.2,
+   "numbers_note": "モデルで測っていないので、数値の軸も定性の点数（no_source）"
+  },
+  "hnd_only": {
+   "name": "羽田の滑走路だけ（+20 往復）",
+   "regional": 1,
+   "noise_env": -1,
+   "airspace": 0
+  },
+  "hnd_dest": {
+   "name": "羽田 ＋ 新千歳・福岡を組で",
+   "regional": 1,
+   "noise_env": -1,
+   "airspace": 0
+  },
+  "rail_airport": {
+   "name": "鉄道でつないだ新しい空港（山梨・横田）",
+   "regional": 0,
+   "noise_env": -2,
+   "airspace": -2
+  },
+  "itami_shrink": {
+   "name": "伊丹を縮めて関西・神戸へ",
+   "regional": -1,
+   "noise_env": 2,
+   "airspace": 0
+  }
  },
  "score_notes": {
   "regional": "首都圏・幹線の容量が増える手は、地方路線に回す余地も増えるとして +1。運賃を市場全体で上げると地方の旅客の負担も増えるとして −1。伊丹を縮めると関西の地方路線の便利さが落ちるとして −1",
@@ -28,18 +110,107 @@
   "airspace": "山梨・横田は横田空域の調整が前提なので −2。羽田の経路の見直しも空域の調整を伴いうるとして −1"
  },
  "isms": {
-  "market": {"name": "市場・効率", "weights": {"airline": 0.35, "passengers": 0.15, "user_cost": 0.15, "public": 0.2, "regional": 0.0, "noise_env": 0.1, "airspace": 0.05}, "red_lines": {},
-             "idea": "競争と効率。公費は少なく、収益を生む手を選ぶ"},
-  "users": {"name": "利用者・生活者", "weights": {"airline": 0.05, "passengers": 0.3, "user_cost": 0.35, "public": 0.05, "regional": 0.1, "noise_env": 0.15, "airspace": 0.0}, "red_lines": {"user_cost": -1.5},
-            "idea": "運べる旅客と運賃・時間の負担。利用者の負担を大きく増やす手は選ばない"},
-  "regions": {"name": "地方・国土の均衡", "weights": {"airline": 0.1, "passengers": 0.15, "user_cost": 0.15, "public": 0.1, "regional": 0.4, "noise_env": 0.1, "airspace": 0.0}, "red_lines": {"regional": -1},
-              "idea": "地方のネットワークを守る。地方の便利さを下げる手は選ばない"},
-  "environment": {"name": "環境・騒音", "weights": {"airline": 0.1, "passengers": 0.1, "user_cost": 0.1, "public": 0.1, "regional": 0.1, "noise_env": 0.5, "airspace": 0.0}, "red_lines": {"noise_env": -2},
-                  "idea": "騒音と環境の負荷を減らす。新しい騒音源を大きく作る手は選ばない"},
-  "fiscal": {"name": "財政規律", "weights": {"airline": 0.1, "passengers": 0.15, "user_cost": 0.1, "public": 0.5, "regional": 0.1, "noise_env": 0.05, "airspace": 0.0}, "red_lines": {"public": -0.4},
-             "idea": "公費を抑える。大きな公共事業は、費用便益で裏づけがない限り選ばない"},
-  "security": {"name": "安全保障・日米の運用", "weights": {"airline": 0.1, "passengers": 0.1, "user_cost": 0.1, "public": 0.1, "regional": 0.05, "noise_env": 0.05, "airspace": 0.5}, "red_lines": {"airspace": -1},
-               "idea": "日米の運用を優先する。横田空域や基地の運用に負担をかける手は選ばない"}
+  "market": {
+   "name": "市場・効率",
+   "weights": {
+    "airline": 0.35,
+    "passengers": 0.15,
+    "user_cost": 0.15,
+    "public": 0.2,
+    "regional": 0.0,
+    "noise_env": 0.1,
+    "airspace": 0.05
+   },
+   "red_lines": {},
+   "idea": "競争と効率。公費は少なく、収益を生む手を選ぶ"
+  },
+  "users": {
+   "name": "利用者・生活者",
+   "weights": {
+    "airline": 0.05,
+    "passengers": 0.3,
+    "user_cost": 0.35,
+    "public": 0.05,
+    "regional": 0.1,
+    "noise_env": 0.15,
+    "airspace": 0.0
+   },
+   "red_lines": {
+    "user_cost": -1.5
+   },
+   "idea": "運べる旅客と運賃・時間の負担。利用者の負担を大きく増やす手は選ばない"
+  },
+  "regions": {
+   "name": "地方・国土の均衡",
+   "weights": {
+    "airline": 0.1,
+    "passengers": 0.15,
+    "user_cost": 0.15,
+    "public": 0.1,
+    "regional": 0.4,
+    "noise_env": 0.1,
+    "airspace": 0.0
+   },
+   "red_lines": {
+    "regional": -1
+   },
+   "idea": "地方のネットワークを守る。地方の便利さを下げる手は選ばない"
+  },
+  "environment": {
+   "name": "環境・騒音",
+   "weights": {
+    "airline": 0.1,
+    "passengers": 0.1,
+    "user_cost": 0.1,
+    "public": 0.1,
+    "regional": 0.1,
+    "noise_env": 0.5,
+    "airspace": 0.0
+   },
+   "red_lines": {
+    "noise_env": -2
+   },
+   "idea": "騒音と環境の負荷を減らす。新しい騒音源を大きく作る手は選ばない"
+  },
+  "fiscal": {
+   "name": "財政規律",
+   "weights": {
+    "airline": 0.1,
+    "passengers": 0.15,
+    "user_cost": 0.1,
+    "public": 0.5,
+    "regional": 0.1,
+    "noise_env": 0.05,
+    "airspace": 0.0
+   },
+   "red_lines": {
+    "public": -0.4
+   },
+   "idea": "公費を抑える。大きな公共事業は、費用便益で裏づけがない限り選ばない"
+  },
+  "security": {
+   "name": "安全保障・日米の運用",
+   "weights": {
+    "airline": 0.1,
+    "passengers": 0.1,
+    "user_cost": 0.1,
+    "public": 0.1,
+    "regional": 0.05,
+    "noise_env": 0.05,
+    "airspace": 0.5
+   },
+   "red_lines": {
+    "airspace": -1
+   },
+   "idea": "日米の運用を優先する。横田空域や基地の運用に負担をかける手は選ばない"
+  }
  },
- "how": "数値の軸は、各手のモデルの出力から取り、軸ごとに絶対値の最大で割って −2〜+2 にそろえる。定性の軸はそのまま。主義ごとに重みで足し合わせて並べ、赤線（その軸の点数がこれ以下なら選ばない）に触れる手は外す"
+ "how": "数値の軸は、各手のモデルの出力から取り、軸ごとに絶対値の最大で割って −2〜+2 にそろえる。定性の軸はそのまま。主義ごとに重みで足し合わせて並べ、赤線（その軸の点数がこれ以下なら選ばない）に触れる手は外す",
+ "scales": {
+  "airline": 200,
+  "passengers": 300,
+  "user_cost": 400,
+  "public": 5000,
+  "note": "数値の軸を −2〜+2 にそろえる物差し（この値で +2）。手の集まりの最大で割ると、集まりが変わるたびに物差しが変わるので、固定の参照値にした（no_source）。超える値は ±2 で止める"
+ }
 }

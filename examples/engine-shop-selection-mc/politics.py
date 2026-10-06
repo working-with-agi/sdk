@@ -33,7 +33,9 @@ def numbers(world: str = "before") -> dict:
     it = cor["itami_smaller"]
     mc = it["monte_carlo"]
     game = cor["linear_game"]["rows"][0]                                                       # the base forecast (66 % stays)
-    rule_gain = round(game["cells"][game["joint_best"]]["sum"] - game["cells"][game["nash"][0]]["sum"], 1)
+    best, nash = game["cells"][game["joint_best"]], game["cells"][game["nash"][0]]
+    rule_gain = round(best["a"] - nash["a"], 1)                                                  # company A under the rule against the scramble's equilibrium
+    rule_b = round(best["b"] - nash["b"], 1)
     nums = {
         "fare_hold": {"airline": hold["margin_oku"], "passengers": hold["carried_pax_k"] / 10, "user_cost": -hold["revenue_oku"], "public": 0.0},
         "fare_market": {"airline": mkt["margin_oku"], "passengers": mkt["carried_pax_k"] / 10, "user_cost": -mkt["revenue_oku"], "public": 0.0},
@@ -45,18 +47,18 @@ def numbers(world: str = "before") -> dict:
                      "public": -sum(rows["hnd20_cts_fuk"]["cost_share_oku"]) / 2},
         "rail_airport": {"airline": None, "passengers": rail["captured_pax_k"] / 10, "user_cost": -round(rail["captured_pax_k"] * 1e3 * rail["extra_cost_one_way_yen"] / 1e8, 1), "public": -1900.0},
         "itami_shrink": {"airline": 0.0, "passengers": 0.0, "user_cost": -it["rows"][0]["extra_cost_oku_per_year"],
-                         "public": round(mc["land_oku_p10_p50_p90"][1] - mc["kix_kobe"]["capacity_cost_oku_p10_p50_p90"][1], 1)},
+                         "public": mc["public_net_oku_p10_p50_p90"][1]},
     }
     if world == "after":
-        w = cor["linear_world"]["rows"][0]
+        w = next(x for x in cor["linear_world"]["rows"] if x["air_keeps"] == cor["linear_world"]["rows"][0]["air_keeps"] and x["cell"] == game["joint_best"])   # the rule's world at 66 %
         for k in ("hnd20", "hnd20_cts_fuk"):
             lev = "hnd_only" if k == "hnd20" else "hnd_dest"
             nums[lev]["airline"] = w["expansion"][k]["gain_oku_per_year"]
             nums[lev]["passengers"] = w["expansion"][k]["pax_added_k"] / 10
-    notes = {"slot_gain": "業界全体では移し替え（一社の得は他社の損）", "linear_rule": "取り合いの目減りを避けた分（二社の合計、66% の場合）",
+    notes = {"slot_gain": "業界全体では移し替え（一社の得は他社の損）", "linear_rule": f"規則で二社の合計が最大の組み合わせ（66% では両社とも移さない）に寄せたときの会社 A の得（取り合いの均衡と比べて）。会社 B は {rule_b} 億円（埋め合わせが要る）",
              "hnd_only": "旅客の多くは他社から移る取り分。公費は会社 A が使う容量ぶん", "hnd_dest": "同上",
              "rail_airport": "公費は内陸の空港の例（静岡空港 全体 約 1,900 億円）。航空会社の利益は測っていない",
-             "itami_shrink": "公費は跡地の値の中央値 − 関西・神戸の容量の手当ての中央値（売却益として正）"}
+             "itami_shrink": "公費は 跡地の値 − 造成費 − 地価の下落 − 関西・神戸の容量の手当て の中央値（売却益として正）"}
     return {"values": nums, "notes": notes, "fiscal_year": fy}
 
 
@@ -84,7 +86,7 @@ def build_world(world: str = "before", scale: dict | None = None) -> dict:
     levers = {k: v for k, v in P["levers"].items() if world == "after" or k not in LINEAR_ONLY}
     raw = {k: {a: (N["values"].get(k, {}).get(a) if N["values"].get(k, {}).get(a) is not None else levers[k].get(a)) for a in NUMBER_AXES} for k in levers}
     if scale is None:
-        scale = {a: max(abs(raw[k][a]) for k in levers if raw[k][a] is not None and not (k in N["values"] and N["values"][k].get(a) is None and a in levers[k])) or 1.0 for a in NUMBER_AXES}
+        scale = {a: float(P["scales"][a]) for a in NUMBER_AXES}                                  # fixed reference values (data/politics.json)
     score = {}
     for k, L in levers.items():
         sc = {}
@@ -93,7 +95,7 @@ def build_world(world: str = "before", scale: dict | None = None) -> dict:
             if v is None:
                 sc[a] = 0.0
             elif k in N["values"] and N["values"][k].get(a) is not None:
-                sc[a] = round(2 * v / scale[a], 2)
+                sc[a] = round(max(-2.0, min(2.0, 2 * v / scale[a])), 2)
             else:
                 sc[a] = float(v)                                                                  # a judgment already on the -2..+2 scale
         for a in ("regional", "noise_env", "airspace"):

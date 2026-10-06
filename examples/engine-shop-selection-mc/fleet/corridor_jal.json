@@ -940,6 +940,62 @@
   "rows": [
    {
     "air_keeps": 0.66,
+    "cell": "stay/stay",
+    "base_margin_oku": 1161.9,
+    "vs_before_oku": -26.2,
+    "base_round_trips": {
+     "HND-CTS": 18.0,
+     "HND-ITM": 12.0,
+     "HND-FUK": 18.0,
+     "HND-OKA": 13.0,
+     "FUK-OKA": 7.0
+    },
+    "expansion": {
+     "hnd20": {
+      "gain_oku_per_year": 105.9,
+      "pax_added_k": 1395.0,
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 19.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 8,
+      "itami_round_trips_added": 4.0
+     },
+     "hnd20_cts_fuk": {
+      "gain_oku_per_year": 187.3,
+      "pax_added_k": 2457.2,
+      "round_trips": {
+       "HND-CTS": 24.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 23.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 0,
+      "itami_round_trips_added": 4.0
+     }
+    },
+    "engines": {
+     "737": {
+      "utilisation_multiplier": 1.0149,
+      "spend_per_year_oku_yen": 263.9
+     },
+     "767": {
+      "utilisation_multiplier": 1.0612,
+      "spend_per_year_oku_yen": 85.4
+     },
+     "787": {
+      "utilisation_multiplier": 1.1349,
+      "spend_per_year_oku_yen": 216.7
+     }
+    }
+   },
+   {
+    "air_keeps": 0.66,
+    "cell": "move/move",
     "base_margin_oku": 1073.6,
     "vs_before_oku": -114.5,
     "base_round_trips": {
@@ -960,7 +1016,8 @@
        "HND-OKA": 18.0,
        "FUK-OKA": 7.0
       },
-      "unusable_round_trips": 8
+      "unusable_round_trips": 8,
+      "itami_round_trips_added": 8.0
      },
      "hnd20_cts_fuk": {
       "gain_oku_per_year": 190.7,
@@ -972,7 +1029,8 @@
        "HND-OKA": 18.0,
        "FUK-OKA": 7.0
       },
-      "unusable_round_trips": 0
+      "unusable_round_trips": 0,
+      "itami_round_trips_added": 8.0
      }
     },
     "engines": {
@@ -992,6 +1050,62 @@
    },
    {
     "air_keeps": 0.46,
+    "cell": "stay/stay",
+    "base_margin_oku": 1135.9,
+    "vs_before_oku": -52.2,
+    "base_round_trips": {
+     "HND-CTS": 18.0,
+     "HND-ITM": 12.0,
+     "HND-FUK": 18.0,
+     "HND-OKA": 13.0,
+     "FUK-OKA": 7.0
+    },
+    "expansion": {
+     "hnd20": {
+      "gain_oku_per_year": 92.9,
+      "pax_added_k": 1289.6,
+      "round_trips": {
+       "HND-CTS": 20.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 19.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 8,
+      "itami_round_trips_added": 4.0
+     },
+     "hnd20_cts_fuk": {
+      "gain_oku_per_year": 173.4,
+      "pax_added_k": 2290.9,
+      "round_trips": {
+       "HND-CTS": 24.0,
+       "HND-ITM": 16.0,
+       "HND-FUK": 23.0,
+       "HND-OKA": 18.0,
+       "FUK-OKA": 7.0
+      },
+      "unusable_round_trips": 0,
+      "itami_round_trips_added": 4.0
+     }
+    },
+    "engines": {
+     "737": {
+      "utilisation_multiplier": 1.022,
+      "spend_per_year_oku_yen": 265.8
+     },
+     "767": {
+      "utilisation_multiplier": 1.0162,
+      "spend_per_year_oku_yen": 81.8
+     },
+     "787": {
+      "utilisation_multiplier": 1.1259,
+      "spend_per_year_oku_yen": 215.0
+     }
+    }
+   },
+   {
+    "air_keeps": 0.46,
+    "cell": "move/move",
     "base_margin_oku": 1077.7,
     "vs_before_oku": -110.4,
     "base_round_trips": {
@@ -1012,7 +1126,8 @@
        "HND-OKA": 18.0,
        "FUK-OKA": 7.0
       },
-      "unusable_round_trips": 8
+      "unusable_round_trips": 8,
+      "itami_round_trips_added": 9.0
      },
      "hnd20_cts_fuk": {
       "gain_oku_per_year": 163.6,
@@ -1024,7 +1139,8 @@
        "HND-OKA": 18.0,
        "FUK-OKA": 7.0
       },
-      "unusable_round_trips": 0
+      "unusable_round_trips": 0,
+      "itami_round_trips_added": 9.0
      }
     },
     "engines": {
@@ -1043,7 +1159,7 @@
     }
    }
   ],
-  "how": "リニアの後の世界：羽田–伊丹の需要は air_keeps 倍、両社とも空いた枠を新千歳・福岡・那覇に移した状態（配分の規則で移す場合）。そこで羽田 +20 往復（対向空港そのまま／新千歳・福岡 各 +4 往復）の増分を出す"
+  "how": "リニアの後の世界を、取り合いの二つのセルで：stay/stay（両社とも空いた枠を他の幹線に移さない。幹線の外に回る。66% で二社の合計が最大＝配分の規則が目指すセル）と move/move（両社とも移す）。それぞれで羽田 +20 往復（対向空港そのまま／新千歳・福岡 各 +4）の増分と、増えた往復のうち羽田–伊丹に戻る数"
  },
  "rail_airports": {
   "airports": [
@@ -1243,6 +1359,11 @@
     ]
    },
    "p_all_items": 0.089,
+   "public_net_oku_p10_p50_p90": [
+    1409,
+    3094,
+    5034
+   ],
    "net_all_items_oku_p10_p50_p90": [
     -4920,
     -2526,
