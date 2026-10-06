@@ -531,6 +531,10 @@ python3 fare_scenarios.py jal --out fleet/fares_jal.json   # 約 4 分
 python3 fare_elasticity.py --out fleet/fare_elasticity.json
 ```
 
+### ストーリー：エンジン整備の最適化から、空港の容量まで
+
+`handover/04_docs/story_エンジンから空港まで.md`。エンジン整備の計画（いつ・どの工場に入れるか）から始め、飛び方を決める需要と機材の割当、それを縛る羽田の枠、次のキャップになる対向空港、空港への投資へと上がり、経営の手（運賃・機材・リース・枠の申請）と政策の手（配分・運用の見直し・投資）に分けて、それぞれの値段と整備への跳ね返りを並べる。
+
 ### 文書の批判役（`doc_critic.py`、`.claude/agents/doc-critic.md`）
 
 モデルが出すのは数字、文書が出すのは主張。批判役は、主張が根拠を超えているところを指摘する。`review.py` と同じ二層。

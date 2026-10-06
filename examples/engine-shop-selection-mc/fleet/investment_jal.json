@@ -66,6 +66,11 @@
    },
    "unusable_round_trips": 2.0,
    "gain_oku_per_year": 106.1,
+   "pax_k": {
+    "added": 1346.5,
+    "from_share": 1417.2,
+    "from_own_spill": -70.7
+   },
    "gain_per_added_round_trip_oku": 10.6,
    "cost_share_oku": [
     340,
@@ -126,6 +131,11 @@
    },
    "unusable_round_trips": 8.0,
    "gain_oku_per_year": 122.5,
+   "pax_k": {
+    "added": 1601.0,
+    "from_share": 1661.5,
+    "from_own_spill": -60.5
+   },
    "gain_per_added_round_trip_oku": 10.2,
    "cost_share_oku": [
     408,
@@ -189,6 +199,11 @@
    },
    "unusable_round_trips": 1.0,
    "gain_oku_per_year": 196.3,
+   "pax_k": {
+    "added": 2515.7,
+    "from_share": 2627.7,
+    "from_own_spill": -112.0
+   },
    "gain_per_added_round_trip_oku": 10.3,
    "cost_share_oku": [
     846,
@@ -253,6 +268,11 @@
    },
    "unusable_round_trips": 4.0,
    "gain_oku_per_year": 239.9,
+   "pax_k": {
+    "added": 3138.5,
+    "from_share": 3309.6,
+    "from_own_spill": -171.1
+   },
    "gain_per_added_round_trip_oku": 9.6,
    "cost_share_oku": [
     1179,
@@ -313,6 +333,11 @@
    },
    "unusable_round_trips": 0,
    "gain_oku_per_year": 204.8,
+   "pax_k": {
+    "added": 2661.9,
+    "from_share": 2635.6,
+    "from_own_spill": 26.3
+   },
    "gain_per_added_round_trip_oku": 10.2,
    "cost_share_oku": [
     880,
@@ -351,6 +376,7 @@
   "cost": "空港ごとの 1 日 1 往復あたりの費用。羽田は D 滑走路、福岡は第 2 滑走路、那覇は第 2 滑走路の事業費 ÷ 増えた容量。新千歳は運用の見直しで増やしてきたので下限 0、上限は福岡の滑走路。伊丹は増やせない",
   "share": "会社が使う分（羽田で増えた往復のすべて、対向空港では今の余地を超えた分）に 1 往復あたりの費用を掛けた額。誰が払うかではなく、使う容量が表す費用",
   "gain": "その年度の差し引き（売上 − 運航費、p50）の増分を 30 年同じとして、割引率 4% で現在価値にする。機体の所有費・本社費・着陸料は引いていない",
+  "split": "増えた旅客 ＝ 自社の需要の増分（便数の取り分が増えて他社から移る旅客）− 乗れない旅客の増分。後者が負なら、乗れなかった自社の旅客を運べた分。他社の便と乗れない旅客はモデルの外なので、移った旅客のうち他社で乗れなかった人（社会の側の増分）は分けられない",
   "source": "data/airport_investment.json"
  },
  "note": "数値は合成データと公開値の混合。p50"

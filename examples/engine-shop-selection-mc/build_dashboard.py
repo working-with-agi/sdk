@@ -41,6 +41,7 @@ LOOPS = [
 ]
 FIGS = [("plan_basic.html", "図：基本計画（年次〜半期、PDCA）"), ("plan_detail.html", "図：詳細計画（月次〜当日、OODA）"), ("strategy_stack.html", "図：あるべき分析ストラテジー（流れ）"), ("strategy_matrix.html", "図：あるべき分析ストラテジー（層 × 流れ、右端があるべき結果）"), ("strategy_concept.html", "全体像（ランディングページ）"), ("strategy_grid.html", "全体像の図（5 部門 × 入力・処理・出力、行をクリックで詳細）")]
 DOCS = [("story.html", "ストーリー：需要から検証まで", "handover/04_docs/story_需要から検証まで.md"),
+        ("story_airport.html", "ストーリー：エンジン整備の最適化から、空港の容量まで（経営と政策が取れる手）", "handover/04_docs/story_エンジンから空港まで.md"),
         ("design_strategy.html", "概念設計：分析ストラテジーを選ぶ・束ねる（文献つき）", "handover/04_docs/design_分析ストラテジー.md"),
         ("appendix.html", "付録：思考の枠組み・新しい情報の重みづけ・シミュレーションの範囲", "handover/04_docs/appendix_思考の枠組み.md"),
         ("requirements.html", "要件と対応の記録（#1〜）", "REQUIREMENTS.md"),
