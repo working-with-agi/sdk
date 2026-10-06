@@ -1,0 +1,17 @@
+{
+ "route_month.csv": {
+  "what": "国内定期航空の路線別・月別の旅客数と座席数（両方向の合計）。羽田の幹線 5 路線と、LCC の拠点（成田・関西）を含まない幹線 5 路線。2006〜2025 年（2020 年は未取得）",
+  "source": "国土交通省 航空輸送統計調査 年報 第3表（幹線）国内定期航空路線別、区間別、月別運航及び輸送実績（e-Stat、政府統計コード 00600360）",
+  "url": "https://www.e-stat.go.jp/stat-search/files?page=1&toukei=00600360&tstat=000001018894",
+  "note": "2006〜2011 年は会社別の表を合計した（計の表がある年はそれを使う）。路線名の表記ゆれ（札幌（千歳）・東京（成田））はそろえた"
+ },
+ "monthly_indexes.csv": {
+  "cpi_air": {"what": "消費者物価指数 品目別価格指数（全国、月次）航空運賃（2020=100）", "url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200573&tstat=000001150147&stat_infid=000032103844",
+              "note": "2020 年基準から、ネットの販売価格をウェブスクレイピングで集め、普通・各種割引運賃の各月全日の価格を使う（統計局『消費者物価指数のしくみと見方』2020 年基準）。それより前とは集め方が違う"},
+  "cpi_all": {"what": "同 総合", "url": "同上"},
+  "cpi_shinkansen": {"what": "同 料金（ＪＲ，新幹線）", "url": "同上"},
+  "ci_coincident": {"what": "景気動向指数 CI 一致指数（2020=100）", "url": "https://www.esri.cao.go.jp/jp/stat/di/di.html"},
+  "dubai_usd": {"what": "Global price of Dubai Crude（US$/bbl、月次）", "url": "https://fred.stlouisfed.org/series/POILDUBUSDM"},
+  "jpy_per_usd": {"what": "Japanese Yen to U.S. Dollar Spot Exchange Rate（月次）", "url": "https://fred.stlouisfed.org/series/EXJPUS"}
+ }
+}

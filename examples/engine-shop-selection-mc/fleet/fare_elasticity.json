@@ -1,0 +1,275 @@
+{
+ "rows": [
+  {
+   "sample": "2006–2019、10 路線",
+   "n": 1680,
+   "routes": 10,
+   "months": 168,
+   "ols": {
+    "b": -0.161,
+    "se": 0.083
+   },
+   "iv": {
+    "b": 0.579,
+    "se": 0.643,
+    "first_stage_F": 53.2,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.253
+  },
+  {
+   "sample": "2006–2019、羽田の 5 路線",
+   "n": 840,
+   "routes": 5,
+   "months": 168,
+   "ols": {
+    "b": -0.167,
+    "se": 0.054
+   },
+   "iv": {
+    "b": -0.374,
+    "se": 0.374,
+    "first_stage_F": 26.5,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.14
+  },
+  {
+   "sample": "2006–2019、10 路線、路線の傾向なし",
+   "n": 1680,
+   "routes": 10,
+   "months": 168,
+   "ols": {
+    "b": -0.62,
+    "se": 0.198
+   },
+   "iv": {
+    "b": -3.948,
+    "se": 1.543,
+    "first_stage_F": 38.7,
+    "partial_R2": 0.023
+   },
+   "business_cycle_b": 0.582
+  },
+  {
+   "sample": "2006–2019 と 2023–2025、10 路線",
+   "n": 2040,
+   "routes": 10,
+   "months": 204,
+   "ols": {
+    "b": -0.477,
+    "se": 0.099
+   },
+   "iv": {
+    "b": -3.882,
+    "se": 0.877,
+    "first_stage_F": 39.7,
+    "partial_R2": 0.048
+   },
+   "business_cycle_b": 0.44
+  },
+  {
+   "sample": "2006–2019、10 路線、座席を固定",
+   "n": 1680,
+   "routes": 10,
+   "months": 168,
+   "ols": {
+    "b": -0.156,
+    "se": 0.045
+   },
+   "iv": {
+    "b": 0.012,
+    "se": 0.397,
+    "first_stage_F": 52.6,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.068,
+   "seats_b": 0.704
+  },
+  {
+   "sample": "2006–2019、10 路線、搭乗率 0.70 未満の月",
+   "n": 870,
+   "routes": 10,
+   "months": 153,
+   "ols": {
+    "b": -0.191,
+    "se": 0.074
+   },
+   "iv": {
+    "b": 0.627,
+    "se": 0.768,
+    "first_stage_F": 22.1,
+    "partial_R2": 0.017
+   },
+   "business_cycle_b": 0.169
+  },
+  {
+   "sample": "2006–2019、搭乗率 0.70 未満の月、座席を固定",
+   "n": 870,
+   "routes": 10,
+   "months": 153,
+   "ols": {
+    "b": -0.114,
+    "se": 0.042
+   },
+   "iv": {
+    "b": 0.044,
+    "se": 0.347,
+    "first_stage_F": 21.9,
+    "partial_R2": 0.018
+   },
+   "business_cycle_b": 0.058,
+   "seats_b": 0.714
+  }
+ ],
+ "by_route": [
+  {
+   "sample": "2006–2019、HND-CTS だけ",
+   "n": 168,
+   "routes": 1,
+   "months": 168,
+   "ols": {
+    "b": -0.093,
+    "se": 0.071
+   },
+   "iv": {
+    "b": -0.147,
+    "se": 0.605,
+    "first_stage_F": 5.2,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.095,
+   "route": "HND-CTS"
+  },
+  {
+   "sample": "2006–2019、HND-ITM だけ",
+   "n": 168,
+   "routes": 1,
+   "months": 168,
+   "ols": {
+    "b": -0.162,
+    "se": 0.083
+   },
+   "iv": {
+    "b": -0.334,
+    "se": 0.706,
+    "first_stage_F": 5.2,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.223,
+   "route": "HND-ITM"
+  },
+  {
+   "sample": "2006–2019、HND-FUK だけ",
+   "n": 168,
+   "routes": 1,
+   "months": 168,
+   "ols": {
+    "b": -0.105,
+    "se": 0.066
+   },
+   "iv": {
+    "b": -0.224,
+    "se": 0.554,
+    "first_stage_F": 5.2,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.206,
+   "route": "HND-FUK"
+  },
+  {
+   "sample": "2006–2019、HND-OKA だけ",
+   "n": 168,
+   "routes": 1,
+   "months": 168,
+   "ols": {
+    "b": -0.131,
+    "se": 0.114
+   },
+   "iv": {
+    "b": -0.717,
+    "se": 0.879,
+    "first_stage_F": 5.2,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": -0.091,
+   "route": "HND-OKA"
+  },
+  {
+   "sample": "2006–2019、FUK-OKA だけ",
+   "n": 168,
+   "routes": 1,
+   "months": 168,
+   "ols": {
+    "b": -0.245,
+    "se": 0.126
+   },
+   "iv": {
+    "b": -0.927,
+    "se": 0.6,
+    "first_stage_F": 5.2,
+    "partial_R2": 0.014
+   },
+   "business_cycle_b": 0.181,
+   "route": "FUK-OKA"
+  }
+ ],
+ "real_fare_index_by_year": {
+  "2006": 0.976,
+  "2007": 0.98,
+  "2008": 1.034,
+  "2009": 1.056,
+  "2010": 1.021,
+  "2011": 1.106,
+  "2012": 1.079,
+  "2013": 1.056,
+  "2014": 1.032,
+  "2015": 1.075,
+  "2016": 1.049,
+  "2017": 1.007,
+  "2018": 1.003,
+  "2019": 1.011
+ },
+ "summary": {
+  "ols_range_with_trends": [
+   -0.477,
+   -0.114
+  ],
+  "reading": "路線の傾向を入れた OLS は −0.11〜−0.48。原油を使った 2SLS は符号も定まらない（弱い操作変数）。座席の弾力性は約 0.7 で、旅客は運賃より座席で決まっている。どちらの偏りも 0 に寄せる向き（需要が強いと運賃が上がる、枠で詰まった路線は運賃が下がっても旅客が増えない）なので、この推定は市場全体の弾力性の絶対値の下限としてしか読めない"
+ },
+ "sources": {
+  "route_month.csv": {
+   "what": "国内定期航空の路線別・月別の旅客数と座席数（両方向の合計）。羽田の幹線 5 路線と、LCC の拠点（成田・関西）を含まない幹線 5 路線。2006〜2025 年（2020 年は未取得）",
+   "source": "国土交通省 航空輸送統計調査 年報 第3表（幹線）国内定期航空路線別、区間別、月別運航及び輸送実績（e-Stat、政府統計コード 00600360）",
+   "url": "https://www.e-stat.go.jp/stat-search/files?page=1&toukei=00600360&tstat=000001018894",
+   "note": "2006〜2011 年は会社別の表を合計した（計の表がある年はそれを使う）。路線名の表記ゆれ（札幌（千歳）・東京（成田））はそろえた"
+  },
+  "monthly_indexes.csv": {
+   "cpi_air": {
+    "what": "消費者物価指数 品目別価格指数（全国、月次）航空運賃（2020=100）",
+    "url": "https://www.e-stat.go.jp/stat-search/files?page=1&layout=datalist&toukei=00200573&tstat=000001150147&stat_infid=000032103844",
+    "note": "2020 年基準から、ネットの販売価格をウェブスクレイピングで集め、普通・各種割引運賃の各月全日の価格を使う（統計局『消費者物価指数のしくみと見方』2020 年基準）。それより前とは集め方が違う"
+   },
+   "cpi_all": {
+    "what": "同 総合",
+    "url": "同上"
+   },
+   "cpi_shinkansen": {
+    "what": "同 料金（ＪＲ，新幹線）",
+    "url": "同上"
+   },
+   "ci_coincident": {
+    "what": "景気動向指数 CI 一致指数（2020=100）",
+    "url": "https://www.esri.cao.go.jp/jp/stat/di/di.html"
+   },
+   "dubai_usd": {
+    "what": "Global price of Dubai Crude（US$/bbl、月次）",
+    "url": "https://fred.stlouisfed.org/series/POILDUBUSDM"
+   },
+   "jpy_per_usd": {
+    "what": "Japanese Yen to U.S. Dollar Spot Exchange Rate（月次）",
+    "url": "https://fred.stlouisfed.org/series/EXJPUS"
+   }
+  }
+ }
+}
