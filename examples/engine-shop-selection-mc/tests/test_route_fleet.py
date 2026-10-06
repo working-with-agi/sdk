@@ -135,3 +135,20 @@ class RouteFleetTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FareLevelTest(unittest.TestCase):
+    def test_route_levels_keep_the_average_yield(self):
+        R = rf.load()
+        w = {r["id"]: r["market_pax_2024"] for r in R["routes"]}; km = {r["id"]: r["km"] for r in R["routes"]}
+        base = rf.fare_yen(R, 15.0)
+        old = rf.FARE_MODE
+        rf.FARE_MODE = "fitted"
+        try:
+            fit = rf.fare_yen(R, 15.0)
+        finally:
+            rf.FARE_MODE = old
+        avg = lambda f: sum(w[r] * f[r] for r in w) / sum(w[r] * km[r] for r in w)  # noqa: E731
+        self.assertAlmostEqual(avg(base), avg(fit), places=6)
+        adj = R["fare_taper"]["route_adjust_fitted"]
+        self.assertAlmostEqual(fit["HND-ITM"] / fit["HND-CTS"], base["HND-ITM"] / base["HND-CTS"] * adj["HND-ITM"] / adj["HND-CTS"], places=6)

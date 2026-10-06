@@ -124,8 +124,23 @@ def game_robustness(C: dict, years_ahead: int, settings: tuple = ((3.5, 0.5), (3
             rows.append({"air_keeps": r["air_keeps"], "nash": n, "joint_best": r["joint_best"],
                          "joint_loss_oku": [round(r["cells"][r["joint_best"]]["sum"] - r["cells"][x]["sum"], 1) for x in n],
                          "both_better_than_an_equilibrium": pareto})
-        out.append({"b_base_737": b, "b_seat_exponent": e, "rows": rows})
-    return {"settings": out, "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"}
+        out.append({"b_base_737": b, "b_seat_exponent": e, "fares": "distance", "rows": rows})
+    # the route fare levels fitted to both companies' 2024 load factors (company B fits far better)
+    old = rf.FARE_MODE
+    rf.FARE_MODE = "fitted"
+    try:
+        g = linear_game(C, years_ahead)
+    finally:
+        rf.FARE_MODE = old
+    rows = []
+    for r in g["rows"]:
+        n = r["nash"]
+        pareto = any(all(r["cells"][k][w] > r["cells"][x][w] for w in ("a", "b")) for x in n for k in r["cells"] if k != x)
+        rows.append({"air_keeps": r["air_keeps"], "nash": n, "joint_best": r["joint_best"],
+                     "joint_loss_oku": [round(r["cells"][r["joint_best"]]["sum"] - r["cells"][x]["sum"], 1) for x in n],
+                     "both_better_than_an_equilibrium": pareto, "cells": r["cells"]})
+    out.append({"b_base_737": 3.5, "b_seat_exponent": 0.7, "fares": "fitted", "rows": rows})
+    return {"settings": out, "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。最後の 1 通りは、両社の 2024 年の搭乗率に合わせた路線ごとの運賃の水準（fare_taper.route_adjust_fitted）で両社を解いたもの。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"}
 
 
 def rail_airports(s: dict, C: dict, base: dict) -> dict:

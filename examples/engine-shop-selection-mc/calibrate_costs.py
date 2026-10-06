@@ -12,6 +12,11 @@ A grid over base_737 and seat_exponent; the score is the root mean square of (mo
 routes. The best pair is written back to data/routes_trunk.json for that company (--write).
 
   python calibrate_costs.py ana [--write]
+  python calibrate_costs.py fares [--write]   # route fare levels, both companies together
+
+The route fare levels (fares): one multiplier per route on top of the distance taper, the same for
+every company (they are market fares), found by coordinate descent (steps of 0.1, 0.5-1.8) on the sum
+of both companies' load-factor RMSE; the average yield is kept. Written to fare_taper.route_adjust_fitted.
 """
 from __future__ import annotations
 
@@ -67,11 +72,68 @@ def build(cid: str, write: bool = False, bases=BASES, exponents=EXPONENTS) -> di
     return out
 
 
+def fit_fares(cids=("jal", "ana"), step: float = 0.1, lo: float = 0.5, hi: float = 1.8, passes: int = 4, write: bool = False) -> dict:
+    import copy
+    R0 = rf.load()
+    S = {c: cs.setup(c) for c in cids}
+    routes = [r["id"] for r in R0["routes"]]
+    target = {r["id"]: r["market_lf_2024"] for r in R0["routes"]}
+    cache = {}
+
+    def lf(cid, adj):
+        key = (cid, tuple(round(adj[r], 2) for r in routes))
+        if key not in cache:
+            R = copy.deepcopy(R0); R["fare_taper"]["route_adjust"] = adj
+            orig = rf.load; rf.load = lambda: R
+            try:
+                s = S[cid]
+                ctx, _ = ffd.trunk_context(cid, s["cfg"], s["rpk"], s["ac"], s["eng"], s["derived"], -2.25)
+                cache[key] = rf.build(cid, s["D"], s["rpk"], ctx, quantiles=("p50",), detail=False, fiscal_years={"none"})["version"]["lf"]
+            finally:
+                rf.load = orig
+        return cache[key]
+
+    def rmse(cid, adj):
+        l = lf(cid, adj)
+        e = [l[r] - target[r] for r in routes if l.get(r) is not None]
+        return math.sqrt(sum(x * x for x in e) / len(e))
+
+    obj = lambda adj: sum(rmse(c, adj) for c in cids)  # noqa: E731
+    adj = {r: 1.0 for r in routes}
+    start = {c: round(rmse(c, adj), 4) for c in cids}
+    best = obj(adj)
+    for _ in range(passes):
+        moved = False
+        for r in routes:
+            for d in (step, -step):
+                while lo <= adj[r] + d <= hi:
+                    cand = {**adj, r: round(adj[r] + d, 2)}
+                    v = obj(cand)
+                    if v < best - 1e-4:
+                        adj, best, moved = cand, v, True
+                    else:
+                        break
+        if not moved:
+            break
+    out = {"route_adjust": adj, "rmse_start": start, "rmse_fitted": {c: round(rmse(c, adj), 4) for c in cids},
+           "lf_fitted": {c: {k: round(v, 3) for k, v in lf(c, adj).items()} for c in cids}, "target": target}
+    if write:
+        path = HERE / "data" / "routes_trunk.json"
+        data = json.loads(path.read_text(encoding="utf-8"))
+        data["fare_taper"]["route_adjust_fitted"] = adj
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+    return out
+
+
 def main(argv=None) -> int:
     a = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     a.add_argument("company")
     a.add_argument("--write", action="store_true")
     args = a.parse_args(argv)
+    if args.company == "fares":
+        r = fit_fares(write=args.write)
+        print(json.dumps(r, ensure_ascii=False))
+        return 0
     r = build(args.company, args.write)
     for x in r["grid"][:8]:
         print(f"base {x['base_737']} exp {x['seat_exponent']}: rmse {x['rmse']} lf {x['lf']} types {x['by_type']}")

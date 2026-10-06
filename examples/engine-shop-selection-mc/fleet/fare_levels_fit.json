@@ -1,0 +1,40 @@
+{
+ "route_adjust": {
+  "HND-CTS": 0.6,
+  "HND-ITM": 1.0,
+  "HND-FUK": 1.1,
+  "HND-OKA": 0.9,
+  "FUK-OKA": 1.0
+ },
+ "rmse_start": {
+  "jal": 0.0816,
+  "ana": 0.1352
+ },
+ "rmse_fitted": {
+  "jal": 0.0667,
+  "ana": 0.093
+ },
+ "lf_fitted": {
+  "jal": {
+   "HND-CTS": 0.855,
+   "HND-ITM": 0.764,
+   "HND-FUK": 0.834,
+   "HND-OKA": 0.709,
+   "FUK-OKA": 0.8
+  },
+  "ana": {
+   "HND-CTS": 0.744,
+   "HND-ITM": 0.769,
+   "HND-FUK": 0.841,
+   "HND-OKA": 0.636,
+   "FUK-OKA": 0.75
+  }
+ },
+ "target": {
+  "HND-CTS": 0.8009999999999999,
+  "HND-ITM": 0.7659999999999999,
+  "HND-FUK": 0.789,
+  "HND-OKA": 0.8290000000000001,
+  "FUK-OKA": 0.746
+ }
+}

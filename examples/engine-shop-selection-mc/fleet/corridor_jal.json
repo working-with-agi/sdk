@@ -152,6 +152,7 @@
     {
      "b_base_737": 3.5,
      "b_seat_exponent": 0.5,
+     "fares": "distance",
      "rows": [
       {
        "air_keeps": 0.66,
@@ -191,6 +192,7 @@
     {
      "b_base_737": 3.5,
      "b_seat_exponent": 0.7,
+     "fares": "distance",
      "rows": [
       {
        "air_keeps": 0.66,
@@ -230,6 +232,7 @@
     {
      "b_base_737": 3.5,
      "b_seat_exponent": 0.9,
+     "fares": "distance",
      "rows": [
       {
        "air_keeps": 0.66,
@@ -269,6 +272,7 @@
     {
      "b_base_737": 4.0,
      "b_seat_exponent": 0.6,
+     "fares": "distance",
      "rows": [
       {
        "air_keeps": 0.66,
@@ -308,6 +312,7 @@
     {
      "b_base_737": 3.0,
      "b_seat_exponent": 0.8,
+     "fares": "distance",
      "rows": [
       {
        "air_keeps": 0.66,
@@ -343,9 +348,163 @@
        "both_better_than_an_equilibrium": true
       }
      ]
+    },
+    {
+     "b_base_737": 3.5,
+     "b_seat_exponent": 0.7,
+     "fares": "fitted",
+     "rows": [
+      {
+       "air_keeps": 0.66,
+       "nash": [
+        "stay/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        49.5
+       ],
+       "both_better_than_an_equilibrium": false,
+       "cells": {
+        "stay/stay": {
+         "a": -48.4,
+         "b": -65.6,
+         "sum": -114.0,
+         "spill_pax_k": {
+          "a": 1376.8,
+          "b": 917.7
+         }
+        },
+        "stay/move": {
+         "a": -115.8,
+         "b": -47.7,
+         "sum": -163.5,
+         "spill_pax_k": {
+          "a": 1230.2,
+          "b": 1026.5
+         }
+        },
+        "move/stay": {
+         "a": -48.6,
+         "b": -147.4,
+         "sum": -196.0,
+         "spill_pax_k": {
+          "a": 1588.5,
+          "b": 993.0
+         }
+        },
+        "move/move": {
+         "a": -122.5,
+         "b": -138.5,
+         "sum": -261.0,
+         "spill_pax_k": {
+          "a": 1366.6,
+          "b": 1001.1
+         }
+        }
+       }
+      },
+      {
+       "air_keeps": 0.46,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "stay/stay",
+       "joint_loss_oku": [
+        98.8
+       ],
+       "both_better_than_an_equilibrium": true,
+       "cells": {
+        "stay/stay": {
+         "a": -84.6,
+         "b": -115.7,
+         "sum": -200.3,
+         "spill_pax_k": {
+          "a": 1176.5,
+          "b": 823.7
+         }
+        },
+        "stay/move": {
+         "a": -140.9,
+         "b": -87.3,
+         "sum": -228.2,
+         "spill_pax_k": {
+          "a": 1121.9,
+          "b": 904.0
+         }
+        },
+        "move/stay": {
+         "a": -53.5,
+         "b": -179.6,
+         "sum": -233.1,
+         "spill_pax_k": {
+          "a": 1210.4,
+          "b": 783.4
+         }
+        },
+        "move/move": {
+         "a": -136.4,
+         "b": -162.7,
+         "sum": -299.1,
+         "spill_pax_k": {
+          "a": 1393.6,
+          "b": 954.8
+         }
+        }
+       }
+      },
+      {
+       "air_keeps": 0.22,
+       "nash": [
+        "move/move"
+       ],
+       "joint_best": "move/stay",
+       "joint_loss_oku": [
+        2.3
+       ],
+       "both_better_than_an_equilibrium": false,
+       "cells": {
+        "stay/stay": {
+         "a": -157.0,
+         "b": -192.7,
+         "sum": -349.7,
+         "spill_pax_k": {
+          "a": 1115.4,
+          "b": 955.8
+         }
+        },
+        "stay/move": {
+         "a": -194.5,
+         "b": -149.2,
+         "sum": -343.7,
+         "spill_pax_k": {
+          "a": 885.6,
+          "b": 870.6
+         }
+        },
+        "move/stay": {
+         "a": -93.3,
+         "b": -248.8,
+         "sum": -342.1,
+         "spill_pax_k": {
+          "a": 1084.8,
+          "b": 736.0
+         }
+        },
+        "move/move": {
+         "a": -141.8,
+         "b": -202.6,
+         "sum": -344.4,
+         "spill_pax_k": {
+          "a": 962.0,
+          "b": 684.5
+         }
+        }
+       }
+      }
+     ]
     }
    ],
-   "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"
+   "how": "会社 B の運航費の係数（737 の 1 時間あたりの費用と座席数の指数）を変えて、同じゲームを解き直す。最後の 1 通りは、両社の 2024 年の搭乗率に合わせた路線ごとの運賃の水準（fare_taper.route_adjust_fitted）で両社を解いたもの。均衡、合計が最大の組み合わせ、均衡での合計の目減り、均衡より両社とも得なセルがあるか"
   }
  },
  "fiscal_year": "FY2030",

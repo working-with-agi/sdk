@@ -38,6 +38,7 @@ HERE = Path(__file__).resolve().parent
 ROUTES = HERE / "data" / "routes_trunk.json"
 DAYS = 365 / 12
 USD_JPY = 157.0
+FARE_MODE = "distance"   # "fitted": route fare levels fitted to 2024 load factors (fare_taper.route_adjust_fitted)
 MIP_GAP = 0.002          # relative optimality gap accepted from the solver
 CANCEL_K_PER_ROUND_TRIP_MONTH = 5000.0   # penalty for flying fewer round trips than the slots/bounds ask (k$ per round trip a day, a month): only when no aircraft can fly them.
                                          # About a month of what one hub round trip is worth a year in the slot scenarios (10-13 oku yen); assumption
@@ -89,9 +90,12 @@ def fare_yen(R: dict, yld: float) -> dict[str, float]:
     """Fare per passenger by route: proportional to distance^exponent, scaled so the passenger-weighted
     average yield equals the company's yield (yen per passenger-km)."""
     e = R.get("fare_taper", {}).get("exponent", 1.0)
+    ft = R.get("fare_taper", {})
+    adj = ft.get("route_adjust") or (ft.get("route_adjust_fitted", {}) if FARE_MODE == "fitted" else {})   # route's fare level beyond distance (business vs leisure), same for every company
     w = {r["id"]: r["market_pax_2024"] for r in R["routes"]}; km = {r["id"]: r["km"] for r in R["routes"]}
-    scale = yld * sum(w[r] * km[r] for r in w) / sum(w[r] * km[r] ** e for r in w)
-    return {r: scale * km[r] ** e for r in w}
+    raw = {r: km[r] ** e * adj.get(r, 1.0) for r in w}
+    scale = yld * sum(w[r] * km[r] for r in w) / sum(w[r] * raw[r] for r in w)
+    return {r: scale * raw[r] for r in w}
 
 
 def load() -> dict:
