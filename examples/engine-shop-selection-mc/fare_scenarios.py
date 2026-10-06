@@ -6,10 +6,13 @@ assignment (route_fleet.assign) also picks each route's fare as a multiple of to
 step 0.05) to earn the most (revenue carried - operating cost - lease): a higher fare leaves fewer
 passengers, so smaller aircraft can fly the same slots, and the spill falls (route_fleet.price).
 
-Demand follows a linear curve through today's fare with an elasticity there (no_source; reference
-values: about -0.8 when the whole market moves together, about -1.4 at the route level when the
-rivals keep their fares -- InterVISTAS 2007 for IATA, not checked against the original here). A
-constant elasticity is not used: with an inelastic market it raises fares without end.
+Demand follows a linear curve through today's fare with an elasticity there. The values come from
+data/elasticity/literature.json: about -0.8 when the whole market moves together (InterVISTAS 2007
+national, Intra Asia short haul -0.84; a Japanese OD model -0.85), about -1.4 when the rivals keep
+their fares (InterVISTAS route level, Intra Asia -1.33 to -1.46; a Japanese nested logit -1.30 /
+-1.63 including the shift from rail). The public-data estimate (fare_elasticity.py) gives only a
+lower bound on the market value. A constant elasticity is not used: with an inelastic market it
+raises fares without end.
 
   python fare_scenarios.py jal --out fleet/fares_jal.json
 
@@ -59,7 +62,7 @@ def build(cid: str, out: Path | None = None, elasticities: tuple = ELASTICITIES,
            "fares_only": next(r["vs_today_fares"] for r in rows if r["years_ahead"] == k and r["elasticity"] == e),
            "fare_with_slots": lifted_f["fare"]["by_route"]}
     result = {"company": cid, "elasticities": list(elasticities), "rows": rows, "fares_vs_slots": sub,
-              "assumptions": {"demand": "直線の需要曲線（今の運賃で弾力性 e）。no_source。参考：市場全体が一緒に動くと約 −0.8、他社が据え置くと路線で約 −1.4（InterVISTAS 2007、原典は未照合）",
+              "assumptions": {"demand": "直線の需要曲線（今の運賃で弾力性 e）。値は data/elasticity/literature.json：市場全体が一緒に動くと約 −0.8（InterVISTAS 2007 の national、アジア域内の短距離 −0.84。日本の OD 需要関数 −0.85）、他社が据え置くと約 −1.4（同 route、アジア域内 −1.33〜−1.46。日本のネスティッド・ロジット −1.30／−1.63、新幹線からの転換を含む）。−1.1 はその間",
                               "search": "月ごと・路線ごとに、今の運賃の 0.8〜1.5 倍（0.05 刻み）から、売上 − 運航費 − リース費 が最大になる運賃を座標ごとに探す。各候補で機材割当を解き直す",
                               "share": "便数の取り分は運賃で変えない（運賃の効き目は弾力性に入れる）",
                               "frequencies": "年次の版（便数）は今の運賃で決めたまま。羽田の枠を使う下限 98% は変わらない"},
