@@ -538,21 +538,21 @@
   "rows": [
    {
     "air_keeps": 0.66,
-    "itami_pax_million": 13.32,
-    "extra_cost_oku_per_year": 394.1,
-    "passenger_cost_pv_oku": 6815
+    "itami_pax_million": 14.22,
+    "extra_cost_oku_per_year": 421.0,
+    "passenger_cost_pv_oku": 7280
    },
    {
     "air_keeps": 0.46,
-    "itami_pax_million": 12.33,
-    "extra_cost_oku_per_year": 364.8,
-    "passenger_cost_pv_oku": 6308
+    "itami_pax_million": 13.24,
+    "extra_cost_oku_per_year": 391.8,
+    "passenger_cost_pv_oku": 6775
    },
    {
     "air_keeps": 0.22,
-    "itami_pax_million": 11.14,
-    "extra_cost_oku_per_year": 329.7,
-    "passenger_cost_pv_oku": 5701
+    "itami_pax_million": 12.06,
+    "extra_cost_oku_per_year": 356.8,
+    "passenger_cost_pv_oku": 6170
    }
   ],
   "annuity_30y_4pct": 17.29,
@@ -566,48 +566,48 @@
     7331
    ],
    "passenger_loss_pv_oku_p10_p50_p90": [
-    4856,
-    6314,
-    7911
+    5254,
+    6786,
+    8386
    ],
-   "p_land_exceeds_loss": 0.313,
+   "p_land_exceeds_loss": 0.234,
    "net_oku_p10_p50_p90": [
-    -3082,
-    -874,
-    1408
+    -3552,
+    -1322,
+    962
    ],
    "steps": [
     {
      "step": "跡地 − 旅客の損",
-     "p": 0.313,
-     "net_p50": -874
+     "p": 0.234,
+     "net_p50": -1322
     },
     {
      "step": "＋ 運営費の節約",
-     "p": 0.558,
-     "net_p50": 264
+     "p": 0.329,
+     "net_p50": -801
     },
     {
      "step": "＋ 騒音の解消",
-     "p": 0.701,
-     "net_p50": 944
+     "p": 0.457,
+     "net_p50": -199
     },
     {
      "step": "− 造成費・地価の下落",
-     "p": 0.435,
-     "net_p50": -297
+     "p": 0.201,
+     "net_p50": -1435
     },
     {
      "step": "− 関西・神戸で足りない容量の手当て",
-     "p": 0.254,
-     "net_p50": -1267
+     "p": 0.089,
+     "net_p50": -2526
     }
    ],
    "kix_kobe": {
     "itami_movements_to_move_p10_p50_p90": [
-     102247,
-     110127,
-     117924
+     106593,
+     114164,
+     121653
     ],
     "room_p10_p50_p90": [
      52161,
@@ -615,22 +615,22 @@
      108570
     ],
     "shortfall_p10_p50_p90": [
-     1091,
-     29364,
-     57950
+     5235,
+     33393,
+     61969
     ],
-    "p_shortfall": 0.914,
+    "p_shortfall": 0.956,
     "capacity_cost_oku_p10_p50_p90": [
-     34,
-     921,
-     2035
+     161,
+     1049,
+     2188
     ]
    },
-   "p_all_items": 0.254,
+   "p_all_items": 0.089,
    "net_all_items_oku_p10_p50_p90": [
-    -3690,
-    -1267,
-    1183
+    -4920,
+    -2526,
+    -109
    ],
    "how": "不確かな入力を幅の中で一様に引き、跡地の値 − 旅客の損（現在価値）が正になる確率を出す。steps は最初に入れていなかった項目（運営費の節約・騒音の解消・造成費・地価の下落・関西と神戸で足りない容量の手当て）を一つずつ足したときの確率。足した項目の幅は no_source"
   },
@@ -698,10 +698,10 @@
    ]
   },
   "itami_smaller": {
-   "itami_pax_million_per_year": 15.0,
-   "itami_pax_note": "no_source: 伊丹の年間旅客 約 1,500 万人の概数",
-   "share_on_tokyo_route": 0.33,
-   "share_note": "羽田–伊丹 2024 年 492 万人（国交省、routes_trunk.json）÷ 約 1,500 万人",
+   "itami_pax_million_per_year": 15.9,
+   "itami_pax_note": "国交省 暦年・年度別空港管理状況調書（https://www.mlit.go.jp/koku/content/002018023.xlsx）：FY2024 15,449,892 人、FY2025 16,286,735 人",
+   "share_on_tokyo_route": 0.31,
+   "share_note": "羽田–伊丹 2024 年 492 万人（国交省、routes_trunk.json）÷ 伊丹の乗降客 約 1,590 万人",
    "extra_access_min": 30,
    "extra_access_fare_yen": 1000,
    "area_ha": 311,
@@ -738,8 +738,8 @@
      4398
     ],
     "itami_pax_million_per_year": [
-     13.5,
-     16.5
+     15.4,
+     16.3
     ]
    },
    "ranges_note": "航空に残る割合は国交省の予測と感度（0.22〜0.66）、地価は 2025 年地価公示、時間価値は国の値。使える割合・追加の時間と運賃・旅客数の幅は no_source",
@@ -749,12 +749,12 @@
    "history": "伊丹の廃止は 2008 年に大阪府知事が検討を表明（報道）。2010 年 7 月の中央新幹線小委員会で大阪府副知事が「リニア開業後に伊丹空港をなくすという方向」と発言（議事録）",
    "more": {
     "operating_saving_oku_per_year": [
-     30,
-     100
+     17,
+     43
     ],
     "noise_benefit_oku_per_year": [
-     10,
-     70
+     20,
+     51
     ],
     "site_prep_yen_m2": [
      10000,
@@ -764,7 +764,7 @@
      0.0,
      0.3
     ],
-    "itami_movements_per_year": 135000,
+    "itami_movements_per_year": 138058,
     "kix_movements_2024": 198825,
     "kix_target": 300000,
     "kix_share_for_itami": [
@@ -777,15 +777,17 @@
      34.0
     ],
     "notes": {
-     "operating_saving": "no_source: 伊丹をやめて浮く運営費から、関西・神戸で増える運営費を引いた純額。国の空港別収支の伊丹の費用は取り出せなかった",
-     "noise_benefit": "no_source: 騒音の解消の便益。上限 70 億円/年は伊丹周辺の騒音対策費として出回る値（原典は未確認）",
+     "operating_saving": "国交省 空港別収支（試算）FY2006・FY2007（https://www.mlit.go.jp/common/000047169.pdf、https://www.mlit.go.jp/common/000125345.pdf）の伊丹の営業費用 111 億円のうち、閉じると要らなくなる費用（空港整備費・人件費・庁費等・滑走路等修繕費）が 約 40〜43 億円/年。減価償却は過去の投資、国有資産所在市町村交付金は移転なので除く。関西・神戸で増える運営費をその 0〜6 割として、純額 17〜43 億円/年（幅の置き方は no_source）",
+     "noise_benefit": "同じ空港別収支の環境対策費（騒音対策）は FY2006 39 億円・FY2007 47 億円（キャッシュフローで 約 51 億円）。閉じればこの支出がなくなる。2008 年度以降の年度別の値は見つからず、区域の縮小（第 1〜3 種 1982 年 3,127 ha → 2009 年 1,313 ha）で下がっている可能性があるので下限を 20 億円とした（下限は no_source）。累計は 1967〜2002 年度で 6,421 億円（https://www.mlit.go.jp/singikai/koutusin/koku/seibi/12/images/shiryou1_2.pdf）。残る騒音の被害そのものは入れていない",
      "site_prep": "no_source: 跡地の造成・基盤整備の費用",
      "land_price_drop": "no_source: 190 ha 前後の土地が一度に出ることによる地価の下落",
      "kix": "関空の 2024 年度の発着 198,825 回（関西エアポートの決算資料）、2030 年代前半に年 30 万回を目指す（関西 3 空港懇談会 2022）。空いた容量のうち伊丹の便に回せる割合は no_source（国際線の伸びにも使う）",
      "kobe": "神戸の国内線 1 日 80 → 120 回（年 約 1.46 万回）",
-     "capacity_cost": "足りない分を空港の増設で補う費用。1 日 1 往復あたり 那覇 14.4 〜 羽田 34.0 億円（airport_investment.json）"
+     "capacity_cost": "足りない分を空港の増設で補う費用。1 日 1 往復あたり 那覇 14.4 〜 羽田 34.0 億円（airport_investment.json）",
+     "movements": "国交省 空港管理状況調書 FY2025 の着陸 69,029 回 × 2"
     }
-   }
+   },
+   "book_value_note": "跡地の公式な価額は帳簿上のものだけ：国の空港別収支の土地の簿価 FY2007 1,211 億円、2012 年の新関西国際空港への現物出資（土地・建物等）1,429 億円。市場価値の公式な試算は見つからなかった"
   },
   "centrair_capacity_note": "中部の容量は公式の将来構想（2021）が開港時の想定 13 万回を基準にし、2 本運用で約 15.6 万回。報道の「15 → 18 → 25 万回」とは合わない（未確認）。鉄道でつないだ空港の計算では、東京の旅客を拾えない（0）ので容量の値は結論に効かない"
  },
