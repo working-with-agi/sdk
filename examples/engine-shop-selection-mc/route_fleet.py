@@ -236,16 +236,24 @@ def available(types: list[dict], m: int, fleet_737_free: float) -> dict[str, flo
 
 
 def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, quantiles: tuple = ("p10", "p50", "p90"), detail: bool = True,
-          fiscal_years: set | None = None) -> dict:
+          fiscal_years: set | None = None, overrides: dict | None = None, dest: bool = False) -> dict:
     """ctx: checks_rate (737), regional need by t (callable after the version), engine waits by t,
     737 fleet total, to_start (2024 -> start growth), set_trunk_737_rpk (fixes the regional split).
-    delta: the hub trunk slots added (+) or taken away (-) by a re-allocation scenario."""
+    delta: the hub trunk slots added (+) or taken away (-) by a re-allocation scenario.
+    overrides: {type: {field: value}} laid over the company's types (e.g. more widebodies on the trunk).
+    dest: lay the destination airports' caps over the per-route bounds; the hub slots above their sum
+    cannot be flown (reported as unusable)."""
     R = load(); S = ap.load()
-    types = types_of(R, cid)
+    types = [{**t, **(overrides or {}).get(t["type"], {})} for t in types_of(R, cid)]
     P = pattern_table(R, types)
     yld = D["companies"][cid]["yield_yen_per_rpk"]
     km = {r["id"]: r["km"] for r in R["routes"]}
-    slots = {"bounds": ap.bounds(S, cid, delta), "budget": ap.trunk_budget(S, cid, delta), "use_min": S["rules"]["use_min_share"]}
+    caps = ap.destination_caps(S, cid) if dest else None
+    slots = {"bounds": ap.bounds(S, cid, delta, caps), "budget": ap.trunk_budget(S, cid, delta), "use_min": S["rules"]["use_min_share"]}
+    budget_hub = slots["budget"]
+    reach = sum(slots["bounds"][r][1] for r in ap.HUB_ROUTES)
+    if slots["budget"] > reach:                                                              # the other ends cannot take them all
+        slots["budget"] = reach
     # the yearly version, with the share following the frequencies it flies (fixed point)
     freq = ap.current_freq(S, cid)
     pk = {r: 0.5 for r in freq}                                                              # share of a route's legs in the peak (first guess)
@@ -305,7 +313,10 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
             row["no_lease_p50"] = {"spill_pax_k": nolease["spill_total_pax_k"], "lost_revenue_k": nolease["cost_k"]["lost_revenue"], "by_type": nolease["by_type"]}
         rows.append(row)
     return {"routes": [{k: r[k] for k in ("id", "name", "market_pax_2024", "market_lf_2024", "block_h", "km", "slot_airport")} for r in R["routes"]], "patterns": P, "types": types,
-            "airport": {**ap.summary(S, cid), "delta": delta, "budget": slots["budget"], "bounds": slots["bounds"], "use_min": slots["use_min"]},
+            "airport": {**ap.summary(S, cid), "delta": delta, "budget": slots["budget"], "bounds": slots["bounds"], "use_min": slots["use_min"],
+                        "hub_budget": budget_hub, "unusable_round_trips": round(budget_hub - slots["budget"], 1), "destination_caps": caps,
+                        "destination_binding": [r for r in ap.HUB_ROUTES if caps and r in caps and slots["bounds"][r][1] >= caps[r] - 1e-9 and
+                                                ap.bounds(S, cid, delta)[r][1] > caps[r]]},
             "version": {"by_type": version["by_type"], "by_type_pattern": version["by_type_pattern"], "round_trips": version["round_trips"], "avg_seats": version["avg_seats"],
                         "lf": version["lf"], "legs_band": version["legs_band"], "legs_by_type": version["legs_by_type"], "share_rounds": rounds, "share": rounds[-1]["share"], "trunk_737_rpk_million": round(v737_rpk, 1), "trunk_share_of_737_rpk": trunk_share,
                         "how": "最初の 12 か月の平均の需要（p50）での機材割当。便数が変わると需要の取り分も変わるので、取り分と便数が落ち着くまで解き直す。737 の幹線分がこれで決まり、残りが地方路線"},

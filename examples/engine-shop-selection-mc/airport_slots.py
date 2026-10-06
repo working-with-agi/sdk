@@ -11,6 +11,8 @@ frequencies by company with the other carriers summed (sources in the file).
   trunk_budget(cid, delta)  round trips a day the company flies on the four hub trunk routes,
                             today's schedule + delta (a re-allocation scenario lands on the trunk)
   bounds(cid, delta)        per-route min/max round trips (today's ± flex; wider when delta is large)
+  destination_caps(cid)     the airport at the other end: today's frequency + the company's headroom
+                            there (data/destination_airports.json), laid over the bounds on request
   share(cid, freq)          the company's share of each route's passengers from frequencies
                             (S-curve with exponent alpha; alpha = 1 is proportional)
 
@@ -25,6 +27,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SLOTS = HERE / "data" / "hnd_slots.json"
+DEST = HERE / "data" / "destination_airports.json"
 HUB_ROUTES = ("HND-CTS", "HND-ITM", "HND-FUK", "HND-OKA")
 
 
@@ -66,11 +69,32 @@ def trunk_budget(S: dict, cid: str, delta: float = 0.0) -> float:
     return sum(current_freq(S, cid)[r] for r in HUB_ROUTES) + delta
 
 
-def bounds(S: dict, cid: str, delta: float = 0.0) -> dict[str, tuple[float, float]]:
-    """Per-route round trips a day. FUK-OKA is bounded by its own airport (today's and the seasonal)."""
+def load_destinations() -> dict:
+    return json.loads(DEST.read_text(encoding="utf-8"))
+
+
+def destination_caps(S: dict, cid: str, dest: dict | None = None) -> dict[str, float]:
+    """Per hub route, the most round trips a day the airport at the other end lets the company fly:
+    today's frequency + the company's headroom there (no_source). Routes touching two capped
+    airports take the tighter one."""
+    dest = dest or load_destinations()
+    cur = current_freq(S, cid)
+    out = {}
+    for a in dest["airports"].values():
+        for r in a["routes"]:
+            if r in HUB_ROUTES:
+                out[r] = min(out.get(r, float("inf")), cur[r] + a["headroom_round_trips"])
+    return out
+
+
+def bounds(S: dict, cid: str, delta: float = 0.0, dest: dict | None = None) -> dict[str, tuple[float, float]]:
+    """Per-route round trips a day. FUK-OKA is bounded by its own airport (today's and the seasonal).
+    dest: the destination airports' caps (destination_caps) laid over the hub-side upper bounds."""
     cur = current_freq(S, cid)
     flex = S["trunk_frequencies"]["flex_round_trips"] + abs(delta) / len(HUB_ROUTES)
     out = {r: (max(1.0, cur[r] - flex), cur[r] + flex) for r in HUB_ROUTES}
+    if dest:
+        out = {r: (min(lo, dest.get(r, hi)), min(hi, dest.get(r, hi))) for r, (lo, hi) in out.items()}
     seasonal = S["trunk_frequencies"]["FUK-OKA"].get(f"{cid}_seasonal", cur["FUK-OKA"])
     out["FUK-OKA"] = (max(1.0, cur["FUK-OKA"] - 1), max(seasonal, cur["FUK-OKA"] + 1))
     return out

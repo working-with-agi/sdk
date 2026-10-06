@@ -263,6 +263,68 @@ def month_table(start: str, months: int) -> list[dict]:
 SLOT_SCENARIOS = (-9, -5, -3, 0, 3, 5)    # hub trunk round trips a day added/removed by the 2028 re-allocation (about 5 % of the allocation is ±9)
 
 
+def trunk_context(cid: str, cfg: dict, rpk: list[dict], ac: dict, eng: dict, derived: dict, years_ahead: float = 0.0) -> tuple[dict, dict]:
+    """The context route_fleet.build needs: the 737's checks, the regional network's need (seat-km),
+    the engine waits, and the growth from the 2024 route data to the start. years_ahead moves the
+    whole window that many years of demand growth later (trunk and regional alike)."""
+    total = cfg["aircraft"]["total"]
+    checks737 = {int(k): v for k, v in cfg["aircraft"]["airframe_checks"].items()}
+    P = ac["params"]; lf_t = P["lf_target"]
+    wait = {e["t"]: math.ceil(max(0, -e["headroom_p90"]) / 2) for e in eng["rows"]}
+    avg737 = sum(b["p50"] for b in rpk[:12]) / 12
+    g = derived["demand_growth_per_year"]
+    ahead = (1 + g) ** years_ahead
+    to_start = (1 + g) ** 2.25 * ahead                                               # 2024 (mid-year) -> 2026-10 (+ years ahead)
+    state = {"share": 0.0}
+    def set_trunk(v):
+        state["share"] = min(1.0, v / (avg737 * ahead))
+        return round(state["share"], 3)
+    def regional_need(t):
+        return rpk[t]["p50"] * ahead * (1 - state["share"]) / lf_t / P["ask_per_aircraft_month"]
+    ctx = {"checks_rate": {m: n / total for m, n in checks737.items()}, "fleet_737": total, "engine_wait": wait,
+           "set_trunk_737_rpk": set_trunk, "regional_need": regional_need, "to_start": to_start}
+    return ctx, state
+
+
+def engine_rows_of(tr: dict, ectx: dict, fy: int, with_windows: bool = True, util_cap: float | None = pfd.UTIL_CAP) -> list[dict]:
+    """Per aircraft type: the cycles the trunk assignment flies in fiscal year fy, blended with the
+    rest of the type's fleet into a utilisation multiplier, and (with_windows) the engine shop visit
+    windows re-derived with it (plan_from_demand.build_fleet) against today's plan. util_cap clips
+    the multiplier (the planning lever's limit); None keeps what the assignment actually flies."""
+    cid, types, fleets, total, sectors_day, derived, cur = (ectx[k] for k in ("cid", "types", "fleets", "total", "sectors_day", "derived", "cur"))
+    months = [r for r in tr["rows"] if r["fy"] == fy] or tr["rows"][:12]
+    out = []
+    for ty in types:
+        k = ty["type"]
+        used = sum(r["used_p50"][k] for r in months) / len(months)
+        cyc = sum(r["cycles_per_day_p50"][k] for r in months) / len(months)
+        per_ac = cyc / used if used else 0.0
+        if k == "737":
+            fleet_n, base_day = total, sectors_day
+        elif k in fleets:
+            f = fleets[k]; fleet_n = f["aircraft"]["total"]
+            base_day = sum(x["aircraft"] * x["cycles_per_year"] for x in f["subfleets"]) / fleet_n / 365
+        else:
+            fleet_n, base_day = None, None
+        row = {"type": k, "name": ty["name"], "engine": ty["engine"], "trunk_aircraft_used_avg": round(used, 1), "trunk_cycles_per_aircraft_day": round(per_ac, 2),
+               "fleet_aircraft": fleet_n, "fleet_cycles_per_aircraft_day_now": round(base_day, 2) if base_day else None, "trunk_engines_installed_avg": round(2 * used, 1)}
+        if fleet_n and used:
+            blended = (used * per_ac + (fleet_n - used) * base_day) / fleet_n
+            u = round(max(1.0, blended / base_day) if util_cap is None else min(util_cap, max(1.0, blended / base_day)), 4)
+            row.update({"blended_cycles_per_aircraft_day": round(blended, 2), "utilisation_multiplier": u,
+                        "utilisation_uncapped": round(blended / base_day, 3), "at_util_cap": blended / base_day > pfd.UTIL_CAP})
+            if with_windows:
+                new_fleet, n_new = pfd.build_fleet(cid, {**derived, "utilisation_multiplier": u}, None if k == "737" else k)
+                cur_k = cur if k == "737" else json.loads((HERE / "data" / cid / k / "fleet.json").read_text(encoding="utf-8"))
+                shift = pfd.compare_inputs(cur_k, new_fleet)
+                row.update({"windows": {x: shift[x] for x in ("due_now", "due_new", "earlier", "newly_due", "mean_shift_months") if x in shift},
+                            "spend_per_year_k": round(n_new["spend_per_year_k"]), "spend_per_year_oku_yen": round(n_new["spend_per_year_k"] * USD_JPY / 1e5, 1)})
+        elif not fleet_n:
+            row["note"] = "エンジン計画のデータがない機種（companies.json に未登録）。サイクルだけ出す"
+        out.append(row)
+    return out
+
+
 def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: dict, eng: dict, growth: dict | None, derived: dict, norms: dict,
                 scenarios: tuple = SLOT_SCENARIOS, routes: bool = True) -> dict:
     """The trunk routes inside the hub's slots (airport layer) with every aircraft type that flies them
@@ -275,19 +337,9 @@ def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: di
     checks737 = {int(k): v for k, v in cfg["aircraft"]["airframe_checks"].items()}
     R = rf.load()
     types = rf.types_of(R, cid)
-    P = ac["params"]; lf_t = P["lf_target"]
-    wait = {e["t"]: math.ceil(max(0, -e["headroom_p90"]) / 2) for e in eng["rows"]}
-    avg737 = sum(b["p50"] for b in rpk[:12]) / 12
-    g = derived["demand_growth_per_year"]
-    to_start = (1 + g) ** 2.25                                                       # 2024 (mid-year) -> 2026-10
-    state = {}
-    def set_trunk(v):
-        state["share"] = min(1.0, v / avg737)
-        return round(state["share"], 3)
-    def regional_need(t):
-        return rpk[t]["p50"] * (1 - state["share"]) / lf_t / P["ask_per_aircraft_month"]
-    ctx = {"checks_rate": {m: n / total for m, n in checks737.items()}, "fleet_737": total, "engine_wait": wait,
-           "set_trunk_737_rpk": set_trunk, "regional_need": regional_need, "to_start": to_start}
+    P = ac["params"]
+    ctx, state = trunk_context(cid, cfg, rpk, ac, eng, derived)
+    regional_need = ctx["regional_need"]
     trunk = rf.build(cid, D, rpk, ctx)
     base_share = state["share"]
     # regional network and the reconciliation with the seat-km whole (737 only)
@@ -303,37 +355,10 @@ def route_layer(D: dict, cid: str, cfg: dict, cur: dict, rpk: list[dict], ac: di
     sectors_day = P["sectors_per_day"]
     fy_next = sorted({r["fy"] for r in trunk["rows"]})[1]
 
+    ectx = {"cid": cid, "types": types, "fleets": fleets, "total": total, "sectors_day": sectors_day, "derived": derived, "cur": cur}
+
     def engine_rows(tr, with_windows=True):
-        months = [r for r in tr["rows"] if r["fy"] == fy_next] or tr["rows"][:12]
-        out = []
-        for ty in types:
-            k = ty["type"]
-            used = sum(r["used_p50"][k] for r in months) / 12
-            cyc = sum(r["cycles_per_day_p50"][k] for r in months) / 12
-            per_ac = cyc / used if used else 0.0
-            if k == "737":
-                fleet_n, base_day = total, sectors_day
-            elif k in fleets:
-                f = fleets[k]; fleet_n = f["aircraft"]["total"]
-                base_day = sum(x["aircraft"] * x["cycles_per_year"] for x in f["subfleets"]) / fleet_n / 365
-            else:
-                fleet_n, base_day = None, None
-            row = {"type": k, "name": ty["name"], "engine": ty["engine"], "trunk_aircraft_used_avg": round(used, 1), "trunk_cycles_per_aircraft_day": round(per_ac, 2),
-                   "fleet_aircraft": fleet_n, "fleet_cycles_per_aircraft_day_now": round(base_day, 2) if base_day else None, "trunk_engines_installed_avg": round(2 * used, 1)}
-            if fleet_n and used:
-                blended = (used * per_ac + (fleet_n - used) * base_day) / fleet_n
-                u = round(min(pfd.UTIL_CAP, max(1.0, blended / base_day)), 4)
-                row.update({"blended_cycles_per_aircraft_day": round(blended, 2), "utilisation_multiplier": u})
-                if with_windows:
-                    new_fleet, n_new = pfd.build_fleet(cid, {**derived, "utilisation_multiplier": u}, None if k == "737" else k)
-                    cur_k = cur if k == "737" else json.loads((HERE / "data" / cid / k / "fleet.json").read_text(encoding="utf-8"))
-                    shift = pfd.compare_inputs(cur_k, new_fleet)
-                    row.update({"windows": {x: shift[x] for x in ("due_now", "due_new", "earlier", "newly_due", "mean_shift_months") if x in shift},
-                                "spend_per_year_k": round(n_new["spend_per_year_k"]), "spend_per_year_oku_yen": round(n_new["spend_per_year_k"] * USD_JPY / 1e5, 1)})
-            elif not fleet_n:
-                row["note"] = "エンジン計画のデータがない機種（companies.json に未登録）。サイクルだけ出す"
-            out.append(row)
-        return out
+        return engine_rows_of(tr, ectx, fy_next, with_windows)
 
     eng_types = engine_rows(trunk)
     ver = trunk["version"]["by_type"]
