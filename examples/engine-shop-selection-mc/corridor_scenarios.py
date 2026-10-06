@@ -123,25 +123,55 @@ def itami_smaller(C: dict, linear: dict) -> dict:
             "how": "土地の値 ＝ 面積 × 使える割合 × 地価（幅）。旅客の損 ＝ 伊丹に残る旅客 × 片道の追加費用（時間 × 時間価値 ＋ 運賃差）を 30 年・4% で現在価値に。空港の運営費・跡地の造成費・関西の追加の容量は入れていない（ふるい分け）"}
 
 
-def itami_monte_carlo(C: dict, n: int = 20000, seed: int = 7) -> dict:
+def itami_monte_carlo(C: dict, n: int = 20000, seed: int = 7, steps: bool = True) -> dict:
     """The same screening with the uncertain inputs drawn from their ranges (uniform): how often the
-    land is worth more than the passengers' extra access, and by how much either way."""
+    land (plus what closing saves) is worth more than the passengers' extra access (plus what moving
+    the flights costs). With steps, the items left out of the first screening are added one at a
+    time so each one's pull on the probability shows."""
     import numpy as np
-    I = C["itami_smaller"]; U = I["ranges"]
+    I = C["itami_smaller"]; U = I["ranges"]; M = I.get("more", {})
     rng = np.random.default_rng(seed)
-    u = lambda k: rng.uniform(U[k][0], U[k][1], n)  # noqa: E731
-    keep, price, usable = u("air_keeps"), u("land_price_yen_m2"), u("usable_share")
-    dmin, dfare, vot, pax = u("extra_access_min"), u("extra_access_fare_yen"), u("value_of_time_yen_per_hour"), u("itami_pax_million_per_year")
+    u = lambda lo_hi: rng.uniform(lo_hi[0], lo_hi[1], n)  # noqa: E731
+    keep, price, usable = u(U["air_keeps"]), u(U["land_price_yen_m2"]), u(U["usable_share"])
+    dmin, dfare, vot, pax = u(U["extra_access_min"]), u(U["extra_access_fare_yen"]), u(U["value_of_time_yen_per_hour"]), u(U["itami_pax_million_per_year"])
     rate, years = I["discount_rate"], I["years"]
     A = (1 - (1 + rate) ** -years) / rate
-    land = I["area_ha"] * 1e4 * usable * price / 1e8
-    pax_left = pax * (I["share_on_tokyo_route"] * keep + (1 - I["share_on_tokyo_route"]))
-    loss = pax_left * 1e6 * (dmin / 60 * vot + dfare) / 1e8 * A
-    net = land - loss
+    area_m2 = I["area_ha"] * 1e4 * usable
+    land = area_m2 * price / 1e8
+    left = I["share_on_tokyo_route"] * keep + (1 - I["share_on_tokyo_route"])
+    loss = pax * left * 1e6 * (dmin / 60 * vot + dfare) / 1e8 * A
     q = lambda x: [round(float(v)) for v in np.percentile(x, [10, 50, 90])]  # noqa: E731
-    return {"draws": n, "p_land_exceeds_loss": round(float((net > 0).mean()), 3), "net_oku_p10_p50_p90": q(net),
-            "land_oku_p10_p50_p90": q(land), "passenger_loss_pv_oku_p10_p50_p90": q(loss), "years": years, "discount_rate": rate,
-            "how": "不確かな入力（航空に残る割合・地価・使える割合・追加の時間と運賃・時間価値・伊丹の旅客数）を幅の中で一様に引き、土地の値 − 旅客の損（現在価値）が正になる確率を出す。運営費の節約・騒音の解消・跡地の造成費・関西の追加の容量は入れていない"}
+    out = {"draws": n, "years": years, "discount_rate": rate,
+           "land_oku_p10_p50_p90": q(land), "passenger_loss_pv_oku_p10_p50_p90": q(loss)}
+    net = land - loss
+    out["p_land_exceeds_loss"] = round(float((net > 0).mean()), 3)
+    out["net_oku_p10_p50_p90"] = q(net)
+    if steps and M:
+        st = [{"step": "跡地 − 旅客の損", "p": out["p_land_exceeds_loss"], "net_p50": q(net)[1]}]
+        save = (u(M["operating_saving_oku_per_year"]) + 0) * A
+        net = net + save
+        st.append({"step": "＋ 運営費の節約", "p": round(float((net > 0).mean()), 3), "net_p50": q(net)[1]})
+        noise = u(M["noise_benefit_oku_per_year"]) * A
+        net = net + noise
+        st.append({"step": "＋ 騒音の解消", "p": round(float((net > 0).mean()), 3), "net_p50": q(net)[1]})
+        prep = area_m2 * u(M["site_prep_yen_m2"]) / 1e8
+        drop = land * u(M["land_price_drop_share"])
+        net = net - prep - drop
+        st.append({"step": "− 造成費・地価の下落", "p": round(float((net > 0).mean()), 3), "net_p50": q(net)[1]})
+        need = M["itami_movements_per_year"] * left
+        room = (M["kix_target"] - M["kix_movements_2024"]) * u(M["kix_share_for_itami"]) + M["kobe_added_movements_per_year"]
+        short = np.maximum(0.0, need - room)
+        cap_cost = short / 730 * u(M["capacity_cost_oku_per_round_trip_day"])
+        net = net - cap_cost
+        st.append({"step": "− 関西・神戸で足りない容量の手当て", "p": round(float((net > 0).mean()), 3), "net_p50": q(net)[1]})
+        out["steps"] = st
+        out["kix_kobe"] = {"itami_movements_to_move_p10_p50_p90": q(need), "room_p10_p50_p90": q(room), "shortfall_p10_p50_p90": q(short),
+                           "p_shortfall": round(float((short > 0).mean()), 3), "capacity_cost_oku_p10_p50_p90": q(cap_cost)}
+        out["p_all_items"] = st[-1]["p"]
+        out["net_all_items_oku_p10_p50_p90"] = q(net)
+    out["how"] = ("不確かな入力を幅の中で一様に引き、跡地の値 − 旅客の損（現在価値）が正になる確率を出す。steps は最初に入れていなかった項目"
+                  "（運営費の節約・騒音の解消・造成費・地価の下落・関西と神戸で足りない容量の手当て）を一つずつ足したときの確率。足した項目の幅は no_source")
+    return out
 
 
 def build(cid: str, out: Path | None = None, years_ahead: int = 3, log=print) -> dict:

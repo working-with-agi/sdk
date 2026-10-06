@@ -38,6 +38,11 @@ class CorridorTest(unittest.TestCase):
         self.assertLessEqual(lo, mid)
         self.assertLessEqual(mid, hi)
         self.assertEqual(self.C["status"], "checked")
+        steps = [x["step"] for x in m["steps"]]
+        self.assertEqual(len(steps), 5)
+        self.assertEqual(m["p_all_items"], m["steps"][-1]["p"])
+        k = m["kix_kobe"]
+        self.assertTrue(0.0 <= k["p_shortfall"] <= 1.0)
 
 
 if __name__ == "__main__":
