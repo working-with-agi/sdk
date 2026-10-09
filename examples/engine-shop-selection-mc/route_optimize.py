@@ -162,9 +162,14 @@ def main(argv=None) -> int:
     a.add_argument("--world", choices=WORLDS)
     a.add_argument("--fares", choices=FARES, default="distance")
     a.add_argument("--summary", action="store_true")
+    a.add_argument("--recapture", type=float, default=0.0, help="share of the turned-away passengers who rebook (route_fleet.RECAPTURE, expost); outputs get the suffix _rc<percent>")
     args = a.parse_args(argv)
+    global OUT
+    if args.recapture:
+        rf.RECAPTURE = args.recapture
+        OUT = HERE / "fleet" / f"route_opt_rc{round(args.recapture * 100)}"
     if args.summary:
-        summarize()
+        summarize(HERE / "fleet" / (f"route_opt_jal_rc{round(args.recapture * 100)}.json" if args.recapture else "route_opt_jal.json"))
         return 0
     grid(args.world, args.fares)
     return 0

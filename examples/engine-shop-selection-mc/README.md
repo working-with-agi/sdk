@@ -499,6 +499,7 @@ python3 fleet_from_demand.py jal --out fleet/jal.json     # ana も同じ。--ru
 
 ```bash
 python3 export_trunk_assignment.py jal --label "Company A" --out trunk_assignment.json   # 月 × 分位の機種別の割当・枠・搭乗率・乗れない旅客・費用、約 30 KB
+python3 recapture_scenarios.py      # 乗れなかった旅客の乗り換え（0・15・30・50・70%）で失う売上・リニア・枠の再配分・羽田の拡張を出し直す → fleet/recapture_jal.json（あると書き出しは形式 3 になり recapture・scenarios が増える）
 ```
 
 ### 羽田の容量のキャップと、その先（`capacity_scenarios.py`、`data/destination_airports.json`）

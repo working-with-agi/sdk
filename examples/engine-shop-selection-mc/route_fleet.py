@@ -40,6 +40,9 @@ DAYS = 365 / 12
 USD_JPY = 157.0
 FARE_MODE = "distance"   # "fitted": route fare levels fitted to 2024 load factors (fare_taper.route_adjust_fitted)
 MIP_GAP = 0.002          # relative optimality gap accepted from the solver
+RECAPTURE = 0.0          # share of the passengers a full flight turns away who take another flight of the same company on the same route (same day, the days around); set by scenario (route_fleet.RECAPTURE = 0.5)
+RECAPTURE_MODE = "expost"   # "expost": the fleet is planned as if every turned-away passenger is lost, then the recaptured fill the empty seats (the restated lost revenue); "optimize": the plan counts on the recapture
+RECAPTURE_LF_MAX = 0.95  # no_source: the recaptured passengers fill the route's empty seats up to this load factor over the month
 CANCEL_K_PER_ROUND_TRIP_MONTH = 5000.0   # penalty for flying fewer round trips than the slots/bounds ask (k$ per round trip a day, a month): only when no aircraft can fly them.
                                          # About a month of what one hub round trip is worth a year in the slot scenarios (10-13 oku yen); assumption
 MIP_TIME_S = 15          # time limit per monthly solve (a feasible solution found by then is used)
@@ -167,12 +170,17 @@ def scale_demand(dem: list[dict], scale: dict | None) -> list[dict]:
 
 def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], avail: dict[str, float | None], mu: dict[str, float], yld: float,
            slots: dict, lease: bool = True, gap: float = MIP_GAP, time_s: float = MIP_TIME_S,
-           fare_mult: dict[str, float] | None = None, elasticity: float = 0.0) -> dict:
+           fare_mult: dict[str, float] | None = None, elasticity: float = 0.0, recapture: float | None = None) -> dict:
     """One month's fleet assignment. avail[type] None = unconstrained. slots: {"bounds": {route: (lo, hi)}
     round trips a day, "budget": hub trunk round trips, "use_min": floor share of the budget}.
     fare_mult: the route's fare times this; its passengers (and the mean per flight) follow a linear
     demand curve through today's fare with the given elasticity there: x (1 + elasticity (m - 1)).
-    (Constant elasticity would make an inelastic market raise fares without end.)"""
+    (Constant elasticity would make an inelastic market raise fares without end.)
+    recapture (default RECAPTURE): of the passengers the flights turn away, this share takes another
+    flight of the company on the same route, into the empty seats (the route's month, up to
+    RECAPTURE_LF_MAX of the seats); the rest are lost."""
+    rate = RECAPTURE if recapture is None else recapture
+    rcp = rate if RECAPTURE_MODE == "optimize" else 0.0
     if fare_mult:
         f = {r: max(0.0, 1 + elasticity * (fare_mult.get(r, 1.0) - 1)) for r in pax}
         pax = {r: v * f[r] for r, v in pax.items()}
@@ -192,7 +200,8 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
     hub = [r for r in pax if r in ap.HUB_ROUTES]
     cut = {r: pulp.LpVariable(f"u_{r.replace('-', '_')}", lowBound=0) for r in pax}                 # round trips a day below the route's floor (cancelled)
     cut_hub = pulp.LpVariable("u_hub", lowBound=0)                                                  # round trips a day below the slot-use floor
-    prob += op + ls + pulp.lpSum((pax[r] - c[r]) * rev[r] for r in pax) + CANCEL_K_PER_ROUND_TRIP_MONTH * (pulp.lpSum(cut.values()) + cut_hub)
+    rc = {r: pulp.LpVariable(f"rc_{r.replace('-', '_')}", lowBound=0, upBound=rcp * pax[r]) for r in pax} if rcp > 0 else {}   # recaptured (thousand pax)
+    prob += op + ls + pulp.lpSum((pax[r] - c[r] - (rc[r] if rc else 0)) * rev[r] for r in pax) + CANCEL_K_PER_ROUND_TRIP_MONTH * (pulp.lpSum(cut.values()) + cut_hub)
     legs = {r: pulp.lpSum(x[(t, p["id"])] * p["legs"].get(r, 0) for p in P for t in p["types"]) + pulp.lpSum(l[p["id"]] * p["legs"].get(r, 0) for p in P if p["id"] in l) for r in pax}
     cv = spill_cv(R)
     # what one leg a day of type t carries on route r in a month (thousand pax): mean flight demand x E[min(u, seats/mean)]
@@ -205,6 +214,11 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
         can = pulp.lpSum(x[(t, p["id"])] * per_leg(t, p, r) for p in P for t in p["types"] if r in p["legs"]) \
             + pulp.lpSum(l[p["id"]] * per_leg(lt, p, r) for p in P if p["id"] in l and r in p["legs"])
         prob += can >= c[r]
+        if rc:
+            seats = pulp.lpSum(x[(t, p["id"])] * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"] if r in p["legs"]) \
+                + pulp.lpSum(l[p["id"]] * T[lt]["seats"] * p["legs"].get(r, 0) for p in P if p["id"] in l and r in p["legs"])
+            prob += rc[r] <= rcp * (pax[r] - c[r])                                  # only turned-away passengers, and only the share who rebook
+            prob += c[r] + rc[r] <= RECAPTURE_LF_MAX * seats * DAYS / 1e3          # into empty seats on the route
         lo, hi = slots["bounds"][r]
         prob += legs[r] <= 2 * hi
         prob += legs[r] + 2 * cut[r] >= 2 * math.ceil(lo - 1e-9)
@@ -219,7 +233,13 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
     xs = {k: int(round(v.value() or 0)) for k, v in x.items()}
     ls_ = {k: int(round(v.value() or 0)) for k, v in l.items()}
     by_type = {t: sum(v for k, v in xs.items() if k[0] == t) for t in T}
-    carried = {r: round(c[r].value() or 0, 1) for r in pax}
+    recap = {r: round((rc[r].value() or 0) if rc else 0.0, 1) for r in pax}
+    carried = {r: round((c[r].value() or 0) + recap[r], 1) for r in pax}
+    if rate > 0 and not rc:                                                        # expost: the plan as solved, the turned-away who rebook fill its empty seats
+        seats_k = {r: (sum(xs.get((t, p["id"]), 0) * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"])
+                       + sum(ls_.get(p["id"], 0) * T[lt]["seats"] * p["legs"].get(r, 0) for p in P)) * DAYS / 1e3 for r in pax}
+        recap = {r: round(max(0.0, min(rate * (pax[r] - carried[r]), RECAPTURE_LF_MAX * seats_k[r] - carried[r])), 1) for r in pax}
+        carried = {r: round(carried[r] + recap[r], 1) for r in pax}
     sp = {r: round(pax[r] - carried[r], 1) for r in pax}
     legs_v = {r: sum(xs.get((t, p["id"]), 0) * p["legs"].get(r, 0) for p in P for t in p["types"]) + sum(ls_.get(p["id"], 0) * p["legs"].get(r, 0) for p in P) for r in pax}
     cap = {r: (sum(xs.get((t, p["id"]), 0) * T[t]["seats"] * p["legs"].get(r, 0) for p in P for t in p["types"]) + sum(ls_.get(p["id"], 0) * T[lt]["seats"] * p["legs"].get(r, 0) for p in P)) * DAYS / 1e3 for r in pax}
@@ -229,7 +249,7 @@ def assign(R: dict, P: list[dict], types: list[dict], pax: dict[str, float], ava
     legs_by_type = {t: sum(xs.get((t, p["id"]), 0) * sum(p["legs"].values()) for p in P if t in p["types"]) for t in T}
     bh_type = {t: round((sum(xs.get((t, p["id"]), 0) * p["block_h"] for p in P if t in p["types"]) + (sum(ls_.get(p["id"], 0) * p["block_h"] for p in P) if t == lt else 0)) * DAYS, 1) for t in T}   # block hours a month
     return {"by_type": by_type, "by_type_pattern": {f"{k[0]}:{k[1]}": v for k, v in xs.items() if v}, "lease": sum(ls_.values()), "lease_by_pattern": {k: v for k, v in ls_.items() if v},
-            "carried_pax_k": carried, "spill_pax_k": sp, "spill_total_pax_k": round(sum(sp.values()), 1),
+            "carried_pax_k": carried, "recaptured_pax_k": recap, "spill_pax_k": sp, "spill_total_pax_k": round(sum(sp.values()), 1),
             "round_trips": {r: legs_v[r] / 2 for r in pax}, "legs_band": lbs, "legs_by_type": legs_by_type, "block_h_by_type": bh_type, "seats_k": {r: round(v, 1) for r, v in cap.items()},
             "avg_seats": {r: round(cap[r] * 1e3 / DAYS / legs_v[r]) if legs_v[r] else None for r in pax},
             "lf": {r: round(carried[r] / cap[r], 3) if cap[r] else None for r in pax},
@@ -377,7 +397,8 @@ def build(cid: str, D: dict, band: list[dict], ctx: dict, delta: float = 0.0, qu
                "round_trips_p50": s["round_trips"], "avg_seats_p50": s["avg_seats"], "lf_p50": s["lf"], "legs_by_type_p50": s["legs_by_type"], "block_h_by_type_p50": s["block_h_by_type"], "legs_band_p50": s["legs_band"], "spill_by_route_p50": s["spill_pax_k"],
                "by_type_pattern_p50": s["by_type_pattern"], "aircraft_by_route_p50": per_route(P, s["by_type_pattern"]),
                "cost_k_p50": s["cost_k"], "cycles_per_day_p50": s["cycles_per_day_by_type"], "lease_cycles_per_day_p50": s["lease_cycles_per_day"],
-               "fare_mult_p50": s["fare_mult"], "pax_after_fare_k_p50": s["pax_after_fare_k"], "carried_by_route_p50": s["carried_pax_k"]}
+               "fare_mult_p50": s["fare_mult"], "pax_after_fare_k_p50": s["pax_after_fare_k"], "carried_by_route_p50": s["carried_pax_k"],
+               "recaptured_by_route_p50": s["recaptured_pax_k"]}
         for q in quantiles:
             if q != "p50":
                 row.update({f"used_{q}": sol[q]["by_type"], f"lease_{q}": sol[q]["lease"], f"spill_{q}_pax_k": sol[q]["spill_total_pax_k"],

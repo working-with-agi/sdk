@@ -7,6 +7,15 @@ fleet assignment itself is solved here (route_fleet.py). The label is what the p
 company (the file carries no other company name).
 
   python export_trunk_assignment.py jal --label "Company A" --out trunk_assignment.json
+
+Schema 3 (adds, nothing removed; needs fleet/recapture_jal.json from recapture_scenarios.py):
+  recapture   the lost revenue restated with a share of the turned-away passengers rebooking on the
+              same route (rates 0 / 0.15 / 0.3 / 0.5 / 0.7, the plan as it is): by fiscal year,
+              by month of the first year, and August by route; plus the plan counting on it (sensitivity)
+  scenarios   per rate 0 and 0.5: Haneda +20 (company A), the market (company A and B each +10;
+              the 2028 reallocation A +5 / B -5 and the reverse), the Linear slot game (company A and B
+              by cell, the equilibria, the allocation rule's gain and loss) and the world after it;
+              with the 737 / 767 / 787 engine utilisation multipliers where solved
 """
 import argparse
 import json
@@ -43,5 +52,14 @@ for r, d, o, x in zip(tr["rows"], tr["demand"], tr["others"], tr["reconciliation
 doc["year_end"] = tr["decisions"]["year_end"]
 doc["slot_scenarios"] = [{k: x[k] for k in ("delta_round_trips", "budget", "version_round_trips", "share", "pax_k", "revenue_oku", "lost_revenue_oku", "operating_cost_oku", "aircraft_used_avg", "vs_base")}
                          | {"engine_737": {k: x["engine_737"].get(k) for k in ("trunk_cycles_per_aircraft_day", "utilisation_multiplier", "windows")}} for x in tr["slot_scenarios"]["rows"]]
+RC = HERE / "fleet" / f"recapture_{cid}.json"
+if RC.exists():
+    X = json.load(open(RC, encoding="utf-8"))["result"]
+    doc["schema"] = "trunk_assignment/3"
+    doc["recapture"] = {"rates": X["rates"], "mode": "expost（計画はそのまま、乗り換えた旅客が同じ路線の空席を座席の 95% まで埋める）",
+                        "by_fiscal_year": {v: [{k: y[k] for k in ("fiscal_year", "spill_pax_k", "recaptured_pax_k", "lost_revenue_oku", "margin_oku")} for y in ys] for v, ys in X["years"].items()},
+                        "by_month_first_year": X.get("months"), "august": X["august"], "trunk": X["trunk"],
+                        "plan_counts_on_it": X["optimize"], "rate_sources": "0.15：便数の少ない会社の事例値（JAIRM 2014）。0.3・0.5・0.7：no_source"}
+    doc["scenarios"] = {v: {"expansion_company_a": X["expansion"][v], "market": X["market"][v], "linear": X["linear"][v]} for v in X["expansion"]}
 out.write_text(json.dumps(doc, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 print(out, len(json.dumps(doc)) // 1024, "KB")

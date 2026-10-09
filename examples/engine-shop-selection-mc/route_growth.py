@@ -192,10 +192,12 @@ def main(argv=None) -> int:
     a.add_argument("company", nargs="?", default="jal")
     a.add_argument("--out", type=Path, default=None)
     a.add_argument("--fares", choices=("distance", "fitted"), default="distance", help="fitted: the route fare levels fitted to both companies' 2024 load factors")
+    a.add_argument("--recapture", type=float, default=0.0, help="share of the turned-away passengers who rebook (route_fleet.RECAPTURE, expost)")
     args = a.parse_args(argv)
     import route_fleet as rf
     rf.FARE_MODE = args.fares
-    tag = "" if args.fares == "distance" else "_fitted"
+    rf.RECAPTURE = args.recapture
+    tag = ("" if args.fares == "distance" else "_fitted") + (f"_rc{round(args.recapture * 100)}" if args.recapture else "")
     build(args.company, args.out or HERE / "fleet" / f"route_growth_{args.company}{tag}.json", rival_cid="ana" if args.company == "jal" else "jal")
     return 0
 
