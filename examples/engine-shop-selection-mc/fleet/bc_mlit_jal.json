@@ -1,0 +1,2076 @@
+{
+ "results": {
+  "before/distance/rc0": {
+   "base_market": {
+    "q0_pax_k": {
+     "HND-CTS": 11883.8,
+     "HND-ITM": 4694.2,
+     "HND-FUK": 9628.9,
+     "HND-OKA": 8223.2,
+     "FUK-OKA": 2420.1
+    },
+    "f0_round_trips": {
+     "HND-CTS": 55.2,
+     "HND-ITM": 28.0,
+     "HND-FUK": 57.0,
+     "HND-OKA": 35.4,
+     "FUK-OKA": 20.5
+    }
+   },
+   "by_surplus": {
+    "0.0": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 663.1,
+      "margin_change_oku": {
+       "jal": -48.1,
+       "ana": -107.3
+      },
+      "annual_oku": {
+       "frequency": 229.9,
+       "converted": 0.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 256.3
+      },
+      "pv_benefit_oku": 5507.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3172.0,
+      "bc": 2.36
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 83.1,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 92.3
+       },
+       "pv_benefit_oku": 1984.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1240.0,
+       "bc": 2.67
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 69.0,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 78.3
+       },
+       "pv_benefit_oku": 1681.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 617.0,
+       "bc": 1.58
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.6,
+        "converted": 0.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 82.5
+       },
+       "pv_benefit_oku": 1773.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1246.0,
+       "bc": 3.37
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 153.7,
+       "converted": 0.0,
+       "airport_fees": 18.5,
+       "airline": -38.8,
+       "total": 133.4
+      },
+      "pv_benefit_oku": 2865.0,
+      "capital_oku": 1808.1,
+      "npv_oku": 1057.0,
+      "bc": 1.58
+     }
+    },
+    "0.25": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 663.1,
+      "margin_change_oku": {
+       "jal": -48.1,
+       "ana": -107.3
+      },
+      "annual_oku": {
+       "frequency": 229.9,
+       "converted": 36.5,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 292.9
+      },
+      "pv_benefit_oku": 6291.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3957.0,
+      "bc": 2.69
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 83.1,
+        "converted": 18.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 110.7
+       },
+       "pv_benefit_oku": 2377.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1633.0,
+       "bc": 3.19
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 69.0,
+        "converted": 27.9,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 106.2
+       },
+       "pv_benefit_oku": 2281.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1217.0,
+       "bc": 2.14
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.6,
+        "converted": 25.9,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 108.4
+       },
+       "pv_benefit_oku": 2329.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1803.0,
+       "bc": 4.42
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 153.7,
+       "converted": 32.8,
+       "airport_fees": 18.5,
+       "airline": -38.8,
+       "total": 166.2
+      },
+      "pv_benefit_oku": 3569.0,
+      "capital_oku": 1808.1,
+      "npv_oku": 1761.0,
+      "bc": 1.97
+     }
+    },
+    "0.45": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 663.1,
+      "margin_change_oku": {
+       "jal": -48.1,
+       "ana": -107.3
+      },
+      "annual_oku": {
+       "frequency": 229.9,
+       "converted": 65.7,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 322.1
+      },
+      "pv_benefit_oku": 6919.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 4584.0,
+      "bc": 2.96
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 83.1,
+        "converted": 33.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 125.3
+       },
+       "pv_benefit_oku": 2692.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1948.0,
+       "bc": 3.62
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 69.0,
+        "converted": 50.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 128.5
+       },
+       "pv_benefit_oku": 2761.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1697.0,
+       "bc": 2.59
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.6,
+        "converted": 46.6,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 129.1
+       },
+       "pv_benefit_oku": 2774.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2248.0,
+       "bc": 5.27
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+0・B+2",
+      "annual_oku": {
+       "frequency": 174.8,
+       "converted": 67.2,
+       "airport_fees": 20.4,
+       "airline": -61.7,
+       "total": 200.8
+      },
+      "pv_benefit_oku": 4313.0,
+      "capital_oku": 1939.7,
+      "npv_oku": 2373.0,
+      "bc": 2.22
+     }
+    },
+    "0.7": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 663.1,
+      "margin_change_oku": {
+       "jal": -48.1,
+       "ana": -107.3
+      },
+      "annual_oku": {
+       "frequency": 229.9,
+       "converted": 102.3,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 358.6
+      },
+      "pv_benefit_oku": 7704.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 5369.0,
+      "bc": 3.3
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 83.1,
+        "converted": 51.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 143.6
+       },
+       "pv_benefit_oku": 3086.0,
+       "capital_oku": 744.1,
+       "npv_oku": 2342.0,
+       "bc": 4.15
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 69.0,
+        "converted": 78.2,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 156.4
+       },
+       "pv_benefit_oku": 3361.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 2297.0,
+       "bc": 3.16
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.6,
+        "converted": 72.5,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 155.0
+       },
+       "pv_benefit_oku": 3330.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2804.0,
+       "bc": 6.32
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+0・B+2",
+      "annual_oku": {
+       "frequency": 174.8,
+       "converted": 104.5,
+       "airport_fees": 20.4,
+       "airline": -61.7,
+       "total": 238.1
+      },
+      "pv_benefit_oku": 5115.0,
+      "capital_oku": 1939.7,
+      "npv_oku": 3175.0,
+      "bc": 2.64
+     }
+    }
+   }
+  },
+  "after_66_rule/distance/rc0": {
+   "base_market": {
+    "q0_pax_k": {
+     "HND-CTS": 12109.5,
+     "HND-ITM": 3193.8,
+     "HND-FUK": 9764.1,
+     "HND-OKA": 8439.6,
+     "FUK-OKA": 2687.1
+    },
+    "f0_round_trips": {
+     "HND-CTS": 56.8,
+     "HND-ITM": 24.0,
+     "HND-FUK": 60.2,
+     "HND-OKA": 36.7,
+     "FUK-OKA": 24.9
+    }
+   },
+   "by_surplus": {
+    "0.0": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 492.2,
+      "margin_change_oku": {
+       "jal": -56.0,
+       "ana": -97.0
+      },
+      "annual_oku": {
+       "frequency": 226.5,
+       "converted": 0.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 252.9
+      },
+      "pv_benefit_oku": 5432.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3098.0,
+      "bc": 2.33
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 93.5
+       },
+       "pv_benefit_oku": 2009.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1265.0,
+       "bc": 2.7
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 67.4,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 76.6
+       },
+       "pv_benefit_oku": 1646.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 582.0,
+       "bc": 1.55
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.9,
+        "converted": 0.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 82.9
+       },
+       "pv_benefit_oku": 1781.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1254.0,
+       "bc": 3.38
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 131.7,
+       "converted": 0.0,
+       "airport_fees": 16.2,
+       "airline": -25.1,
+       "total": 122.8
+      },
+      "pv_benefit_oku": 2638.0,
+      "capital_oku": 1622.1,
+      "npv_oku": 1016.0,
+      "bc": 1.63
+     }
+    },
+    "0.25": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+2・B+4、那覇 A+4・B+4",
+      "new_pax_k": 796.1,
+      "margin_change_oku": {
+       "jal": -70.4,
+       "ana": -101.0
+      },
+      "annual_oku": {
+       "frequency": 211.8,
+       "converted": 34.1,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 270.0
+      },
+      "pv_benefit_oku": 5800.0,
+      "capital_oku": 2068.7,
+      "npv_oku": 3732.0,
+      "bc": 2.8
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 5.1,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 98.6
+       },
+       "pv_benefit_oku": 2119.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1375.0,
+       "bc": 2.85
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 67.4,
+        "converted": 34.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 110.7
+       },
+       "pv_benefit_oku": 2377.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1313.0,
+       "bc": 2.23
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.9,
+        "converted": 14.7,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 97.6
+       },
+       "pv_benefit_oku": 2097.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1570.0,
+       "bc": 3.98
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 131.7,
+       "converted": 31.9,
+       "airport_fees": 16.2,
+       "airline": -25.1,
+       "total": 154.6
+      },
+      "pv_benefit_oku": 3322.0,
+      "capital_oku": 1622.1,
+      "npv_oku": 1700.0,
+      "bc": 2.05
+     }
+    },
+    "0.45": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+2・B+4",
+      "new_pax_k": 914.8,
+      "margin_change_oku": {
+       "jal": -62.8,
+       "ana": -80.9
+      },
+      "annual_oku": {
+       "frequency": 210.6,
+       "converted": 73.7,
+       "airport_fees": 24.4,
+       "airline": 0.0,
+       "total": 308.7
+      },
+      "pv_benefit_oku": 6631.0,
+      "capital_oku": 2203.0,
+      "npv_oku": 4428.0,
+      "bc": 3.01
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 9.2,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 102.7
+       },
+       "pv_benefit_oku": 2206.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1462.0,
+       "bc": 2.96
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 67.4,
+        "converted": 61.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 137.9
+       },
+       "pv_benefit_oku": 2962.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1898.0,
+       "bc": 2.78
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.9,
+        "converted": 26.5,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 109.4
+       },
+       "pv_benefit_oku": 2350.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1824.0,
+       "bc": 4.46
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4、那覇 A+0・B+2",
+      "annual_oku": {
+       "frequency": 152.3,
+       "converted": 67.6,
+       "airport_fees": 18.1,
+       "airline": -48.4,
+       "total": 189.6
+      },
+      "pv_benefit_oku": 4074.0,
+      "capital_oku": 1753.7,
+      "npv_oku": 2320.0,
+      "bc": 2.32
+     }
+    },
+    "0.7": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+2・B+4",
+      "new_pax_k": 914.8,
+      "margin_change_oku": {
+       "jal": -62.8,
+       "ana": -80.9
+      },
+      "annual_oku": {
+       "frequency": 210.6,
+       "converted": 114.6,
+       "airport_fees": 24.4,
+       "airline": 0.0,
+       "total": 349.6
+      },
+      "pv_benefit_oku": 7510.0,
+      "capital_oku": 2203.0,
+      "npv_oku": 5307.0,
+      "bc": 3.41
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 14.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 107.8
+       },
+       "pv_benefit_oku": 2316.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1572.0,
+       "bc": 3.11
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 67.4,
+        "converted": 95.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 172.0
+       },
+       "pv_benefit_oku": 3694.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 2630.0,
+       "bc": 3.47
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.9,
+        "converted": 41.2,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 124.1
+       },
+       "pv_benefit_oku": 2667.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2140.0,
+       "bc": 5.06
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4、那覇 A+0・B+2",
+      "annual_oku": {
+       "frequency": 152.3,
+       "converted": 105.1,
+       "airport_fees": 18.1,
+       "airline": -48.4,
+       "total": 227.2
+      },
+      "pv_benefit_oku": 4880.0,
+      "capital_oku": 1753.7,
+      "npv_oku": 3126.0,
+      "bc": 2.78
+     }
+    }
+   }
+  },
+  "before/fitted/rc0": {
+   "base_market": {
+    "q0_pax_k": {
+     "HND-CTS": 10757.2,
+     "HND-ITM": 4831.8,
+     "HND-FUK": 10389.2,
+     "HND-OKA": 8442.1,
+     "FUK-OKA": 2485.1
+    },
+    "f0_round_trips": {
+     "HND-CTS": 50.4,
+     "HND-ITM": 28.0,
+     "HND-FUK": 60.2,
+     "HND-OKA": 36.7,
+     "FUK-OKA": 20.5
+    }
+   },
+   "by_surplus": {
+    "0.0": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 728.4,
+      "margin_change_oku": {
+       "jal": -45.9,
+       "ana": -128.4
+      },
+      "annual_oku": {
+       "frequency": 229.1,
+       "converted": 0.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 255.5
+      },
+      "pv_benefit_oku": 5490.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3155.0,
+      "bc": 2.35
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 82.0,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 91.3
+       },
+       "pv_benefit_oku": 1960.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1216.0,
+       "bc": 2.63
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 70.0,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 79.2
+       },
+       "pv_benefit_oku": 1702.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 638.0,
+       "bc": 1.6
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.0,
+        "converted": 0.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 81.0
+       },
+       "pv_benefit_oku": 1739.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1213.0,
+       "bc": 3.3
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+2",
+      "annual_oku": {
+       "frequency": 137.0,
+       "converted": 0.0,
+       "airport_fees": 16.1,
+       "airline": -37.8,
+       "total": 115.4
+      },
+      "pv_benefit_oku": 2478.0,
+      "capital_oku": 1542.1,
+      "npv_oku": 936.0,
+      "bc": 1.61
+     }
+    },
+    "0.25": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+2・B+4、那覇 A+4・B+4",
+      "new_pax_k": 742.9,
+      "margin_change_oku": {
+       "jal": -65.0,
+       "ana": -102.5
+      },
+      "annual_oku": {
+       "frequency": 212.7,
+       "converted": 39.2,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 276.0
+      },
+      "pv_benefit_oku": 5929.0,
+      "capital_oku": 2068.7,
+      "npv_oku": 3860.0,
+      "bc": 2.87
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 82.0,
+        "converted": 14.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 105.3
+       },
+       "pv_benefit_oku": 2262.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1518.0,
+       "bc": 3.04
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 70.0,
+        "converted": 24.8,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 104.1
+       },
+       "pv_benefit_oku": 2236.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1172.0,
+       "bc": 2.1
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.0,
+        "converted": 30.9,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 111.9
+       },
+       "pv_benefit_oku": 2403.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1877.0,
+       "bc": 4.56
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 134.3,
+       "converted": 27.3,
+       "airport_fees": 16.2,
+       "airline": -34.1,
+       "total": 143.6
+      },
+      "pv_benefit_oku": 3086.0,
+      "capital_oku": 1622.1,
+      "npv_oku": 1464.0,
+      "bc": 1.9
+     }
+    },
+    "0.45": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+2・B+4、那覇 A+4・B+4",
+      "new_pax_k": 742.9,
+      "margin_change_oku": {
+       "jal": -65.0,
+       "ana": -102.5
+      },
+      "annual_oku": {
+       "frequency": 212.7,
+       "converted": 70.5,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 307.3
+      },
+      "pv_benefit_oku": 6601.0,
+      "capital_oku": 2068.7,
+      "npv_oku": 4533.0,
+      "bc": 3.19
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 82.0,
+        "converted": 25.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 116.5
+       },
+       "pv_benefit_oku": 2503.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1759.0,
+       "bc": 3.36
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 70.0,
+        "converted": 44.7,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 123.9
+       },
+       "pv_benefit_oku": 2662.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1598.0,
+       "bc": 2.5
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.0,
+        "converted": 55.7,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 136.6
+       },
+       "pv_benefit_oku": 2935.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2408.0,
+       "bc": 5.57
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 134.3,
+       "converted": 49.2,
+       "airport_fees": 16.2,
+       "airline": -34.1,
+       "total": 165.5
+      },
+      "pv_benefit_oku": 3555.0,
+      "capital_oku": 1622.1,
+      "npv_oku": 1933.0,
+      "bc": 2.19
+     }
+    },
+    "0.7": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+2・B+4、那覇 A+4・B+4",
+      "new_pax_k": 742.9,
+      "margin_change_oku": {
+       "jal": -65.0,
+       "ana": -102.5
+      },
+      "annual_oku": {
+       "frequency": 212.7,
+       "converted": 109.6,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 346.4
+      },
+      "pv_benefit_oku": 7442.0,
+      "capital_oku": 2068.7,
+      "npv_oku": 5374.0,
+      "bc": 3.6
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 82.0,
+        "converted": 39.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 130.5
+       },
+       "pv_benefit_oku": 2804.0,
+       "capital_oku": 744.1,
+       "npv_oku": 2060.0,
+       "bc": 3.77
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 70.0,
+        "converted": 69.5,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 148.8
+       },
+       "pv_benefit_oku": 3196.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 2132.0,
+       "bc": 3.0
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.0,
+        "converted": 86.6,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 167.5
+       },
+       "pv_benefit_oku": 3599.0,
+       "capital_oku": 526.6,
+       "npv_oku": 3072.0,
+       "bc": 6.83
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+0、福岡 A+2・B+0、那覇 A+4・B+4",
+      "annual_oku": {
+       "frequency": 136.8,
+       "converted": 136.0,
+       "airport_fees": 14.9,
+       "airline": -100.8,
+       "total": 186.8
+      },
+      "pv_benefit_oku": 4014.0,
+      "capital_oku": 1164.6,
+      "npv_oku": 2849.0,
+      "bc": 3.45
+     }
+    }
+   }
+  },
+  "after_66_rule/fitted/rc0": {
+   "base_market": {
+    "q0_pax_k": {
+     "HND-CTS": 11084.8,
+     "HND-ITM": 3488.6,
+     "HND-FUK": 10147.9,
+     "HND-OKA": 8416.2,
+     "FUK-OKA": 2777.7
+    },
+    "f0_round_trips": {
+     "HND-CTS": 52.0,
+     "HND-ITM": 27.0,
+     "HND-FUK": 60.2,
+     "HND-OKA": 36.7,
+     "FUK-OKA": 24.9
+    }
+   },
+   "by_surplus": {
+    "0.0": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 405.1,
+      "margin_change_oku": {
+       "jal": -50.3,
+       "ana": -87.7
+      },
+      "annual_oku": {
+       "frequency": 228.1,
+       "converted": 0.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 254.5
+      },
+      "pv_benefit_oku": 5467.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3132.0,
+      "bc": 2.34
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 93.5
+       },
+       "pv_benefit_oku": 2008.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1264.0,
+       "bc": 2.7
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 68.6,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 77.8
+       },
+       "pv_benefit_oku": 1672.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 608.0,
+       "bc": 1.57
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.7,
+        "converted": 0.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 82.7
+       },
+       "pv_benefit_oku": 1776.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1249.0,
+       "bc": 3.37
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 152.3,
+       "converted": 0.0,
+       "airport_fees": 18.5,
+       "airline": -22.7,
+       "total": 148.0
+      },
+      "pv_benefit_oku": 3180.0,
+      "capital_oku": 1808.1,
+      "npv_oku": 1372.0,
+      "bc": 1.76
+     }
+    },
+    "0.25": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+2、那覇 A+4・B+4",
+      "new_pax_k": 860.4,
+      "margin_change_oku": {
+       "jal": -32.5,
+       "ana": -127.7
+      },
+      "annual_oku": {
+       "frequency": 213.2,
+       "converted": 35.9,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 273.2
+      },
+      "pv_benefit_oku": 5868.0,
+      "capital_oku": 2068.7,
+      "npv_oku": 3800.0,
+      "bc": 2.84
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 7.5,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 101.0
+       },
+       "pv_benefit_oku": 2170.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1426.0,
+       "bc": 2.92
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 68.6,
+        "converted": 26.8,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 104.6
+       },
+       "pv_benefit_oku": 2248.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1184.0,
+       "bc": 2.11
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.7,
+        "converted": 11.2,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 93.8
+       },
+       "pv_benefit_oku": 2016.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1489.0,
+       "bc": 3.83
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 152.3,
+       "converted": 22.9,
+       "airport_fees": 18.5,
+       "airline": -22.7,
+       "total": 170.9
+      },
+      "pv_benefit_oku": 3671.0,
+      "capital_oku": 1808.1,
+      "npv_oku": 1863.0,
+      "bc": 2.03
+     }
+    },
+    "0.45": {
+     "best": {
+      "plan": "新千歳 A+2・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 864.7,
+      "margin_change_oku": {
+       "jal": -52.5,
+       "ana": -86.4
+      },
+      "annual_oku": {
+       "frequency": 210.0,
+       "converted": 71.7,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 305.8
+      },
+      "pv_benefit_oku": 6569.0,
+      "capital_oku": 2148.7,
+      "npv_oku": 4420.0,
+      "bc": 3.06
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 13.5,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 107.0
+       },
+       "pv_benefit_oku": 2299.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1555.0,
+       "bc": 3.09
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 68.6,
+        "converted": 48.3,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 126.1
+       },
+       "pv_benefit_oku": 2709.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1645.0,
+       "bc": 2.55
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.7,
+        "converted": 20.1,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 102.8
+       },
+       "pv_benefit_oku": 2208.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1681.0,
+       "bc": 4.19
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+2、福岡 A+4・B+4、那覇 A+0・B+2",
+      "annual_oku": {
+       "frequency": 153.9,
+       "converted": 56.7,
+       "airport_fees": 18.1,
+       "airline": -38.4,
+       "total": 190.4
+      },
+      "pv_benefit_oku": 4091.0,
+      "capital_oku": 1753.7,
+      "npv_oku": 2337.0,
+      "bc": 2.33
+     }
+    },
+    "0.7": {
+     "best": {
+      "plan": "新千歳 A+2・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 864.7,
+      "margin_change_oku": {
+       "jal": -52.5,
+       "ana": -86.4
+      },
+      "annual_oku": {
+       "frequency": 210.0,
+       "converted": 111.6,
+       "airport_fees": 24.1,
+       "airline": 0.0,
+       "total": 345.6
+      },
+      "pv_benefit_oku": 7425.0,
+      "capital_oku": 2148.7,
+      "npv_oku": 5276.0,
+      "bc": 3.46
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 84.3,
+        "converted": 21.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 114.5
+       },
+       "pv_benefit_oku": 2460.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1716.0,
+       "bc": 3.31
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 68.6,
+        "converted": 75.1,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 152.9
+       },
+       "pv_benefit_oku": 3285.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 2221.0,
+       "bc": 3.09
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 74.7,
+        "converted": 31.3,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 113.9
+       },
+       "pv_benefit_oku": 2448.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1921.0,
+       "bc": 4.65
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+2・B+4、福岡 A+4・B+4、那覇 A+0・B+2",
+      "annual_oku": {
+       "frequency": 154.5,
+       "converted": 102.5,
+       "airport_fees": 18.1,
+       "airline": -52.2,
+       "total": 222.9
+      },
+      "pv_benefit_oku": 4788.0,
+      "capital_oku": 1753.7,
+      "npv_oku": 3034.0,
+      "bc": 2.73
+     }
+    }
+   }
+  },
+  "before/distance/rc50": {
+   "base_market": {
+    "q0_pax_k": {
+     "HND-CTS": 12090.1,
+     "HND-ITM": 4936.2,
+     "HND-FUK": 10281.4,
+     "HND-OKA": 8410.8,
+     "FUK-OKA": 2470.3
+    },
+    "f0_round_trips": {
+     "HND-CTS": 55.2,
+     "HND-ITM": 28.0,
+     "HND-FUK": 57.0,
+     "HND-OKA": 35.4,
+     "FUK-OKA": 20.5
+    }
+   },
+   "by_surplus": {
+    "0.0": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 836.3,
+      "margin_change_oku": {
+       "jal": -33.9,
+       "ana": -98.6
+      },
+      "annual_oku": {
+       "frequency": 237.0,
+       "converted": 0.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 263.4
+      },
+      "pv_benefit_oku": 5659.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3324.0,
+      "bc": 2.42
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.3,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 94.5
+       },
+       "pv_benefit_oku": 2030.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1286.0,
+       "bc": 2.73
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.1,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 82.3
+       },
+       "pv_benefit_oku": 1768.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 704.0,
+       "bc": 1.66
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 77.1,
+        "converted": 0.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 85.0
+       },
+       "pv_benefit_oku": 1827.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1300.0,
+       "bc": 3.47
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+0",
+      "annual_oku": {
+       "frequency": 123.9,
+       "converted": 0.0,
+       "airport_fees": 13.8,
+       "airline": -4.3,
+       "total": 133.5
+      },
+      "pv_benefit_oku": 2867.0,
+      "capital_oku": 1276.1,
+      "npv_oku": 1591.0,
+      "bc": 2.25
+     }
+    },
+    "0.25": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 836.3,
+      "margin_change_oku": {
+       "jal": -33.9,
+       "ana": -98.6
+      },
+      "annual_oku": {
+       "frequency": 237.0,
+       "converted": 34.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 297.4
+      },
+      "pv_benefit_oku": 6389.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 4054.0,
+      "bc": 2.74
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.3,
+        "converted": 23.6,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 118.1
+       },
+       "pv_benefit_oku": 2538.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1793.0,
+       "bc": 3.41
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.1,
+        "converted": 22.7,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 105.0
+       },
+       "pv_benefit_oku": 2255.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1191.0,
+       "bc": 2.12
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 77.1,
+        "converted": 27.5,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 112.6
+       },
+       "pv_benefit_oku": 2418.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1892.0,
+       "bc": 4.59
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+0",
+      "annual_oku": {
+       "frequency": 123.9,
+       "converted": 28.4,
+       "airport_fees": 13.8,
+       "airline": -4.3,
+       "total": 161.9
+      },
+      "pv_benefit_oku": 3478.0,
+      "capital_oku": 1276.1,
+      "npv_oku": 2202.0,
+      "bc": 2.73
+     }
+    },
+    "0.45": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 836.3,
+      "margin_change_oku": {
+       "jal": -33.9,
+       "ana": -98.6
+      },
+      "annual_oku": {
+       "frequency": 237.0,
+       "converted": 61.2,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 324.6
+      },
+      "pv_benefit_oku": 6973.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 4638.0,
+      "bc": 2.99
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.3,
+        "converted": 42.5,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 137.0
+       },
+       "pv_benefit_oku": 2944.0,
+       "capital_oku": 744.1,
+       "npv_oku": 2200.0,
+       "bc": 3.96
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.1,
+        "converted": 40.8,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 123.1
+       },
+       "pv_benefit_oku": 2645.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1581.0,
+       "bc": 2.49
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 77.1,
+        "converted": 49.6,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 134.6
+       },
+       "pv_benefit_oku": 2892.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2365.0,
+       "bc": 5.49
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+0",
+      "annual_oku": {
+       "frequency": 123.9,
+       "converted": 51.2,
+       "airport_fees": 13.8,
+       "airline": -4.3,
+       "total": 184.6
+      },
+      "pv_benefit_oku": 3967.0,
+      "capital_oku": 1276.1,
+      "npv_oku": 2690.0,
+      "bc": 3.11
+     }
+    },
+    "0.7": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 836.3,
+      "margin_change_oku": {
+       "jal": -33.9,
+       "ana": -98.6
+      },
+      "annual_oku": {
+       "frequency": 237.0,
+       "converted": 95.1,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 358.6
+      },
+      "pv_benefit_oku": 7703.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 5368.0,
+      "bc": 3.3
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.3,
+        "converted": 66.2,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 160.7
+       },
+       "pv_benefit_oku": 3451.0,
+       "capital_oku": 744.1,
+       "npv_oku": 2707.0,
+       "bc": 4.64
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 73.1,
+        "converted": 63.4,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 145.8
+       },
+       "pv_benefit_oku": 3131.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 2067.0,
+       "bc": 2.94
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 77.1,
+        "converted": 77.1,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 162.1
+       },
+       "pv_benefit_oku": 3483.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2956.0,
+       "bc": 6.61
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+2",
+      "annual_oku": {
+       "frequency": 141.8,
+       "converted": 89.0,
+       "airport_fees": 16.1,
+       "airline": -20.8,
+       "total": 226.2
+      },
+      "pv_benefit_oku": 4858.0,
+      "capital_oku": 1542.1,
+      "npv_oku": 3316.0,
+      "bc": 3.15
+     }
+    }
+   }
+  },
+  "after_66_rule/distance/rc50": {
+   "base_market": {
+    "q0_pax_k": {
+     "HND-CTS": 12321.7,
+     "HND-ITM": 3397.6,
+     "HND-FUK": 10512.7,
+     "HND-OKA": 8624.4,
+     "FUK-OKA": 2807.3
+    },
+    "f0_round_trips": {
+     "HND-CTS": 56.8,
+     "HND-ITM": 24.0,
+     "HND-FUK": 60.2,
+     "HND-OKA": 36.7,
+     "FUK-OKA": 24.9
+    }
+   },
+   "by_surplus": {
+    "0.0": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 209.1,
+      "margin_change_oku": {
+       "jal": -68.6,
+       "ana": -116.8
+      },
+      "annual_oku": {
+       "frequency": 233.9,
+       "converted": 0.0,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 260.3
+      },
+      "pv_benefit_oku": 5592.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3257.0,
+      "bc": 2.4
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.5,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 94.7
+       },
+       "pv_benefit_oku": 2035.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1291.0,
+       "bc": 2.73
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 71.6,
+        "converted": 0.0,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 80.8
+       },
+       "pv_benefit_oku": 1736.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 672.0,
+       "bc": 1.63
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 76.9,
+        "converted": 0.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 84.8
+       },
+       "pv_benefit_oku": 1823.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1296.0,
+       "bc": 3.46
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+0、福岡 A+4・B+2",
+      "annual_oku": {
+       "frequency": 99.3,
+       "converted": 0.0,
+       "airport_fees": 11.5,
+       "airline": -21.0,
+       "total": 89.9
+      },
+      "pv_benefit_oku": 1930.0,
+      "capital_oku": 1170.0,
+      "npv_oku": 760.0,
+      "bc": 1.65
+     }
+    },
+    "0.25": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 209.1,
+      "margin_change_oku": {
+       "jal": -68.6,
+       "ana": -116.8
+      },
+      "annual_oku": {
+       "frequency": 233.9,
+       "converted": 20.5,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 280.8
+      },
+      "pv_benefit_oku": 6033.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 3698.0,
+      "bc": 2.58
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.5,
+        "converted": 4.2,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 98.9
+       },
+       "pv_benefit_oku": 2125.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1381.0,
+       "bc": 2.86
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 71.6,
+        "converted": 24.9,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 105.7
+       },
+       "pv_benefit_oku": 2272.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1208.0,
+       "bc": 2.13
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 76.9,
+        "converted": 12.8,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 97.6
+       },
+       "pv_benefit_oku": 2098.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1571.0,
+       "bc": 3.98
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+0、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 116.2,
+       "converted": 21.4,
+       "airport_fees": 13.9,
+       "airline": -29.9,
+       "total": 121.6
+      },
+      "pv_benefit_oku": 2611.0,
+      "capital_oku": 1436.0,
+      "npv_oku": 1175.0,
+      "bc": 1.82
+     }
+    },
+    "0.45": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+4・B+4",
+      "new_pax_k": 209.1,
+      "margin_change_oku": {
+       "jal": -68.6,
+       "ana": -116.8
+      },
+      "annual_oku": {
+       "frequency": 233.9,
+       "converted": 36.9,
+       "airport_fees": 26.4,
+       "airline": 0.0,
+       "total": 297.2
+      },
+      "pv_benefit_oku": 6385.0,
+      "capital_oku": 2334.7,
+      "npv_oku": 4051.0,
+      "bc": 2.73
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.5,
+        "converted": 7.6,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 102.3
+       },
+       "pv_benefit_oku": 2197.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1453.0,
+       "bc": 2.95
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 71.6,
+        "converted": 44.9,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 125.7
+       },
+       "pv_benefit_oku": 2700.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 1636.0,
+       "bc": 2.54
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 76.9,
+        "converted": 23.0,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 107.9
+       },
+       "pv_benefit_oku": 2318.0,
+       "capital_oku": 526.6,
+       "npv_oku": 1791.0,
+       "bc": 4.4
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+0、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 116.2,
+       "converted": 38.6,
+       "airport_fees": 13.9,
+       "airline": -29.9,
+       "total": 138.7
+      },
+      "pv_benefit_oku": 2980.0,
+      "capital_oku": 1436.0,
+      "npv_oku": 1544.0,
+      "bc": 2.07
+     }
+    },
+    "0.7": {
+     "best": {
+      "plan": "新千歳 A+4・B+4、福岡 A+4・B+4、那覇 A+2・B+4",
+      "new_pax_k": 497.9,
+      "margin_change_oku": {
+       "jal": -79.4,
+       "ana": -107.1
+      },
+      "annual_oku": {
+       "frequency": 217.0,
+       "converted": 70.3,
+       "airport_fees": 24.4,
+       "airline": 0.0,
+       "total": 311.6
+      },
+      "pv_benefit_oku": 6694.0,
+      "capital_oku": 2203.0,
+      "npv_oku": 4491.0,
+      "bc": 3.04
+     },
+     "n_npv_positive": 728,
+     "best_single_route": {
+      "CTS": {
+       "plan": "新千歳 A+4・B+4",
+       "annual_oku": {
+        "frequency": 85.5,
+        "converted": 11.8,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 106.5
+       },
+       "pv_benefit_oku": 2288.0,
+       "capital_oku": 744.1,
+       "npv_oku": 1544.0,
+       "bc": 3.07
+      },
+      "FUK": {
+       "plan": "福岡 A+4・B+4",
+       "annual_oku": {
+        "frequency": 71.6,
+        "converted": 69.8,
+        "airport_fees": 9.2,
+        "airline": 0.0,
+        "total": 150.6
+       },
+       "pv_benefit_oku": 3236.0,
+       "capital_oku": 1064.0,
+       "npv_oku": 2172.0,
+       "bc": 3.04
+      },
+      "OKA": {
+       "plan": "那覇 A+4・B+4",
+       "annual_oku": {
+        "frequency": 76.9,
+        "converted": 35.8,
+        "airport_fees": 7.9,
+        "airline": 0.0,
+        "total": 120.7
+       },
+       "pv_benefit_oku": 2593.0,
+       "capital_oku": 526.6,
+       "npv_oku": 2066.0,
+       "bc": 4.92
+      }
+     },
+     "best_with_airline": {
+      "plan": "新千歳 A+4・B+0、福岡 A+4・B+4",
+      "annual_oku": {
+       "frequency": 116.2,
+       "converted": 60.0,
+       "airport_fees": 13.9,
+       "airline": -29.9,
+       "total": 160.1
+      },
+      "pv_benefit_oku": 3440.0,
+      "capital_oku": 1436.0,
+      "npv_oku": 2004.0,
+      "bc": 2.4
+     }
+    }
+   }
+  }
+ },
+ "params": {
+  "A_frequency_yen": 3461.0,
+  "fee_per_movement_yen": 50000.0,
+  "years": 50,
+  "rate": 0.04,
+  "annuity": 21.48,
+  "surplus_shares": [
+   0.0,
+   0.25,
+   0.45,
+   0.7
+  ]
+ },
+ "public_reference": {
+  "fukuoka_runway_2014": {
+   "cost_oku": 1643,
+   "user_benefit_peak_oku_per_year": {
+    "converted": 218,
+    "more_flights": 32
+   },
+   "supplier_benefit_peak_oku_per_year": 12,
+   "bc": 2.7,
+   "source": "https://www.mlit.go.jp/tec/hyouka/public/jghks/karute/img/2014/12/14111289001/14111289001_1.pdf（便益は最大便益の年度・割引前）。B/C 2.7 は https://www.nikkei.com/article/DGXLASFS11H57_R11C14A2PP8000/。令和元年度の再評価で 2.0（二次情報）"
+  },
+  "naha_runway": {
+   "bc": 4.1,
+   "source": "data/airport_investment.json"
+  },
+  "manual": "https://www.mlit.go.jp/koku/content/001992156.pdf（Ver.5、令和 8 年 3 月：利用者便益は消費者余剰〔式 5.1〕、運航頻度の便益〔式 5.8、A = 3,461 円〕、供給者便益は空港管理者の収益増が中心、エアラインの供給者便益は超過利潤がなければ無視できる〔5.2.2（4）〕、評価期間は建設期間＋50 年、社会的割引率 4%）"
+ },
+ "how": "729 計画（route_optimize.py の格子）を国の物差しで採点し直す。年の便益 ＝ 運航頻度の便益 ＋ 乗れなかった旅客が乗れる便益（転換分に当たる、運賃 × 割合、no_source）＋ 空港の着陸料等（1 回 5 万円 × 両端の発着）。航空会社の利益は入れない（入れた場合も best_with_airline に出す）。50 年・4% で現在価値にし、空港の事業費と比べる（B/C、純現在価値）",
+ "caveat": "運航頻度の便益の原単位は 2004 年度価格のまま。路線の旅客と便数（全社）は、両社の解を両社の合計の取り分で割った近似。需要は FY2030 で 50 年一定（伸び・人口減は入れていない）。建設期間と残存価値は入れていない。着陸料等の原単位は福岡の事業の値を羽田にも当てた（no_source）"
+}
